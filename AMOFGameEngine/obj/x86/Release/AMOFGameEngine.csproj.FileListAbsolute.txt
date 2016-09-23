@@ -6,3 +6,11 @@ C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\x86\Release\AMOFGameEngine.Prope
 C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\x86\Release\AMOFGameEngine.csproj.GenerateResource.Cache
 C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\x86\Release\AMOFGameEngine.exe
 C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\x86\Release\AMOFGameEngine.pdb
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Release\AMOFGameEngine.exe.config
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Release\NAudio.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Release\NAudio.Vorbis.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Release\NVorbis.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Release\NAudio.xml
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Release\NAudio.Vorbis.xml
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Release\NVorbis.xml
+C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\x86\Release\AMOFGameEngine.csprojResolveAssemblyReference.cache
