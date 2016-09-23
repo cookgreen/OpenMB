@@ -18,6 +18,11 @@ namespace AMOFGameEngine
         {
             AdvancedMogreFramework.Singleton.m_pLog.LogMessage("Entering MenuState...");
             m_bQuit = false;
+
+            AdvancedMogreFramework.Singleton.m_pVorbis = new NAudio.Vorbis.VorbisWaveReader(@".\vivaldi_winter_presto.ogg");
+            AdvancedMogreFramework.Singleton.m_pWaveOut= new NAudio.Wave.WaveOut();
+            AdvancedMogreFramework.Singleton.m_pWaveOut.Init(AdvancedMogreFramework.Singleton.m_pVorbis);
+            AdvancedMogreFramework.Singleton.m_pWaveOut.Play();
  
             m_pSceneMgr = AdvancedMogreFramework.Singleton.m_pRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
             ColourValue cvAmbineLight=new ColourValue(0.7f,0.7f,0.7f);

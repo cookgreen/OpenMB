@@ -5,6 +5,7 @@ using Mogre;
 using MOIS;
 using Mogre_Procedural;
 using Mogre_Procedural.MogreBites;
+using NVorbis;
 
 namespace AMOFGameEngine
 {
@@ -21,6 +22,11 @@ namespace AMOFGameEngine
         public Mouse m_pMouse;
 
         public SdkTrayManager m_pTrayMgr;
+
+        //public NVorbis.NAudioSupport.VorbisWaveReader m_pVorbis;
+        public NAudio.Vorbis.VorbisWaveReader m_pVorbis;
+        public NAudio.Wave.WaveOut m_pWaveOut;
+        
         public AdvancedMogreFramework()
         {
             m_pRoot = null;
