@@ -4,15 +4,15 @@
 A game engine based on AdvancedMogreFramework
 
 ## Feature:
-* Ogg Support  
-* AppState Management  
-* Character Controller  
-* Network  
-* Physx  
-* GUI System 
-* AI  
+* Ogg Support(done)  
+* AppState Management(done)  
+* Character Controller(done)  
+* Network(further)  
+* Physx(doing)  
+* GUI System(done, current:mogrebites) 
+* AI(doing)  
 
-## Based on:
+## Credit:
 * Mogre(Graphic Render Engine;LGPL)  
 * NAudio(Sound Library;Ms-PL)  
 * NVorbis(Library for Ogg Vorbis File;Ms-PL)  
