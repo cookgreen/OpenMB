@@ -52,8 +52,8 @@ namespace AMOFGameEngine
 
         protected AppStateListener m_pParent;
 
-        protected Camera m_pCamera;
-        protected SceneManager m_pSceneMgr;
+        protected Camera m_Camera;
+        protected SceneManager m_SceneMgr;
         protected FrameEvent m_FrameEvent;
     }
 }

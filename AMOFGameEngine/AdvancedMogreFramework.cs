@@ -11,80 +11,78 @@ namespace AMOFGameEngine
 {
     class AdvancedMogreFramework 
     {
-        public Root m_pRoot;
-        public RenderWindow m_pRenderWnd;
-        public Viewport m_pViewport;
-        public Log m_pLog;
+        public Root m_Root;
+        public RenderWindow m_RenderWnd;
+        public Viewport m_Viewport;
+        public Log m_Log;
         public Timer m_pTimer;
 
-        public MOIS.InputManager m_pInputMgr;
-        public Keyboard m_pKeyboard;
-        public Mouse m_pMouse;
+        public MOIS.InputManager m_InputMgr;
+        public Keyboard m_Keyboard;
+        public Mouse m_Mouse;
 
-        public SdkTrayManager m_pTrayMgr;
+        public SdkTrayManager m_TrayMgr;
+
+        public static string LastStateName;
 
         //public NVorbis.NAudioSupport.VorbisWaveReader m_pVorbis;
-        public NAudio.Vorbis.VorbisWaveReader m_pVorbis;
-        public NAudio.Wave.WaveOut m_pWaveOut;
+        public NAudio.Vorbis.VorbisWaveReader m_Vorbis;
+        public NAudio.Wave.WaveOut m_WaveOut;
+
+        public MQuickGUI.GUIManager m_Gui;
         
         public AdvancedMogreFramework()
         {
-            m_pRoot = null;
-            m_pRenderWnd = null;
-            m_pViewport = null;
-            m_pLog = null;
+            m_Root = null;
+            m_RenderWnd = null;
+            m_Viewport = null;
+            m_Log = null;
             m_pTimer = null;
 
-            m_pInputMgr = null;
-            m_pKeyboard = null;
-            m_pMouse = null;
-            m_pTrayMgr = null;
+            m_InputMgr = null;
+            m_Keyboard = null;
+            m_Mouse = null;
+            m_TrayMgr = null;
+            m_Gui = null;
          }
-        ~AdvancedMogreFramework()
-        {
-            //LogManager.Singleton.LogMessage("Shutdown OGRE...");
-            //if (AdvancedMogreFramework.m_pTrayMgr != null) m_pTrayMgr = null;
-            //if (AdvancedMogreFramework.m_pInputMgr != null) InputManager.DestroyInputSystem(m_pInputMgr);
-            //if (AdvancedMogreFramework.m_pRoot != null) m_pRoot = null;
-        }
 
         public bool initOgre(String wndTitle)
         {
             LogManager logMgr = new LogManager();
  
-            m_pLog = LogManager.Singleton.CreateLog("OgreLogfile.log", true, true, false);
-            m_pLog.SetDebugOutputEnabled(true);
+            m_Log = LogManager.Singleton.CreateLog("OgreLogfile.log", true, true, false);
+            m_Log.SetDebugOutputEnabled(true);
  
-            m_pRoot = new Root();
+            m_Root = new Root();
  
-            if(!m_pRoot.ShowConfigDialog())
+            if(!m_Root.ShowConfigDialog())
                 return false;
-               m_pRenderWnd = m_pRoot.Initialise(true, wndTitle);
+               m_RenderWnd = m_Root.Initialise(true, wndTitle);
  
-            m_pViewport = m_pRenderWnd.AddViewport(null);
+            m_Viewport = m_RenderWnd.AddViewport(null);
             ColourValue cv=new ColourValue(0.5f,0.5f,0.5f);
-            m_pViewport.BackgroundColour=cv;
+            m_Viewport.BackgroundColour=cv;
  
-            m_pViewport.Camera=null;
+            m_Viewport.Camera=null;
  
             int hWnd = 0;
             //ParamList paramList;
-            m_pRenderWnd.GetCustomAttribute("WINDOW", out hWnd);
+            m_RenderWnd.GetCustomAttribute("WINDOW", out hWnd);
  
-            m_pInputMgr = InputManager.CreateInputSystem((uint)hWnd);
-            m_pKeyboard = (MOIS.Keyboard)m_pInputMgr.CreateInputObject(MOIS.Type.OISKeyboard, true);
-            m_pMouse =  (MOIS.Mouse)m_pInputMgr.CreateInputObject(MOIS.Type.OISMouse, true);
+            m_InputMgr = InputManager.CreateInputSystem((uint)hWnd);
+            m_Keyboard = (MOIS.Keyboard)m_InputMgr.CreateInputObject(MOIS.Type.OISKeyboard, true);
+            m_Mouse =  (MOIS.Mouse)m_InputMgr.CreateInputObject(MOIS.Type.OISMouse, true);
 
-            m_pMouse.MouseMoved+=new MouseListener.MouseMovedHandler(mouseMoved);
-            m_pMouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
-            m_pMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
+            m_Mouse.MouseMoved+=new MouseListener.MouseMovedHandler(mouseMoved);
+            m_Mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
+            m_Mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
 
-            m_pKeyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
-            m_pKeyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
+            m_Keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
+            m_Keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
 
-            MOIS.MouseState_NativePtr mouseState = m_pMouse.MouseState;
-                mouseState.width = m_pViewport.ActualWidth;
-                mouseState.height = m_pViewport.ActualHeight;
+            MOIS.MouseState_NativePtr mouseState = m_Mouse.MouseState;
+                mouseState.width = m_Viewport.ActualWidth;
+                mouseState.height = m_Viewport.ActualHeight;
             //m_pMouse.MouseState = tempMouseState;
 
  
@@ -107,13 +105,13 @@ namespace AMOFGameEngine
             TextureManager.Singleton.DefaultNumMipmaps=5;
             ResourceGroupManager.Singleton.InitialiseAllResourceGroups(); 
  
-            m_pTrayMgr = new SdkTrayManager("AOFTrayMgr", m_pRenderWnd, m_pMouse, null);
+            m_TrayMgr = new SdkTrayManager("AOFTrayMgr", m_RenderWnd, m_Mouse, null);
  
             m_pTimer = new Timer();
             m_pTimer.Reset();
  
-            m_pRenderWnd.IsActive=true;
- 
+            m_RenderWnd.IsActive=true;
+            m_Gui = new MQuickGUI.GUIManager();
             return true;
         }
         public void updateOgre(double timeSinceLastFrame)
@@ -122,23 +120,23 @@ namespace AMOFGameEngine
 
         public bool keyPressed(KeyEvent keyEventRef)
         {
-             if(m_pKeyboard.IsKeyDown(MOIS.KeyCode.KC_V))
+             if(m_Keyboard.IsKeyDown(MOIS.KeyCode.KC_V))
             {
-                m_pRenderWnd.WriteContentsToTimestampedFile("AMOF_Screenshot_", ".jpg");
+                m_RenderWnd.WriteContentsToTimestampedFile("AMOF_Screenshot_", ".jpg");
                 return true;
             }
  
-            if(m_pKeyboard.IsKeyDown(MOIS.KeyCode.KC_O))
+            if(m_Keyboard.IsKeyDown(MOIS.KeyCode.KC_O))
             {
-                if(m_pTrayMgr.isLogoVisible())
+                if(m_TrayMgr.isLogoVisible())
                 {
-                    m_pTrayMgr.hideFrameStats();
-                    m_pTrayMgr.hideLogo();
+                    m_TrayMgr.hideFrameStats();
+                    m_TrayMgr.hideLogo();
                 }
                 else
                 {
-                    m_pTrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
-                    m_pTrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
+                    m_TrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
+                    m_TrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
                 }
             }
  

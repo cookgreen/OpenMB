@@ -21,13 +21,14 @@ namespace AMOFGameEngine
             if (!AdvancedMogreFramework.Singleton.initOgre("AdvancedMogreFramework"))
 		        return;
 
-            AdvancedMogreFramework.Singleton.m_pLog.LogMessage("Demo initialized!");
+            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Demo initialized!");
  
 	        m_pAppStateManager = new AppStateManager();
 
             MenuState.create<MenuState>(m_pAppStateManager, "MenuState");
             GameState.create<GameState>(m_pAppStateManager, "GameState");
             SinbadState.create<SinbadState>(m_pAppStateManager, "SinbadState");
+            PhysxState.create<PhysxState>(m_pAppStateManager,"PhysxState");
             PauseState.create<PauseState>(m_pAppStateManager, "PauseState");
  
 	        m_pAppStateManager.start(m_pAppStateManager.findByName("MenuState"));

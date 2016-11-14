@@ -18,38 +18,48 @@ namespace AMOFGameEngine
 
         public override void enter()
         {
-            AdvancedMogreFramework.Singleton.m_pLog.LogMessage("Entering PauseState...");
+            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Entering PauseState...");
             m_bQuit = false;
  
-            m_pSceneMgr = AdvancedMogreFramework.Singleton.m_pRoot.CreateSceneManager(SceneType.ST_GENERIC, "PauseSceneMgr");
+            m_SceneMgr = AdvancedMogreFramework.Singleton.m_Root.CreateSceneManager(SceneType.ST_GENERIC, "PauseSceneMgr");
             ColourValue cvAmbineLight=new ColourValue(0.7f,0.7f,0.7f);
-            m_pSceneMgr.AmbientLight=cvAmbineLight;
+            m_SceneMgr.AmbientLight=cvAmbineLight;
  
-            m_pCamera = m_pSceneMgr.CreateCamera("PauseCam");
+            m_Camera = m_SceneMgr.CreateCamera("PauseCam");
             Mogre.Vector3 vectCamPos=new Mogre.Vector3(0,25,-50);
-            m_pCamera.Position=vectCamPos;
+            m_Camera.Position=vectCamPos;
             Mogre.Vector3 vectCamLookAt=new Mogre.Vector3(0,0,0);
-            m_pCamera.LookAt(vectCamLookAt);
-            m_pCamera.NearClipDistance=1;
+            m_Camera.LookAt(vectCamLookAt);
+            m_Camera.NearClipDistance=1;
  
-            m_pCamera.AspectRatio=AdvancedMogreFramework.Singleton.m_pViewport.ActualWidth /
-            AdvancedMogreFramework.Singleton.m_pViewport.ActualHeight;
+            m_Camera.AspectRatio=AdvancedMogreFramework.Singleton.m_Viewport.ActualWidth /
+            AdvancedMogreFramework.Singleton.m_Viewport.ActualHeight;
  
-            AdvancedMogreFramework.Singleton.m_pViewport.Camera=m_pCamera;
+            AdvancedMogreFramework.Singleton.m_Viewport.Camera=m_Camera;
 
-            AdvancedMogreFramework.Singleton.m_pTrayMgr.destroyAllWidgets();
-            AdvancedMogreFramework.Singleton.m_pTrayMgr.showCursor();
-            AdvancedMogreFramework.Singleton.m_pTrayMgr.createButton(TrayLocation.TL_CENTER, "BackToGameBtn", "Return to GameState", 250);
-            AdvancedMogreFramework.Singleton.m_pTrayMgr.createButton(TrayLocation.TL_CENTER, "BackToSinbadBtn", "Return to SinbadState", 250);
-            AdvancedMogreFramework.Singleton.m_pTrayMgr.createButton(TrayLocation.TL_CENTER, "BackToMenuBtn", "Return to Menu", 250);
-            AdvancedMogreFramework.Singleton.m_pTrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", "Exit AdvancedOgreFramework", 250);
-            AdvancedMogreFramework.Singleton.m_pTrayMgr.createLabel(TrayLocation.TL_TOP, "PauseLbl", "Pause mode", 250);
+            AdvancedMogreFramework.Singleton.m_TrayMgr.destroyAllWidgets();
+            AdvancedMogreFramework.Singleton.m_TrayMgr.showCursor();
+            switch(AdvancedMogreFramework.LastStateName)
+            {
+                case "GameState":
+                AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "BackToGameBtn", "Return to GameState", 250);
+                break;
+                case "SinbadState":
+                AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "BackToSinbadBtn", "Return to SinbadState", 250);
+                break;
+                case "PhysxState":
+                AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "BackToPhysxBtn", "Return to PhysxState", 250);
+                break;
+            }
+            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "BackToMenuBtn", "Return to Menu", 250);
+            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", "Exit AdvancedOgreFramework", 250);
+            AdvancedMogreFramework.Singleton.m_TrayMgr.createLabel(TrayLocation.TL_TOP, "PauseLbl", "Pause mode", 250);
 
-            AdvancedMogreFramework.Singleton.m_pMouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
-            AdvancedMogreFramework.Singleton.m_pMouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
-            AdvancedMogreFramework.Singleton.m_pMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
-            AdvancedMogreFramework.Singleton.m_pKeyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
-            AdvancedMogreFramework.Singleton.m_pKeyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
+            AdvancedMogreFramework.Singleton.m_Mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
+            AdvancedMogreFramework.Singleton.m_Mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
+            AdvancedMogreFramework.Singleton.m_Mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
+            AdvancedMogreFramework.Singleton.m_Keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
+            AdvancedMogreFramework.Singleton.m_Keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
 
             m_bQuestionActive = true;
  
@@ -59,20 +69,20 @@ namespace AMOFGameEngine
         { }
         public override void exit()
         {
-            AdvancedMogreFramework.Singleton.m_pLog.LogMessage("Leaving PauseState...");
+            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Leaving PauseState...");
  
-            m_pSceneMgr.DestroyCamera(m_pCamera);
-            if(m_pSceneMgr!=null)
-                AdvancedMogreFramework.Singleton.m_pRoot.DestroySceneManager(m_pSceneMgr);
+            m_SceneMgr.DestroyCamera(m_Camera);
+            if(m_SceneMgr!=null)
+                AdvancedMogreFramework.Singleton.m_Root.DestroySceneManager(m_SceneMgr);
 
-            AdvancedMogreFramework.Singleton.m_pTrayMgr.clearAllTrays();
-            AdvancedMogreFramework.Singleton.m_pTrayMgr.destroyAllWidgets();
-            AdvancedMogreFramework.Singleton.m_pTrayMgr.setListener(null);
+            AdvancedMogreFramework.Singleton.m_TrayMgr.clearAllTrays();
+            AdvancedMogreFramework.Singleton.m_TrayMgr.destroyAllWidgets();
+            AdvancedMogreFramework.Singleton.m_TrayMgr.setListener(null);
         }
 
         public bool keyPressed(KeyEvent keyEventRef)
         {
-            if(AdvancedMogreFramework.Singleton.m_pKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) && !m_bQuestionActive)
+            if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_ESCAPE) && !m_bQuestionActive)
             {
                 m_bQuit = true;
                 return true;
@@ -91,17 +101,17 @@ namespace AMOFGameEngine
 
         public bool mouseMoved(MouseEvent evt)
         {
-            if (AdvancedMogreFramework.Singleton.m_pTrayMgr.injectMouseMove(evt)) return true;
+            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseMove(evt)) return true;
             return true;
         }
         public bool mousePressed(MouseEvent evt, MouseButtonID id)
         {
-            if (AdvancedMogreFramework.Singleton.m_pTrayMgr.injectMouseDown(evt, id)) return true;
+            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseDown(evt, id)) return true;
             return true;
         }
         public bool mouseReleased(MouseEvent evt, MouseButtonID id)
         {
-            if (AdvancedMogreFramework.Singleton.m_pTrayMgr.injectMouseUp(evt, id)) return true;
+            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseUp(evt, id)) return true;
             return true;
         }
 
@@ -131,7 +141,7 @@ namespace AMOFGameEngine
             if(yesHit == true)
                 shutdown();
             else
-                AdvancedMogreFramework.Singleton.m_pTrayMgr.closeDialog();
+                AdvancedMogreFramework.Singleton.m_TrayMgr.closeDialog();
  
             m_bQuestionActive = false;
         }
@@ -139,7 +149,7 @@ namespace AMOFGameEngine
         public override void update(double timeSinceLastFrame)
         {
             m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
-            AdvancedMogreFramework.Singleton.m_pTrayMgr.frameRenderingQueued(m_FrameEvent);
+            AdvancedMogreFramework.Singleton.m_TrayMgr.frameRenderingQueued(m_FrameEvent);
  
             if(m_bQuit == true)
             {

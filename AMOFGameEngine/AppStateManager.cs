@@ -47,7 +47,6 @@ namespace AMOFGameEngine
 
          public override AppState findByName(String stateName)
          {
-            // IEnumerator<state_info> itr = m_States.GetEnumerator();
 
              foreach (state_info itr in m_States)
 	        {
@@ -67,34 +66,31 @@ namespace AMOFGameEngine
  
 	        while(!m_bShutdown)
 	        {
-		        if(AdvancedMogreFramework.Singleton.m_pRenderWnd.IsClosed)m_bShutdown = true;
+		        if(AdvancedMogreFramework.Singleton.m_RenderWnd.IsClosed)m_bShutdown = true;
  
 		        WindowEventUtilities.MessagePump();
 
-            //    if (AdvancedMogreFramework.Singleton.m_pRenderWnd.IsActive)
-		    //    {
+                if (AdvancedMogreFramework.Singleton.m_RenderWnd.IsActive)
+		        {
                     startTime = (int)AdvancedMogreFramework.Singleton.m_pTimer.MicrosecondsCPU;
-
-                    //AdvancedMogreFramework.m_pKeyboard.Capture();
-                    //AdvancedMogreFramework.m_pMouse.Capture();
  
 			        m_ActiveStateStack.Last().update(timeSinceLastFrame);
-                    AdvancedMogreFramework.Singleton.m_pKeyboard.Capture();
-                    AdvancedMogreFramework.Singleton.m_pMouse.Capture();
+                    AdvancedMogreFramework.Singleton.m_Keyboard.Capture();
+                    AdvancedMogreFramework.Singleton.m_Mouse.Capture();
                     AdvancedMogreFramework.Singleton.updateOgre(timeSinceLastFrame);
-                    if (AdvancedMogreFramework.Singleton.m_pRoot != null)
+                    if (AdvancedMogreFramework.Singleton.m_Root != null)
                     {
-                        AdvancedMogreFramework.Singleton.m_pRoot.RenderOneFrame();
+                        AdvancedMogreFramework.Singleton.m_Root.RenderOneFrame();
                     }
                     timeSinceLastFrame = (int)AdvancedMogreFramework.Singleton.m_pTimer.MillisecondsCPU - startTime;
-		     //   }
-		     //   else
-		     //   {
-             //       System.Threading.Thread.Sleep(1000);
-		     //   }
+		        }
+		        else
+		        {
+                    System.Threading.Thread.Sleep(1000);
+		        }
 	        }
 
-            AdvancedMogreFramework.Singleton.m_pLog.LogMessage("Main loop quit");
+            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Main loop quit");
          }
          public override void changeAppState(AppState state)
          {
@@ -168,8 +164,8 @@ namespace AMOFGameEngine
 
          protected void init(AppState state)
          {
-             AdvancedMogreFramework.Singleton.m_pTrayMgr.setListener(state);
-             AdvancedMogreFramework.Singleton.m_pRenderWnd.ResetStatistics();
+             AdvancedMogreFramework.Singleton.m_TrayMgr.setListener(state);
+             AdvancedMogreFramework.Singleton.m_RenderWnd.ResetStatistics();
          }
 
          protected List<AppState> m_ActiveStateStack=new List<AppState>();

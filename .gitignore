@@ -1,3 +1,1 @@
-/packages
-/AMOFGameEngine/bin
-/AMOFGameEngine/obj
+packages/*
