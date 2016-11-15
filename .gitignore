@@ -1,2 +1,5 @@
 packages/*
 AMOFGameEngine/obj/*
+AMOFGameEngine/bin/Debug/*
+AMOFGameEngine/bin/Release/*.pdb
+AMOFGameEngine/bin/Release/*.exe
