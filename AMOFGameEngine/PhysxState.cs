@@ -6,18 +6,19 @@ using Mogre;
 using Mogre.PhysX;
 using MOIS;
 using Vector3 = Mogre.Vector3;
+using Mogre_Procedural.MogreBites.Addons;
 
 namespace AMOFGameEngine
 {
     class PhysxState : AppState
     {
-        public bool InitPhysics()
+        public bool setupPhysx()
         {
             physx = Physics.Create();
             physx.Parameters.SkinWidth = 0.0025f;
             SceneDesc scenedesc = new SceneDesc();
             scenedesc.SetToDefault();
-            scenedesc.Gravity = new Mogre.Vector3(0, -9.8f, 0);
+            scenedesc.Gravity = new Mogre.Vector3(9.8f, 9.8f, 9.8f);
             scenedesc.UpAxis = 1;
             this.scene = physx.CreateScene(scenedesc);
             this.scene.Materials[0].Restitution = 0.5f;
@@ -25,20 +26,100 @@ namespace AMOFGameEngine
             this.scene.Materials[0].DynamicFriction = 0.5f;
 
             this.scene.Simulate(0);
-
+            physx.RemoteDebugger.Connect("localhost", 5425);
             return true;
+        }
+        public void setupContent()
+        {
+            m_SceneMgr = AdvancedMogreFramework.Singleton.m_Root.CreateSceneManager(SceneType.ST_GENERIC, "PhysxSceneMgr");
+            m_Camera = m_SceneMgr.CreateCamera("PhysxCam");
+            //AdvancedMogreFramework.Singleton.m_Viewport = m_SceneMgr.CurrentViewport;
+            //AdvancedMogreFramework.Singleton.m_Viewport.Camera = m_Camera;
+            ColourValue cvBg = new ColourValue(16.0f / 255.0f, 16.0f / 255.0f, 16.0f / 255.0f);
+            AdvancedMogreFramework.Singleton.m_Viewport.BackgroundColour = cvBg;
+            m_SceneMgr.SetFog(FogMode.FOG_EXP, cvBg, 0.001f, 800f, 1000f);
+            m_SceneMgr.ShadowTechnique=ShadowTechnique.SHADOWTYPE_TEXTURE_MODULATIVE;
+            m_SceneMgr.ShadowColour = new ColourValue(0.5f,05f,0.5f);
+            m_SceneMgr.SetShadowTextureSize(1024);
+            m_SceneMgr.ShadowTextureCount = 1;
+
+            MeshManager.Singleton.CreatePlane("floor", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, 
+                new Plane(Vector3.UNIT_Y, 0), 1000, 1000, 1, 1, true, 1, 1, 1, Vector3.UNIT_Z);
+            Entity floor=m_SceneMgr.CreateEntity("Floor","floor");
+            floor.SetMaterialName("ground-from-nxogre.org");
+            floor.CastShadows = false;
+            m_SceneMgr.RootSceneNode.AttachObject(floor);
+
+            m_SceneMgr.AmbientLight = new ColourValue(0.3f,0.3f,0.3f);
+            Light l = m_SceneMgr.CreateLight();
+            l.Type = Light.LightTypes.LT_POINT;
+            l.Position = new Vector3(-10,40,20);
+
+            m_Camera.Position = new Vector3(10,10,10);
+            m_Camera.LookAt(0,0,0);
+            m_Camera.NearClipDistance = 0.02f;
+            m_Camera.FarClipDistance = 1000f;
+
+            m_Camera.AspectRatio = AdvancedMogreFramework.Singleton.m_Viewport.ActualWidth / AdvancedMogreFramework.Singleton.m_Viewport.ActualHeight;
+
+            AdvancedMogreFramework.Singleton.m_Viewport.Camera = m_Camera;
+
+        }
+        public void makeCloth()
+        {
+            using (var cd = new ClothDesc())
+            {
+                MeshManager.Singleton.CreatePlane("flag",
+                    ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, new Plane(Vector3.UNIT_Y, 0), 8, 1, 1, 1, true, 1, 1, 1, Vector3.UNIT_Z);
+                Entity entFlag = m_SceneMgr.CreateEntity("Flag", "flag");
+                MeshPtr mp = entFlag.GetMesh();
+                StaticMeshData meshdata = new StaticMeshData(mp);
+                cd.ClothMesh = CookClothMesh(meshdata);
+
+                cd.BendingStiffness = cd.StretchingStiffness = 0.1f;
+                cd.GlobalPose = Matrix4.GetTrans(new Vector3(0, 0, 0));
+                cd.Flags |= ClothFlags.Gravity | ClothFlags.Visualization;
+
+                c = scene.CreateCloth(cd);
+            }
+        }
+        private ClothMesh CookClothMesh(StaticMeshData meshdata)
+        {
+            CookingInterface.InitCooking();
+            using (var cd = new ClothMeshDesc())
+            {
+                cd.PinPoints<float>(meshdata.Points, 0, 12);
+                cd.PinTriangles<uint>(meshdata.Indices, 0, 12);
+
+                cd.VertexCount = 4;
+                cd.TriangleCount = 2;
+                ClothMesh cookedcm = null;
+                using (System.IO.MemoryStream str = new System.IO.MemoryStream(1024))
+                {
+                    if (CookingInterface.CookClothMesh(cd, str))
+                    {
+                        str.Seek(0, System.IO.SeekOrigin.Begin);
+                        cookedcm = physx.CreateClothMesh(str);
+                        CookingInterface.CloseCooking();
+                    }
+                    return cookedcm;
+                }
+            }
         }
         public override void enter()
         {
             AdvancedMogreFramework.Singleton.m_Log.LogMessage("Entering PhysxState...");
             AdvancedMogreFramework.LastStateName = "PhysxState";
-            InitPhysics();
-            m_SceneMgr=AdvancedMogreFramework.Singleton.m_Root.CreateSceneManager(SceneType.ST_GENERIC, "PhysxSceneMgr");
 
-            ColourValue cvAmbineLight = new ColourValue(0.7f, 0.7f, 0.7f);
+            setupPhysx();
+
+            setupContent();
+
+            makeCloth();
+ /*           ColourValue cvAmbineLight = new ColourValue(0.7f, 0.7f, 0.7f);
             m_SceneMgr.AmbientLight = cvAmbineLight;//(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
 
-            m_Camera = m_SceneMgr.CreateCamera("GameCamera");
+            m_Camera = m_SceneMgr.CreateCamera("PhysxCamera");
             Mogre.Vector3 vectCameraPostion = new Mogre.Vector3(5, 60, 60);
             m_Camera.Position = vectCameraPostion;
             Mogre.Vector3 vectorCameraLookAt = new Mogre.Vector3(5, 20, 0);
@@ -47,7 +128,7 @@ namespace AMOFGameEngine
 
             m_Camera.AspectRatio = AdvancedMogreFramework.Singleton.m_Viewport.ActualWidth / AdvancedMogreFramework.Singleton.m_Viewport.ActualHeight;
 
-            AdvancedMogreFramework.Singleton.m_Viewport.Camera = m_Camera;
+            AdvancedMogreFramework.Singleton.m_Viewport.Camera = m_Camera;*/
 
             float scale = 0.1f;
             int id = 0;
@@ -59,6 +140,7 @@ namespace AMOFGameEngine
 
             BodyDesc bodydesc = new BodyDesc();
             bodydesc.LinearVelocity = new Vector3(0, 2, 5);
+            bodydesc.Mass = 40.0f;
 
             ActorDesc actordesc = new ActorDesc();
             actordesc.Density = 4;
@@ -69,19 +151,25 @@ namespace AMOFGameEngine
             actordesc.Shapes.Add(new SphereShapeDesc((float)System.Math.Sqrt((double)(entity.BoundingBox.HalfSize * scale).SquaredLength), entity.BoundingBox.Center * scale));
 
             Actor actor = scene.CreateActor(actordesc);
-            ActorNode actornode = new ActorNode(scenenode, actor);
-            actornodeList.Add(actornode);
+       //     ActorNode actornode = new ActorNode(scenenode, actor);
+       //     actornodeList.Add(actornode);
 
             AdvancedMogreFramework.Singleton.m_Mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
             AdvancedMogreFramework.Singleton.m_Mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
             AdvancedMogreFramework.Singleton.m_Mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
             AdvancedMogreFramework.Singleton.m_Keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
             AdvancedMogreFramework.Singleton.m_Keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
+
+            AdvancedMogreFramework.Singleton.m_Root.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(frameRenderingQueued);
         }
         public override void update(double timeSinceLastFrame)
         {
-            foreach (ActorNode actornode in actornodeList)
-                actornode.Update((float)timeSinceLastFrame);
+            m_TranslateVector = Mogre.Vector3.ZERO;
+
+            getInput();
+            moveCamera();
+            //foreach (ActorNode actornode in actornodeList)
+            //    actornode.Update((float)timeSinceLastFrame);
             this.scene.FlushStream();
             this.scene.FetchResults(SimulationStatuses.AllFinished,true);
             this.scene.Simulate(timeSinceLastFrame);
@@ -103,7 +191,7 @@ namespace AMOFGameEngine
         public override void resume()
         {
             AdvancedMogreFramework.Singleton.m_Log.LogMessage("Resuming PhysxState...");
-            InitPhysics();
+            setupPhysx();
             AdvancedMogreFramework.Singleton.m_Viewport.Camera = m_Camera;
         }
         public bool keyPressed(KeyEvent keyEventRef)
@@ -115,13 +203,13 @@ namespace AMOFGameEngine
             }
 
             AdvancedMogreFramework.Singleton.keyPressed(keyEventRef);
-
+            //cameraman.injectKeyDown(keyEventRef);
             return true;
         }
         public bool keyReleased(KeyEvent keyEventRef)
         {
+            //cameraman.injectKeyUp(keyEventRef);
             AdvancedMogreFramework.Singleton.keyReleased(keyEventRef);
-
             return true;
         }
 
@@ -140,8 +228,57 @@ namespace AMOFGameEngine
             if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseUp(evt, id)) return true;
             return true;
         }
+        public bool frameRenderingQueued(FrameEvent evt) 
+        {
+            this.scene.FlushStream();
+            this.scene.FetchResults(SimulationStatuses.AllFinished, true);
+            this.scene.Simulate(evt.timeSinceLastEvent);
+            return true; 
+        }
+        public void getInput()
+        {
+                Angle angleCameraRoll;
+                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_A))
+                    m_TranslateVector.x = -10;
+
+                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_D))
+                    m_TranslateVector.x = 10;
+
+                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_W))
+                    m_TranslateVector.z = -10;
+
+                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_S))
+                    m_TranslateVector.z = 10;
+
+                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_Q))
+                    m_TranslateVector.y = -10;
+
+                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_E))
+                    m_TranslateVector.y = 10;
+
+                //camera roll
+                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_Z))
+                    m_Camera.Roll(angleCameraRoll = new Angle(-10));
+
+                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_X))
+                    m_Camera.Roll(angleCameraRoll = new Angle(10));
+
+                //reset roll
+                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_C))
+                    m_Camera.Roll(-(m_Camera.RealOrientation.Roll));
+        }
+        public void moveCamera()
+        {
+            if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_LSHIFT))
+                m_Camera.MoveRelative(m_TranslateVector);
+            m_Camera.MoveRelative(m_TranslateVector / 10);
+        }
         private Physics physx;
         private Scene scene;
         private List<ActorNode> actornodeList = new List<ActorNode>();
+        private Cloth c;
+        Vector3 m_TranslateVector;
+
+        
     }
 }

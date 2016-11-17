@@ -121,29 +121,29 @@ namespace AMOFGameEngine
             {
                 Angle angleCameraRoll;
                 if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_A))
-                    m_TranslateVector.x = -m_MoveScale;
+                    m_TranslateVector.x = -10;
  
                 if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_D))
-                    m_TranslateVector.x = m_MoveScale;
+                    m_TranslateVector.x = 10;
  
                 if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_W))
-                    m_TranslateVector.z = -m_MoveScale;
+                    m_TranslateVector.z = -10;
  
                 if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_S))
-                    m_TranslateVector.z = m_MoveScale;
+                    m_TranslateVector.z = 10;
  
                 if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_Q))
-                    m_TranslateVector.y = -m_MoveScale;
+                    m_TranslateVector.y = -10;
  
                 if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_E))
-                    m_TranslateVector.y = m_MoveScale;
+                    m_TranslateVector.y = 10;
  
         //camera roll
                 if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_Z))
-                    m_Camera.Roll(angleCameraRoll=new Angle(-m_MoveScale));
+                    m_Camera.Roll(angleCameraRoll=new Angle(-10));
  
                 if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_X))
-                    m_Camera.Roll(angleCameraRoll=new Angle(m_MoveScale));
+                    m_Camera.Roll(angleCameraRoll=new Angle(10));
  
         //reset roll
                 if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_C))

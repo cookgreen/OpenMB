@@ -46,7 +46,7 @@ namespace AMOFGameEngine
             AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "EnterBtn", "Enter GameState", 250);
             AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "EnterSinbadBtn", "Enter SinbadState", 250);
             AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "EnterPhysxBtn", "Enter PhysxState", 250);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", "Exit AdvancedOgreFramework", 250);
+            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", "Exit Demo", 250);
             AdvancedMogreFramework.Singleton.m_TrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", "Menu mode", 250);
 
             AdvancedMogreFramework.Singleton.m_Mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);

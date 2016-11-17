@@ -52,7 +52,7 @@ namespace AMOFGameEngine
                 break;
             }
             AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "BackToMenuBtn", "Return to Menu", 250);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", "Exit AdvancedOgreFramework", 250);
+            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", "Exit Demo", 250);
             AdvancedMogreFramework.Singleton.m_TrayMgr.createLabel(TrayLocation.TL_TOP, "PauseLbl", "Pause mode", 250);
 
             AdvancedMogreFramework.Singleton.m_Mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
