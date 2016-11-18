@@ -18,7 +18,7 @@ namespace AMOFGameEngine
             physx.Parameters.SkinWidth = 0.0025f;
             SceneDesc scenedesc = new SceneDesc();
             scenedesc.SetToDefault();
-            scenedesc.Gravity = new Mogre.Vector3(9.8f, 9.8f, 9.8f);
+            scenedesc.Gravity = new Mogre.Vector3(0, -9.8f, 0);
             scenedesc.UpAxis = 1;
             this.scene = physx.CreateScene(scenedesc);
             this.scene.Materials[0].Restitution = 0.5f;

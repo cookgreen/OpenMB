@@ -105,6 +105,7 @@
     <Compile Include="AdvancedMogreFramework.cs" />
     <Compile Include="AppState.cs" />
     <Compile Include="AppStateManager.cs" />
+    <Compile Include="Models\OggSound.cs" />
     <Compile Include="PhysxState.cs" />
     <Compile Include="SinbadState.cs" />
     <Compile Include="DemoApp.cs" />

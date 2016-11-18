@@ -24,12 +24,6 @@ namespace AMOFGameEngine
         public SdkTrayManager m_TrayMgr;
 
         public static string LastStateName;
-
-        //public NVorbis.NAudioSupport.VorbisWaveReader m_pVorbis;
-        public NAudio.Vorbis.VorbisWaveReader m_Vorbis;
-        public NAudio.Wave.WaveOut m_WaveOut;
-
-        public MQuickGUI.GUIManager m_Gui;
         
         public AdvancedMogreFramework()
         {
@@ -43,7 +37,6 @@ namespace AMOFGameEngine
             m_Keyboard = null;
             m_Mouse = null;
             m_TrayMgr = null;
-            m_Gui = null;
          }
 
         public bool initOgre(String wndTitle)
@@ -102,6 +95,23 @@ namespace AMOFGameEngine
                     ResourceGroupManager.Singleton.AddResourceLocation(archName, typeName, secName);
                 }
             }
+
+            String secName1, typeName1, archName1;
+            ConfigFile cfMusic = new ConfigFile();
+            cfMusic.Load("music.cfg", "\t:=", true);
+            ConfigFile.SectionIterator seci1 = cfMusic.GetSectionIterator();
+            while (seci1.MoveNext())
+            {
+                secName1 = seci1.CurrentKey;
+                ConfigFile.SettingsMultiMap settings = seci1.Current;
+                foreach (KeyValuePair<string, string> pair in settings)
+                {
+                    typeName1 = pair.Key;
+                    archName1 = pair.Value;
+                    ResourceGroupManager.Singleton.AddResourceLocation(archName1, typeName1, secName1);
+                }
+            }
+
             TextureManager.Singleton.DefaultNumMipmaps=5;
             ResourceGroupManager.Singleton.InitialiseAllResourceGroups(); 
  
@@ -111,7 +121,6 @@ namespace AMOFGameEngine
             m_pTimer.Reset();
  
             m_RenderWnd.IsActive=true;
-            m_Gui = new MQuickGUI.GUIManager();
             return true;
         }
         public void updateOgre(double timeSinceLastFrame)

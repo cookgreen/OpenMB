@@ -19,10 +19,9 @@ namespace AMOFGameEngine
             AdvancedMogreFramework.Singleton.m_Log.LogMessage("Entering MenuState...");
             m_bQuit = false;
 
-            AdvancedMogreFramework.Singleton.m_Vorbis = new NAudio.Vorbis.VorbisWaveReader(@".\vivaldi_winter_allegro.ogg");
-            AdvancedMogreFramework.Singleton.m_WaveOut= new NAudio.Wave.WaveOut();
-            AdvancedMogreFramework.Singleton.m_WaveOut.Init(AdvancedMogreFramework.Singleton.m_Vorbis);
-            AdvancedMogreFramework.Singleton.m_WaveOut.Play();
+            OggSound ogg = new OggSound();
+            ogg.OggFileName = @"./vivaldi_winter_allegro.ogg";
+            ogg.PlayOgg();
 
             m_SceneMgr = AdvancedMogreFramework.Singleton.m_Root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
 

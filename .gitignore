@@ -3,3 +3,4 @@ AMOFGameEngine/obj/*
 AMOFGameEngine/bin/Debug/*
 AMOFGameEngine/bin/Release/*.pdb
 AMOFGameEngine/bin/Release/*.exe
+AMOFGameEngine/bin/Release/*.log
