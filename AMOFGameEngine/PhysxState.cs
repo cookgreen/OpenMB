@@ -10,7 +10,7 @@ using Mogre_Procedural.MogreBites.Addons;
 
 namespace AMOFGameEngine
 {
-    class PhysxState : AppState
+    class PhysxState : AppState, IUserContactReport
     {
         public bool setupPhysx()
         {
@@ -20,6 +20,9 @@ namespace AMOFGameEngine
             scenedesc.SetToDefault();
             scenedesc.Gravity = new Mogre.Vector3(0, -9.8f, 0);
             scenedesc.UpAxis = 1;
+
+            scenedesc.UserContactReport = this;
+
             this.scene = physx.CreateScene(scenedesc);
             this.scene.Materials[0].Restitution = 0.5f;
             this.scene.Materials[0].StaticFriction = 0.5f;
@@ -160,7 +163,7 @@ namespace AMOFGameEngine
             AdvancedMogreFramework.Singleton.m_Keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
             AdvancedMogreFramework.Singleton.m_Keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
 
-            AdvancedMogreFramework.Singleton.m_Root.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(frameRenderingQueued);
+            //AdvancedMogreFramework.Singleton.m_Root.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(frameRenderingQueued);
         }
         public override void update(double timeSinceLastFrame)
         {
@@ -174,13 +177,15 @@ namespace AMOFGameEngine
             this.scene.FetchResults(SimulationStatuses.AllFinished,true);
             this.scene.Simulate(timeSinceLastFrame);
         }
-        public override void Dispose()
-        {
-            this.physx.Dispose();
-        }
         public override void exit()
         {
             AdvancedMogreFramework.Singleton.m_Log.LogMessage("Leaving PhysxState...");
+            if (m_SceneMgr!=null)
+            {
+                m_SceneMgr.DestroyCamera(m_Camera);
+                AdvancedMogreFramework.Singleton.m_Root.DestroySceneManager(m_SceneMgr);
+            }
+            this.physx.Dispose();
         }
         public override bool pause()
         {
@@ -237,7 +242,6 @@ namespace AMOFGameEngine
         }
         public void getInput()
         {
-                Angle angleCameraRoll;
                 if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_A))
                     m_TranslateVector.x = -10;
 
@@ -256,12 +260,12 @@ namespace AMOFGameEngine
                 if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_E))
                     m_TranslateVector.y = 10;
 
-                //camera roll
+                //camera Yaw
                 if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_Z))
-                    m_Camera.Roll(angleCameraRoll = new Angle(-10));
+                    m_Camera.Yaw(10);
 
                 if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_X))
-                    m_Camera.Roll(angleCameraRoll = new Angle(10));
+                    m_Camera.Pitch(-10);
 
                 //reset roll
                 if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_C))
@@ -272,6 +276,20 @@ namespace AMOFGameEngine
             if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_LSHIFT))
                 m_Camera.MoveRelative(m_TranslateVector);
             m_Camera.MoveRelative(m_TranslateVector / 10);
+        }
+        public void OnContactNotify(ContactPair contactPair, ContactPairFlags contactPairFlags)
+        {
+            Actor actor_0 = contactPair.ActorFirst;
+            Actor actor_1 = contactPair.ActorSecond;
+
+            if (actor_0 != null)
+            {
+                actor_0.UserData = contactPairFlags;
+            }
+            if (actor_1 != null)
+            {
+                actor_1.UserData = contactPairFlags;
+            }
         }
         private Physics physx;
         private Scene scene;

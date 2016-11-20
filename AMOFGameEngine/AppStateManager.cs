@@ -73,7 +73,9 @@ namespace AMOFGameEngine
                 if (AdvancedMogreFramework.Singleton.m_RenderWnd.IsActive)
 		        {
                     startTime = (int)AdvancedMogreFramework.Singleton.m_pTimer.MicrosecondsCPU;
- 
+
+                    timeSinceLastFrame =startTime - (int)AdvancedMogreFramework.Singleton.m_pTimer.MillisecondsCPU;
+
 			        m_ActiveStateStack.Last().update(timeSinceLastFrame);
                     AdvancedMogreFramework.Singleton.m_Keyboard.Capture();
                     AdvancedMogreFramework.Singleton.m_Mouse.Capture();
@@ -82,7 +84,7 @@ namespace AMOFGameEngine
                     {
                         AdvancedMogreFramework.Singleton.m_Root.RenderOneFrame();
                     }
-                    timeSinceLastFrame = (int)AdvancedMogreFramework.Singleton.m_pTimer.MillisecondsCPU - startTime;
+                    
 		        }
 		        else
 		        {
@@ -90,7 +92,7 @@ namespace AMOFGameEngine
 		        }
 	        }
 
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Main loop quit");
+            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Game Quit");
          }
          public override void changeAppState(AppState state)
          {
