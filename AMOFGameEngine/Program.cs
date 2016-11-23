@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 using Mogre;
 using MOIS;
 
@@ -10,8 +11,9 @@ namespace AMOFGameEngine
     {
         static void Main(string[] args)
         {
-            DemoApp app = new DemoApp();
-            app.startDemo();
+            Application.Run(new ConfigFrm());
+            //DemoApp app = new DemoApp();
+            //app.startDemo();
         }
     }
 }

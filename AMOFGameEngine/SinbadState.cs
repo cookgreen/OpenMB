@@ -293,8 +293,10 @@ namespace AMOFGameEngine
 		        m_CameraMan.setStyle(CameraStyle.CS_MANUAL);
                 AdvancedMogreFramework.Singleton.m_TrayMgr.showCursor();
 	        }
-
-            m_CameraMan.injectMouseUp(arg, id);
+            if (m_CameraMan != null)
+            {
+                m_CameraMan.injectMouseUp(arg, id);
+            }
 
 	        return true;
         }
@@ -345,7 +347,10 @@ namespace AMOFGameEngine
         public bool FrameRenderingQueued(FrameEvent evt)
         {
             // let character update animations and camera
-            m_Chara.addTime(evt.timeSinceLastFrame);
+            if(m_Chara!=null)
+            {
+                m_Chara.addTime(evt.timeSinceLastFrame);
+            }
             return true;
         }
 }

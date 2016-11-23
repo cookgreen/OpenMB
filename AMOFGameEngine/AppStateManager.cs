@@ -169,7 +169,6 @@ namespace AMOFGameEngine
              AdvancedMogreFramework.Singleton.m_TrayMgr.setListener(state);
              AdvancedMogreFramework.Singleton.m_RenderWnd.ResetStatistics();
          }
-
          protected List<AppState> m_ActiveStateStack=new List<AppState>();
          protected List<state_info> m_States=new List<state_info>();
          protected bool m_bShutdown;

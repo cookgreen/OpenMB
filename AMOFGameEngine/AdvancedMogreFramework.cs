@@ -24,6 +24,22 @@ namespace AMOFGameEngine
         public SdkTrayManager m_TrayMgr;
 
         public static string LastStateName;
+
+        public OggSound ogg;
+
+        public bool IsConfigCancelClick;
+
+        private NameValuePairList nvl;
+        private List<nvlsection> nvll;
+        private string defaultRS;
+        private struct nvlsection
+        {
+            public NameValuePairList nvl;
+            public string section;
+        }
+        nvlsection ns;
+        Settings s;
+        List<Settings> sl = new List<Settings>();
         
         public AdvancedMogreFramework()
         {
@@ -37,19 +53,60 @@ namespace AMOFGameEngine
             m_Keyboard = null;
             m_Mouse = null;
             m_TrayMgr = null;
+            nvl = new NameValuePairList();
+            nvll = new List<nvlsection>();
+            ns = new nvlsection();
          }
+        private void ReadSettingsFromConfig(ConfigFile cf,string filename)
+        {
+            String secName;
+            cf.Load(filename, "\t:=", true);
 
+            ConfigFile.SectionIterator seci = cf.GetSectionIterator();
+            while (seci.MoveNext())
+            {
+                secName = seci.CurrentKey;
+                ConfigFile.SettingsMultiMap settings = seci.Current;
+                foreach (KeyValuePair<string, string> pair in settings)
+                {
+                    s.section = secName;
+                    s.settings = settings;
+                    nvl[pair.Key] = pair.Value;
+                    if(pair.Key=="Render System" && !string.IsNullOrEmpty(pair.Value))
+                    {
+                        defaultRS = pair.Value;
+                    }
+                }
+                sl.Add(s);
+                ns.nvl = nvl;
+                ns.section = secName;
+                nvll.Add(ns);
+            }
+        }
         public bool initOgre(String wndTitle)
         {
             LogManager logMgr = new LogManager();
  
-            m_Log = LogManager.Singleton.CreateLog("OgreLogfile.log", true, true, false);
+            m_Log = LogManager.Singleton.CreateLog("amof.log", true, true, false);
             m_Log.SetDebugOutputEnabled(true);
  
             m_Root = new Root();
- 
-            if(!m_Root.ShowConfigDialog())
-                return false;
+
+            ConfigFile cfo=new ConfigFile();
+            ReadSettingsFromConfig(cfo, "ogre.cfg");
+
+            RenderSystem rs = m_Root.GetRenderSystemByName(defaultRS);
+            for (int i = 0; i < sl.Count;i++ )
+            {
+                if (!string.IsNullOrEmpty(sl[i].section) && sl[i].section == defaultRS)
+                {
+                    foreach (KeyValuePair<string, string> p in sl[i].settings)
+                    {
+                        rs.SetConfigOption(p.Key, p.Value);
+                    }
+                }
+            }
+            m_Root.RenderSystem = rs;
                m_RenderWnd = m_Root.Initialise(true, wndTitle);
  
             m_Viewport = m_RenderWnd.AddViewport(null);

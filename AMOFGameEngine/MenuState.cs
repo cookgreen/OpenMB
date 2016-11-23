@@ -19,9 +19,12 @@ namespace AMOFGameEngine
             AdvancedMogreFramework.Singleton.m_Log.LogMessage("Entering MenuState...");
             m_bQuit = false;
 
-            OggSound ogg = new OggSound();
-            ogg.OggFileName = @"./vivaldi_winter_allegro.ogg";
-            ogg.PlayOgg();
+            if (AdvancedMogreFramework.Singleton.ogg == null)
+            {
+                AdvancedMogreFramework.Singleton.ogg = new OggSound();
+                AdvancedMogreFramework.Singleton.ogg.OggFileName = @"./vivaldi_winter_allegro.ogg";
+                AdvancedMogreFramework.Singleton.ogg.PlayOgg();
+            }
 
             m_SceneMgr = AdvancedMogreFramework.Singleton.m_Root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
 

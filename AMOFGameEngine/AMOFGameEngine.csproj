@@ -101,11 +101,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\ConfigFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConfigFrm.Designer.cs">
+      <DependentUpon>ConfigFrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActorNode.cs" />
     <Compile Include="AdvancedMogreFramework.cs" />
     <Compile Include="AppState.cs" />
     <Compile Include="AppStateManager.cs" />
     <Compile Include="Models\OggSound.cs" />
+    <Compile Include="Models\Settings.cs" />
     <Compile Include="PhysxState.cs" />
     <Compile Include="SinbadState.cs" />
     <Compile Include="DemoApp.cs" />
@@ -117,6 +124,10 @@
     <Compile Include="Models\RMogre.cs" />
     <Compile Include="Models\SinbadCharacterController.cs" />
     <Compile Include="Models\StaticMeshData.cs" />
+    <Compile Include="Utilities\NewConfigFile.cs" />
+    <EmbeddedResource Include="Forms\ConfigFrm.resx">
+      <DependentUpon>ConfigFrm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -138,6 +149,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Accord.3.3.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.3.0\build\Accord.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
