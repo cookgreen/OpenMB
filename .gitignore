@@ -1,7 +1,7 @@
 packages/*
 AMOFGameEngine/obj/*
 AMOFGameEngine/bin/Debug/*
-AMOFGameEngine/bin/AMOFGameEngine.pdb
+AMOFGameEngine/bin/*.pdb
 AMOFGameEngine/bin/*.exe
 AMOFGameEngine/bin/*.xml
 AMOFGameEngine/bin/*.back

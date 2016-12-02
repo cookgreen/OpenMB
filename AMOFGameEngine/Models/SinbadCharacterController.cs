@@ -20,12 +20,12 @@ class SinbadCharacterController
     public const float GRAVITY = 90.0f;          // gravity in downward units per squared second
 
     Camera mCamera;
-    SceneNode mBodyNode;
+    public SceneNode mBodyNode;
     SceneNode mCameraPivot;
     SceneNode mCameraGoal;
     SceneNode mCameraNode;
     float mPivotPitch;
-    Entity mBodyEnt;
+    public Entity mBodyEnt;
     Entity mSword1;
     Entity mSword2;
     RibbonTrail mSwordTrail;

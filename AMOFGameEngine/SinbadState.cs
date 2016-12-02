@@ -6,6 +6,7 @@ using Mogre;
 using MOIS;
 using Mogre_Procedural.MogreBites;
 using Mogre_Procedural.MogreBites.Addons;
+using Mogre.PhysX;
 
 namespace AMOFGameEngine
 {
@@ -18,6 +19,11 @@ namespace AMOFGameEngine
         public SdkCameraMan	m_CameraMan;
 	    SinbadCharacterController	m_Chara;
 	    NameValuePairList		mInfo=new NameValuePairList();    // custom sample info
+
+        private Physics physx;
+        private Scene scene;
+        private List<ActorNode> actornodeList = new List<ActorNode>();
+        private Cloth c;
         public SinbadState()
         {
             m_bQuit = false;
@@ -25,6 +31,25 @@ namespace AMOFGameEngine
             m_Camera = null;
             m_CameraMan = null;
             m_Chara = null;
+        }
+
+        public bool setupPhysx()
+        {
+            physx = Physics.Create();
+            physx.Parameters.SkinWidth = 0.0025f;
+            SceneDesc scenedesc = new SceneDesc();
+            scenedesc.SetToDefault();
+            scenedesc.Gravity = new Mogre.Vector3(0, -9.8f, 0);
+            scenedesc.UpAxis = 1;
+
+            this.scene = physx.CreateScene(scenedesc);
+            this.scene.Materials[0].Restitution = 0.5f;
+            this.scene.Materials[0].StaticFriction = 0.5f;
+            this.scene.Materials[0].DynamicFriction = 0.5f;
+
+            this.scene.Simulate(0);
+            physx.RemoteDebugger.Connect("localhost", 5425);
+            return true;
         }
 
         public override void enter()
@@ -49,6 +74,8 @@ namespace AMOFGameEngine
             AdvancedMogreFramework.Singleton.m_Root.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(FrameRenderingQueued);
 
             buildGUI();
+
+            setupPhysx();
  
             createScene();
         }
@@ -94,6 +121,23 @@ namespace AMOFGameEngine
 	        items.Insert(items.Count,"Help");
 	        ParamsPanel help = AdvancedMogreFramework.Singleton.m_TrayMgr.createParamsPanel(TrayLocation. TL_TOPLEFT, "HelpMessage", 100, items);
 	        help.setParamValue("Help", "H / F1");
+
+            Entity sinbadent = m_Chara.mBodyEnt;
+            SceneNode sinbadsn = m_Chara.mBodyNode;
+
+            BodyDesc bodydesc = new BodyDesc();
+            bodydesc.LinearVelocity = new Mogre.Vector3(0, 2, 5);
+            bodydesc.Mass = 40.0f;
+
+            ActorDesc actordesc = new ActorDesc();
+            actordesc.Density = 4.0f;
+            actordesc.Body = bodydesc;
+            actordesc.GlobalPosition = sinbadsn.Position;
+            actordesc.GlobalOrientation = sinbadsn.Orientation.ToRotationMatrix();
+            actordesc.Name = "Sinbad";
+            actordesc.Shapes.Add(new SphereShapeDesc((float)System.Math.Sqrt((double)(sinbadent.BoundingBox.HalfSize * 0.1f).SquaredLength), sinbadent.BoundingBox.Center * 0.1f));
+            if (actordesc.IsValid) ;
+                Actor actor = scene.CreateActor(actordesc);
         }
         public override void exit()
         {
@@ -316,6 +360,9 @@ namespace AMOFGameEngine
 
         public override void update(double timeSinceLastFrame)
         {
+            this.scene.FlushStream();
+            this.scene.FetchResults(SimulationStatuses.AllFinished, true);
+            this.scene.Simulate(timeSinceLastFrame);
             m_FrameEvent.timeSinceLastFrame = (int)timeSinceLastFrame;
 
 	        //m_pChara.addTime((float)timeSinceLastFrame);

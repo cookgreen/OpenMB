@@ -29,7 +29,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -124,7 +124,9 @@
     <Compile Include="Models\RMogre.cs" />
     <Compile Include="Models\SinbadCharacterController.cs" />
     <Compile Include="Models\StaticMeshData.cs" />
+    <Compile Include="Models\LocateSystem.cs" />
     <Compile Include="Utilities\NewConfigFile.cs" />
+    <Compile Include="Utilities\UCSFile.cs" />
     <EmbeddedResource Include="Forms\ConfigFrm.resx">
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </EmbeddedResource>

@@ -175,7 +175,7 @@ namespace AMOFGameEngine
             //    actornode.Update((float)timeSinceLastFrame);
             this.scene.FlushStream();
             this.scene.FetchResults(SimulationStatuses.AllFinished,true);
-            this.scene.Simulate(timeSinceLastFrame);
+            this.scene.Simulate(1/60.0f);
         }
         public override void exit()
         {
