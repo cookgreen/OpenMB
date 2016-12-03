@@ -6,6 +6,7 @@ A game engine based on AdvancedMogreFramework
 ## Feature:
 * Ogg Support(done)  
 * Simple Wrapper for oggsound(done)  
+* Locate system(done)  
 * Custom Configuration Dialog(done)  
 * AppState Management(done)  
 * Character Controller(done)  
