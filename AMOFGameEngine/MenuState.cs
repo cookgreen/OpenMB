@@ -46,7 +46,7 @@ namespace AMOFGameEngine
             AdvancedMogreFramework.Singleton.m_TrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
             AdvancedMogreFramework.Singleton.m_TrayMgr.showCursor();
             AdvancedMogreFramework.Singleton.m_TrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", Models.LocateSystem.CreateLocateString("11161220"), 250);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "EnterBtn", @"中文" , 250);
+            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "EnterBtn", Models.LocateSystem.CreateLocateString("11161221"), 250);
             AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "EnterSinbadBtn", Models.LocateSystem.CreateLocateString("11161222"), 250);
             AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "EnterPhysxBtn", Models.LocateSystem.CreateLocateString("11161223"), 250);
             AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", Models.LocateSystem.CreateLocateString("11161224"), 250);
