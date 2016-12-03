@@ -170,11 +170,12 @@ namespace AMOFGameEngine
             }
 
             TextureManager.Singleton.DefaultNumMipmaps=5;
-            ResourceGroupManager.Singleton.InitialiseAllResourceGroups(); 
- 
-            m_TrayMgr = new SdkTrayManager("AMOFTrayMgr", m_RenderWnd, m_Mouse, null);
+            ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 
-            Models.LocateSystem.InitLocateSystem(Models.LOCATE.en);// Init Locate System
+            if (!Models.LocateSystem.IsInit)
+                Models.LocateSystem.InitLocateSystem(Models.LocateSystem.getLanguageFromFile());
+
+            m_TrayMgr = new SdkTrayManager("AMOFTrayMgr", m_RenderWnd, m_Mouse, null);
 
             m_pTimer = new Timer();
             m_pTimer.Reset();

@@ -154,32 +154,32 @@ namespace AMOFGameEngine
         {
             AdvancedMogreFramework.Singleton.m_TrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
             AdvancedMogreFramework.Singleton.m_TrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createLabel(TrayLocation.TL_TOP, "GameLbl", "Game mode", 250);
+            AdvancedMogreFramework.Singleton.m_TrayMgr.createLabel(TrayLocation.TL_TOP, "GameLbl", Models.LocateSystem.CreateLocateString("11161225"), 250);
             AdvancedMogreFramework.Singleton.m_TrayMgr.showCursor();
  
             List<string> items=new List<string>();
-            items.Insert(items.Count,"cam.pX");
-            items.Insert(items.Count,"cam.pY");
-            items.Insert(items.Count,"cam.pZ");
-            items.Insert(items.Count,"cam.oW");
-            items.Insert(items.Count,"cam.oX");
-            items.Insert(items.Count,"cam.oY");
-            items.Insert(items.Count,"cam.oZ");
-            items.Insert(items.Count,"Mode");
+            items.Insert(items.Count, Models.LocateSystem.CreateLocateString("11161226"));
+            items.Insert(items.Count, Models.LocateSystem.CreateLocateString("11161227"));
+            items.Insert(items.Count, Models.LocateSystem.CreateLocateString("11161228"));
+            items.Insert(items.Count, Models.LocateSystem.CreateLocateString("11161229"));
+            items.Insert(items.Count, Models.LocateSystem.CreateLocateString("11161230"));
+            items.Insert(items.Count, Models.LocateSystem.CreateLocateString("11161231"));
+            items.Insert(items.Count, Models.LocateSystem.CreateLocateString("11161232"));
+            items.Insert(items.Count, Models.LocateSystem.CreateLocateString("11161233"));
 
             m_pDetailsPanel = AdvancedMogreFramework.Singleton.m_TrayMgr.createParamsPanel(TrayLocation.TL_TOPLEFT, "DetailsPanel", 200, items.ToArray());
             m_pDetailsPanel.show();
- 
-            string infoText = "[TAB] - Switch input mode\n\n[W] - Forward / Mode up\n[S] - Backwards/ Mode down\n[A] - Left\n";
-            infoText.Insert(infoText.Length,"[D] - Right\n\nPress [SHIFT] to move faster\n\n[O] - Toggle FPS / logo\n");
-            infoText.Insert(infoText.Length,"[Print] - Take screenshot\n\n[ESC] - Exit");
+
+            string infoText = Models.LocateSystem.CreateLocateString("11161234");
+            infoText.Insert(infoText.Length, Models.LocateSystem.CreateLocateString("11161235"));
+            infoText.Insert(infoText.Length,Models.LocateSystem.CreateLocateString("11161236"));
             AdvancedMogreFramework.Singleton.m_TrayMgr.createTextBox(TrayLocation.TL_RIGHT, "InfoPanel", infoText, 300, 220);
  
             StringVector chatModes=new StringVector();
-            chatModes.Insert(chatModes.Count,"Solid mode");
-            chatModes.Insert(chatModes.Count,"Wireframe mode");
-            chatModes.Insert(chatModes.Count,"Point mode");
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createLongSelectMenu(TrayLocation.TL_TOPRIGHT, "ChatModeSelMenu", "ChatMode", 200, 3, chatModes);
+            chatModes.Insert(chatModes.Count, Models.LocateSystem.CreateLocateString("11161237"));
+            chatModes.Insert(chatModes.Count, Models.LocateSystem.CreateLocateString("11161238"));
+            chatModes.Insert(chatModes.Count, Models.LocateSystem.CreateLocateString("11161239"));
+            AdvancedMogreFramework.Singleton.m_TrayMgr.createLongSelectMenu(TrayLocation.TL_TOPRIGHT, "ChatModeSelMenu", Models.LocateSystem.CreateLocateString("11161240"), 200, 3, chatModes);
 
             AdvancedMogreFramework.Singleton.m_Mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
             AdvancedMogreFramework.Singleton.m_Mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);

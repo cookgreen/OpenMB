@@ -19,11 +19,12 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -56,26 +57,23 @@
       <HintPath>..\packages\Accord.Statistics.3.3.0\lib\net40\Accord.Statistics.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="eyecm.PhysX, Version=0.1.3788.29655, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\eyecm.PhysX.dll</HintPath>
+    <Reference Include="eyecm.PhysX">
+      <HintPath>bin\eyecm.PhysX.dll</HintPath>
     </Reference>
     <Reference Include="Mogre">
-      <HintPath>bin\Release\Mogre.dll</HintPath>
+      <HintPath>bin\Mogre.dll</HintPath>
     </Reference>
     <Reference Include="Mogre_Procedural.MogreBites">
-      <HintPath>bin\Release\Mogre_Procedural.MogreBites.dll</HintPath>
+      <HintPath>bin\Mogre_Procedural.MogreBites.dll</HintPath>
     </Reference>
-    <Reference Include="Mogre_Procedural.MogreBites.Addons, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\Mogre_Procedural.MogreBites.Addons.dll</HintPath>
+    <Reference Include="Mogre_Procedural.MogreBites.Addons">
+      <HintPath>bin\Mogre_Procedural.MogreBites.Addons.dll</HintPath>
     </Reference>
     <Reference Include="MOIS">
-      <HintPath>bin\Release\MOIS.dll</HintPath>
+      <HintPath>bin\MOIS.dll</HintPath>
     </Reference>
-    <Reference Include="MQuickGUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\MQuickGUI.dll</HintPath>
+    <Reference Include="MQuickGUI">
+      <HintPath>bin\MQuickGUI.dll</HintPath>
     </Reference>
     <Reference Include="NAudio, Version=1.7.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.1.7.3\lib\net35\NAudio.dll</HintPath>

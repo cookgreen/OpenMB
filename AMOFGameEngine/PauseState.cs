@@ -42,18 +42,18 @@ namespace AMOFGameEngine
             switch(AdvancedMogreFramework.LastStateName)
             {
                 case "GameState":
-                AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "BackToGameBtn", "Return to GameState", 250);
+                    AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "BackToGameBtn", Models.LocateSystem.CreateLocateString("11161242"), 250);
                 break;
                 case "SinbadState":
-                AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "BackToSinbadBtn", "Return to SinbadState", 250);
+                AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "BackToSinbadBtn", Models.LocateSystem.CreateLocateString("11161243"), 250);
                 break;
                 case "PhysxState":
-                AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "BackToPhysxBtn", "Return to PhysxState", 250);
+                AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "BackToPhysxBtn", Models.LocateSystem.CreateLocateString("11161244"), 250);
                 break;
             }
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "BackToMenuBtn", "Return to Menu", 250);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", "Exit Demo", 250);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createLabel(TrayLocation.TL_TOP, "PauseLbl", "Pause mode", 250);
+            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "BackToMenuBtn", Models.LocateSystem.CreateLocateString("11161245"), 250);
+            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", Models.LocateSystem.CreateLocateString("11161246"), 250);
+            AdvancedMogreFramework.Singleton.m_TrayMgr.createLabel(TrayLocation.TL_TOP, "PauseLbl", Models.LocateSystem.CreateLocateString("11161241"), 250);
 
             AdvancedMogreFramework.Singleton.m_Mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
             AdvancedMogreFramework.Singleton.m_Mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
