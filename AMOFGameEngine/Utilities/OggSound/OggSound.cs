@@ -14,7 +14,7 @@ namespace AMOFGameEngine
         OGGS_PAUSE
     }
 
-    class OggSound
+    class OggSound : OggISound
     {
         private NAudio.Vorbis.VorbisWaveReader _vorbis;
         private NAudio.Wave.WaveOut _waveout;

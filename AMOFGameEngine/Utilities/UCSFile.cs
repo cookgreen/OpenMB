@@ -11,7 +11,7 @@ namespace AMOFGameEngine.Utilities
 {
     class UCSFile
     {
-        static string path = @"../Locate/";
+        static string path = @"./Locate/";
         static Dictionary<string, string> UCSValueTmp=new Dictionary<string,string>();
         public static void PrepareUCSFile()
         {
