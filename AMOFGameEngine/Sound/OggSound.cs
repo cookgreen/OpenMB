@@ -14,18 +14,18 @@ namespace AMOFGameEngine
         OGGS_PAUSE
     }
 
-    class OggSound : OggISound
+    class OggSound
     {
         private NAudio.Vorbis.VorbisWaveReader _vorbis;
         private NAudio.Wave.WaveOut _waveout;
         private string _oggfilename;
         public string OggFileName
         {
-            get 
+            get
             {
                 return _oggfilename;
             }
-            set 
+            set
             {
                 _oggfilename = value;
             }
@@ -63,7 +63,7 @@ namespace AMOFGameEngine
         }
         public void StopOgg()
         {
-            if(_waveout!=null && _vorbis!=null)
+            if (_waveout != null && _vorbis != null)
             {
                 _waveout.Stop();
                 _oggstatus = (int)OGGSTATUS.OGGS_STOP;

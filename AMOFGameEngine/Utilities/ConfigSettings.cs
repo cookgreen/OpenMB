@@ -6,7 +6,7 @@ using Mogre;
 
 namespace AMOFGameEngine
 {
-    public struct Settings
+    public struct ConfigSettings
     {
         public ConfigFile.SettingsMultiMap settings;
         public string section;

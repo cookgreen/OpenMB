@@ -7,13 +7,13 @@ using Mogre;
 
 namespace AMOFGameEngine
 {
-    class NewConfigFile
+    class ConfigFileReader
     {
         public static string filename;
         static StreamWriter sw;
         private static bool IsRSWrite;
 
-        public static void saveConfig(Settings s,NameValuePairList p,string defaultRS="") 
+        public static void saveConfig(ConfigSettings s,NameValuePairList p,string defaultRS="") 
         {
             if(sw==null)
             {

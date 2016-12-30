@@ -38,8 +38,8 @@ namespace AMOFGameEngine
             public string section;
         }
         nvlsection ns;
-        Settings s;
-        List<Settings> sl = new List<Settings>();
+        ConfigSettings s;
+        List<ConfigSettings> sl = new List<ConfigSettings>();
         
         public AdvancedMogreFramework()
         {

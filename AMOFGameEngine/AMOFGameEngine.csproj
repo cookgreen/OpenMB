@@ -105,13 +105,13 @@
     <Compile Include="Forms\ConfigFrm.Designer.cs">
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Localization\LocateSystem.cs" />
     <Compile Include="Models\ActorNode.cs" />
     <Compile Include="AdvancedMogreFramework.cs" />
     <Compile Include="AppState.cs" />
     <Compile Include="AppStateManager.cs" />
-    <Compile Include="Utilities\OggSound\OggISound.cs" />
-    <Compile Include="Utilities\OggSound\OggSound.cs" />
-    <Compile Include="Models\Settings.cs" />
+    <Compile Include="Sound\OggSound.cs" />
+    <Compile Include="Utilities\ConfigSettings.cs" />
     <Compile Include="PhysxState.cs" />
     <Compile Include="SinbadState.cs" />
     <Compile Include="DemoApp.cs" />
@@ -123,9 +123,8 @@
     <Compile Include="Models\RMogre.cs" />
     <Compile Include="Models\SinbadCharacterController.cs" />
     <Compile Include="Models\StaticMeshData.cs" />
-    <Compile Include="Models\LocateSystem.cs" />
-    <Compile Include="Utilities\NewConfigFile.cs" />
-    <Compile Include="Utilities\UCSFile.cs" />
+    <Compile Include="Utilities\ConfigFileReader.cs" />
+    <Compile Include="Localization\UCSFile.cs" />
     <EmbeddedResource Include="Forms\ConfigFrm.resx">
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </EmbeddedResource>

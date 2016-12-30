@@ -14,10 +14,10 @@ namespace AMOFGameEngine
     public partial class ConfigFrm : Form
     {
         Root r=new Root();
-        List<Settings> sl = new List<Settings>();
+        List<ConfigSettings> sl = new List<ConfigSettings>();
         List<NameValuePairList> pl = new List<NameValuePairList>();
         NameValuePairList paramTemp;
-        private Settings s;
+        private ConfigSettings s;
 
         string path = "./language.txt";
         public ConfigFrm()
@@ -56,7 +56,7 @@ namespace AMOFGameEngine
                     cmbSubRenderSys.Items.Add(secName);
 
                     ConfigFile.SettingsMultiMap settings = seci.Current; ;
-                    Settings s;
+                    ConfigSettings s;
                     s.settings = settings;
                     s.section = secName;
                     sl.Add(s);
@@ -99,7 +99,7 @@ namespace AMOFGameEngine
         {
             cmbValueChange.Items.Clear();
             ConfigOptionMap com=r.GetRenderSystemByName(secName).GetConfigOptions();
-            Settings sn = sl[cmbSubRenderSys.SelectedIndex];
+            ConfigSettings sn = sl[cmbSubRenderSys.SelectedIndex];
             ConfigFile.SettingsMultiMap p = sn.settings;
             KeyValuePair<string, string> pi = p.ElementAt(KeyIndex);
             string Key = pi.Key;
@@ -140,7 +140,6 @@ namespace AMOFGameEngine
                     {
                         cmbValueChange.Items.Add(psv);
                     }
-                    break;
                     break;
                 case "Resource Creation Policy":
                     cmbValueChange.Text = pl[cmbSubRenderSys.SelectedIndex][pi.Key];
@@ -220,10 +219,10 @@ namespace AMOFGameEngine
         {
             if (File.Exists("ogre.cfg"))
                 File.Delete("ogre.cfg");
-            NewConfigFile.filename = "ogre.cfg";
+            ConfigFileReader.filename = "ogre.cfg";
             for (int i = 0; i < sl.Count;i++ )
             {
-                NewConfigFile.saveConfig(sl[i],pl[i],cmbSubRenderSys.SelectedItem.ToString());
+                ConfigFileReader.saveConfig(sl[i],pl[i],cmbSubRenderSys.SelectedItem.ToString());
             }
         }
 
@@ -233,7 +232,7 @@ namespace AMOFGameEngine
         }
         private void UpdateValueToConfigLst(int ValueIndex, string secName)
         {
-            Settings sn = sl.Where(o => o.section == secName).First();
+            ConfigSettings sn = sl.Where(o => o.section == secName).First();
             ConfigFile.SettingsMultiMap p = sn.settings;
             KeyValuePair<string, string> pi = p.ElementAt(lstConfigOpt.SelectedIndex);
             pl[cmbSubRenderSys.SelectedIndex][pi.Key] = cmbValueChange.SelectedItem.ToString();
