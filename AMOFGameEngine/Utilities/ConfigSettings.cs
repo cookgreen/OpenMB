@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Mogre;
 
-namespace AMOFGameEngine
+namespace AMOFGameEngine.Utilities
 {
     public struct ConfigSettings
     {

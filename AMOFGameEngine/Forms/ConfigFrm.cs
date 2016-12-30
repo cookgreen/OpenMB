@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using Mogre;
+using AMOFGameEngine.Localization;
+using AMOFGameEngine.Utilities;
 
 namespace AMOFGameEngine
 {
@@ -26,22 +28,22 @@ namespace AMOFGameEngine
         }
         private void ConfigFrm_Load(object sender, EventArgs e)
         {
-            Models.LOCATE selectedlocate = Models.LocateSystem.getLanguageFromFile();
-            if (selectedlocate != Models.LOCATE.invalid)
+            LOCATE selectedlocate = LocateSystem.getLanguageFromFile();
+            if (selectedlocate != LOCATE.invalid)
             {
-                cmbLanguageSelect.SelectedIndex = CovertLocateInfoToIndex(selectedlocate);
+                cmbLanguageSelect.SelectedIndex = LocateSystem.CovertLocateInfoToIndex(selectedlocate);
 
-                Models.LocateSystem.InitLocateSystem(selectedlocate);// Init Locate System
-                Models.LocateSystem.IsInit = true;
+                LocateSystem.InitLocateSystem(selectedlocate);// Init Locate System
+                LocateSystem.IsInit = true;
 
-                tbRenderOpt.TabPages[0].Text = Models.LocateSystem.CreateLocateString("22161220");
-                tbRenderOpt.TabPages[1].Text = Models.LocateSystem.CreateLocateString("22161226");
-                tbRenderOpt.TabPages[2].Text = Models.LocateSystem.CreateLocateString("22161224");
+                tbRenderOpt.TabPages[0].Text = LocateSystem.CreateLocateString("22161220");
+                tbRenderOpt.TabPages[1].Text = LocateSystem.CreateLocateString("22161226");
+                tbRenderOpt.TabPages[2].Text = LocateSystem.CreateLocateString("22161224");
 
-                lblRenderSys.Text = Models.LocateSystem.CreateLocateString("22161221");
-                lblCOO.Text = Models.LocateSystem.CreateLocateString("22161223");
-                lblLang.Text = Models.LocateSystem.CreateLocateString("22161225");
-                gbRenderOpt.Text = Models.LocateSystem.CreateLocateString("22161222");
+                lblRenderSys.Text = LocateSystem.CreateLocateString("22161221");
+                lblCOO.Text = LocateSystem.CreateLocateString("22161223");
+                lblLang.Text = LocateSystem.CreateLocateString("22161225");
+                gbRenderOpt.Text = LocateSystem.CreateLocateString("22161222");
             }
 
             string secName;
@@ -243,44 +245,24 @@ namespace AMOFGameEngine
                 lstConfigOpt.Items.Add(psb.Key + ":" + pl[cmbSubRenderSys.SelectedIndex][psb.Key]);
             }
         }
-        private Models.LOCATE CovertIndexToLocateInfo(int index)
+        private LOCATE CovertIndexToLocateInfo(int index)
         {
             switch (index)
             {
                 case 0:
-                    return Models.LOCATE.en;
+                    return LOCATE.en;
                 case 1:
-                    return Models.LOCATE.cns;
+                    return LOCATE.cns;
                 case 2:
-                    return Models.LOCATE.cnt;
+                    return LOCATE.cnt;
                 case 3:
-                    return Models.LOCATE.de;
+                    return LOCATE.de;
                 case 4:
-                    return Models.LOCATE.fr;
+                    return LOCATE.fr;
                 case 5:
-                    return Models.LOCATE.ja;
+                    return LOCATE.ja;
                 default:
-                    return Models.LOCATE.en;
-            }
-        }
-        private int CovertLocateInfoToIndex(Models.LOCATE locate)
-        {
-            switch (locate)
-            {
-                case Models.LOCATE.en:
-                    return 0;
-                case Models.LOCATE.cns:
-                    return 1;
-                case Models.LOCATE.cnt:
-                    return 2;
-                case Models.LOCATE.de:
-                    return 3;
-                case Models.LOCATE.fr:
-                    return 4;
-                case Models.LOCATE.ja:
-                    return 5;
-                default:
-                    return 0;
+                    return LOCATE.en;
             }
         }
         private string CovertLocateInfoStringToReadableString(string locate)

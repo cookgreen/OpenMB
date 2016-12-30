@@ -7,6 +7,9 @@ using Mogre.PhysX;
 using MOIS;
 using Vector3 = Mogre.Vector3;
 using Mogre_Procedural.MogreBites.Addons;
+using AMOFGameEngine.Localization;
+using AMOFGameEngine.Sound;
+using AMOFGameEngine.Utilities;
 
 namespace AMOFGameEngine
 {

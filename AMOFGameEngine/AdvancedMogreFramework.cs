@@ -6,6 +6,9 @@ using MOIS;
 using Mogre_Procedural;
 using Mogre_Procedural.MogreBites;
 using NVorbis;
+using AMOFGameEngine.Localization;
+using AMOFGameEngine.Sound;
+using AMOFGameEngine.Utilities;
 
 namespace AMOFGameEngine
 {
@@ -172,8 +175,8 @@ namespace AMOFGameEngine
             TextureManager.Singleton.DefaultNumMipmaps=5;
             ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 
-            if (!Models.LocateSystem.IsInit)
-                Models.LocateSystem.InitLocateSystem(Models.LocateSystem.getLanguageFromFile());
+            if (!LocateSystem.IsInit)
+                LocateSystem.InitLocateSystem(LocateSystem.getLanguageFromFile());
 
             m_TrayMgr = new SdkTrayManager("AMOFTrayMgr", m_RenderWnd, m_Mouse, null);
 

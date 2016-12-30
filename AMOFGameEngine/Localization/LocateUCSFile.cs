@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
-using AMOFGameEngine.Models;
 using Mogre;
 
-namespace AMOFGameEngine.Utilities
+namespace AMOFGameEngine.Localization
 {
-    class UCSFile
+    class LocateUCSFile
     {
         static string path = @"./Locate/";
         static Dictionary<string, string> UCSValueTmp=new Dictionary<string,string>();

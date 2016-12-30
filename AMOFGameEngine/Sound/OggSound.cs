@@ -5,7 +5,7 @@ using System.Text;
 using Mogre;
 using NVorbis;
 
-namespace AMOFGameEngine
+namespace AMOFGameEngine.Sound
 {
     enum OGGSTATUS
     {

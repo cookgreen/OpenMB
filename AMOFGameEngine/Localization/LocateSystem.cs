@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using AMOFGameEngine.Utilities;
 
-namespace AMOFGameEngine.Models
+namespace AMOFGameEngine.Localization
 {
     enum LOCATE
     {
@@ -19,7 +18,7 @@ namespace AMOFGameEngine.Models
     }
     class LocateSystem
     {
-        private UCSFile ucs;
+        private LocateUCSFile ucs;
         private static LOCATE __locate;
         private static string path="./language.txt";
         public static bool IsInit;
@@ -29,8 +28,8 @@ namespace AMOFGameEngine.Models
         public static bool InitLocateSystem(LOCATE CurrentLocate)
         {
             __locate = CurrentLocate;
-            UCSFile.PrepareUCSFile();
-            if (UCSFile.ProcessUCSFile("GameStrings.ucs", __locate) && UCSFile.ProcessUCSFile("GameUI.ucs", __locate))
+            LocateUCSFile.PrepareUCSFile();
+            if (LocateUCSFile.ProcessUCSFile("GameStrings.ucs", __locate) && LocateUCSFile.ProcessUCSFile("GameUI.ucs", __locate))
             {
                 return true;
             }
@@ -39,7 +38,7 @@ namespace AMOFGameEngine.Models
         }
         public static string CreateLocateString(string ID)
         {
-            string res = UCSFile.SeekValueByKey(ID);
+            string res = LocateUCSFile.SeekValueByKey(ID);
             if (!string.IsNullOrEmpty(res))
             {
                 return res;
@@ -47,7 +46,7 @@ namespace AMOFGameEngine.Models
             else
                 return null;
         }
-        public static Models.LOCATE getLanguageFromFile()
+        public static LOCATE getLanguageFromFile()
         {
             string locate;
             if (!File.Exists(path))
@@ -63,19 +62,39 @@ namespace AMOFGameEngine.Models
             switch (locate)
             {
                 case "en":
-                    return Models.LOCATE.en;
+                    return LOCATE.en;
                 case "cns":
-                    return Models.LOCATE.cns;
+                    return LOCATE.cns;
                 case "cnt":
-                    return Models.LOCATE.cnt;
+                    return LOCATE.cnt;
                 case "de":
-                    return Models.LOCATE.de;
+                    return LOCATE.de;
                 case "fr":
-                    return Models.LOCATE.fr;
+                    return LOCATE.fr;
                 case "ja":
-                    return Models.LOCATE.ja;
+                    return LOCATE.ja;
                 default:
-                    return Models.LOCATE.invalid;
+                    return LOCATE.invalid;
+            }
+        }
+        public static int CovertLocateInfoToIndex(LOCATE locate)
+        {
+            switch (locate)
+            {
+                case LOCATE.en:
+                    return 0;
+                case LOCATE.cns:
+                    return 1;
+                case LOCATE.cnt:
+                    return 2;
+                case LOCATE.de:
+                    return 3;
+                case LOCATE.fr:
+                    return 4;
+                case LOCATE.ja:
+                    return 5;
+                default:
+                    return 0;
             }
         }
     }

@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using Mogre;
 
-namespace AMOFGameEngine
+namespace AMOFGameEngine.Utilities
 {
     class ConfigFileReader
     {
