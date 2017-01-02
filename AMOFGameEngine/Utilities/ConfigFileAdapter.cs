@@ -2,18 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.IO;
 using Mogre;
 
 namespace AMOFGameEngine.Utilities
 {
-    class ConfigFileReader
+    class ConfigFileAdapter
     {
-        public static string filename;
-        static StreamWriter sw;
+        private static string filename;
+        private static StreamWriter sw;
         private static bool IsRSWrite;
+        public ConfigFileAdapter(string fileName)
+        {
+            filename = fileName;
+        }
 
-        public static void saveConfig(ConfigSettings s,NameValuePairList p,string defaultRS="") 
+        public static void saveConfig(ConfigNode s,NameValuePairList p,string defaultRS="") 
         {
             if(sw==null)
             {
@@ -38,5 +43,29 @@ namespace AMOFGameEngine.Utilities
                }
                sw.Flush();
           }
+
+        public bool IsSection(string data)
+        {
+            if (Regex.IsMatch(data, @"\\[\\]"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public ConfigNode getConfigNode(string section)
+        {
+            ConfigNode cfn = new ConfigNode();
+
+            using (StreamReader sr = new StreamReader(filename))
+            {
+            }
+
+            return cfn;
+        }
+
     }
 }

@@ -41,8 +41,8 @@ namespace AMOFGameEngine
             public string section;
         }
         nvlsection ns;
-        ConfigSettings s;
-        List<ConfigSettings> sl = new List<ConfigSettings>();
+        ConfigNode s;
+        List<ConfigNode> sl = new List<ConfigNode>();
         
         public AdvancedMogreFramework()
         {
@@ -153,22 +153,6 @@ namespace AMOFGameEngine
                     typeName = pair.Key;
                     archName = pair.Value;
                     ResourceGroupManager.Singleton.AddResourceLocation(archName, typeName, secName);
-                }
-            }
-
-            String secName1, typeName1, archName1;
-            ConfigFile cfMusic = new ConfigFile();
-            cfMusic.Load("music.cfg", "\t:=", true);
-            ConfigFile.SectionIterator seci1 = cfMusic.GetSectionIterator();
-            while (seci1.MoveNext())
-            {
-                secName1 = seci1.CurrentKey;
-                ConfigFile.SettingsMultiMap settings = seci1.Current;
-                foreach (KeyValuePair<string, string> pair in settings)
-                {
-                    typeName1 = pair.Key;
-                    archName1 = pair.Value;
-                    ResourceGroupManager.Singleton.AddResourceLocation(archName1, typeName1, secName1);
                 }
             }
 

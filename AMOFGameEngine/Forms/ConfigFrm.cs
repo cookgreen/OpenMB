@@ -16,10 +16,10 @@ namespace AMOFGameEngine
     public partial class ConfigFrm : Form
     {
         Root r=new Root();
-        List<ConfigSettings> sl = new List<ConfigSettings>();
+        List<ConfigNode> sl = new List<ConfigNode>();
         List<NameValuePairList> pl = new List<NameValuePairList>();
         NameValuePairList paramTemp;
-        private ConfigSettings s;
+        private ConfigNode s;
 
         string path = "./language.txt";
         public ConfigFrm()
@@ -58,7 +58,7 @@ namespace AMOFGameEngine
                     cmbSubRenderSys.Items.Add(secName);
 
                     ConfigFile.SettingsMultiMap settings = seci.Current; ;
-                    ConfigSettings s;
+                    ConfigNode s=new ConfigNode();
                     s.settings = settings;
                     s.section = secName;
                     sl.Add(s);
@@ -101,7 +101,7 @@ namespace AMOFGameEngine
         {
             cmbValueChange.Items.Clear();
             ConfigOptionMap com=r.GetRenderSystemByName(secName).GetConfigOptions();
-            ConfigSettings sn = sl[cmbSubRenderSys.SelectedIndex];
+            ConfigNode sn = sl[cmbSubRenderSys.SelectedIndex];
             ConfigFile.SettingsMultiMap p = sn.settings;
             KeyValuePair<string, string> pi = p.ElementAt(KeyIndex);
             string Key = pi.Key;
@@ -221,10 +221,10 @@ namespace AMOFGameEngine
         {
             if (File.Exists("ogre.cfg"))
                 File.Delete("ogre.cfg");
-            ConfigFileReader.filename = "ogre.cfg";
+            ConfigFileAdapter cfa = new ConfigFileAdapter("ogre.cfg");
             for (int i = 0; i < sl.Count;i++ )
             {
-                ConfigFileReader.saveConfig(sl[i],pl[i],cmbSubRenderSys.SelectedItem.ToString());
+                ConfigFileAdapter.saveConfig(sl[i],pl[i],cmbSubRenderSys.SelectedItem.ToString());
             }
         }
 
@@ -234,7 +234,7 @@ namespace AMOFGameEngine
         }
         private void UpdateValueToConfigLst(int ValueIndex, string secName)
         {
-            ConfigSettings sn = sl.Where(o => o.section == secName).First();
+            ConfigNode sn = sl.Where(o => o.section == secName).First();
             ConfigFile.SettingsMultiMap p = sn.settings;
             KeyValuePair<string, string> pi = p.ElementAt(lstConfigOpt.SelectedIndex);
             pl[cmbSubRenderSys.SelectedIndex][pi.Key] = cmbValueChange.SelectedItem.ToString();

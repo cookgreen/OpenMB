@@ -110,8 +110,9 @@
     <Compile Include="AdvancedMogreFramework.cs" />
     <Compile Include="AppState.cs" />
     <Compile Include="AppStateManager.cs" />
+    <Compile Include="Role.cs" />
     <Compile Include="Sound\OggSound.cs" />
-    <Compile Include="Utilities\ConfigSettings.cs" />
+    <Compile Include="Utilities\ConfigNode.cs" />
     <Compile Include="PhysxState.cs" />
     <Compile Include="SinbadState.cs" />
     <Compile Include="DemoApp.cs" />
@@ -123,7 +124,7 @@
     <Compile Include="Models\RMogre.cs" />
     <Compile Include="Models\SinbadCharacterController.cs" />
     <Compile Include="Models\StaticMeshData.cs" />
-    <Compile Include="Utilities\ConfigFileReader.cs" />
+    <Compile Include="Utilities\ConfigFileAdapter.cs" />
     <Compile Include="Localization\LocateUCSFile.cs" />
     <EmbeddedResource Include="Forms\ConfigFrm.resx">
       <DependentUpon>ConfigFrm.cs</DependentUpon>
