@@ -101,15 +101,15 @@
   <ItemGroup>
     <Compile Include="CharacterListener.cs" />
     <Compile Include="ExCamera.cs" />
-    <Compile Include="Forms\ConfigFrm.cs">
+    <Compile Include="Dialogs\ConfigFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ConfigFrm.Designer.cs">
+    <Compile Include="Dialogs\ConfigFrm.Designer.cs">
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Localization\LocateSystem.cs" />
     <Compile Include="Models\ActorNode.cs" />
-    <Compile Include="AdvancedMogreFramework.cs" />
+    <Compile Include="GameManager.cs" />
     <Compile Include="AppState.cs" />
     <Compile Include="AppStateManager.cs" />
     <Compile Include="Character.cs" />
@@ -128,7 +128,7 @@
     <Compile Include="Models\StaticMeshData.cs" />
     <Compile Include="Utilities\ConfigFileAdapter.cs" />
     <Compile Include="Localization\LocateUCSFile.cs" />
-    <EmbeddedResource Include="Forms\ConfigFrm.resx">
+    <EmbeddedResource Include="Dialogs\ConfigFrm.resx">
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -152,7 +152,10 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="AI\" />
+    <Folder Include="Network\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Accord.3.3.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.3.0\build\Accord.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
