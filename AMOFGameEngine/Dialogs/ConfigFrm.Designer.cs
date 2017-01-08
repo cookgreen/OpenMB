@@ -1,4 +1,4 @@
-﻿namespace AMOFGameEngine
+﻿namespace AMOFGameEngine.Dialogs
 {
     partial class ConfigFrm
     {

@@ -37,12 +37,12 @@ namespace AMOFGameEngine
         }
         public void setupContent()
         {
-            m_SceneMgr = AdvancedMogreFramework.Singleton.m_Root.CreateSceneManager(SceneType.ST_GENERIC, "PhysxSceneMgr");
+            m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(SceneType.ST_GENERIC, "PhysxSceneMgr");
             m_Camera = m_SceneMgr.CreateCamera("PhysxCam");
             //AdvancedMogreFramework.Singleton.m_Viewport = m_SceneMgr.CurrentViewport;
             //AdvancedMogreFramework.Singleton.m_Viewport.Camera = m_Camera;
             ColourValue cvBg = new ColourValue(16.0f / 255.0f, 16.0f / 255.0f, 16.0f / 255.0f);
-            AdvancedMogreFramework.Singleton.m_Viewport.BackgroundColour = cvBg;
+            GameManager.Singleton.mViewport.BackgroundColour = cvBg;
             m_SceneMgr.SetFog(FogMode.FOG_EXP, cvBg, 0.001f, 800f, 1000f);
             m_SceneMgr.ShadowTechnique=ShadowTechnique.SHADOWTYPE_TEXTURE_MODULATIVE;
             m_SceneMgr.ShadowColour = new ColourValue(0.5f,05f,0.5f);
@@ -66,9 +66,9 @@ namespace AMOFGameEngine
             m_Camera.NearClipDistance = 0.02f;
             m_Camera.FarClipDistance = 1000f;
 
-            m_Camera.AspectRatio = AdvancedMogreFramework.Singleton.m_Viewport.ActualWidth / AdvancedMogreFramework.Singleton.m_Viewport.ActualHeight;
+            m_Camera.AspectRatio = GameManager.Singleton.mViewport.ActualWidth / GameManager.Singleton.mViewport.ActualHeight;
 
-            AdvancedMogreFramework.Singleton.m_Viewport.Camera = m_Camera;
+            GameManager.Singleton.mViewport.Camera = m_Camera;
 
         }
         public void makeCloth()
@@ -114,8 +114,8 @@ namespace AMOFGameEngine
         }
         public override void enter()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Entering PhysxState...");
-            AdvancedMogreFramework.LastStateName = "PhysxState";
+            GameManager.Singleton.mLog.LogMessage("Entering PhysxState...");
+            GameManager.LastStateName = "PhysxState";
 
             setupPhysx();
 
@@ -160,11 +160,11 @@ namespace AMOFGameEngine
        //     ActorNode actornode = new ActorNode(scenenode, actor);
        //     actornodeList.Add(actornode);
 
-            AdvancedMogreFramework.Singleton.m_Mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
-            AdvancedMogreFramework.Singleton.m_Mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
-            AdvancedMogreFramework.Singleton.m_Mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
-            AdvancedMogreFramework.Singleton.m_Keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
-            AdvancedMogreFramework.Singleton.m_Keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
+            GameManager.Singleton.mMouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
+            GameManager.Singleton.mMouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
+            GameManager.Singleton.mMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
+            GameManager.Singleton.mKeyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
+            GameManager.Singleton.mKeyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
 
             //AdvancedMogreFramework.Singleton.m_Root.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(frameRenderingQueued);
         }
@@ -182,58 +182,58 @@ namespace AMOFGameEngine
         }
         public override void exit()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Leaving PhysxState...");
+            GameManager.Singleton.mLog.LogMessage("Leaving PhysxState...");
             if (m_SceneMgr!=null)
             {
                 m_SceneMgr.DestroyCamera(m_Camera);
-                AdvancedMogreFramework.Singleton.m_Root.DestroySceneManager(m_SceneMgr);
+                GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
             }
             this.physx.Dispose();
         }
         public override bool pause()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Pausing PhysxState...");
+            GameManager.Singleton.mLog.LogMessage("Pausing PhysxState...");
 
             return true;
         }
         public override void resume()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Resuming PhysxState...");
+            GameManager.Singleton.mLog.LogMessage("Resuming PhysxState...");
             setupPhysx();
-            AdvancedMogreFramework.Singleton.m_Viewport.Camera = m_Camera;
+            GameManager.Singleton.mViewport.Camera = m_Camera;
         }
         public bool keyPressed(KeyEvent keyEventRef)
         {
-            if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_ESCAPE))
+            if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_ESCAPE))
             {
                 pushAppState(findByName("PauseState"));
                 return true;
             }
 
-            AdvancedMogreFramework.Singleton.keyPressed(keyEventRef);
+            GameManager.Singleton.keyPressed(keyEventRef);
             //cameraman.injectKeyDown(keyEventRef);
             return true;
         }
         public bool keyReleased(KeyEvent keyEventRef)
         {
             //cameraman.injectKeyUp(keyEventRef);
-            AdvancedMogreFramework.Singleton.keyReleased(keyEventRef);
+            GameManager.Singleton.keyReleased(keyEventRef);
             return true;
         }
 
         public bool mouseMoved(MouseEvent evt)
         {
-            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseMove(evt)) return true;
+            if (GameManager.Singleton.mTrayMgr.injectMouseMove(evt)) return true;
             return true;
         }
         public bool mousePressed(MouseEvent evt, MouseButtonID id)
         {
-            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseDown(evt, id)) return true;
+            if (GameManager.Singleton.mTrayMgr.injectMouseDown(evt, id)) return true;
             return true;
         }
         public bool mouseReleased(MouseEvent evt, MouseButtonID id)
         {
-            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseUp(evt, id)) return true;
+            if (GameManager.Singleton.mTrayMgr.injectMouseUp(evt, id)) return true;
             return true;
         }
         public bool frameRenderingQueued(FrameEvent evt) 
@@ -245,38 +245,38 @@ namespace AMOFGameEngine
         }
         public void getInput()
         {
-                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_A))
+                if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_A))
                     m_TranslateVector.x = -10;
 
-                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_D))
+                if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_D))
                     m_TranslateVector.x = 10;
 
-                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_W))
+                if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_W))
                     m_TranslateVector.z = -10;
 
-                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_S))
+                if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_S))
                     m_TranslateVector.z = 10;
 
-                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_Q))
+                if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_Q))
                     m_TranslateVector.y = -10;
 
-                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_E))
+                if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_E))
                     m_TranslateVector.y = 10;
 
                 //camera Yaw
-                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_Z))
+                if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_Z))
                     m_Camera.Yaw(10);
 
-                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_X))
+                if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_X))
                     m_Camera.Pitch(-10);
 
                 //reset roll
-                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_C))
+                if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_C))
                     m_Camera.Roll(-(m_Camera.RealOrientation.Roll));
         }
         public void moveCamera()
         {
-            if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_LSHIFT))
+            if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
                 m_Camera.MoveRelative(m_TranslateVector);
             m_Camera.MoveRelative(m_TranslateVector / 10);
         }

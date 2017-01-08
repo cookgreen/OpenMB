@@ -12,25 +12,23 @@ using AMOFGameEngine.Utilities;
 
 namespace AMOFGameEngine
 {
-    class AdvancedMogreFramework 
+    class GameManager 
     {
-        public Root m_Root;
-        public RenderWindow m_RenderWnd;
-        public Viewport m_Viewport;
-        public Log m_Log;
+        public Root mRoot;
+        public RenderWindow mRenderWnd;
+        public Viewport mViewport;
+        public Log mLog;
         public Timer m_pTimer;
 
-        public MOIS.InputManager m_InputMgr;
-        public Keyboard m_Keyboard;
-        public Mouse m_Mouse;
+        public MOIS.InputManager mInputMgr;
+        public Keyboard mKeyboard;
+        public Mouse mMouse;
 
-        public SdkTrayManager m_TrayMgr;
+        public SdkTrayManager mTrayMgr;
 
         public static string LastStateName;
 
         public OggSound ogg;
-
-        public bool IsConfigCancelClick;
 
         private NameValuePairList nvl;
         private List<nvlsection> nvll;
@@ -44,18 +42,18 @@ namespace AMOFGameEngine
         ConfigNode s;
         List<ConfigNode> sl = new List<ConfigNode>();
         
-        public AdvancedMogreFramework()
+        public GameManager()
         {
-            m_Root = null;
-            m_RenderWnd = null;
-            m_Viewport = null;
-            m_Log = null;
+            mRoot = null;
+            mRenderWnd = null;
+            mViewport = null;
+            mLog = null;
             m_pTimer = null;
 
-            m_InputMgr = null;
-            m_Keyboard = null;
-            m_Mouse = null;
-            m_TrayMgr = null;
+            mInputMgr = null;
+            mKeyboard = null;
+            mMouse = null;
+            mTrayMgr = null;
             nvl = new NameValuePairList();
             nvll = new List<nvlsection>();
             ns = new nvlsection();
@@ -90,15 +88,15 @@ namespace AMOFGameEngine
         {
             LogManager logMgr = new LogManager();
  
-            m_Log = LogManager.Singleton.CreateLog("amof.log", true, true, false);
-            m_Log.SetDebugOutputEnabled(true);
+            mLog = LogManager.Singleton.CreateLog("amof.log", true, true, false);
+            mLog.SetDebugOutputEnabled(true);
  
-            m_Root = new Root();
+            mRoot = new Root();
 
             ConfigFile cfo=new ConfigFile();
             ReadSettingsFromConfig(cfo, "ogre.cfg");
 
-            RenderSystem rs = m_Root.GetRenderSystemByName(defaultRS);
+            RenderSystem rs = mRoot.GetRenderSystemByName(defaultRS);
             for (int i = 0; i < sl.Count;i++ )
             {
                 if (!string.IsNullOrEmpty(sl[i].section) && sl[i].section == defaultRS)
@@ -109,33 +107,33 @@ namespace AMOFGameEngine
                     }
                 }
             }
-            m_Root.RenderSystem = rs;
-               m_RenderWnd = m_Root.Initialise(true, wndTitle);
+            mRoot.RenderSystem = rs;
+               mRenderWnd = mRoot.Initialise(true, wndTitle);
  
-            m_Viewport = m_RenderWnd.AddViewport(null);
+            mViewport = mRenderWnd.AddViewport(null);
             ColourValue cv=new ColourValue(0.5f,0.5f,0.5f);
-            m_Viewport.BackgroundColour=cv;
+            mViewport.BackgroundColour=cv;
  
-            m_Viewport.Camera=null;
+            mViewport.Camera=null;
  
             int hWnd = 0;
             //ParamList paramList;
-            m_RenderWnd.GetCustomAttribute("WINDOW", out hWnd);
+            mRenderWnd.GetCustomAttribute("WINDOW", out hWnd);
  
-            m_InputMgr = InputManager.CreateInputSystem((uint)hWnd);
-            m_Keyboard = (MOIS.Keyboard)m_InputMgr.CreateInputObject(MOIS.Type.OISKeyboard, true);
-            m_Mouse =  (MOIS.Mouse)m_InputMgr.CreateInputObject(MOIS.Type.OISMouse, true);
+            mInputMgr = InputManager.CreateInputSystem((uint)hWnd);
+            mKeyboard = (MOIS.Keyboard)mInputMgr.CreateInputObject(MOIS.Type.OISKeyboard, true);
+            mMouse =  (MOIS.Mouse)mInputMgr.CreateInputObject(MOIS.Type.OISMouse, true);
 
-            m_Mouse.MouseMoved+=new MouseListener.MouseMovedHandler(mouseMoved);
-            m_Mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
-            m_Mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
+            mMouse.MouseMoved+=new MouseListener.MouseMovedHandler(mouseMoved);
+            mMouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
+            mMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
 
-            m_Keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
-            m_Keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
+            mKeyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
+            mKeyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
 
-            MOIS.MouseState_NativePtr mouseState = m_Mouse.MouseState;
-                mouseState.width = m_Viewport.ActualWidth;
-                mouseState.height = m_Viewport.ActualHeight;
+            MOIS.MouseState_NativePtr mouseState = mMouse.MouseState;
+                mouseState.width = mViewport.ActualWidth;
+                mouseState.height = mViewport.ActualHeight;
             //m_pMouse.MouseState = tempMouseState;
 
  
@@ -159,15 +157,18 @@ namespace AMOFGameEngine
             TextureManager.Singleton.DefaultNumMipmaps=5;
             ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 
-            if (!LocateSystem.IsInit)
-                LocateSystem.InitLocateSystem(LocateSystem.getLanguageFromFile());
-
-            m_TrayMgr = new SdkTrayManager("AMOFTrayMgr", m_RenderWnd, m_Mouse, null);
+            mTrayMgr = new SdkTrayManager("AMOFTrayMgr", mRenderWnd, mMouse, null);
 
             m_pTimer = new Timer();
             m_pTimer.Reset();
  
-            m_RenderWnd.IsActive=true;
+            mRenderWnd.IsActive=true;
+            return true;
+        }
+        public bool initGame()
+        {
+            if (!LocateSystem.IsInit)
+                LocateSystem.InitLocateSystem(LocateSystem.getLanguageFromFile());
             return true;
         }
         public void updateOgre(double timeSinceLastFrame)
@@ -176,23 +177,23 @@ namespace AMOFGameEngine
 
         public bool keyPressed(KeyEvent keyEventRef)
         {
-             if(m_Keyboard.IsKeyDown(MOIS.KeyCode.KC_V))
+             if(mKeyboard.IsKeyDown(MOIS.KeyCode.KC_V))
             {
-                m_RenderWnd.WriteContentsToTimestampedFile("AMOF_Screenshot_", ".jpg");
+                mRenderWnd.WriteContentsToTimestampedFile("AMOF_Screenshot_", ".jpg");
                 return true;
             }
  
-            if(m_Keyboard.IsKeyDown(MOIS.KeyCode.KC_O))
+            if(mKeyboard.IsKeyDown(MOIS.KeyCode.KC_O))
             {
-                if(m_TrayMgr.isLogoVisible())
+                if(mTrayMgr.isLogoVisible())
                 {
-                    m_TrayMgr.hideFrameStats();
-                    m_TrayMgr.hideLogo();
+                    mTrayMgr.hideFrameStats();
+                    mTrayMgr.hideLogo();
                 }
                 else
                 {
-                    m_TrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
-                    m_TrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
+                    mTrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
+                    mTrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
                 }
             }
  
@@ -219,14 +220,14 @@ namespace AMOFGameEngine
         {
             return System.Math.Max(System.Math.Min(val, maxval), minval);
         }
-        public static AdvancedMogreFramework instance;
-        public static AdvancedMogreFramework Singleton
+        public static GameManager instance;
+        public static GameManager Singleton
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new AdvancedMogreFramework();
+                    instance = new GameManager();
                 }
                 return instance;
             }

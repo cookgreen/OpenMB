@@ -66,23 +66,23 @@ namespace AMOFGameEngine
  
 	        while(!m_bShutdown)
 	        {
-		        if(AdvancedMogreFramework.Singleton.m_RenderWnd.IsClosed)m_bShutdown = true;
+		        if(GameManager.Singleton.mRenderWnd.IsClosed)m_bShutdown = true;
  
 		        WindowEventUtilities.MessagePump();
 
-                if (AdvancedMogreFramework.Singleton.m_RenderWnd.IsActive)
+                if (GameManager.Singleton.mRenderWnd.IsActive)
 		        {
-                    startTime = (int)AdvancedMogreFramework.Singleton.m_pTimer.MicrosecondsCPU;
+                    startTime = (int)GameManager.Singleton.m_pTimer.MicrosecondsCPU;
 
-                    timeSinceLastFrame =startTime - (int)AdvancedMogreFramework.Singleton.m_pTimer.MillisecondsCPU;
+                    timeSinceLastFrame =startTime - (int)GameManager.Singleton.m_pTimer.MillisecondsCPU;
 
 			        m_ActiveStateStack.Last().update(timeSinceLastFrame);
-                    AdvancedMogreFramework.Singleton.m_Keyboard.Capture();
-                    AdvancedMogreFramework.Singleton.m_Mouse.Capture();
-                    AdvancedMogreFramework.Singleton.updateOgre(timeSinceLastFrame);
-                    if (AdvancedMogreFramework.Singleton.m_Root != null)
+                    GameManager.Singleton.mKeyboard.Capture();
+                    GameManager.Singleton.mMouse.Capture();
+                    GameManager.Singleton.updateOgre(timeSinceLastFrame);
+                    if (GameManager.Singleton.mRoot != null)
                     {
-                        AdvancedMogreFramework.Singleton.m_Root.RenderOneFrame();
+                        GameManager.Singleton.mRoot.RenderOneFrame();
                     }
                     
 		        }
@@ -92,7 +92,7 @@ namespace AMOFGameEngine
 		        }
 	        }
 
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Game Quit");
+            GameManager.Singleton.mLog.LogMessage("Game Quit");
          }
          public override void changeAppState(AppState state)
          {
@@ -166,8 +166,8 @@ namespace AMOFGameEngine
 
          protected void init(AppState state)
          {
-             AdvancedMogreFramework.Singleton.m_TrayMgr.setListener(state);
-             AdvancedMogreFramework.Singleton.m_RenderWnd.ResetStatistics();
+             GameManager.Singleton.mTrayMgr.setListener(state);
+             GameManager.Singleton.mRenderWnd.ResetStatistics();
          }
          protected List<AppState> m_ActiveStateStack=new List<AppState>();
          protected List<state_info> m_States=new List<state_info>();

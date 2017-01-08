@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using Mogre;
 using MOIS;
+using AMOFGameEngine.Dialogs;
 
 namespace AMOFGameEngine
 {
@@ -12,8 +13,6 @@ namespace AMOFGameEngine
         static void Main(string[] args)
         {
             Application.Run(new ConfigFrm());
-            //DemoApp app = new DemoApp();
-            //app.startDemo();
         }
     }
 }

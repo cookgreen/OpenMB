@@ -11,7 +11,7 @@ using Mogre;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.Utilities;
 
-namespace AMOFGameEngine
+namespace AMOFGameEngine.Dialogs
 {
     public partial class ConfigFrm : Form
     {

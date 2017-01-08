@@ -57,24 +57,24 @@ namespace AMOFGameEngine
 
         public override void enter()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Entering SinbadState...");
-            AdvancedMogreFramework.LastStateName = "SinbadState";
-            m_SceneMgr = AdvancedMogreFramework.Singleton.m_Root.CreateSceneManager(SceneType.ST_GENERIC, "SinbadSceneMgr");
+            GameManager.Singleton.mLog.LogMessage("Entering SinbadState...");
+            GameManager.LastStateName = "SinbadState";
+            m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(SceneType.ST_GENERIC, "SinbadSceneMgr");
 
             m_Camera = m_SceneMgr.CreateCamera("MainCamera");
-	        AdvancedMogreFramework.Singleton.m_Viewport.Camera=m_Camera;
-            m_Camera.AspectRatio = (float)AdvancedMogreFramework.Singleton.m_Viewport.ActualWidth / (float)AdvancedMogreFramework.Singleton.m_Viewport.ActualHeight;
+	        GameManager.Singleton.mViewport.Camera=m_Camera;
+            m_Camera.AspectRatio = (float)GameManager.Singleton.mViewport.ActualWidth / (float)GameManager.Singleton.mViewport.ActualHeight;
 	        m_Camera.NearClipDistance=5;
 
 	        m_CameraMan = new SdkCameraMan(m_Camera);
 
-            AdvancedMogreFramework.Singleton.m_Mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
-            AdvancedMogreFramework.Singleton.m_Mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
-            AdvancedMogreFramework.Singleton.m_Mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
-            AdvancedMogreFramework.Singleton.m_Keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
-            AdvancedMogreFramework.Singleton.m_Keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
+            GameManager.Singleton.mMouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
+            GameManager.Singleton.mMouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
+            GameManager.Singleton.mMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
+            GameManager.Singleton.mKeyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
+            GameManager.Singleton.mKeyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
 
-            AdvancedMogreFramework.Singleton.m_Root.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(FrameRenderingQueued);
+            GameManager.Singleton.mRoot.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(FrameRenderingQueued);
 
             buildGUI();
 
@@ -85,7 +85,7 @@ namespace AMOFGameEngine
         public void createScene()
         {
             // set background and some fog
-	        AdvancedMogreFramework.Singleton.m_Viewport.BackgroundColour=new ColourValue(1.0f, 1.0f, 0.8f);
+	        GameManager.Singleton.mViewport.BackgroundColour=new ColourValue(1.0f, 1.0f, 0.8f);
 	        m_SceneMgr.SetFog(FogMode.FOG_LINEAR, new ColourValue(1.0f, 1.0f, 0.8f), 0, 15, 100);
 
 	        // set shadow properties
@@ -118,11 +118,11 @@ namespace AMOFGameEngine
 	        // create our character controller
 	        m_Chara = new SinbadCharacterController(m_Camera);
 
-	        AdvancedMogreFramework.Singleton.m_TrayMgr.toggleAdvancedFrameStats();
+	        GameManager.Singleton.mTrayMgr.toggleAdvancedFrameStats();
 
 	        StringVector items=new StringVector();
 	        items.Insert(items.Count,"Help");
-	        ParamsPanel help = AdvancedMogreFramework.Singleton.m_TrayMgr.createParamsPanel(TrayLocation. TL_TOPLEFT, "HelpMessage", 100, items);
+	        ParamsPanel help = GameManager.Singleton.mTrayMgr.createParamsPanel(TrayLocation. TL_TOPLEFT, "HelpMessage", 100, items);
 	        help.setParamValue("Help", "H / F1");
 
             Entity sinbadent = m_Chara.mBodyEnt;
@@ -139,40 +139,42 @@ namespace AMOFGameEngine
             actordesc.GlobalOrientation = sinbadsn.Orientation.ToRotationMatrix();
             actordesc.Name = "Sinbad";
             actordesc.Shapes.Add(new SphereShapeDesc((float)System.Math.Sqrt((double)(sinbadent.BoundingBox.HalfSize * 0.1f).SquaredLength), sinbadent.BoundingBox.Center * 0.1f));
-            if (actordesc.IsValid) ;
+            if (actordesc.IsValid)
+            {
                 Actor actor = scene.CreateActor(actordesc);
+            }
         }
         public override void exit()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Leaving SinbadState...");
+            GameManager.Singleton.mLog.LogMessage("Leaving SinbadState...");
  
             m_SceneMgr.DestroyCamera(m_Camera);
 	        if (m_CameraMan!=null) m_CameraMan=null;
 	
             if(m_SceneMgr!=null)
-                AdvancedMogreFramework.Singleton.m_Root.DestroySceneManager(m_SceneMgr);
+                GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
         }
         public override bool pause()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Pausing SinbadState...");
+            GameManager.Singleton.mLog.LogMessage("Pausing SinbadState...");
             return true;
         }
         public override void resume()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Resuming SinbadState...");
+            GameManager.Singleton.mLog.LogMessage("Resuming SinbadState...");
  
             buildGUI();
 
-            AdvancedMogreFramework.Singleton.m_Viewport.Camera=m_Camera;
+            GameManager.Singleton.mViewport.Camera=m_Camera;
             m_bQuit = false;
         }
 
         void buildGUI()
         {
-            AdvancedMogreFramework.Singleton.m_TrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
-	        AdvancedMogreFramework.Singleton.m_TrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
-	        AdvancedMogreFramework.Singleton.m_TrayMgr.createLabel(TrayLocation.TL_TOP, "GameLbl", "Game mode", 250);
-	        AdvancedMogreFramework.Singleton.m_TrayMgr.showCursor();
+            GameManager.Singleton.mTrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
+	        GameManager.Singleton.mTrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
+	        GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "GameLbl", "Game mode", 250);
+	        GameManager.Singleton.mTrayMgr.showCursor();
 
 
             // create a params panel for displaying sample details
@@ -189,7 +191,7 @@ namespace AMOFGameEngine
 	        items.Insert(items.Count,"Filtering");
 	        items.Insert(items.Count,"Poly Mode");
 
-            m_DetailsPanel = AdvancedMogreFramework.Singleton.m_TrayMgr.createParamsPanel(TrayLocation.TL_NONE, "DetailsPanel", 200, items);
+            m_DetailsPanel = GameManager.Singleton.mTrayMgr.createParamsPanel(TrayLocation.TL_NONE, "DetailsPanel", 200, items);
 	        m_DetailsPanel.hide();
 
 	        m_DetailsPanel.setParamValue(9, "Bilinear");
@@ -198,8 +200,8 @@ namespace AMOFGameEngine
 
         public bool keyPressed(KeyEvent evt)
         {
-            if (!AdvancedMogreFramework.Singleton.m_TrayMgr.isDialogVisible()) m_Chara.injectKeyDown(evt);
-	        if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_ESCAPE))
+            if (!GameManager.Singleton.mTrayMgr.isDialogVisible()) m_Chara.injectKeyDown(evt);
+	        if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_ESCAPE))
             {
                 pushAppState(findByName("PauseState"));
                 return true;
@@ -207,26 +209,26 @@ namespace AMOFGameEngine
 
 	        if (evt.key == KeyCode.KC_H || evt.key == KeyCode.KC_F1)   // toggle visibility of help dialog
 			{
-				if (!AdvancedMogreFramework.Singleton.m_TrayMgr.isDialogVisible() && mInfo["Help"] != "") AdvancedMogreFramework.Singleton.m_TrayMgr.showOkDialog("Help", mInfo["Help"]);
-				else AdvancedMogreFramework.Singleton.m_TrayMgr.closeDialog();
+				if (!GameManager.Singleton.mTrayMgr.isDialogVisible() && mInfo["Help"] != "") GameManager.Singleton.mTrayMgr.showOkDialog("Help", mInfo["Help"]);
+				else GameManager.Singleton.mTrayMgr.closeDialog();
 			}
 
-			if (AdvancedMogreFramework.Singleton.m_TrayMgr.isDialogVisible()) return true;   // don't process any more keys if dialog is up
+			if (GameManager.Singleton.mTrayMgr.isDialogVisible()) return true;   // don't process any more keys if dialog is up
 
 			if (evt.key == KeyCode.KC_F)   // toggle visibility of advanced frame stats
 			{
-				AdvancedMogreFramework.Singleton.m_TrayMgr.toggleAdvancedFrameStats();
+				GameManager.Singleton.mTrayMgr.toggleAdvancedFrameStats();
 			}
 			else if (evt.key == KeyCode.KC_G)   // toggle visibility of even rarer debugging details
 			{
 				if (m_DetailsPanel.getTrayLocation() == TrayLocation.TL_NONE)
 				{
-					AdvancedMogreFramework.Singleton.m_TrayMgr.moveWidgetToTray(m_DetailsPanel, TrayLocation.TL_TOPRIGHT, 0);
+					GameManager.Singleton.mTrayMgr.moveWidgetToTray(m_DetailsPanel, TrayLocation.TL_TOPRIGHT, 0);
 					m_DetailsPanel.show();
 				}
 				else
 				{
-					AdvancedMogreFramework.Singleton.m_TrayMgr.removeWidgetFromTray(m_DetailsPanel);
+					GameManager.Singleton.mTrayMgr.removeWidgetFromTray(m_DetailsPanel);
 					m_DetailsPanel.hide();
 				}
 			}
@@ -294,7 +296,7 @@ namespace AMOFGameEngine
 			}
 			else if (evt.key == KeyCode.KC_SYSRQ)   // take a screenshot
 			{
-                AdvancedMogreFramework.Singleton.m_RenderWnd.WriteContentsToTimestampedFile("screenshot", ".png");
+                GameManager.Singleton.mRenderWnd.WriteContentsToTimestampedFile("screenshot", ".png");
 			}
 
 			m_CameraMan.injectKeyDown(evt);
@@ -304,14 +306,14 @@ namespace AMOFGameEngine
         {
             m_Chara.injectKeyUp(keyEventRef);
 	        m_CameraMan.injectKeyUp(keyEventRef);
-            AdvancedMogreFramework.Singleton.keyPressed(keyEventRef);
+            GameManager.Singleton.keyPressed(keyEventRef);
             return true;
         }
 
         public bool mouseMoved(MouseEvent arg)
         {
-            if (!AdvancedMogreFramework.Singleton.m_TrayMgr.isDialogVisible()) m_Chara.injectMouseMove(arg);
-            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseMove(arg)) return true;
+            if (!GameManager.Singleton.mTrayMgr.isDialogVisible()) m_Chara.injectMouseMove(arg);
+            if (GameManager.Singleton.mTrayMgr.injectMouseMove(arg)) return true;
 	        m_CameraMan.injectMouseMove(arg);
   
             return true;
@@ -319,13 +321,13 @@ namespace AMOFGameEngine
         public bool mousePressed(MouseEvent arg, MouseButtonID id)
         {
             // relay input events to character controller
-	        if (!AdvancedMogreFramework.Singleton.m_TrayMgr.isDialogVisible()) m_Chara.injectMouseDown(arg, id);
-	        if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseDown(arg, id)) return true;
+	        if (!GameManager.Singleton.mTrayMgr.isDialogVisible()) m_Chara.injectMouseDown(arg, id);
+	        if (GameManager.Singleton.mTrayMgr.injectMouseDown(arg, id)) return true;
             
 	        if (m_DragLook && id == MouseButtonID.MB_Left)
 	        {
 		        m_CameraMan.setStyle(CameraStyle.CS_FREELOOK);
-                AdvancedMogreFramework.Singleton.m_TrayMgr.hideCursor();
+                GameManager.Singleton.mTrayMgr.hideCursor();
 	        }
 
             m_CameraMan.injectMouseDown(arg, id);
@@ -333,12 +335,12 @@ namespace AMOFGameEngine
         }
         public bool mouseReleased(MouseEvent arg, MouseButtonID id)
         {
-            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseUp(arg, id)) return true;
+            if (GameManager.Singleton.mTrayMgr.injectMouseUp(arg, id)) return true;
             
 	        if (m_DragLook && id == MouseButtonID.MB_Left)
 	        {
 		        m_CameraMan.setStyle(CameraStyle.CS_MANUAL);
-                AdvancedMogreFramework.Singleton.m_TrayMgr.showCursor();
+                GameManager.Singleton.mTrayMgr.showCursor();
 	        }
             if (m_CameraMan != null)
             {
@@ -370,7 +372,7 @@ namespace AMOFGameEngine
 
 	        //m_pChara.addTime((float)timeSinceLastFrame);
 
-            AdvancedMogreFramework.Singleton.m_TrayMgr.frameRenderingQueued(m_FrameEvent);
+            GameManager.Singleton.mTrayMgr.frameRenderingQueued(m_FrameEvent);
 
             if(m_bQuit == true)
             {
@@ -378,7 +380,7 @@ namespace AMOFGameEngine
                 return;
             }
  
-	        if (!AdvancedMogreFramework.Singleton.m_TrayMgr.isDialogVisible())
+	        if (!GameManager.Singleton.mTrayMgr.isDialogVisible())
 	        {
 		        m_CameraMan.frameRenderingQueued(m_FrameEvent);   // if dialog isn't up, then update the camera
 

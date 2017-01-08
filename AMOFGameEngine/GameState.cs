@@ -18,6 +18,14 @@ namespace AMOFGameEngine
     };
     class GameState : AppState
     {
+        OgreCharacter ogrec;
+        ExCamera excamera;
+        CharacterListener cl;
+        protected bool mForward = false;
+        protected bool mBackward = false;
+        protected bool mLeft = false;
+        protected bool mRight = false;
+
         public GameState()
         {
             m_MoveSpeed = 0.1f;
@@ -33,39 +41,36 @@ namespace AMOFGameEngine
 
         public override void enter()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Entering GameState...");
-            AdvancedMogreFramework.LastStateName = "GameState";
-            m_SceneMgr=AdvancedMogreFramework.Singleton.m_Root.CreateSceneManager(SceneType.ST_GENERIC, "GameSceneMgr");
-            ColourValue cvAmbineLight=new ColourValue(0.7f,0.7f,0.7f);
-            m_SceneMgr.AmbientLight=cvAmbineLight;//(Ogre::ColourValue(0.7f, 0.7f, 0.7f));
- 
-            Ray r=new Ray();
-            m_RSQ = m_SceneMgr.CreateRayQuery(r);
-            m_RSQ.QueryMask=1<<0;
- 
-            m_Camera = m_SceneMgr.CreateCamera("GameCamera");
-            Mogre.Vector3 vectCameraPostion=new Mogre.Vector3(5,60,60);
-            m_Camera.Position=vectCameraPostion;
-            Mogre.Vector3 vectorCameraLookAt=new Mogre.Vector3(5,20,0);
-            m_Camera.LookAt(vectorCameraLookAt);
-            m_Camera.NearClipDistance=5;
- 
-            m_Camera.AspectRatio=AdvancedMogreFramework.Singleton.m_Viewport.ActualWidth / AdvancedMogreFramework.Singleton.m_Viewport.ActualHeight;
+            GameManager.Singleton.mLog.LogMessage("Entering GameState...");
+            GameManager.LastStateName = "GameState";
+            m_SceneMgr=GameManager.Singleton.mRoot.CreateSceneManager(SceneType.ST_GENERIC, "GameSceneMgr");
+                
+            m_SceneMgr.DestroyAllCameras();
+            GameManager.Singleton.mRenderWnd.RemoveAllViewports();
 
-            AdvancedMogreFramework.Singleton.m_Viewport.Camera=m_Camera;
-            m_CurrentObject = null;
+            ogrec = new OgreCharacter("ogrehead", m_SceneMgr);
+            excamera = new ExCamera("ogreheadcam", m_SceneMgr, null);
 
- 
+            excamera.getCamera().NearClipDistance = 5;
+            GameManager.Singleton.mViewport = GameManager.Singleton.mRenderWnd.AddViewport(excamera.getCamera());
+            excamera.getCamera() .AspectRatio = GameManager.Singleton.mViewport.ActualWidth / GameManager.Singleton.mViewport.ActualHeight;
+
+            cl = new CharacterListener();
+            cl.setCharacter(ogrec);
+            cl.setExtendedCamera(excamera);
+            cl.mMode = ExCamera.Mode.Fixed;
+
             buildGUI();
  
             createScene();
         }
         public void createScene()
         {
+
             Mogre.Vector3 vectLightPos=new Mogre.Vector3(75,75,75);
             m_SceneMgr.CreateLight("Light").Position = vectLightPos;//(75, 75, 75);
 
-            DotSceneLoader pDotSceneLoader = new DotSceneLoader();
+            /*DotSceneLoader pDotSceneLoader = new DotSceneLoader();
             pDotSceneLoader.ParseDotScene("CubeScene.xml", "General", m_SceneMgr, m_SceneMgr.RootSceneNode);
             pDotSceneLoader=null;
 
@@ -85,36 +90,36 @@ namespace AMOFGameEngine
             ColourValue cvAmbinet = new Mogre.ColourValue(1, 0, 0);
             m_pOgreHeadMatHigh.GetTechnique(0).GetPass(0).Ambient = cvAmbinet;
             ColourValue cvDiffuse = new Mogre.ColourValue(1, 0, 0,0);
-            m_pOgreHeadMatHigh.GetTechnique(0).GetPass(0).Diffuse = cvDiffuse;
+            m_pOgreHeadMatHigh.GetTechnique(0).GetPass(0).Diffuse = cvDiffuse;*/
         }
         public override void exit()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Leaving GameState...");
+            GameManager.Singleton.mLog.LogMessage("Leaving GameState...");
 
             if(m_SceneMgr!=null)
-                m_SceneMgr.DestroyCamera(m_Camera);
+                //m_SceneMgr.DestroyCamera(m_Camera);
                 m_SceneMgr.DestroyQuery(m_RSQ);
-                AdvancedMogreFramework.Singleton.m_Root.DestroySceneManager(m_SceneMgr);
+                GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
         }
         public override bool pause()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Pausing GameState...");
+            GameManager.Singleton.mLog.LogMessage("Pausing GameState...");
  
             return true;
         }
         public override void resume()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Resuming GameState...");
+            GameManager.Singleton.mLog.LogMessage("Resuming GameState...");
  
             buildGUI();
 
-            AdvancedMogreFramework.Singleton.m_Viewport.Camera=m_Camera;
+            GameManager.Singleton.mViewport.Camera=m_Camera;
             m_bQuit = false;
         }
  
 	    public void moveCamera()
         {
-                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_LSHIFT))
+                if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
                     m_Camera.MoveRelative(m_TranslateVector);
                 m_Camera.MoveRelative(m_TranslateVector / 10);
         }
@@ -123,42 +128,42 @@ namespace AMOFGameEngine
             if(m_bSettingsMode == false)
             {
                 Angle angleCameraRoll;
-                if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_A))
-                    m_TranslateVector.x = -10;
+                if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_A))
+                    //m_TranslateVector.x = -10;
  
-                if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_D))
-                    m_TranslateVector.x = 10;
+                if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_D))
+                   // m_TranslateVector.x = 10;
  
-                if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_W))
-                    m_TranslateVector.z = -10;
+                if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_W))
+                    //m_TranslateVector.z = -10;
  
-                if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_S))
-                    m_TranslateVector.z = 10;
+                if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_S))
+                    //m_TranslateVector.z = 10;
  
-                if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_Q))
-                    m_TranslateVector.y = -10;
+                if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_Q))
+                    //m_TranslateVector.y = -10;
  
-                if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_E))
-                    m_TranslateVector.y = 10;
+                if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_E))
+                    //m_TranslateVector.y = 10;
  
         //camera roll
-                if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_Z))
-                    m_Camera.Roll(angleCameraRoll=new Angle(-10));
+                if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_Z))
+                    //m_Camera.Roll(angleCameraRoll=new Angle(-10));
  
-                if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_X))
-                    m_Camera.Roll(angleCameraRoll=new Angle(10));
+                if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_X))
+                    //m_Camera.Roll(angleCameraRoll=new Angle(10));
  
         //reset roll
-                if (AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_C))
+                if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_C))
                     m_Camera.Roll(-(m_Camera.RealOrientation.Roll));
             }
         }
         public void buildGUI()
         {
-            AdvancedMogreFramework.Singleton.m_TrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createLabel(TrayLocation.TL_TOP, "GameLbl", LocateSystem.CreateLocateString("11161225"), 250);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.showCursor();
+            GameManager.Singleton.mTrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
+            GameManager.Singleton.mTrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
+            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "GameLbl", LocateSystem.CreateLocateString("11161225"), 250);
+            GameManager.Singleton.mTrayMgr.showCursor();
  
             List<string> items=new List<string>();
             items.Insert(items.Count, LocateSystem.CreateLocateString("11161226"));
@@ -170,105 +175,128 @@ namespace AMOFGameEngine
             items.Insert(items.Count, LocateSystem.CreateLocateString("11161232"));
             items.Insert(items.Count, LocateSystem.CreateLocateString("11161233"));
 
-            m_pDetailsPanel = AdvancedMogreFramework.Singleton.m_TrayMgr.createParamsPanel(TrayLocation.TL_TOPLEFT, "DetailsPanel", 200, items.ToArray());
+            m_pDetailsPanel = GameManager.Singleton.mTrayMgr.createParamsPanel(TrayLocation.TL_TOPLEFT, "DetailsPanel", 200, items.ToArray());
             m_pDetailsPanel.show();
 
             string infoText = LocateSystem.CreateLocateString("11161234");
             infoText.Insert(infoText.Length, LocateSystem.CreateLocateString("11161235"));
             infoText.Insert(infoText.Length,LocateSystem.CreateLocateString("11161236"));
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createTextBox(TrayLocation.TL_RIGHT, "InfoPanel", infoText, 300, 220);
+            GameManager.Singleton.mTrayMgr.createTextBox(TrayLocation.TL_RIGHT, "InfoPanel", infoText, 300, 220);
  
             StringVector chatModes=new StringVector();
             chatModes.Insert(chatModes.Count, LocateSystem.CreateLocateString("11161237"));
             chatModes.Insert(chatModes.Count, LocateSystem.CreateLocateString("11161238"));
             chatModes.Insert(chatModes.Count, LocateSystem.CreateLocateString("11161239"));
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createLongSelectMenu(TrayLocation.TL_TOPRIGHT, "ChatModeSelMenu", LocateSystem.CreateLocateString("11161240"), 200, 3, chatModes);
+            GameManager.Singleton.mTrayMgr.createLongSelectMenu(TrayLocation.TL_TOPRIGHT, "ChatModeSelMenu", LocateSystem.CreateLocateString("11161240"), 200, 3, chatModes);
 
-            AdvancedMogreFramework.Singleton.m_Mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
-            AdvancedMogreFramework.Singleton.m_Mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
-            AdvancedMogreFramework.Singleton.m_Mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
-            AdvancedMogreFramework.Singleton.m_Keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
-            AdvancedMogreFramework.Singleton.m_Keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
+            GameManager.Singleton.mMouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
+            GameManager.Singleton.mMouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
+            GameManager.Singleton.mMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
+            GameManager.Singleton.mKeyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
+            GameManager.Singleton.mKeyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
+
+            GameManager.Singleton.mRoot.FrameStarted += new FrameListener.FrameStartedHandler(frameStarted);
+        }
+
+        bool frameStarted(FrameEvent evt)
+        {
+            ogrec.Forward(mForward);
+            ogrec.Backward(mBackward);
+            ogrec.Left(mLeft);
+            ogrec.Right(mRight);
+
+            cl.Update(evt.timeSinceLastFrame);
+            return true;
         }
 
         public bool keyPressed(KeyEvent keyEventRef)
         {
             if(m_bSettingsMode == true)
             {
-                if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_S))
+                if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_S))
                 {
-                    SelectMenu pMenu = (SelectMenu)AdvancedMogreFramework.Singleton.m_TrayMgr.getWidget("ChatModeSelMenu");
+                    SelectMenu pMenu = (SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("ChatModeSelMenu");
                     if(pMenu.getSelectionIndex() + 1 < (int)pMenu.getNumItems())
                         pMenu.selectItem((uint)pMenu.getSelectionIndex() + 1);
                 }
  
-                if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_W))
+                if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_W))
                 {
-                    SelectMenu pMenu = (SelectMenu)AdvancedMogreFramework.Singleton.m_TrayMgr.getWidget("ChatModeSelMenu");
+                    SelectMenu pMenu = (SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("ChatModeSelMenu");
                     if(pMenu.getSelectionIndex() - 1 >= 0)
                         pMenu.selectItem((uint)pMenu.getSelectionIndex() - 1);
                 }
              }
  
-            if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_ESCAPE))
+            if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_ESCAPE))
             {
                 pushAppState(findByName("PauseState"));
                 return true;
             }
  
-            if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_I))
+            if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_I))
             {
                 if(m_pDetailsPanel.getTrayLocation() == TrayLocation.TL_NONE)
                 {
-                    AdvancedMogreFramework.Singleton.m_TrayMgr.moveWidgetToTray(m_pDetailsPanel, TrayLocation.TL_TOPLEFT, 0);
+                    GameManager.Singleton.mTrayMgr.moveWidgetToTray(m_pDetailsPanel, TrayLocation.TL_TOPLEFT, 0);
                     m_pDetailsPanel.show();
                 }
                 else
                 {
-                    AdvancedMogreFramework.Singleton.m_TrayMgr.removeWidgetFromTray(m_pDetailsPanel);
+                    GameManager.Singleton.mTrayMgr.removeWidgetFromTray(m_pDetailsPanel);
                     m_pDetailsPanel.hide();
                 }
             }
  
-            if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_TAB))
+            if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_TAB))
             {
                 m_bSettingsMode = !m_bSettingsMode;
                 return true;
             }
  
-            if(m_bSettingsMode && AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_RETURN) ||
-                AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_NUMPADENTER))
+            if(m_bSettingsMode && GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_RETURN) ||
+                GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_NUMPADENTER))
             {
             }
- 
-            if(!m_bSettingsMode || (m_bSettingsMode && !AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(KeyCode.KC_O)))
-                AdvancedMogreFramework.Singleton.keyPressed(keyEventRef);
+
+
+            if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_W))
+                mForward = true;
+            else if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_D))
+                mBackward = true;
+            else if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_A))
+                mLeft = true;
+            else if (GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_S))
+                mRight = true;
+
+                if (!m_bSettingsMode || (m_bSettingsMode && !GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_O)))
+                    GameManager.Singleton.keyPressed(keyEventRef);
  
                 return true;
         }
         public bool keyReleased(KeyEvent keyEventRef)
         {
-            AdvancedMogreFramework.Singleton.keyPressed(keyEventRef);
+            GameManager.Singleton.keyPressed(keyEventRef);
             return true;
         }
 
         public bool mouseMoved(MouseEvent evt)
         {
-            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseMove(evt)) return true;
+            if (GameManager.Singleton.mTrayMgr.injectMouseMove(evt)) return true;
  
             if(m_bRMouseDown)
             {
                 Degree deCameraYaw = new Degree(evt.state.X.rel * -0.1f);
-                m_Camera.Yaw(deCameraYaw);
+                excamera.getCamera() .Yaw(deCameraYaw);
                 Degree deCameraPitch = new Degree(evt.state.Y.rel * -0.1f);
-                m_Camera.Pitch(deCameraPitch);
+                excamera.getCamera().Pitch(deCameraPitch);
             }
  
             return true;
         }
         public bool mousePressed(MouseEvent evt, MouseButtonID id)
         {
-            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseDown(evt, id)) return true;
+            if (GameManager.Singleton.mTrayMgr.injectMouseDown(evt, id)) return true;
  
             if(id == MouseButtonID.MB_Left)
             {
@@ -284,7 +312,7 @@ namespace AMOFGameEngine
         }
 	    public bool mouseReleased(MouseEvent evt, MouseButtonID id)
         {
-            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseUp(evt, id)) return true;
+            if (GameManager.Singleton.mTrayMgr.injectMouseUp(evt, id)) return true;
  
             if(id == MouseButtonID.MB_Left)
             {
@@ -303,15 +331,14 @@ namespace AMOFGameEngine
             if(m_CurrentObject!=null)
             {
                 m_CurrentObject.ShowBoundingBox=false;
-                m_CurrentEntity.GetSubEntity(1).SetMaterial(m_pOgreHeadMat);
             }
  
-            Ray mouseRay = m_Camera.GetCameraToViewportRay(AdvancedMogreFramework.Singleton.m_Mouse.MouseState.X.abs / (float)evt.state.width,
+            /*Ray mouseRay = m_Camera.GetCameraToViewportRay(AdvancedMogreFramework.Singleton.m_Mouse.MouseState.X.abs / (float)evt.state.width,
             AdvancedMogreFramework.Singleton.m_Mouse.MouseState.Y.abs / (float)evt.state.height);
-            m_RSQ.Ray=mouseRay;
+            m_RSQ.Ray=mouseRay;*/
             //m_pRSQ.SortByDistance=true;
  
-            RaySceneQueryResult result = m_RSQ.Execute();
+            /*RaySceneQueryResult result = m_RSQ.Execute();
  
             foreach(RaySceneQueryResultEntry itr in result)
             {
@@ -322,10 +349,9 @@ namespace AMOFGameEngine
                     AdvancedMogreFramework.Singleton.m_Log.LogMessage("ObjName " + m_CurrentObject.Name);
                     m_CurrentObject.ShowBoundingBox=true;
                     m_CurrentEntity = m_SceneMgr.GetEntity(itr.movable.Name);
-                    m_CurrentEntity.GetSubEntity(1).SetMaterial(m_pOgreHeadMatHigh);
                     break;
                 }
-            }
+            }*/
         }
         public override void itemSelected(SelectMenu menu)
         {
@@ -343,9 +369,9 @@ namespace AMOFGameEngine
         public override void update(double timeSinceLastFrame)
         {
             m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
-            if (AdvancedMogreFramework.Singleton.m_TrayMgr != null)
+            if (GameManager.Singleton.mTrayMgr != null)
             {
-                AdvancedMogreFramework.Singleton.m_TrayMgr.frameRenderingQueued(m_FrameEvent);
+                GameManager.Singleton.mTrayMgr.frameRenderingQueued(m_FrameEvent);
             }
  
             if(m_bQuit == true)
@@ -353,7 +379,7 @@ namespace AMOFGameEngine
                 popAppState();
                 return;
             }
-            if (AdvancedMogreFramework.Singleton.m_TrayMgr != null)
+            /*if (AdvancedMogreFramework.Singleton.m_TrayMgr != null)
             {
                 if (!AdvancedMogreFramework.Singleton.m_TrayMgr.isDialogVisible())
                 {
@@ -372,20 +398,25 @@ namespace AMOFGameEngine
                             m_pDetailsPanel.setParamValue(7, "Un-Buffered Input");
                     }
                 }
-            }
+            }*/
  
             m_MoveScale = m_MoveSpeed   * (float)timeSinceLastFrame;
             m_RotScale  = m_RotateSpeed * (float)timeSinceLastFrame;
  
             m_TranslateVector = Mogre.Vector3.ZERO;
- 
-            getInput();
-            moveCamera();
+
+            /*if (ogrec != null)
+            {
+                ogrec.update((float)timeSinceLastFrame, AdvancedMogreFramework.Singleton.m_Keyboard);
+                if (excamera != null)
+                {
+                    excamera.update(ogrec.getCameranode()._getDerivedPosition(), ogrec.getSightNode()._getDerivedPosition());
+                }
+            }*/
+
+            //getInput();
+            //moveCamera();
         }
-        SceneNode m_pOgreHeadNode;
-        Entity m_pOgreHeadEntity;
-        MaterialPtr m_pOgreHeadMat;
-        MaterialPtr m_pOgreHeadMatHigh;
 
         ParamsPanel m_pDetailsPanel;
         bool m_bQuit;

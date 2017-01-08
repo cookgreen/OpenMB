@@ -19,17 +19,17 @@ namespace AMOFGameEngine
         }
         public override void enter()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Entering MenuState...");
+            GameManager.Singleton.mLog.LogMessage("Entering MenuState...");
             m_bQuit = false;
 
-            if (AdvancedMogreFramework.Singleton.ogg == null)
+            if (GameManager.Singleton.ogg == null)
             {
-                AdvancedMogreFramework.Singleton.ogg = new OggSound();
-                AdvancedMogreFramework.Singleton.ogg.OggFileName = @"./vivaldi_winter_allegro.ogg";
-                AdvancedMogreFramework.Singleton.ogg.PlayOgg();
+                GameManager.Singleton.ogg = new OggSound();
+                GameManager.Singleton.ogg.OggFileName = @"./vivaldi_winter_allegro.ogg";
+                GameManager.Singleton.ogg.PlayOgg();
             }
 
-            m_SceneMgr = AdvancedMogreFramework.Singleton.m_Root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
+            m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
 
             ColourValue cvAmbineLight=new ColourValue(0.7f,0.7f,0.7f);
             m_SceneMgr.AmbientLight=cvAmbineLight;
@@ -40,72 +40,72 @@ namespace AMOFGameEngine
             m_Camera.LookAt(vectorCameraLookat);
             m_Camera.NearClipDistance=1;//setNearClipDistance(1);
  
-            m_Camera.AspectRatio=AdvancedMogreFramework.Singleton.m_Viewport.ActualWidth / AdvancedMogreFramework.Singleton.m_Viewport.ActualHeight;
+            m_Camera.AspectRatio=GameManager.Singleton.mViewport.ActualWidth / GameManager.Singleton.mViewport.ActualHeight;
  
-            AdvancedMogreFramework.Singleton.m_Viewport.Camera=m_Camera;
+            GameManager.Singleton.mViewport.Camera=m_Camera;
 
-            AdvancedMogreFramework.Singleton.m_TrayMgr.destroyAllWidgets();
-            AdvancedMogreFramework.Singleton.m_TrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.showCursor();
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", LocateSystem.CreateLocateString("11161220"), 250);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "EnterBtn", LocateSystem.CreateLocateString("11161221"), 250);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "EnterSinbadBtn", LocateSystem.CreateLocateString("11161222"), 250);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "EnterPhysxBtn", LocateSystem.CreateLocateString("11161223"), 250);
-            AdvancedMogreFramework.Singleton.m_TrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", LocateSystem.CreateLocateString("11161224"), 250);
+            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+            GameManager.Singleton.mTrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
+            GameManager.Singleton.mTrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
+            GameManager.Singleton.mTrayMgr.showCursor();
+            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", LocateSystem.CreateLocateString("11161220"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "EnterBtn", LocateSystem.CreateLocateString("11161221"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "EnterSinbadBtn", LocateSystem.CreateLocateString("11161222"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "EnterPhysxBtn", LocateSystem.CreateLocateString("11161223"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", LocateSystem.CreateLocateString("11161224"), 250);
 
-            AdvancedMogreFramework.Singleton.m_Mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
-            AdvancedMogreFramework.Singleton.m_Mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
-            AdvancedMogreFramework.Singleton.m_Mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
-            AdvancedMogreFramework.Singleton.m_Keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
-            AdvancedMogreFramework.Singleton.m_Keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
+            GameManager.Singleton.mMouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
+            GameManager.Singleton.mMouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
+            GameManager.Singleton.mMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
+            GameManager.Singleton.mKeyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
+            GameManager.Singleton.mKeyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
             createScene();
         }
         public void createScene()
         { }
         public override void exit()
         {
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Leaving MenuState...");
+            GameManager.Singleton.mLog.LogMessage("Leaving MenuState...");
  
             m_SceneMgr.DestroyCamera(m_Camera);
             if(m_SceneMgr!=null)
-                AdvancedMogreFramework.Singleton.m_Root.DestroySceneManager(m_SceneMgr);
+                GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
 
-            AdvancedMogreFramework.Singleton.m_TrayMgr.clearAllTrays();
-            AdvancedMogreFramework.Singleton.m_TrayMgr.destroyAllWidgets();
-            AdvancedMogreFramework.Singleton.m_TrayMgr.setListener(null);
+            GameManager.Singleton.mTrayMgr.clearAllTrays();
+            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+            GameManager.Singleton.mTrayMgr.setListener(null);
         }
 
         public bool keyPressed(KeyEvent keyEventRef)
         {
-            if(AdvancedMogreFramework.Singleton.m_Keyboard.IsKeyDown(MOIS.KeyCode.KC_ESCAPE))
+            if(GameManager.Singleton.mKeyboard.IsKeyDown(MOIS.KeyCode.KC_ESCAPE))
             {
                 m_bQuit = true;
                 return true;
             }
 
-            AdvancedMogreFramework.Singleton.keyPressed(keyEventRef);
+            GameManager.Singleton.keyPressed(keyEventRef);
             return true;
         }
         public bool keyReleased(KeyEvent keyEventRef)
         {
-            AdvancedMogreFramework.Singleton.keyReleased(keyEventRef);
+            GameManager.Singleton.keyReleased(keyEventRef);
             return true;
         }
 
         public bool mouseMoved(MouseEvent evt)
         {
-            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseMove(evt)) return true;
+            if (GameManager.Singleton.mTrayMgr.injectMouseMove(evt)) return true;
             return true;
         }
         public bool mousePressed(MouseEvent evt, MouseButtonID id)
         {
-            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseDown(evt, id)) return true;
+            if (GameManager.Singleton.mTrayMgr.injectMouseDown(evt, id)) return true;
             return true;
         }
         public bool mouseReleased(MouseEvent evt, MouseButtonID id)
         {
-            if (AdvancedMogreFramework.Singleton.m_TrayMgr.injectMouseUp(evt, id)) return true;
+            if (GameManager.Singleton.mTrayMgr.injectMouseUp(evt, id)) return true;
             return true;
         }
 
@@ -124,7 +124,7 @@ namespace AMOFGameEngine
         public override void update(double timeSinceLastFrame)
         {
             m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
-            AdvancedMogreFramework.Singleton.m_TrayMgr.frameRenderingQueued(m_FrameEvent);
+            GameManager.Singleton.mTrayMgr.frameRenderingQueued(m_FrameEvent);
  
             if(m_bQuit == true)
             {

@@ -17,11 +17,13 @@ namespace AMOFGameEngine
 
         public void startDemo()
         {
-            AdvancedMogreFramework amf=new AdvancedMogreFramework();
-            if (!AdvancedMogreFramework.Singleton.initOgre("AMOFGameEngine Demo"))
+            GameManager amf=new GameManager();
+            if (!GameManager.Singleton.initOgre("AMOFGameEngine Demo"))
 		        return;
+            if (!GameManager.Singleton.initGame())
+                return;
 
-            AdvancedMogreFramework.Singleton.m_Log.LogMessage("Demo initialized!");
+            GameManager.Singleton.mLog.LogMessage("Demo initialized!");
  
 	        m_pAppStateManager = new AppStateManager();
 

@@ -99,6 +99,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CharacterListener.cs" />
+    <Compile Include="ExCamera.cs" />
     <Compile Include="Forms\ConfigFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,7 +112,7 @@
     <Compile Include="AdvancedMogreFramework.cs" />
     <Compile Include="AppState.cs" />
     <Compile Include="AppStateManager.cs" />
-    <Compile Include="Role.cs" />
+    <Compile Include="Character.cs" />
     <Compile Include="Sound\OggSound.cs" />
     <Compile Include="Utilities\ConfigNode.cs" />
     <Compile Include="PhysxState.cs" />
@@ -139,7 +141,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
