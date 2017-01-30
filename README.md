@@ -1,4 +1,5 @@
 # AMOFGameEngine
+<img src=http://www.gnu.org/graphics/gplv3-127x51.png />
 
 ## Introduction:
 A game engine based on AdvancedMogreFramework
@@ -24,4 +25,4 @@ A game engine based on AdvancedMogreFramework
 * Accord.NET(AI;LGPL)  
 
 ## License:
-LGPL+GPLv2+Ms-PL
+GPLv3
