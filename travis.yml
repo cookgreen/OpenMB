@@ -1,0 +1,3 @@
+language C#
+xcode_project AMOFGameEngine/AMOFGameEngine.csproj
+xcode_scheme AMOFGameEngineUnitTest
