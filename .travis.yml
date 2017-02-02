@@ -1,3 +1,2 @@
 language: csharp
-xcode_project: AMOFGameEngine/AMOFGameEngine.csproj
-xcode_scheme: AMOFGameEngineUnitTest
+solution: AMOFGameEngine.sln
