@@ -8,17 +8,31 @@ using Mogre;
 
 namespace AMOFGameEngine.Utilities
 {
-    class ConfigFileAdapter
+    class OgreConfigFileAdapter
     {
         private static string filename;
         private static StreamWriter sw;
         private static bool IsRSWrite;
-        public ConfigFileAdapter(string fileName)
+        public OgreConfigFileAdapter(string fileName)
         {
             filename = fileName;
         }
+        public string getDefaultRS()
+        {
+            StreamReader sr = new StreamReader(filename);
+            while (sr.Peek() >= 0)
+            {
+                string line = sr.ReadLine();
+                string[] temp = line.Split('=');
+                if (temp[0] == "Render System")
+                {
+                    return temp[1];
+                }
+            }
+            return null;
+        }
 
-        public static void saveConfig(ConfigNode s,NameValuePairList p,string defaultRS="") 
+        public static void saveConfig(OgreConfigNode s,NameValuePairList p,string defaultRS="") 
         {
             if(sw==null)
             {
@@ -44,21 +58,9 @@ namespace AMOFGameEngine.Utilities
                sw.Flush();
           }
 
-        public bool IsSection(string data)
+        public OgreConfigNode getConfigNode(string section)
         {
-            if (Regex.IsMatch(data, @"\\[\\]"))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public ConfigNode getConfigNode(string section)
-        {
-            ConfigNode cfn = new ConfigNode();
+            OgreConfigNode cfn = new OgreConfigNode();
 
             using (StreamReader sr = new StreamReader(filename))
             {

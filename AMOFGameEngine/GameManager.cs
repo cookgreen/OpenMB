@@ -39,8 +39,8 @@ namespace AMOFGameEngine
             public string section;
         }
         nvlsection ns;
-        ConfigNode s;
-        List<ConfigNode> sl = new List<ConfigNode>();
+        OgreConfigNode s;
+        List<OgreConfigNode> sl = new List<OgreConfigNode>();
         
         public GameManager()
         {

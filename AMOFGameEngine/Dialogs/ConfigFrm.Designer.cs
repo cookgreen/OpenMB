@@ -93,6 +93,7 @@
             // 
             // cmbValueChange
             // 
+            this.cmbValueChange.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbValueChange.Enabled = false;
             this.cmbValueChange.FormattingEnabled = true;
             this.cmbValueChange.Location = new System.Drawing.Point(209, 179);
@@ -139,7 +140,7 @@
             // 
             // cmbSubRenderSys
             // 
-            this.cmbSubRenderSys.DisplayMember = "sssssss";
+            this.cmbSubRenderSys.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSubRenderSys.FormattingEnabled = true;
             this.cmbSubRenderSys.Location = new System.Drawing.Point(119, 14);
             this.cmbSubRenderSys.Name = "cmbSubRenderSys";
