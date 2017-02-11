@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Mogre;
 using MOIS;
@@ -12,7 +13,7 @@ using AMOFGameEngine.Utilities;
 
 namespace AMOFGameEngine
 {
-    class GameManager 
+    class GameManager : IDisposable
     {
         public Root mRoot;
         public RenderWindow mRenderWnd;
@@ -30,17 +31,9 @@ namespace AMOFGameEngine
 
         public OggSound ogg;
 
-        private NameValuePairList nvl;
-        private List<nvlsection> nvll;
         private string defaultRS;
-        private struct nvlsection
-        {
-            public NameValuePairList nvl;
-            public string section;
-        }
-        nvlsection ns;
-        OgreConfigNode s;
-        List<OgreConfigNode> sl = new List<OgreConfigNode>();
+        OgreConfigFileAdapter cfa;
+        List<OgreConfigNode> ogreConfigs=new List<OgreConfigNode>();
         
         public GameManager()
         {
@@ -54,36 +47,9 @@ namespace AMOFGameEngine
             mKeyboard = null;
             mMouse = null;
             mTrayMgr = null;
-            nvl = new NameValuePairList();
-            nvll = new List<nvlsection>();
-            ns = new nvlsection();
-         }
-        private void ReadSettingsFromConfig(ConfigFile cf,string filename)
-        {
-            String secName;
-            cf.Load(filename, "\t:=", true);
 
-            ConfigFile.SectionIterator seci = cf.GetSectionIterator();
-            while (seci.MoveNext())
-            {
-                secName = seci.CurrentKey;
-                ConfigFile.SettingsMultiMap settings = seci.Current;
-                foreach (KeyValuePair<string, string> pair in settings)
-                {
-                    s.section = secName;
-                    s.settings = settings;
-                    nvl[pair.Key] = pair.Value;
-                    if(pair.Key=="Render System" && !string.IsNullOrEmpty(pair.Value))
-                    {
-                        defaultRS = pair.Value;
-                    }
-                }
-                sl.Add(s);
-                ns.nvl = nvl;
-                ns.section = secName;
-                nvll.Add(ns);
-            }
-        }
+            cfa = new OgreConfigFileAdapter("./ogre.cfg");
+         }
         public bool initOgre(String wndTitle)
         {
             LogManager logMgr = new LogManager();
@@ -93,22 +59,27 @@ namespace AMOFGameEngine
  
             mRoot = new Root();
 
-            ConfigFile cfo=new ConfigFile();
-            ReadSettingsFromConfig(cfo, "ogre.cfg");
-
-            RenderSystem rs = mRoot.GetRenderSystemByName(defaultRS);
-            for (int i = 0; i < sl.Count;i++ )
+            RenderSystem rs = null; ;
+            ogreConfigs = cfa.ReadConfigData();
+            defaultRS = cfa.GetDefaultRenderSystem();
+            if (!string.IsNullOrEmpty(defaultRS))
             {
-                if (!string.IsNullOrEmpty(sl[i].section) && sl[i].section == defaultRS)
+                rs = mRoot.GetRenderSystemByName(defaultRS);
+            }
+            if (rs != null)
+            {
+                OgreConfigNode node = ogreConfigs.Where(o=>o.Section==defaultRS).First();
+                if (!string.IsNullOrEmpty(node.Section))
                 {
-                    foreach (KeyValuePair<string, string> p in sl[i].settings)
+
+                    foreach (KeyValuePair<string, string> kpl in node.Settings)
                     {
-                        rs.SetConfigOption(p.Key, p.Value);
+                        rs.SetConfigOption(kpl.Key, kpl.Value);
                     }
                 }
+                mRoot.RenderSystem = rs;
             }
-            mRoot.RenderSystem = rs;
-               mRenderWnd = mRoot.Initialise(true, wndTitle);
+            mRenderWnd = mRoot.Initialise(true, wndTitle);
  
             mViewport = mRenderWnd.AddViewport(null);
             ColourValue cv=new ColourValue(0.5f,0.5f,0.5f);
@@ -231,6 +202,13 @@ namespace AMOFGameEngine
                 }
                 return instance;
             }
+        }
+
+        public void Dispose()
+        {
+            mRoot.Dispose();
+            mTrayMgr.Dispose();
+            m_pTimer.Dispose();
         }
     }
 }

@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -35,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>OgreHead.ico</ApplicationIcon>
@@ -117,7 +118,6 @@
     <Compile Include="AppStateManager.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Sound\OggSound.cs" />
-    <Compile Include="Utilities\OgreConfigNode.cs" />
     <Compile Include="PhysxState.cs" />
     <Compile Include="SinbadState.cs" />
     <Compile Include="DemoApp.cs" />
@@ -131,6 +131,7 @@
     <Compile Include="Models\StaticMeshData.cs" />
     <Compile Include="Utilities\OgreConfigFileAdapter.cs" />
     <Compile Include="Localization\LocateUCSFile.cs" />
+    <Compile Include="Utilities\OgreConfigNode.cs" />
     <EmbeddedResource Include="Dialogs\ConfigFrm.resx">
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </EmbeddedResource>

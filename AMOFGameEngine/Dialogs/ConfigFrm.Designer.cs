@@ -39,11 +39,11 @@
             this.lblRenderSys = new System.Windows.Forms.Label();
             this.cmbSubRenderSys = new System.Windows.Forms.ComboBox();
             this.gbRenderOpt = new System.Windows.Forms.GroupBox();
-            this.lstConfigOpt = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.cmbLanguageSelect = new System.Windows.Forms.ComboBox();
             this.lblLang = new System.Windows.Forms.Label();
+            this.lstConfig = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tbRenderOpt.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -150,23 +150,13 @@
             // 
             // gbRenderOpt
             // 
-            this.gbRenderOpt.Controls.Add(this.lstConfigOpt);
+            this.gbRenderOpt.Controls.Add(this.lstConfig);
             this.gbRenderOpt.Location = new System.Drawing.Point(8, 39);
             this.gbRenderOpt.Name = "gbRenderOpt";
             this.gbRenderOpt.Size = new System.Drawing.Size(440, 134);
             this.gbRenderOpt.TabIndex = 1;
             this.gbRenderOpt.TabStop = false;
             this.gbRenderOpt.Text = "Render System Options";
-            // 
-            // lstConfigOpt
-            // 
-            this.lstConfigOpt.FormattingEnabled = true;
-            this.lstConfigOpt.ItemHeight = 12;
-            this.lstConfigOpt.Location = new System.Drawing.Point(12, 20);
-            this.lstConfigOpt.Name = "lstConfigOpt";
-            this.lstConfigOpt.Size = new System.Drawing.Size(414, 100);
-            this.lstConfigOpt.TabIndex = 0;
-            this.lstConfigOpt.SelectedIndexChanged += new System.EventHandler(this.lstConfigOpt_SelectedIndexChanged);
             // 
             // tabPage2
             // 
@@ -211,6 +201,16 @@
             this.lblLang.TabIndex = 0;
             this.lblLang.Text = "Language:";
             // 
+            // lstConfig
+            // 
+            this.lstConfig.FormattingEnabled = true;
+            this.lstConfig.ItemHeight = 12;
+            this.lstConfig.Location = new System.Drawing.Point(6, 20);
+            this.lstConfig.Name = "lstConfig";
+            this.lstConfig.Size = new System.Drawing.Size(428, 100);
+            this.lstConfig.TabIndex = 0;
+            this.lstConfig.SelectedIndexChanged += new System.EventHandler(this.lstConfig_SelectedIndexChanged);
+            // 
             // ConfigFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -246,10 +246,10 @@
         private System.Windows.Forms.Label lblRenderSys;
         private System.Windows.Forms.ComboBox cmbSubRenderSys;
         private System.Windows.Forms.GroupBox gbRenderOpt;
-        private System.Windows.Forms.ListBox lstConfigOpt;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.ComboBox cmbLanguageSelect;
         private System.Windows.Forms.Label lblLang;
+        private System.Windows.Forms.ListBox lstConfig;
     }
 }

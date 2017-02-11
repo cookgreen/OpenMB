@@ -14,10 +14,10 @@ namespace AMOFGameEngine.Sound
         OGGS_PAUSE
     }
 
-    class OggSound
+    class OggSound :IDisposable
     {
-        private NAudio.Vorbis.VorbisWaveReader _vorbis;
-        private NAudio.Wave.WaveOut _waveout;
+        private NAudio.Vorbis.VorbisWaveReader vorbis;
+        private NAudio.Wave.WaveOut waveout;
         private string _oggfilename;
         public string OggFileName
         {
@@ -40,34 +40,40 @@ namespace AMOFGameEngine.Sound
         }
         public OggSound()
         {
-            _waveout = null;
-            _vorbis = null;
+            waveout = null;
+            vorbis = null;
             _oggstatus = (int)OGGSTATUS.OGGS_STOP;
         }
         public void PlayOgg()
         {
-            _vorbis = new NAudio.Vorbis.VorbisWaveReader(_oggfilename);
-            _waveout = new NAudio.Wave.WaveOut();
-            _waveout.Init(_vorbis);
-            _waveout.Play();
+            vorbis = new NAudio.Vorbis.VorbisWaveReader(_oggfilename);
+            waveout = new NAudio.Wave.WaveOut();
+            waveout.Init(vorbis);
+            waveout.Play();
             _oggstatus = (int)OGGSTATUS.OGGS_PLAYING;
 
         }
         public void PauseOgg()
         {
-            if (_waveout != null && _vorbis != null)
+            if (waveout != null && vorbis != null)
             {
-                _waveout.Pause();
+                waveout.Pause();
                 _oggstatus = (int)OGGSTATUS.OGGS_PAUSE;
             }
         }
         public void StopOgg()
         {
-            if (_waveout != null && _vorbis != null)
+            if (waveout != null && vorbis != null)
             {
-                _waveout.Stop();
+                waveout.Stop();
                 _oggstatus = (int)OGGSTATUS.OGGS_STOP;
             }
+        }
+
+        public void Dispose()
+        {
+            vorbis.Dispose();
+            waveout.Dispose();
         }
     }
 }

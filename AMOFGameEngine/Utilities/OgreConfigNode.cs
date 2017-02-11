@@ -2,36 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Mogre;
 
 namespace AMOFGameEngine.Utilities
 {
-    public struct OgreConfigNode
+    class OgreConfigNode
     {
-        private ConfigFile.SettingsMultiMap _settings;
-        public ConfigFile.SettingsMultiMap settings
+        private string section;
+
+        public string Section
         {
-            get
-            {
-                return _settings;
-            }
-            set
-            {
-                _settings = value;
-            }
+            get { return section; }
+            set { section = value; }
         }
 
-        private string _section;
-        public string section
+        private Dictionary<string, string> settings;
+
+        public Dictionary<string, string> Settings
         {
-            get
-            {
-                return _section;
-            }
-            set
-            {
-                _section = value;
-            }
+            get { return settings; }
+            set { settings = value; }
+        }
+        public OgreConfigNode()
+        {
+            settings = new Dictionary<string, string>();
         }
     }
 }

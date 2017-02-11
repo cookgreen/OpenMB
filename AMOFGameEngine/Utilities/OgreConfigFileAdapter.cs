@@ -5,69 +5,92 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using Mogre;
+using System.Windows.Forms;
 
 namespace AMOFGameEngine.Utilities
 {
     class OgreConfigFileAdapter
     {
         private static string filename;
-        private static StreamWriter sw;
-        private static bool IsRSWrite;
+        private List<OgreConfigNode> ogreconfigs;
+
         public OgreConfigFileAdapter(string fileName)
         {
             filename = fileName;
         }
-        public string getDefaultRS()
+
+        public List<OgreConfigNode> ReadConfigData()//Read Config Data to list
         {
-            StreamReader sr = new StreamReader(filename);
-            while (sr.Peek() >= 0)
+            List<OgreConfigNode> settings = new List<OgreConfigNode>();
+
+            string secName;
+            ConfigFile cf = new ConfigFile();
+
+            cf.Load(filename, "\t:=", true);
+            ConfigFile.SectionIterator seci = cf.GetSectionIterator();
+            while (seci.MoveNext())
             {
-                string line = sr.ReadLine();
-                string[] temp = line.Split('=');
-                if (temp[0] == "Render System")
+                secName = seci.CurrentKey;
+                OgreConfigNode configNode = new OgreConfigNode();
+                configNode.Section = secName;
+                ConfigFile.SettingsMultiMap settings2 = seci.Current; ;
+
+                foreach (KeyValuePair<string, string> pv in settings2)
                 {
-                    return temp[1];
+                    configNode.Settings[pv.Key] = pv.Value;
                 }
+                settings.Add(configNode);
             }
-            return null;
+            ogreconfigs = settings;
+            return settings;
         }
 
-        public static void saveConfig(OgreConfigNode s,NameValuePairList p,string defaultRS="") 
+        public string GetDefaultRenderSystem()//Get Default Render System
         {
-            if(sw==null)
+            OgreConfigNode node = ogreconfigs.Where(o => o.Section == "" && o.Settings.ContainsKey("Render System")).First();
+            if (node != null)
             {
-                sw = new StreamWriter(filename,true);
+                string defaultRenderSystem = node.Settings["Render System"];
+                return defaultRenderSystem;
             }
-               if (defaultRS != "")
-               {
-                   if (!IsRSWrite)
-                   {
-                       sw.WriteLine("\n" + "Render System=" + defaultRS + "\n\n");
-                       IsRSWrite = true;
-                   }
-               }
-               ConfigFile.SettingsMultiMap smm = s.settings;
-               if (s.section.Length > 0)
-               {
-                   sw.WriteLine("\n" + "[" + s.section + "]" + "\n");
-                   foreach (KeyValuePair<string, string> pd in smm)
-                   {
-                       sw.WriteLine(pd.Key + "=" + p[pd.Key] + "\n");
-                   }
-               }
-               sw.Flush();
-          }
-
-        public OgreConfigNode getConfigNode(string section)
+            else
+            {
+                return null;
+            }
+        }
+        public void SaveConfig(List<OgreConfigNode> configSettings)//Save Config File
         {
-            OgreConfigNode cfn = new OgreConfigNode();
-
-            using (StreamReader sr = new StreamReader(filename))
+            using (StreamWriter sw = new StreamWriter(filename))
             {
+                foreach (OgreConfigNode singleSetting in configSettings)
+                {
+                    if (!string.IsNullOrEmpty(singleSetting.Section))
+                    {
+                        sw.WriteLine("\n" + "[" + singleSetting.Section + "]" + "\n");
+                    }
+                    Dictionary<string,string> settings = singleSetting.Settings;
+                    foreach (KeyValuePair<string, string> pd in settings)
+                    {
+                        sw.WriteLine(pd.Key + "=" + pd.Value + "\n");
+                    }
+                }
+                sw.Flush();
             }
-
-            return cfn;
         }
 
+        public OgreConfigNode GetConfigNodeBySection(string section)//Get Settings under section given and save them to OgreConfigNode
+        {
+            OgreConfigNode setting;
+
+            setting = ogreconfigs.Where(o => o.Section == section).First();
+            if (setting != null)
+            {
+                return setting;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

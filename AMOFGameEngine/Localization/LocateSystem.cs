@@ -97,5 +97,76 @@ namespace AMOFGameEngine.Localization
                     return 0;
             }
         }
+        public LOCATE CovertIndexToLocateInfo(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return LOCATE.en;
+                case 1:
+                    return LOCATE.cns;
+                case 2:
+                    return LOCATE.cnt;
+                case 3:
+                    return LOCATE.de;
+                case 4:
+                    return LOCATE.fr;
+                case 5:
+                    return LOCATE.ja;
+                default:
+                    return LOCATE.en;
+            }
+        }
+        public string CovertLocateInfoStringToReadableString(string locate)
+        {
+            switch (locate)
+            {
+                case "en":
+                    return "English";
+                case "cns":
+                    return "Simple Chinese";
+                case "cnt":
+                    return "Traditional Chinese";
+                case "de":
+                    return "German";
+                case "fr":
+                    return "French";
+                case "ja":
+                    return "Japanese";
+                default:
+                    return "English";
+            }
+        }
+        public void SaveLanguageSettingsToFIle(int index)
+        {
+            try
+            {
+                if (!File.Exists(path))
+                {
+                    File.CreateText(path);
+                }
+                using (StreamWriter sw = new StreamWriter(path))
+                {
+                    string tmpw;
+                    FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    using (StreamReader sr = new StreamReader(fs))
+                    {
+                        string tmpr = sr.ReadLine();
+                        tmpw = tmpr;
+                        sr.Close();
+                    }
+                    if (CovertLocateInfoStringToReadableString(tmpw) != index.ToString())
+                    {
+                        sw.BaseStream.Seek(0, SeekOrigin.Begin);
+                        sw.Write(CovertIndexToLocateInfo(index));
+                    }
+                    sw.Flush();
+                    sw.Close();
+                }
+            }
+            catch (Exception e)
+            {
+            }
+        }
     }
 }

@@ -22,10 +22,10 @@ namespace AMOFGameEngine.Dialogs
         private static extern int GetPrivateProfileString(string section, string key, string def, System.Text.StringBuilder retVal, int size, string filePath);
 
         Root r=new Root();
-        List<OgreConfigNode> OgreConfigs = new List<OgreConfigNode>();
-        List<NameValuePairList> pl = new List<NameValuePairList>();
-        NameValuePairList paramTemp;
-        private OgreConfigNode OgreConfig;
+
+        LOCATE selectedlocate;
+        LocateSystem ls = new LocateSystem();
+        List<OgreConfigNode> ogreConfigs = new List<OgreConfigNode>();
         OgreConfigFileAdapter cfa = new OgreConfigFileAdapter("./ogre.cfg");
 
         string path = "./language.txt";
@@ -35,7 +35,7 @@ namespace AMOFGameEngine.Dialogs
         }
         private void ConfigFrm_Load(object sender, EventArgs e)
         {
-            LOCATE selectedlocate = LocateSystem.getLanguageFromFile();
+            selectedlocate = LocateSystem.getLanguageFromFile();
             if (selectedlocate != LOCATE.invalid)
             {
                 cmbLanguageSelect.SelectedIndex = LocateSystem.CovertLocateInfoToIndex(selectedlocate);
@@ -53,159 +53,65 @@ namespace AMOFGameEngine.Dialogs
                 gbRenderOpt.Text = LocateSystem.CreateLocateString("22161222");
             }
 
-            string secName;
-            ConfigFile cf = new ConfigFile();
+            ogreConfigs = cfa.ReadConfigData();
 
-            cf.Load("ogre.cfg", "\t:=", true);
-            ConfigFile.SectionIterator seci = cf.GetSectionIterator();
-            while (seci.MoveNext())
+            foreach (OgreConfigNode node in ogreConfigs)
             {
-                secName = seci.CurrentKey;
-                if (!string.IsNullOrEmpty(secName))
+                if (!string.IsNullOrEmpty(node.Section))
                 {
-                    cmbSubRenderSys.Items.Add(secName);
-
-                    ConfigFile.SettingsMultiMap settings = seci.Current; ;
-                    OgreConfigNode s=new OgreConfigNode();
-                    s.settings = settings;
-                    s.section = secName;
-                    OgreConfigs.Add(s);
-                    paramTemp = new NameValuePairList();
-                    foreach (KeyValuePair<string,string> pv in settings)
-                    {
-                        paramTemp[pv.Key] = pv.Value;
-                    }
-                    pl.Add(paramTemp);
+                    cmbSubRenderSys.Items.Add(node.Section);
                 }
             }
-
-            StringBuilder renderSystem = new StringBuilder(500);
-            GetPrivateProfileString("Direct3D9 Rendering Subsystem", "Full Screen", "", renderSystem, 100, @".\ogre.cfg");
-            string defaultRS = cfa.getDefaultRS();
-            if (!string.IsNullOrEmpty(defaultRS))
+            string defaultRenderSystem = cfa.GetDefaultRenderSystem();
+            if (!string.IsNullOrEmpty(defaultRenderSystem))
             {
-                cmbSubRenderSys.SelectedItem = defaultRS;
+                cmbSubRenderSys.SelectedItem = defaultRenderSystem;
             }
-
         }
 
         private void cmbSubRenderSys_SelectedIndexChanged(object sender, EventArgs e)
         {
             btnOK.Enabled = true;
-            InsetSettingsByIndex(cmbSubRenderSys.SelectedIndex);
+            InsetSettingsByIndex();
         }
 
-        private void InsetSettingsByIndex(int index)
+        private void InsetSettingsByIndex()
         {
-            OgreConfig = OgreConfigs[index];
-            ConfigFile.SettingsMultiMap p = OgreConfig.settings;
-            lstConfigOpt.Items.Clear();
-            foreach(KeyValuePair<string,string> ps in p)
+            lstConfig.Items.Clear();
+            string selectedSubRenderSys=cmbSubRenderSys.SelectedItem.ToString();
+            IEnumerable<OgreConfigNode> filterNode = ogreConfigs.Where(o=>o.Section==selectedSubRenderSys);
+
+            foreach( KeyValuePair<string,string> kpl in filterNode.First().Settings )
             {
-                pl[index][ps.Key] = ps.Value;
-                lstConfigOpt.Items.Add(ps.Key+":"+ps.Value);
+                string singleSetting = kpl.Key + ":" + kpl.Value;
+                lstConfig.Items.Add(singleSetting);
             }
-            
         }
 
-        private void lstConfigOpt_SelectedIndexChanged(object sender, EventArgs e)
+        private void lstConfig_SelectedIndexChanged(object sender, EventArgs e)
         {
             cmbValueChange.Enabled = true;
-            InsertAvaliableValueByIndex(lstConfigOpt.SelectedIndex,OgreConfig.section);
+            InsertAvaliableValueByIndex(cmbSubRenderSys.SelectedItem.ToString());
         }
 
-        private void InsertAvaliableValueByIndex(int KeyIndex,string secName)
+        private void InsertAvaliableValueByIndex(string secName)
         {
             cmbValueChange.Items.Clear();
-            string[] tempStrs = lstConfigOpt.SelectedItem.ToString().Split(':');
-            ConfigOptionMap configOptionMap=r.GetRenderSystemByName(secName).GetConfigOptions();
-            OgreConfigNode sn = OgreConfigs[cmbSubRenderSys.SelectedIndex];
-            ConfigFile.SettingsMultiMap p = sn.settings;
-            KeyValuePair<string, string> pi = p.ElementAt(KeyIndex);
-            string Key = pi.Key;
-            switch(Key)
-            {
-                case "Allow NVPerfHUD":
-                    foreach(string psv in configOptionMap[Key].possibleValues)
-                    {
-                        cmbValueChange.Items.Add(psv);
-                    }
-                    break;
-                case "FSAA":
-                    foreach (string psv in configOptionMap[Key].possibleValues)
-                    {
-                        cmbValueChange.Items.Add(psv);
-                    }
-                    break;
-                case "Floating-point mode":
-                    foreach (string psv in configOptionMap[Key].possibleValues)
-                    {
-                        cmbValueChange.Items.Add(psv);
-                    }
-                    break;
-                case "Rendering Device":
-                    foreach (string psv in configOptionMap[Key].possibleValues)
-                    {
-                        cmbValueChange.Items.Add(psv);
-                    }
-                    break;
-                case "Full Screen":
-                    foreach (string psv in configOptionMap[Key].possibleValues)
-                    {
-                        cmbValueChange.Items.Add(psv);
-                    }
-                    break;
-                case "Resource Creation Policy":
-                    foreach (string psv in configOptionMap[Key].possibleValues)
-                    {
-                        cmbValueChange.Items.Add(psv);
-                    }
-                    break;
-                case "VSync":
-                    foreach (string psv in configOptionMap[Key].possibleValues)
-                    {
-                        cmbValueChange.Items.Add(psv);
-                    }
-                    break;
-                case "VSync Interval":
-                    foreach (string psv in configOptionMap[Key].possibleValues)
-                    {
-                        cmbValueChange.Items.Add(psv);
-                    }
-                    break;
-                case "Video Mode":
-                    foreach (string psv in configOptionMap[Key].possibleValues)
-                    {
-                        cmbValueChange.Items.Add(psv);
-                    }
-                    break;
-                case "sRGB Gamma Conversion":
-                    foreach (string psv in configOptionMap[Key].possibleValues)
-                    {
-                        cmbValueChange.Items.Add(psv);
-                    }
-                    break;
-                case "Colour Depth":
-                    foreach (string psv in configOptionMap[Key].possibleValues)
-                    {
-                        cmbValueChange.Items.Add(psv);
-                    }
-                    break;
-                case "Display Frequency":
-                    foreach (string psv in configOptionMap[Key].possibleValues)
-                    {
-                        cmbValueChange.Items.Add(psv);
-                    }
-                    break;
-                case "RTT Preferred Mode":
-                    foreach (string psv in configOptionMap[Key].possibleValues)
-                    {
-                        cmbValueChange.Items.Add(psv);
-                    }
-                    break;
 
+            string[] tempStrs = lstConfig.SelectedItem.ToString().Split(':');
+            ConfigOptionMap configOptionMap=r.GetRenderSystemByName(secName).GetConfigOptions();
+
+            IEnumerable<OgreConfigNode> filterNodes = ogreConfigs.Where(o => o.Section == secName);
+            OgreConfigNode currentNode = filterNodes.First();
+            Dictionary<string, string> currentSettings = currentNode.Settings;
+            Dictionary<string, string>.KeyCollection keys=currentSettings.Keys;
+            IEnumerable<string> selectedKey=  keys.Where(o => o == tempStrs[0]);
+            string currentKey = selectedKey.First();
+
+            foreach (string psv in configOptionMap[currentKey].possibleValues)
+            {
+                cmbValueChange.Items.Add(psv);
             }
-            cmbValueChange.SelectedItem = tempStrs[1];
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -215,116 +121,51 @@ namespace AMOFGameEngine.Dialogs
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            SaveLanguageSettingsToFIle();
-            ApplyChange();
+            ls.SaveLanguageSettingsToFIle(cmbLanguageSelect.SelectedIndex);
+            cfa.SaveConfig(ogreConfigs);
             this.Close();
             
             DemoApp app = new DemoApp();
             app.startDemo();
         }
-        private void ApplyChange()
-        {
-            if (File.Exists("ogre.cfg"))
-                File.Delete("ogre.cfg");
-            OgreConfigFileAdapter cfa = new OgreConfigFileAdapter("ogre.cfg");
-            for (int i = 0; i < OgreConfigs.Count;i++ )
-            {
-                OgreConfigFileAdapter.saveConfig(OgreConfigs[i],pl[i],cmbSubRenderSys.SelectedItem.ToString());
-            }
-        }
 
         private void cmbValueChange_SelectedIndexChanged(object sender, EventArgs e)
         {
-            UpdateValueToConfigLst(cmbValueChange.SelectedIndex,OgreConfigs[cmbSubRenderSys.SelectedIndex].section);
+            UpdateValueToListBox(cmbSubRenderSys.SelectedItem.ToString());
         }
-        private void UpdateValueToConfigLst(int ValueIndex, string secName)
+        private void UpdateValueToListBox(string secName)
         {
-            OgreConfigNode sn = OgreConfigs.Where(o => o.section == secName).First();
-            ConfigFile.SettingsMultiMap p = sn.settings;
-            KeyValuePair<string, string> pi = p.ElementAt(lstConfigOpt.SelectedIndex);
-            pl[cmbSubRenderSys.SelectedIndex][pi.Key] = cmbValueChange.SelectedItem.ToString();
+            try
+            {
+                OgreConfigNode configNode = ogreConfigs.Where(o => o.Section == secName).First();
+                Dictionary<string, string> settings = configNode.Settings;
+                KeyValuePair<string, string> pi = settings.ElementAt(lstConfig.SelectedIndex);
+                string[] tempStrs = lstConfig.SelectedItem.ToString().Split(':');
+                settings[tempStrs[0]]=cmbValueChange.SelectedItem.ToString();
+                lstConfig.Items.Clear();
 
-            lstConfigOpt.Items.Clear();
-            foreach(KeyValuePair<string,string> psb in p)
-            {
-                lstConfigOpt.Items.Add(psb.Key + ":" + pl[cmbSubRenderSys.SelectedIndex][psb.Key]);
+                foreach (KeyValuePair<string, string> kpl in settings)
+                {
+                    string singleSetting = kpl.Key + ":" + kpl.Value;
+                    lstConfig.Items.Add(singleSetting);
+                }
+                OgreConfigNode newConfigNode = new OgreConfigNode();
+                newConfigNode.Section = configNode.Section;
+                newConfigNode.Settings = settings;
+                int indeDeleted=ogreConfigs.IndexOf(configNode);
+                ogreConfigs.Remove(configNode);
+                ogreConfigs.Insert(indeDeleted, newConfigNode);
             }
-        }
-        private LOCATE CovertIndexToLocateInfo(int index)
-        {
-            switch (index)
+            catch (Exception ex)
             {
-                case 0:
-                    return LOCATE.en;
-                case 1:
-                    return LOCATE.cns;
-                case 2:
-                    return LOCATE.cnt;
-                case 3:
-                    return LOCATE.de;
-                case 4:
-                    return LOCATE.fr;
-                case 5:
-                    return LOCATE.ja;
-                default:
-                    return LOCATE.en;
-            }
-        }
-        private string CovertLocateInfoStringToReadableString(string locate)
-        {
-            switch (locate)
-            {
-                case "en":
-                    return "English";
-                case "cns":
-                    return "Simple Chinese";
-                case "cnt":
-                    return "Traditional Chinese";
-                case "de":
-                    return "German";
-                case "fr":
-                    return "French";
-                case "ja":
-                    return "Japanese";
-                default:
-                    return "English";
+                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.StackTrace);
             }
         }
         private void cmbLanguageSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
-        private void SaveLanguageSettingsToFIle()
-        {
-            try
-            {
-                if (!File.Exists(path))
-                {
-                    File.CreateText(path);
-                }
-                using (StreamWriter sw = new StreamWriter(path))
-                {
-                    string tmpw;
-                    FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                    using (StreamReader sr = new StreamReader(fs))
-                    {
-                        string tmpr = sr.ReadLine();
-                        tmpw = tmpr;
-                        sr.Close();
-                    }
-                    if (CovertLocateInfoStringToReadableString(tmpw) != (string)cmbLanguageSelect.SelectedItem)
-                    {
-                        sw.BaseStream.Seek(0, SeekOrigin.Begin);
-                        sw.Write(CovertIndexToLocateInfo(cmbLanguageSelect.SelectedIndex));
-                    }
-                    sw.Flush();
-                    sw.Close();
-                }
-            }
-            catch(Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
-        }
+        
 
     }
 }
