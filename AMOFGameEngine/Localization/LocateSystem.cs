@@ -6,7 +6,7 @@ using System.IO;
 
 namespace AMOFGameEngine.Localization
 {
-    enum LOCATE
+    public enum LOCATE
     {
         invalid,//Invalid
         en,//English
@@ -16,26 +16,29 @@ namespace AMOFGameEngine.Localization
         fr,//French
         ja//Japanese
     }
-    class LocateSystem
+
+    public class LocateSystem
     {
-        private LocateUCSFile ucs;
-        private static LOCATE __locate;
+        private static LOCATE locate;
         private static string path="./language.txt";
         public static bool IsInit;
+
         public LocateSystem()
         {
         }
+
         public static bool InitLocateSystem(LOCATE CurrentLocate)
         {
-            __locate = CurrentLocate;
+            locate = CurrentLocate;
             LocateUCSFile.PrepareUCSFile();
-            if (LocateUCSFile.ProcessUCSFile("GameStrings.ucs", __locate) && LocateUCSFile.ProcessUCSFile("GameUI.ucs", __locate))
+            if (LocateUCSFile.ProcessUCSFile("GameStrings.ucs", locate) && LocateUCSFile.ProcessUCSFile("GameUI.ucs", locate))
             {
                 return true;
             }
             else
                 return false;
         }
+
         public static string CreateLocateString(string ID)
         {
             string res = LocateUCSFile.SeekValueByKey(ID);
@@ -46,7 +49,8 @@ namespace AMOFGameEngine.Localization
             else
                 return null;
         }
-        public static LOCATE getLanguageFromFile()
+
+        public static LOCATE GetLanguageFromFile()
         {
             string locate;
             if (!File.Exists(path))
@@ -77,6 +81,7 @@ namespace AMOFGameEngine.Localization
                     return LOCATE.invalid;
             }
         }
+
         public static int CovertLocateInfoToIndex(LOCATE locate)
         {
             switch (locate)
@@ -97,6 +102,7 @@ namespace AMOFGameEngine.Localization
                     return 0;
             }
         }
+
         public LOCATE CovertIndexToLocateInfo(int index)
         {
             switch (index)
@@ -117,6 +123,7 @@ namespace AMOFGameEngine.Localization
                     return LOCATE.en;
             }
         }
+
         public string CovertLocateInfoStringToReadableString(string locate)
         {
             switch (locate)
@@ -137,35 +144,30 @@ namespace AMOFGameEngine.Localization
                     return "English";
             }
         }
+
         public void SaveLanguageSettingsToFIle(int index)
         {
-            try
+            if (!File.Exists(path))
             {
-                if (!File.Exists(path))
-                {
-                    File.CreateText(path);
-                }
-                using (StreamWriter sw = new StreamWriter(path))
-                {
-                    string tmpw;
-                    FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                    using (StreamReader sr = new StreamReader(fs))
-                    {
-                        string tmpr = sr.ReadLine();
-                        tmpw = tmpr;
-                        sr.Close();
-                    }
-                    if (CovertLocateInfoStringToReadableString(tmpw) != index.ToString())
-                    {
-                        sw.BaseStream.Seek(0, SeekOrigin.Begin);
-                        sw.Write(CovertIndexToLocateInfo(index));
-                    }
-                    sw.Flush();
-                    sw.Close();
-                }
+                File.CreateText(path);
             }
-            catch (Exception e)
+            using (StreamWriter sw = new StreamWriter(path))
             {
+                string tmpw;
+                FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    string tmpr = sr.ReadLine();
+                    tmpw = tmpr;
+                    sr.Close();
+                }
+                if (CovertLocateInfoStringToReadableString(tmpw) != index.ToString())
+                {
+                    sw.BaseStream.Seek(0, SeekOrigin.Begin);
+                    sw.Write(CovertIndexToLocateInfo(index));
+                }
+                sw.Flush();
+                sw.Close();
             }
         }
     }

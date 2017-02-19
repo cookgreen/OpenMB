@@ -127,7 +127,6 @@ namespace AMOFGameEngine
         {
             if(m_bSettingsMode == false)
             {
-                Angle angleCameraRoll;
                 if(GameManager.Singleton.mKeyboard.IsKeyDown(KeyCode.KC_A))
                     //m_TranslateVector.x = -10;
  
@@ -429,7 +428,6 @@ namespace AMOFGameEngine
 
         RaySceneQuery m_RSQ;
         SceneNode m_CurrentObject;
-        Entity m_CurrentEntity;
         bool m_bRMouseDown,m_bLMouseDown;
         bool m_bSettingsMode;
     }

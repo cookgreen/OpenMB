@@ -18,9 +18,9 @@ namespace AMOFGameEngine
         public void startDemo()
         {
             GameManager amf=new GameManager();
-            if (!GameManager.Singleton.initOgre("AMOFGameEngine Demo"))
+            if (!GameManager.Singleton.InitOgre("AMOFGameEngine Demo"))
 		        return;
-            if (!GameManager.Singleton.initGame())
+            if (!GameManager.Singleton.InitGame())
                 return;
 
             GameManager.Singleton.mLog.LogMessage("Demo initialized!");

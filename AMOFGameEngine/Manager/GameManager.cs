@@ -19,7 +19,7 @@ namespace AMOFGameEngine
         public RenderWindow mRenderWnd;
         public Viewport mViewport;
         public Log mLog;
-        public Timer m_pTimer;
+        public Timer mTimer;
 
         public MOIS.InputManager mInputMgr;
         public Keyboard mKeyboard;
@@ -34,14 +34,26 @@ namespace AMOFGameEngine
         private string defaultRS;
         OgreConfigFileAdapter cfa;
         List<OgreConfigNode> ogreConfigs=new List<OgreConfigNode>();
-        
+        public static GameManager instance;
+        public static GameManager Singleton
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new GameManager();
+                }
+                return instance;
+            }
+        }
+
         public GameManager()
         {
             mRoot = null;
             mRenderWnd = null;
             mViewport = null;
             mLog = null;
-            m_pTimer = null;
+            mTimer = null;
 
             mInputMgr = null;
             mKeyboard = null;
@@ -50,7 +62,8 @@ namespace AMOFGameEngine
 
             cfa = new OgreConfigFileAdapter("./ogre.cfg");
          }
-        public bool initOgre(String wndTitle)
+
+        public bool InitOgre(String wndTitle)
         {
             LogManager logMgr = new LogManager();
  
@@ -130,19 +143,21 @@ namespace AMOFGameEngine
 
             mTrayMgr = new SdkTrayManager("AMOFTrayMgr", mRenderWnd, mMouse, null);
 
-            m_pTimer = new Timer();
-            m_pTimer.Reset();
+            mTimer = new Timer();
+            mTimer.Reset();
  
             mRenderWnd.IsActive=true;
             return true;
         }
-        public bool initGame()
+
+        public bool InitGame()
         {
             if (!LocateSystem.IsInit)
-                LocateSystem.InitLocateSystem(LocateSystem.getLanguageFromFile());
+                LocateSystem.InitLocateSystem(LocateSystem.GetLanguageFromFile());
             return true;
         }
-        public void updateOgre(double timeSinceLastFrame)
+
+        public void UpdateOgre(double timeSinceLastFrame)
         {
         }
 
@@ -191,24 +206,13 @@ namespace AMOFGameEngine
         {
             return System.Math.Max(System.Math.Min(val, maxval), minval);
         }
-        public static GameManager instance;
-        public static GameManager Singleton
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new GameManager();
-                }
-                return instance;
-            }
-        }
+        
 
         public void Dispose()
         {
             mRoot.Dispose();
             mTrayMgr.Dispose();
-            m_pTimer.Dispose();
+            mTimer.Dispose();
         }
     }
 }

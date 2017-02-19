@@ -26,7 +26,6 @@ namespace AMOFGameEngine
         private Physics physx;
         private Scene scene;
         private List<ActorNode> actornodeList = new List<ActorNode>();
-        private Cloth c;
         public SinbadState()
         {
             m_bQuit = false;

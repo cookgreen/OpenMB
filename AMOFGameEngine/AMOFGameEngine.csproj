@@ -103,8 +103,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CharacterListener.cs" />
-    <Compile Include="ExCamera.cs" />
+    <Compile Include="AI\AStarPathFind.cs" />
+    <Compile Include="Models\CharacterListener.cs" />
+    <Compile Include="Models\ExCamera.cs" />
     <Compile Include="Dialogs\ConfigFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,25 +114,25 @@
     </Compile>
     <Compile Include="Localization\LocateSystem.cs" />
     <Compile Include="Models\ActorNode.cs" />
-    <Compile Include="GameManager.cs" />
-    <Compile Include="AppState.cs" />
-    <Compile Include="AppStateManager.cs" />
-    <Compile Include="Character.cs" />
+    <Compile Include="Manager\GameManager.cs" />
+    <Compile Include="States\AppState.cs" />
+    <Compile Include="Manager\AppStateManager.cs" />
+    <Compile Include="Models\Character.cs" />
     <Compile Include="Sound\OggSound.cs" />
-    <Compile Include="PhysxState.cs" />
-    <Compile Include="SinbadState.cs" />
-    <Compile Include="DemoApp.cs" />
-    <Compile Include="GameState.cs" />
-    <Compile Include="MenuState.cs" />
-    <Compile Include="PauseState.cs" />
+    <Compile Include="States\PhysxState.cs" />
+    <Compile Include="States\SinbadState.cs" />
+    <Compile Include="Application\DemoApp.cs" />
+    <Compile Include="States\GameState.cs" />
+    <Compile Include="States\MenuState.cs" />
+    <Compile Include="States\PauseState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\RMogre.cs" />
     <Compile Include="Models\SinbadCharacterController.cs" />
     <Compile Include="Models\StaticMeshData.cs" />
-    <Compile Include="Utilities\OgreConfigFileAdapter.cs" />
+    <Compile Include="Helper\OgreConfigFileAdapter.cs" />
     <Compile Include="Localization\LocateUCSFile.cs" />
-    <Compile Include="Utilities\OgreConfigNode.cs" />
+    <Compile Include="Helper\OgreConfigNode.cs" />
     <EmbeddedResource Include="Dialogs\ConfigFrm.resx">
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </EmbeddedResource>
@@ -157,7 +158,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AI\" />
     <Folder Include="Network\" />
   </ItemGroup>
   <ItemGroup>

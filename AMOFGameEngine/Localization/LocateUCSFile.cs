@@ -12,10 +12,12 @@ namespace AMOFGameEngine.Localization
     {
         static string path = @"./Locate/";
         static Dictionary<string, string> UCSValueTmp=new Dictionary<string,string>();
+
         public static void PrepareUCSFile()
         {
             UCSValueTmp.Clear();
         }
+
         public static bool ProcessUCSFile(string UCSFileName,LOCATE currentlocate)
         {
             string filepath = path + currentlocate.ToString() + @"/" + UCSFileName;
@@ -36,6 +38,7 @@ namespace AMOFGameEngine.Localization
             else
                 return false;
         }
+
         public static string SeekValueByKey(string ID)
         {
             string result=UCSValueTmp[ID];

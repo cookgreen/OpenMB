@@ -35,7 +35,7 @@ namespace AMOFGameEngine.Dialogs
         }
         private void ConfigFrm_Load(object sender, EventArgs e)
         {
-            selectedlocate = LocateSystem.getLanguageFromFile();
+            selectedlocate = LocateSystem.GetLanguageFromFile();
             if (selectedlocate != LOCATE.invalid)
             {
                 cmbLanguageSelect.SelectedIndex = LocateSystem.CovertLocateInfoToIndex(selectedlocate);

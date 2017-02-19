@@ -72,14 +72,14 @@ namespace AMOFGameEngine
 
                 if (GameManager.Singleton.mRenderWnd.IsActive)
 		        {
-                    startTime = (int)GameManager.Singleton.m_pTimer.MicrosecondsCPU;
+                    startTime = (int)GameManager.Singleton.mTimer.MicrosecondsCPU;
 
-                    timeSinceLastFrame =startTime - (int)GameManager.Singleton.m_pTimer.MillisecondsCPU;
+                    timeSinceLastFrame =startTime - (int)GameManager.Singleton.mTimer.MillisecondsCPU;
 
 			        m_ActiveStateStack.Last().update(timeSinceLastFrame);
                     GameManager.Singleton.mKeyboard.Capture();
                     GameManager.Singleton.mMouse.Capture();
-                    GameManager.Singleton.updateOgre(timeSinceLastFrame);
+                    GameManager.Singleton.UpdateOgre(timeSinceLastFrame);
                     if (GameManager.Singleton.mRoot != null)
                     {
                         GameManager.Singleton.mRoot.RenderOneFrame();
