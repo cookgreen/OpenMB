@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AMOFGameEngine.Mod
 {
-    class ModData
+    public class ModData
     {
         string modName;
         public string ModName
