@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Mod>
+  <Name>Test Mod</Name>
+  <Description>Description of test Mod</Description>
+  <Resources>
+    <Resource></Resource>
+    <Resource></Resource>
+    <Resource></Resource>
+    <Resource></Resource>
+    <Resource></Resource>
+  </Resources>
+  <Music>
+    <MusicLocation></MusicLocation>
+    <MusicLocation></MusicLocation>
+    <MusicLocation></MusicLocation>
+    <MusicLocation></MusicLocation>
+    <MusicLocation></MusicLocation>
+  </Music>
+  <locate>
+    <LocateInfo lang="en"></LocateInfo>
+    <LocateInfo lang="cns"></LocateInfo>
+    <LocateInfo lang="de"></LocateInfo>
+  </locate>
+</Mod>
