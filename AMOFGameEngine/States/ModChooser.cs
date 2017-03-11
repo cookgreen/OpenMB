@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AMOFGameEngine.States
 {
-    public class ModChooser : AppState
+    class ModChooser : AppState
     {
         public ModChooser()
         {

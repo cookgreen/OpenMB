@@ -8,7 +8,7 @@ namespace AMOFGameEngine.Mod
 {
     class ModManager
     {
-        const string modPath = Directory.Exists("./mods")?"./mods":
+        string modPath = Directory.Exists("./mods")?"./mods":
             "C:\\Users\\Administrator\\Documents\\AMOFGameEngine\\mods";
         const string modFileName = "mod.xml";
 
