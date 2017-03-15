@@ -1,4 +1,4 @@
-# AMOFGameEngine  <img src=https://api.travis-ci.org/cookgreen/AMOFGameEngine.svg?branch=master />
+# AMOFGameEngine
 <img src=http://www.gnu.org/graphics/gplv3-127x51.png />
 
 ## Introduction:
