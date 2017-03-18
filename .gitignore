@@ -1,5 +1,4 @@
 packages/*
-Dependencies/*
 eyecm.PhysX.dll
 Mogre.dll
 Mogre_Procedural.MogreBites.Addons.dll
