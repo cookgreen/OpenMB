@@ -1,0 +1,27 @@
+11161220	MenuMode
+11161221	Enter GameState
+11161222	Enter SinbadState
+11161223	Enter PhysxState
+11161224	Exit Demo
+11161225	Game Mode
+11161226	cam.pX
+11161227	cam.pY
+11161228	cam.pZ
+11161229	cam.oW
+11161230	cam.oX
+11161231	cam.oY
+11161232	cam.oZ
+11161233	Mode
+11161234	[TAB] - Switch input mode\n\n[W] - Forward / Mode up\n[S] - Backwards/ Mode down\n[A] - Left\n
+11161235	[D] - Right\n\nPress [SHIFT] to move faster\n\n[O] - Toggle FPS / logo\n
+11161236	[Print] - Take screenshot\n\n[ESC] - Exit
+11161237	Solid mode
+11161238	Wireframe mode
+11161239	Point mode
+11161240	ChatMode
+11161241	Pause mode
+11161242	Return to GameState
+11161243	Return to SinbadState
+11161244	Return to PhysxState
+11161245	Return to Menu
+11161246	Exit Demo

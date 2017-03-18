@@ -5,20 +5,25 @@ using System.Text;
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
+using AMOFGameEngine.Mod;
 
 namespace AMOFGameEngine.States
 {
     class ModChooser : AppState
     {
+        bool m_bQuit;
         SelectMenu m_pMenu;
         TextBox mDescBox;
         Slider mSampleSlider;
         StringVector m_SampleNames;
         List<OverlayContainer> m_Thumbs;
         float m_CarouselPlace;
+        string selectedModName;
 
         public ModChooser()
         {
+            m_bQuit = false;
+
             m_SampleNames = new StringVector();
             m_Thumbs = new List<OverlayContainer>();
             m_SampleNames.Add("thumb_bezier");
@@ -59,6 +64,18 @@ namespace AMOFGameEngine.States
             SetupModMenu();
 
             GameManager.Singleton.mMouse.MouseMoved += new MOIS.MouseListener.MouseMovedHandler(mMouse_MouseMoved);
+            GameManager.Singleton.mMouse.MousePressed += new MouseListener.MousePressedHandler(mMouse_MousePressed);
+            GameManager.Singleton.mMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mMouse_MouseReleased);
+        }
+
+        bool mMouse_MouseReleased(MouseEvent arg, MouseButtonID id)
+        {
+            return GameManager.Singleton.mTrayMgr.injectMouseUp(arg, id);
+        }
+
+        bool mMouse_MousePressed(MouseEvent arg, MouseButtonID id)
+        {
+            return GameManager.Singleton.mTrayMgr.injectMouseDown(arg, id);
         }
 
         bool mMouse_MouseMoved(MOIS.MouseEvent arg)
@@ -93,8 +110,6 @@ namespace AMOFGameEngine.States
 
         public override void update(double timeSinceLastFrame)
         {
-            base.update(timeSinceLastFrame);
-
             float carouselOffset = m_pMenu.getSelectionIndex() - m_CarouselPlace;
             if ((carouselOffset <= 0.001) && (carouselOffset >= -0.001)) m_CarouselPlace = m_pMenu.getSelectionIndex();
             else m_CarouselPlace += carouselOffset * AMOFGameEngine.GameManager.Singleton. Clamp((float)timeSinceLastFrame * 0.015f, -1.0f, 1.0f);
@@ -125,6 +140,28 @@ namespace AMOFGameEngine.States
                 if (i == m_pMenu.getSelectionIndex()) frame.BorderMaterialName=("SdkTrays/Frame/Over");
                 else frame.BorderMaterialName=("SdkTrays/Frame");
             }
+
+            if (m_bQuit == true)
+            {
+                shutdown();
+                return;
+            }
+        }
+
+        public override void buttonHit(Button button)
+        {
+            if (button.getName() == "btnStart")
+            {
+                ModManager.Singleton.LoadMod(selectedModName);
+            }
+            else if (button.getName() == "btnConfigure")
+            {
+                ConfigureScreen();
+            }
+            else if (button.getName() == "btnExit")
+            {
+                m_bQuit = true;
+            }
         }
 
         void SetupModMenu()
@@ -138,7 +175,6 @@ namespace AMOFGameEngine.States
 
                 String name = "SampleThumb" + (m_Thumbs.Count + 1).ToString();
 
-                // clone a new material for sample thumbnail
                 MaterialPtr newMat = templateMat.Clone(name);
 
                 TextureUnitState tus = newMat.GetTechnique(0).GetPass(0).GetTextureUnitState(0);
@@ -150,7 +186,6 @@ namespace AMOFGameEngine.States
                 BorderPanelOverlayElement bp = (BorderPanelOverlayElement)
                     OverlayManager.Singleton.CreateOverlayElementFromTemplate("SdkTrays/Picture", "BorderPanel", (itr));
 
-                //Ogre::ResourceGroupManager::getSingletonPtr()->loadResourceGroup("Essential");
 
                 bp.HorizontalAlignment=(GuiHorizontalAlignment. GHA_RIGHT);
                 bp.VerticalAlignment=(GuiVerticalAlignment. GVA_CENTER);
@@ -158,7 +193,12 @@ namespace AMOFGameEngine.States
                 GameManager.Singleton.mTrayMgr .getTraysLayer().Add2D(bp);
 
                 m_Thumbs.Add(bp);
-            }
+            }  
+        }
+
+        void ConfigureScreen()
+        {
+            
         }
     }
 }

@@ -6,9 +6,9 @@ using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
 
-namespace AMOFGameEngine
+namespace AMOFGameEngine.States
 {
-    class AppStateListener
+    public class AppStateListener
     {
 	    public AppStateListener(){}
 	    ~AppStateListener(){}
@@ -23,7 +23,7 @@ namespace AMOFGameEngine
         public virtual void shutdown() { }
         public virtual void popAllAndPushAppState<T>(AppState state) where T:AppState { }
 };
-    class AppState :SdkTrayListener
+    public class AppState : SdkTrayListener
     {
         public static void create<T>(AppStateListener parent, String name) where T : AppState, new()
         {

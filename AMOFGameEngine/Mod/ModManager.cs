@@ -19,6 +19,19 @@ namespace AMOFGameEngine.Mod
             set { avaliableModNames = value; }
         }
 
+        static ModManager singleton;
+        public static ModManager Singleton
+        {
+            get 
+            {
+                if (singleton == null)
+                {
+                    singleton = new ModManager();
+                }
+                return singleton;
+            }
+        }
+
         ModManager()
         {
             avaliableModNames = new List<string>();
@@ -35,6 +48,11 @@ namespace AMOFGameEngine.Mod
                     avaliableModNames.Add(modDir);
                 }
             }
+        }
+
+        public void LoadMod(string modName)
+        {
+
         }
 
         void ProcessModFiles()

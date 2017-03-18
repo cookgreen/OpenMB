@@ -34,16 +34,16 @@ namespace AMOFGameEngine
         private string defaultRS;
         OgreConfigFileAdapter cfa;
         List<OgreConfigNode> ogreConfigs=new List<OgreConfigNode>();
-        public static GameManager instance;
+        static GameManager singleton;
         public static GameManager Singleton
         {
             get
             {
-                if (instance == null)
+                if (singleton == null)
                 {
-                    instance = new GameManager();
+                    singleton = new GameManager();
                 }
-                return instance;
+                return singleton;
             }
         }
 

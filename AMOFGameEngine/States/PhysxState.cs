@@ -11,7 +11,7 @@ using AMOFGameEngine.Localization;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.Utilities;
 
-namespace AMOFGameEngine
+namespace AMOFGameEngine.States
 {
     class PhysxState : AppState, IUserContactReport
     {

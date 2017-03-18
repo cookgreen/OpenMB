@@ -1,0 +1,60 @@
+material Mat03
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.500000 0.500000 0.500000 1.000000
+			diffuse 0.721631 0.310192 0.163249 1.000000
+			specular 0.500000 0.500000 0.500000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+
+			texture_unit
+			{
+				texture steel.jpg
+				colour_op modulate
+			}
+		}
+	}
+}
+material Mat02
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.500000 0.500000 0.500000 1.000000
+			diffuse 0.388561 0.643261 0.800000 1.000000
+			specular 0.500000 0.500000 0.500000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+
+			texture_unit
+			{
+				texture chrome.jpg
+				colour_op modulate
+			}
+		}
+	}
+}
+material Mat01
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.500000 0.500000 0.500000 1.000000
+			diffuse 0.800000 0.643261 0.156739 1.000000
+			specular 0.500000 0.500000 0.500000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+
+			texture_unit
+			{
+				texture dirt.jpg
+				colour_op modulate
+			}
+		}
+	}
+}
