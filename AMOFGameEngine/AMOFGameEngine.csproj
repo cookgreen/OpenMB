@@ -53,8 +53,7 @@
     <Reference Include="Mogre_Procedural.MogreBites.Addons">
       <HintPath>..\Dependencies\Mogre_Procedural.MogreBites.Addons.dll</HintPath>
     </Reference>
-    <Reference Include="MOIS, Version=1.1.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="MOIS">
       <HintPath>..\Dependencies\MOIS.dll</HintPath>
     </Reference>
     <Reference Include="NAudio">
