@@ -7,7 +7,7 @@ namespace AMOFGameEngine.Mod.Common
 {
     public interface ModCommon
     {
-        public void Load();
-        public void UnLoad();
+        void Load();
+        void UnLoad();
     }
 }

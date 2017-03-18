@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using Mogre;
 
 namespace AMOFGameEngine.Mod
 {
@@ -12,8 +13,8 @@ namespace AMOFGameEngine.Mod
             "C:\\Users\\Administrator\\Documents\\AMOFGameEngine\\mods";
         const string modFileName = "mod.xml";
 
-        List<string> avaliableModNames;
-        public List<string> AvaliableModNames
+        StringVector avaliableModNames;
+        public StringVector AvaliableModNames
         {
             get { return avaliableModNames; }
             set { avaliableModNames = value; }
@@ -34,7 +35,8 @@ namespace AMOFGameEngine.Mod
 
         ModManager()
         {
-            avaliableModNames = new List<string>();
+            avaliableModNames = new StringVector();
+            InitMod();
         }
 
         public void InitMod()
@@ -43,11 +45,16 @@ namespace AMOFGameEngine.Mod
             string[] modDirs = Directory.GetDirectories(modPath);
             foreach (string modDir in modDirs)
             {
-                if (File.Exists(string.Format("{0}/{1}/{2}", modPath, modDir, modFileName)))
+                if (File.Exists(string.Format("{0}/{1}", modDir, modFileName)))
                 {
                     avaliableModNames.Add(modDir);
                 }
             }
+        }
+
+        public StringVector GetAllMods()
+        {
+            return avaliableModNames;
         }
 
         public void LoadMod(string modName)

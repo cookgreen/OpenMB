@@ -67,7 +67,7 @@ namespace AMOFGameEngine
         {
             LogManager logMgr = new LogManager();
  
-            mLog = LogManager.Singleton.CreateLog("amof.log", true, true, false);
+            mLog = LogManager.Singleton.CreateLog("./Log/amof.log", true, true, false);
             mLog.SetDebugOutputEnabled(true);
  
             mRoot = new Root();

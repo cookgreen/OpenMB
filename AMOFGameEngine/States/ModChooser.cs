@@ -54,6 +54,8 @@ namespace AMOFGameEngine.States
             mSampleSlider = GameManager.Singleton.mTrayMgr.createThickSlider(TrayLocation.TL_LEFT, "SampleSlider", "Slide Samples", 250, 80, 0, 0, 0);
             m_pMenu.setItems(m_SampleNames);
 
+            m_SampleNames = ModManager.Singleton.GetAllMods();
+
             GameManager.Singleton.mTrayMgr.showLogo(TrayLocation.TL_RIGHT);
             GameManager.Singleton.mTrayMgr.createSeparator(TrayLocation.TL_RIGHT, "LogoSep");
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnStart", "Play",140);
@@ -86,6 +88,7 @@ namespace AMOFGameEngine.States
                 int newIndex = m_pMenu.getSelectionIndex() - arg.state.Z.rel / System.Math.Abs(arg.state.Z.rel);
                 float finalIndex = GameManager.Singleton.Clamp((float)newIndex, 0f, (float)(m_pMenu.getNumItems() - 1));
                 m_pMenu.selectItem((uint)finalIndex);
+                selectedModName = m_pMenu.getSelectedItem();
             }
 
             if (GameManager.Singleton.mTrayMgr.injectMouseMove(arg))
