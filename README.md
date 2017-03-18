@@ -1,5 +1,5 @@
 # AMOFGameEngine
-<img src=http://www.gnu.org/graphics/gplv3-127x51.png />
+![Build](https://api.travis-ci.org/cookgreen/AMOFGameEngine.svg?branch=master)
 
 ## Introduction:
 A game engine based on AdvancedMogreFramework
