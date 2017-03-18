@@ -4,12 +4,4 @@ AMOFGameEngine.Mod.Common/obj/*
 AMOFGameEngine.Mod.Common/bin/*
 AMOFGameEngine.Mod.Test/obj/*
 AMOFGameEngine.Mod.Test/bin/*
-eyecm.PhysX.dll
-Mogre.dll
-Mogre_Procedural.MogreBites.Addons.dll
-Mogre_Procedural.MogreBites.dll
-MOIS.dll
-NAudio.dll
-NAudio.Vorbis.dll
-NVorbis.dll
 Ogre.log
