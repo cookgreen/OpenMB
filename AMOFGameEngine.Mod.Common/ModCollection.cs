@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AMOFGameEngine.Mod.Common
 {
-    public class ModMain
+    public class ModCollection : List<Mod>
     {
     }
 }

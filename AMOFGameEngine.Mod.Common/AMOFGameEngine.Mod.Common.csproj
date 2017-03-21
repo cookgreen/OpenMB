@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mogre">
+      <HintPath>..\Dependencies\Mogre.dll</HintPath>
+    </Reference>
+    <Reference Include="MOIS">
+      <HintPath>..\Dependencies\MOIS.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,8 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ModCommon.cs" />
-    <Compile Include="ModMain.cs" />
+    <Compile Include="Mod.cs" />
+    <Compile Include="ModCollection.cs" />
+    <Compile Include="ModPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

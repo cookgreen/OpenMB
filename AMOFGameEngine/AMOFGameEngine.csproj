@@ -90,9 +90,8 @@
     <Compile Include="Localization\LocateSystem.cs" />
     <Compile Include="Models\ActorNode.cs" />
     <Compile Include="Manager\GameManager.cs" />
-    <Compile Include="Mod\ModData.cs" />
+    <Compile Include="Mod\ModBaseInfo.cs" />
     <Compile Include="Mod\ModManager.cs" />
-    <Compile Include="Mod\ModXML.cs" />
     <Compile Include="States\AppState.cs" />
     <Compile Include="Manager\AppStateManager.cs" />
     <Compile Include="Models\Character.cs" />
@@ -140,8 +139,13 @@
     <Folder Include="Network\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Mod\mod.xml" />
     <Content Include="OgreHead.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AMOFGameEngine.Mod.Common\AMOFGameEngine.Mod.Common.csproj">
+      <Project>{3CA78AEC-8720-40A2-9E68-476A81BD98C1}</Project>
+      <Name>AMOFGameEngine.Mod.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
