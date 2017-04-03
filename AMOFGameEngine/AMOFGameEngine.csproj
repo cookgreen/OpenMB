@@ -99,7 +99,7 @@
     <Compile Include="States\ModChooser.cs" />
     <Compile Include="States\PhysxState.cs" />
     <Compile Include="States\SinbadState.cs" />
-    <Compile Include="Application\DemoApp.cs" />
+    <Compile Include="Application\GameApp.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MenuState.cs" />
     <Compile Include="States\PauseState.cs" />

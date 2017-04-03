@@ -75,7 +75,7 @@ namespace AMOFGameEngine
 		        {
                     startTime = (int)GameManager.Singleton.mTimer.MicrosecondsCPU;
 
-                    timeSinceLastFrame =startTime - (int)GameManager.Singleton.mTimer.MillisecondsCPU;
+                    timeSinceLastFrame =  (int)GameManager.Singleton.mTimer.MillisecondsCPU - startTime;
 
 			        m_ActiveStateStack.Last().update(timeSinceLastFrame);
                     GameManager.Singleton.mKeyboard.Capture();
@@ -170,7 +170,7 @@ namespace AMOFGameEngine
              GameManager.Singleton.mTrayMgr.setListener(state);
              GameManager.Singleton.mRenderWnd.ResetStatistics();
          }
-         protected List<AppState> m_ActiveStateStack=new List<AppState>();
+         protected List<AppState> m_ActiveStateStack = new List<AppState>();
          protected List<state_info> m_States=new List<state_info>();
          protected bool m_bShutdown;
     }

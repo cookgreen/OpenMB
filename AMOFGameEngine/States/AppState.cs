@@ -42,13 +42,13 @@ namespace AMOFGameEngine.States
 	    public virtual void resume(){}
         public virtual void update(double timeSinceLastFrame) { }
         public AppState(){}
- 
-	    protected AppState	findByName(String stateName){return m_pParent.findByName(stateName);}
+
+        protected AppState findByName(String stateName) { return m_pParent.findByName(stateName); }
         protected void changeAppState(AppState state) { m_pParent.changeAppState(state); }
         protected bool pushAppState(AppState state) { return m_pParent.pushAppState(state); }
         protected void popAppState() { m_pParent.popAppState(); }
         protected void shutdown() { m_pParent.shutdown(); }
-        protected void popAllAndPushAppState<T>(AppState state) where T:AppState{ m_pParent.popAllAndPushAppState<T>(state); }
+        protected void popAllAndPushAppState<T>(AppState state) where T : AppState { m_pParent.popAllAndPushAppState<T>(state); }
 
         protected AppStateListener m_pParent;
 

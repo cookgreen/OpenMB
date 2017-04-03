@@ -1,0 +1,15 @@
+SdkTrays/Caption
+{
+	type 		truetype
+	source 		cuckoo.ttf
+	size 		15
+	resolution 	96
+}
+
+SdkTrays/Value
+{
+	type 		truetype
+	source 		ctrl_freak.ttf
+	size 		20
+	resolution  96
+}

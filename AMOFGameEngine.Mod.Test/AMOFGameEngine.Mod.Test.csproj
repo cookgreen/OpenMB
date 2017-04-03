@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mogre_Procedural.MogreBites, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Mogre_Procedural.MogreBites.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,8 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MenuState.cs" />
+    <Compile Include="TestModMenuState.cs" />
+    <Compile Include="TestModApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestModContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AMOFGameEngine.Mod.Common\AMOFGameEngine.Mod.Common.csproj">

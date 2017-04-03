@@ -9,7 +9,7 @@ namespace AMOFGameEngine.Mod
     /// <summary>
     /// Display on the ModChooser
     /// </summary>
-    public class ModBaseInfo : Plugin
+    public class ModBaseInfo
     {
         string modName;
         string modDesc;

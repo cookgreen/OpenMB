@@ -141,7 +141,7 @@ namespace AMOFGameEngine
             TextureManager.Singleton.DefaultNumMipmaps=5;
             ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 
-            mTrayMgr = new SdkTrayManager("AMOFTrayMgr", mRenderWnd, mMouse, null);
+            mTrayMgr = new SdkTrayManager("AMOFTrayMgr", mRenderWnd, mMouse, new SdkTrayListener() );
 
             mTimer = new Timer();
             mTimer.Reset();

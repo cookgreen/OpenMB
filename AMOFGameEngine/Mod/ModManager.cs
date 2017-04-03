@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Reflection;
 using Mogre;
+using AMOFGameEngine.Mod.Common;
 
 namespace AMOFGameEngine.Mod
 {
-    class ModManager
+    public class ModManager
     {
-        string modPath = Directory.Exists("./mods")?"./mods":
-            "C:\\Users\\Administrator\\Documents\\AMOFGameEngine\\mods";
+        string modPath = Directory.Exists("./mods") ?
+            "./mods" : "C:\\Users\\Administrator\\Documents\\AMOFGameEngine\\mods";
         const string modFileName = "mod.xml";
 
-        StringVector avaliableModNames;
-        public StringVector AvaliableModNames
+        List<ModBaseInfo> avaliableMods;
+        public List<ModBaseInfo> AvaliableMods
         {
-            get { return avaliableModNames; }
-            set { avaliableModNames = value; }
+            get { return avaliableMods; }
+            set { avaliableMods = value; }
         }
 
         static ModManager singleton;
@@ -35,31 +37,40 @@ namespace AMOFGameEngine.Mod
 
         ModManager()
         {
-            avaliableModNames = new StringVector();
-            InitMod();
+            avaliableMods = new List<ModBaseInfo>();
+            
+            InitMods();
         }
 
-        public void InitMod()
+        public void InitMods()
         {
-            string modXMLLocation = modPath + "/mod.xml";
             string[] modDirs = Directory.GetDirectories(modPath);
             foreach (string modDir in modDirs)
             {
                 if (File.Exists(string.Format("{0}/{1}", modDir, modFileName)))
                 {
-                    avaliableModNames.Add(modDir);
+                    ModBaseInfo modInfo = new ModBaseInfo();
+                    modInfo.ModName = modDir;
+                    avaliableMods.Add(modInfo);
                 }
             }
         }
 
-        public StringVector GetAllMods()
+        public List<ModBaseInfo> GetAllMods()
         {
-            return avaliableModNames;
+            return avaliableMods;
         }
 
         public void LoadMod(string modName)
         {
-
+            ModContext.Singleton.SetupMod(
+                GameManager.Singleton.mRenderWnd,
+                GameManager.Singleton.mKeyboard,
+                GameManager.Singleton.mMouse,
+                null,
+                modName
+                );
+            (new ModApp()).Run();
         }
 
         void ProcessModFiles()

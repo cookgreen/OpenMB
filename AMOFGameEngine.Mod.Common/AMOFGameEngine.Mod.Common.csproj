@@ -34,6 +34,9 @@
     <Reference Include="Mogre">
       <HintPath>..\Dependencies\Mogre.dll</HintPath>
     </Reference>
+    <Reference Include="Mogre_Procedural.MogreBites">
+      <HintPath>..\Dependencies\Mogre_Procedural.MogreBites.dll</HintPath>
+    </Reference>
     <Reference Include="MOIS">
       <HintPath>..\Dependencies\MOIS.dll</HintPath>
     </Reference>
@@ -46,10 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mod.cs" />
-    <Compile Include="ModCollection.cs" />
-    <Compile Include="ModPlugin.cs" />
+    <Compile Include="IFileSystemLayer.cs" />
+    <Compile Include="ModContext.cs" />
+    <Compile Include="ModApp.cs" />
+    <Compile Include="ModState.cs" />
+    <Compile Include="ModStateManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FileSystemLayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

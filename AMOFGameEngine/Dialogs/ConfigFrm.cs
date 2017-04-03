@@ -125,8 +125,8 @@ namespace AMOFGameEngine.Dialogs
             cfa.SaveConfig(ogreConfigs);
             this.Close();
             
-            DemoApp app = new DemoApp();
-            app.startDemo();
+            GameApp app = new GameApp();
+            app.Run();
         }
 
         private void cmbValueChange_SelectedIndexChanged(object sender, EventArgs e)
