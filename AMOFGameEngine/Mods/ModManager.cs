@@ -5,9 +5,9 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using Mogre;
-using AMOFGameEngine.Mod.Common;
+using AMOFGameEngine.Mods.Common;
 
-namespace AMOFGameEngine.Mod
+namespace AMOFGameEngine
 {
     public class ModManager
     {
@@ -21,6 +21,8 @@ namespace AMOFGameEngine.Mod
             get { return avaliableMods; }
             set { avaliableMods = value; }
         }
+
+        List<Mod> mods;
 
         static ModManager singleton;
         public static ModManager Singleton
@@ -61,16 +63,28 @@ namespace AMOFGameEngine.Mod
             return avaliableMods;
         }
 
-        public void LoadMod(string modName)
+        public void LoadMod(Mod mod)
         {
-            ModContext.Singleton.SetupMod(
+            string modName = null;
+            mod.SetupMod(
                 GameManager.Singleton.mRenderWnd,
                 GameManager.Singleton.mKeyboard,
                 GameManager.Singleton.mMouse,
-                null,
-                modName
+                null
                 );
-            (new ModApp()).Run();
+        }
+
+        public Mod FindModByName(string modName)
+        {
+            IEnumerable<Mod> modResult = mods.Where(o => o.ModInfo["Name"] == modName);
+            if (modResult.Count() > 0)
+            {
+                return modResult.First();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         void ProcessModFiles()

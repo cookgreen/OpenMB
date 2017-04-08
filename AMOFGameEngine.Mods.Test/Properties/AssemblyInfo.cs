@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("AMOFGameEngine.Mod.Common")]
+[assembly: AssemblyTitle("AMOFGameEngine.Mods.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("AMOFGameEngine Development Team")]
-[assembly: AssemblyProduct("AMOFGameEngine.Mod.Common")]
-[assembly: AssemblyCopyright("GNU GENERAL PUBLIC LICENSE Version 3")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("AMOFGameEngine.Mods.Test")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("0e1b5766-6a7d-4c7b-87c4-a59bcc5dcde5")]
+[assembly: Guid("0a6659d6-f82e-4aec-aafd-9329b5a92551")]
 
 // 程序集的版本信息由下面四个值组成:
 //

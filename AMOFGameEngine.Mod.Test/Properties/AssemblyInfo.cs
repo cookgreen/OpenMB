@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("AMOFGameEngine.Mod.Test")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Demo Mod for AMOFGameEngine")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("AMOFGameEngine Development Team")]
 [assembly: AssemblyProduct("AMOFGameEngine.Mod.Test")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("GNU GENERAL PUBLIC LICENSE Version 3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

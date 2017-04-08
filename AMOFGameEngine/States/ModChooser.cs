@@ -5,7 +5,7 @@ using System.Text;
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
-using AMOFGameEngine.Mod;
+using AMOFGameEngine.Mods.Common;
 
 namespace AMOFGameEngine.States
 {
@@ -174,7 +174,7 @@ namespace AMOFGameEngine.States
         {
             if (button.getName() == "btnStart")
             {
-                ModManager.Singleton.LoadMod(selectedModName);
+                //ModManager.Singleton.LoadMod(selectedModName);
             }
             else if (button.getName() == "btnConfigure")
             {

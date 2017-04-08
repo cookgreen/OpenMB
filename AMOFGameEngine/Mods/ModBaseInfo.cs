@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Mogre;
 
-namespace AMOFGameEngine.Mod
+namespace AMOFGameEngine
 {
     /// <summary>
     /// Display on the ModChooser

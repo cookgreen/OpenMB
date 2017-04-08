@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AMOFGameEngine</RootNamespace>
-    <AssemblyName>AMOFGameEngine</AssemblyName>
+    <AssemblyName>AMOFGameEngineLauncher</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -39,6 +39,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>OgreHead.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>AMOFGameEngine.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="eyecm.PhysX">
@@ -90,8 +93,8 @@
     <Compile Include="Localization\LocateSystem.cs" />
     <Compile Include="Models\ActorNode.cs" />
     <Compile Include="Manager\GameManager.cs" />
-    <Compile Include="Mod\ModBaseInfo.cs" />
-    <Compile Include="Mod\ModManager.cs" />
+    <Compile Include="Mods\ModBaseInfo.cs" />
+    <Compile Include="Mods\ModManager.cs" />
     <Compile Include="States\AppState.cs" />
     <Compile Include="Manager\AppStateManager.cs" />
     <Compile Include="Models\Character.cs" />
@@ -142,9 +145,9 @@
     <Content Include="OgreHead.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AMOFGameEngine.Mod.Common\AMOFGameEngine.Mod.Common.csproj">
+    <ProjectReference Include="..\AMOFGameEngine.Mod.Common\AMOFGameEngine.Mods.Common.csproj">
       <Project>{3CA78AEC-8720-40A2-9E68-476A81BD98C1}</Project>
-      <Name>AMOFGameEngine.Mod.Common</Name>
+      <Name>AMOFGameEngine.Mods.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
