@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Mogre_Procedural.MogreBites;
+using AMOFGameEngine.Mods.Common;
 
-namespace AMOFGameEngine.Mods.Common
+namespace AMOFGameEngine.Mods.Sample
 {
     class ModSample : Mod
     {

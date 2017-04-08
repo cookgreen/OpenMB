@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMOFGameEngine.Mods.Sample"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMOFGameEngine.Mods.Common", "AMOFGameEngine.Mod.Common\AMOFGameEngine.Mods.Common.csproj", "{3CA78AEC-8720-40A2-9E68-476A81BD98C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMOFGameEngine.Mods.TestDemo", "AMOFGameEngine.Mods.Test\AMOFGameEngine.Mods.TestDemo.csproj", "{9B8BB1F9-9A43-42AD-A6A3-8BA502C0EFBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,16 @@ Global
 		{3CA78AEC-8720-40A2-9E68-476A81BD98C1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3CA78AEC-8720-40A2-9E68-476A81BD98C1}.Release|x86.ActiveCfg = Release|Any CPU
 		{3CA78AEC-8720-40A2-9E68-476A81BD98C1}.Release|x86.Build.0 = Release|Any CPU
+		{9B8BB1F9-9A43-42AD-A6A3-8BA502C0EFBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B8BB1F9-9A43-42AD-A6A3-8BA502C0EFBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B8BB1F9-9A43-42AD-A6A3-8BA502C0EFBD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9B8BB1F9-9A43-42AD-A6A3-8BA502C0EFBD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9B8BB1F9-9A43-42AD-A6A3-8BA502C0EFBD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9B8BB1F9-9A43-42AD-A6A3-8BA502C0EFBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B8BB1F9-9A43-42AD-A6A3-8BA502C0EFBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B8BB1F9-9A43-42AD-A6A3-8BA502C0EFBD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9B8BB1F9-9A43-42AD-A6A3-8BA502C0EFBD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9B8BB1F9-9A43-42AD-A6A3-8BA502C0EFBD}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -23,6 +23,13 @@ namespace AMOFGameEngine.Mods.Common
         protected InputManager mInputMgr;
         protected RenderWindow mRenderWnd;
 
+        public ModContext()
+        {
+            mRoot = null;
+            mMouse = null;
+            mKeyboard = null;
+        }
+
         public virtual RenderWindow getRenderWindow()
 		{
             return mRenderWnd;
@@ -97,6 +104,29 @@ namespace AMOFGameEngine.Mods.Common
 		-----------------------------------------------------------------------------*/
 		public virtual void go(Mod initialSample = null)
 		{
+            while (!mLastRun)
+			{
+				mLastRun = true;  // assume this is our last run
+
+				createRoot();
+				if (!oneTimeConfig()) return;
+
+				// if the context was reconfigured, set requested renderer
+				if (!mFirstRun) mRoot.RenderSystem=(mRoot.GetRenderSystemByName(mNextRenderer));
+
+				setup();
+
+				// restore the last sample if there was one or, if not, start initial sample
+				if (!mFirstRun) recoverLastSample();
+				else if (initialSample!=null) runSample(initialSample);
+
+				mRoot.StartRendering();    // start the render loop
+
+				mRoot.SaveConfig();
+				shutdown();
+				if (mRoot!=null) mRoot.Dispose();
+				mFirstRun = false;
+			}
 		}
         
 		public virtual bool isCurrentSamplePaused()
