@@ -1,0 +1,10 @@
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\bin\Release\AMOFGameEngine.Mod.Test.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\bin\Release\AMOFGameEngine.Mod.Test.pdb
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\bin\Release\AMOFGameEngine.Mod.Common.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\bin\Release\AMOFGameEngine.Mod.Common.pdb
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\obj\Release\AMOFGameEngine.Mod.Test.csprojResolveAssemblyReference.cache
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\obj\Release\AMOFGameEngine.Mod.Test.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\obj\Release\AMOFGameEngine.Mod.Test.pdb
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\bin\Release\Mogre.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\bin\Release\MOIS.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\bin\Release\Mogre_Procedural.MogreBites.dll
