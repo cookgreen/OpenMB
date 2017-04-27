@@ -11,64 +11,20 @@ namespace AMOFGameEngine.Mods.Common
 {
     public class Mod
     {
-        NameValuePairList modInfo;
-        Root root;
-        RenderWindow window;
-        Keyboard mKeyboard;
-        Mouse mMouse;
-        SceneManager scm;
-        bool bDone;
-        bool bResourcesLoaded;
-        bool bContentSetup;
-        SdkTrayManager mTrayMgr;
-        LogManager mLog;
-        Timer mTimer;
+        protected NameValuePairList modInfo;
+        protected Root root;
+        protected RenderWindow window;
+        protected Keyboard mKeyboard;
+        protected Mouse mMouse;
+        protected SceneManager scm;
+        protected bool bDone;
+        protected bool bResourcesLoaded;
+        protected bool bContentSetup;
+        protected SdkTrayManager mTrayMgr;
+        protected LogManager mLog;
+        protected Timer mTimer;
 
-        public Timer Timer
-        {
-            get { return mTimer; }
-            set { mTimer = value; }
-        }
-        public Root Root
-        {
-            get { return root; }
-            set { root = value; }
-        }
-        public LogManager Log
-        {
-            get { return mLog; }
-            set { mLog = value; }
-        }
-        public Keyboard Keyboard
-        {
-            get { return mKeyboard; }
-            set { mKeyboard = value; }
-        }
-        public Mouse Mouse
-        {
-            get { return mMouse; }
-            set { mMouse = value; }
-        }
-        public SdkTrayManager TrayMgr
-        {
-            get { return mTrayMgr; }
-            set { mTrayMgr = value; }
-        }
-        public RenderWindow Window
-        {
-            get { return window; }
-            set { window = value; }
-        }
-        public bool IsDone
-        {
-            get { return bDone; }
-            set { bDone = value; }
-        }
-        public SceneManager SceneManager
-        {
-            get { return scm; }
-            set { scm = value; }
-        }
+        public bool IsDone{ get; set; }
         public NameValuePairList ModInfo
         {
             get { return modInfo; }
@@ -201,7 +157,7 @@ namespace AMOFGameEngine.Mods.Common
 
         public Mod()
         {
-
+            modInfo = new NameValuePairList();
         }
     }
 }

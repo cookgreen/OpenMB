@@ -9,7 +9,7 @@ using AMOFGameEngine.States;
 
 namespace AMOFGameEngine
 {
-    class AppStateManager : AppStateListener
+    public class AppStateManager : AppStateListener
     {
          public struct state_info
         {

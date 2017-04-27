@@ -43,7 +43,5 @@ namespace AMOFGameEngine.Mods.Common
         {}
 
         protected List<Mod> mods;
-
-
     }
 }

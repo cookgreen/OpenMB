@@ -13,27 +13,25 @@ using AMOFGameEngine.Utilities;
 
 namespace AMOFGameEngine
 {
-    class GameManager : IDisposable
+    public class GameManager : IDisposable
     {
         public Root mRoot;
         public RenderWindow mRenderWnd;
         public Viewport mViewport;
         public Log mLog;
         public Timer mTimer;
-
         public MOIS.InputManager mInputMgr;
         public Keyboard mKeyboard;
         public Mouse mMouse;
-
         public SdkTrayManager mTrayMgr;
-
         public static string LastStateName;
+        public AppStateManager m_pAppStateManager;
 
         public OggSound ogg;
 
         private string defaultRS;
         OgreConfigFileAdapter cfa;
-        List<OgreConfigNode> ogreConfigs=new List<OgreConfigNode>();
+        List<OgreConfigNode> ogreConfigs;
         static GameManager singleton;
         public static GameManager Singleton
         {
@@ -59,8 +57,9 @@ namespace AMOFGameEngine
             mKeyboard = null;
             mMouse = null;
             mTrayMgr = null;
-
+            m_pAppStateManager = new AppStateManager();
             cfa = new OgreConfigFileAdapter("./ogre.cfg");
+            ogreConfigs=new List<OgreConfigNode>();
          }
 
         public bool InitOgre(String wndTitle)

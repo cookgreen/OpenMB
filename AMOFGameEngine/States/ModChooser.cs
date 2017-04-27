@@ -5,7 +5,6 @@ using System.Text;
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
-using AMOFGameEngine.Mods.Common;
 
 namespace AMOFGameEngine.States
 {
@@ -62,7 +61,8 @@ namespace AMOFGameEngine.States
             mModSlider = GameManager.Singleton.mTrayMgr.createThickSlider(TrayLocation.TL_LEFT, "ModSlider", "Slide Samples", 250, 80, 0, 0, 0);
             mpMenu.setItems(mModNames);
             mpMenu.setCaption("Select Mod");
-            ModTitle.setCaption(mpMenu.getSelectedItem());
+            if (mModNames.Count>0)
+                ModTitle.setCaption(mpMenu.getSelectedItem());
             GameManager.Singleton.mTrayMgr.showLogo(TrayLocation.TL_RIGHT);
             GameManager.Singleton.mTrayMgr.createSeparator(TrayLocation.TL_RIGHT, "LogoSep");
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnStart", "Play",140);

@@ -1,7 +1,0 @@
-C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\bin\Debug\AMOFGameEngine.Mod.Test.dll
-C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\bin\Debug\AMOFGameEngine.Mod.Test.pdb
-C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\bin\Debug\AMOFGameEngine.Mod.Common.dll
-C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\bin\Debug\AMOFGameEngine.Mod.Common.pdb
-C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\obj\Debug\AMOFGameEngine.Mod.Test.csprojResolveAssemblyReference.cache
-C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\obj\Debug\AMOFGameEngine.Mod.Test.dll
-C:\Repository\AMOFGameEngine\AMOFGameEngine.Mod.Test\obj\Debug\AMOFGameEngine.Mod.Test.pdb

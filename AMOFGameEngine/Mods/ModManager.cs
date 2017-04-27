@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using System.Reflection;
 using Mogre;
-using AMOFGameEngine.Mods.Common;
+using AMOFGameEngine.Utilities;
 
 namespace AMOFGameEngine
 {
     public class ModManager
     {
+        OgreConfigFileAdapter ofa;
+        List<OgreConfigNode> modData;
+        const string MOD_CCONFIG_FILE="Mods.cfg";
         string modPath = Directory.Exists("./mods") ?
             "./mods" : "C:\\Users\\Administrator\\Documents\\AMOFGameEngine\\mods";
         const string modFileName = "mod.xml";
@@ -21,8 +23,6 @@ namespace AMOFGameEngine
             get { return avaliableMods; }
             set { avaliableMods = value; }
         }
-
-        List<Mod> mods;
 
         static ModManager singleton;
         public static ModManager Singleton
@@ -40,51 +40,34 @@ namespace AMOFGameEngine
         ModManager()
         {
             avaliableMods = new List<ModBaseInfo>();
-            
+            ofa = new OgreConfigFileAdapter(MOD_CCONFIG_FILE);
+            modData = ofa.ReadConfigData();
             InitMods();
+        }
+
+        List<KeyValuePair<string, string>> GetModsConfig()
+        {
+            return modData.Where(o => o.Section == "").First().Settings.Where(o => o.Key == "Mod").ToList();
         }
 
         public void InitMods()
         {
-            string[] modDirs = Directory.GetDirectories(modPath);
-            foreach (string modDir in modDirs)
+            List<OgreConfigNode> modData = ofa.ReadConfigData();
+            string modDir=modData.Where(o => o.Section == "").First().Settings["ModDir"];
+
+            List<KeyValuePair<string, string>> mods = GetModsConfig();
+            foreach (KeyValuePair<string, string> sMod in mods)
             {
-                if (File.Exists(string.Format("{0}/{1}", modDir, modFileName)))
-                {
-                    ModBaseInfo modInfo = new ModBaseInfo();
-                    modInfo.ModName = modDir;
-                    avaliableMods.Add(modInfo);
-                }
+                Root.Singleton.LoadPlugin(modDir+sMod.Value);
+                ModBaseInfo mod = new ModBaseInfo();
+                mod.ModName = sMod.Value;
+                avaliableMods.Add(mod);
             }
         }
 
         public List<ModBaseInfo> GetAllMods()
         {
             return avaliableMods;
-        }
-
-        public void LoadMod(Mod mod)
-        {
-            string modName = null;
-            mod.SetupMod(
-                GameManager.Singleton.mRenderWnd,
-                GameManager.Singleton.mKeyboard,
-                GameManager.Singleton.mMouse,
-                null
-                );
-        }
-
-        public Mod FindModByName(string modName)
-        {
-            IEnumerable<Mod> modResult = mods.Where(o => o.ModInfo["Name"] == modName);
-            if (modResult.Count() > 0)
-            {
-                return modResult.First();
-            }
-            else
-            {
-                return null;
-            }
         }
 
         void ProcessModFiles()
