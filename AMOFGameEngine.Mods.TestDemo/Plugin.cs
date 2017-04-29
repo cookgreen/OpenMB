@@ -8,16 +8,14 @@ using RGiesecke.DllExport;
 
 namespace AMOFGameEngine.Mods.TestDemo
 {
-    public class TestModPlugin : Plugin
+    public class Plugin : Mogre.Plugin
     {
-        static TestModPlugin singleton;
-
         [DllExport("dllStartPlugin")]
         public static void dllStartPlugin()
         {
             if (singleton == null)
             {
-                singleton = new TestModPlugin();
+                singleton = new Plugin();
             }
             Root.Singleton.InstallPlugin(singleton);
         }
@@ -29,14 +27,17 @@ namespace AMOFGameEngine.Mods.TestDemo
             singleton = null;
         }
 
+        protected static Plugin singleton;
+
         public override void Initialise()
         {
             TestModMain testMod = new TestModMain();
-            testMod.Initilize();
+            testMod.Initialise();
         }
 
         public override void Install()
         {
+            LogManager.Singleton.LogMessage("Mod has installed!");
         }
 
         public override string Name

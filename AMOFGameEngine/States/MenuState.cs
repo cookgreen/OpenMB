@@ -25,7 +25,7 @@ namespace AMOFGameEngine.States
             if (GameManager.Singleton.ogg == null)
             {
                 GameManager.Singleton.ogg = new OggSound();
-                GameManager.Singleton.ogg.OggFileName = @"./vivaldi_winter_allegro.ogg";
+                GameManager.Singleton.ogg.OggFileName = @"./Music/vivaldi_winter_allegro.ogg";
                 GameManager.Singleton.ogg.PlayOgg();
             }
 

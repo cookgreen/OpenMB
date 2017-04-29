@@ -174,6 +174,7 @@ namespace AMOFGameEngine.States
         {
             if (button.getName() == "btnStart")
             {
+                LogManager.Singleton.LogMessage("");
                 //ModManager.Singleton.LoadMod(selectedModName);
             }
             else if (button.getName() == "btnConfigure")

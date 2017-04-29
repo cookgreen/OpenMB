@@ -84,6 +84,8 @@ namespace AMOFGameEngine
                         GameManager.Singleton.mRoot.RenderOneFrame();
                     }
                     timeSinceLastFrame = (int)GameManager.Singleton.mTimer.MillisecondsCPU - startTime;
+
+                    LogManager.Singleton.LogMessage(m_ActiveStateStack.Count.ToString());
                     
 		        }
 		        else

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using MOIS;
-namespace AMOFGameEngine
+namespace AMOFGameEngine.Models
 {
 class SinbadCharacterController
 {
@@ -20,12 +20,12 @@ class SinbadCharacterController
     public const float GRAVITY = 90.0f;          // gravity in downward units per squared second
 
     Camera mCamera;
-    public SceneNode mBodyNode;
+    SceneNode mBodyNode;
     SceneNode mCameraPivot;
     SceneNode mCameraGoal;
     SceneNode mCameraNode;
     float mPivotPitch;
-    public Entity mBodyEnt;
+    Entity mBodyEnt;
     Entity mSword1;
     Entity mSword2;
     RibbonTrail mSwordTrail;
@@ -39,9 +39,6 @@ class SinbadCharacterController
     Mogre.Vector3 mGoalDirection;     // actual intended direction in world-space
     float mVerticalVelocity;     // for jumping
     float mTimer;                // general timer to see how long animations have been playing
-
-    ExCamera excam;
-    SceneNode sightNode;
 	enum AnimID
 	{
 		ANIM_IDLE_BASE,
@@ -62,7 +59,6 @@ class SinbadCharacterController
 
     public SinbadCharacterController(Camera cam)
     {
-        excam = new ExCamera("Sinbad", cam.SceneManager, cam);
         setupBody(cam.SceneManager);
         setupCamera(cam);
         setupAnimations();
@@ -71,65 +67,52 @@ class SinbadCharacterController
 
     public void addTime(float deltaTime)
     {
-        //excam.update(mCameraNode.Position,sightNode.Position);
         updateBody(deltaTime);
         updateAnimations(deltaTime);
         updateCamera(deltaTime);
     }
 
     public void injectKeyDown(KeyEvent evt)
-    {
-        if (evt.key == KeyCode.KC_Q && (mTopAnimID == AnimID.ANIM_IDLE_TOP || mTopAnimID == AnimID.ANIM_RUN_TOP))
-        {
-            // take swords out (or put them back, since it's the same animation but reversed)
-            setTopAnimation(AnimID.ANIM_DRAW_SWORDS, true);
-            mTimer = 0;
-        }
-        else if (evt.key == KeyCode.KC_E && !mSwordsDrawn)
-        {
-            if (mTopAnimID == AnimID.ANIM_IDLE_TOP || mTopAnimID == AnimID.ANIM_RUN_TOP)
-            {
-                // start dancing
-                setBaseAnimation(AnimID.ANIM_DANCE, true);
-                setTopAnimation(AnimID.ANIM_NONE);
-                // disable hand animation because the dance controls hands
-                mAnims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled = false;
-            }
-            else if (mBaseAnimID == AnimID.ANIM_DANCE)
-            {
-                // stop dancing
-                setBaseAnimation(AnimID.ANIM_IDLE_BASE);
-                setTopAnimation(AnimID.ANIM_IDLE_TOP);
-                // re-enable hand animation
-                mAnims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled = true;
-            }
-        }
+    { 
+        if (evt.key ==  KeyCode.KC_Q && (mTopAnimID == AnimID. ANIM_IDLE_TOP || mTopAnimID == AnimID.ANIM_RUN_TOP))
+	    {
+		// take swords out (or put them back, since it's the same animation but reversed)
+		    setTopAnimation(AnimID.ANIM_DRAW_SWORDS, true);
+		    mTimer = 0;
+	    }
+	    else if (evt.key == KeyCode.KC_E && !mSwordsDrawn)
+	    {
+		    if (mTopAnimID == AnimID.ANIM_IDLE_TOP || mTopAnimID == AnimID.ANIM_RUN_TOP)
+		    {
+			    // start dancing
+			    setBaseAnimation(AnimID.ANIM_DANCE, true);
+			    setTopAnimation(AnimID.ANIM_NONE);
+			    // disable hand animation because the dance controls hands
+			    mAnims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled=false;
+		    }
+		    else if (mBaseAnimID == AnimID.ANIM_DANCE)
+		    {
+			    // stop dancing
+			    setBaseAnimation(AnimID.ANIM_IDLE_BASE);
+			    setTopAnimation(AnimID.ANIM_IDLE_TOP);
+			    // re-enable hand animation
+			    mAnims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled=true;
+		    }
+	    }
 
-        // keep track of the player's intended direction
-        else if (evt.key == KeyCode.KC_W)
-        {
-            mKeyDirection.z = -1;
-            //mCameraPivot.Yaw(new Degree(mBodyNode.Orientation.ZAxis.GetRotationTo(mGoalDirection).Yaw.ValueDegrees));
-        }
-        else if (evt.key == KeyCode.KC_A)
-        {
-            mKeyDirection.x = -1;
-            //mCameraPivot.Yaw(new Degree(mBodyNode.Orientation.XAxis.GetRotationTo(mGoalDirection).Yaw.ValueDegrees));
-        }
-        else if (evt.key == KeyCode.KC_S)
-        {
-            mKeyDirection.z = 1;
-            //mCameraPivot.Yaw(new Degree(mBodyNode.Orientation.ZAxis.GetRotationTo(mGoalDirection).Yaw.ValueDegrees));
-        }
-        else if (evt.key == KeyCode.KC_D) mKeyDirection.x = 1;
+	    // keep track of the player's intended direction
+	    else if (evt.key == KeyCode.KC_W) mKeyDirection.z = -1;
+	    else if (evt.key == KeyCode.KC_A) mKeyDirection.x = -1;
+	    else if (evt.key == KeyCode.KC_S) mKeyDirection.z = 1;
+	    else if (evt.key == KeyCode.KC_D) mKeyDirection.x = 1;
 
         else if (evt.key == KeyCode.KC_SPACE && (mTopAnimID == AnimID.ANIM_IDLE_TOP || mTopAnimID == AnimID.ANIM_RUN_TOP))
-        {
-            // jump if on ground
+	    {
+		    // jump if on ground
             setBaseAnimation(AnimID.ANIM_JUMP_START, true);
             setTopAnimation(AnimID.ANIM_NONE);
-            mTimer = 0;
-        }
+		    mTimer = 0;
+	    }
 
         if (!mKeyDirection.IsZeroLength && mBaseAnimID == AnimID.ANIM_IDLE_BASE)
 	    {
@@ -239,14 +222,8 @@ class SinbadCharacterController
 	    mCameraGoal = mCameraPivot.CreateChildSceneNode(new Mogre.Vector3(0, 0, 15));
 	    // this is where the camera actually is
 	    mCameraNode = cam.SceneManager.RootSceneNode.CreateChildSceneNode();
-        sightNode = cam.SceneManager.RootSceneNode.CreateChildSceneNode();
 	    mCameraNode.Position=mCameraPivot.Position + mCameraGoal.Position;
-
-        Mogre.Vector3 tempNode = new Mogre.Vector3(0,0,0);
-        tempNode.y = mCameraNode.Position.y - 50;
-        tempNode.z=-(mCameraNode.Position.z);
-        sightNode.Position = tempNode;
-
+    
 	    mCameraPivot.SetFixedYawAxis(true);
 	    mCameraGoal.SetFixedYawAxis(true);
 	    mCameraNode.SetFixedYawAxis(true);
@@ -420,14 +397,14 @@ class SinbadCharacterController
 		    {
 			    // slowly fade this animation in until it has full weight
 			    float newWeight = mAnims[i].Weight + deltaTime * ANIM_FADE_SPEED;
-			    mAnims[i].Weight=GameManager.Singleton.Clamp(newWeight, 0, 1);
+			    mAnims[i].Weight=GameManager .Singleton.Clamp(newWeight, 0, 1);
 			    if (newWeight >= 1) mFadingIn[i] = false;
 		    }
 		    else if (mFadingOut[i])
 		    {
 			    // slowly fade this animation out until it has no weight, and then disable it
 			    float newWeight = mAnims[i].Weight - deltaTime * ANIM_FADE_SPEED;
-                mAnims[i].Weight=GameManager.Singleton.Clamp(newWeight, 0, 1);
+                mAnims[i].Weight = GameManager.Singleton.Clamp(newWeight, 0, 1);
 			    if (newWeight <= 0)
 			    {
 				    mAnims[i].Enabled=false;
@@ -453,7 +430,7 @@ class SinbadCharacterController
         mCameraPivot.Yaw(new Degree(deltaYaw), Node.TransformSpace.TS_WORLD);
 
 	    // bound the pitch
-	    /*if (!(mPivotPitch + deltaPitch > 25 && deltaPitch > 0) &&
+	    if (!(mPivotPitch + deltaPitch > 25 && deltaPitch > 0) &&
 		    !(mPivotPitch + deltaPitch < -60 && deltaPitch < 0))
 	    {
 		    mCameraPivot.Pitch(new Degree(deltaPitch), Node.TransformSpace.TS_LOCAL);
@@ -468,7 +445,7 @@ class SinbadCharacterController
 		    !(dist + distChange > 25 && distChange > 0))
 	    {
 		    mCameraGoal.Translate(0, 0, distChange, Node.TransformSpace.TS_LOCAL);
-	    }*/
+	    }
     }
 
     private void setBaseAnimation(AnimID id, bool reset = false)
