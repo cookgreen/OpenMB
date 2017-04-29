@@ -2,7 +2,7 @@
 ![Build](https://api.travis-ci.org/cookgreen/AMOFGameEngine.svg?branch=master)
 
 ## Introduction:
-A game engine based on AdvancedMogreFramework
+A open source RPG game engine based on AdvancedMogreFramework
 
 ## Feature:
 * Ogg Support(done)  
