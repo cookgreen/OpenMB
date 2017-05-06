@@ -21,7 +21,7 @@ namespace AMOFGameEngine.States
         bool m_CursorWasVisible;		// was cursor visible before dialog appeared
         bool m_DragLook;              // click and drag to free-look
         public SdkCameraMan m_CameraMan;
-        SinbadCharacterController m_Chara;
+        CharacterController m_Chara;
         NameValuePairList mInfo = new NameValuePairList();    // custom sample info
 
         private Physics physx;
@@ -116,7 +116,11 @@ namespace AMOFGameEngine.States
             m_SceneMgr.RootSceneNode.AttachObject(floor);
 
             // create our character controller
-            m_Chara = new SinbadCharacterController(m_Camera);
+            //m_Chara = new SinbadCharacterController(m_Camera);
+            CharacterDesc charaDesc=new CharacterDesc("Sinbad","Sinbad.mesh");
+            m_Chara = new CharacterController(m_Camera, charaDesc);
+            m_Chara.attachItemToChara("Sheath.L", "SinbadSword1", "Sword.mesh");
+            m_Chara.attachItemToChara("Sheath.R", "SinbadSword2", "Sword.mesh");
 
             GameManager.Singleton.mTrayMgr.toggleAdvancedFrameStats();
 

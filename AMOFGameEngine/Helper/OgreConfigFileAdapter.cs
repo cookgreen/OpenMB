@@ -11,7 +11,7 @@ namespace AMOFGameEngine.Utilities
 {
     class OgreConfigFileAdapter
     {
-        private static string filename;
+        private string filename;
         private List<OgreConfigNode> ogreconfigs;
 
         public OgreConfigFileAdapter(string fileName)
@@ -58,8 +58,20 @@ namespace AMOFGameEngine.Utilities
                 return null;
             }
         }
-        public void SaveConfig(List<OgreConfigNode> configSettings)//Save Config File
+
+        public void SetDefaultRenderSystem(List<OgreConfigNode>  configSettings, string defaultRenderSystem)//Get Default Render System
         {
+            OgreConfigNode ogreDefaultRS = configSettings.Where(o => o.Section == "").First();
+            ogreDefaultRS.Settings.Remove("Render System");
+            Dictionary<string, string> ogreDefaultRSSetting = new Dictionary<string, string>();
+            ogreDefaultRSSetting.Add("Render System", defaultRenderSystem);
+            ogreDefaultRS.Settings = ogreDefaultRSSetting;
+        }
+
+        public void SaveConfig(List<OgreConfigNode> configSettings, string defaultRenderSystem)//Save Config File
+        {
+            SetDefaultRenderSystem(configSettings, defaultRenderSystem);
+
             using (StreamWriter sw = new StreamWriter(filename))
             {
                 foreach (OgreConfigNode singleSetting in configSettings)

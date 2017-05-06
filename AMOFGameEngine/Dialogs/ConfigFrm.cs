@@ -27,6 +27,7 @@ namespace AMOFGameEngine.Dialogs
         LocateSystem ls = new LocateSystem();
         List<OgreConfigNode> ogreConfigs = new List<OgreConfigNode>();
         OgreConfigFileAdapter cfa = new OgreConfigFileAdapter("./ogre.cfg");
+        OgreConfigNode defaultRSConfig = new OgreConfigNode();
 
         string path = "./language.txt";
         public ConfigFrm()
@@ -72,6 +73,10 @@ namespace AMOFGameEngine.Dialogs
         private void cmbSubRenderSys_SelectedIndexChanged(object sender, EventArgs e)
         {
             btnOK.Enabled = true;
+            defaultRSConfig.Section = "";
+            Dictionary<string, string> defaultRSSetting = new Dictionary<string, string>();
+            defaultRSSetting.Add("Render System", cmbSubRenderSys.SelectedItem.ToString());
+            defaultRSConfig.Settings = defaultRSSetting;
             InsetSettingsByIndex();
         }
 
@@ -122,7 +127,7 @@ namespace AMOFGameEngine.Dialogs
         private void btnOK_Click(object sender, EventArgs e)
         {
             ls.SaveLanguageSettingsToFIle(cmbLanguageSelect.SelectedIndex);
-            cfa.SaveConfig(ogreConfigs);
+            cfa.SaveConfig(ogreConfigs,cmbSubRenderSys.SelectedItem.ToString());
             this.Close();
             
             GameApp app = new GameApp();
@@ -152,9 +157,9 @@ namespace AMOFGameEngine.Dialogs
                 OgreConfigNode newConfigNode = new OgreConfigNode();
                 newConfigNode.Section = configNode.Section;
                 newConfigNode.Settings = settings;
-                int indeDeleted=ogreConfigs.IndexOf(configNode);
+                int indexDeleted=ogreConfigs.IndexOf(configNode);
                 ogreConfigs.Remove(configNode);
-                ogreConfigs.Insert(indeDeleted, newConfigNode);
+                ogreConfigs.Insert(indexDeleted, newConfigNode);
             }
             catch (Exception ex)
             {
