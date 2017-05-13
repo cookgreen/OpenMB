@@ -6,6 +6,7 @@ using Mogre;
 using MOIS;
 using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.States;
+using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine
 {
@@ -19,6 +20,7 @@ namespace AMOFGameEngine
          public AppStateManager()
          {
              m_bShutdown = false;
+             ModManager.Singleton.ModStateChangedAction += new Action<ModEventArgs>(ModManager_ModStateChanged);
          }
           ~AppStateManager()
          {
@@ -84,8 +86,6 @@ namespace AMOFGameEngine
                         GameManager.Singleton.mRoot.RenderOneFrame();
                     }
                     timeSinceLastFrame = (int)GameManager.Singleton.mTimer.MillisecondsCPU - startTime;
-
-                    LogManager.Singleton.LogMessage(m_ActiveStateStack.Count.ToString());
                     
 		        }
 		        else
@@ -98,15 +98,18 @@ namespace AMOFGameEngine
          }
          public override void changeAppState(AppState state)
          {
-             if (m_ActiveStateStack.Count!=0)
+             if (state != null)
              {
-                 m_ActiveStateStack.Last().exit();
-                 m_ActiveStateStack.RemoveAt(m_ActiveStateStack.Count()-1);
-             }
+                 if (m_ActiveStateStack.Count != 0)
+                 {
+                     m_ActiveStateStack.Last().exit();
+                     m_ActiveStateStack.RemoveAt(m_ActiveStateStack.Count() - 1);
+                 }
 
-             m_ActiveStateStack.Insert(m_ActiveStateStack.Count(),state);
-             init(state);
-             m_ActiveStateStack.Last().enter();
+                 m_ActiveStateStack.Insert(m_ActiveStateStack.Count(), state);
+                 init(state);
+                 m_ActiveStateStack.Last().enter();
+             }
          }
          public override bool pushAppState(AppState state)
          {
@@ -170,6 +173,18 @@ namespace AMOFGameEngine
          {
              GameManager.Singleton.mTrayMgr.setListener(state);
              GameManager.Singleton.mRenderWnd.ResetStatistics();
+         }
+
+         public void ModManager_ModStateChanged(ModEventArgs e)
+         {
+             if (e.modState == ModState.Stop)
+             {
+                 changeAppState(findByName("ModChooser"));
+             }
+             else if (e.modState == ModState.Run)
+             {
+                 changeAppState(findByName("MenuState"));
+             }
          }
          protected List<AppState> m_ActiveStateStack = new List<AppState>();
          protected List<state_info> m_States=new List<state_info>();

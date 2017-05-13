@@ -151,9 +151,6 @@ namespace AMOFGameEngine.States
 
             m_SceneMgr.DestroyCamera(m_Camera);
             if (m_CameraMan != null) m_CameraMan = null;
-
-            if (m_SceneMgr != null)
-                GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
         }
         public override bool pause()
         {

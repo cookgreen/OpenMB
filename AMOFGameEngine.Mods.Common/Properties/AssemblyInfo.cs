@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("AMOFGameEngine.Mod.Common")]
+[assembly: AssemblyTitle("AMOFGameEngine.Mods.Common")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("AMOFGameEngine Development Team")]
-[assembly: AssemblyProduct("AMOFGameEngine.Mod.Common")]
+[assembly: AssemblyProduct("AMOFGameEngine.Mods.Common")]
 [assembly: AssemblyCopyright("GNU GENERAL PUBLIC LICENSE Version 3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

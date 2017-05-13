@@ -71,9 +71,9 @@ namespace AMOFGameEngine.States
             if(m_SceneMgr!=null)
                 GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
 
+            GameManager.Singleton.mTrayMgr.setListener(null);
             GameManager.Singleton.mTrayMgr.clearAllTrays();
             GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-            GameManager.Singleton.mTrayMgr.setListener(null);
         }
 
         public bool keyPressed(KeyEvent keyEventRef)

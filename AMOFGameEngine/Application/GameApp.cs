@@ -19,16 +19,14 @@ namespace AMOFGameEngine
             if (!GameManager.Singleton.InitGame())
                 return;
 
-            GameManager.Singleton.mLog.LogMessage("Demo initialized!");
-
-            //ModChooser.create<ModChooser>(GameManager.Singleton.m_pAppStateManager, "ModChooser");
+            ModChooser.create<ModChooser>(m_pAppStateManager, "ModChooser");
             MenuState.create<MenuState>(m_pAppStateManager, "MenuState");
             GameState.create<GameState>(m_pAppStateManager, "GameState");
             SinbadState.create<SinbadState>(m_pAppStateManager, "SinbadState");
             PhysxState.create<PhysxState>(m_pAppStateManager, "PhysxState");
             PauseState.create<PauseState>(m_pAppStateManager, "PauseState");
 
-            m_pAppStateManager.start(m_pAppStateManager.findByName("MenuState"));
+            m_pAppStateManager.start(m_pAppStateManager.findByName("ModChooser"));
         }
 
         private AppStateManager m_pAppStateManager;

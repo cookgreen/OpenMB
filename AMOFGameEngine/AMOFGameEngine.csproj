@@ -48,6 +48,9 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AMOFGameEngine.Mods.Common">
+      <HintPath>..\Mods\AMOFGameEngine.Mods.Common.dll</HintPath>
+    </Reference>
     <Reference Include="eyecm.PhysX">
       <HintPath>..\Dependencies\eyecm.PhysX.dll</HintPath>
     </Reference>
@@ -97,6 +100,7 @@
     <Compile Include="Models\CharacterController.cs" />
     <Compile Include="Models\ItemDesc.cs" />
     <Compile Include="Mods\ModBaseInfo.cs" />
+    <Compile Include="Mods\ModEventArgs.cs" />
     <Compile Include="Mods\ModManager.cs" />
     <Compile Include="States\AppState.cs" />
     <Compile Include="Manager\AppStateManager.cs" />

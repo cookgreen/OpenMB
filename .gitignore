@@ -1,8 +1,8 @@
 packages/*
-AMOFGameEngine/obj/*
-AMOFGameEngine.Mod.Common/obj/*
-AMOFGameEngine.Mod.Common/bin/*
-AMOFGameEngine.Mods.TestDemo/obj/*
-AMOFGameEngine.Mods.TestDemo/bin/*
+AMOFGameEngine/obj/*/*
+AMOFGameEngine.Mods.Common/obj/*/*
+AMOFGameEngine.Mods.Common/bin/*/*
+AMOFGameEngine.Mods.Sample/obj/*/*
+AMOFGameEngine.Mods.Sample/bin/*/*
 Log/*.log
 Ogre.log
