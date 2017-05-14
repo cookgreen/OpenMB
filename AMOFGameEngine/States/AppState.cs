@@ -5,6 +5,7 @@ using System.Text;
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
+using AMOFGameEngine.Models;
 
 namespace AMOFGameEngine.States
 {
@@ -16,7 +17,7 @@ namespace AMOFGameEngine.States
         public virtual void manageAppState(String stateName, AppState state) { }
 
         public virtual AppState findByName(String stateName) { return null; }
-        public virtual void changeAppState(AppState state) { }
+        public virtual void changeAppState(AppState state, AppStateArgs e = null) { }
         public virtual bool pushAppState(AppState state) { return false; }
         public virtual void popAppState() { }
         public virtual void pauseAppState() { }
@@ -36,7 +37,7 @@ namespace AMOFGameEngine.States
         {
         }
  
-	    public virtual void enter(){}
+	    public virtual void enter(AppStateArgs e=null){}
 	    public virtual void exit(){}
 	    public virtual bool pause(){return false;}
 	    public virtual void resume(){}
@@ -44,7 +45,7 @@ namespace AMOFGameEngine.States
         public AppState(){}
 
         protected AppState findByName(String stateName) { return m_pParent.findByName(stateName); }
-        protected void changeAppState(AppState state) { m_pParent.changeAppState(state); }
+        protected void changeAppState(AppState state,AppStateArgs e=null) { m_pParent.changeAppState(state); }
         protected bool pushAppState(AppState state) { return m_pParent.pushAppState(state); }
         protected void popAppState() { m_pParent.popAppState(); }
         protected void shutdown() { m_pParent.shutdown(); }

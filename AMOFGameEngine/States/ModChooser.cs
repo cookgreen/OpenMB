@@ -6,6 +6,7 @@ using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
 using AMOFGameEngine.Mods;
+using AMOFGameEngine.Models;
 
 namespace AMOFGameEngine.States
 {
@@ -29,7 +30,7 @@ namespace AMOFGameEngine.States
             mModThumbs = new List<OverlayContainer>();
         }
 
-        public override void enter()
+        public override void enter(AppStateArgs e = null)
         {
             m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "ModChooserSceneMgr");
 

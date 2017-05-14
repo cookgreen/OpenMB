@@ -55,7 +55,7 @@ namespace AMOFGameEngine.States
             return true;
         }
 
-        public override void enter()
+        public override void enter(AppStateArgs e = null)
         {
             GameManager.Singleton.mLog.LogMessage("Entering SinbadState...");
             GameManager.LastStateName = "SinbadState";

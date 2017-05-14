@@ -7,6 +7,7 @@ using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.Utilities;
+using AMOFGameEngine.Models;
 
 namespace AMOFGameEngine.States
 {
@@ -17,7 +18,7 @@ namespace AMOFGameEngine.States
             m_bQuit         = false;
             m_FrameEvent    = new FrameEvent();
         }
-        public override void enter()
+        public override void enter(AppStateArgs e=null)
         {
             GameManager.Singleton.mLog.LogMessage("Entering MenuState...");
             m_bQuit = false;
@@ -48,11 +49,13 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mTrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
             GameManager.Singleton.mTrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
             GameManager.Singleton.mTrayMgr.showCursor();
-            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", LocateSystem.CreateLocateString("11161220"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "EnterBtn", LocateSystem.CreateLocateString("11161221"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "EnterSinbadBtn", LocateSystem.CreateLocateString("11161222"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "EnterPhysxBtn", LocateSystem.CreateLocateString("11161223"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", LocateSystem.CreateLocateString("11161224"), 250);
+            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl",e!=null?LocateSystem.LOC(e.modName):LocateSystem.LOC("MenuState") , 400);
+
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "SinglePlayer", LocateSystem.LOC("Single Player"),250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "LoadGame", LocateSystem.LOC("Load Game"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "MultiPlayer", LocateSystem.LOC("Multiplayer"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Option", LocateSystem.LOC("Option"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Quit", LocateSystem.LOC("Quit"), 250);
 
             GameManager.Singleton.mMouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
             GameManager.Singleton.mMouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
@@ -111,13 +114,13 @@ namespace AMOFGameEngine.States
 
         public override void buttonHit(Button button)
         {
-            if (button.getName() == "ExitBtn")
+            if (button.getName() == "Quit")
                 m_bQuit = true;
-            else if (button.getName() == "EnterBtn")
+            else if (button.getName() == "LoadGame")
                 changeAppState(findByName("GameState"));
-            else if (button.getName() == "EnterPhysxBtn")
+            else if (button.getName() == "MultiPlayer")
                 changeAppState(findByName("PhysxState"));
-            else if (button.getName() == "EnterSinbadBtn")
+            else if (button.getName() == "SinglePlayer")
                 changeAppState(findByName("SinbadState"));
         }
 

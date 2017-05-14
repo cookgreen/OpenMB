@@ -10,6 +10,7 @@ using Mogre_Procedural.MogreBites.Addons;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.Utilities;
+using AMOFGameEngine.Models;
 
 namespace AMOFGameEngine.States
 {
@@ -112,7 +113,7 @@ namespace AMOFGameEngine.States
                 }
             }
         }
-        public override void enter()
+        public override void enter(AppStateArgs e = null)
         {
             GameManager.Singleton.mLog.LogMessage("Entering PhysxState...");
             GameManager.LastStateName = "PhysxState";

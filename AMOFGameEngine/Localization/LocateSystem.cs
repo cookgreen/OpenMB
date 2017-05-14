@@ -27,6 +27,12 @@ namespace AMOFGameEngine.Localization
         {
         }
 
+        public static string LOC(string str)
+        {
+            LocateUCSFile.AddNewKeyByStr(str);
+            return str;
+        }
+
         public static bool InitLocateSystem(LOCATE CurrentLocate)
         {
             locate = CurrentLocate;
@@ -169,6 +175,11 @@ namespace AMOFGameEngine.Localization
                 sw.Flush();
                 sw.Close();
             }
+        }
+
+        public static void SaveLocateFile()
+        {
+            LocateUCSFile.SaveUCSFile("GameStrings.ucs", locate);
         }
     }
 }

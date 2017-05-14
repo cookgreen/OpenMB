@@ -97,6 +97,7 @@
     <Compile Include="Localization\LocateSystem.cs" />
     <Compile Include="Helper\ActorNode.cs" />
     <Compile Include="Manager\GameManager.cs" />
+    <Compile Include="Models\AppStateArgs.cs" />
     <Compile Include="Models\CharacterController.cs" />
     <Compile Include="Models\ItemDesc.cs" />
     <Compile Include="Mods\ModBaseInfo.cs" />

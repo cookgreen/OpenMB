@@ -7,11 +7,15 @@ using MOIS;
 using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.States;
 using AMOFGameEngine.Mods;
+using AMOFGameEngine.Models;
 
 namespace AMOFGameEngine
 {
     public class AppStateManager : AppStateListener
     {
+        protected List<AppState> m_ActiveStateStack = new List<AppState>();
+        protected List<state_info> m_States = new List<state_info>();
+        protected bool m_bShutdown;
          public struct state_info
         {
             public String name;
@@ -93,10 +97,10 @@ namespace AMOFGameEngine
                     System.Threading.Thread.Sleep(1000);
 		        }
 	        }
-
+            Localization.LocateSystem.SaveLocateFile();
             GameManager.Singleton.mLog.LogMessage("Game Quit");
          }
-         public override void changeAppState(AppState state)
+         public override void changeAppState(AppState state,AppStateArgs e=null)
          {
              if (state != null)
              {
@@ -108,7 +112,7 @@ namespace AMOFGameEngine
 
                  m_ActiveStateStack.Insert(m_ActiveStateStack.Count(), state);
                  init(state);
-                 m_ActiveStateStack.Last().enter();
+                 m_ActiveStateStack.Last().enter(e);
              }
          }
          public override bool pushAppState(AppState state)
@@ -183,11 +187,10 @@ namespace AMOFGameEngine
              }
              else if (e.modState == ModState.Run)
              {
-                 changeAppState(findByName("MenuState"));
+                 changeAppState(findByName("MenuState"), new AppStateArgs() { 
+                     modName=e.modName
+                 });
              }
          }
-         protected List<AppState> m_ActiveStateStack = new List<AppState>();
-         protected List<state_info> m_States=new List<state_info>();
-         protected bool m_bShutdown;
     }
 }

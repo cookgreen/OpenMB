@@ -7,6 +7,7 @@ using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.Utilities;
+using AMOFGameEngine.Models;
 
 namespace AMOFGameEngine.States
 {
@@ -19,7 +20,7 @@ namespace AMOFGameEngine.States
             m_FrameEvent        = new FrameEvent();
         }
 
-        public override void enter()
+        public override void enter(AppStateArgs e = null)
         {
             GameManager.Singleton.mLog.LogMessage("Entering PauseState...");
             m_bQuit = false;
