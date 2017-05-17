@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AStarPathFind.cs" />
-    <Compile Include="Manager\SoundManager.cs" />
+    <Compile Include="Sound\SoundManager.cs" />
     <Compile Include="Dialogs\ConfigFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,24 +96,21 @@
     </Compile>
     <Compile Include="Localization\LocateSystem.cs" />
     <Compile Include="Helper\ActorNode.cs" />
-    <Compile Include="Manager\GameManager.cs" />
+    <Compile Include="Core\GameManager.cs" />
     <Compile Include="Models\AppStateArgs.cs" />
     <Compile Include="Models\CharacterController.cs" />
     <Compile Include="Models\ItemDesc.cs" />
     <Compile Include="Mods\ModBaseInfo.cs" />
     <Compile Include="Mods\ModEventArgs.cs" />
     <Compile Include="Mods\ModManager.cs" />
+    <Compile Include="Network\SendData.cs" />
     <Compile Include="States\AppState.cs" />
-    <Compile Include="Manager\AppStateManager.cs" />
+    <Compile Include="States\AppStateManager.cs" />
     <Compile Include="Models\CharacterDesc.cs" />
     <Compile Include="Sound\OggSound.cs" />
     <Compile Include="States\ModChooser.cs" />
-    <Compile Include="States\PhysxState.cs" />
-    <Compile Include="States\SinbadState.cs" />
     <Compile Include="Application\GameApp.cs" />
-    <Compile Include="States\GameState.cs" />
-    <Compile Include="States\MenuState.cs" />
-    <Compile Include="States\PauseState.cs" />
+    <Compile Include="States\MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helper\RMogre.cs" />
@@ -122,6 +119,7 @@
     <Compile Include="Helper\OgreConfigFileAdapter.cs" />
     <Compile Include="Localization\LocateUCSFile.cs" />
     <Compile Include="Helper\OgreConfigNode.cs" />
+    <Compile Include="States\Pause.cs" />
     <EmbeddedResource Include="Dialogs\ConfigFrm.resx">
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </EmbeddedResource>
@@ -146,9 +144,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Network\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="OgreHead.ico" />
   </ItemGroup>

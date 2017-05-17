@@ -9,7 +9,6 @@ namespace AMOFGameEngine
     {
         public GameApp()
         {
-            m_pAppStateManager = new AppStateManager();
         }
 
         public void Run()
@@ -19,16 +18,11 @@ namespace AMOFGameEngine
             if (!GameManager.Singleton.InitGame())
                 return;
 
-            ModChooser.create<ModChooser>(m_pAppStateManager, "ModChooser");
-            MenuState.create<MenuState>(m_pAppStateManager, "MenuState");
-            GameState.create<GameState>(m_pAppStateManager, "GameState");
-            SinbadState.create<SinbadState>(m_pAppStateManager, "SinbadState");
-            PhysxState.create<PhysxState>(m_pAppStateManager, "PhysxState");
-            PauseState.create<PauseState>(m_pAppStateManager, "PauseState");
+            ModChooser.create<ModChooser>(GameManager.Singleton.mAppStateMgr, "ModChooser");
+            MainMenu.create<MainMenu>(GameManager.Singleton.mAppStateMgr, "MainMenu");
+            Pause.create<Pause>(GameManager.Singleton.mAppStateMgr, "Pause");
 
-            m_pAppStateManager.start(m_pAppStateManager.findByName("ModChooser"));
+            GameManager.Singleton.mAppStateMgr.start(GameManager.Singleton.mAppStateMgr.findByName("ModChooser"));
         }
-
-        private AppStateManager m_pAppStateManager;
     }
 }

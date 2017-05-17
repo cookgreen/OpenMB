@@ -36,22 +36,22 @@ namespace AMOFGameEngine.Dialogs
         }
         private void ConfigFrm_Load(object sender, EventArgs e)
         {
-            selectedlocate = LocateSystem.GetLanguageFromFile();
+            selectedlocate = ls.GetLanguageFromFile();
             if (selectedlocate != LOCATE.invalid)
             {
-                cmbLanguageSelect.SelectedIndex = LocateSystem.CovertLocateInfoToIndex(selectedlocate);
+                cmbLanguageSelect.SelectedIndex = ls.CovertLocateInfoToIndex(selectedlocate);
 
-                LocateSystem.InitLocateSystem(selectedlocate);// Init Locate System
-                LocateSystem.IsInit = true;
+                ls.InitLocateSystem(selectedlocate);// Init Locate System
+                ls.IsInit = true;
 
-                tbRenderOpt.TabPages[0].Text = LocateSystem.CreateLocateString("22161220");
-                tbRenderOpt.TabPages[1].Text = LocateSystem.CreateLocateString("22161226");
-                tbRenderOpt.TabPages[2].Text = LocateSystem.CreateLocateString("22161224");
+                tbRenderOpt.TabPages[0].Text = ls.CreateLocateString("22161220");
+                tbRenderOpt.TabPages[1].Text = ls.CreateLocateString("22161226");
+                tbRenderOpt.TabPages[2].Text = ls.CreateLocateString("22161224");
 
-                lblRenderSys.Text = LocateSystem.CreateLocateString("22161221");
-                lblCOO.Text = LocateSystem.CreateLocateString("22161223");
-                lblLang.Text = LocateSystem.CreateLocateString("22161225");
-                gbRenderOpt.Text = LocateSystem.CreateLocateString("22161222");
+                lblRenderSys.Text = ls.CreateLocateString("22161221");
+                lblCOO.Text = ls.CreateLocateString("22161223");
+                lblLang.Text = ls.CreateLocateString("22161225");
+                gbRenderOpt.Text = ls.CreateLocateString("22161222");
             }
 
             ogreConfigs = cfa.ReadConfigData();

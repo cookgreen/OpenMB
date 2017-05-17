@@ -8,5 +8,6 @@ namespace AMOFGameEngine.Models
     public class AppStateArgs
     {
         public string modName;
+        public int modIndex;
     }
 }

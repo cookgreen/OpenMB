@@ -48,10 +48,6 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AMOFGameEngine.Mods.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Mods\AMOFGameEngine.Mods.Common.dll</HintPath>
-    </Reference>
     <Reference Include="Mogre, Version=1.7.4.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\Mogre.dll</HintPath>
@@ -81,11 +77,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ModMain.cs" />
     <Compile Include="SampleScene.cs" />
+    <Compile Include="SampleSceneMP.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AMOFGameEngine.Mods.Common\AMOFGameEngine.Mods.Common.csproj">
+      <Project>{3CA78AEC-8720-40A2-9E68-476A81BD98C1}</Project>
+      <Name>AMOFGameEngine.Mods.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AMOFGameEngine\AMOFGameEngine.csproj">
       <Project>{70878EFC-AF3F-4792-AB2F-CE47EBCA487D}</Project>
       <Name>AMOFGameEngine</Name>

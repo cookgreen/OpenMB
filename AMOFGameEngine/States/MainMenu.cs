@@ -11,16 +11,22 @@ using AMOFGameEngine.Models;
 
 namespace AMOFGameEngine.States
 {
-    class MenuState : AppState
+    class MainMenu : AppState,IDisposable
     {
-        public MenuState()
+        int modIndex;
+        public MainMenu()
         {
+            modIndex = -1;
             m_bQuit         = false;
             m_FrameEvent    = new FrameEvent();
         }
         public override void enter(AppStateArgs e=null)
         {
-            GameManager.Singleton.mLog.LogMessage("Entering MenuState...");
+            if (e != null)
+            {
+                modIndex = e.modIndex;
+            }
+
             m_bQuit = false;
 
             if (GameManager.Singleton.ogg == null)
@@ -40,22 +46,27 @@ namespace AMOFGameEngine.States
             Mogre.Vector3 vectorCameraLookat=new Mogre.Vector3(0,0,0);
             m_Camera.LookAt(vectorCameraLookat);
             m_Camera.NearClipDistance=1;//setNearClipDistance(1);
- 
+
+            GameManager.Singleton.mRenderWnd.RemoveAllViewports();
+            GameManager.Singleton.mViewport = GameManager.Singleton.mRenderWnd.AddViewport(null);
+            GameManager.Singleton.mViewport.BackgroundColour = new ColourValue(0.5f, 0.5f, 0.5f);
+
+            GameManager.Singleton.mViewport.Camera = m_Camera;
+
             m_Camera.AspectRatio=GameManager.Singleton.mViewport.ActualWidth / GameManager.Singleton.mViewport.ActualHeight;
- 
-            GameManager.Singleton.mViewport.Camera=m_Camera;
 
             GameManager.Singleton.mTrayMgr.destroyAllWidgets();
             GameManager.Singleton.mTrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
             GameManager.Singleton.mTrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
             GameManager.Singleton.mTrayMgr.showCursor();
-            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl",e!=null?LocateSystem.LOC(e.modName):LocateSystem.LOC("MenuState") , 400);
 
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "SinglePlayer", LocateSystem.LOC("Single Player"),250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "LoadGame", LocateSystem.LOC("Load Game"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "MultiPlayer", LocateSystem.LOC("Multiplayer"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Option", LocateSystem.LOC("Option"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Quit", LocateSystem.LOC("Quit"), 250);
+            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", e != null ? GameManager.Singleton.mLocateMgr.LOC(e.modName) : GameManager.Singleton.mLocateMgr.LOC("MenuState"), 400);
+
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "SinglePlayer", GameManager.Singleton.mLocateMgr.LOC("Single Player"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "LoadGame", GameManager.Singleton.mLocateMgr.LOC("Load Game"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "MultiPlayer", GameManager.Singleton.mLocateMgr.LOC("Multiplayer"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "ModChooser", GameManager.Singleton.mLocateMgr.LOC("Mods"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Quit", GameManager.Singleton.mLocateMgr.LOC("Quit"), 250);
 
             GameManager.Singleton.mMouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
             GameManager.Singleton.mMouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
@@ -76,7 +87,7 @@ namespace AMOFGameEngine.States
 
             GameManager.Singleton.mTrayMgr.setListener(null);
             GameManager.Singleton.mTrayMgr.clearAllTrays();
-            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+            //GameManager.Singleton.mTrayMgr.destroyAllWidgets();
         }
 
         public bool keyPressed(KeyEvent keyEventRef)
@@ -119,9 +130,17 @@ namespace AMOFGameEngine.States
             else if (button.getName() == "LoadGame")
                 changeAppState(findByName("GameState"));
             else if (button.getName() == "MultiPlayer")
-                changeAppState(findByName("PhysxState"));
+            {
+                GameManager.Singleton.mModMgr.RunModMP(modIndex);
+            }
+            //changeAppState(findByName("Multiplayer"));
             else if (button.getName() == "SinglePlayer")
-                changeAppState(findByName("SinbadState"));
+            {
+                GameManager.Singleton.mModMgr.RunMod(modIndex);
+            }
+            //changeAppState(findByName("SinglePlayer"));
+            else if (button.getName() == "ModChooser")
+                changeAppState(findByName("ModChooser"));
         }
 
         public override void update(double timeSinceLastFrame)

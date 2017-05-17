@@ -5,11 +5,10 @@ using System.Linq;
 using Mogre;
 using MOIS;
 using Mogre_Procedural.MogreBites;
-using AMOFGameEngine.States;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.Models;
 
-namespace AMOFGameEngine
+namespace AMOFGameEngine.States
 {
     public class AppStateManager : AppStateListener
     {
@@ -24,7 +23,7 @@ namespace AMOFGameEngine
          public AppStateManager()
          {
              m_bShutdown = false;
-             ModManager.Singleton.ModStateChangedAction += new Action<ModEventArgs>(ModManager_ModStateChanged);
+             GameManager.Singleton.mModMgr .ModStateChangedAction += new Action<ModEventArgs>(ModManager_ModStateChanged);
          }
           ~AppStateManager()
          {
@@ -97,7 +96,7 @@ namespace AMOFGameEngine
                     System.Threading.Thread.Sleep(1000);
 		        }
 	        }
-            Localization.LocateSystem.SaveLocateFile();
+            GameManager.Singleton.mLocateMgr.SaveLocateFile();
             GameManager.Singleton.mLog.LogMessage("Game Quit");
          }
          public override void changeAppState(AppState state,AppStateArgs e=null)
@@ -183,12 +182,17 @@ namespace AMOFGameEngine
          {
              if (e.modState == ModState.Stop)
              {
-                 changeAppState(findByName("ModChooser"));
+                 changeAppState(findByName("MainMenu"), new AppStateArgs()
+                 {
+                     modName = e.modName,
+                     modIndex = e.modIndex
+                 });
              }
              else if (e.modState == ModState.Run)
              {
-                 changeAppState(findByName("MenuState"), new AppStateArgs() { 
-                     modName=e.modName
+                 changeAppState(findByName("MainMenu"), new AppStateArgs() { 
+                     modName=e.modName,
+                     modIndex=e.modIndex
                  });
              }
          }

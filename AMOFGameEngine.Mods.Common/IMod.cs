@@ -15,7 +15,9 @@ namespace AMOFGameEngine.Mods.Common
 
         bool SetupMod(Root root,RenderWindow win,SdkTrayManager trayMgr,Mouse mouse,Keyboard keyboard);
 
-        void StartMod();
+        void StartModSP();
+
+        void StartModMP();
 
         void StopMod();
     }

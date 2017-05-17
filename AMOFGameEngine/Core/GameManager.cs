@@ -10,6 +10,8 @@ using NVorbis;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.Utilities;
+using AMOFGameEngine.States;
+using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine
 {
@@ -25,13 +27,19 @@ namespace AMOFGameEngine
         public Mouse mMouse;
         public SdkTrayManager mTrayMgr;
         public static string LastStateName;
-        public AppStateManager m_pAppStateManager;
 
         public OggSound ogg;
 
         private string defaultRS;
         OgreConfigFileAdapter cfa;
         List<OgreConfigNode> ogreConfigs;
+
+        public AppStateManager mAppStateMgr;
+        public SoundManager mSoundMgr;
+        public ModManager mModMgr;
+        public LocateSystem mLocateMgr;
+
+
         static GameManager singleton;
         public static GameManager Singleton
         {
@@ -57,7 +65,8 @@ namespace AMOFGameEngine
             mKeyboard = null;
             mMouse = null;
             mTrayMgr = null;
-            m_pAppStateManager = new AppStateManager();
+            mAppStateMgr = null;
+            mSoundMgr = null;
             cfa = new OgreConfigFileAdapter("./ogre.cfg");
             ogreConfigs=new List<OgreConfigNode>();
          }
@@ -117,7 +126,6 @@ namespace AMOFGameEngine
             MOIS.MouseState_NativePtr mouseState = mMouse.MouseState;
                 mouseState.width = mViewport.ActualWidth;
                 mouseState.height = mViewport.ActualHeight;
-            //m_pMouse.MouseState = tempMouseState;
 
  
             String secName, typeName, archName;
@@ -151,8 +159,16 @@ namespace AMOFGameEngine
 
         public bool InitGame()
         {
-            if (!LocateSystem.IsInit)
-                LocateSystem.InitLocateSystem(LocateSystem.GetLanguageFromFile());
+            mLocateMgr = new LocateSystem();
+            if (!mLocateMgr.IsInit)
+            {
+                mLocateMgr.InitLocateSystem(mLocateMgr.GetLanguageFromFile());
+            }
+            /*if (!LocateSystem.IsInit)
+                LocateSystem.InitLocateSystem(LocateSystem.GetLanguageFromFile());*/
+            mSoundMgr = new SoundManager();
+            mModMgr = new ModManager();
+            mAppStateMgr = new AppStateManager();
             return true;
         }
 

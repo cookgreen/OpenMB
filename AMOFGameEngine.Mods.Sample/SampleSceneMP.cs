@@ -9,7 +9,7 @@ using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine.Mods.Sample
 {
-    public class SampleScene
+    public class SampleSceneMP
     {
         public event EventHandler<ModEventArgs> ModStateChangedEvent;//0-Stop;1-Run
         private SceneManager scm;
@@ -18,7 +18,7 @@ namespace AMOFGameEngine.Mods.Sample
         private Mouse mouse;
         private Keyboard keyboard;
         private SdkTrayManager trayMgr;
-        public SampleScene( SceneManager scm,Viewport vp,SdkTrayManager trayMgr,Mouse mouse,Keyboard keyboard)
+        public SampleSceneMP(SceneManager scm, Viewport vp, SdkTrayManager trayMgr, Mouse mouse, Keyboard keyboard)
         {
             this.scm = scm;
             this.vp = vp;
@@ -36,7 +36,7 @@ namespace AMOFGameEngine.Mods.Sample
         {
             if (ModStateChangedEvent != null)
             {
-                ModStateChangedEvent(this, new ModEventArgs() { modState = ModState.Stop });
+                ModStateChangedEvent(this, new ModEventArgs() {  modName="AMOFGameEngine.Mods.Sample",modState = ModState.Stop });
             }
         }
 
@@ -45,7 +45,7 @@ namespace AMOFGameEngine.Mods.Sample
             trayMgr.destroyAllWidgets();
 
             vp.BackgroundColour = new ColourValue(1.0f,1.0f,1.0f);
-            cam = scm.CreateCamera("SampleCam");
+            cam = scm.CreateCamera("SampleCamMP");
             vp.Camera = cam;
             cam.AspectRatio = vp.ActualWidth / vp.ActualHeight;
             cam.NearClipDistance = 5;
@@ -71,7 +71,7 @@ namespace AMOFGameEngine.Mods.Sample
             {
                 if (ModStateChangedEvent != null)
                 {
-                    ModStateChangedEvent(this, new ModEventArgs() { modName="AMOFGameEngine.Mods.Sample", modState = ModState.Stop });
+                    ModStateChangedEvent(this, new ModEventArgs() { modState = ModState.Stop });
                 }
             }
             return true;

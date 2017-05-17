@@ -19,21 +19,21 @@ namespace AMOFGameEngine.Localization
 
     public class LocateSystem
     {
-        private static LOCATE locate;
-        private static string path="./language.txt";
-        public static bool IsInit;
+        private LOCATE locate;
+        private string path="./language.txt";
+        public bool IsInit;
 
         public LocateSystem()
         {
         }
 
-        public static string LOC(string str)
+        public string LOC(string str)
         {
             LocateUCSFile.AddNewKeyByStr(str);
             return str;
         }
 
-        public static bool InitLocateSystem(LOCATE CurrentLocate)
+        public bool InitLocateSystem(LOCATE CurrentLocate)
         {
             locate = CurrentLocate;
             LocateUCSFile.PrepareUCSFile();
@@ -45,7 +45,7 @@ namespace AMOFGameEngine.Localization
                 return false;
         }
 
-        public static string CreateLocateString(string ID)
+        public string CreateLocateString(string ID)
         {
             string res = LocateUCSFile.SeekValueByKey(ID);
             if (!string.IsNullOrEmpty(res))
@@ -56,7 +56,7 @@ namespace AMOFGameEngine.Localization
                 return null;
         }
 
-        public static LOCATE GetLanguageFromFile()
+        public LOCATE GetLanguageFromFile()
         {
             string locate;
             if (!File.Exists(path))
@@ -88,7 +88,7 @@ namespace AMOFGameEngine.Localization
             }
         }
 
-        public static int CovertLocateInfoToIndex(LOCATE locate)
+        public int CovertLocateInfoToIndex(LOCATE locate)
         {
             switch (locate)
             {
@@ -177,7 +177,7 @@ namespace AMOFGameEngine.Localization
             }
         }
 
-        public static void SaveLocateFile()
+        public void SaveLocateFile()
         {
             LocateUCSFile.SaveUCSFile("GameStrings.ucs", locate);
         }

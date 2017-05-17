@@ -10,7 +10,10 @@ using AMOFGameEngine.Mods.Common;
 
 namespace AMOFGameEngine.Mods.Sample
 {
-    class ModMain : IMod
+    /// <summary>
+    /// Main entry to the Mod
+    /// </summary>
+    public class ModMain : IMod
     {
         public event EventHandler<ModEventArgs> ModStateChangedEvent;//0-Stop;1-Run
 
@@ -21,6 +24,7 @@ namespace AMOFGameEngine.Mods.Sample
         SceneManager scm;
         Viewport vp;
         SdkTrayManager trayMgr;
+        NameValuePairList modInfo;
 
         public bool SetupMod(Root root,RenderWindow win,SdkTrayManager trayMgr, Mouse mouse, Keyboard keyboard)
         {
@@ -28,12 +32,15 @@ namespace AMOFGameEngine.Mods.Sample
             this.win = win;
             this.mouse = mouse;
             this.keyboard = keyboard;
+            this.trayMgr = trayMgr;
+            modInfo = new NameValuePairList();
+            
             try
             {
                 LocateResources();
                 CreateSceneMgr();
                 SetupView();
-
+                
                 return true;
             }
             catch 
@@ -58,12 +65,42 @@ namespace AMOFGameEngine.Mods.Sample
             vp = win.AddViewport(null);
         }
 
-        public void StartMod()
+        /// <summary>
+        /// Start Single Player in Mod
+        /// </summary>
+        public void StartModSP()
         {
             SampleScene scene = new SampleScene(scm, vp,trayMgr, mouse, keyboard);
             scene.ModStateChangedEvent += new EventHandler<ModEventArgs>(scene_ModStateChangedEvent);
             scene.Enter();
             //scene.Update();
+        }
+
+        /// <summary>
+        /// Start Multiplayer in Mod
+        /// </summary>
+        public void StartModMP()
+        {
+            SampleSceneMP sceneMP = new SampleSceneMP(scm, vp, trayMgr, mouse, keyboard);
+            sceneMP.ModStateChangedEvent += new EventHandler<ModEventArgs>(sceneMP_ModStateChangedEvent);
+            sceneMP.Enter();
+        }
+
+        void sceneMP_ModStateChangedEvent(object sender, ModEventArgs e)
+        {
+            if (ModStateChangedEvent != null)
+            {
+                ModStateChangedEvent(sender, e);
+            }
+        }
+
+
+        /// <summary>
+        /// Load Saved In Mod
+        /// </summary>
+        public void LoadModSavedState()
+        {
+
         }
 
         void scene_ModStateChangedEvent(object sender, ModEventArgs e)

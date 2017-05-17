@@ -26,22 +26,9 @@ namespace AMOFGameEngine.Mods
         }
         List<Assembly> avaliableModAssembly;
 
-        static ModManager singleton;
-        public static ModManager Singleton
-        {
-            get 
-            {
-                if (singleton == null)
-                {
-                    singleton = new ModManager();
-                }
-                return singleton;
-            }
-        }
-
         Assembly currentMod;
 
-        ModManager()
+        public ModManager()
         {
             avaliableModAssembly = new List<Assembly>();
             avaliableMods = new List<ModBaseInfo>();
@@ -111,8 +98,36 @@ namespace AMOFGameEngine.Mods
                     EventInfo modStateChangedEvent = modType.GetEvent("ModStateChangedEvent", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static);
                     modStateChangedEvent.AddEventHandler(modObj, new EventHandler<ModEventArgs>(ModStateChangedHandlerEx));
 
-                    MethodInfo StartModMethod = modType.GetMethod("StartMod");
+                    MethodInfo StartModMethod = modType.GetMethod("StartModSP");
                     StartModMethod.Invoke(modObj,null);
+                }
+                currentMod = modAssembly;
+            }
+        }
+
+        public void RunModMP(int modIndex)
+        {
+            Assembly modAssembly = avaliableModAssembly.ElementAt(modIndex);
+            if (modAssembly != null)
+            {
+                string modClassName = string.Format("{0}.{1}", avaliableMods.ElementAt(modIndex).ModName, "ModMain");
+                Type modType = modAssembly.GetType(modClassName);
+                object modObj = Activator.CreateInstance(modType);
+                MethodInfo SetupModMethod = modType.GetMethod("SetupMod");
+                object ret = SetupModMethod.Invoke(modObj, new object[]{ 
+                    GameManager.Singleton.mRoot,
+                    GameManager.Singleton.mRenderWnd,
+                    GameManager.Singleton.mTrayMgr,
+                    GameManager.Singleton.mMouse,
+                    GameManager.Singleton.mKeyboard });
+                if ((bool)ret)
+                {
+                    //bind the event
+                    EventInfo modStateChangedEvent = modType.GetEvent("ModStateChangedEvent", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static);
+                    modStateChangedEvent.AddEventHandler(modObj, new EventHandler<ModEventArgs>(ModStateChangedHandlerEx));
+
+                    MethodInfo StartModMethod = modType.GetMethod("StartModMP");
+                    StartModMethod.Invoke(modObj, null);
                 }
                 currentMod = modAssembly;
             }
@@ -133,10 +148,7 @@ namespace AMOFGameEngine.Mods
             {
                 if (ModStateChangedAction != null)
                 {
-                    ModStateChangedAction(new ModEventArgs()
-                    {
-                         modState= ModState.Stop
-                    });
+                    ModStateChangedAction(e);
                 }
             }
         }

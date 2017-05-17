@@ -47,11 +47,13 @@ namespace AMOFGameEngine.States
 
             GameManager.Singleton.mViewport.Camera = m_Camera;
 
-            mMods = ModManager.Singleton.GetAllMods();
+            mMods = GameManager.Singleton.mModMgr.GetAllMods();
             foreach (ModBaseInfo mod in mMods)
             {
                 mModNames.Add(mod.ModName);
             }
+
+            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
             Label ModTitle = GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_LEFT, "ModTitle", "Mod Info");
             ModDescBox = GameManager.Singleton.mTrayMgr.createTextBox(TrayLocation.TL_LEFT, "ModInfo", "Mod Info", 250, 208);
             ModChooserMenu = GameManager.Singleton.mTrayMgr.createThickSelectMenu(TrayLocation.TL_LEFT, "SelMod", "Select Mod", 250, 10);
@@ -170,7 +172,6 @@ namespace AMOFGameEngine.States
             if (m_SceneMgr != null)
                 GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
 
-            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
             GameManager.Singleton.mMouse.MouseMoved -= new MouseListener.MouseMovedHandler(mMouse_MouseMoved);
             GameManager.Singleton.mRoot.FrameRenderingQueued -= new FrameListener.FrameRenderingQueuedHandler(mRoot_FrameRenderingQueued);
             foreach (BorderPanelOverlayElement bp in mModThumbs)
@@ -192,9 +193,9 @@ namespace AMOFGameEngine.States
         {
             if (button.getName() == "Play")
             {
-                if (ModManager.Singleton.ModStateChangedAction != null)
+                if (GameManager.Singleton.mModMgr.ModStateChangedAction != null)
                 {
-                    ModManager.Singleton.ModStateChangedAction(new ModEventArgs()
+                    GameManager.Singleton.mModMgr.ModStateChangedAction(new ModEventArgs()
                     {
                         modState = ModState.Run,
                         modName = ModChooserMenu.getSelectedItem(),
@@ -231,8 +232,16 @@ namespace AMOFGameEngine.States
                 else 
                     tus.SetTextureName("thumb_error.png");
 
-                BorderPanelOverlayElement bp = (BorderPanelOverlayElement)
-                    OverlayManager.Singleton.CreateOverlayElementFromTemplate("SdkTrays/Picture", "BorderPanel", (itr));
+                BorderPanelOverlayElement bp = null;
+                if (!OverlayManager.Singleton.HasOverlayElement(itr))
+                {
+                    bp = (BorderPanelOverlayElement)
+                        OverlayManager.Singleton.CreateOverlayElementFromTemplate("SdkTrays/Picture", "BorderPanel", (itr));
+                }
+                else
+                {
+                    bp = (BorderPanelOverlayElement)OverlayManager.Singleton.GetOverlayElement(itr);
+                }
 
 
                 bp.HorizontalAlignment=(GuiHorizontalAlignment. GHA_RIGHT);

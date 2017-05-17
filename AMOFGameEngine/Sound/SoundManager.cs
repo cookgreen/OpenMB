@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AMOFGameEngine.Sound;
 
-namespace AMOFGameEngine.Manager
+namespace AMOFGameEngine.Sound
 {
-    class SoundManager
+    public class SoundManager
     {
     }
 }
