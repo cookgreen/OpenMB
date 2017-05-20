@@ -27,6 +27,7 @@ namespace AMOFGameEngine.Dialogs
         LocateSystem ls = new LocateSystem();
         List<OgreConfigNode> ogreConfigs = new List<OgreConfigNode>();
         OgreConfigFileAdapter cfa = new OgreConfigFileAdapter("./ogre.cfg");
+        OgreConfigNode defaultRSConfig = new OgreConfigNode();
 
         string path = "./language.txt";
         public ConfigFrm()
@@ -35,22 +36,22 @@ namespace AMOFGameEngine.Dialogs
         }
         private void ConfigFrm_Load(object sender, EventArgs e)
         {
-            selectedlocate = LocateSystem.GetLanguageFromFile();
+            selectedlocate = ls.GetLanguageFromFile();
             if (selectedlocate != LOCATE.invalid)
             {
-                cmbLanguageSelect.SelectedIndex = LocateSystem.CovertLocateInfoToIndex(selectedlocate);
+                cmbLanguageSelect.SelectedIndex = ls.CovertLocateInfoToIndex(selectedlocate);
 
-                LocateSystem.InitLocateSystem(selectedlocate);// Init Locate System
-                LocateSystem.IsInit = true;
+                ls.InitLocateSystem(selectedlocate);// Init Locate System
+                ls.IsInit = true;
 
-                tbRenderOpt.TabPages[0].Text = LocateSystem.CreateLocateString("22161220");
-                tbRenderOpt.TabPages[1].Text = LocateSystem.CreateLocateString("22161226");
-                tbRenderOpt.TabPages[2].Text = LocateSystem.CreateLocateString("22161224");
+                tbRenderOpt.TabPages[0].Text = ls.CreateLocateString("22161220");
+                tbRenderOpt.TabPages[1].Text = ls.CreateLocateString("22161226");
+                tbRenderOpt.TabPages[2].Text = ls.CreateLocateString("22161224");
 
-                lblRenderSys.Text = LocateSystem.CreateLocateString("22161221");
-                lblCOO.Text = LocateSystem.CreateLocateString("22161223");
-                lblLang.Text = LocateSystem.CreateLocateString("22161225");
-                gbRenderOpt.Text = LocateSystem.CreateLocateString("22161222");
+                lblRenderSys.Text = ls.CreateLocateString("22161221");
+                lblCOO.Text = ls.CreateLocateString("22161223");
+                lblLang.Text = ls.CreateLocateString("22161225");
+                gbRenderOpt.Text = ls.CreateLocateString("22161222");
             }
 
             ogreConfigs = cfa.ReadConfigData();
@@ -72,6 +73,10 @@ namespace AMOFGameEngine.Dialogs
         private void cmbSubRenderSys_SelectedIndexChanged(object sender, EventArgs e)
         {
             btnOK.Enabled = true;
+            defaultRSConfig.Section = "";
+            Dictionary<string, string> defaultRSSetting = new Dictionary<string, string>();
+            defaultRSSetting.Add("Render System", cmbSubRenderSys.SelectedItem.ToString());
+            defaultRSConfig.Settings = defaultRSSetting;
             InsetSettingsByIndex();
         }
 
@@ -122,11 +127,11 @@ namespace AMOFGameEngine.Dialogs
         private void btnOK_Click(object sender, EventArgs e)
         {
             ls.SaveLanguageSettingsToFIle(cmbLanguageSelect.SelectedIndex);
-            cfa.SaveConfig(ogreConfigs);
+            cfa.SaveConfig(ogreConfigs,cmbSubRenderSys.SelectedItem.ToString());
             this.Close();
             
-            DemoApp app = new DemoApp();
-            app.startDemo();
+            GameApp app = new GameApp();
+            app.Run();
         }
 
         private void cmbValueChange_SelectedIndexChanged(object sender, EventArgs e)
@@ -152,9 +157,9 @@ namespace AMOFGameEngine.Dialogs
                 OgreConfigNode newConfigNode = new OgreConfigNode();
                 newConfigNode.Section = configNode.Section;
                 newConfigNode.Settings = settings;
-                int indeDeleted=ogreConfigs.IndexOf(configNode);
+                int indexDeleted=ogreConfigs.IndexOf(configNode);
                 ogreConfigs.Remove(configNode);
-                ogreConfigs.Insert(indeDeleted, newConfigNode);
+                ogreConfigs.Insert(indexDeleted, newConfigNode);
             }
             catch (Exception ex)
             {

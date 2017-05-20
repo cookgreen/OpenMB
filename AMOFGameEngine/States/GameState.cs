@@ -8,8 +8,9 @@ using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.Utilities;
+using AMOFGameEngine.Models;
 
-namespace AMOFGameEngine
+namespace AMOFGameEngine.States
 {
     enum QueryFlags
     {
@@ -18,9 +19,6 @@ namespace AMOFGameEngine
     };
     class GameState : AppState
     {
-        OgreCharacter ogrec;
-        ExCamera excamera;
-        CharacterListener cl;
         protected bool mForward = false;
         protected bool mBackward = false;
         protected bool mLeft = false;
@@ -39,7 +37,7 @@ namespace AMOFGameEngine
             m_pDetailsPanel = null;
         }
 
-        public override void enter()
+        public override void enter(AppStateArgs e = null)
         {
             GameManager.Singleton.mLog.LogMessage("Entering GameState...");
             GameManager.LastStateName = "GameState";
@@ -48,7 +46,7 @@ namespace AMOFGameEngine
             m_SceneMgr.DestroyAllCameras();
             GameManager.Singleton.mRenderWnd.RemoveAllViewports();
 
-            ogrec = new OgreCharacter("ogrehead", m_SceneMgr);
+            /*ogrec = new OgreCharacter("ogrehead", m_SceneMgr);
             excamera = new ExCamera("ogreheadcam", m_SceneMgr, null);
 
             excamera.getCamera().NearClipDistance = 5;
@@ -58,7 +56,7 @@ namespace AMOFGameEngine
             cl = new CharacterListener();
             cl.setCharacter(ogrec);
             cl.setExtendedCamera(excamera);
-            cl.mMode = ExCamera.Mode.Fixed;
+            cl.mMode = ExCamera.Mode.Fixed;*/
 
             buildGUI();
  
@@ -199,12 +197,12 @@ namespace AMOFGameEngine
 
         bool frameStarted(FrameEvent evt)
         {
-            ogrec.Forward(mForward);
+            /*ogrec.Forward(mForward);
             ogrec.Backward(mBackward);
             ogrec.Left(mLeft);
-            ogrec.Right(mRight);
+            ogrec.Right(mRight);*/
 
-            cl.Update(evt.timeSinceLastFrame);
+            //cl.Update(evt.timeSinceLastFrame);
             return true;
         }
 
@@ -286,9 +284,9 @@ namespace AMOFGameEngine
             if(m_bRMouseDown)
             {
                 Degree deCameraYaw = new Degree(evt.state.X.rel * -0.1f);
-                excamera.getCamera() .Yaw(deCameraYaw);
+                //excamera.getCamera() .Yaw(deCameraYaw);
                 Degree deCameraPitch = new Degree(evt.state.Y.rel * -0.1f);
-                excamera.getCamera().Pitch(deCameraPitch);
+                //excamera.getCamera().Pitch(deCameraPitch);
             }
  
             return true;

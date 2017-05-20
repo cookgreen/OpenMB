@@ -1,0 +1,25 @@
+<OgreRenderConfig>
+  <DefaultRenderSystem></DefaultRenderSystem>
+  <ConfigSection Name="Direct3D9 Rendering Subsystem">
+    <ConfigItem Name="Allow NVPerfHUD">No</ConfigItem>
+    <ConfigItem Name="FSAA">0</ConfigItem>
+    <ConfigItem Name="Floating-point mode">Consistent</ConfigItem>
+    <ConfigItem Name="Rendering Device">Monitor-1-Intel(R) HD Graphics 4000</ConfigItem>
+    <ConfigItem Name="Resource Creation Policy">Create on all devices</ConfigItem>
+    <ConfigItem Name="VSync">No</ConfigItem>
+    <ConfigItem Name="VSync Interval">1</ConfigItem>
+    <ConfigItem Name="Video Mode">800 x 600 @ 32-bit colour</ConfigItem>
+    <ConfigItem Name="sRGB Gamma Conversion">No</ConfigItem>
+  </ConfigSection>
+  <ConfigSection Name="OpenGL Rendering Subsystem">
+    <ConfigItem Name="Colour Depth">32</ConfigItem>
+    <ConfigItem Name="Display Frequency">50</ConfigItem>
+    <ConfigItem Name="FSAA">0</ConfigItem>
+    <ConfigItem Name="Full Screen">No</ConfigItem>
+    <ConfigItem Name="RTT Preferred Mode">Create on all devices</ConfigItem>
+    <ConfigItem Name="VSync">No</ConfigItem>
+    <ConfigItem Name="VSync Interval">1</ConfigItem>
+    <ConfigItem Name="Video Mode">1024 x 768</ConfigItem>
+    <ConfigItem Name="sRGB Gamma Conversion">No</ConfigItem>
+  </ConfigSection>
+</OgreRenderConfig>
