@@ -71,7 +71,11 @@ namespace AMOFGameEngine.Mods.Sample
             {
                 if (ModStateChangedEvent != null)
                 {
-                    ModStateChangedEvent(this, new ModEventArgs() { modState = ModState.Stop });
+                    ModStateChangedEvent(this, new ModEventArgs()
+                    {
+                        modName = "AMOFGameEngine.Mods.Sample",
+                        modState = ModState.Stop
+                    });
                 }
             }
             return true;

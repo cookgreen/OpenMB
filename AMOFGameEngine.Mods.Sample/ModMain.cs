@@ -34,6 +34,7 @@ namespace AMOFGameEngine.Mods.Sample
             this.keyboard = keyboard;
             this.trayMgr = trayMgr;
             modInfo = new NameValuePairList();
+            modInfo["Name"] = "AMOFGameEngine.Mods.Sample";
             
             try
             {
@@ -73,7 +74,6 @@ namespace AMOFGameEngine.Mods.Sample
             SampleScene scene = new SampleScene(scm, vp,trayMgr, mouse, keyboard);
             scene.ModStateChangedEvent += new EventHandler<ModEventArgs>(scene_ModStateChangedEvent);
             scene.Enter();
-            //scene.Update();
         }
 
         /// <summary>
@@ -90,6 +90,7 @@ namespace AMOFGameEngine.Mods.Sample
         {
             if (ModStateChangedEvent != null)
             {
+                e.modName = modInfo["Name"];
                 ModStateChangedEvent(sender, e);
             }
         }
@@ -107,13 +108,14 @@ namespace AMOFGameEngine.Mods.Sample
         {
             if (ModStateChangedEvent != null)
             {
+                e.modName = modInfo["Name"];
                 ModStateChangedEvent(sender, e);
             }
         }
 
         public void StopMod()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
