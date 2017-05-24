@@ -15,8 +15,6 @@ namespace AMOFGameEngine.Mods.Sample
     /// </summary>
     public class ModMain : IMod
     {
-        public event EventHandler<ModEventArgs> ModStateChangedEvent;//0-Stop;1-Run
-
         Root root;
         RenderWindow win;
         Mouse mouse;
