@@ -95,12 +95,7 @@ namespace AMOFGameEngine.Mods.Sample
 
         void sceneMP_ModStateChangedEvent(object sender, ModEventArgs e)
         {
-            if (ModStateChangedEvent != null)
-            {
-                currentScene = null;
-                e.modName = modInfo["Name"];
-                ModStateChangedEvent(sender, e);
-            }
+            this.StopMod(sender, e);
         }
 
 
@@ -114,17 +109,7 @@ namespace AMOFGameEngine.Mods.Sample
 
         void scene_ModStateChangedEvent(object sender, ModEventArgs e)
         {
-            if (ModStateChangedEvent != null)
-            {
-                currentScene = null;
-                e.modName = modInfo["Name"];
-                ModStateChangedEvent(sender, e);
-            }
-        }
-
-        public override void StopMod()
-        {
-            
+            this.StopMod(sender, e);
         }
 
         public override void UpdateMod(float timeSinceLastFrame)

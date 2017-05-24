@@ -25,7 +25,11 @@ namespace AMOFGameEngine.Mods.Common
 
         public virtual void StartModMP() { }
 
-        public virtual void StopMod() { }
+        public virtual void StopMod(object sender,ModEventArgs ex)
+        {
+            if (this.ModStateChangedEvent != null)
+                this.ModStateChangedEvent(sender,ex);
+        }
 
         public virtual void UpdateMod(float timeSinceLastFrame) { }
     }
