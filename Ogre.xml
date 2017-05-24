@@ -1,5 +1,5 @@
 <OgreRenderConfig>
-  <DefaultRenderSystem></DefaultRenderSystem>
+  <DefaultRenderSystem>Direct3D9 Rendering Subsystem</DefaultRenderSystem>
   <ConfigSection Name="Direct3D9 Rendering Subsystem">
     <ConfigItem Name="Allow NVPerfHUD">No</ConfigItem>
     <ConfigItem Name="FSAA">0</ConfigItem>

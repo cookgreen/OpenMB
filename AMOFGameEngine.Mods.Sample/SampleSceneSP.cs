@@ -6,19 +6,22 @@ using Mogre;
 using MOIS;
 using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Mods;
+using AMOFGameEngine.UI;
 
 namespace AMOFGameEngine.Mods.Sample
 {
-    public class SampleSceneMP : SampleScene
+    public class SampleSceneSP : SampleScene
     {
         public event EventHandler<ModEventArgs> ModStateChangedEvent;//0-Stop;1-Run
-        public SampleSceneMP(SceneManager scm, Viewport vp, SdkTrayManager trayMgr, Mouse mouse, Keyboard keyboard)
+        Mogre.Vector3 m_TranslateVector;
+        public SampleSceneSP( SceneManager scm,Viewport vp,SdkTrayManager trayMgr,Mouse mouse,Keyboard keyboard)
         {
             this.scm = scm;
             this.vp = vp;
             this.mouse = mouse;
             this.keyboard = keyboard;
             this.trayMgr = trayMgr;
+            m_TranslateVector = new Mogre.Vector3();
         }
 
         public override void Enter()
@@ -30,7 +33,7 @@ namespace AMOFGameEngine.Mods.Sample
         {
             if (ModStateChangedEvent != null)
             {
-                ModStateChangedEvent(this, new ModEventArgs() {  modName="AMOFGameEngine.Mods.Sample",modState = ModState.Stop });
+                ModStateChangedEvent(this, new ModEventArgs() { modState = ModState.Stop });
             }
         }
 
@@ -39,7 +42,7 @@ namespace AMOFGameEngine.Mods.Sample
             trayMgr.destroyAllWidgets();
 
             vp.BackgroundColour = new ColourValue(1.0f,1.0f,1.0f);
-            cam = scm.CreateCamera("SampleCamMP");
+            cam = scm.CreateCamera("SampleCam");
             vp.Camera = cam;
             cam.AspectRatio = vp.ActualWidth / vp.ActualHeight;
             cam.NearClipDistance = 5;
@@ -65,11 +68,7 @@ namespace AMOFGameEngine.Mods.Sample
             {
                 if (ModStateChangedEvent != null)
                 {
-                    ModStateChangedEvent(this, new ModEventArgs()
-                    {
-                        modName = "AMOFGameEngine.Mods.Sample",
-                        modState = ModState.Stop
-                    });
+                    ModStateChangedEvent(this, new ModEventArgs() { modName="AMOFGameEngine.Mods.Sample", modState = ModState.Stop });
                 }
             }
             return true;
@@ -90,9 +89,37 @@ namespace AMOFGameEngine.Mods.Sample
             return true;
         }
 
+        void getInput()
+        {
+            if (keyboard.IsKeyDown (KeyCode.KC_W))
+            {
+                m_TranslateVector.z = -0.1f;
+            }
+            if (keyboard.IsKeyDown (KeyCode.KC_A))
+            {
+                m_TranslateVector.x = 0.1f;
+            }
+            if (keyboard.IsKeyDown (KeyCode.KC_S))
+            {
+                m_TranslateVector.z = 0.1f;
+            }
+            if (keyboard.IsKeyDown (KeyCode.KC_D))
+            {
+                m_TranslateVector.x = -0.1f;
+            }
+        }
+
+        void CamMove()
+        {
+            cam.MoveRelative(m_TranslateVector);
+        }
+
         public override void Update(float timeSinceLastFrame)
         {
+            m_TranslateVector = Mogre.Vector3.ZERO;
 
+            getInput();
+            CamMove();
         }
     }
 }

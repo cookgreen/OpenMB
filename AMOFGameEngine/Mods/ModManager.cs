@@ -7,6 +7,7 @@ using Mogre;
 using System.Reflection;
 using AMOFGameEngine.Utilities;
 using AMOFGameEngine.Mods;
+using AMOFGameEngine.Mods.Common;
 
 namespace AMOFGameEngine.Mods
 {
@@ -18,20 +19,20 @@ namespace AMOFGameEngine.Mods
         List<OgreConfigNode> modData;
         const string modConfigFile="Mods.cfg";
 
-        List<ModBaseInfo> avaliableMods;
-        public List<ModBaseInfo> AvaliableMods
+        List<ModBaseInfo> avaliableModInfos;
+        public List<ModBaseInfo> AvaliableModInfos
         {
-            get { return avaliableMods; }
-            set { avaliableMods = value; }
+            get { return avaliableModInfos; }
+            set { avaliableModInfos = value; }
         }
-        List<Assembly> avaliableModAssembly;
+        List<IMod> avaliableMods;
 
-        Assembly currentMod;
+        IMod currentMod;
 
         public ModManager()
         {
-            avaliableModAssembly = new List<Assembly>();
-            avaliableMods = new List<ModBaseInfo>();
+            avaliableMods = new List<IMod>();
+            avaliableModInfos = new List<ModBaseInfo>();
             ofa = new OgreConfigFileAdapter(modConfigFile);
             modData = ofa.ReadConfigData();
             currentMod = null;
@@ -49,100 +50,24 @@ namespace AMOFGameEngine.Mods
             string modDir=modData.Where(o => o.Section == "").First().Settings["ModDir"];
 
             List<KeyValuePair<string, string>> modNames = GetModsConfig();
-            foreach (KeyValuePair<string, string> modName in modNames)
+            foreach (KeyValuePair<string, string> modkpl in modNames)
             {
 
-                string modPath = string.Format(@"{0}\{1}\{2}.dll", System.Environment.CurrentDirectory, modDir, modName.Value);
-                Assembly mod = Assembly.LoadFile(modPath);
-                var sameModResult = from modAssembly in avaliableModAssembly
-                                    where modAssembly.FullName == mod.FullName
-                                    select modAssembly;
-                if (sameModResult.Count() == 0)
-                {
-                    avaliableModAssembly.Add(mod);
-                    avaliableMods.Add(new ModBaseInfo()
-                    {
-                        ModName = modName.Value
-                    });
-                }
-                else
-                {
-                    GameManager.Singleton.mLog.LogMessage("Engine Warning: Mod name must be unique!");
-                }
+                string modPath = string.Format(@"{0}\{1}\{2}.dll", System.Environment.CurrentDirectory, modDir, modkpl.Value);
+                Assembly modAssembly = Assembly.LoadFile(modPath);
+                string modClassName = string.Format("{0}.{1}", modkpl.Value, "ModMain");
+                IMod mod = Activator.CreateInstance(modAssembly.GetType(modClassName)) as IMod;
+                mod.ModStateChangedEvent += new EventHandler<ModEventArgs>(mod_ModStateChangedEvent);
+                avaliableMods.Add(mod);
+                ModBaseInfo modInfo = new ModBaseInfo();
+                modInfo.ModName = mod.modInfo["Name"];
+                modInfo.ModDesc = mod.modInfo["Description"];
+                modInfo.ModThumb = mod.modInfo["Thumb"];
+                avaliableModInfos.Add(modInfo);
             }
         }
 
-        public List<ModBaseInfo> GetAllMods()
-        {
-            return avaliableMods;
-        }
-
-        public void RunMod(int modIndex)
-        {
-            Assembly modAssembly = avaliableModAssembly.ElementAt(modIndex);
-            if (modAssembly != null)
-            {
-                string modClassName = string.Format("{0}.{1}", avaliableMods.ElementAt(modIndex).ModName,"ModMain");
-                Type modType = modAssembly.GetType(modClassName);
-                object modObj = Activator.CreateInstance(modType);
-                MethodInfo SetupModMethod = modType.GetMethod("SetupMod");
-                object ret=SetupModMethod.Invoke(modObj, new object[]{ 
-                    GameManager.Singleton.mRoot,
-                    GameManager.Singleton.mRenderWnd,
-                    GameManager.Singleton.mTrayMgr,
-                    GameManager.Singleton.mMouse,
-                    GameManager.Singleton.mKeyboard });
-                if ((bool)ret)
-                {
-                    //bind the event
-                    EventInfo modStateChangedEvent = modType.GetEvent("ModStateChangedEvent", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static);
-                    modStateChangedEvent.AddEventHandler(modObj, new EventHandler<ModEventArgs>(ModStateChangedHandlerEx));
-
-                    MethodInfo StartModMethod = modType.GetMethod("StartModSP");
-                    StartModMethod.Invoke(modObj,null);
-                }
-                currentMod = modAssembly;
-            }
-        }
-
-        public void RunModMP(int modIndex)
-        {
-            Assembly modAssembly = avaliableModAssembly.ElementAt(modIndex);
-            if (modAssembly != null)
-            {
-                string modClassName = string.Format("{0}.{1}", avaliableMods.ElementAt(modIndex).ModName, "ModMain");
-                Type modType = modAssembly.GetType(modClassName);
-                object modObj = Activator.CreateInstance(modType);
-                MethodInfo SetupModMethod = modType.GetMethod("SetupMod");
-                object ret = SetupModMethod.Invoke(modObj, new object[]{ 
-                    GameManager.Singleton.mRoot,
-                    GameManager.Singleton.mRenderWnd,
-                    GameManager.Singleton.mTrayMgr,
-                    GameManager.Singleton.mMouse,
-                    GameManager.Singleton.mKeyboard });
-                if ((bool)ret)
-                {
-                    //bind the event
-                    EventInfo modStateChangedEvent = modType.GetEvent("ModStateChangedEvent", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static);
-                    modStateChangedEvent.AddEventHandler(modObj, new EventHandler<ModEventArgs>(ModStateChangedHandlerEx));
-
-                    MethodInfo StartModMethod = modType.GetMethod("StartModMP");
-                    StartModMethod.Invoke(modObj, null);
-                }
-                currentMod = modAssembly;
-            }
-        }
-
-        public void StopMod()
-        {
-            if (currentMod != null)
-            {
-                object modObj = Activator.CreateInstance(currentMod.GetType());
-                currentMod.GetType().GetMethod("StopMod").Invoke(modObj,null);
-            }
-        }
-
-        public void ModStateChangedHandlerEx(object sender, ModEventArgs e)
+        void mod_ModStateChangedEvent(object sender, ModEventArgs e)
         {
             if (e.modState == ModState.Stop)
             {
@@ -150,6 +75,66 @@ namespace AMOFGameEngine.Mods
                 {
                     ModStateChangedAction(e);
                 }
+            }
+        }
+
+        public List<ModBaseInfo> GetAllMods()
+        {
+            return avaliableModInfos;
+        }
+
+        public void SetupMod(int modIndex)
+        {
+            IMod currentMod = avaliableMods.ElementAt(modIndex);
+            if (currentMod != null)
+            {
+                currentMod.SetupMod(
+                    GameManager.Singleton.mRoot,
+                    GameManager.Singleton.mRenderWnd,
+                    GameManager.Singleton.mTrayMgr,
+                    GameManager.Singleton.mMouse,
+                    GameManager.Singleton.mKeyboard
+                    );
+            }
+        }
+
+        public void RunMod(int modIndex)
+        {
+            SetupMod(modIndex);
+
+            IMod currentMod = avaliableMods.ElementAt(modIndex);
+            if (currentMod != null)
+            {
+                currentMod.StartModSP();
+            }
+        }
+
+        public void RunModMP(int modIndex)
+        {
+            SetupMod(modIndex);
+
+            IMod currentMod = avaliableMods.ElementAt(modIndex);
+            if (currentMod != null)
+            {
+                currentMod.StartModMP();
+            }
+        }
+
+        public void UpdateMod(float timeSinceLastFrame,int modIndex)
+        {
+            IMod currentMod = avaliableMods.ElementAt(modIndex);
+            if (currentMod != null)
+            {
+                currentMod.UpdateMod(timeSinceLastFrame);
+            }
+        }
+
+        public void StopMod(int modIndex)
+        {
+            IMod currentMod = avaliableMods.ElementAt(modIndex);
+            if (currentMod != null)
+            {
+                currentMod.StopMod();
             }
         }
     }

@@ -7,7 +7,7 @@ using MOIS;
 
 namespace AMOFGameEngine.Models
 {
-    class CharacterController
+    public class CharacterController
     {
         public int NUM_ANIMS = 13;          // number of animations the character has
         public const int CHAR_HEIGHT = 5;      // height of character's center of mass above ground
@@ -77,7 +77,7 @@ namespace AMOFGameEngine.Models
         /// <param name="boneName">The bone name which want to attach</param>
         /// <param name="uniqueName">name of the item</param>
         /// <param name="meshName">mesh name of the item</param>
-        public void attachItemToChara(string boneName,string uniqueName, string meshName)
+        public void AttachItemToChara(string boneName,string uniqueName, string meshName)
         {
             Entity Item = mSceneMgr.CreateEntity(uniqueName, meshName);
             mBodyEnt.AttachObjectToBone(boneName, Item);

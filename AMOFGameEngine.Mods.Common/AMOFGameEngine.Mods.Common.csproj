@@ -66,13 +66,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMod.cs" />
+    <Compile Include="ModEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AMOFGameEngine\AMOFGameEngine.csproj">
-      <Project>{70878EFC-AF3F-4792-AB2F-CE47EBCA487D}</Project>
-      <Name>AMOFGameEngine</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

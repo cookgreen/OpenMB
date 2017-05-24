@@ -87,11 +87,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AStarPathFind.cs" />
+    <Compile Include="Models\Character.cs" />
     <Compile Include="Sound\SoundManager.cs" />
-    <Compile Include="Dialogs\ConfigFrm.cs">
+    <Compile Include="Forms\ConfigFrm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\ConfigFrm.Designer.cs">
+    <Compile Include="Forms\ConfigFrm.Designer.cs">
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Localization\LocateSystem.cs" />
@@ -101,7 +102,6 @@
     <Compile Include="Models\CharacterController.cs" />
     <Compile Include="Models\ItemDesc.cs" />
     <Compile Include="Mods\ModBaseInfo.cs" />
-    <Compile Include="Mods\ModEventArgs.cs" />
     <Compile Include="Mods\ModManager.cs" />
     <Compile Include="Network\SendData.cs" />
     <Compile Include="States\AppState.cs" />
@@ -120,7 +120,8 @@
     <Compile Include="Localization\LocateUCSFile.cs" />
     <Compile Include="Helper\OgreConfigNode.cs" />
     <Compile Include="States\Pause.cs" />
-    <EmbeddedResource Include="Dialogs\ConfigFrm.resx">
+    <Compile Include="UI\CharacterSelectionWindow.cs" />
+    <EmbeddedResource Include="Forms\ConfigFrm.resx">
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
