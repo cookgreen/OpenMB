@@ -4,10 +4,10 @@
 *.manifest
 *.log
 *.suo
-packages/*
 Mods/*.dll
 
-AMOFGameEngine/obj/*/*
+packages/*
+
 AMOFGameEngine/obj/*/*/*
 AMOFGameEngine.Mods.Common/obj/*/*
 AMOFGameEngine.Mods.Common/bin/*/*
