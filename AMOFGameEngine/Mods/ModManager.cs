@@ -128,14 +128,5 @@ namespace AMOFGameEngine.Mods
                 currentMod.UpdateMod(timeSinceLastFrame);
             }
         }
-
-        public void StopMod(int modIndex)
-        {
-            IMod currentMod = avaliableMods.ElementAt(modIndex);
-            if (currentMod != null)
-            {
-                currentMod.StopMod();
-            }
-        }
     }
 }

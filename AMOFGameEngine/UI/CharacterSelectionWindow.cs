@@ -17,14 +17,14 @@ namespace AMOFGameEngine.UI
         SdkTrayManager trayMgr;
         SceneManager scm;
         Camera cam;
-        public CharacterSelectionWindow(NameValuePairList characterLst,SdkTrayManager trayMgr,Camera cam)
+        public CharacterSelectionWindow(NameValuePairList characterLst, SdkTrayManager trayMgr, Camera cam)
         {
             this.characterLst = characterLst;
             this.trayMgr = trayMgr;
             this.cam = cam;
             Mogre.Quaternion camDirection = cam.Orientation;
             GameManager.Singleton.mLog.LogMessage("Current Cam direction:\r\nx:" + camDirection.x
-                + "\r\ny:" + camDirection.y + "\r\nz:" + camDirection.z + "\r\nw:"+camDirection.w+"\r\n");
+                + "\r\ny:" + camDirection.y + "\r\nz:" + camDirection.z + "\r\nw:" + camDirection.w + "\r\n");
             BuildUI();
             BuildCharacters();
         }
@@ -45,22 +45,22 @@ namespace AMOFGameEngine.UI
             {
                 foreach (KeyValuePair<string, string> kpl in characterLst)
                 {
-                    BuildCharacter(kpl.Key,kpl.Value);
+                    BuildCharacter(kpl.Key, kpl.Value);
                 }
             }
         }
 
-        void BuildCharacter(string characterName,string characterMeshName)
+        void BuildCharacter(string characterName, string characterMeshName)
         {
             Entity characterEntity = cam.SceneManager.CreateEntity(characterName, string.Format("{0}.mesh", characterMeshName));
-            SceneNode snCharacter= cam.SceneManager.RootSceneNode.CreateChildSceneNode();
+            SceneNode snCharacter = cam.SceneManager.RootSceneNode.CreateChildSceneNode();
             snCharacter.AttachObject(characterEntity);
             Mogre.Vector3 camPos = cam.Position;
             camPos.z = camPos.z - 100;
             snCharacter.SetPosition(camPos.x, camPos.y, camPos.z);
-            Mogre.Vector3 currSacle=snCharacter.GetScale();
+            Mogre.Vector3 currSacle = snCharacter.GetScale();
             GameManager.Singleton.mLog.LogMessage("Current Character :" + characterName + "\r\nCurrent Character Scale:\r\nx:" + currSacle.x
-                +"\r\ny:"+currSacle.y+"\r\nz:"+currSacle.z+"\r\n");
+                + "\r\ny:" + currSacle.y + "\r\nz:" + currSacle.z + "\r\n");
 
             Quaternion characterDirection = snCharacter.Orientation;
             GameManager.Singleton.mLog.LogMessage("Current Cam :" + characterName + "\r\nCurrent Character Direction:\r\nx:" + characterDirection.x
@@ -71,7 +71,7 @@ namespace AMOFGameEngine.UI
         {
             return true;
         }
-        
+
         public void injectMouseDown(MouseEvent evt, MouseButtonID id)
         {
 
