@@ -14,11 +14,13 @@ namespace AMOFGameEngine.States
     class MainMenu : AppState,IDisposable
     {
         int modIndex;
+        bool isEnterMod;
         public MainMenu()
         {
             modIndex = -1;
             m_bQuit         = false;
             m_FrameEvent    = new FrameEvent();
+            isEnterMod = false;
         }
         public override void enter(AppStateArgs e=null)
         {
@@ -131,11 +133,13 @@ namespace AMOFGameEngine.States
                 changeAppState(findByName("GameState"));
             else if (button.getName() == "MultiPlayer")
             {
+                isEnterMod = true;
                 GameManager.Singleton.mModMgr.RunModMP(modIndex);
             }
             //changeAppState(findByName("Multiplayer"));
             else if (button.getName() == "SinglePlayer")
             {
+                isEnterMod = true;
                 GameManager.Singleton.mModMgr.RunMod(modIndex);
             }
             //changeAppState(findByName("SinglePlayer"));
@@ -145,6 +149,9 @@ namespace AMOFGameEngine.States
 
         public override void update(double timeSinceLastFrame)
         {
+            if(isEnterMod)
+                GameManager.Singleton.mModMgr.UpdateMod((float)timeSinceLastFrame,modIndex);
+
             m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
             GameManager.Singleton.mTrayMgr.frameRenderingQueued(m_FrameEvent);
  

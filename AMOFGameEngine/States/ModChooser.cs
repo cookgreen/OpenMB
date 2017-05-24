@@ -17,6 +17,7 @@ namespace AMOFGameEngine.States
         TextBox ModDescBox;
         Slider ModSlider;
         StringVector mModNames;
+        StringVector mModThumb;
         List<ModBaseInfo> mMods;
         List<OverlayContainer> mModThumbs;
         float mCarouselPlace;
@@ -27,6 +28,7 @@ namespace AMOFGameEngine.States
             isQuit = false;
 
             mModNames = new StringVector();
+            mModThumb = new StringVector();
             mModThumbs = new List<OverlayContainer>();
         }
 
@@ -46,11 +48,13 @@ namespace AMOFGameEngine.States
             m_Camera.AspectRatio = GameManager.Singleton.mViewport.ActualWidth / GameManager.Singleton.mViewport.ActualHeight;
 
             GameManager.Singleton.mViewport.Camera = m_Camera;
-
+            mModNames.Clear();
+            mModThumb.Clear();
             mMods = GameManager.Singleton.mModMgr.GetAllMods();
             foreach (ModBaseInfo mod in mMods)
             {
                 mModNames.Add(mod.ModName);
+                mModThumb.Add(mod.ModThumb);
             }
 
             GameManager.Singleton.mTrayMgr.destroyAllWidgets();
@@ -219,7 +223,7 @@ namespace AMOFGameEngine.States
             thumbMat.GetTechnique(0).GetPass(0).CreateTextureUnitState();
             MaterialPtr templateMat = MaterialManager.Singleton.GetByName("ModThumbnail");
 
-            foreach ( string itr in mModNames )
+            foreach ( string itr in mModThumb )
             {
 
                 String name = "ModThumb" + (mModThumbs.Count + 1).ToString();

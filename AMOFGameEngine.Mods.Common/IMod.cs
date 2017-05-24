@@ -9,16 +9,28 @@ using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine.Mods.Common
 {
-    public interface IMod
+    public class IMod
     {
-        event EventHandler<ModEventArgs> ModStateChangedEvent;//0-Stop;1-Run
+        public event EventHandler<ModEventArgs> ModStateChangedEvent;//0-Stop;1-Run
+        public NameValuePairList modInfo;
 
-        bool SetupMod(Root root,RenderWindow win,SdkTrayManager trayMgr,Mouse mouse,Keyboard keyboard);
+        public IMod()
+        {
+            modInfo = new NameValuePairList();
+        }
 
-        void StartModSP();
+        public virtual bool SetupMod(Root root, RenderWindow win, SdkTrayManager trayMgr, Mouse mouse, Keyboard keyboard) { return true; }
 
-        void StartModMP();
+        public virtual void StartModSP() { }
 
-        void StopMod();
+        public virtual void StartModMP() { }
+
+        public virtual void StopMod(object sender,ModEventArgs ex)
+        {
+            if (this.ModStateChangedEvent != null)
+                this.ModStateChangedEvent(sender,ex);
+        }
+
+        public virtual void UpdateMod(float timeSinceLastFrame) { }
     }
 }

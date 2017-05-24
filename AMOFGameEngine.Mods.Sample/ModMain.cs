@@ -24,17 +24,22 @@ namespace AMOFGameEngine.Mods.Sample
         SceneManager scm;
         Viewport vp;
         SdkTrayManager trayMgr;
-        NameValuePairList modInfo;
+        SampleScene currentScene;
 
-        public bool SetupMod(Root root,RenderWindow win,SdkTrayManager trayMgr, Mouse mouse, Keyboard keyboard)
+        public ModMain()
+        {
+            modInfo["Name"] = "AMOFGameEngine.Mods.Sample";
+            modInfo["Description"] = "A Sample mod for AMOFGameEngine";
+            modInfo["Thumb"] = "thumb_camtrack";
+        }
+
+        public override bool SetupMod(Root root,RenderWindow win,SdkTrayManager trayMgr, Mouse mouse, Keyboard keyboard)
         {
             this.root=root;
             this.win = win;
             this.mouse = mouse;
             this.keyboard = keyboard;
             this.trayMgr = trayMgr;
-            modInfo = new NameValuePairList();
-            modInfo["Name"] = "AMOFGameEngine.Mods.Sample";
             
             try
             {
@@ -69,30 +74,28 @@ namespace AMOFGameEngine.Mods.Sample
         /// <summary>
         /// Start Single Player in Mod
         /// </summary>
-        public void StartModSP()
+        public override void StartModSP()
         {
-            SampleScene scene = new SampleScene(scm, vp,trayMgr, mouse, keyboard);
+            SampleSceneSP scene = new SampleSceneSP(scm, vp,trayMgr, mouse, keyboard);
             scene.ModStateChangedEvent += new EventHandler<ModEventArgs>(scene_ModStateChangedEvent);
+            currentScene = scene;
             scene.Enter();
         }
 
         /// <summary>
         /// Start Multiplayer in Mod
         /// </summary>
-        public void StartModMP()
+        public override void StartModMP()
         {
             SampleSceneMP sceneMP = new SampleSceneMP(scm, vp, trayMgr, mouse, keyboard);
             sceneMP.ModStateChangedEvent += new EventHandler<ModEventArgs>(sceneMP_ModStateChangedEvent);
+            currentScene = sceneMP;
             sceneMP.Enter();
         }
 
         void sceneMP_ModStateChangedEvent(object sender, ModEventArgs e)
         {
-            if (ModStateChangedEvent != null)
-            {
-                e.modName = modInfo["Name"];
-                ModStateChangedEvent(sender, e);
-            }
+            this.StopMod(sender, e);
         }
 
 
@@ -106,16 +109,12 @@ namespace AMOFGameEngine.Mods.Sample
 
         void scene_ModStateChangedEvent(object sender, ModEventArgs e)
         {
-            if (ModStateChangedEvent != null)
-            {
-                e.modName = modInfo["Name"];
-                ModStateChangedEvent(sender, e);
-            }
+            this.StopMod(sender, e);
         }
 
-        public void StopMod()
+        public override void UpdateMod(float timeSinceLastFrame)
         {
-            
+            currentScene.Update(timeSinceLastFrame);
         }
     }
 }
