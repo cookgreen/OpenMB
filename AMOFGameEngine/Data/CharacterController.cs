@@ -5,7 +5,7 @@ using System.Text;
 using Mogre;
 using MOIS;
 
-namespace AMOFGameEngine.Models
+namespace AMOFGameEngine.Data
 {
     public class CharacterController
     {

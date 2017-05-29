@@ -1,0 +1,18 @@
+<Module>
+  <Info>
+    <Name>AMOFGameEngine.Mods.Sample</Name>
+    <Description>Sample Mod for AMOFGameEngine</Description>
+    <Version>1.0</Version>
+    <Thumb>thumb.png</Thumb>
+  </Info>
+  <Assembly>AMOFGameEngine.Mods.Sample.dll</Assembly>
+  <Data>
+    <Character>characters.xml</Character>
+    <Music>music.xml</Music>
+    <Sound>sound.xml</Sound>
+    <Item>items.xml</Item>
+  </Data>
+  <Media>
+    <MediaSection Type="FileSystem"></MediaSection>
+  </Media>
+</Module>

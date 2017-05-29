@@ -5,6 +5,7 @@ using System.Text;
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
+using AMOFGameEngine.Data;
 using AMOFGameEngine.UI;
 
 namespace AMOFGameEngine.Mods.Sample
@@ -17,6 +18,7 @@ namespace AMOFGameEngine.Mods.Sample
         protected Mouse mouse;
         protected Keyboard keyboard;
         protected SdkTrayManager trayMgr;
+        protected CharacterManager characterMgr;
 
         public virtual void Enter() { }
         public virtual void Leave() { }

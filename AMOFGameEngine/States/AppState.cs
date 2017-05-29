@@ -5,7 +5,7 @@ using System.Text;
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
-using AMOFGameEngine.Models;
+using AMOFGameEngine.Data;
 
 namespace AMOFGameEngine.States
 {

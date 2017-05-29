@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AMOFGameEngine.Models
+namespace AMOFGameEngine.Data
 {
     public class AppStateArgs
     {

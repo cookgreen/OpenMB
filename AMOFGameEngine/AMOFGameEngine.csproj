@@ -87,7 +87,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AStarPathFind.cs" />
-    <Compile Include="Models\Character.cs" />
+    <Compile Include="Data\Character.cs" />
+    <Compile Include="Data\CharacterManager.cs" />
+    <Compile Include="Data\InventoryInfo.cs" />
+    <Compile Include="Data\LevelInfo.cs" />
+    <Compile Include="Mods\ModManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mods\ModXMLProcesser.cs" />
     <Compile Include="Sound\SoundManager.cs" />
     <Compile Include="Forms\ConfigFrm.cs">
       <SubType>Form</SubType>
@@ -98,15 +105,14 @@
     <Compile Include="Localization\LocateSystem.cs" />
     <Compile Include="Helper\ActorNode.cs" />
     <Compile Include="Core\GameManager.cs" />
-    <Compile Include="Models\AppStateArgs.cs" />
-    <Compile Include="Models\CharacterController.cs" />
-    <Compile Include="Models\ItemDesc.cs" />
+    <Compile Include="Data\AppStateArgs.cs" />
+    <Compile Include="Data\CharacterController.cs" />
+    <Compile Include="Data\Item.cs" />
     <Compile Include="Mods\ModBaseInfo.cs" />
-    <Compile Include="Mods\ModManager.cs" />
     <Compile Include="Network\SendData.cs" />
     <Compile Include="States\AppState.cs" />
     <Compile Include="States\AppStateManager.cs" />
-    <Compile Include="Models\CharacterDesc.cs" />
+    <Compile Include="Data\CharacterDesc.cs" />
     <Compile Include="Sound\OggSound.cs" />
     <Compile Include="States\ModChooser.cs" />
     <Compile Include="Application\GameApp.cs" />
@@ -114,7 +120,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helper\RMogre.cs" />
-    <Compile Include="Models\SinbadCharacterController.cs" />
+    <Compile Include="Data\SinbadCharacterController.cs" />
     <Compile Include="Helper\StaticMeshData.cs" />
     <Compile Include="Helper\OgreConfigFileAdapter.cs" />
     <Compile Include="Localization\LocateUCSFile.cs" />

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using MOIS;
-namespace AMOFGameEngine.Models
+namespace AMOFGameEngine.Data
 {
 class SinbadCharacterController
 {

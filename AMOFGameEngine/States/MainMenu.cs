@@ -7,7 +7,7 @@ using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.Utilities;
-using AMOFGameEngine.Models;
+using AMOFGameEngine.Data;
 
 namespace AMOFGameEngine.States
 {
@@ -31,12 +31,12 @@ namespace AMOFGameEngine.States
 
             m_bQuit = false;
 
-            if (GameManager.Singleton.ogg == null)
-            {
-                GameManager.Singleton.ogg = new OggSound();
-                GameManager.Singleton.ogg.OggFileName = @"./Music/vivaldi_winter_allegro.ogg";
-                GameManager.Singleton.ogg.PlayOgg();
-            }
+            //if (GameManager.Singleton.ogg == null)
+            //{
+            //    GameManager.Singleton.ogg = new OggSound();
+            //    GameManager.Singleton.ogg.OggFileName = @"./Music/vivaldi_winter_allegro.ogg";
+            //    GameManager.Singleton.ogg.PlayOgg();
+            //}
 
             m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
 

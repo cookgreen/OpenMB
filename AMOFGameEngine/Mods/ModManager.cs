@@ -17,7 +17,7 @@ namespace AMOFGameEngine.Mods
 
         OgreConfigFileAdapter ofa;
         List<OgreConfigNode> modData;
-        const string modConfigFile="Mods.cfg";
+        const string modConfigFile = "Mods.cfg";
 
         List<ModBaseInfo> avaliableModInfos;
         public List<ModBaseInfo> AvaliableModInfos
@@ -38,7 +38,7 @@ namespace AMOFGameEngine.Mods
             currentMod = null;
             LoadMods();
         }
-        
+
         List<KeyValuePair<string, string>> GetModsConfig()
         {
             return modData.Where(o => o.Section == "").First().Settings.Where(o => o.Key == "Mod").ToList();
@@ -47,7 +47,7 @@ namespace AMOFGameEngine.Mods
         public void LoadMods()
         {
             List<OgreConfigNode> modData = ofa.ReadConfigData();
-            string modDir=modData.Where(o => o.Section == "").First().Settings["ModDir"];
+            string modDir = modData.Where(o => o.Section == "").First().Settings["ModDir"];
 
             List<KeyValuePair<string, string>> modNames = GetModsConfig();
             foreach (KeyValuePair<string, string> modkpl in modNames)
@@ -120,7 +120,7 @@ namespace AMOFGameEngine.Mods
             }
         }
 
-        public void UpdateMod(float timeSinceLastFrame,int modIndex)
+        public void UpdateMod(float timeSinceLastFrame, int modIndex)
         {
             IMod currentMod = avaliableMods.ElementAt(modIndex);
             if (currentMod != null)

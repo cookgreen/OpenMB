@@ -23,26 +23,32 @@ namespace AMOFGameEngine
     /// <summary>
     /// Item description
     /// </summary>
-    public class ItemDesc
+    public class Item
     {
+        string itemID;
         string itemName;
         string itemMeshName;
         ItemType itemType;
 
-        public ItemDesc()
+        public Item()
         {
+            this.itemID = "";
             this.itemName = "";
             this.itemMeshName = "";
             this.itemType = ItemType.IT_INVALID;
         }
 
-        public ItemDesc(string itemName,string itemMeshName,ItemType itemType)
+        public Item(string itemName,string itemMeshName,ItemType itemType)
         {
             this.itemName = itemName;
             this.itemMeshName = itemMeshName;
             this.itemType = itemType;
         }
 
+        public string ItemID
+        {
+            get { return itemID; }
+        }
         public ItemType ItemType
         {
             get { return itemType; }

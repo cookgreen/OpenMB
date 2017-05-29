@@ -7,7 +7,7 @@ using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.Utilities;
-using AMOFGameEngine.Models;
+using AMOFGameEngine.Data;
 
 namespace AMOFGameEngine.States
 {
