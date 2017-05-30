@@ -194,6 +194,7 @@ namespace AMOFGameEngine.Mods.Sample
             //CamMove();
             CamRotate();
             characterMgr.MoveCharacter("ogre6");
+            characterMgr.SetCharacterLookAtPos("ogre1", "ogre6");//Entity named "Ogre1" always "Look at" Entity named "Ogre6"
             characterMgr.Update(timeSinceLastFrame);
             //characontroller.addTime(timeSinceLastFrame);
         }

@@ -17,12 +17,14 @@ namespace AMOFGameEngine.Data
         Keyboard keyboard;
         Mouse mouse;
         Mogre.Vector3 moveOffset;
+        float lastRotateAngle;
 
         public CharacterManager(Camera cam,Keyboard keyboard,Mouse mouse)
         {
             this.cam = cam;
             this.keyboard = keyboard;
             this.mouse = mouse;
+            raySceneQuery = cam.SceneManager.CreateRayQuery(new Ray());
             charaEntMap = new Dictionary<string, Entity>();
             characters = new List<Character>();
             moveOffset = new Mogre.Vector3();
@@ -140,6 +142,40 @@ namespace AMOFGameEngine.Data
                 moveOffset.x = -0.1f;
             }
             charaEnt.ParentNode.Translate(moveOffset);
+        }
+
+        public void SetCharacterLookAtPos(string charaSrcID,string charaTargetID)
+        {
+            if (string.Compare(charaSrcID, charaTargetID) != 0)
+            {
+                Entity srcEnt = charaEntMap[charaSrcID];
+                Entity targetEnt = charaEntMap[charaTargetID];
+                if (srcEnt != null && targetEnt != null)
+                {
+                    Mogre.Vector3 srcPos = srcEnt.ParentNode.Position;
+                    Bone srcHead = srcEnt.Skeleton.GetBone("Head");
+                    Mogre.Vector3 srcLookAt = srcHead._getDerivedOrientation() * Mogre.Vector3.UNIT_Z;
+
+                    Mogre.Vector3 targetPos = targetEnt.ParentNode.Position;
+                    Mogre.Vector3 targetLookAt = new Mogre.Vector3(targetPos.x - srcPos.x, targetPos.y - srcPos.y, targetPos.z - srcPos.z);
+
+                    float delta = srcLookAt.DotProduct(targetLookAt) / (srcLookAt.Length * targetLookAt.Length);
+                    Radian r = Mogre.Math.ACos(delta * -1);
+                    if (lastRotateAngle == r.ValueDegrees)
+                    {
+                        srcEnt.ParentNode.Yaw(new Degree(r.ValueDegrees));
+                    }
+                    else
+                    {
+                        lastRotateAngle = r.ValueDegrees;
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }
