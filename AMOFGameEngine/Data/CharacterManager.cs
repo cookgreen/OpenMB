@@ -13,18 +13,19 @@ namespace AMOFGameEngine.Data
         List<Character> characters;
         Dictionary<string, Entity> charaEntMap;
         Camera cam;
-        AnimationState animState;
         Keyboard keyboard;
         Mouse mouse;
         Mogre.Vector3 moveOffset;
-        float lastRotateAngle;
+        AnimationState animState;
+        AnimationState animStateTop;
+
+        public event Action<Mogre.Vector3> CharacterPosChanged;
 
         public CharacterManager(Camera cam,Keyboard keyboard,Mouse mouse)
         {
             this.cam = cam;
             this.keyboard = keyboard;
             this.mouse = mouse;
-            raySceneQuery = cam.SceneManager.CreateRayQuery(new Ray());
             charaEntMap = new Dictionary<string, Entity>();
             characters = new List<Character>();
             moveOffset = new Mogre.Vector3();
@@ -35,8 +36,8 @@ namespace AMOFGameEngine.Data
         {
             foreach (KeyValuePair<string, Entity> kpl in charaEntMap)
             {
-                kpl.Value.GetAnimationState("IdleTop").AddTime(evt.timeSinceLastFrame);
-                kpl.Value.GetAnimationState("IdleBase").AddTime(evt.timeSinceLastFrame);
+                kpl.Value.GetAnimationState("RunBase").AddTime(evt.timeSinceLastFrame);
+                kpl.Value.GetAnimationState("RunTop").AddTime(evt.timeSinceLastFrame);
             }
             return true;
         }
@@ -59,12 +60,26 @@ namespace AMOFGameEngine.Data
                 animState = charaEnt.GetAnimationState("IdleBase");
                 animState.Loop = true;
 
-                animState = charaEnt.GetAnimationState("IdleTop");
-                animState.Loop = true;
+                animStateTop = charaEnt.GetAnimationState("IdleTop");
+                animStateTop.Loop = true;
 
                 charaEntMap.Add(characterID, charaEnt);
             }
             chara.CharaState = CharacterState.CHARA_ALIVE;
+        }
+
+        public void MoveToLocation(string charaID, Mogre.Vector3 pos)
+        {
+            Entity charaEnt = charaEntMap[charaID];
+
+            animState = charaEnt.GetAnimationState("RunBase");
+            animStateTop = charaEnt.GetAnimationState("RunTop");
+
+            animState.Enabled = true;
+            animState.Loop = true;
+
+            animStateTop.Enabled = true;
+            animStateTop.Loop = true;
         }
 
         public void SpawnCharacter(Mogre.Vector3 spawnPos, string characterID,string charaMeshName)
@@ -142,39 +157,26 @@ namespace AMOFGameEngine.Data
                 moveOffset.x = -0.1f;
             }
             charaEnt.ParentNode.Translate(moveOffset);
+            if (CharacterPosChanged != null && moveOffset!=Mogre.Vector3.ZERO)
+            {
+                CharacterPosChanged(charaEnt.ParentNode.Position);
+            }
         }
 
-        public void SetCharacterLookAtPos(string charaSrcID,string charaTargetID)
+        public void SetCharacterLookAtPos(string charaSrcID, Mogre.Vector3 targetPos)
         {
-            if (string.Compare(charaSrcID, charaTargetID) != 0)
+            Entity srcEnt = charaEntMap[charaSrcID];
+            if (srcEnt != null)
             {
-                Entity srcEnt = charaEntMap[charaSrcID];
-                Entity targetEnt = charaEntMap[charaTargetID];
-                if (srcEnt != null && targetEnt != null)
-                {
-                    Mogre.Vector3 srcPos = srcEnt.ParentNode.Position;
-                    Bone srcHead = srcEnt.Skeleton.GetBone("Head");
-                    Mogre.Vector3 srcLookAt = srcHead._getDerivedOrientation() * Mogre.Vector3.UNIT_Z;
+                Mogre.Vector3 srcPos = srcEnt.ParentNode.Position;
+                Bone srcHead = srcEnt.Skeleton.GetBone("Head");
+                Mogre.Vector3 srcLookAt = srcHead._getDerivedOrientation() * Mogre.Vector3.UNIT_Z;
 
-                    Mogre.Vector3 targetPos = targetEnt.ParentNode.Position;
-                    Mogre.Vector3 targetLookAt = new Mogre.Vector3(targetPos.x - srcPos.x, targetPos.y - srcPos.y, targetPos.z - srcPos.z);
+                Mogre.Vector3 targetLookAt = new Mogre.Vector3(targetPos.x - srcPos.x, targetPos.y - srcPos.y, targetPos.z - srcPos.z);
 
-                    float delta = srcLookAt.DotProduct(targetLookAt) / (srcLookAt.Length * targetLookAt.Length);
-                    Radian r = Mogre.Math.ACos(delta * -1);
-                    if (lastRotateAngle == r.ValueDegrees)
-                    {
-                        srcEnt.ParentNode.Yaw(new Degree(r.ValueDegrees));
-                    }
-                    else
-                    {
-                        lastRotateAngle = r.ValueDegrees;
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                return;
+                float delta = srcLookAt.DotProduct(targetLookAt) / (srcLookAt.Length * targetLookAt.Length);
+                Radian r = Mogre.Math.ACos(delta);
+                srcEnt.ParentNode.Yaw(new Degree(r.ValueDegrees));
             }
         }
     }

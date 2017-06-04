@@ -167,6 +167,7 @@ namespace AMOFGameEngine
             /*if (!LocateSystem.IsInit)
                 LocateSystem.InitLocateSystem(LocateSystem.GetLanguageFromFile());*/
             mSoundMgr = new SoundManager();
+            mSoundMgr.Init();
             mModMgr = new ModManager();
             mAppStateMgr = new AppStateManager();
             return true;

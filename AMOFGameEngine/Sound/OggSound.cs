@@ -19,32 +19,22 @@ namespace AMOFGameEngine.Sound
         private NAudio.Vorbis.VorbisWaveReader vorbis;
         private NAudio.Wave.WaveOut waveout;
         private string _oggfilename;
-        public string OggFileName
-        {
-            get
-            {
-                return _oggfilename;
-            }
-            set
-            {
-                _oggfilename = value;
-            }
-        }
         private int _oggstatus;
-        public int OggStatus
+        protected int OggStatus
         {
             get
             {
                 return _oggstatus;
             }
         }
-        public OggSound()
+        public OggSound(string oggFileName)
         {
+            this._oggfilename = oggFileName;
             waveout = null;
             vorbis = null;
             _oggstatus = (int)OGGSTATUS.OGGS_STOP;
         }
-        public void PlayOgg()
+        protected void PlayOgg()
         {
             vorbis = new NAudio.Vorbis.VorbisWaveReader(_oggfilename);
             waveout = new NAudio.Wave.WaveOut();
@@ -53,7 +43,7 @@ namespace AMOFGameEngine.Sound
             _oggstatus = (int)OGGSTATUS.OGGS_PLAYING;
 
         }
-        public void PauseOgg()
+        protected void PauseOgg()
         {
             if (waveout != null && vorbis != null)
             {
@@ -61,7 +51,7 @@ namespace AMOFGameEngine.Sound
                 _oggstatus = (int)OGGSTATUS.OGGS_PAUSE;
             }
         }
-        public void StopOgg()
+        protected void StopOgg()
         {
             if (waveout != null && vorbis != null)
             {

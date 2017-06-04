@@ -95,6 +95,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Mods\ModXMLProcesser.cs" />
+    <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
     <Compile Include="Forms\ConfigFrm.cs">
       <SubType>Form</SubType>

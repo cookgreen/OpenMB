@@ -31,12 +31,7 @@ namespace AMOFGameEngine.States
 
             m_bQuit = false;
 
-            //if (GameManager.Singleton.ogg == null)
-            //{
-            //    GameManager.Singleton.ogg = new OggSound();
-            //    GameManager.Singleton.ogg.OggFileName = @"./Music/vivaldi_winter_allegro.ogg";
-            //    GameManager.Singleton.ogg.PlayOgg();
-            //}
+            GameManager.Singleton.mSoundMgr.ChangeSoundStateToType(SoundType.MainMenu);
 
             m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
 

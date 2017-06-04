@@ -73,14 +73,20 @@ namespace AMOFGameEngine.Mods.Sample
             characterMgr.SpawnCharacter(new Mogre.Vector3(20, 0, 0), "ogre3", "Sinbad");
             characterMgr.SpawnCharacter(new Mogre.Vector3(0, 0, 10), "ogre4", "Sinbad");
             characterMgr.SpawnCharacter(new Mogre.Vector3(0, 0, 20), "ogre5", "Sinbad");
-            characterMgr.SpawnCharacter(new Mogre.Vector3(100, 0, 100), "ogre6", "Sinbad");
+            characterMgr.SpawnCharacter(new Mogre.Vector3(-100, 0, 100), "ogre6", "Sinbad");
 
             mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouse_MouseMoved);
             mouse.MousePressed += new MouseListener.MousePressedHandler(mouse_MousePressed);
             mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouse_MouseReleased);
             keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyboard_KeyPressed);
             keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyboard_KeyReleased);
+            characterMgr.CharacterPosChanged += new Action<Mogre.Vector3>(characterMgr_CharacterPosChanged);
             
+        }
+
+        void characterMgr_CharacterPosChanged(Mogre.Vector3 newPos)
+        {
+            characterMgr.SetCharacterLookAtPos("ogre1", newPos);
         }
 
         bool keyboard_KeyReleased(KeyEvent arg)
@@ -193,8 +199,8 @@ namespace AMOFGameEngine.Mods.Sample
             getInput();
             //CamMove();
             CamRotate();
+            characterMgr.MoveToLocation("ogre1", new Mogre.Vector3());
             characterMgr.MoveCharacter("ogre6");
-            characterMgr.SetCharacterLookAtPos("ogre1", "ogre6");//Entity named "Ogre1" always "Look at" Entity named "Ogre6"
             characterMgr.Update(timeSinceLastFrame);
             //characontroller.addTime(timeSinceLastFrame);
         }
