@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigFrm));
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pbAMGELogo = new System.Windows.Forms.PictureBox();
             this.lblCOO = new System.Windows.Forms.Label();
             this.cmbValueChange = new System.Windows.Forms.ComboBox();
             this.tbRenderOpt = new System.Windows.Forms.TabControl();
@@ -39,15 +39,18 @@
             this.lblRenderSys = new System.Windows.Forms.Label();
             this.cmbSubRenderSys = new System.Windows.Forms.ComboBox();
             this.gbRenderOpt = new System.Windows.Forms.GroupBox();
+            this.lstConfig = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.cmbLanguageSelect = new System.Windows.Forms.ComboBox();
             this.lblLang = new System.Windows.Forms.Label();
-            this.lstConfig = new System.Windows.Forms.ListBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.chkEnableSound = new System.Windows.Forms.CheckBox();
+            this.chkEnableMusic = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAMGELogo)).BeginInit();
             this.tbRenderOpt.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbRenderOpt.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,15 +75,15 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // pictureBox1
+            // pbAMGELogo
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(-1, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(487, 160);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
+            this.pbAMGELogo.Image = ((System.Drawing.Image)(resources.GetObject("pbAMGELogo.Image")));
+            this.pbAMGELogo.Location = new System.Drawing.Point(12, 3);
+            this.pbAMGELogo.Name = "pbAMGELogo";
+            this.pbAMGELogo.Size = new System.Drawing.Size(462, 160);
+            this.pbAMGELogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbAMGELogo.TabIndex = 3;
+            this.pbAMGELogo.TabStop = false;
             // 
             // lblCOO
             // 
@@ -158,8 +161,20 @@
             this.gbRenderOpt.TabStop = false;
             this.gbRenderOpt.Text = "Render System Options";
             // 
+            // lstConfig
+            // 
+            this.lstConfig.FormattingEnabled = true;
+            this.lstConfig.ItemHeight = 12;
+            this.lstConfig.Location = new System.Drawing.Point(6, 20);
+            this.lstConfig.Name = "lstConfig";
+            this.lstConfig.Size = new System.Drawing.Size(428, 100);
+            this.lstConfig.TabIndex = 0;
+            this.lstConfig.SelectedIndexChanged += new System.EventHandler(this.lstConfig_SelectedIndexChanged);
+            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.chkEnableMusic);
+            this.tabPage2.Controls.Add(this.chkEnableSound);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -201,15 +216,31 @@
             this.lblLang.TabIndex = 0;
             this.lblLang.Text = "Language:";
             // 
-            // lstConfig
+            // chkEnableSound
             // 
-            this.lstConfig.FormattingEnabled = true;
-            this.lstConfig.ItemHeight = 12;
-            this.lstConfig.Location = new System.Drawing.Point(6, 20);
-            this.lstConfig.Name = "lstConfig";
-            this.lstConfig.Size = new System.Drawing.Size(428, 100);
-            this.lstConfig.TabIndex = 0;
-            this.lstConfig.SelectedIndexChanged += new System.EventHandler(this.lstConfig_SelectedIndexChanged);
+            this.chkEnableSound.AutoSize = true;
+            this.chkEnableSound.Checked = true;
+            this.chkEnableSound.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkEnableSound.Location = new System.Drawing.Point(17, 20);
+            this.chkEnableSound.Name = "chkEnableSound";
+            this.chkEnableSound.Size = new System.Drawing.Size(96, 16);
+            this.chkEnableSound.TabIndex = 0;
+            this.chkEnableSound.Text = "Enable Sound";
+            this.chkEnableSound.UseVisualStyleBackColor = true;
+            this.chkEnableSound.CheckedChanged += new System.EventHandler(this.chkEnableSound_CheckedChanged);
+            // 
+            // chkEnableMusic
+            // 
+            this.chkEnableMusic.AutoSize = true;
+            this.chkEnableMusic.Checked = true;
+            this.chkEnableMusic.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkEnableMusic.Location = new System.Drawing.Point(17, 52);
+            this.chkEnableMusic.Name = "chkEnableMusic";
+            this.chkEnableMusic.Size = new System.Drawing.Size(96, 16);
+            this.chkEnableMusic.TabIndex = 1;
+            this.chkEnableMusic.Text = "Enable Music";
+            this.chkEnableMusic.UseVisualStyleBackColor = true;
+            this.chkEnableMusic.CheckedChanged += new System.EventHandler(this.chkEnableMusic_CheckedChanged);
             // 
             // ConfigFrm
             // 
@@ -217,17 +248,19 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(483, 452);
             this.Controls.Add(this.tbRenderOpt);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pbAMGELogo);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Name = "ConfigFrm";
-            this.Text = "AMOF Game Engine Setup";
+            this.Text = "AMOFGameEngine Option";
             this.Load += new System.EventHandler(this.ConfigFrm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbAMGELogo)).EndInit();
             this.tbRenderOpt.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.gbRenderOpt.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
@@ -238,7 +271,7 @@
 
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pbAMGELogo;
         private System.Windows.Forms.Label lblCOO;
         private System.Windows.Forms.ComboBox cmbValueChange;
         private System.Windows.Forms.TabControl tbRenderOpt;
@@ -251,5 +284,7 @@
         private System.Windows.Forms.ComboBox cmbLanguageSelect;
         private System.Windows.Forms.Label lblLang;
         private System.Windows.Forms.ListBox lstConfig;
+        private System.Windows.Forms.CheckBox chkEnableSound;
+        private System.Windows.Forms.CheckBox chkEnableMusic;
     }
 }

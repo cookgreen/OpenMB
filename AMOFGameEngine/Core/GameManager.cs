@@ -157,7 +157,7 @@ namespace AMOFGameEngine
             return true;
         }
 
-        public bool InitGame()
+        public bool InitGame(Dictionary<string, string> gameOptions)
         {
             mLocateMgr = new LocateSystem();
             if (!mLocateMgr.IsInit)
@@ -167,7 +167,11 @@ namespace AMOFGameEngine
             /*if (!LocateSystem.IsInit)
                 LocateSystem.InitLocateSystem(LocateSystem.GetLanguageFromFile());*/
             mSoundMgr = new SoundManager();
-            mSoundMgr.Init();
+            if (gameOptions["IsEnableMusic"] == "True")
+            {
+                mSoundMgr.Init();
+            }
+
             mModMgr = new ModManager();
             mAppStateMgr = new AppStateManager();
             return true;

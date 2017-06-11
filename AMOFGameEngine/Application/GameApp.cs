@@ -7,15 +7,17 @@ namespace AMOFGameEngine
 {
     class GameApp
     {
-        public GameApp()
+        Dictionary<string, string> gameOptions;
+        public GameApp(Dictionary<string,string> gameOptions)
         {
+            this.gameOptions = gameOptions;
         }
 
         public void Run()
         {
             if (!GameManager.Singleton.InitOgre("AMOFGameEngine Demo"))
 		        return;
-            if (!GameManager.Singleton.InitGame())
+            if (!GameManager.Singleton.InitGame(gameOptions))
                 return;
 
             ModChooser.create<ModChooser>(GameManager.Singleton.mAppStateMgr, "ModChooser");

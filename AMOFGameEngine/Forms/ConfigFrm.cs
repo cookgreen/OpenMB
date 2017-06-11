@@ -16,11 +16,6 @@ namespace AMOFGameEngine.Dialogs
 {
     public partial class ConfigFrm : Form
     {
-        [DllImport("kernel32")]
-        private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
-        [DllImport("kernel32")]
-        private static extern int GetPrivateProfileString(string section, string key, string def, System.Text.StringBuilder retVal, int size, string filePath);
-
         Root r=new Root();
 
         LOCATE selectedlocate;
@@ -28,11 +23,16 @@ namespace AMOFGameEngine.Dialogs
         List<OgreConfigNode> ogreConfigs = new List<OgreConfigNode>();
         OgreConfigFileAdapter cfa = new OgreConfigFileAdapter("./ogre.cfg");
         OgreConfigNode defaultRSConfig = new OgreConfigNode();
+        bool isEnableMusic;
+        bool isEnableSound;
+        Dictionary<string, string> GameConfigOptions;
 
-        string path = "./language.txt";
         public ConfigFrm()
         {
             InitializeComponent();
+            GameConfigOptions = new Dictionary<string, string>();
+            isEnableSound = chkEnableSound.Checked;
+            isEnableMusic = chkEnableMusic.Checked;
         }
         private void ConfigFrm_Load(object sender, EventArgs e)
         {
@@ -126,11 +126,20 @@ namespace AMOFGameEngine.Dialogs
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            CheckOptionsAndRun();
+        }
+
+        private void CheckOptionsAndRun()
+        {
+            GameConfigOptions.Add("IsEnableMusic", isEnableMusic.ToString());
+            GameConfigOptions.Add("IsEnableSound", isEnableSound.ToString());
+            GameConfigOptions.Add("Language", cmbLanguageSelect.SelectedItem.ToString());
+
             ls.SaveLanguageSettingsToFIle(cmbLanguageSelect.SelectedIndex);
-            cfa.SaveConfig(ogreConfigs,cmbSubRenderSys.SelectedItem.ToString());
+            cfa.SaveConfig(ogreConfigs, cmbSubRenderSys.SelectedItem.ToString());
             this.Close();
-            
-            GameApp app = new GameApp();
+
+            GameApp app = new GameApp(GameConfigOptions);
             app.Run();
         }
 
@@ -169,6 +178,16 @@ namespace AMOFGameEngine.Dialogs
         }
         private void cmbLanguageSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
+        }
+
+        private void chkEnableMusic_CheckedChanged(object sender, EventArgs e)
+        {
+            isEnableMusic = chkEnableMusic.Checked;
+        }
+
+        private void chkEnableSound_CheckedChanged(object sender, EventArgs e)
+        {
+            isEnableSound = chkEnableSound.Checked;
         }
         
 
