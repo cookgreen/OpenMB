@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace AMOFGameEngine.Utilities
 {
-    class OgreConfigFileAdapter
+    public class OgreConfigFileAdapter
     {
         private string filename;
         private List<OgreConfigNode> ogreconfigs;
@@ -81,6 +81,27 @@ namespace AMOFGameEngine.Utilities
                         sw.WriteLine("\n" + "[" + singleSetting.Section + "]" + "\n");
                     }
                     Dictionary<string,string> settings = singleSetting.Settings;
+                    foreach (KeyValuePair<string, string> pd in settings)
+                    {
+                        sw.WriteLine(pd.Key + "=" + pd.Value + "\n");
+                    }
+                }
+                sw.Flush();
+            }
+        }
+
+        public void SaveConfig(List<OgreConfigNode> configSettings)//Save Config File
+        {
+
+            using (StreamWriter sw = new StreamWriter(filename))
+            {
+                foreach (OgreConfigNode singleSetting in configSettings)
+                {
+                    if (!string.IsNullOrEmpty(singleSetting.Section))
+                    {
+                        sw.WriteLine("\n" + "[" + singleSetting.Section + "]" + "\n");
+                    }
+                    Dictionary<string, string> settings = singleSetting.Settings;
                     foreach (KeyValuePair<string, string> pd in settings)
                     {
                         sw.WriteLine(pd.Key + "=" + pd.Value + "\n");

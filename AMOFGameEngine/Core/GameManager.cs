@@ -12,6 +12,7 @@ using AMOFGameEngine.Sound;
 using AMOFGameEngine.Utilities;
 using AMOFGameEngine.States;
 using AMOFGameEngine.Mods;
+using Editor;
 
 namespace AMOFGameEngine
 {
@@ -31,13 +32,13 @@ namespace AMOFGameEngine
         public OggSound ogg;
 
         private string defaultRS;
-        OgreConfigFileAdapter cfa;
-        List<OgreConfigNode> ogreConfigs;
 
         public AppStateManager mAppStateMgr;
         public SoundManager mSoundMgr;
         public ModManager mModMgr;
         public LocateSystem mLocateMgr;
+
+        public MogreConsole console;
 
 
         static GameManager singleton;
@@ -67,29 +68,28 @@ namespace AMOFGameEngine
             mTrayMgr = null;
             mAppStateMgr = null;
             mSoundMgr = null;
-            cfa = new OgreConfigFileAdapter("./ogre.cfg");
-            ogreConfigs=new List<OgreConfigNode>();
+            console = new MogreConsole();
          }
 
-        public bool InitOgre(String wndTitle)
+        public bool InitRender(String wndTitle, List<OgreConfigNode> renderconfigs,Root r)
         {
             LogManager logMgr = new LogManager();
  
             mLog = LogManager.Singleton.CreateLog("./Log/amof.log", true, true, false);
             mLog.SetDebugOutputEnabled(true);
- 
-            mRoot = new Root();
 
-            RenderSystem rs = null; ;
-            ogreConfigs = cfa.ReadConfigData();
-            defaultRS = cfa.GetDefaultRenderSystem();
+            mRoot = r;
+
+            RenderSystem rs = null;
+
+            defaultRS = renderconfigs.Where(o => o.Section == "").FirstOrDefault().Settings["Render System"];
             if (!string.IsNullOrEmpty(defaultRS))
             {
                 rs = mRoot.GetRenderSystemByName(defaultRS);
             }
-            if (rs != null)
+            if (rs != null && renderconfigs != null)
             {
-                OgreConfigNode node = ogreConfigs.Where(o=>o.Section==defaultRS).First();
+                OgreConfigNode node = renderconfigs.Where(o => o.Section == defaultRS).First();
                 if (!string.IsNullOrEmpty(node.Section))
                 {
 
@@ -109,7 +109,7 @@ namespace AMOFGameEngine
             mViewport.Camera=null;
  
             int hWnd = 0;
-            //ParamList paramList;
+            
             mRenderWnd.GetCustomAttribute("WINDOW", out hWnd);
  
             mInputMgr = InputManager.CreateInputSystem((uint)hWnd);
@@ -157,15 +157,16 @@ namespace AMOFGameEngine
             return true;
         }
 
-        public bool InitGame(Dictionary<string, string> gameOptions)
+        public bool InitGame(Dictionary<string, string> gameOptions,LocateSystem ls)
         {
-            mLocateMgr = new LocateSystem();
+            //console.InitConsole(ref mRoot);
+            console.AddCommand("help", new MogreConsole.CommandDelegate(console_showHelp));
+
+            mLocateMgr = ls;
             if (!mLocateMgr.IsInit)
             {
                 mLocateMgr.InitLocateSystem(mLocateMgr.GetLanguageFromFile());
             }
-            /*if (!LocateSystem.IsInit)
-                LocateSystem.InitLocateSystem(LocateSystem.GetLanguageFromFile());*/
             mSoundMgr = new SoundManager();
             if (gameOptions["IsEnableMusic"] == "True")
             {
@@ -202,6 +203,11 @@ namespace AMOFGameEngine
                     mTrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
                 }
             }
+
+            if (mKeyboard.IsKeyDown(KeyCode.KC_HOME))
+            {
+                console.Visible = true;
+            }
  
             return true;
         }
@@ -226,7 +232,11 @@ namespace AMOFGameEngine
         {
             return System.Math.Max(System.Math.Min(val, maxval), minval);
         }
-        
+
+        void console_showHelp(List<string> args)
+        {
+
+        }
 
         public void Dispose()
         {

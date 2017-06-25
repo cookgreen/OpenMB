@@ -55,6 +55,9 @@
     <Reference Include="eyecm.PhysX">
       <HintPath>..\Dependencies\eyecm.PhysX.dll</HintPath>
     </Reference>
+    <Reference Include="LuaInterface">
+      <HintPath>..\Dependencies\LuaInterface.dll</HintPath>
+    </Reference>
     <Reference Include="Mogre">
       <HintPath>..\Dependencies\Mogre.dll</HintPath>
     </Reference>
@@ -88,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AStarPathFind.cs" />
+    <Compile Include="Console\MogreConsole.cs" />
     <Compile Include="Data\Character.cs" />
     <Compile Include="Data\CharacterManager.cs" />
     <Compile Include="Data\InventoryInfo.cs" />
@@ -105,7 +109,7 @@
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Localization\LocateSystem.cs" />
-    <Compile Include="Helper\ActorNode.cs" />
+    <Compile Include="Utilities\ActorNode.cs" />
     <Compile Include="Core\GameManager.cs" />
     <Compile Include="Data\AppStateArgs.cs" />
     <Compile Include="Data\CharacterController.cs" />
@@ -121,12 +125,12 @@
     <Compile Include="States\MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Helper\RMogre.cs" />
+    <Compile Include="Utilities\RMogre.cs" />
     <Compile Include="Data\SinbadCharacterController.cs" />
-    <Compile Include="Helper\StaticMeshData.cs" />
-    <Compile Include="Helper\OgreConfigFileAdapter.cs" />
+    <Compile Include="Utilities\StaticMeshData.cs" />
+    <Compile Include="Utilities\OgreConfigFileAdapter.cs" />
     <Compile Include="Localization\LocateUCSFile.cs" />
-    <Compile Include="Helper\OgreConfigNode.cs" />
+    <Compile Include="Utilities\OgreConfigNode.cs" />
     <Compile Include="States\Pause.cs" />
     <Compile Include="UI\CharacterSelectionWindow.cs" />
     <EmbeddedResource Include="Forms\ConfigFrm.resx">

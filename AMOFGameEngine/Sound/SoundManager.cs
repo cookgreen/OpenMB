@@ -5,10 +5,12 @@ using System.Text;
 
 namespace AMOFGameEngine.Sound
 {
-    public class SoundManager
+    public class SoundManager : IDisposable
     {
-        List<GameSound> soundLst;
-        GameSound currentSound;
+        private List<GameSound> soundLst;
+        private GameSound currentSound;
+        private bool disposed;
+
         public GameSound CurrentSound
         {
             get { return currentSound; }
@@ -19,6 +21,34 @@ namespace AMOFGameEngine.Sound
         {
             soundLst = new List<GameSound>();
             currentSound = null;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+            if (disposing)
+            {
+                if (currentSound != null)
+                {
+                    currentSound.Dispose();
+                    currentSound = null;
+                }
+
+                if (soundLst != null)
+                {
+                    soundLst.Clear();
+                }
+            }
+            disposed = true;
         }
 
         public void Init()

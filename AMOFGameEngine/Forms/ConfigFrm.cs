@@ -21,7 +21,9 @@ namespace AMOFGameEngine.Dialogs
         LOCATE selectedlocate;
         LocateSystem ls = new LocateSystem();
         List<OgreConfigNode> ogreConfigs = new List<OgreConfigNode>();
+        List<OgreConfigNode> gameCfgs=new List<OgreConfigNode>(0);
         OgreConfigFileAdapter cfa = new OgreConfigFileAdapter("./ogre.cfg");
+        OgreConfigFileAdapter gameCfa = new OgreConfigFileAdapter("./Game.cfg");
         OgreConfigNode defaultRSConfig = new OgreConfigNode();
         bool isEnableMusic;
         bool isEnableSound;
@@ -31,30 +33,11 @@ namespace AMOFGameEngine.Dialogs
         {
             InitializeComponent();
             GameConfigOptions = new Dictionary<string, string>();
-            isEnableSound = chkEnableSound.Checked;
-            isEnableMusic = chkEnableMusic.Checked;
         }
         private void ConfigFrm_Load(object sender, EventArgs e)
         {
-            selectedlocate = ls.GetLanguageFromFile();
-            if (selectedlocate != LOCATE.invalid)
-            {
-                cmbLanguageSelect.SelectedIndex = ls.CovertLocateInfoToIndex(selectedlocate);
-
-                ls.InitLocateSystem(selectedlocate);// Init Locate System
-                ls.IsInit = true;
-
-                tbRenderOpt.TabPages[0].Text = ls.CreateLocateString("22161220");
-                tbRenderOpt.TabPages[1].Text = ls.CreateLocateString("22161226");
-                tbRenderOpt.TabPages[2].Text = ls.CreateLocateString("22161224");
-
-                lblRenderSys.Text = ls.CreateLocateString("22161221");
-                lblCOO.Text = ls.CreateLocateString("22161223");
-                lblLang.Text = ls.CreateLocateString("22161225");
-                gbRenderOpt.Text = ls.CreateLocateString("22161222");
-            }
-
             ogreConfigs = cfa.ReadConfigData();
+            gameCfgs = gameCfa .ReadConfigData();
 
             foreach (OgreConfigNode node in ogreConfigs)
             {
@@ -63,6 +46,69 @@ namespace AMOFGameEngine.Dialogs
                     cmbSubRenderSys.Items.Add(node.Section);
                 }
             }
+
+            for (int i = 0; i < gameCfgs.Count;i++ )
+            {
+                if (gameCfgs[i].Settings.Count > 0)
+                {
+                    switch (gameCfgs[i].Section)
+                    {
+                        case "Audio":
+                            foreach (KeyValuePair<string, string> kpl in gameCfgs[i].Settings)
+                            {
+                                if (kpl.Key == "EnableSound")
+                                {
+                                    if (kpl.Value == "1")
+                                    {
+                                        isEnableSound = true;
+                                        chkEnableSound.Checked = true;
+                                    }
+                                    else if (kpl.Value == "0")
+                                    {
+                                        isEnableSound = false;
+                                        chkEnableSound.Checked = false;
+                                    }
+                                }
+                                if (kpl.Key == "EnableMusic")
+                                {
+                                    if (kpl.Value == "1")
+                                    {
+                                        isEnableMusic = true;
+                                        chkEnableMusic .Checked = true;
+                                    }
+                                    else if (kpl.Value == "0")
+                                    {
+                                        isEnableMusic = false;
+                                        chkEnableMusic.Checked = false;
+                                    }
+                                }
+                            }
+
+                            break;
+                        case "Localized":
+                            selectedlocate = ls.ConvertLocateShortStringToLocateInfo(gameCfgs[i].Settings["Current"]);
+
+                            break;
+                    }
+                }
+            }
+            if (selectedlocate != LOCATE.invalid)
+            {
+                cmbLanguageSelect.SelectedIndex = ls.CovertLocateInfoToIndex(selectedlocate);
+
+                ls.InitLocateSystem(selectedlocate);// Init Locate System
+                ls.IsInit = true;
+
+                tbRenderOpt.TabPages[0].Text = ls.LOC(LocateFileType.GameUI, "Graphic");
+                tbRenderOpt.TabPages[1].Text = ls.LOC(LocateFileType.GameUI, "Audio");
+                tbRenderOpt.TabPages[2].Text = ls.LOC(LocateFileType.GameUI, "Game");
+
+                lblRenderSys.Text = ls.LOC(LocateFileType.GameUI, "Render SubSystem");
+                lblCOO.Text = ls.LOC(LocateFileType.GameUI, "Click On Options");
+                lblLang.Text = ls.LOC(LocateFileType.GameUI, "Language");
+                gbRenderOpt.Text = ls.LOC(LocateFileType.GameUI, "Render System Options");
+            }
+
             string defaultRenderSystem = cfa.GetDefaultRenderSystem();
             if (!string.IsNullOrEmpty(defaultRenderSystem))
             {
@@ -135,11 +181,16 @@ namespace AMOFGameEngine.Dialogs
             GameConfigOptions.Add("IsEnableSound", isEnableSound.ToString());
             GameConfigOptions.Add("Language", cmbLanguageSelect.SelectedItem.ToString());
 
-            ls.SaveLanguageSettingsToFIle(cmbLanguageSelect.SelectedIndex);
+            gameCfgs.Where(o => o.Section == "Audio").FirstOrDefault().Settings["EnableSound"] = chkEnableSound.Checked ? "1" : "0";
+            gameCfgs.Where(o => o.Section == "Audio").FirstOrDefault().Settings["EnableMusic"] = chkEnableMusic.Checked ? "1" : "0";
+            gameCfgs.Where(o => o.Section == "Localized").FirstOrDefault().Settings["Current"] = ls.CovertReadableStringToLocateShortString(cmbLanguageSelect.SelectedItem.ToString());
+
+            //ls.SaveLanguageSettingsToFIle(cmbLanguageSelect.SelectedIndex);
             cfa.SaveConfig(ogreConfigs, cmbSubRenderSys.SelectedItem.ToString());
+            gameCfa.SaveConfig(gameCfgs);
             this.Close();
 
-            GameApp app = new GameApp(GameConfigOptions);
+            GameApp app = new GameApp(GameConfigOptions, ls, ogreConfigs, r);
             app.Run();
         }
 

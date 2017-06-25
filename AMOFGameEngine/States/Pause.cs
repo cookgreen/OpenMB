@@ -40,9 +40,9 @@ namespace AMOFGameEngine.States
 
             GameManager.Singleton.mTrayMgr.destroyAllWidgets();
             GameManager.Singleton.mTrayMgr.showCursor();
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "BackToMenuBtn", GameManager.Singleton.mLocateMgr.LOC("Back To Game"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", GameManager.Singleton.mLocateMgr.LOC("Quit"), 250);
-            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "PauseLbl", GameManager.Singleton.mLocateMgr.LOC("Game Paused"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "BackToMenuBtn", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Back To Game"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Quit"), 250);
+            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "PauseLbl", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Game Paused"), 250);
 
             GameManager.Singleton.mMouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
             GameManager.Singleton.mMouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);

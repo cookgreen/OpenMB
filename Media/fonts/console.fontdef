@@ -1,0 +1,7 @@
+Console
+ {
+     type         truetype
+     source         solo5.ttf
+     size         32
+     resolution     55
+ }

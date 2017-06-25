@@ -17,43 +17,104 @@ namespace AMOFGameEngine.Localization
         ja//Japanese
     }
 
-    public class LocateSystem
+    public enum LocateFileType
+    {
+        GameUI,
+        GameString
+    }
+
+    public class LocateSystem : IDisposable
     {
         private LOCATE locate;
         private string path="./language.txt";
         public bool IsInit;
+        private bool disposed;
+        LocateUCSFile ucsGameStr;
+        LocateUCSFile ucsGameUI;
 
         public LocateSystem()
         {
         }
 
-        public string LOC(string str)
+        public void Dispose()
         {
-            LocateUCSFile.AddNewKeyByStr(str);
-            return str;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+            if (disposing)
+            {
+                if (ucsGameStr != null)
+                {
+                    ucsGameStr.Dispose();
+                    ucsGameStr = null;
+                }
+                if (ucsGameUI != null)
+                {
+                    ucsGameUI.Dispose();
+                    ucsGameUI = null;
+                }
+                
+            }
+            disposed = true;
+        }
+
+        public string LOC(LocateFileType file, string str)
+        {
+            LocateUCSFile ucs = GetUCSInstanceByType(file);
+            if (ucs != null)
+            {
+                return GetLocalizedString(file,ucs.AddNewKeyByStrIfNotExist(str));
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public bool InitLocateSystem(LOCATE CurrentLocate)
         {
             locate = CurrentLocate;
-            LocateUCSFile.PrepareUCSFile();
-            if (LocateUCSFile.ProcessUCSFile("GameStrings.ucs", locate) && LocateUCSFile.ProcessUCSFile("GameUI.ucs", locate))
+            ucsGameStr = new LocateUCSFile("GameStrings.ucs", locate);
+            ucsGameUI = new LocateUCSFile("GameUI.ucs", locate);
+
+            ucsGameStr.Prepare();
+            ucsGameUI.Prepare();
+            if (ucsGameStr.Process() && ucsGameUI.Process())
             {
                 return true;
             }
             else
+            {
                 return false;
+            }
         }
 
-        public string CreateLocateString(string ID)
+        public string GetLocalizedString(LocateFileType fileType,string ID)
         {
-            string res = LocateUCSFile.SeekValueByKey(ID);
-            if (!string.IsNullOrEmpty(res))
+            LocateUCSFile ucs = GetUCSInstanceByType(fileType);
+            if (ucs != null)
             {
-                return res;
+                string res = ucs.SeekValueByKey(ID);
+                if (!string.IsNullOrEmpty(res))
+                {
+                    return res;
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
+            {
                 return null;
+            }
         }
 
         public LOCATE GetLanguageFromFile()
@@ -69,23 +130,7 @@ namespace AMOFGameEngine.Localization
                 locate = sr.ReadLine();
                 sr.Close();
             }
-            switch (locate)
-            {
-                case "en":
-                    return LOCATE.en;
-                case "cns":
-                    return LOCATE.cns;
-                case "cnt":
-                    return LOCATE.cnt;
-                case "de":
-                    return LOCATE.de;
-                case "fr":
-                    return LOCATE.fr;
-                case "ja":
-                    return LOCATE.ja;
-                default:
-                    return LOCATE.invalid;
-            }
+            return ConvertLocateShortStringToLocateInfo(locate);
         }
 
         public int CovertLocateInfoToIndex(LOCATE locate)
@@ -130,6 +175,27 @@ namespace AMOFGameEngine.Localization
             }
         }
 
+        public string CovertReadableStringToLocateShortString(string locate)
+        {
+            switch (locate)
+            {
+                case "English":
+                    return "en";
+                case "Simple Chinese":
+                    return "cns";
+                case "Traditional Chinese":
+                    return "cnt";
+                case "German":
+                    return "de";
+                case "French":
+                    return "fr";
+                case "Japanese":
+                    return "ja";
+                default:
+                    return "en";
+            }
+        }
+
         public string CovertLocateInfoStringToReadableString(string locate)
         {
             switch (locate)
@@ -148,6 +214,27 @@ namespace AMOFGameEngine.Localization
                     return "Japanese";
                 default:
                     return "English";
+            }
+        }
+
+        public LOCATE ConvertLocateShortStringToLocateInfo(string locate)
+        {
+            switch (locate)
+            {
+                case "en":
+                    return LOCATE.en;
+                case "cns":
+                    return LOCATE.cns;
+                case "cnt":
+                    return LOCATE.cnt;
+                case "de":
+                    return LOCATE.de;
+                case "fr":
+                    return LOCATE.fr;
+                case "ja":
+                    return LOCATE.ja;
+                default:
+                    return LOCATE.invalid;
             }
         }
 
@@ -179,7 +266,23 @@ namespace AMOFGameEngine.Localization
 
         public void SaveLocateFile()
         {
-            LocateUCSFile.SaveUCSFile("GameStrings.ucs", locate);
+            ucsGameStr.Save();
+            ucsGameUI.Save();
+        }
+
+        private LocateUCSFile GetUCSInstanceByType(LocateFileType fileType)
+        {
+            LocateUCSFile ucs = null;
+            switch (fileType)
+            {
+                case LocateFileType.GameString:
+                    ucs = ucsGameStr;
+                    break;
+                case LocateFileType.GameUI:
+                    ucs = ucsGameUI;
+                    break;
+            }
+            return ucs;
         }
     }
 }

@@ -1,0 +1,13 @@
+material console/background
+ {
+     technique
+     {
+         pass
+         {
+             scene_blend alpha_blend
+             diffuse 0 0 1 0.5
+         }
+ 
+     }
+ 
+ }

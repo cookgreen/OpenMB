@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AMOFGameEngine.Utilities
 {
-    class OgreConfigNode
+    public class OgreConfigNode
     {
         private string section;
 
