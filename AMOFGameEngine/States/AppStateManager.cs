@@ -6,7 +6,6 @@ using Mogre;
 using MOIS;
 using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Mods;
-using AMOFGameEngine.Data;
 
 namespace AMOFGameEngine.States
 {
@@ -23,7 +22,6 @@ namespace AMOFGameEngine.States
          public AppStateManager()
          {
              m_bShutdown = false;
-             GameManager.Singleton.mModMgr .ModStateChangedAction += new Action<ModEventArgs>(ModManager_ModStateChanged);
          }
           ~AppStateManager()
          {
@@ -99,7 +97,7 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mLocateMgr.SaveLocateFile();
             GameManager.Singleton.mLog.LogMessage("Game Quit");
          }
-         public override void changeAppState(AppState state,AppStateArgs e=null)
+         public override void changeAppState(AppState state,ModData e=null)
          {
              if (state != null)
              {
@@ -176,25 +174,6 @@ namespace AMOFGameEngine.States
          {
              GameManager.Singleton.mTrayMgr.setListener(state);
              GameManager.Singleton.mRenderWnd.ResetStatistics();
-         }
-
-         public void ModManager_ModStateChanged(ModEventArgs e)
-         {
-             if (e.modState == ModState.Stop)
-             {
-                 changeAppState(findByName("MainMenu"), new AppStateArgs()
-                 {
-                     modName = e.modName,
-                     modIndex = e.modIndex
-                 });
-             }
-             else if (e.modState == ModState.Run)
-             {
-                 changeAppState(findByName("MainMenu"), new AppStateArgs() { 
-                     modName=e.modName,
-                     modIndex=e.modIndex
-                 });
-             }
          }
     }
 }

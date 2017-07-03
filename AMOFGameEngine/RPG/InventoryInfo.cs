@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AMOFGameEngine.Data
+namespace AMOFGameEngine.RPG
 {
     public class InventoryInfo
     {
@@ -13,11 +13,12 @@ namespace AMOFGameEngine.Data
         Item legAmour;
         Item[] weapons;
         List<Item> inventory;
+        Item currentWeapon;
 
-        public List<Item> Inventory
+        public Item CurrentWeapon
         {
-            get { return inventory; }
-            set { inventory = value; }
+            get { return currentWeapon; }
+            set { currentWeapon = value; }
         }
         public Item[] Weapons
         {
@@ -48,7 +49,36 @@ namespace AMOFGameEngine.Data
         public InventoryInfo()
         {
             weapons = new Item[4];
-            inventory = new List<Item>();
+            inventory = new List<Item>(18);
         }
+
+        public void AddItemToInventory(Item item)
+        {
+            item.Inventory = this;
+            inventory.Add(item);
+        }
+
+        public void RemoveItemToInventory(Item item)
+        {
+            item.Inventory = null;
+            inventory.Remove(item);
+        }
+
+        public Item FindItemInInventory(string name)
+        {
+            var result = from item in inventory
+                         where item.ItemName == name
+                         select item;
+            if (result.Count() > 0)
+            {
+                return result.FirstOrDefault();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public int CurrentWeaponIndex { get; set; }
     }
 }

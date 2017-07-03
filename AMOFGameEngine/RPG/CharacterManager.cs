@@ -6,7 +6,7 @@ using Mogre;
 using MOIS;
 using Mogre_Procedural.MogreBites;
 
-namespace AMOFGameEngine.Data
+namespace AMOFGameEngine.RPG
 {
     public class CharacterManager
     {
@@ -18,6 +18,7 @@ namespace AMOFGameEngine.Data
         Mogre.Vector3 moveOffset;
         AnimationState animState;
         AnimationState animStateTop;
+        List<Character> characherLst;
 
         public event Action<Mogre.Vector3> CharacterPosChanged;
 
@@ -29,6 +30,7 @@ namespace AMOFGameEngine.Data
             charaEntMap = new Dictionary<string, Entity>();
             characters = new List<Character>();
             moveOffset = new Mogre.Vector3();
+            characherLst = new List<Character>();
             Root.Singleton.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
         }
 
@@ -47,6 +49,27 @@ namespace AMOFGameEngine.Data
 
         }
 
+        public void AddCharacterToManageLst(Character character)
+        {
+            characherLst.Add(character);
+        }
+
+        public void UpdateCharacters(float time)
+        {
+            for (int i = 0; i < characherLst.Count; i++)
+            {
+                if (characherLst[i].Alive)
+                {
+                    characherLst[i].Update(time);
+                }
+                else
+                {
+                    characherLst.RemoveAt(i);
+                }
+            }
+        }
+
+        #region never used
         public void SpawnCharacter(Mogre.Vector3 spawnPos,string characterID)
         {
             Character chara= characters.Where(o => o.CharaID == characterID).First();
@@ -65,7 +88,7 @@ namespace AMOFGameEngine.Data
 
                 charaEntMap.Add(characterID, charaEnt);
             }
-            chara.CharaState = CharacterState.CHARA_ALIVE;
+            chara.Alive = true;
         }
 
         public void MoveToLocation(string charaID, Mogre.Vector3 pos)
@@ -179,5 +202,6 @@ namespace AMOFGameEngine.Data
                 srcEnt.ParentNode.Yaw(new Degree(r.ValueDegrees));
             }
         }
+        #endregion
     }
 }

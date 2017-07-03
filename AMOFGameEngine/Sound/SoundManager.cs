@@ -91,6 +91,16 @@ namespace AMOFGameEngine.Sound
                         sound.Play();
                     }
                     break;
+                case SoundType.NewLevelRached:
+                    var result3 = from sound in soundLst
+                                 where sound.SoundType == SoundType.Scene
+                                 select sound;
+                    if (result3.Count() > 0)
+                    {
+                        GameSound sound = result3.FirstOrDefault();
+                        sound.Play();
+                    }
+                    break;
             }
         }
 

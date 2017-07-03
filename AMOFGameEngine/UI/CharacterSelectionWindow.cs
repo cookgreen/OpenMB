@@ -5,26 +5,30 @@ using System.Text;
 using Mogre;
 using MOIS;
 using Mogre_Procedural.MogreBites;
+using AMOFGameEngine.RPG;
 
 namespace AMOFGameEngine.UI
 {
     public class CharacterSelectionWindow : SdkTrayListener
     {
         /// <summary>
-        /// Character List-key:Character Profession,value:Character Mesh FileName
+        /// Characters will show 
         /// </summary>
-        NameValuePairList characterLst;
+        List<Character> characters;
+        Character currentCharacter;
         SdkTrayManager trayMgr;
         SceneManager scm;
         Camera cam;
-        public CharacterSelectionWindow(NameValuePairList characterLst, SdkTrayManager trayMgr, Camera cam)
+
+        public CharacterSelectionWindow(List<Character> characterLst, SdkTrayManager trayMgr, Camera cam)
         {
-            this.characterLst = characterLst;
+            this.characters = characterLst;
             this.trayMgr = trayMgr;
             this.cam = cam;
+            currentCharacter = null;
             Mogre.Quaternion camDirection = cam.Orientation;
-            GameManager.Singleton.mLog.LogMessage("Current Cam direction:\r\nx:" + camDirection.x
-                + "\r\ny:" + camDirection.y + "\r\nz:" + camDirection.z + "\r\nw:" + camDirection.w + "\r\n");
+            //GameManager.Singleton.mLog.LogMessage("Current Cam direction:\r\nx:" + camDirection.x
+            //    + "\r\ny:" + camDirection.y + "\r\nz:" + camDirection.z + "\r\nw:" + camDirection.w + "\r\n");
             BuildUI();
             BuildCharacters();
         }
@@ -41,34 +45,21 @@ namespace AMOFGameEngine.UI
 
         void BuildCharacters()
         {
-            if (characterLst != null && characterLst.Count > 0)
+            if (characters != null && characters.Count > 0)
             {
-                foreach (KeyValuePair<string, string> kpl in characterLst)
-                {
-                    BuildCharacter(kpl.Key, kpl.Value);
-                }
+                //Show the first character
+                characters[0].Create();
+                currentCharacter = characters[0];
             }
-        }
-
-        void BuildCharacter(string characterName, string characterMeshName)
-        {
-            Entity characterEntity = cam.SceneManager.CreateEntity(characterName, string.Format("{0}.mesh", characterMeshName));
-            SceneNode snCharacter = cam.SceneManager.RootSceneNode.CreateChildSceneNode();
-            snCharacter.AttachObject(characterEntity);
-            Mogre.Vector3 camPos = cam.Position;
-            camPos.z = camPos.z - 100;
-            snCharacter.SetPosition(camPos.x, camPos.y, camPos.z);
-            Mogre.Vector3 currSacle = snCharacter.GetScale();
-            GameManager.Singleton.mLog.LogMessage("Current Character :" + characterName + "\r\nCurrent Character Scale:\r\nx:" + currSacle.x
-                + "\r\ny:" + currSacle.y + "\r\nz:" + currSacle.z + "\r\n");
-
-            Quaternion characterDirection = snCharacter.Orientation;
-            GameManager.Singleton.mLog.LogMessage("Current Cam :" + characterName + "\r\nCurrent Character Direction:\r\nx:" + characterDirection.x
-                + "\r\ny:" + characterDirection.y + "\r\nz:" + characterDirection.z + "\r\nw:" + characterDirection.w + "\r\n");
         }
 
         public bool Update(float timeSinceLastFrame)
         {
+            foreach (Character chara in characters)
+            {
+                chara.Update(timeSinceLastFrame);
+            }
+
             return true;
         }
 
@@ -80,20 +71,58 @@ namespace AMOFGameEngine.UI
         {
             if (button.getName() == "NextCharacter")
             {
-
+                int index = characters.IndexOf(currentCharacter);
+                if (characters.Count > 0)
+                {
+                    if (index != characters.Count - 1)
+                    {
+                        currentCharacter = characters[index + 1];
+                    }
+                    else
+                    {
+                        currentCharacter = characters[0];
+                    }
+                    SwitchCharacter(currentCharacter);
+                }
             }
             else if (button.getName() == "PrevCharacter")
             {
-
+                int index = characters.IndexOf(currentCharacter);
+                if (characters.Count > 0)
+                {
+                    if (index != 0)
+                    {
+                        currentCharacter = characters[index - 1];
+                    }
+                    else
+                    {
+                        currentCharacter = characters[0];
+                    }
+                    SwitchCharacter(currentCharacter);
+                }
             }
             else if (button.getName() == "Exit")
             {
-
+                Close();
             }
             else if (button.getName() == "Finish")
             {
-
+                Close();
             }
+        }
+
+        private void SwitchCharacter(Character character)
+        {
+            currentCharacter.Hide();
+
+            character.Show();
+
+            currentCharacter = character;
+        }
+
+        void Close()
+        {
+
         }
     }
 }

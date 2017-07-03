@@ -9,7 +9,8 @@ namespace AMOFGameEngine.Sound
     {
         Empty,
         MainMenu,
-        Scene
+        Scene,
+        NewLevelRached
     }
     public class GameSound : OggSound
     {

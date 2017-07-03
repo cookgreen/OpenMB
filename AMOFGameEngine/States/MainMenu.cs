@@ -7,7 +7,7 @@ using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.Utilities;
-using AMOFGameEngine.Data;
+using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine.States
 {
@@ -22,12 +22,12 @@ namespace AMOFGameEngine.States
             m_FrameEvent    = new FrameEvent();
             isEnterMod = false;
         }
-        public override void enter(AppStateArgs e=null)
+        public override void enter(ModData e=null)
         {
-            if (e != null)
-            {
-                modIndex = e.modIndex;
-            }
+            //if (e != null)
+            //{
+            //    modIndex = e.modIndex;
+            //}
 
             m_bQuit = false;
 
@@ -59,7 +59,7 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mTrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
             GameManager.Singleton.mTrayMgr.showCursor();
 
-            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", e != null ? GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, e.modName) : GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "MenuState"), 400);
+            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", e != null ? GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, e.ModName) : GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "MenuState"), 400);
 
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "SinglePlayer", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Single Player"), 250);
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "LoadGame", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Load Game"), 250);
@@ -136,26 +136,15 @@ namespace AMOFGameEngine.States
             else if (button.getName() == "LoadGame")
                 changeAppState(findByName("GameState"));
             else if (button.getName() == "MultiPlayer")
-            {
-                isEnterMod = true;
-                GameManager.Singleton.mModMgr.RunModMP(modIndex);
-            }
-            //changeAppState(findByName("Multiplayer"));
+                changeAppState(findByName("Multiplayer"));
             else if (button.getName() == "SinglePlayer")
-            {
-                isEnterMod = true;
-                GameManager.Singleton.mModMgr.RunMod(modIndex);
-            }
-            //changeAppState(findByName("SinglePlayer"));
+                changeAppState(findByName("SinglePlayer"));
             else if (button.getName() == "ModChooser")
                 changeAppState(findByName("ModChooser"));
         }
 
         public override void update(double timeSinceLastFrame)
         {
-            if(isEnterMod)
-                GameManager.Singleton.mModMgr.UpdateMod((float)timeSinceLastFrame,modIndex);
-
             m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
             GameManager.Singleton.mTrayMgr.frameRenderingQueued(m_FrameEvent);
 

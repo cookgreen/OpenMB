@@ -5,8 +5,9 @@ using System.Text;
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
-using AMOFGameEngine.Data;
+using AMOFGameEngine.Mods;
 using AMOFGameEngine.UI;
+using AMOFGameEngine.RPG;
 
 namespace AMOFGameEngine.Mods.Sample
 {

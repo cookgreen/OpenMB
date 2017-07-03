@@ -7,7 +7,8 @@ using MOIS;
 using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.UI;
-using AMOFGameEngine.Data;
+using AMOFGameEngine.Mods;
+using AMOFGameEngine.RPG;
 
 namespace AMOFGameEngine.Mods.Sample
 {
@@ -67,7 +68,7 @@ namespace AMOFGameEngine.Mods.Sample
 
             scm.SetSkyBox(true, "Examples/SpaceSkyBox");
             raySceneQuery = scm.CreateRayQuery(new Ray());
-            characterMgr = new Data.CharacterManager(cam,keyboard,mouse);
+            characterMgr = new CharacterManager(cam,keyboard,mouse);
             characterMgr.SpawnCharacter(new Mogre.Vector3(0, 0, 0), "ogre1", "Sinbad");
             characterMgr.SpawnCharacter(new Mogre.Vector3(10, 0, 0), "ogre2", "Sinbad");
             characterMgr.SpawnCharacter(new Mogre.Vector3(20, 0, 0), "ogre3", "Sinbad");

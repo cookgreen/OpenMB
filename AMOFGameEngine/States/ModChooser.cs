@@ -6,7 +6,7 @@ using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
 using AMOFGameEngine.Mods;
-using AMOFGameEngine.Data;
+using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine.States
 {
@@ -32,7 +32,7 @@ namespace AMOFGameEngine.States
             mModThumbs = new List<OverlayContainer>();
         }
 
-        public override void enter(AppStateArgs e = null)
+        public override void enter(ModData e = null)
         {
             m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "ModChooserSceneMgr");
 
@@ -79,18 +79,6 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mMouse.MousePressed += new MouseListener.MousePressedHandler(mMouse_MousePressed);
             GameManager.Singleton.mMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mMouse_MouseReleased);
             GameManager.Singleton.mRoot.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(mRoot_FrameRenderingQueued);
-        }
-
-        void ModManager_ModStateChanged(ModState state)
-        {
-            if ((ModState)state == ModState.Stop)
-            {
-                
-            }
-            else if ((ModState)state == ModState.Stop)
-            {
-
-            }
         }
 
         bool mRoot_FrameRenderingQueued(FrameEvent evt)
@@ -195,26 +183,26 @@ namespace AMOFGameEngine.States
 
         public override void buttonHit(Button button)
         {
-            if (button.getName() == "Play")
-            {
-                if (GameManager.Singleton.mModMgr.ModStateChangedAction != null)
-                {
-                    GameManager.Singleton.mModMgr.ModStateChangedAction(new ModEventArgs()
-                    {
-                        modState = ModState.Run,
-                        modName = ModChooserMenu.getSelectedItem(),
-                        modIndex = ModChooserMenu.getSelectionIndex()
-                    });
-                }
-            }
-            else if (button.getName() == "Configure")
-            {
-                ConfigureScreen();
-            }
-            else if (button.getName() == "Quit")
-            {
-                isQuit = true;
-            }
+            //if (button.getName() == "Play")
+            //{
+            //    if (GameManager.Singleton.mModMgr.ModStateChangedAction != null)
+            //    {
+            //        GameManager.Singleton.mModMgr.ModStateChangedAction(new ModEventArgs()
+            //        {
+            //            modState = ModState.Run,
+            //            modName = ModChooserMenu.getSelectedItem(),
+            //            modIndex = ModChooserMenu.getSelectionIndex()
+            //        });
+            //    }
+            //}
+            //else if (button.getName() == "Configure")
+            //{
+            //    ConfigureScreen();
+            //}
+            //else if (button.getName() == "Quit")
+            //{
+            //    isQuit = true;
+            //}
         }
 
         void SetupModMenu()

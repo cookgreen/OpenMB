@@ -8,8 +8,8 @@
     <ProjectGuid>{9B8BB1F9-9A43-42AD-A6A3-8BA502C0EFBD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AMOFGameEngine.Mods.Sample</RootNamespace>
-    <AssemblyName>AMOFGameEngine.Mods.Sample</AssemblyName>
+    <RootNamespace>AMOFGameEngine.Mods.Native</RootNamespace>
+    <AssemblyName>AMOFGameEngine.Mods.Native</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
