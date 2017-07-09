@@ -9,49 +9,76 @@ namespace AMOFGameEngine.Sound
     {
         Empty,
         MainMenu,
-        Scene,
-        NewLevelRached
+        Scene
     }
-    public class GameSound : OggSound
+    public class GameSound : IDisposable
     {
         string soundID;
+        SoundType st;
+        List<OggSound> sound;
+        int currentIndex;
+        private bool disposed;
 
         public string ID
         {
             get { return soundID; }
             set { soundID = value; }
         }
-        SoundType st;
-
+        public List<OggSound> Sound
+        {
+            get { return sound; }
+            set { sound = value; }
+        }
         public SoundType SoundType
         {
             get { return st; }
             set { st = value; }
         }
 
-        public GameSound(string soundName)
-            : base(soundName)
+        public GameSound()
         {
-            st = Sound.SoundType.Empty;
+            st = AMOFGameEngine.Sound.SoundType.Empty;
+            sound = new List<OggSound>();
         }
-
-        public GameSound(string soundID,string soundName)
-            : base(soundName)
+        public void AddSound(OggSound s)
         {
-            st = Sound.SoundType.Empty;
-            this.soundID = soundID;
+            sound.Add(s);
         }
-
         public void Play()
         {
-            base.PlayOgg();
-            GameManager.Singleton.mSoundMgr.CurrentSound = this;
+            if (sound.Count > 0)
+            {
+                Random rand = new Random();
+                int rk=rand.Next(0,sound.Count);
+                sound[rk].Play();
+                currentIndex = rk;
+            }
         }
-
         public void Stop()
         {
-            base.StopOgg();
-            GameManager.Singleton.mSoundMgr.CurrentSound = null;
+            if (sound.Count > 0)
+            {
+                sound[currentIndex].Stop();
+            }
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            Dispose(true);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+            if (disposing)
+            {
+                sound.Clear();
+                sound = null;
+            }
+            disposed = true;
         }
     }
 }

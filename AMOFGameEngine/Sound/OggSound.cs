@@ -34,7 +34,7 @@ namespace AMOFGameEngine.Sound
             vorbis = null;
             _oggstatus = (int)OGGSTATUS.OGGS_STOP;
         }
-        protected void PlayOgg()
+        public void Play()
         {
             vorbis = new NAudio.Vorbis.VorbisWaveReader(_oggfilename);
             waveout = new NAudio.Wave.WaveOut();
@@ -43,7 +43,7 @@ namespace AMOFGameEngine.Sound
             _oggstatus = (int)OGGSTATUS.OGGS_PLAYING;
 
         }
-        protected void PauseOgg()
+        public void Pause()
         {
             if (waveout != null && vorbis != null)
             {
@@ -51,7 +51,7 @@ namespace AMOFGameEngine.Sound
                 _oggstatus = (int)OGGSTATUS.OGGS_PAUSE;
             }
         }
-        protected void StopOgg()
+        public void Stop()
         {
             if (waveout != null && vorbis != null)
             {

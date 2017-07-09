@@ -23,38 +23,18 @@ namespace AMOFGameEngine.Sound
             currentSound = null;
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposed)
-            {
-                return;
-            }
-            if (disposing)
-            {
-                if (currentSound != null)
-                {
-                    currentSound.Dispose();
-                    currentSound = null;
-                }
-
-                if (soundLst != null)
-                {
-                    soundLst.Clear();
-                }
-            }
-            disposed = true;
-        }
+       
 
         public void Init()
         {
-            GameSound sound1 = new GameSound("./Music/vivaldi_winter_allegro.ogg");
+            GameSound sound1 = new GameSound();
+            sound1.ID = "MainMenu";
+            sound1.AddSound(new OggSound("./Music/vivaldi_winter_allegro.ogg"));
             sound1.SoundType = SoundType.MainMenu;
+            GameSound sound2 = new GameSound();
+            sound2.ID = "YouReachNewlevel";
+            sound2.AddSound(new OggSound(""));
+
             soundLst.Add(sound1);
         }
 
@@ -91,16 +71,6 @@ namespace AMOFGameEngine.Sound
                         sound.Play();
                     }
                     break;
-                case SoundType.NewLevelRached:
-                    var result3 = from sound in soundLst
-                                 where sound.SoundType == SoundType.Scene
-                                 select sound;
-                    if (result3.Count() > 0)
-                    {
-                        GameSound sound = result3.FirstOrDefault();
-                        sound.Play();
-                    }
-                    break;
             }
         }
 
@@ -118,6 +88,33 @@ namespace AMOFGameEngine.Sound
                 GameSound sound = result.First();
                 sound.Play();
             }
+        }
+        
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+            if (disposing)
+            {
+                if (currentSound != null)
+                {
+                    currentSound.Dispose();
+                    currentSound = null;
+                }
+
+                if (soundLst != null)
+                {
+                    soundLst.Clear();
+                }
+            }
+            disposed = true;
         }
     }
 }
