@@ -31,7 +31,7 @@ namespace AMOFGameEngine.States
 
             m_bQuit = false;
 
-            GameManager.Singleton.mSoundMgr.ChangeSoundStateToType(SoundType.MainMenu);
+            GameManager.Singleton.mSoundMgr.PlaySoundByType(SoundType.MainMenu);
 
             m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
 

@@ -148,7 +148,7 @@ namespace AMOFGameEngine.RPG
         {
             if (controlled)
             {
-                GameManager.Singleton.mSoundMgr.ChangeSoundStateToType(Sound.SoundType.NewLevelRached);
+                GameManager.Singleton.mSoundMgr.PlaySoundByID("YouReachNewlevel");
             }
         }
 

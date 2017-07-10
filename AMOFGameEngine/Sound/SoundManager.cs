@@ -38,7 +38,7 @@ namespace AMOFGameEngine.Sound
             soundLst.Add(sound1);
         }
 
-        public void ChangeSoundStateToType(SoundType soundType)
+        public void PlaySoundByType(SoundType soundType)
         {
             switch (soundType)
             {
@@ -74,7 +74,7 @@ namespace AMOFGameEngine.Sound
             }
         }
 
-        public void ChangeSoundStateToSound(string soundID)
+        public void PlaySoundByID(string soundID)
         {
             var result = from sound in soundLst
                          where sound.ID == soundID

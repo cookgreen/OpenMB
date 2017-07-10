@@ -9,7 +9,7 @@ using AMOFGameEngine.RPG;
 
 namespace AMOFGameEngine.UI
 {
-    public class CharacterSelectionWindow : SdkTrayListener
+    public class CharacterSelection : SdkTrayListener
     {
         /// <summary>
         /// Characters will show 
@@ -20,7 +20,7 @@ namespace AMOFGameEngine.UI
         SceneManager scm;
         Camera cam;
 
-        public CharacterSelectionWindow(List<Character> characterLst, SdkTrayManager trayMgr, Camera cam)
+        public CharacterSelection(List<Character> characterLst, SdkTrayManager trayMgr, Camera cam)
         {
             this.characters = characterLst;
             this.trayMgr = trayMgr;
