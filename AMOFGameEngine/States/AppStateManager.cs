@@ -107,7 +107,7 @@ namespace AMOFGameEngine.States
                      m_ActiveStateStack.RemoveAt(m_ActiveStateStack.Count() - 1);
                  }
 
-                 m_ActiveStateStack.Insert(m_ActiveStateStack.Count(), state);
+                 m_ActiveStateStack.Add(state);
                  init(state);
                  m_ActiveStateStack.Last().enter(e);
              }
@@ -120,7 +120,7 @@ namespace AMOFGameEngine.States
                      return false;
              }
 
-             m_ActiveStateStack.Insert(m_ActiveStateStack.Count(),state);
+             m_ActiveStateStack.Add(state);
              init(state);
              m_ActiveStateStack.Last().enter();
 

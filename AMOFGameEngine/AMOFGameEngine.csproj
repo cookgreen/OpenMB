@@ -118,6 +118,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\CharacterInfo.cs" />
     <Compile Include="UI\CharacterInventory.cs" />
+    <Compile Include="UI\UIWindow.cs" />
+    <Compile Include="UI\UIManager.cs" />
     <Compile Include="Utilities\CollisionTools.cs" />
     <Compile Include="Utilities\RMogre.cs" />
     <Compile Include="Utilities\OgreConfigFileAdapter.cs" />
@@ -149,7 +151,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Widgers\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="OgreHead.ico" />
   </ItemGroup>

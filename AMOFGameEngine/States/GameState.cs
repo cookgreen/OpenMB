@@ -3,6 +3,7 @@ using Mogre;
 using MMOC;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.RPG;
+using AMOFGameEngine.UI;
 using Helper;
 
 namespace AMOFGameEngine.States
@@ -11,6 +12,7 @@ namespace AMOFGameEngine.States
     {
         SceneManager scm;
         CharacterManager characterMgr;
+        UIManager uiMgr;
         IntersectionSceneQuery pISQuery;
         CollisionTools collisionMgr;
         Character player;
@@ -38,23 +40,28 @@ namespace AMOFGameEngine.States
             player = new Character(m_Camera, GameManager.Singleton.mKeyboard, GameManager.Singleton.mMouse, true);
             player.CharaName = "Player";
             player.CharaMeshName = "Sinbad.mesh";
-            player.Create();
+            //player.Create();
+            uiMgr = new UIManager();
 
-            Character npc1 = new Character(m_Camera, GameManager.Singleton.mKeyboard, GameManager.Singleton.mMouse);
-            npc1.CharaName = "Smith";
-            npc1.CharaMeshName = "Sinbad.mesh";
-            npc1.Create();
+            CharacterSelection charaSel = new CharacterSelection(new System.Collections.Generic.List<Character>() { player }, m_Camera);
+            charaSel.create("CharacterSelWin", uiMgr);
 
-            Weapon sword = new Weapon(m_Camera);
-            sword.ItemName = "Sword";
-            sword.ItemMeshName = "Sword.mesh";
-            sword.ItemAttachDir = ItemAttachOption.IAO_LEFT;
-            sword.Create();
-
-            player.AddEquipment(sword, true);
+            uiMgr.ShowWindow(charaSel);
+            //Character npc1 = new Character(m_Camera, GameManager.Singleton.mKeyboard, GameManager.Singleton.mMouse);
+            //npc1.CharaName = "Smith";
+            //npc1.CharaMeshName = "Sinbad.mesh";
+            //npc1.Create();
+            //
+            //Weapon sword = new Weapon(m_Camera);
+            //sword.ItemName = "Sword";
+            //sword.ItemMeshName = "Sword.mesh";
+            //sword.ItemAttachDir = ItemAttachOption.IAO_LEFT;
+            //sword.Create();
+            //
+            //player.AddEquipment(sword, true);
 
             characterMgr.AddCharacterToManageLst(player);
-            characterMgr.AddCharacterToManageLst(npc1);
+            //characterMgr.AddCharacterToManageLst(npc1);
         }
 
         bool mRoot_FrameStarted(FrameEvent evt)

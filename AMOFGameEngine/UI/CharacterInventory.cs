@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mogre;
 
 namespace AMOFGameEngine.UI
 {
-    class CharacterInventory
+    public class CharacterInventory : UIWindiw
     {
+        public CharacterInventory(Camera cam)
+            : base(cam)
+        {
+
+        }
     }
 }

@@ -9,18 +9,15 @@ using AMOFGameEngine.RPG;
 
 namespace AMOFGameEngine.UI
 {
-    public class CharacterSelection : SdkTrayListener
+    public class CharacterSelection : UIWindiw
     {
         /// <summary>
         /// Characters will show 
         /// </summary>
         List<Character> characters;
         Character currentCharacter;
-        SdkTrayManager trayMgr;
-        SceneManager scm;
-        Camera cam;
 
-        public CharacterSelection(List<Character> characterLst, SdkTrayManager trayMgr, Camera cam)
+        public CharacterSelection(List<Character> characterLst,Camera cam) : base(cam)
         {
             this.characters = characterLst;
             this.trayMgr = trayMgr;
@@ -29,11 +26,20 @@ namespace AMOFGameEngine.UI
             Mogre.Quaternion camDirection = cam.Orientation;
             //GameManager.Singleton.mLog.LogMessage("Current Cam direction:\r\nx:" + camDirection.x
             //    + "\r\ny:" + camDirection.y + "\r\nz:" + camDirection.z + "\r\nw:" + camDirection.w + "\r\n");
+        }
+
+        public override void enter()
+        {
             BuildUI();
             BuildCharacters();
         }
 
-        public void BuildUI()
+        public override void close()
+        {
+            base.close();
+        }
+
+        private void BuildUI()
         {
             trayMgr.destroyAllWidgets();
             trayMgr.createLabel(TrayLocation.TL_TOP, "CharaName", "Select Your Character", 200);
@@ -53,20 +59,24 @@ namespace AMOFGameEngine.UI
             }
         }
 
-        public bool Update(float timeSinceLastFrame)
+        public override void update(double timeSinceLastFrame)
         {
-            foreach (Character chara in characters)
+            if (shutdown)
             {
-                chara.Update(timeSinceLastFrame);
+                Shutdown();
             }
 
-            return true;
+            foreach (Character chara in characters)
+            {
+                chara.Update((float)timeSinceLastFrame);
+            }
         }
 
         public void injectMouseDown(MouseEvent evt, MouseButtonID id)
         {
 
         }
+
         public override void buttonHit(Button button)
         {
             if (button.getName() == "NextCharacter")
@@ -103,11 +113,11 @@ namespace AMOFGameEngine.UI
             }
             else if (button.getName() == "Exit")
             {
-                Close();
+                shutdown = true;
             }
             else if (button.getName() == "Finish")
             {
-                Close();
+                shutdown = true;
             }
         }
 
@@ -118,11 +128,6 @@ namespace AMOFGameEngine.UI
             character.Show();
 
             currentCharacter = character;
-        }
-
-        void Close()
-        {
-
         }
     }
 }
