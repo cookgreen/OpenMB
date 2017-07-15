@@ -4,7 +4,7 @@ using MMOC;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.RPG;
 using AMOFGameEngine.UI;
-using Helper;
+using AMOFGameEngine.Maps;
 
 namespace AMOFGameEngine.States
 {
@@ -16,12 +16,12 @@ namespace AMOFGameEngine.States
         IntersectionSceneQuery pISQuery;
         CollisionTools collisionMgr;
         Character player;
-        DotSceneLoader dotSceneLoader;
+        MapManager mapMngr;
 
         public GameState()
         {
+            mapMngr = new MapManager();
             scm = null;
-            dotSceneLoader = new DotSceneLoader();
         }
 
         public override void enter(Mods.ModData data = null)
@@ -36,37 +36,23 @@ namespace AMOFGameEngine.States
             pISQuery=scm.CreateIntersectionQuery();
             collisionMgr = new CollisionTools(scm);
 
+            Map defaultScene = new Map("CubeScene.xml", scm);
+            defaultScene.create("defaultScene", mapMngr);
+
             characterMgr = new CharacterManager(m_Camera, GameManager.Singleton.mKeyboard, GameManager.Singleton.mMouse);
             player = new Character(m_Camera, GameManager.Singleton.mKeyboard, GameManager.Singleton.mMouse, true);
             player.CharaName = "Player";
             player.CharaMeshName = "Sinbad.mesh";
-            //player.Create();
-            uiMgr = new UIManager();
+            player.Create();
 
-            CharacterSelection charaSel = new CharacterSelection(new System.Collections.Generic.List<Character>() { player }, m_Camera);
-            charaSel.create("CharacterSelWin", uiMgr);
-
-            uiMgr.ShowWindow(charaSel);
-            //Character npc1 = new Character(m_Camera, GameManager.Singleton.mKeyboard, GameManager.Singleton.mMouse);
-            //npc1.CharaName = "Smith";
-            //npc1.CharaMeshName = "Sinbad.mesh";
-            //npc1.Create();
-            //
-            //Weapon sword = new Weapon(m_Camera);
-            //sword.ItemName = "Sword";
-            //sword.ItemMeshName = "Sword.mesh";
-            //sword.ItemAttachDir = ItemAttachOption.IAO_LEFT;
-            //sword.Create();
-            //
-            //player.AddEquipment(sword, true);
+            mapMngr.StartMap(mapMngr.FindMapByName("defaultScene"));
 
             characterMgr.AddCharacterToManageLst(player);
-            //characterMgr.AddCharacterToManageLst(npc1);
         }
 
         bool mRoot_FrameStarted(FrameEvent evt)
         {
-            characterMgr.UpdateCharacters(evt.timeSinceLastFrame);
+            //characterMgr.UpdateCharacters(evt.timeSinceLastFrame);
 
             return true;
         }

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using MOIS;
+using AMOFGameEngine.AI;
 
 namespace AMOFGameEngine.RPG
 {
-    public class Character
+    public class Character : CharacterFSM
     {
         enum AnimID
         {
@@ -715,5 +716,33 @@ namespace AMOFGameEngine.RPG
         {
             bodyNode.AttachObject(bodyEnt);
         }
+
+        #region AI Behavior
+        protected override void enterAttack()
+        {
+            base.enterAttack();
+        }
+
+        protected override void enterDead()
+        {
+            base.enterDead();
+        }
+
+        protected override void enterFlee()
+        {
+            base.enterFlee();
+        }
+
+        protected override void enterIdle()
+        {
+            base.enterIdle();
+        }
+
+        protected override void enterPatrol()
+        {
+            base.enterPatrol();
+        }
+
+        #endregion
     }
 }

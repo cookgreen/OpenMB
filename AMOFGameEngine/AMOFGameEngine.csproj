@@ -85,12 +85,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AStarPathFind.cs" />
+    <Compile Include="AI\CharacterFSM.cs" />
     <Compile Include="Console\MogreConsole.cs" />
+    <Compile Include="Maps\Map.cs" />
+    <Compile Include="Maps\MapManager.cs" />
     <Compile Include="Mods\ModManager.cs" />
     <Compile Include="RPG\Character.cs" />
     <Compile Include="RPG\CharacterManager.cs" />
     <Compile Include="RPG\InventoryInfo.cs" />
     <Compile Include="RPG\LevelInfo.cs" />
+    <Compile Include="RPG\TeamInfo.cs" />
     <Compile Include="RPG\Weapon.cs" />
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
