@@ -15,6 +15,7 @@ namespace AMOFGameEngine.States
     {
         int modIndex;
         bool isEnterMod;
+        SelectMenu renderMenu;
         public MainMenu()
         {
             modIndex = -1;
@@ -35,7 +36,7 @@ namespace AMOFGameEngine.States
 
             m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
 
-            GameManager.Singleton.console.InitConsole(ref GameManager.Singleton.mRoot);
+            //GameManager.Singleton.console.InitConsole(ref GameManager.Singleton.mRoot);
 
             ColourValue cvAmbineLight=new ColourValue(0.7f,0.7f,0.7f);
             m_SceneMgr.AmbientLight=cvAmbineLight;
@@ -64,6 +65,7 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "SinglePlayer", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Single Player"), 250);
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "LoadGame", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Load Game"), 250);
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "MultiPlayer", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Multiplayer"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Configure", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Configure"), 250);
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "ModChooser", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Mods"), 250);
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Quit", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Quit"), 250);
 
@@ -141,6 +143,58 @@ namespace AMOFGameEngine.States
                 changeAppState(findByName("SinglePlayer"));
             else if (button.getName() == "ModChooser")
                 changeAppState(findByName("ModChooser"));
+            else if (button.getName() == "Configure")
+                Configure();
+            else if (button.getName() == "btnBack")
+                enter();
+        }
+
+        private void Configure()
+        {
+            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_CENTER, "lbConfig", "Configure");
+            renderMenu = GameManager.Singleton.mTrayMgr.createLongSelectMenu(TrayLocation.TL_CENTER, "rendersys", "Render System", 450, 240, 10);
+            StringVector rsNames = new StringVector();
+            Const_RenderSystemList rsList = GameManager.Singleton.mRoot.GetAvailableRenderers();
+            for (int i = 0; i < rsList.Count; i++)
+            {
+                rsNames.Add(rsList[i].Name);
+            }
+            renderMenu.setItems(rsNames);
+            renderMenu.selectItem(GameManager.Singleton.mRoot.RenderSystem.Name);
+
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnApply", "Apply");
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnBack", "Back");
+        }
+
+        public override void itemSelected(SelectMenu menu)
+        {
+            if (menu == renderMenu)
+            {
+                while (GameManager.Singleton.mTrayMgr.getNumWidgets(renderMenu.getTrayLocation()) > 2)
+                {
+                    GameManager.Singleton.mTrayMgr.destroyWidget(renderMenu.getTrayLocation(), 2);
+                }
+                uint i=0;
+                ConfigOptionMap options = GameManager.Singleton.mRoot.GetRenderSystemByName(renderMenu.getSelectedItem()).GetConfigOptions();
+                foreach (var item in options)
+                {
+                    i++;
+                    SelectMenu optionMenu = GameManager.Singleton.mTrayMgr.createLongSelectMenu(
+                        TrayLocation.TL_CENTER, "ConfigOption" + i.ToString(), item.Key, 450, 240, 10);
+                    optionMenu.setItems(item.Value.possibleValues);
+
+                    try
+                    {
+                        optionMenu.selectItem(item.Value.currentValue);
+                    }
+                    catch
+                    {
+                        optionMenu.addItem(item.Value.currentValue);
+                        optionMenu.selectItem(item.Value.currentValue);
+                    }
+                }
+            }
         }
 
         public override void update(double timeSinceLastFrame)

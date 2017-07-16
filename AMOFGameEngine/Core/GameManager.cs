@@ -13,6 +13,7 @@ using AMOFGameEngine.Utilities;
 using AMOFGameEngine.States;
 using AMOFGameEngine.Mods;
 using Editor;
+using AMOFGameEngine.Widgets;
 
 namespace AMOFGameEngine
 {
@@ -26,7 +27,7 @@ namespace AMOFGameEngine
         public MOIS.InputManager mInputMgr;
         public Keyboard mKeyboard;
         public Mouse mMouse;
-        public SdkTrayManager mTrayMgr;
+        public GameTrayManager mTrayMgr;
         public static string LastStateName;
 
         public OggSound ogg;
@@ -148,7 +149,7 @@ namespace AMOFGameEngine
             TextureManager.Singleton.DefaultNumMipmaps=5;
             ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 
-            mTrayMgr = new SdkTrayManager("AMOFTrayMgr", mRenderWnd, mMouse, new SdkTrayListener() );
+            mTrayMgr = new GameTrayManager("AMOFTrayMgr", mRenderWnd, mMouse, new SdkTrayListener() );
 
             mTimer = new Timer();
             mTimer.Reset();

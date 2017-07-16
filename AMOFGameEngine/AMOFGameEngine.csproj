@@ -131,6 +131,8 @@
     <Compile Include="Utilities\OgreConfigNode.cs" />
     <Compile Include="States\Pause.cs" />
     <Compile Include="UI\CharacterSelection.cs" />
+    <Compile Include="Widgets\InputBox.cs" />
+    <Compile Include="Widgets\GameTrayManager.cs" />
     <EmbeddedResource Include="Forms\ConfigFrm.resx">
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </EmbeddedResource>
@@ -155,9 +157,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Widgers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="OgreHead.ico" />
   </ItemGroup>
