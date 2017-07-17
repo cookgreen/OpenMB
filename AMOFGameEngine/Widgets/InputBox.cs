@@ -27,11 +27,12 @@ namespace AMOFGameEngine.Widgets
         protected int mDisplayIndex;
         protected float mDragOffset;
         protected bool isTextMode;
+        private string mText;
 
         public string Text
         {
-            get { return mSmallTextArea.Caption; }
-            set { mSmallTextArea.Caption = value; }
+            get { return mText; }
+            set { mText = value; }
         }
 
         public InputBox(String name, string caption, float width,float boxWidth)
@@ -52,6 +53,7 @@ namespace AMOFGameEngine.Widgets
             this.mSmallTextArea = (TextAreaOverlayElement)this.mInputBoxText.GetChild(name + "/InputBoxText/InputBoxSmallText");
             this.mElement.Width = width;
             this.mItemElements = new List<BorderPanelOverlayElement>();
+            this.mText = string.Empty;
 
             if (boxWidth > 0)
             {
@@ -94,8 +96,17 @@ namespace AMOFGameEngine.Widgets
         {
             if (isTextMode)
             {
-                string str = new string(System.Text.Encoding.Default.GetChars(BitConverter.GetBytes(text)));
-                mSmallTextArea.Caption += str;
+                string str = GameTrayHelper.ConvertUintToString(text);
+
+                mText += str;//original text
+                mSmallTextArea.Caption += str;//cut text
+                float textLength = Widget.getCaptionWidth(mSmallTextArea.Caption, ref mSmallTextArea);
+                float textBoxLength = mSmallTextArea.Width;
+                if (textLength > mInputBoxText.Width)
+                {
+                    float offset = textLength - mInputBoxText.Width;
+                    mSmallTextArea.Caption=mSmallTextArea.Caption.Remove(0,(int)offset);
+                }
             }
         }
 

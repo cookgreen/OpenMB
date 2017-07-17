@@ -131,6 +131,7 @@
     <Compile Include="Utilities\OgreConfigNode.cs" />
     <Compile Include="States\Pause.cs" />
     <Compile Include="UI\CharacterSelection.cs" />
+    <Compile Include="Widgets\GameTrayHelper.cs" />
     <Compile Include="Widgets\InputBox.cs" />
     <Compile Include="Widgets\GameTrayManager.cs" />
     <EmbeddedResource Include="Forms\ConfigFrm.resx">
