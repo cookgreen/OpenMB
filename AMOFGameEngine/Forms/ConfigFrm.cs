@@ -19,7 +19,6 @@ namespace AMOFGameEngine.Dialogs
         Root r=new Root();
 
         LOCATE selectedlocate;
-        LocateSystem ls = new LocateSystem();
         List<OgreConfigNode> ogreConfigs = new List<OgreConfigNode>();
         List<OgreConfigNode> gameCfgs=new List<OgreConfigNode>(0);
         OgreConfigFileAdapter cfa = new OgreConfigFileAdapter("./ogre.cfg");
@@ -86,7 +85,7 @@ namespace AMOFGameEngine.Dialogs
 
                             break;
                         case "Localized":
-                            selectedlocate = ls.ConvertLocateShortStringToLocateInfo(gameCfgs[i].Settings["Current"]);
+                            selectedlocate = LocateSystem.Singleton.ConvertLocateShortStringToLocateInfo(gameCfgs[i].Settings["Current"]);
 
                             break;
                     }
@@ -94,19 +93,19 @@ namespace AMOFGameEngine.Dialogs
             }
             if (selectedlocate != LOCATE.invalid)
             {
-                cmbLanguageSelect.SelectedIndex = ls.CovertLocateInfoToIndex(selectedlocate);
+                cmbLanguageSelect.SelectedIndex = LocateSystem.Singleton.CovertLocateInfoToIndex(selectedlocate);
 
-                ls.InitLocateSystem(selectedlocate);// Init Locate System
-                ls.IsInit = true;
+                LocateSystem.Singleton.InitLocateSystem(selectedlocate);// Init Locate System
+                LocateSystem.Singleton.IsInit = true;
 
-                tbRenderOpt.TabPages[0].Text = ls.LOC(LocateFileType.GameUI, "Graphic");
-                tbRenderOpt.TabPages[1].Text = ls.LOC(LocateFileType.GameUI, "Audio");
-                tbRenderOpt.TabPages[2].Text = ls.LOC(LocateFileType.GameUI, "Game");
+                tbRenderOpt.TabPages[0].Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Graphic");
+                tbRenderOpt.TabPages[1].Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Audio");
+                tbRenderOpt.TabPages[2].Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Game");
 
-                lblRenderSys.Text = ls.LOC(LocateFileType.GameUI, "Render SubSystem");
-                lblCOO.Text = ls.LOC(LocateFileType.GameUI, "Click On Options");
-                lblLang.Text = ls.LOC(LocateFileType.GameUI, "Language");
-                gbRenderOpt.Text = ls.LOC(LocateFileType.GameUI, "Render System Options");
+                lblRenderSys.Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Render SubSystem");
+                lblCOO.Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Click On Options");
+                lblLang.Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Language");
+                gbRenderOpt.Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Render System Options");
             }
 
             string defaultRenderSystem = cfa.GetDefaultRenderSystem();
@@ -183,14 +182,14 @@ namespace AMOFGameEngine.Dialogs
 
             gameCfgs.Where(o => o.Section == "Audio").FirstOrDefault().Settings["EnableSound"] = chkEnableSound.Checked ? "1" : "0";
             gameCfgs.Where(o => o.Section == "Audio").FirstOrDefault().Settings["EnableMusic"] = chkEnableMusic.Checked ? "1" : "0";
-            gameCfgs.Where(o => o.Section == "Localized").FirstOrDefault().Settings["Current"] = ls.CovertReadableStringToLocateShortString(cmbLanguageSelect.SelectedItem.ToString());
+            gameCfgs.Where(o => o.Section == "Localized").FirstOrDefault().Settings["Current"] = LocateSystem.Singleton.CovertReadableStringToLocateShortString(cmbLanguageSelect.SelectedItem.ToString());
 
-            //ls.SaveLanguageSettingsToFIle(cmbLanguageSelect.SelectedIndex);
+            //LocateSystem.Singleton.SaveLanguageSettingsToFIle(cmbLanguageSelect.SelectedIndex);
             cfa.SaveConfig(ogreConfigs, cmbSubRenderSys.SelectedItem.ToString());
             gameCfa.SaveConfig(gameCfgs);
             this.Close();
 
-            GameApp app = new GameApp(GameConfigOptions, ls, ogreConfigs, r);
+            GameApp app = new GameApp(GameConfigOptions, ogreConfigs, r);
             app.Run();
         }
 

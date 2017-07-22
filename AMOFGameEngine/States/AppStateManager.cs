@@ -6,6 +6,7 @@ using Mogre;
 using MOIS;
 using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Mods;
+using AMOFGameEngine.Localization;
 
 namespace AMOFGameEngine.States
 {
@@ -19,6 +20,21 @@ namespace AMOFGameEngine.States
             public String name;
             public AppState state;
         };
+
+         public static AppStateManager Singleton
+         {
+             get
+             {
+                 if (instance == null)
+                 {
+                     instance = new AppStateManager();
+                 }
+                 return instance;
+             }
+         }
+
+        static AppStateManager instance;
+
          public AppStateManager()
          {
              m_bShutdown = false;
@@ -94,8 +110,8 @@ namespace AMOFGameEngine.States
                     System.Threading.Thread.Sleep(1000);
 		        }
 	        }
-            GameManager.Singleton.mLocateMgr.SaveLocateFile();
-            GameManager.Singleton.mLog.LogMessage("Game Quit");
+            LocateSystem.Singleton.SaveLocateFile();
+            LogManager.Singleton.LogMessage("Game Quit");
          }
          public override void changeAppState(AppState state,ModData e=null)
          {

@@ -32,7 +32,7 @@ namespace AMOFGameEngine.States
 
             m_bQuit = false;
 
-            GameManager.Singleton.mSoundMgr.PlaySoundByType(SoundType.MainMenu);
+            SoundManager.Singleton .PlaySoundByType(SoundType.MainMenu);
 
             m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
 
@@ -60,14 +60,14 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mTrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
             GameManager.Singleton.mTrayMgr.showCursor();
 
-            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", e != null ? GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, e.ModName) : GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "MenuState"), 400);
+            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", e != null ? LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, e.ModName) : LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "MenuState"), 400);
 
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "SinglePlayer", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Single Player"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "LoadGame", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Load Game"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "MultiPlayer", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Multiplayer"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Configure", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Configure"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "ModChooser", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Mods"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Quit", GameManager.Singleton.mLocateMgr.LOC(LocateFileType.GameString, "Quit"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "SinglePlayer", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Single Player"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "LoadGame", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Load Game"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "MultiPlayer", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Multiplayer"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Configure", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Configure"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "ModChooser", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Mods"), 250);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Quit", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Quit"), 250);
 
             GameManager.Singleton.mMouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
             GameManager.Singleton.mMouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);

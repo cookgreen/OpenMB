@@ -17,6 +17,19 @@ namespace AMOFGameEngine.Sound
             set { currentSound = value; }
         }
 
+        public static SoundManager Singleton
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new SoundManager();
+                }
+                return instance;
+            }
+        }
+        static SoundManager instance;
+
         public SoundManager()
         {
             soundLst = new List<GameSound>();

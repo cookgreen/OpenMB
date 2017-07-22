@@ -50,7 +50,7 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mViewport.Camera = m_Camera;
             mModNames.Clear();
             mModThumb.Clear();
-            mMods = GameManager.Singleton.mModMgr.GetAllMods();
+            mMods = ModManager.Singleton.GetAllMods();
             foreach (ModBaseInfo mod in mMods)
             {
                 mModNames.Add(mod.ModName);

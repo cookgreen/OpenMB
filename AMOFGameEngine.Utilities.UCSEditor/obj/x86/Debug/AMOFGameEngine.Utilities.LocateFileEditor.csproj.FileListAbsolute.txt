@@ -1,0 +1,7 @@
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.LocateFileEditor\obj\x86\Debug\AMOFGameEngine.Utilities.LocateFileEditor.frmMain.resources
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.LocateFileEditor\obj\x86\Debug\AMOFGameEngine.Utilities.LocateFileEditor.csproj.GenerateResource.Cache
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.LocateFileEditor\bin\Debug\AMOFGameEngine.Utilities.LocateFileEditor.exe.config
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.LocateFileEditor\bin\Debug\AMOFGameEngine.Utilities.LocateFileEditor.exe
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.LocateFileEditor\bin\Debug\AMOFGameEngine.Utilities.LocateFileEditor.pdb
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.LocateFileEditor\obj\x86\Debug\AMOFGameEngine.Utilities.LocateFileEditor.exe
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.LocateFileEditor\obj\x86\Debug\AMOFGameEngine.Utilities.LocateFileEditor.pdb

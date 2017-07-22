@@ -20,7 +20,8 @@ namespace AMOFGameEngine.Localization
     public enum LocateFileType
     {
         GameUI,
-        GameString
+        GameString,
+        GameQuickString
     }
 
     public class LocateSystem : IDisposable
@@ -31,6 +32,20 @@ namespace AMOFGameEngine.Localization
         private bool disposed;
         LocateUCSFile ucsGameStr;
         LocateUCSFile ucsGameUI;
+        LocateUCSFile ucsGameQuickStr;
+
+        public static LocateSystem Singleton
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new LocateSystem();
+                }
+                return instance;
+            }
+        }
+        static LocateSystem instance;
 
         public LocateSystem()
         {
@@ -68,14 +83,26 @@ namespace AMOFGameEngine.Localization
         public string LOC(LocateFileType file, string str)
         {
             LocateUCSFile ucs = GetUCSInstanceByType(file);
-            if (ucs != null)
+            string localizedStr = null;
+            switch(file)
             {
-                return GetLocalizedString(file,ucs.AddNewKeyByStrIfNotExist(str));
+                case LocateFileType.GameQuickString:
+                    localizedStr = GetLocalizedString(file,ucs.GenerateKeyIfNotExist(str));
+
+                    break;
+
+                default:
+                    if (ucs != null)
+                    {
+                        localizedStr= GetLocalizedString(file,ucs.AddNewKeyByStrIfNotExist(str));
+                    }
+                    else
+                    {
+                        localizedStr= null;
+                    }
+                    break;
             }
-            else
-            {
-                return null;
-            }
+            return localizedStr;
         }
 
         public bool InitLocateSystem(LOCATE CurrentLocate)
@@ -83,10 +110,11 @@ namespace AMOFGameEngine.Localization
             locate = CurrentLocate;
             ucsGameStr = new LocateUCSFile("GameStrings.ucs", locate);
             ucsGameUI = new LocateUCSFile("GameUI.ucs", locate);
+            ucsGameQuickStr = new LocateUCSFile("GameQuickString.ucs", locate);
 
             ucsGameStr.Prepare();
             ucsGameUI.Prepare();
-            if (ucsGameStr.Process() && ucsGameUI.Process())
+            if (ucsGameStr.Process() && ucsGameUI.Process() && ucsGameQuickStr.Process())
             {
                 return true;
             }
@@ -268,6 +296,7 @@ namespace AMOFGameEngine.Localization
         {
             ucsGameStr.Save();
             ucsGameUI.Save();
+            ucsGameQuickStr.Save();
         }
 
         private LocateUCSFile GetUCSInstanceByType(LocateFileType fileType)
@@ -280,6 +309,9 @@ namespace AMOFGameEngine.Localization
                     break;
                 case LocateFileType.GameUI:
                     ucs = ucsGameUI;
+                    break;
+                case LocateFileType.GameQuickString:
+                    ucs = ucsGameQuickStr;
                     break;
             }
             return ucs;

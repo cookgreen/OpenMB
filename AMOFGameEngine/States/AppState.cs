@@ -26,11 +26,11 @@ namespace AMOFGameEngine.States
 };
     public class AppState : SdkTrayListener
     {
-        public static void create<T>(AppStateListener parent, String name) where T : AppState, new()
+        public static void create<T>( String name) where T : AppState, new()
         {
             T myAppState=new T();				
-	        myAppState.m_pParent = parent;					
-	        parent.manageAppState(name, myAppState);
+	        myAppState.m_pParent = AppStateManager.Singleton;
+            AppStateManager.Singleton.manageAppState(name, myAppState);
         }
  
 	    public void destroy()

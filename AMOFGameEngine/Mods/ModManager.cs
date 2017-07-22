@@ -26,6 +26,19 @@ namespace AMOFGameEngine.Mods
         }
         List<ModData> avaliableMods;
 
+        public static ModManager Singleton
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ModManager();
+                }
+                return instance;
+            }
+        }
+        static ModManager instance;
+
         ModData currentMod;
 
         public ModManager()

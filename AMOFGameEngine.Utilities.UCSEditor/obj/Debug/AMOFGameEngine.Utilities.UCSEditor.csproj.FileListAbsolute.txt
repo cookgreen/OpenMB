@@ -1,0 +1,8 @@
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.UCSEditor\bin\Debug\AMOFGameEngine.Utilities.UCSEditor.exe.config
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.UCSEditor\bin\Debug\AMOFGameEngine.Utilities.UCSEditor.exe
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.UCSEditor\bin\Debug\AMOFGameEngine.Utilities.UCSEditor.pdb
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.UCSEditor\obj\Debug\AMOFGameEngine.Utilities.LocateFileEditor.frmAbout.resources
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.UCSEditor\obj\Debug\AMOFGameEngine.Utilities.LocateFileEditor.frmMain.resources
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.UCSEditor\obj\Debug\AMOFGameEngine.Utilities.UCSEditor.csproj.GenerateResource.Cache
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.UCSEditor\obj\Debug\AMOFGameEngine.Utilities.UCSEditor.exe
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.UCSEditor\obj\Debug\AMOFGameEngine.Utilities.UCSEditor.pdb

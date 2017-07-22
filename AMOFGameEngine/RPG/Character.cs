@@ -5,6 +5,7 @@ using System.Text;
 using Mogre;
 using MOIS;
 using AMOFGameEngine.AI;
+using AMOFGameEngine.Sound;
 
 namespace AMOFGameEngine.RPG
 {
@@ -149,7 +150,7 @@ namespace AMOFGameEngine.RPG
         {
             if (controlled)
             {
-                GameManager.Singleton.mSoundMgr.PlaySoundByID("YouReachNewlevel");
+                SoundManager.Singleton.PlaySoundByID("YouReachNewlevel");
             }
         }
 

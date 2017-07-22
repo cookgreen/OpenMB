@@ -34,10 +34,10 @@ namespace AMOFGameEngine
 
         private string defaultRS;
 
-        public AppStateManager mAppStateMgr;
-        public SoundManager mSoundMgr;
-        public ModManager mModMgr;
-        public LocateSystem mLocateMgr;
+        private AppStateManager mAppStateMgr;
+        private SoundManager mSoundMgr;
+        private ModManager mModMgr;
+        private LocateSystem mLocateMgr;
 
         public MogreConsole console;
 
@@ -159,15 +159,15 @@ namespace AMOFGameEngine
             return true;
         }
 
-        public bool InitGame(Dictionary<string, string> gameOptions,LocateSystem ls)
+        public bool InitGame(Dictionary<string, string> gameOptions)
         {
             //console.InitConsole(ref mRoot);
             console.AddCommand("help", new MogreConsole.CommandDelegate(console_showHelp));
 
-            mLocateMgr = ls;
-            if (!mLocateMgr.IsInit)
+            mLocateMgr = LocateSystem.Singleton;
+            if (!LocateSystem.Singleton.IsInit)
             {
-                mLocateMgr.InitLocateSystem(mLocateMgr.GetLanguageFromFile());
+                LocateSystem.Singleton.InitLocateSystem(mLocateMgr.GetLanguageFromFile());
             }
             mSoundMgr = new SoundManager();
             if (gameOptions["IsEnableMusic"] == "True")

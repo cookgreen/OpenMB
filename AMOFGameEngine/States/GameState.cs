@@ -46,9 +46,6 @@ namespace AMOFGameEngine.States
             light.Position = new Vector3(-10, 40, 20);
             light.SpecularColour = ColourValue.White;
 
-            //m_Camera.NearClipDistance = 0.1f;
-            //m_Camera.FarClipDistance=(100000);//设置大些，否则看不到天空
-
             camMan = new SdkCameraMan(m_Camera);
             camMan.setStyle(CameraStyle.CS_MANUAL);
 

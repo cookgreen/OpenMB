@@ -1,0 +1,17 @@
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Debug\AMOFGameEngine.exe
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Debug\AMOFGameEngine.pdb
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Debug\Mogre.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Debug\MogreNewt.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Debug\Mogre_Procedural.MogreBites.Addons.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Debug\Mogre_Procedural.MogreBites.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Debug\MOIS.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Debug\NAudio.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Debug\NAudio.Vorbis.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Debug\NVorbis.dll
+C:\Repository\AMOFGameEngine\AMOFGameEngine\bin\Debug\NAudio.Vorbis.xml
+C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\Debug\AMOFGameEngine.csprojResolveAssemblyReference.cache
+C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\Debug\AMOFGameEngine.Dialogs.ConfigFrm.resources
+C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\Debug\AMOFGameEngine.Properties.Resources.resources
+C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\Debug\AMOFGameEngine.csproj.GenerateResource.Cache
+C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\Debug\AMOFGameEngine.exe
+C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\Debug\AMOFGameEngine.pdb

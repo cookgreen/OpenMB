@@ -8,7 +8,7 @@ using Mogre;
 
 namespace AMOFGameEngine.Localization
 {
-    class LocateUCSFile : IDisposable
+    public class LocateUCSFile : IDisposable
     {
         private const string PATH = @"./Locate/";
         private Dictionary<string, string> UCSValueTmp;
@@ -22,7 +22,7 @@ namespace AMOFGameEngine.Localization
             this.fileName = fileName;
             this.currentLocate = currentLocate;
             UCSValueTmp = new Dictionary<string, string>();
-            UCSOriginal = new Dictionary<string, string>();
+            //UCSOriginal = new Dictionary<string, string>();
         }
 
         public void Dispose()
@@ -46,7 +46,7 @@ namespace AMOFGameEngine.Localization
         public void Prepare()
         {
             UCSValueTmp.Clear();
-            ProcessOriginal();
+            //ProcessOriginal();
         }
 
         public bool ProcessOriginal()
@@ -181,6 +181,32 @@ namespace AMOFGameEngine.Localization
                     sw.WriteLine(line);
                 }
                 sw.Flush();
+            }
+        }
+
+        public string GenerateKeyIfNotExist(string str)
+        {
+            if (!UCSValueTmp.ContainsValue(str))
+            {
+                string prefix = null;
+                prefix = str.Replace(' ', '_').ToLower();
+                string key = "qstr_" + prefix;
+                UCSValueTmp.Add(key, str);
+
+                return key;
+            }
+            else
+            {
+                string key = null;
+                foreach (var kpl in UCSValueTmp)
+                {
+                    if (kpl.Value == str)
+                    {
+                        key = kpl.Key;
+                        break;
+                    }
+                }
+                return key;
             }
         }
     }
