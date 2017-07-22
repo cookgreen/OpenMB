@@ -2,6 +2,7 @@
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Widgets;
+using AMOFGameEngine.Maps;
 
 namespace AMOFGameEngine.States
 {
@@ -9,8 +10,10 @@ namespace AMOFGameEngine.States
     {
         private CheckBox chkHasPasswd;
         private InputBox ibPasswd;
+        private MapManager mapMnger;
         public MultiGameState()
         {
+            mapMnger = new MapManager();
         }
 
         public override void enter(Mods.ModData e = null)
@@ -52,7 +55,25 @@ namespace AMOFGameEngine.States
             {
                 HostGameUI();
             }
+            else if (button.getName() == "btnCancel")
+            {
 
+            }
+            else if (button.getName() == "btnOK")
+            {
+                if (string.IsNullOrEmpty(((SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("smServerMaps")).getSelectedItem()))
+                {
+                    GameManager.Singleton.mTrayMgr.showOkDialog("Error", "You need to select a map!");
+                }
+                else
+                {
+                    //Start the server and change screen to selected map
+                    string mapName=((SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("smServerMaps")).getSelectedItem();
+                    Map selectedMap = new Map(mapName + ".xml", m_SceneMgr);
+                    selectedMap.create(mapName, mapMnger);
+                    mapMnger.StartMap(mapMnger.FindMapByName(mapName));
+                }
+            }
         }
 
         public override bool pause()
@@ -92,6 +113,8 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mTrayMgr.createInputBox(TrayLocation.TL_CENTER, "ibServerName", "Server Name:", 180);
             chkHasPasswd= GameManager.Singleton.mTrayMgr.createCheckBox(TrayLocation.TL_CENTER, "chkHasPass", "Has Password", 300);
             GameManager.Singleton.mTrayMgr.createLongSelectMenu(TrayLocation.TL_CENTER, "smServerMaps", "Server Map:", 190,10);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnOK", "OK");
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnCancel", "Cancel");
         }
     }
 }

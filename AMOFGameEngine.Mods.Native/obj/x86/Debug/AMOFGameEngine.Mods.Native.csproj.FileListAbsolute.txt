@@ -28,3 +28,4 @@ C:\Repository\AMOFGameEngine\AMOFGameEngine.Mods.Native\bin\x86\Debug\NAudio.dll
 C:\Repository\AMOFGameEngine\AMOFGameEngine.Mods.Native\bin\x86\Debug\AMOFGameEngine.Mods.Common.pdb
 C:\Repository\AMOFGameEngine\AMOFGameEngine.Mods.Native\bin\x86\Debug\AMOFGameEngine.pdb
 C:\Repository\AMOFGameEngine\AMOFGameEngine.Mods.Native\bin\x86\Debug\NAudio.Vorbis.xml
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Mods.Native\bin\x86\Debug\Mogre_Procedural.MogreBites.Addons.dll

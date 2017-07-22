@@ -28,7 +28,6 @@ namespace AMOFGameEngine
 		        return;
             if (!GameManager.Singleton.InitGame(gameOptions,locateSystem))
                 return;
-
             ModChooser.create<ModChooser>(GameManager.Singleton.mAppStateMgr, "ModChooser");
             MainMenu.create<MainMenu>(GameManager.Singleton.mAppStateMgr, "MainMenu");
             Pause.create<Pause>(GameManager.Singleton.mAppStateMgr, "Pause");

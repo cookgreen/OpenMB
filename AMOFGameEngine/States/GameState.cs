@@ -1,6 +1,7 @@
 ﻿using System;
 using Mogre;
 using MMOC;
+using Mogre_Procedural.MogreBites.Addons;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.RPG;
 using AMOFGameEngine.UI;
@@ -10,33 +11,48 @@ namespace AMOFGameEngine.States
 {
     public class GameState : AppState
     {
-        SceneManager scm;
         CharacterManager characterMgr;
         UIManager uiMgr;
         IntersectionSceneQuery pISQuery;
         CollisionTools collisionMgr;
         Character player;
         MapManager mapMngr;
+        SdkCameraMan camMan;
+
 
         public GameState()
         {
             mapMngr = new MapManager();
-            scm = null;
         }
 
         public override void enter(Mods.ModData data = null)
         {
-            scm = GameManager.Singleton.mRoot.CreateSceneManager(SceneType.ST_GENERIC);
-            m_Camera= scm.CreateCamera("gameCam");
-            GameManager.Singleton.mViewport.Camera = m_Camera;
-            GameManager.Singleton.mViewport.BackgroundColour = new ColourValue(0,0,0);
+            m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(SceneType.ST_GENERIC);
+            m_Camera = m_SceneMgr.CreateCamera("gameCam");
+            m_Camera.NearClipDistance = 5;
+            GameManager.Singleton.mRenderWnd.RemoveAllViewports();
+            GameManager.Singleton.mViewport= GameManager.Singleton.mRenderWnd.AddViewport(m_Camera);
             m_Camera.AspectRatio = GameManager.Singleton.mViewport.ActualWidth / GameManager.Singleton.mViewport.ActualHeight;
             GameManager.Singleton.mRoot.FrameStarted += new FrameListener.FrameStartedHandler(mRoot_FrameStarted);
             GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-            pISQuery=scm.CreateIntersectionQuery();
-            collisionMgr = new CollisionTools(scm);
+            pISQuery = m_SceneMgr.CreateIntersectionQuery();
+            collisionMgr = new CollisionTools(m_SceneMgr);
 
-            Map defaultScene = new Map("CubeScene.xml", scm);
+            m_SceneMgr.AmbientLight = new ColourValue(0.6f,0.6f,0.6f);
+            m_SceneMgr.SetSkyBox(true, "Examples/SpaceSkyBox");
+
+            Light light = m_SceneMgr.CreateLight();
+            light.Type = Light.LightTypes.LT_POINT;
+            light.Position = new Vector3(-10, 40, 20);
+            light.SpecularColour = ColourValue.White;
+
+            //m_Camera.NearClipDistance = 0.1f;
+            //m_Camera.FarClipDistance=(100000);//设置大些，否则看不到天空
+
+            camMan = new SdkCameraMan(m_Camera);
+            camMan.setStyle(CameraStyle.CS_MANUAL);
+
+            Map defaultScene = new Map("CubeScene.xml", m_SceneMgr);
             defaultScene.create("defaultScene", mapMngr);
 
             characterMgr = new CharacterManager(m_Camera, GameManager.Singleton.mKeyboard, GameManager.Singleton.mMouse);
@@ -45,14 +61,14 @@ namespace AMOFGameEngine.States
             player.CharaMeshName = "Sinbad.mesh";
             player.Create();
 
-            mapMngr.StartMap(mapMngr.FindMapByName("defaultScene"));
+            //mapMngr.StartMap(mapMngr.FindMapByName("defaultScene"));
 
             characterMgr.AddCharacterToManageLst(player);
         }
 
         bool mRoot_FrameStarted(FrameEvent evt)
         {
-            //characterMgr.UpdateCharacters(evt.timeSinceLastFrame);
+            characterMgr.UpdateCharacters(evt.timeSinceLastFrame);
 
             return true;
         }
@@ -64,7 +80,9 @@ namespace AMOFGameEngine.States
 
         public override void update(double timeSinceLastFrame)
         {
-            
+            m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
+
+            camMan.frameRenderingQueued(m_FrameEvent);
         }
 
         public override void exit()

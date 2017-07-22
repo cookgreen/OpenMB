@@ -14,7 +14,6 @@ namespace AMOFGameEngine.Maps
         MapManager parent;
         string mapFileName;
 
-
         public Map(string mapFileName, SceneManager scm)
         {
             mapLoader = new DotSceneLoader();
@@ -30,8 +29,8 @@ namespace AMOFGameEngine.Maps
 
         public void enter()
         {
-            mapLoader.ParseDotScene(mapFileName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
-                scm);
+            mapLoader.ParseDotScene(mapFileName, "General",
+                scm,scm.RootSceneNode);
         }
 
         public void exit()
