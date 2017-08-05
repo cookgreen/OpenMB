@@ -69,12 +69,12 @@ namespace AMOFGameEngine.Mods.Sample
             scm.SetSkyBox(true, "Examples/SpaceSkyBox");
             raySceneQuery = scm.CreateRayQuery(new Ray());
             characterMgr = new CharacterManager(cam,keyboard,mouse);
-            characterMgr.SpawnCharacter(new Mogre.Vector3(0, 0, 0), "ogre1", "Sinbad");
-            characterMgr.SpawnCharacter(new Mogre.Vector3(10, 0, 0), "ogre2", "Sinbad");
-            characterMgr.SpawnCharacter(new Mogre.Vector3(20, 0, 0), "ogre3", "Sinbad");
-            characterMgr.SpawnCharacter(new Mogre.Vector3(0, 0, 10), "ogre4", "Sinbad");
-            characterMgr.SpawnCharacter(new Mogre.Vector3(0, 0, 20), "ogre5", "Sinbad");
-            characterMgr.SpawnCharacter(new Mogre.Vector3(-100, 0, 100), "ogre6", "Sinbad");
+            //characterMgr.SpawnCharacter(new Mogre.Vector3(0, 0, 0), "ogre1", "Sinbad");
+            //characterMgr.SpawnCharacter(new Mogre.Vector3(10, 0, 0), "ogre2", "Sinbad");
+            //characterMgr.SpawnCharacter(new Mogre.Vector3(20, 0, 0), "ogre3", "Sinbad");
+            //characterMgr.SpawnCharacter(new Mogre.Vector3(0, 0, 10), "ogre4", "Sinbad");
+            //characterMgr.SpawnCharacter(new Mogre.Vector3(0, 0, 20), "ogre5", "Sinbad");
+            //characterMgr.SpawnCharacter(new Mogre.Vector3(-100, 0, 100), "ogre6", "Sinbad");
 
             mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouse_MouseMoved);
             mouse.MousePressed += new MouseListener.MousePressedHandler(mouse_MousePressed);
@@ -87,7 +87,7 @@ namespace AMOFGameEngine.Mods.Sample
 
         void characterMgr_CharacterPosChanged(Mogre.Vector3 newPos)
         {
-            characterMgr.SetCharacterLookAtPos("ogre1", newPos);
+            //characterMgr.SetCharacterLookAtPos("ogre1", newPos);
         }
 
         bool keyboard_KeyReleased(KeyEvent arg)
@@ -125,7 +125,7 @@ namespace AMOFGameEngine.Mods.Sample
                 {
                     if(itr.movable!=null)
                     {
-                        characterMgr.DamageCharacter(itr.movable.Name,1000);
+                        //characterMgr.DamageCharacter(itr.movable.Name,1000);
                         break;
                     }
                 }
@@ -200,9 +200,9 @@ namespace AMOFGameEngine.Mods.Sample
             getInput();
             //CamMove();
             CamRotate();
-            characterMgr.MoveToLocation("ogre1", new Mogre.Vector3());
-            characterMgr.MoveCharacter("ogre6");
-            characterMgr.Update(timeSinceLastFrame);
+            //characterMgr.MoveToLocation("ogre1", new Mogre.Vector3());
+            //characterMgr.MoveCharacter("ogre6");
+            //characterMgr.Update(timeSinceLastFrame);
             //characontroller.addTime(timeSinceLastFrame);
         }
     }

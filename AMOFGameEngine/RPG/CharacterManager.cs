@@ -21,6 +21,7 @@ namespace AMOFGameEngine.RPG
         List<Character> characherLst;
 
         public event Action<Mogre.Vector3> CharacterPosChanged;
+        private Mogre.Vector3 spawnPosition;
 
         public CharacterManager(Camera cam,Keyboard keyboard,Mouse mouse)
         {
@@ -61,6 +62,12 @@ namespace AMOFGameEngine.RPG
                 if (characherLst[i].Alive)
                 {
                     characherLst[i].Update(time);
+                    //bot will pratol...
+                    if (!characherLst[i].IsPlayer)
+                    {
+                        Quaternion rot = new Quaternion(new Degree(-60), Mogre.Vector3.UNIT_Y);
+                        characherLst[i].Pratol();
+                    }
                 }
                 else
                 {
@@ -69,139 +76,37 @@ namespace AMOFGameEngine.RPG
             }
         }
 
-        #region never used
-        public void SpawnCharacter(Mogre.Vector3 spawnPos,string characterID)
+        public void SetSpawnPosition(Mogre.Vector3 position)
         {
-            Character chara= characters.Where(o => o.CharaID == characterID).First();
-            if (chara != null)
-            {
-                Entity charaEnt = cam.SceneManager.CreateEntity(characterID, chara.CharaMeshName + ".mesh");
-                SceneNode charaNode = cam.SceneManager.RootSceneNode.CreateChildSceneNode();
-                charaNode.AttachObject(charaEnt);
-                charaNode.SetPosition(spawnPos.x, spawnPos.y, spawnPos.z);
-
-                animState = charaEnt.GetAnimationState("IdleBase");
-                animState.Loop = true;
-
-                animStateTop = charaEnt.GetAnimationState("IdleTop");
-                animStateTop.Loop = true;
-
-                charaEntMap.Add(characterID, charaEnt);
-            }
-            chara.Alive = true;
+            this.spawnPosition = position;
         }
 
-        public void MoveToLocation(string charaID, Mogre.Vector3 pos)
+        public void SpawnCharacter(string characterName, string charaMeshName)
         {
-            Entity charaEnt = charaEntMap[charaID];
-
-            animState = charaEnt.GetAnimationState("RunBase");
-            animStateTop = charaEnt.GetAnimationState("RunTop");
-
-            animState.Enabled = true;
-            animState.Loop = true;
-
-            animStateTop.Enabled = true;
-            animStateTop.Loop = true;
+            Character character = new Character(this.cam, this.keyboard, this.mouse);
+            character.CharaName=characterName;
+            character.CharaMeshName=charaMeshName;
+            character.Position = spawnPosition;
+            character.Create();
+            characherLst.Add(character);
         }
 
-        public void SpawnCharacter(Mogre.Vector3 spawnPos, string characterID,string charaMeshName)
+        public void SpawnPlayer(string playerName, string playerMeshName)
         {
-            Entity charaEnt = cam.SceneManager.CreateEntity(characterID, charaMeshName + ".mesh");
-            SceneNode charaNode = cam.SceneManager.RootSceneNode.CreateChildSceneNode();
-            charaNode.AttachObject(charaEnt);
-            charaNode.SetPosition(spawnPos.x, spawnPos.y, spawnPos.z);
-
-            AnimationStateSet ass = charaEnt.AllAnimationStates;
-            AnimationStateIterator iterator = ass.GetAnimationStateIterator();
-
-            charaEnt.GetAnimationState("IdleBase").Loop = true;
-            charaEnt.GetAnimationState("IdleTop").Loop = true;
-            
-            charaEnt.GetAnimationState("IdleBase").Enabled = true;
-            charaEnt.GetAnimationState("IdleTop").Enabled = true;
-
-            charaEntMap.Add(characterID, charaEnt);
+            Character character = new Character(this.cam, this.keyboard, this.mouse,true);
+            character.CharaName = playerName;
+            character.CharaMeshName = playerMeshName;
+            character.InitPos = spawnPosition;
+            character.Create();
+            characherLst.Add(character);
         }
 
-        public void DamageCharacter(string characterID,int damage)
+        public Character GetPlayer()
         {
-            Entity charaEnt = charaEntMap[characterID];
-            CharacterDie(characterID);
-            //int hp = chara.HitPoint;
-            //if (hp > damage)
-            //{
-            //    hp = hp - damage;
-            //    chara.HitPoint = hp;
-            //}
-            //else
-            //{
-            //    chara.HitPoint = 0;
-            //    CharacterDie(chara);
-            //}
+            var player = from character in characherLst
+                         where character.IsPlayer
+                         select character;
+            return player.Count() > 0 ? player.FirstOrDefault() : null;
         }
-
-        public void CharacterDie(string chara)
-        {
-            //Character chara = characters.Where(o => o.CharaID == characterID).First();
-
-            //chara.CharaState = CharacterState.CHARA_DEAD;
-
-            Entity charaEnt = charaEntMap[chara];
-            if (charaEnt.ParentSceneNode != null)
-            {
-                SceneNode charaNode = charaEnt.ParentSceneNode;
-                charaNode.DetachObject(charaEnt);
-            }
-        }
-
-        public void Update(float deltaTime)
-        {
-        }
-
-        public void MoveCharacter(string charaID)
-        {
-            moveOffset = Mogre.Vector3.ZERO;
-            Entity charaEnt = charaEntMap[charaID];
-            if (keyboard.IsKeyDown(KeyCode.KC_U))
-            {
-                moveOffset.z = -0.1f;
-            }
-            if (keyboard.IsKeyDown(KeyCode.KC_J))
-            {
-                moveOffset.z = 0.1f;
-            }
-            if (keyboard.IsKeyDown(KeyCode.KC_K))
-            {
-                moveOffset.x = 0.1f;
-            }
-            if (keyboard.IsKeyDown(KeyCode.KC_H))
-            {
-                moveOffset.x = -0.1f;
-            }
-            charaEnt.ParentNode.Translate(moveOffset);
-            if (CharacterPosChanged != null && moveOffset!=Mogre.Vector3.ZERO)
-            {
-                CharacterPosChanged(charaEnt.ParentNode.Position);
-            }
-        }
-
-        public void SetCharacterLookAtPos(string charaSrcID, Mogre.Vector3 targetPos)
-        {
-            Entity srcEnt = charaEntMap[charaSrcID];
-            if (srcEnt != null)
-            {
-                Mogre.Vector3 srcPos = srcEnt.ParentNode.Position;
-                Bone srcHead = srcEnt.Skeleton.GetBone("Head");
-                Mogre.Vector3 srcLookAt = srcHead._getDerivedOrientation() * Mogre.Vector3.UNIT_Z;
-
-                Mogre.Vector3 targetLookAt = new Mogre.Vector3(targetPos.x - srcPos.x, targetPos.y - srcPos.y, targetPos.z - srcPos.z);
-
-                float delta = srcLookAt.DotProduct(targetLookAt) / (srcLookAt.Length * targetLookAt.Length);
-                Radian r = Mogre.Math.ACos(delta);
-                srcEnt.ParentNode.Yaw(new Degree(r.ValueDegrees));
-            }
-        }
-        #endregion
     }
 }

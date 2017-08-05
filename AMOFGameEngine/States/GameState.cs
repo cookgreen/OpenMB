@@ -16,6 +16,7 @@ namespace AMOFGameEngine.States
         IntersectionSceneQuery pISQuery;
         CollisionTools collisionMgr;
         Character player;
+        Character bot;
         MapManager mapMngr;
         SdkCameraMan camMan;
 
@@ -28,18 +29,20 @@ namespace AMOFGameEngine.States
         public override void enter(Mods.ModData data = null)
         {
             m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(SceneType.ST_GENERIC);
+            m_SceneMgr.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
+
             m_Camera = m_SceneMgr.CreateCamera("gameCam");
             m_Camera.NearClipDistance = 5;
-            GameManager.Singleton.mRenderWnd.RemoveAllViewports();
-            GameManager.Singleton.mViewport= GameManager.Singleton.mRenderWnd.AddViewport(m_Camera);
-            m_Camera.AspectRatio = GameManager.Singleton.mViewport.ActualWidth / GameManager.Singleton.mViewport.ActualHeight;
-            GameManager.Singleton.mRoot.FrameStarted += new FrameListener.FrameStartedHandler(mRoot_FrameStarted);
-            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-            pISQuery = m_SceneMgr.CreateIntersectionQuery();
-            collisionMgr = new CollisionTools(m_SceneMgr);
 
-            m_SceneMgr.AmbientLight = new ColourValue(0.6f,0.6f,0.6f);
-            m_SceneMgr.SetSkyBox(true, "Examples/SpaceSkyBox");
+            m_Camera.AspectRatio = GameManager.Singleton.mViewport.ActualWidth / GameManager.Singleton.mViewport.ActualHeight;
+
+            GameManager.Singleton.mViewport.Camera = m_Camera;
+
+            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+            collisionMgr = new CollisionTools(m_SceneMgr);
+            m_Camera.FarClipDistance = 50000;
+
+            m_SceneMgr.SetSkyDome(true, "Examples/CloudySky", 5, 8);
 
             Light light = m_SceneMgr.CreateLight();
             light.Type = Light.LightTypes.LT_POINT;
@@ -48,19 +51,20 @@ namespace AMOFGameEngine.States
 
             camMan = new SdkCameraMan(m_Camera);
             camMan.setStyle(CameraStyle.CS_MANUAL);
-
-            Map defaultScene = new Map("CubeScene.xml", m_SceneMgr);
-            defaultScene.create("defaultScene", mapMngr);
-
+            
             characterMgr = new CharacterManager(m_Camera, GameManager.Singleton.mKeyboard, GameManager.Singleton.mMouse);
-            player = new Character(m_Camera, GameManager.Singleton.mKeyboard, GameManager.Singleton.mMouse, true);
-            player.CharaName = "Player";
-            player.CharaMeshName = "Sinbad.mesh";
-            player.Create();
+            characterMgr.SetSpawnPosition(new Mogre.Vector3(0, 0, 10));
+            characterMgr.SpawnCharacter("bot1", "Sinbad.mesh");
+            characterMgr.SetSpawnPosition(new Mogre.Vector3(0, 0, 20));
+            characterMgr.SpawnCharacter("bot2", "Sinbad.mesh");
+            characterMgr.SetSpawnPosition(new Mogre.Vector3(0, 0, 30));
+            characterMgr.SpawnCharacter("bot3", "Sinbad.mesh");
+            characterMgr.SetSpawnPosition(new Mogre.Vector3(10, 0, 0));
+            characterMgr.SpawnPlayer("player", "Sinbad.mesh");
 
-            //mapMngr.StartMap(mapMngr.FindMapByName("defaultScene"));
+            player = characterMgr.GetPlayer();
 
-            characterMgr.AddCharacterToManageLst(player);
+            GameManager.Singleton.mRoot.FrameStarted += new FrameListener.FrameStartedHandler(mRoot_FrameStarted);
         }
 
         bool mRoot_FrameStarted(FrameEvent evt)
@@ -78,8 +82,6 @@ namespace AMOFGameEngine.States
         public override void update(double timeSinceLastFrame)
         {
             m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
-
-            camMan.frameRenderingQueued(m_FrameEvent);
         }
 
         public override void exit()

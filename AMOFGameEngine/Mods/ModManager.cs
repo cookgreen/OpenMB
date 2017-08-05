@@ -10,21 +10,15 @@ using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine.Mods
 {
+    using Mods = Dictionary<string, ModManifest>;
+
     public class ModManager
     {
         //public Action<ModEventArgs> ModStateChangedAction;
-
+        Dictionary<string, ModManifest> InstalledMods;
+        string modInstallRootDir;
         OgreConfigFileAdapter ofa;
-        List<OgreConfigNode> modData;
-        const string modConfigFile = "Mods.cfg";
-
-        List<ModBaseInfo> avaliableModInfos;
-        public List<ModBaseInfo> AvaliableModInfos
-        {
-            get { return avaliableModInfos; }
-            set { avaliableModInfos = value; }
-        }
-        List<ModData> avaliableMods;
+        List<OgreConfigNode> modConfigData;
 
         public static ModManager Singleton
         {
@@ -43,60 +37,31 @@ namespace AMOFGameEngine.Mods
 
         public ModManager()
         {
-            avaliableMods = new List<ModData>();
-            avaliableModInfos = new List<ModBaseInfo>();
-            ofa = new OgreConfigFileAdapter(modConfigFile);
-            modData = ofa.ReadConfigData();
-            currentMod = null;
-            LoadMods();
+            InstalledMods = new Dictionary<string, ModManifest>();
         }
 
-        List<KeyValuePair<string, string>> GetModsConfig()
+        string GetModInstallRootDir()
         {
-            return modData.Where(o => o.Section == "").First().Settings.Where(o => o.Key == "Mod").ToList();
+            modInstallRootDir= modConfigData.FirstOrDefault(o => o.Section == "").Settings.FirstOrDefault(o => o.Key == "ModDir").Value;
+            return modInstallRootDir;
         }
 
-        public void LoadMods()
+        public Mods GetInstalledMods()
         {
-            //List<OgreConfigNode> modData = ofa.ReadConfigData();
-            //string modDir = modData.Where(o => o.Section == "").First().Settings["ModDir"];
-            //
-            //List<KeyValuePair<string, string>> modNames = GetModsConfig();
-            //foreach (KeyValuePair<string, string> modkpl in modNames)
-            //{
-            //
-            //    string modPath = string.Format(@"{0}\{1}\{2}.dll", System.Environment.CurrentDirectory, modDir, modkpl.Value);
-            //    Assembly modAssembly = Assembly.LoadFile(modPath);
-            //    string modClassName = string.Format("{0}.{1}", modkpl.Value, "ModMain");
-            //    ModData mod = Activator.CreateInstance(modAssembly.GetType(modClassName)) as IMod;
-            //    mod.ModStateChangedEvent += new EventHandler<ModEventArgs>(mod_ModStateChangedEvent);
-            //    avaliableMods.Add(mod);
-            //    ModBaseInfo modInfo = new ModBaseInfo();
-            //    modInfo.ModName = mod.modInfo["Name"];
-            //    modInfo.ModDesc = mod.modInfo["Description"];
-            //    modInfo.ModThumb = mod.modInfo["Thumb"];
-            //    avaliableModInfos.Add(modInfo);
-            //}
-        }
+            DirectoryInfo d = new DirectoryInfo(modInstallRootDir);
 
-        public List<ModBaseInfo> GetAllMods()
-        {
-            return avaliableModInfos;
-        }
+            FileSystemInfo[] modDirs = d.GetFileSystemInfos();
 
-        public void SetupMod(int modIndex)
-        {
-            ModData currentMod = avaliableMods.ElementAt(modIndex);
-            if (currentMod != null)
+            foreach (var dir in modDirs)
             {
-                //currentMod.SetupMod(
-                //    GameManager.Singleton.mRoot,
-                //    GameManager.Singleton.mRenderWnd,
-                //    GameManager.Singleton.mTrayMgr,
-                //    GameManager.Singleton.mMouse,
-                //    GameManager.Singleton.mKeyboard
-                //    );
+                if (File.Exists(string.Format("{0}/module.xml", dir.FullName)))
+                {
+                    ModManifest manifest = new ModManifest(dir.FullName);
+                    InstalledMods.Add(dir.Name, manifest);
+                }
             }
+
+            return InstalledMods;
         }
     }
 }

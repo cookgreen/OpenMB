@@ -14,3 +14,6 @@ AMOFGameEngine.Mods.Common/obj/*/*
 AMOFGameEngine.Mods.Common/bin/*/*
 AMOFGameEngine.Mods.Sample/obj/*/*
 AMOFGameEngine.Mods.Sample/bin/*/*
+AMOFGameEngine.Utilities.UCSEditor/obj/Debug/AMOFGameEngine.Utilities.UCSEditor.csproj.FileListAbsolute.txt
+*.config
+AMOFGameEngine.Utilities.UCSEditor/obj/Debug/AMOFGameEngine.Utilities.UCSEditor.csprojResolveAssemblyReference.cache

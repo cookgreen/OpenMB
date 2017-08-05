@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace AMOFGameEngine.Mods.Common
+namespace AMOFGameEngine.Mods.XML
 {
     public class ModDataXML
     {

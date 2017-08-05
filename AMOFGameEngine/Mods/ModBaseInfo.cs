@@ -11,24 +11,17 @@ namespace AMOFGameEngine
     /// </summary>
     public class ModBaseInfo
     {
-        string modName;
-        string modDesc;
-        string modThumb;
+        public readonly string Name;
+        public readonly string Description;
+        public readonly string Author;
+        public readonly string Thumb;
 
-        public string ModThumb
+        public ModBaseInfo(string name,string description,string author,string thumb) 
         {
-            get { return modThumb; }
-            set { modThumb = value; }
-        }
-        public string ModDesc
-        {
-            get { return modDesc; }
-            set { modDesc = value; }
-        }
-        public string ModName
-        {
-            get { return modName; }
-            set { modName = value; }
+            Name = name;
+            Description = description;
+            Author = author;
+            Thumb = thumb;
         }
     }
 }

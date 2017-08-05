@@ -6,3 +6,4 @@ C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.UCSEditor\obj\Debug\AMOFGa
 C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.UCSEditor\obj\Debug\AMOFGameEngine.Utilities.UCSEditor.csproj.GenerateResource.Cache
 C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.UCSEditor\obj\Debug\AMOFGameEngine.Utilities.UCSEditor.exe
 C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.UCSEditor\obj\Debug\AMOFGameEngine.Utilities.UCSEditor.pdb
+C:\Repository\AMOFGameEngine\AMOFGameEngine.Utilities.UCSEditor\obj\Debug\AMOFGameEngine.Utilities.UCSEditor.csprojResolveAssemblyReference.cache

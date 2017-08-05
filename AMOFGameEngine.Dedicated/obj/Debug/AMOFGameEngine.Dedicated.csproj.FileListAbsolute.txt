@@ -1,6 +1,0 @@
-C:\Repository\AMOFGameEngine\AMOFGameEngine.Dedicated\obj\Debug\AMOFGameEngine.Dedicated.csprojResolveAssemblyReference.cache
-C:\Repository\AMOFGameEngine\AMOFGameEngine.Dedicated.exe.config
-C:\Repository\AMOFGameEngine\AMOFGameEngine.Dedicated\obj\Debug\AMOFGameEngine.Dedicated.exe
-C:\Repository\AMOFGameEngine\AMOFGameEngine.Dedicated\obj\Debug\AMOFGameEngine.Dedicated.pdb
-C:\Repository\AMOFGameEngine\AMOFGameEngine.Dedicated.exe
-C:\Repository\AMOFGameEngine\AMOFGameEngine.Dedicated.pdb

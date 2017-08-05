@@ -10,6 +10,8 @@ using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine.States
 {
+    using Mods = Dictionary<string, ModManifest>;
+
     class ModChooser : AppState
     {
         bool isQuit;
@@ -18,7 +20,7 @@ namespace AMOFGameEngine.States
         Slider ModSlider;
         StringVector mModNames;
         StringVector mModThumb;
-        List<ModBaseInfo> mMods;
+        Mods mMods;
         List<OverlayContainer> mModThumbs;
         float mCarouselPlace;
         string selectedModName;
@@ -50,11 +52,12 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mViewport.Camera = m_Camera;
             mModNames.Clear();
             mModThumb.Clear();
-            mMods = ModManager.Singleton.GetAllMods();
-            foreach (ModBaseInfo mod in mMods)
+
+            mMods = ModManager.Singleton.GetInstalledMods();
+            foreach (var mod in mMods)
             {
-                mModNames.Add(mod.ModName);
-                mModThumb.Add(mod.ModThumb);
+                mModNames.Add(mod.Key);
+                mModThumb.Add(mod.Value.MetaData.Thumb);
             }
 
             GameManager.Singleton.mTrayMgr.destroyAllWidgets();

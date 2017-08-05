@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Mogre;
 using MOIS;
 using AMOFGameEngine.AI;
@@ -9,8 +10,16 @@ using AMOFGameEngine.Sound;
 
 namespace AMOFGameEngine.RPG
 {
-    public class Character : CharacterFSM
+    public class Character : RPGObject,CharacterFSM
     {
+        enum State
+        {
+            IDLE,
+            Pratol,
+            Die,
+            Attack
+        }
+
         enum AnimID
         {
             ANIM_IDLE_BASE,
@@ -72,13 +81,11 @@ namespace AMOFGameEngine.RPG
         SceneNode mCameraNode;
         float mPivotPitch;
         float mTimer;
-        Mogre.Vector3 position;
+        private Mogre.Vector3 mSneakEndPos;
+        private Mogre.Vector3 mSneakStartPos;
+        State currentState;
 
-        public Mogre.Vector3 Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
+        //Mogre.Vector3 position;
         public Mogre.Vector3 Direction
         {
             get { return bodyNode.Orientation * Mogre.Vector3.UNIT_Z; ; }
@@ -122,6 +129,14 @@ namespace AMOFGameEngine.RPG
             get { return hitpoint; }
         }
 
+        public bool IsPlayer
+        {
+            get
+            {
+                return controlled;
+            }
+        }
+
         public Character(Camera cam, Keyboard keyboard, Mouse mouse, bool controlled = false)
         {
             this.cam = cam;
@@ -137,6 +152,7 @@ namespace AMOFGameEngine.RPG
             wieldedR = false;
             hitpoint = 100;
             alive = true;
+            currentState = State.IDLE;
 
             keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyboard_KeyPressed);
             keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyboard_KeyReleased);
@@ -290,7 +306,6 @@ namespace AMOFGameEngine.RPG
 
         private void Kick()
         {
-            throw new NotImplementedException();
         }
         #endregion
 
@@ -348,7 +363,7 @@ namespace AMOFGameEngine.RPG
                 bodyNode.Translate(0, 0, deltaTime * RUN_SPEED * anims[(int)mBaseAnimID].Weight,
                     Node.TransformSpace.TS_LOCAL);
 
-                position = bodyNode.Position;
+                Position = bodyNode.Position;
             }
 
             if (mBaseAnimID == AnimID.ANIM_JUMP_LOOP)
@@ -394,20 +409,6 @@ namespace AMOFGameEngine.RPG
                     // change the hand state to grab or let go
                     anims[(int)AnimID.ANIM_HANDS_CLOSED].Enabled = !wielded;
                     anims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled = wielded;
-
-                    // toggle sword trails
-                    //if (mSwordsDrawn)
-                    //{
-                    //    mSwordTrail.Visible = false;
-                    //    mSwordTrail.RemoveNode(mSword1.ParentNode);
-                    //    mSwordTrail.RemoveNode(mSword2.ParentNode);
-                    //}
-                    //else
-                    //{
-                    //    mSwordTrail.Visible = true;
-                    //    mSwordTrail.AddNode(mSword1.ParentNode);
-                    //    mSwordTrail.AddNode(mSword2.ParentNode);
-                    //}
                 }
 
                 if (mTimer >= anims[(int)mTopAnimID].Length)
@@ -469,6 +470,31 @@ namespace AMOFGameEngine.RPG
             // increment the current base and top animation times
             if (mBaseAnimID != AnimID.ANIM_NONE) anims[(int)mBaseAnimID].AddTime(deltaTime * baseAnimSpeed);
             if (mTopAnimID != AnimID.ANIM_NONE) anims[(int)mTopAnimID].AddTime(deltaTime * topAnimSpeed);
+
+            if (currentState == State.Pratol)
+            {
+                if (mTopAnimID != AnimID.ANIM_RUN_TOP)
+                {
+                    Quaternion rot = new Quaternion(new Degree(-60), Mogre.Vector3.UNIT_Y);   // how much the animation turns the character
+
+                    // find current end position and the offset
+                    Mogre.Vector3 currEnd = bodyNode.Position * mSneakEndPos + bodyNode.Position;
+                    Mogre.Vector3 offset = rot * bodyNode.Orientation * -mSneakStartPos;
+
+                    bodyNode.Position = currEnd + offset;
+                    bodyNode.Rotate(rot);
+
+                    setBaseAnimation(AnimID.ANIM_RUN_BASE, true);
+                    setTopAnimation(AnimID.ANIM_RUN_TOP, true);
+                }
+                else if (mTimer >= anims[(int)mTopAnimID].Length)
+                {
+                    setBaseAnimation(AnimID.ANIM_IDLE_BASE, true);
+                    setTopAnimation(AnimID.ANIM_IDLE_TOP, true);
+                }
+
+                //anims[i].setTimePosition(0);   // reset animation time
+            }
 
             // apply smooth transitioning between our animations
             fadeAnimations(deltaTime);
@@ -574,8 +600,8 @@ namespace AMOFGameEngine.RPG
             mCameraNode.SetFixedYawAxis(true);
 
             // our model is quite small, so reduce the clipping planes
-            cam.NearClipDistance = 0.1f;
-            cam.FarClipDistance = 100;
+            //cam.NearClipDistance = 0.1f;
+            //cam.FarClipDistance = 100;
             mCameraNode.AttachObject(cam);
 
             mPivotPitch = 0;
@@ -585,6 +611,7 @@ namespace AMOFGameEngine.RPG
         {
             bodyNode = cam.SceneManager.RootSceneNode.CreateChildSceneNode(Mogre.Vector3.UNIT_Y * 23);
             bodyEnt = cam.SceneManager.CreateEntity(charaName, charaMeshName);
+            bodyNode.Position = initPos;
             bodyNode.AttachObject(bodyEnt);
 
             keyDirection = Mogre.Vector3.ZERO;
@@ -718,32 +745,111 @@ namespace AMOFGameEngine.RPG
             bodyNode.AttachObject(bodyEnt);
         }
 
+        public void TurnCharacterToAnotherCharacter(double deltaT, RPGObject obj)
+        {
+            Bone headBone = bodyEnt.Skeleton.GetBone("Head");
+
+            Mogre.Vector3 thisPosition = headBone.Position;
+            Mogre.Vector3 objPosition = obj.Position;
+            Mogre.Vector3 between = objPosition - thisPosition;
+            Mogre.Vector3 unitbetween = between.NormalisedCopy;
+
+            Node neckBone = headBone.Parent;
+            Quaternion neckBoneWorldOrientation = bodyNode .Orientation;
+            Mogre.Vector3 forward = unitbetween;
+            Mogre.Vector3 neckUp = neckBoneWorldOrientation.XAxis;
+            Mogre.Vector3 right = neckUp.CrossProduct(forward);
+            Mogre.Vector3 up = forward.CrossProduct(right);
+
+            Quaternion rot = new Quaternion(up, forward, right);
+            rot.Normalise();
+            rot = neckBoneWorldOrientation.Inverse() * rot;
+
+            Quaternion rotationBetween = rot * headBone.Orientation.Inverse();
+            Radian angle;
+            Mogre.Vector3 xAxis;
+            rotationBetween.ToAngleAxis(out angle, out xAxis);
+
+            rot = Quaternion.Slerp(angle.ValueRadians, headBone.Orientation, rot, true);
+
+            bodyNode.SetOrientation(rot.w, rot.x, rot.y, rot.z);
+        }
+
         #region AI Behavior
-        protected override void enterAttack()
-        {
-            base.enterAttack();
-        }
-
-        protected override void enterDead()
-        {
-            base.enterDead();
-        }
-
-        protected override void enterFlee()
-        {
-            base.enterFlee();
-        }
-
-        protected override void enterIdle()
-        {
-            base.enterIdle();
-        }
-
-        protected override void enterPatrol()
-        {
-            base.enterPatrol();
-        }
+        //protected override void enterAttack()
+        //{
+        //    base.enterAttack();
+        //}
+        //
+        //protected override void enterDead()
+        //{
+        //    base.enterDead();
+        //}
+        //
+        //protected override void enterFlee()
+        //{
+        //    base.enterFlee();
+        //}
+        //
+        //protected override void enterIdle()
+        //{
+        //    base.enterIdle();
+        //}
+        //
+        //protected override void enterPatrol()
+        //{
+        //    base.enterPatrol();
+        //}
 
         #endregion
+
+
+        public void processEvent(Event e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void CharacterFSM.enterDead()
+        {
+            throw new NotImplementedException();
+        }
+
+        void CharacterFSM.enterIdle()
+        {
+            throw new NotImplementedException();
+        }
+
+        void CharacterFSM.enterAttack()
+        {
+            throw new NotImplementedException();
+        }
+
+        void CharacterFSM.enterPatrol()
+        {
+            throw new NotImplementedException();
+        }
+
+        void CharacterFSM.enterFlee()
+        {
+            throw new NotImplementedException();
+        }
+
+        public FSMStates CurrentState
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public void Action(Event e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Pratol()
+        {
+            if (currentState != State.Pratol)
+            {
+                currentState = State.Pratol;
+            }
+        }
     }
 }
