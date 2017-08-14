@@ -131,6 +131,8 @@
     <Compile Include="Mods\XML\ModDataXML.cs" />
     <Compile Include="Mods\XML\ModInfoXML.cs" />
     <Compile Include="Mods\XML\ModXML.cs" />
+    <Compile Include="Network\GameServer.cs" />
+    <Compile Include="Network\Player.cs" />
     <Compile Include="RPG\Character.cs" />
     <Compile Include="RPG\CharacterManager.cs" />
     <Compile Include="RPG\InventoryInfo.cs" />
@@ -148,7 +150,7 @@
     </Compile>
     <Compile Include="Localization\LocateSystem.cs" />
     <Compile Include="States\GameState.cs" />
-    <Compile Include="States\MultiGameState.cs" />
+    <Compile Include="States\ServerState.cs" />
     <Compile Include="Core\GameManager.cs" />
     <Compile Include="Mods\ModData.cs" />
     <Compile Include="RPG\Item.cs" />

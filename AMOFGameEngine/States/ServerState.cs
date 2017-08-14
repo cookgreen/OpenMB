@@ -1,17 +1,20 @@
 ﻿using System;
 using Mogre;
 using Mogre_Procedural.MogreBites;
-using AMOFGameEngine.Widgets;
 using AMOFGameEngine.Maps;
+using AMOFGameEngine.Network;
+using AMOFGameEngine.Widgets;
 
 namespace AMOFGameEngine.States
 {
-    public class MultiGameState : AppState
+    public class ServerState : AppState
     {
+        private delegate bool ServerStartDelegate();
         private CheckBox chkHasPasswd;
         private InputBox ibPasswd;
         private MapManager mapMnger;
-        public MultiGameState()
+        private GameServer thisServer;
+        public ServerState()
         {
             mapMnger = new MapManager();
         }
@@ -32,7 +35,20 @@ namespace AMOFGameEngine.States
 
             GameManager.Singleton.mKeyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
             GameManager.Singleton.mKeyboard.KeyReleased += new MOIS.KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
+            thisServer = new GameServer();
+            thisServer.Init();
+            thisServer.OnEscapePressed += new Action(Server_OnEscapePressed);
             //base.enter(e);
+        }
+
+        void Server_OnEscapePressed()
+        {
+            ShowEscapeMenu();
+        }
+
+        private void ShowEscapeMenu()
+        {
+            throw new NotImplementedException();
         }
 
         bool mKeyboard_KeyReleased(MOIS.KeyEvent arg)
@@ -61,19 +77,27 @@ namespace AMOFGameEngine.States
             }
             else if (button.getName() == "btnOK")
             {
-                if (string.IsNullOrEmpty(((SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("smServerMaps")).getSelectedItem()))
-                {
-                    GameManager.Singleton.mTrayMgr.showOkDialog("Error", "You need to select a map!");
-                }
-                else
-                {
+                //if (string.IsNullOrEmpty(((SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("smServerMaps")).getSelectedItem()))
+                //{
+                //    GameManager.Singleton.mTrayMgr.showOkDialog("Error", "You need to select a map!");
+                //}
+                //else
+                //{
                     //Start the server and change screen to selected map
-                    string mapName=((SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("smServerMaps")).getSelectedItem();
-                    Map selectedMap = new Map(mapName + ".xml", m_SceneMgr);
-                    selectedMap.create(mapName, mapMnger);
-                    mapMnger.StartMap(mapMnger.FindMapByName(mapName));
-                }
+                    //string mapName=((SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("smServerMaps")).getSelectedItem();
+                    //Map selectedMap = new Map(mapName + ".xml", m_SceneMgr);
+                    //selectedMap.create(mapName, mapMnger);
+                    //mapMnger.StartMap(selectedMap);
+                GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+                ServerStartDelegate server = new ServerStartDelegate(ServerStart);
+                server.Invoke();
+                //}
             }
+        }
+
+        public bool ServerStart()
+        {
+            return thisServer.Go();
         }
 
         public override bool pause()

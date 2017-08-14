@@ -8,29 +8,29 @@ namespace AMOFGameEngine.Maps
 {
     public class MapManager
     {
-        public struct MapInfo
-        {
-            public string mapName;
-            public Map map;
-        }
-
+        Dictionary<string, Map> activeMaps;
         List<Map> maps;
-        List<MapInfo> mapInfos;
         bool isEnd;
 
         public MapManager()
         {
             maps = new List<Map>();
-            mapInfos = new List<MapInfo>();
+            activeMaps = new Dictionary<string, Map>();
             isEnd = false;
         }
 
-        public void AddMap(string name,Map map)
+        public bool AddMap(string name,Map map)
         {
-            MapInfo mi;
-            mi.mapName = name;
-            mi.map = map;
-            mapInfos.Add(mi);
+            if (!activeMaps.ContainsKey(name))
+            {
+                activeMaps.Add(name, map);
+                return true;
+            }
+            else
+            {
+                LogManager.Singleton.LogMessage("[Engine Error]: The map with same name has already existed!");
+                return false;
+            }
         }
 
         public void ChangeMap(Map map)
@@ -48,18 +48,6 @@ namespace AMOFGameEngine.Maps
 
                 maps.Last().enter();
             }
-        }
-
-        public Map FindMapByName(string name)
-        {
-            foreach (var item in mapInfos)
-            {
-                if (item.mapName == name)
-                {
-                    return item.map;
-                }
-            }
-            return null;
         }
 
         public void StartMap(Map map)

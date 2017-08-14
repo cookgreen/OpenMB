@@ -8,31 +8,53 @@ using Mogre;
 
 namespace AMOFGameEngine
 {
+    enum RunState
+    {
+        Stopped,
+        Running,
+        Error
+    }
+
     class GameApp
     {
+        RunState state;
         Dictionary<string, string> gameOptions;
         List<OgreConfigNode> renderConfigs;
         Root root;
         public GameApp(Dictionary<string,string> gameOptions,List<OgreConfigNode> renderConfigs,Root r)
         {
+            this.state = RunState.Stopped;
             this.root = r;
             this.gameOptions = gameOptions;
             this.renderConfigs = renderConfigs;
+            AppStateManager.Singleton.OnAppStateManagerStarted += new Action(OnAppStateManagerStarted);
         }
 
-        public void Run()
+        void OnAppStateManagerStarted()
         {
-            if (!GameManager.Singleton.InitRender("AMOFGameEngine Demo", renderConfigs,root))
-		        return;
+            state = RunState.Running;
+        }
+
+        public RunState Run()
+        {
+            if (!GameManager.Singleton.InitRender("AMOFGameEngine Demo", renderConfigs, root))
+            {
+                LogManager.Singleton.LogMessage("[Engine Error]: failed to Initialize the render system!");
+                state = RunState.Error;
+            }
             if (!GameManager.Singleton.InitGame(gameOptions))
-                return;
+            {
+                LogManager.Singleton.LogMessage("[Engine Error]: failed to Initialize the game system!");
+                state = RunState.Error;
+            }
             ModChooser.create<ModChooser>("ModChooser");
             MainMenu.create<MainMenu>("MainMenu");
             Pause.create<Pause>("Pause");
             GameState.create<GameState>("SinglePlayer");
-            MultiGameState.create<MultiGameState>("Multiplayer");
+            ServerState.create<ServerState>("Multiplayer");
 
             AppStateManager.Singleton.start(AppStateManager.Singleton.findByName("MainMenu"));
+            return state;
         }
     }
 }

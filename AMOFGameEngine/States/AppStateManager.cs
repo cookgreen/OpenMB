@@ -15,7 +15,9 @@ namespace AMOFGameEngine.States
         protected List<AppState> m_ActiveStateStack = new List<AppState>();
         protected List<state_info> m_States = new List<state_info>();
         protected bool m_bShutdown;
-         public struct state_info
+        public event Action OnAppStateManagerStarted;
+
+        public struct state_info
         {
             public String name;
             public AppState state;
@@ -80,38 +82,44 @@ namespace AMOFGameEngine.States
          public void start(AppState state)
          {
              changeAppState(state);
- 
-	        int timeSinceLastFrame = 1;
-	        int startTime = 0;
- 
-	        while(!m_bShutdown)
-	        {
-		        if(GameManager.Singleton.mRenderWnd.IsClosed)m_bShutdown = true;
- 
-		        WindowEventUtilities.MessagePump();
+             
+             int timeSinceLastFrame = 1;
+	         int startTime = 0;
 
-                if (GameManager.Singleton.mRenderWnd.IsActive)
-		        {
-                    startTime = (int)GameManager.Singleton.mTimer.MicrosecondsCPU;
+             if (OnAppStateManagerStarted != null)
+             {
+                 OnAppStateManagerStarted();
+             }
 
-                    m_ActiveStateStack.Last().update(timeSinceLastFrame * 1.0 / 1000);
-                    GameManager.Singleton.mKeyboard.Capture();
-                    GameManager.Singleton.mMouse.Capture();
-                    GameManager.Singleton.UpdateOgre(timeSinceLastFrame * 1.0 / 1000);
-                    if (GameManager.Singleton.mRoot != null)
-                    {
-                        GameManager.Singleton.mRoot.RenderOneFrame();
-                    }
-                    timeSinceLastFrame = (int)GameManager.Singleton.mTimer.MillisecondsCPU - startTime;
-                    
-		        }
-		        else
-		        {
-                    System.Threading.Thread.Sleep(1000);
-		        }
-	        }
-            LocateSystem.Singleton.SaveLocateFile();
-            LogManager.Singleton.LogMessage("Game Quit");
+	         while(!m_bShutdown)
+	         {
+		         if(GameManager.Singleton.mRenderWnd.IsClosed)m_bShutdown = true;
+ 
+		         WindowEventUtilities.MessagePump();
+
+                 if (GameManager.Singleton.mRenderWnd.IsActive)
+		         {
+                     startTime = (int)GameManager.Singleton.mTimer.MicrosecondsCPU;
+
+                     m_ActiveStateStack.Last().update(timeSinceLastFrame * 1.0 / 1000);
+                     GameManager.Singleton.mKeyboard.Capture();
+                     GameManager.Singleton.mMouse.Capture();
+                     GameManager.Singleton.UpdateOgre(timeSinceLastFrame * 1.0 / 1000);
+                     if (GameManager.Singleton.mRoot != null)
+                     {
+                         GameManager.Singleton.mRoot.RenderOneFrame();
+                     }
+                     timeSinceLastFrame = (int)GameManager.Singleton.mTimer.MillisecondsCPU - startTime;
+                     
+		         }
+		         else
+		         {
+                     System.Threading.Thread.Sleep(1000);
+		         }
+	         }
+             //Save locate Info to file before exiting the main game loop
+             LocateSystem.Singleton.SaveLocateFile();
+             LogManager.Singleton.LogMessage("[Engine Info]: Game Quit");
          }
          public override void changeAppState(AppState state,ModData e=null)
          {

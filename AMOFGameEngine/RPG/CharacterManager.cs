@@ -62,12 +62,6 @@ namespace AMOFGameEngine.RPG
                 if (characherLst[i].Alive)
                 {
                     characherLst[i].Update(time);
-                    //bot will pratol...
-                    if (!characherLst[i].IsPlayer)
-                    {
-                        Quaternion rot = new Quaternion(new Degree(-60), Mogre.Vector3.UNIT_Y);
-                        characherLst[i].Pratol();
-                    }
                 }
                 else
                 {
