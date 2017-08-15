@@ -94,11 +94,13 @@ namespace AMOFGameEngine.Widgets
             {
                 isTextMode = true;
                 mInputBoxText.MaterialName = "SdkTrays/MiniTextBox/Press";
+                mInputBoxText.BorderMaterialName = "SdkTrays/MiniTextBox/Press";
             }
             else
             {
                 isTextMode = false;
                 mInputBoxText.MaterialName = "SdkTrays/MiniTextBox";
+                mInputBoxText.BorderMaterialName = "SdkTrays/MiniTextBox";
             }
         }
 

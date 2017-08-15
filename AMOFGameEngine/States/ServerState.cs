@@ -40,6 +40,7 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_CENTER, "lbMultiplayer", "Multiplayer", 150);
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER,"btnHost","Host Game",200);
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "btnJoin", "Join Game",200);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "btnBack", "Back", 200);
 
             GameManager.Singleton.mKeyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
             GameManager.Singleton.mKeyboard.KeyReleased += new MOIS.KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
@@ -52,8 +53,8 @@ namespace AMOFGameEngine.States
         {
             GameManager.Singleton.mTrayMgr.destroyAllWidgets();
             GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_CENTER, "lbHost", "Host Game", 300);
-            ibServerName = GameManager.Singleton.mTrayMgr.createInputBox(TrayLocation.TL_CENTER, "ibServerName", "Server Name:", 180, "New Server");
-            ibServerPort = GameManager.Singleton.mTrayMgr.createInputBox(TrayLocation.TL_CENTER, "ibServerPort", "Server Port:", 180, "7458",true);
+            ibServerName = GameManager.Singleton.mTrayMgr.createInputBox(TrayLocation.TL_CENTER, "ibServerName", "Server Name:",300, 180, "New Server");
+            ibServerPort = GameManager.Singleton.mTrayMgr.createInputBox(TrayLocation.TL_CENTER, "ibServerPort", "Server Port:",300, 180, "7458",true);
             chkHasPasswd = GameManager.Singleton.mTrayMgr.createCheckBox(TrayLocation.TL_CENTER, "chkHasPass", "Has Password", 300);
             GameManager.Singleton.mTrayMgr.createLongSelectMenu(TrayLocation.TL_CENTER, "smServerMaps", "Server Map:", 190, 10);
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnOK", "OK");
@@ -67,7 +68,6 @@ namespace AMOFGameEngine.States
 
         private void ShowEscapeMenu()
         {
-            GameManager.Singleton.mTrayMgr.showOkDialog("xx", "xx");
         }
 
         bool mKeyboard_KeyReleased(MOIS.KeyEvent arg)
@@ -101,6 +101,10 @@ namespace AMOFGameEngine.States
                 serverpanel=GameManager.Singleton.mTrayMgr.createParamsPanel(TrayLocation.TL_CENTER, "serverpanel", 400, serverState);
                 ServerStartDelegate server = new ServerStartDelegate(ServerStart);
                 server.Invoke();
+            }
+            else if (button.getName() == "btnBack")
+            {
+                changeAppState(findByName("MainMenu"));
             }
         }
 
@@ -139,7 +143,7 @@ namespace AMOFGameEngine.States
            {
                if (box.isChecked())
                {
-                   ibPasswd = GameManager.Singleton.mTrayMgr.createInputBox(TrayLocation.TL_CENTER,"ibPasswd","Password:",200);
+                   ibPasswd = GameManager.Singleton.mTrayMgr.createInputBox(TrayLocation.TL_CENTER,"ibPasswd","Password:",300,180);
                }
                else
                {
