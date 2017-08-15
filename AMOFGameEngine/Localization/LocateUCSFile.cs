@@ -44,7 +44,6 @@ namespace AMOFGameEngine.Localization
         public void Prepare()
         {
             UCSValueTmp.Clear();
-            //ProcessOriginal();
         }
 
         public bool Process()
@@ -74,9 +73,7 @@ namespace AMOFGameEngine.Localization
 
         public string SeekValueByKey(string ID)
         {
-            string result = UCSValueTmp.ContainsKey(ID) ? UCSValueTmp[ID] : string.Empty;
-
-            return result;
+            return UCSValueTmp.ContainsKey(ID) ? UCSValueTmp[ID] : string.Empty;
         }
 
         public string SeekKeyByValue(string value)
@@ -140,7 +137,7 @@ namespace AMOFGameEngine.Localization
             }
         }
 
-        public string GenerateKeyIfNotExist(string str)
+        public string GenerateQuickStrKeyIfNotExist(string str)
         {
             if (!UCSValueTmp.ContainsValue(str))
             {

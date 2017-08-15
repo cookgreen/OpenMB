@@ -17,7 +17,7 @@ namespace AMOFGameEngine.Dialogs
     public partial class ConfigFrm : Form
     {
         Root r=new Root();
-
+        string currentSelectedValue;
         LOCATE selectedlocate;
         List<OgreConfigNode> ogreConfigs = new List<OgreConfigNode>();
         List<OgreConfigNode> gameCfgs=new List<OgreConfigNode>(0);
@@ -140,6 +140,7 @@ namespace AMOFGameEngine.Dialogs
 
         private void lstConfig_SelectedIndexChanged(object sender, EventArgs e)
         {
+            currentSelectedValue = lstConfig.SelectedItem.ToString().Split(':')[1];
             cmbValueChange.Enabled = true;
             InsertAvaliableValueByIndex(cmbSubRenderSys.SelectedItem.ToString());
         }
@@ -162,6 +163,8 @@ namespace AMOFGameEngine.Dialogs
             {
                 cmbValueChange.Items.Add(psv);
             }
+
+            cmbValueChange.SelectedItem = currentSelectedValue;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -195,7 +198,8 @@ namespace AMOFGameEngine.Dialogs
 
         private void cmbValueChange_SelectedIndexChanged(object sender, EventArgs e)
         {
-            UpdateValueToListBox(cmbSubRenderSys.SelectedItem.ToString());
+            if (cmbValueChange.SelectedItem.ToString() != currentSelectedValue)
+                UpdateValueToListBox(cmbSubRenderSys.SelectedItem.ToString());
         }
         private void UpdateValueToListBox(string secName)
         {

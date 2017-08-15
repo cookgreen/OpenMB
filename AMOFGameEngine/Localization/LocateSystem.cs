@@ -80,31 +80,6 @@ namespace AMOFGameEngine.Localization
             disposed = true;
         }
 
-        public string LOC(LocateFileType file, string str)
-        {
-            LocateUCSFile ucs = GetUCSInstanceByType(file);
-            string localizedStr = null;
-            switch(file)
-            {
-                case LocateFileType.GameQuickString:
-                    localizedStr = GetLocalizedString(file,ucs.GenerateKeyIfNotExist(str));
-
-                    break;
-
-                default:
-                    if (ucs != null)
-                    {
-                        localizedStr= GetLocalizedString(file,ucs.AddNewKeyByStrIfNotExist(str));
-                    }
-                    else
-                    {
-                        localizedStr= null;
-                    }
-                    break;
-            }
-            return localizedStr;
-        }
-
         public bool InitLocateSystem(LOCATE CurrentLocate)
         {
             locate = CurrentLocate;
@@ -124,6 +99,15 @@ namespace AMOFGameEngine.Localization
             }
         }
 
+        public string LOC(LocateFileType file, string str)
+        {
+            file = LocateFileType.GameQuickString;
+            LocateUCSFile ucs = GetUCSInstanceByType(file);
+            string localizedStr = null;
+            localizedStr = GetLocalizedString(LocateFileType.GameQuickString, ucs.GenerateQuickStrKeyIfNotExist(str));
+            return localizedStr;
+        }
+
         public string GetLocalizedString(LocateFileType fileType,string ID)
         {
             LocateUCSFile ucs = GetUCSInstanceByType(fileType);
@@ -134,15 +118,8 @@ namespace AMOFGameEngine.Localization
                 {
                     return res;
                 }
-                else
-                {
-                    return null;
-                }
             }
-            else
-            {
-                return null;
-            }
+            return string.Format("$No Such Key '{0}'!", ID);
         }
 
         public LOCATE GetLanguageFromFile()
@@ -161,6 +138,58 @@ namespace AMOFGameEngine.Localization
             return ConvertLocateShortStringToLocateInfo(locate);
         }
 
+        private LocateUCSFile GetUCSInstanceByType(LocateFileType fileType)
+        {
+            LocateUCSFile ucs = null;
+            switch (fileType)
+            {
+                case LocateFileType.GameString:
+                    ucs = ucsGameStr;
+                    break;
+                case LocateFileType.GameUI:
+                    ucs = ucsGameUI;
+                    break;
+                case LocateFileType.GameQuickString:
+                    ucs = ucsGameQuickStr;
+                    break;
+            }
+            return ucs;
+        }
+
+        public void SaveLanguageSettingsToFIle(int index)
+        {
+            if (!File.Exists(path))
+            {
+                File.CreateText(path);
+            }
+            using (StreamWriter sw = new StreamWriter(path))
+            {
+                string tmpw;
+                FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    string tmpr = sr.ReadLine();
+                    tmpw = tmpr;
+                    sr.Close();
+                }
+                if (CovertLocateInfoStringToReadableString(tmpw) != index.ToString())
+                {
+                    sw.BaseStream.Seek(0, SeekOrigin.Begin);
+                    sw.Write(CovertIndexToLocateInfo(index));
+                }
+                sw.Flush();
+                sw.Close();
+            }
+        }
+
+        public void SaveLocateFile()
+        {
+            ucsGameStr.Save();
+            ucsGameUI.Save();
+            ucsGameQuickStr.Save();
+        }
+
+        #region Convertion Function
         public int CovertLocateInfoToIndex(LOCATE locate)
         {
             switch (locate)
@@ -265,56 +294,6 @@ namespace AMOFGameEngine.Localization
                     return LOCATE.invalid;
             }
         }
-
-        public void SaveLanguageSettingsToFIle(int index)
-        {
-            if (!File.Exists(path))
-            {
-                File.CreateText(path);
-            }
-            using (StreamWriter sw = new StreamWriter(path))
-            {
-                string tmpw;
-                FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                using (StreamReader sr = new StreamReader(fs))
-                {
-                    string tmpr = sr.ReadLine();
-                    tmpw = tmpr;
-                    sr.Close();
-                }
-                if (CovertLocateInfoStringToReadableString(tmpw) != index.ToString())
-                {
-                    sw.BaseStream.Seek(0, SeekOrigin.Begin);
-                    sw.Write(CovertIndexToLocateInfo(index));
-                }
-                sw.Flush();
-                sw.Close();
-            }
-        }
-
-        public void SaveLocateFile()
-        {
-            ucsGameStr.Save();
-            ucsGameUI.Save();
-            ucsGameQuickStr.Save();
-        }
-
-        private LocateUCSFile GetUCSInstanceByType(LocateFileType fileType)
-        {
-            LocateUCSFile ucs = null;
-            switch (fileType)
-            {
-                case LocateFileType.GameString:
-                    ucs = ucsGameStr;
-                    break;
-                case LocateFileType.GameUI:
-                    ucs = ucsGameUI;
-                    break;
-                case LocateFileType.GameQuickString:
-                    ucs = ucsGameQuickStr;
-                    break;
-            }
-            return ucs;
-        }
+        #endregion
     }
 }
