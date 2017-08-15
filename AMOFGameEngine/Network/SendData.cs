@@ -9,7 +9,8 @@ namespace AMOFGameEngine.Network
 {
     public class SendData
     {
-        KeyCode key;
-        MouseButtonID mouseBtn;
+        public string optType { get; set; }//Operation Type
+        public KeyCode key { get; set; }//Pressed Key
+        public MouseButtonID mouseBtn { get; set; }//Pressed Mouse Button
     }
 }

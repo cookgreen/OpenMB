@@ -12,7 +12,6 @@ namespace AMOFGameEngine.Localization
     {
         private const string PATH = @"./Locate/";
         private Dictionary<string, string> UCSValueTmp;
-        private Dictionary<string, string> UCSOriginal;
         private string fileName;
         private LOCATE currentLocate;
         private bool disposed;
@@ -22,7 +21,6 @@ namespace AMOFGameEngine.Localization
             this.fileName = fileName;
             this.currentLocate = currentLocate;
             UCSValueTmp = new Dictionary<string, string>();
-            //UCSOriginal = new Dictionary<string, string>();
         }
 
         public void Dispose()
@@ -47,31 +45,6 @@ namespace AMOFGameEngine.Localization
         {
             UCSValueTmp.Clear();
             //ProcessOriginal();
-        }
-
-        public bool ProcessOriginal()
-        {
-            string filepath = string.Format("{0}en/{1}", PATH, fileName);
-            if (File.Exists(filepath))
-            {
-                using (StreamReader sr = new StreamReader(filepath))
-                {
-                    while (sr.Peek() >= 0 && !sr.EndOfStream)
-                    {
-                        string line = sr.ReadLine();
-                        string[] outputTmp = Regex.Split(line, "\t");
-                        if (!UCSOriginal.ContainsKey(outputTmp[0]))
-                        {
-                            UCSOriginal.Add(outputTmp[0], outputTmp[1]);
-                        }
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         public bool Process()
@@ -123,26 +96,9 @@ namespace AMOFGameEngine.Localization
             return key;
         }
 
-        public string SeekKeyByValueOriginal(string value)
-        {
-            string key = string.Empty;
-            if (UCSOriginal .ContainsValue(value))
-            {
-                foreach (KeyValuePair<string, string> kpl in UCSOriginal)
-                {
-                    if (kpl.Value == value)
-                    {
-                        key = kpl.Key;
-                        break;
-                    }
-                }
-            }
-            return key;
-        }
-
         private bool SeekLocalizedString(string str)
         {
-            string localizedKey = SeekKeyByValueOriginal(str);
+            string localizedKey = null;
             if (UCSValueTmp.ContainsKey(localizedKey))
             {
                 return true;
@@ -166,7 +122,7 @@ namespace AMOFGameEngine.Localization
             }
             else
             {
-                return SeekKeyByValueOriginal(str);
+                return null;
             }
         }
 

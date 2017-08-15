@@ -5,16 +5,16 @@
 *.log
 *.suo
 Mods/*.dll
-Log/*.log
-
+*.log
+*.csproj.FileListAbsolute.txt
+*.config
+*.cache
+*.csproj.FileListAbsolute.txt
+*.FileListAbsolute.txt
 packages/*
 
 AMOFGameEngine/obj/*/*/*
 AMOFGameEngine.Mods.Common/obj/*/*
 AMOFGameEngine.Mods.Common/bin/*/*
-AMOFGameEngine.Mods.Sample/obj/*/*
-AMOFGameEngine.Mods.Sample/bin/*/*
-AMOFGameEngine.Utilities.UCSEditor/obj/Debug/AMOFGameEngine.Utilities.UCSEditor.csproj.FileListAbsolute.txt
-*.config
-AMOFGameEngine.Utilities.UCSEditor/obj/Debug/AMOFGameEngine.Utilities.UCSEditor.csprojResolveAssemblyReference.cache
-AMOFGameEngine/obj/x86/Debug/AMOFGameEngine.csproj.FileListAbsolute.txt
+AMOFGameEngine.Mods.Native/obj/*/*
+AMOFGameEngine.Mods.Native/bin/*/*

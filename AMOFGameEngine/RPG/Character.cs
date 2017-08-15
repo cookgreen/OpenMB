@@ -48,7 +48,6 @@ namespace AMOFGameEngine.RPG
         public const float GRAVITY = 90.0f;          // gravity in downward units per squared second
 
         string charaTypeID;
-        string charaID;
         string charaName;
         string charaMeshName;
         LevelInfo level;
@@ -75,14 +74,12 @@ namespace AMOFGameEngine.RPG
         bool[] mFadingOut = new bool[NUM_ANIMS];           // which animations are fading out
         bool mSwordsDrawn;
         Mogre.Vector3 mGoalDirection;     // actual intended direction in world-space
-        Camera mCamera;
+        //Camera mCamera;
         SceneNode mCameraPivot;
         SceneNode mCameraGoal;
         SceneNode mCameraNode;
         float mPivotPitch;
         float mTimer;
-        private Mogre.Vector3 mSneakEndPos;
-        private Mogre.Vector3 mSneakStartPos;
         State currentState;
 
         //Mogre.Vector3 position;
@@ -112,12 +109,7 @@ namespace AMOFGameEngine.RPG
         }
         public string CharaID
         {
-            get { return charaID; }
-        }
-        public string CharaTypeID
-        {
             get { return charaTypeID; }
-            set { charaTypeID = value; }
         }
         public Item CurrentWieldItem
         {
@@ -144,6 +136,8 @@ namespace AMOFGameEngine.RPG
             this.keyboard = keyboard;
             this.mouse = mouse;
 
+            mSwordsDrawn = false;
+            charaTypeID = string.Empty;
             inventory = new InventoryInfo();
             level = new LevelInfo();
             currentWieldItem = null;
@@ -470,31 +464,6 @@ namespace AMOFGameEngine.RPG
             // increment the current base and top animation times
             if (mBaseAnimID != AnimID.ANIM_NONE) anims[(int)mBaseAnimID].AddTime(deltaTime * baseAnimSpeed);
             if (mTopAnimID != AnimID.ANIM_NONE) anims[(int)mTopAnimID].AddTime(deltaTime * topAnimSpeed);
-
-            if (currentState == State.Pratol)
-            {
-                if (mTopAnimID != AnimID.ANIM_RUN_TOP)
-                {
-                    Quaternion rot = new Quaternion(new Degree(-60), Mogre.Vector3.UNIT_Y);   // how much the animation turns the character
-
-                    // find current end position and the offset
-                    Mogre.Vector3 currEnd = bodyNode.Position * mSneakEndPos + bodyNode.Position;
-                    Mogre.Vector3 offset = rot * bodyNode.Orientation * -mSneakStartPos;
-
-                    bodyNode.Position = currEnd + offset;
-                    bodyNode.Rotate(rot);
-
-                    setBaseAnimation(AnimID.ANIM_RUN_BASE, true);
-                    setTopAnimation(AnimID.ANIM_RUN_TOP, true);
-                }
-                else if (mTimer >= anims[(int)mTopAnimID].Length)
-                {
-                    setBaseAnimation(AnimID.ANIM_IDLE_BASE, true);
-                    setTopAnimation(AnimID.ANIM_IDLE_TOP, true);
-                }
-
-                //anims[i].setTimePosition(0);   // reset animation time
-            }
 
             // apply smooth transitioning between our animations
             fadeAnimations(deltaTime);

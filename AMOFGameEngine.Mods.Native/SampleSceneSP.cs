@@ -7,7 +7,6 @@ using MOIS;
 using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.UI;
-using AMOFGameEngine.Mods;
 using AMOFGameEngine.RPG;
 
 namespace AMOFGameEngine.Mods.Sample
@@ -81,7 +80,6 @@ namespace AMOFGameEngine.Mods.Sample
             mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouse_MouseReleased);
             keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyboard_KeyPressed);
             keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyboard_KeyReleased);
-            characterMgr.CharacterPosChanged += new Action<Mogre.Vector3>(characterMgr_CharacterPosChanged);
             
         }
 

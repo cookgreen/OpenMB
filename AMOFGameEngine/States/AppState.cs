@@ -26,6 +26,10 @@ namespace AMOFGameEngine.States
 };
     public class AppState : SdkTrayListener
     {
+        protected AppStateListener m_pParent;
+        protected Camera m_Camera;
+        protected SceneManager m_SceneMgr;
+        protected FrameEvent m_FrameEvent;
         public static void create<T>( String name) where T : AppState, new()
         {
             T myAppState=new T();				
@@ -51,10 +55,14 @@ namespace AMOFGameEngine.States
         protected void shutdown() { m_pParent.shutdown(); }
         protected void popAllAndPushAppState<T>(AppState state) where T : AppState { m_pParent.popAllAndPushAppState<T>(state); }
 
-        protected AppStateListener m_pParent;
-
-        protected Camera m_Camera;
-        protected SceneManager m_SceneMgr;
-        protected FrameEvent m_FrameEvent;
+        protected virtual void ReConfigure(string renderName, Dictionary<string, string> displayOptions)
+        {
+            RenderSystem rs = GameManager.Singleton.mRoot.GetRenderSystemByName(renderName);
+            foreach (var kpl in displayOptions)
+            {
+                rs.SetConfigOption(kpl.Key, kpl.Value);
+            }
+            GameManager.Singleton.mRoot.QueueEndRendering();
+        }
     }
 }

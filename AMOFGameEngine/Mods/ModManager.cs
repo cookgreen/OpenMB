@@ -14,11 +14,11 @@ namespace AMOFGameEngine.Mods
 
     public class ModManager
     {
-        //public Action<ModEventArgs> ModStateChangedAction;
-        Dictionary<string, ModManifest> InstalledMods;
-        string modInstallRootDir;
-        OgreConfigFileAdapter ofa;
-        List<OgreConfigNode> modConfigData;
+        private Dictionary<string, ModManifest> InstalledMods;
+        private string modInstallRootDir;
+        private OgreConfigFileAdapter ofa;
+        private List<OgreConfigNode> modConfigData;
+        private ModData currentMod;
 
         public static ModManager Singleton
         {
@@ -33,15 +33,17 @@ namespace AMOFGameEngine.Mods
         }
         static ModManager instance;
 
-        ModData currentMod;
-
         public ModManager()
         {
             InstalledMods = new Dictionary<string, ModManifest>();
+            currentMod = null;
+            modConfigData = new List<OgreConfigNode>();
+            ofa = new OgreConfigFileAdapter("Mod.cfg");
         }
 
         string GetModInstallRootDir()
         {
+            modConfigData = ofa.ReadConfigData();
             modInstallRootDir= modConfigData.FirstOrDefault(o => o.Section == "").Settings.FirstOrDefault(o => o.Key == "ModDir").Value;
             return modInstallRootDir;
         }

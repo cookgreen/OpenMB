@@ -11,14 +11,11 @@ namespace AMOFGameEngine.States
 {
     public class GameState : AppState
     {
-        CharacterManager characterMgr;
-        UIManager uiMgr;
-        IntersectionSceneQuery pISQuery;
-        CollisionTools collisionMgr;
-        Character player;
-        Character bot;
-        MapManager mapMngr;
-        SdkCameraMan camMan;
+        private CharacterManager characterMgr;
+        private CollisionTools collisionMgr;
+        private Character player;
+        private MapManager mapMngr;
+        private SdkCameraMan camMan;
 
 
         public GameState()

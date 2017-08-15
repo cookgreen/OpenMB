@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Maps;
@@ -10,13 +11,18 @@ namespace AMOFGameEngine.States
     public class ServerState : AppState
     {
         private delegate bool ServerStartDelegate();
+        private InputBox ibServerName;
+        private InputBox ibServerPort;
         private CheckBox chkHasPasswd;
         private InputBox ibPasswd;
         private MapManager mapMnger;
         private GameServer thisServer;
+        private Dictionary<string, string> option;
+
         public ServerState()
         {
             mapMnger = new MapManager();
+            option = new Dictionary<string, string>();
         }
 
         public override void enter(Mods.ModData e = null)
@@ -35,10 +41,21 @@ namespace AMOFGameEngine.States
 
             GameManager.Singleton.mKeyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
             GameManager.Singleton.mKeyboard.KeyReleased += new MOIS.KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
+            
             thisServer = new GameServer();
-            thisServer.Init();
             thisServer.OnEscapePressed += new Action(Server_OnEscapePressed);
-            //base.enter(e);
+        }
+
+        void HostGameUI()
+        {
+            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_CENTER, "lbHost", "Host Game", 300);
+            ibServerName = GameManager.Singleton.mTrayMgr.createInputBox(TrayLocation.TL_CENTER, "ibServerName", "Server Name:", 180, "New Server");
+            ibServerPort = GameManager.Singleton.mTrayMgr.createInputBox(TrayLocation.TL_CENTER, "ibServerPort", "Server Port:", 180, "7458",true);
+            chkHasPasswd = GameManager.Singleton.mTrayMgr.createCheckBox(TrayLocation.TL_CENTER, "chkHasPass", "Has Password", 300);
+            GameManager.Singleton.mTrayMgr.createLongSelectMenu(TrayLocation.TL_CENTER, "smServerMaps", "Server Map:", 190, 10);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnOK", "OK");
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnCancel", "Cancel");
         }
 
         void Server_OnEscapePressed()
@@ -73,30 +90,32 @@ namespace AMOFGameEngine.States
             }
             else if (button.getName() == "btnCancel")
             {
-
+                exit();
+                enter();
             }
             else if (button.getName() == "btnOK")
             {
-                //if (string.IsNullOrEmpty(((SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("smServerMaps")).getSelectedItem()))
-                //{
-                //    GameManager.Singleton.mTrayMgr.showOkDialog("Error", "You need to select a map!");
-                //}
-                //else
-                //{
+                if (string.IsNullOrEmpty(((SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("smServerMaps")).getSelectedItem()))
+                {
+                    GameManager.Singleton.mTrayMgr.showOkDialog("Error", "You need to select a map!");
+                }
+                else
+                {
                     //Start the server and change screen to selected map
-                    //string mapName=((SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("smServerMaps")).getSelectedItem();
-                    //Map selectedMap = new Map(mapName + ".xml", m_SceneMgr);
-                    //selectedMap.create(mapName, mapMnger);
-                    //mapMnger.StartMap(selectedMap);
-                GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-                ServerStartDelegate server = new ServerStartDelegate(ServerStart);
-                server.Invoke();
-                //}
+                    string mapName=((SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("smServerMaps")).getSelectedItem();
+                    Map selectedMap = new Map(mapName + ".xml", m_SceneMgr);
+                    selectedMap.create(mapName, mapMnger);
+                    mapMnger.StartMap(selectedMap);
+                    GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+                    ServerStartDelegate server = new ServerStartDelegate(ServerStart);
+                    server.Invoke();
+                }
             }
         }
 
         public bool ServerStart()
         {
+            thisServer.Init();
             return thisServer.Go();
         }
 
@@ -112,7 +131,10 @@ namespace AMOFGameEngine.States
 
         public override void exit()
         {
-            base.exit();
+            m_SceneMgr.DestroyCamera(m_Camera);
+            if (m_SceneMgr != null)
+                GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
+
         }
 
         public override void checkBoxToggled(CheckBox box)
@@ -128,17 +150,6 @@ namespace AMOFGameEngine.States
                    GameManager.Singleton.mTrayMgr.destroyWidget("ibPasswd");
                }
            }
-        }
-
-        void HostGameUI()
-        {
-            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_CENTER, "lbHost", "Host Game",300);
-            GameManager.Singleton.mTrayMgr.createInputBox(TrayLocation.TL_CENTER, "ibServerName", "Server Name:", 180);
-            chkHasPasswd= GameManager.Singleton.mTrayMgr.createCheckBox(TrayLocation.TL_CENTER, "chkHasPass", "Has Password", 300);
-            GameManager.Singleton.mTrayMgr.createLongSelectMenu(TrayLocation.TL_CENTER, "smServerMaps", "Server Map:", 190,10);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnOK", "OK");
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnCancel", "Cancel");
         }
     }
 }

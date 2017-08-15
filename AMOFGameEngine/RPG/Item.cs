@@ -74,6 +74,12 @@ namespace AMOFGameEngine.RPG
             itemEnt = cam.SceneManager.CreateEntity(itemName,itemMeshName);
         }
 
+        public void Drop()
+        {
+            itemNode = cam.SceneManager.RootSceneNode.CreateChildSceneNode();
+            itemNode.AttachObject(itemEnt);
+        }
+
         public string ItemID
         {
             get { return itemID; }

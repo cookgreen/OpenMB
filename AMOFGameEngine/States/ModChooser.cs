@@ -6,7 +6,6 @@ using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
 using AMOFGameEngine.Mods;
-using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine.States
 {

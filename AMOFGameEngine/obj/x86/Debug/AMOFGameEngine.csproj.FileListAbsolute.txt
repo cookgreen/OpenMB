@@ -1,8 +1,0 @@
-C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\x86\Debug\AMOFGameEngine.Dialogs.ConfigFrm.resources
-C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\x86\Debug\AMOFGameEngine.Properties.Resources.resources
-C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\x86\Debug\AMOFGameEngine.csproj.GenerateResource.Cache
-C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\x86\Debug\AMOFGameEngine.exe
-C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\x86\Debug\AMOFGameEngine.pdb
-C:\Repository\AMOFGameEngine\AMOFGameEngine.exe
-C:\Repository\AMOFGameEngine\AMOFGameEngine.pdb
-C:\Repository\AMOFGameEngine\AMOFGameEngine\obj\x86\Debug\AMOFGameEngine.csprojResolveAssemblyReference.cache

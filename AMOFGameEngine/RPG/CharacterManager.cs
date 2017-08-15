@@ -10,17 +10,12 @@ namespace AMOFGameEngine.RPG
 {
     public class CharacterManager
     {
-        List<Character> characters;
-        Dictionary<string, Entity> charaEntMap;
-        Camera cam;
-        Keyboard keyboard;
-        Mouse mouse;
-        Mogre.Vector3 moveOffset;
-        AnimationState animState;
-        AnimationState animStateTop;
-        List<Character> characherLst;
-
-        public event Action<Mogre.Vector3> CharacterPosChanged;
+        private List<Character> characters;
+        private Dictionary<string, Entity> charaEntMap;
+        private Camera cam;
+        private Keyboard keyboard;
+        private Mouse mouse;
+        private List<Character> characherLst;
         private Mogre.Vector3 spawnPosition;
 
         public CharacterManager(Camera cam,Keyboard keyboard,Mouse mouse)
@@ -30,7 +25,6 @@ namespace AMOFGameEngine.RPG
             this.mouse = mouse;
             charaEntMap = new Dictionary<string, Entity>();
             characters = new List<Character>();
-            moveOffset = new Mogre.Vector3();
             characherLst = new List<Character>();
             Root.Singleton.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
         }

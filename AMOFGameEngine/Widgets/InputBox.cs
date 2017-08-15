@@ -28,6 +28,7 @@ namespace AMOFGameEngine.Widgets
         protected float mDragOffset;
         protected bool isTextMode;
         private string mText;
+        private bool bOnlyAcceptNum;
 
         public string Text
         {
@@ -35,7 +36,7 @@ namespace AMOFGameEngine.Widgets
             set { mText = value; }
         }
 
-        public InputBox(String name, string caption, float width,float boxWidth)
+        public InputBox(String name, string caption, float width, float boxWidth,string text=null, bool onlyAcceptNum=false)
         {
             this.isTextMode = false;
             this.mElement = OverlayManager.Singleton.CreateOverlayElementFromTemplate("SdkTrays/InputBox", "BorderPanel", name);
@@ -54,6 +55,7 @@ namespace AMOFGameEngine.Widgets
             this.mElement.Width = width;
             this.mItemElements = new List<BorderPanelOverlayElement>();
             this.mText = string.Empty;
+            this.bOnlyAcceptNum = onlyAcceptNum;
 
             if (boxWidth > 0)
             {
@@ -67,6 +69,12 @@ namespace AMOFGameEngine.Widgets
                 this.mTextArea.Left = 12;
                 this.mTextArea.Top = 10;
             }
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                mSmallTextArea.Caption = text;
+            }
+
             this.setCaption(caption);
         }
 
@@ -85,10 +93,12 @@ namespace AMOFGameEngine.Widgets
             if (isCursorOver(mInputBoxText, cursorPos))
             {
                 isTextMode = true;
+                mInputBoxText.MaterialName = "SdkTrays/MiniTextBox/Press";
             }
             else
             {
                 isTextMode = false;
+                mInputBoxText.MaterialName = "SdkTrays/MiniTextBox";
             }
         }
 
@@ -97,15 +107,33 @@ namespace AMOFGameEngine.Widgets
             if (isTextMode)
             {
                 string str = GameTrayHelper.ConvertUintToString(text);
-
-                mText += str;//original text
-                mSmallTextArea.Caption += str;//cut text
-                float textLength = Widget.getCaptionWidth(mSmallTextArea.Caption, ref mSmallTextArea);
-                float textBoxLength = mSmallTextArea.Width;
-                if (textLength > mInputBoxText.Width)
+                if (!bOnlyAcceptNum)
                 {
-                    float offset = textLength - mInputBoxText.Width;
-                    mSmallTextArea.Caption=mSmallTextArea.Caption.Remove(0,(int)offset);
+                    mText += str;//original text
+                    mSmallTextArea.Caption += str;//cut text
+                    float textLength = Widget.getCaptionWidth(mSmallTextArea.Caption, ref mSmallTextArea);
+                    float textBoxLength = mSmallTextArea.Width;
+                    if (textLength > mInputBoxText.Width)
+                    {
+                        float offset = textLength - mInputBoxText.Width;
+                        mSmallTextArea.Caption = mSmallTextArea.Caption.Remove(0, (int)offset);
+                    }
+                }
+                else
+                {
+                    int result;
+                    if (int.TryParse(str, out result))
+                    {
+                        mText += str;//original text
+                        mSmallTextArea.Caption += str;//cut text
+                        float textLength = Widget.getCaptionWidth(mSmallTextArea.Caption, ref mSmallTextArea);
+                        float textBoxLength = mSmallTextArea.Width;
+                        if (textLength > mInputBoxText.Width)
+                        {
+                            float offset = textLength - mInputBoxText.Width;
+                            mSmallTextArea.Caption = mSmallTextArea.Caption.Remove(0, (int)offset);
+                        }
+                    }
                 }
             }
         }

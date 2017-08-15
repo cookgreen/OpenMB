@@ -29,7 +29,5 @@ namespace AMOFGameEngine.Network
             get { return playName; }
             set { playName = value; }
         }
-        public event Action<int> PlayerJoin;
-        public event Action<int> PlayerExit;
     }
 }

@@ -15,10 +15,11 @@ namespace AMOFGameEngine.Widgets
 
         }
 
-        public InputBox createInputBox(TrayLocation trayLoc, string name, string caption,float boxWidth)
+        public InputBox createInputBox(TrayLocation trayLoc, string name, string caption, float boxWidth, string text=null, bool onlyAcceptNum=false)
         {
-            InputBox ib = new InputBox(name, caption, 0, boxWidth);
+            InputBox ib = new InputBox(name, caption, 0, boxWidth,text,onlyAcceptNum);
             this.moveWidgetToTray(ib, trayLoc);
+            ib.Text = text;
             ib._assignListener(mListener);
             return ib;
         }
