@@ -5,9 +5,9 @@
 *.log
 *.suo
 Mods/*.dll
-*.log
 *.config
 *.cache
+*.Cache
 *.FileListAbsolute.txt
 packages/*
 
