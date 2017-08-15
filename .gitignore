@@ -6,10 +6,8 @@
 *.suo
 Mods/*.dll
 *.log
-*.csproj.FileListAbsolute.txt
 *.config
 *.cache
-*.csproj.FileListAbsolute.txt
 *.FileListAbsolute.txt
 packages/*
 
