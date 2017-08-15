@@ -133,6 +133,7 @@
     <Compile Include="Mods\XML\ModXML.cs" />
     <Compile Include="Network\GameServer.cs" />
     <Compile Include="Network\Player.cs" />
+    <Compile Include="Network\ServerMetaData.cs" />
     <Compile Include="RPG\Character.cs" />
     <Compile Include="RPG\CharacterManager.cs" />
     <Compile Include="RPG\InventoryInfo.cs" />

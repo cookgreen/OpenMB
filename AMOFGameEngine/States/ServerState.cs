@@ -18,11 +18,13 @@ namespace AMOFGameEngine.States
         private MapManager mapMnger;
         private GameServer thisServer;
         private Dictionary<string, string> option;
-
+        private StringVector serverState;
+        private ParamsPanel serverpanel;
         public ServerState()
         {
             mapMnger = new MapManager();
             option = new Dictionary<string, string>();
+            serverState = new StringVector();
         }
 
         public override void enter(Mods.ModData e = null)
@@ -65,7 +67,7 @@ namespace AMOFGameEngine.States
 
         private void ShowEscapeMenu()
         {
-            throw new NotImplementedException();
+            GameManager.Singleton.mTrayMgr.showOkDialog("xx", "xx");
         }
 
         bool mKeyboard_KeyReleased(MOIS.KeyEvent arg)
@@ -95,21 +97,10 @@ namespace AMOFGameEngine.States
             }
             else if (button.getName() == "btnOK")
             {
-                if (string.IsNullOrEmpty(((SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("smServerMaps")).getSelectedItem()))
-                {
-                    GameManager.Singleton.mTrayMgr.showOkDialog("Error", "You need to select a map!");
-                }
-                else
-                {
-                    //Start the server and change screen to selected map
-                    string mapName=((SelectMenu)GameManager.Singleton.mTrayMgr.getWidget("smServerMaps")).getSelectedItem();
-                    Map selectedMap = new Map(mapName + ".xml", m_SceneMgr);
-                    selectedMap.create(mapName, mapMnger);
-                    mapMnger.StartMap(selectedMap);
-                    GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-                    ServerStartDelegate server = new ServerStartDelegate(ServerStart);
-                    server.Invoke();
-                }
+                GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+                serverpanel=GameManager.Singleton.mTrayMgr.createParamsPanel(TrayLocation.TL_CENTER, "serverpanel", 400, serverState);
+                ServerStartDelegate server = new ServerStartDelegate(ServerStart);
+                server.Invoke();
             }
         }
 
@@ -126,7 +117,12 @@ namespace AMOFGameEngine.States
 
         public override void update(double timeSinceLastFrame)
         {
-            base.update(timeSinceLastFrame);
+            if (thisServer.Started)
+            {
+                thisServer.Update();
+                thisServer.GetServerState(ref serverState);
+                serverpanel.setAllParamValues(serverState);
+            }
         }
 
         public override void exit()
