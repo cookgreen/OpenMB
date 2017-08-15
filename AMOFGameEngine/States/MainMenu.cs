@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using Mogre;
 using MOIS;
 using Mogre_Procedural.MogreBites;
@@ -13,15 +14,12 @@ namespace AMOFGameEngine.States
 {
     class MainMenu : AppState,IDisposable
     {
-        int modIndex;
-        bool isEnterMod;
-        SelectMenu renderMenu;
+        protected bool m_bQuit;
+        private SelectMenu renderMenu;
         public MainMenu()
         {
-            modIndex = -1;
             m_bQuit         = false;
             m_FrameEvent    = new FrameEvent();
-            isEnterMod = false;
         }
         public override void enter(ModData e=null)
         {
@@ -87,15 +85,11 @@ namespace AMOFGameEngine.States
         { }
         public override void exit()
         {
-            GameManager.Singleton.mLog.LogMessage("Leaving MenuState...");
- 
             m_SceneMgr.DestroyCamera(m_Camera);
             if(m_SceneMgr!=null)
                 GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
 
-            GameManager.Singleton.mTrayMgr.setListener(null);
             GameManager.Singleton.mTrayMgr.clearAllTrays();
-            //GameManager.Singleton.mTrayMgr.destroyAllWidgets();
         }
 
         public bool keyPressed(KeyEvent keyEventRef)
@@ -134,19 +128,68 @@ namespace AMOFGameEngine.States
         public override void buttonHit(Button button)
         {
             if (button.getName() == "Quit")
+            {
                 m_bQuit = true;
+            }
             else if (button.getName() == "LoadGame")
+            {
                 changeAppState(findByName("GameState"));
+            }
             else if (button.getName() == "MultiPlayer")
+            {
                 changeAppState(findByName("Multiplayer"));
+            }
             else if (button.getName() == "SinglePlayer")
+            {
                 changeAppState(findByName("SinglePlayer"));
+            }
             else if (button.getName() == "ModChooser")
+            {
                 changeAppState(findByName("ModChooser"));
+            }
             else if (button.getName() == "Configure")
+            {
                 Configure();
+            }
             else if (button.getName() == "btnBack")
+            {
+                exit();
                 enter();
+            }
+            else if (button.getName() == "btnApply")
+            {
+                CheckConfigure();
+            }
+        }
+
+        private void CheckConfigure()
+        {
+            bool isModified = false;
+            Dictionary<string, string> displayOptions = new Dictionary<string, string>();
+            ConfigOptionMap options = GameManager.Singleton.mRoot.GetRenderSystemByName(renderMenu.getSelectedItem()).GetConfigOptions();
+            for (uint i = 3; i < GameManager.Singleton.mTrayMgr.getNumWidgets(renderMenu.getTrayLocation());i++ )
+            {
+
+                SelectMenu optionMenu = (SelectMenu)GameManager.Singleton.mTrayMgr.getWidget(renderMenu.getTrayLocation(), i);
+                if (optionMenu.getSelectedItem() != options[optionMenu.getCaption()].currentValue)
+                    isModified = true;
+                displayOptions.Add(optionMenu.getCaption(), optionMenu.getSelectedItem());
+            }
+            OgreConfigFileAdapter ofa = new OgreConfigFileAdapter("ogre.cfg");
+            List<OgreConfigNode> ogrecfgdata = ofa.ReadConfigData();
+            OgreConfigNode oneConfig = ogrecfgdata.Where(o => o.Section == renderMenu.getSelectedItem()).FirstOrDefault();
+            Dictionary<string, string> fileOptions = oneConfig.Settings;
+            if (isModified)
+            {
+                int indexDeleted = ogrecfgdata.IndexOf(oneConfig);
+                ogrecfgdata.RemoveAt(indexDeleted);
+                oneConfig.Settings = displayOptions;
+                ogrecfgdata.Insert(indexDeleted, oneConfig);
+                ofa.SaveConfig(ogrecfgdata);
+                m_bQuit = true;
+
+                ReConfigure(renderMenu.getSelectedItem(), displayOptions);
+            }
         }
 
         private void Configure()
@@ -208,7 +251,5 @@ namespace AMOFGameEngine.States
                 return;
             }
         }
-
-        protected bool m_bQuit;
     }
 }
