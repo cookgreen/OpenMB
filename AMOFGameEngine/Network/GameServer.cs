@@ -87,24 +87,45 @@ namespace AMOFGameEngine.Network
                 p.Client = client;
                 p.Position = new Mogre.Vector3();
                 players.Add(players.Count, p);
+                client.Close();
+
                 return true;
             }
         }
 
         public void Update()
         {
-            if (listener.Pending())
+            TcpClient client = null;
+            try
             {
-                var client = listener.AcceptTcpClient();
+                if (!listener.Pending())
+                {
+                    return;
+                }
+                client = listener.AcceptTcpClient();
+                if (client == null)
+                {
+                    return;
+                }
+                if (!client.Connected)
+                {
+                    return;
+                }
+                string playerName;
+                using (BinaryReader br = new BinaryReader(client.GetStream()))
+                {
+                    playerName = br.ReadString();
+                }
+                NewPlayerJoin(playerName, client);
+            }
+            catch(Exception ex)
+            {
                 if (client != null)
                 {
-                    string playerName;
-                    using (BinaryReader br = new BinaryReader(client.GetStream()))
-                    {
-                        playerName = br.ReadString();
-                    }
-                    NewPlayerJoin(playerName, client);
+                    client.Close();
                 }
+                Mogre.LogManager.Singleton.LogMessage(string.Format("[Engine Error]: {0}",ex.ToString()));
+                return;
             }
         }
 
