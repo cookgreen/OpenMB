@@ -74,19 +74,21 @@ namespace AMOFGameEngine.RPG
             Character character = new Character(this.cam, this.keyboard, this.mouse);
             character.CharaName=characterName;
             character.CharaMeshName=charaMeshName;
-            character.Position = spawnPosition;
+            character.InitPos = spawnPosition;
             character.Create();
             characherLst.Add(character);
+            GameManager.Singleton.AllGameObjects.Add(character);
         }
 
         public void SpawnPlayer(string playerName, string playerMeshName)
         {
-            Character character = new Character(this.cam, this.keyboard, this.mouse,true);
+            Player character = new Player(this.cam, this.keyboard, this.mouse);
             character.CharaName = playerName;
             character.CharaMeshName = playerMeshName;
             character.InitPos = spawnPosition;
             character.Create();
             characherLst.Add(character);
+            GameManager.Singleton.AllGameObjects.Add(character);
         }
 
         public Character GetPlayer()

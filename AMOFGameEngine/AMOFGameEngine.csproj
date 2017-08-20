@@ -136,10 +136,15 @@
     <Compile Include="Network\ServerMetaData.cs" />
     <Compile Include="RPG\Character.cs" />
     <Compile Include="RPG\CharacterManager.cs" />
+    <Compile Include="RPG\Skill.cs" />
     <Compile Include="RPG\InventoryInfo.cs" />
     <Compile Include="RPG\LevelInfo.cs" />
+    <Compile Include="RPG\Mountable.cs" />
+    <Compile Include="RPG\NPC.cs" />
+    <Compile Include="RPG\Player.cs" />
     <Compile Include="RPG\RPGObject.cs" />
     <Compile Include="RPG\TeamInfo.cs" />
+    <Compile Include="RPG\Vehicle.cs" />
     <Compile Include="RPG\Weapon.cs" />
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\SoundManager.cs" />

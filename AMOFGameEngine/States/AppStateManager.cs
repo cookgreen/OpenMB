@@ -104,11 +104,11 @@ namespace AMOFGameEngine.States
                      m_ActiveStateStack.Last().update(timeSinceLastFrame * 1.0 / 1000);
                      GameManager.Singleton.mKeyboard.Capture();
                      GameManager.Singleton.mMouse.Capture();
-                     GameManager.Singleton.UpdateOgre(timeSinceLastFrame * 1.0 / 1000);
-                     if (GameManager.Singleton.mRoot != null)
-                     {
-                         GameManager.Singleton.mRoot.RenderOneFrame();
-                     }
+                     GameManager.Singleton.UpdateRender(timeSinceLastFrame * 1.0 / 1000);
+                     //GameManager.Singleton.UpdateSubSystem(timeSinceLastFrame * 1.0 / 1000);
+
+                     GameManager.Singleton.mRoot.RenderOneFrame();
+
                      timeSinceLastFrame = (int)GameManager.Singleton.mTimer.MillisecondsCPU - startTime;
                      
 		         }

@@ -10,6 +10,7 @@ using NVorbis;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.Maps;
 using AMOFGameEngine.Mods;
+using AMOFGameEngine.RPG;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.States;
 using AMOFGameEngine.Widgets;
@@ -42,6 +43,7 @@ namespace AMOFGameEngine
 
         public MogreConsole console;
 
+        public List<RPGObject> AllGameObjects;
 
         static GameManager singleton;
         public static GameManager Singleton
@@ -71,6 +73,7 @@ namespace AMOFGameEngine
             mAppStateMgr = null;
             mSoundMgr = null;
             console = new MogreConsole();
+            AllGameObjects = new List<RPGObject>();
          }
 
         public bool InitRender(String wndTitle, List<OgreConfigNode> renderconfigs,Root r)
@@ -181,8 +184,21 @@ namespace AMOFGameEngine
             return true;
         }
 
-        public void UpdateOgre(double timeSinceLastFrame)
+        public void UpdateRender(double timeSinceLastFrame)
         {
+        }
+
+        public void UpdateGame(double timeSinceLastFrame)
+        {
+            foreach (var eachGameObj in AllGameObjects)
+            {
+                eachGameObj.Update((float)timeSinceLastFrame);
+            }
+        }
+
+        public void UpdateSubSystem(double timeSinceLastFrame)
+        {
+            mSoundMgr.update();
         }
 
         public bool keyPressed(KeyEvent keyEventRef)

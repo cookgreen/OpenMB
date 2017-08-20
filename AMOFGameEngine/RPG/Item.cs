@@ -33,7 +33,7 @@ namespace AMOFGameEngine.RPG
     /// <summary>
     /// Item class
     /// </summary>
-    public class Item
+    public class Item : RPGObject
     {
         protected string itemID;
         protected string itemName;

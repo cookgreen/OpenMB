@@ -66,7 +66,7 @@ namespace AMOFGameEngine.States
 
         bool mRoot_FrameStarted(FrameEvent evt)
         {
-            characterMgr.UpdateCharacters(evt.timeSinceLastFrame);
+            GameManager.Singleton.UpdateGame(evt.timeSinceLastFrame);
 
             return true;
         }
@@ -83,6 +83,8 @@ namespace AMOFGameEngine.States
 
         public override void exit()
         {
+            GameManager.Singleton.AllGameObjects.Clear();
+
             base.exit();
         }
     }

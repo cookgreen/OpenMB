@@ -64,7 +64,7 @@ namespace AMOFGameEngine.RPG
         SceneNode bodyNode;
         Keyboard keyboard;
         Mouse mouse;
-        bool controlled;
+        protected bool controlled;
         AnimationState[] anims = new AnimationState[NUM_ANIMS];
         Mogre.Vector3 keyDirection;
         float verticalVelocity;
@@ -641,7 +641,7 @@ namespace AMOFGameEngine.RPG
             }
         }
 
-        public void Update(float deltaTime)
+        public override void Update(float deltaTime)
         {
             updateBody(deltaTime);
             updateAnimations(deltaTime);

@@ -129,5 +129,9 @@ namespace AMOFGameEngine.Sound
             }
             disposed = true;
         }
+
+        public void update()
+        {
+        }
     }
 }

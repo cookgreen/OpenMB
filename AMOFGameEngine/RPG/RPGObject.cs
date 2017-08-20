@@ -10,6 +10,12 @@ namespace AMOFGameEngine.RPG
     /// </summary>
     public abstract class RPGObject
     {
+        private uint uniqueId;
+        protected uint UniqueId
+        {
+            get { return uniqueId; }
+        }
+
         protected Mogre.Vector3 position;
         public Mogre.Vector3 Position
         {
@@ -22,6 +28,10 @@ namespace AMOFGameEngine.RPG
         {
             get { return initPos; }
             set { initPos = value; }
+        }
+
+        public virtual void Update(float deltaTime)
+        {
         }
     }
 }
