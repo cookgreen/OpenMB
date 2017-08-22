@@ -88,7 +88,7 @@ namespace AMOFGameEngine.States
             selectedModName = ModChooserMenu.getSelectedItem();
             float carouselOffset = ModChooserMenu.getSelectionIndex() - mCarouselPlace;
             if ((carouselOffset <= 0.001) && (carouselOffset >= -0.001)) mCarouselPlace = ModChooserMenu.getSelectionIndex();
-            else mCarouselPlace += carouselOffset * Clamp((float)evt.timeSinceLastFrame * 15.0f, -1.0f, 1.0f);
+            else mCarouselPlace += carouselOffset * AMOFGameEngine.Utilities.Math.Clamp((float)evt.timeSinceLastFrame * 15.0f, -1.0f, 1.0f);
 
             for (int i = 0; i < mModThumbs.Count; i++)
             {
@@ -142,7 +142,7 @@ namespace AMOFGameEngine.States
             if (arg.state.Z.rel != 0 && ModChooserMenu.getNumItems() != 0)
             {
                 float newIndex = ModChooserMenu.getSelectionIndex() - arg.state.Z.rel / Mogre.Math.Abs((float)arg.state.Z.rel);
-                float finalIndex = Clamp(newIndex, 0.0f, (float)(ModChooserMenu.getNumItems() - 1));
+                float finalIndex = AMOFGameEngine.Utilities.Math.Clamp(newIndex, 0.0f, (float)(ModChooserMenu.getNumItems() - 1));
                 ModChooserMenu.selectItem((uint)finalIndex);
                 selectedModName = ModChooserMenu.getSelectedItem();
             }
@@ -185,26 +185,19 @@ namespace AMOFGameEngine.States
 
         public override void buttonHit(Button button)
         {
-            //if (button.getName() == "Play")
-            //{
-            //    if (GameManager.Singleton.mModMgr.ModStateChangedAction != null)
-            //    {
-            //        GameManager.Singleton.mModMgr.ModStateChangedAction(new ModEventArgs()
-            //        {
-            //            modState = ModState.Run,
-            //            modName = ModChooserMenu.getSelectedItem(),
-            //            modIndex = ModChooserMenu.getSelectionIndex()
-            //        });
-            //    }
-            //}
-            //else if (button.getName() == "Configure")
-            //{
-            //    ConfigureScreen();
-            //}
-            //else if (button.getName() == "Quit")
-            //{
-            //    isQuit = true;
-            //}
+            if (button.getName() == "Play")
+            {
+                ModData data = ModManager.Singleton.LoadMod(selectedModName);
+                changeAppState(findByName("MainMenu"), data);
+            }
+            else if (button.getName() == "Configure")
+            {
+                ConfigureScreen();
+            }
+            else if (button.getName() == "Quit")
+            {
+                isQuit = true;
+            }
         }
 
         void SetupModMenu()
@@ -215,7 +208,6 @@ namespace AMOFGameEngine.States
 
             foreach ( string itr in mModThumb )
             {
-
                 String name = "ModThumb" + (mModThumbs.Count + 1).ToString();
 
                 MaterialPtr newMat = templateMat.Clone(name);
@@ -241,7 +233,7 @@ namespace AMOFGameEngine.States
                 bp.HorizontalAlignment=(GuiHorizontalAlignment. GHA_RIGHT);
                 bp.VerticalAlignment=(GuiVerticalAlignment. GVA_CENTER);
                 bp.MaterialName=(name);
-                GameManager.Singleton.mTrayMgr .getTraysLayer().Add2D(bp);
+                GameManager.Singleton.mTrayMgr.getTraysLayer().Add2D(bp);
 
                 mModThumbs.Add(bp);
             }  
@@ -250,25 +242,6 @@ namespace AMOFGameEngine.States
         void ConfigureScreen()
         {
             
-        }
-
-        protected float Clamp(float value, float min, float max)
-        {
-            if (value <= min)
-                return min;
-            else if (value >= max)
-                return max;
-
-            return value;
-        }
-        protected int Clamp(int value, int min, int max)
-        {
-            if (value <= min)
-                return min;
-            else if (value >= max)
-                return max;
-
-            return value;
         }
     }
 }

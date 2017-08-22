@@ -58,7 +58,7 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mTrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
             GameManager.Singleton.mTrayMgr.showCursor();
 
-            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", e != null ? LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, e.ModName) : LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "MenuState"), 400);
+            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", e != null ? LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, e.BasicInfo.Name) : LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "MenuState"), 400);
 
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "SinglePlayer", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Single Player"), 250);
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "LoadGame", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Load Game"), 250);

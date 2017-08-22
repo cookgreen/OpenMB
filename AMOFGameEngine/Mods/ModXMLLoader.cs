@@ -11,23 +11,23 @@ namespace AMOFGameEngine.Mods
     public class ModXMLLoader
     {
         private string modPath;
-        public ModXML ModXMLData;
 
         public ModXMLLoader(string path)
         {
             modPath = path;
         }
 
-        public bool Load()
+        public bool Load<T>(out T ModXMLData)
         {
             try
             {
-                XmlSerializer xr = new XmlSerializer(typeof(ModXML));
-                ModXMLData = xr.Deserialize(new FileStream(modPath, FileMode.Open, FileAccess.Read)) as ModXML;
+                System.Xml.Serialization.XmlSerializer xr = new System.Xml.Serialization.XmlSerializer(typeof(T));
+                ModXMLData = (T)xr.Deserialize(new FileStream(modPath, FileMode.Open, FileAccess.Read));
                 return true;
             }
             catch
             {
+                ModXMLData = default(T);
                 return false;
             }
         }

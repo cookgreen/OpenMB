@@ -7,17 +7,19 @@ namespace AMOFGameEngine.Mods
 {
     public class ModDataInfo
     {
-        public readonly string Character;
+        public readonly string Characters;
         public readonly string Sound;
         public readonly string Music;
-        public readonly string Item;
+        public readonly string Items;
+        public readonly string Sides;
 
-        public ModDataInfo(string character,string sound,string music,string item)
+        public ModDataInfo(string characters,string sound,string music,string items,string sides)
         {
-            Character = character;
+            Characters = characters;
             Sound = sound;
             Music = music;
-            Item = item;
+            Items = items;
+            Sides = sides;
         }
     }
 }

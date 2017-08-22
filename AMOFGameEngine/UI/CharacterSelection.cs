@@ -31,7 +31,6 @@ namespace AMOFGameEngine.UI
         public override void enter()
         {
             BuildUI();
-            BuildCharacters();
         }
 
         public override void close()
@@ -47,16 +46,6 @@ namespace AMOFGameEngine.UI
             trayMgr.createButton(TrayLocation.TL_RIGHT | TrayLocation.TL_CENTER, "PrevCharacter", "Prev", 200);
             trayMgr.createButton(TrayLocation.TL_BOTTOMLEFT, "Exit", "Exit", 200);
             trayMgr.createButton(TrayLocation.TL_BOTTOMRIGHT, "Finish", "Finish", 200);
-        }
-
-        void BuildCharacters()
-        {
-            if (characters != null && characters.Count > 0)
-            {
-                //Show the first character
-                characters[0].Create();
-                currentCharacter = characters[0];
-            }
         }
 
         public override void update(double timeSinceLastFrame)

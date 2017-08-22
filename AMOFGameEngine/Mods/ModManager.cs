@@ -38,7 +38,7 @@ namespace AMOFGameEngine.Mods
             InstalledMods = new Dictionary<string, ModManifest>();
             currentMod = null;
             modConfigData = new List<OgreConfigNode>();
-            ofa = new OgreConfigFileAdapter("Mod.cfg");
+            ofa = new OgreConfigFileAdapter("Mods.cfg");
         }
 
         string GetModInstallRootDir()
@@ -50,20 +50,56 @@ namespace AMOFGameEngine.Mods
 
         public Mods GetInstalledMods()
         {
+            GetModInstallRootDir();
+
             DirectoryInfo d = new DirectoryInfo(modInstallRootDir);
 
             FileSystemInfo[] modDirs = d.GetFileSystemInfos();
 
             foreach (var dir in modDirs)
             {
-                if (File.Exists(string.Format("{0}/module.xml", dir.FullName)))
+                if (File.Exists(string.Format("{0}/Module.xml", dir.FullName)))
                 {
                     ModManifest manifest = new ModManifest(dir.FullName);
-                    InstalledMods.Add(dir.Name, manifest);
+                    InstalledMods.Add(manifest.MetaData.Name, manifest);
                 }
             }
 
             return InstalledMods;
+        }
+
+        public ModData LoadMod(string name)
+        {
+            ModData data = null;
+            try
+            {
+                if (InstalledMods == null || InstalledMods.Count <= 0)
+                {
+                    return data;
+                }
+                data = new ModData();
+                ModManifest manifest = InstalledMods.Where(o => o.Key == name).SingleOrDefault().Value;
+
+                data.BasicInfo = manifest.MetaData;
+                ModXMLLoader loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Characters);
+                XML.ModCharactersDfnXML characterDfn;
+                loader.Load<XML.ModCharactersDfnXML>(out characterDfn);
+                data.CharacterInfos = characterDfn.CharacterDfns;
+                loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Items);
+                XML.ModItemsDfnXML itemDfn;
+                loader.Load<XML.ModItemsDfnXML>(out itemDfn);
+                data.ItemInfos = itemDfn.Items;
+                loader=new ModXMLLoader(manifest.InstalledPath+"/"+manifest.Data.Sides);
+                XML.ModSidesDfnXML sideDfn;
+                loader.Load<XML.ModSidesDfnXML>(out sideDfn);
+                data.SideInfos = sideDfn.Sides;
+
+                return data;
+            }
+            catch
+            {
+                return data;
+            }
         }
     }
 }

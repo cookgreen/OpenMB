@@ -50,14 +50,7 @@ namespace AMOFGameEngine.States
             camMan.setStyle(CameraStyle.CS_MANUAL);
             
             characterMgr = new CharacterManager(m_Camera, GameManager.Singleton.mKeyboard, GameManager.Singleton.mMouse);
-            characterMgr.SetSpawnPosition(new Mogre.Vector3(0, 0, 10));
-            characterMgr.SpawnCharacter("bot1", "Sinbad.mesh");
-            characterMgr.SetSpawnPosition(new Mogre.Vector3(0, 0, 20));
-            characterMgr.SpawnCharacter("bot2", "Sinbad.mesh");
-            characterMgr.SetSpawnPosition(new Mogre.Vector3(0, 0, 30));
-            characterMgr.SpawnCharacter("bot3", "Sinbad.mesh");
-            characterMgr.SetSpawnPosition(new Mogre.Vector3(10, 0, 0));
-            characterMgr.SpawnPlayer("player", "Sinbad.mesh");
+            characterMgr.Init(data.CharacterInfos);
 
             player = characterMgr.GetPlayer();
 

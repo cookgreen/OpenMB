@@ -13,24 +13,29 @@ namespace AMOFGameEngine.Mods
         public readonly string[] Media;
         public readonly string[] Scripts;
         public readonly string[] Maps;
+        public readonly string InstalledPath;
 
         public ModManifest(string path)
         {
+            InstalledPath = path;
+            path = path + "/Module.xml";
             ModXMLLoader loader = new ModXMLLoader(path);
-            if (loader.Load())
+            XML.ModXML xmldata;
+            if (loader.Load<XML.ModXML>(out xmldata))
             {
-                MetaData = new ModBaseInfo(loader.ModXMLData.ModInfo.Name,
-                                           loader.ModXMLData.ModInfo.Description,
-                                           loader.ModXMLData.ModInfo.Version,
-                                           loader.ModXMLData.ModInfo.Thumb);
-                AssemblyName = loader.ModXMLData.Assembly;
-                Data = new ModDataInfo(loader.ModXMLData.Data.characterXML,
-                                        loader.ModXMLData.Data.soundXML,
-                                        loader.ModXMLData.Data.musicXML,
-                                        loader.ModXMLData.Data.itemXML);
-                Media = loader.ModXMLData.Media.ToArray();
-                Scripts = loader.ModXMLData.Scripts.ToArray();
-                Maps = loader.ModXMLData.Maps.ToArray();
+                MetaData = new ModBaseInfo(xmldata.ModInfo.Name,
+                                           xmldata.ModInfo.Description,
+                                           xmldata.ModInfo.Version,
+                                           xmldata.ModInfo.Thumb);
+                AssemblyName = xmldata.Assembly;
+                Data = new ModDataInfo(xmldata.Data.characterXML,
+                                        xmldata.Data.soundXML,
+                                        xmldata.Data.musicXML,
+                                        xmldata.Data.itemXML,
+                                        xmldata.Data.sideXML);
+                Media = xmldata.Media.ToArray();
+                Scripts = xmldata.Scripts.ToArray();
+                Maps = xmldata.Maps.ToArray();
             }
         }
     }

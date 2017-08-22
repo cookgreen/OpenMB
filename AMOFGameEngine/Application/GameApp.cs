@@ -53,7 +53,7 @@ namespace AMOFGameEngine
             GameState.create<GameState>("SinglePlayer");
             ServerState.create<ServerState>("Multiplayer");
 
-            AppStateManager.Singleton.start(AppStateManager.Singleton.findByName("MainMenu"));
+            AppStateManager.Singleton.start(AppStateManager.Singleton.findByName("ModChooser"));
             return state;
         }
     }

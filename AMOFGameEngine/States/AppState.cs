@@ -49,7 +49,7 @@ namespace AMOFGameEngine.States
         public AppState(){}
 
         protected AppState findByName(String stateName) { return m_pParent.findByName(stateName); }
-        protected void changeAppState(AppState state,ModData e=null) { m_pParent.changeAppState(state); }
+        protected void changeAppState(AppState state,ModData e=null) { m_pParent.changeAppState(state,e); }
         protected bool pushAppState(AppState state) { return m_pParent.pushAppState(state); }
         protected void popAppState() { m_pParent.popAppState(); }
         protected void shutdown() { m_pParent.shutdown(); }

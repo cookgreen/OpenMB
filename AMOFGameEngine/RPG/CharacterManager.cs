@@ -17,6 +17,7 @@ namespace AMOFGameEngine.RPG
         private Mouse mouse;
         private List<Character> characherLst;
         private Mogre.Vector3 spawnPosition;
+        private List<Mods.XML.ModCharacterDfnXML> characterDfns;
 
         public CharacterManager(Camera cam,Keyboard keyboard,Mouse mouse)
         {
@@ -27,6 +28,11 @@ namespace AMOFGameEngine.RPG
             characters = new List<Character>();
             characherLst = new List<Character>();
             Root.Singleton.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
+        }
+
+        public void Init(List<Mods.XML.ModCharacterDfnXML> characterDfns)
+        {
+            this.characterDfns = characterDfns;
         }
 
         bool FrameStarted(FrameEvent evt)
@@ -69,24 +75,24 @@ namespace AMOFGameEngine.RPG
             this.spawnPosition = position;
         }
 
-        public void SpawnCharacter(string characterName, string charaMeshName)
+        public void SpawnCharacter(string charaID)
         {
+            Mods.XML.ModCharacterDfnXML charaDfn = characterDfns.Where(o => o.ID == charaID).FirstOrDefault();
+
             Character character = new Character(this.cam, this.keyboard, this.mouse);
-            character.CharaName=characterName;
-            character.CharaMeshName=charaMeshName;
             character.InitPos = spawnPosition;
-            character.Create();
+            character.Create(charaDfn);
             characherLst.Add(character);
             GameManager.Singleton.AllGameObjects.Add(character);
         }
 
-        public void SpawnPlayer(string playerName, string playerMeshName)
+        public void SpawnPlayer(string charaID)
         {
+            Mods.XML.ModCharacterDfnXML charaDfn = characterDfns.Where(o => o.ID == charaID).FirstOrDefault();
+
             Player character = new Player(this.cam, this.keyboard, this.mouse);
-            character.CharaName = playerName;
-            character.CharaMeshName = playerMeshName;
             character.InitPos = spawnPosition;
-            character.Create();
+            character.Create(charaDfn);
             characherLst.Add(character);
             GameManager.Singleton.AllGameObjects.Add(character);
         }

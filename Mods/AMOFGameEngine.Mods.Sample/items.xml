@@ -1,6 +1,20 @@
 <Items>
   <Item>
+    <ID>item_sword</ID>
     <Name>Sword</Name>
-    <Mesh>Sword</Mesh>
+    <MeshName>Sword.mesh</MeshName>
+    <Type>IT_ONE_HAND_WEAPON</Type>
+  </Item>
+  <Item>
+    <ID>item_bow</ID>
+    <Name>Bow</Name>
+    <MeshName>Sword.mesh</MeshName>
+    <Type>IT_BOW</Type>
+  </Item>
+  <Item>
+    <ID>item_two_hand_sword</ID>
+    <Name>Two Hand Sword</Name>
+    <MeshName>Sword.mesh</MeshName>
+    <Type>IT_TWO_HAND_WEAPON</Type>
   </Item>
 </Items>

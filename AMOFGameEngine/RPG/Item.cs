@@ -14,11 +14,19 @@ namespace AMOFGameEngine.RPG
         IT_INVALID,//default value
         IT_GOOD,
         IT_BOOK,
-        IT_WEAPON,
         IT_BODYAMOUR,
         IT_HEADAMOUR,
         IT_LEGAMOUR,
-        IT_HANDAMOUR
+        IT_HANDAMOUR,
+        IT_ONE_HAND_WEAPON,
+        IT_TWO_HAND_WEAPON,
+        IT_PLOEARM,
+        IT_CROSSBOW,
+        IT_BOW,
+        IT_PISTOL,
+        IT_RIFLE,
+        IT_ARROW,
+        IT_BULLET
     }
 
     public enum ItemAttachOption

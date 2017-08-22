@@ -128,14 +128,20 @@
     <Compile Include="Mods\ModManager.cs" />
     <Compile Include="Mods\ModManifest.cs" />
     <Compile Include="Mods\ModXMLLoader.cs" />
+    <Compile Include="Mods\XML\ModCharacterDfnXML.cs" />
     <Compile Include="Mods\XML\ModDataXML.cs" />
     <Compile Include="Mods\XML\ModInfoXML.cs" />
+    <Compile Include="Mods\XML\ModItemsDfnXML.cs" />
+    <Compile Include="Mods\XML\ModMapDfnXML.cs" />
+    <Compile Include="Mods\XML\ModMusicDfnXML.cs" />
+    <Compile Include="Mods\XML\ModSideDfnXML.cs" />
     <Compile Include="Mods\XML\ModXML.cs" />
     <Compile Include="Network\GameServer.cs" />
     <Compile Include="Network\Player.cs" />
     <Compile Include="Network\ServerMetaData.cs" />
     <Compile Include="RPG\Character.cs" />
     <Compile Include="RPG\CharacterManager.cs" />
+    <Compile Include="RPG\Side.cs" />
     <Compile Include="RPG\Skill.cs" />
     <Compile Include="RPG\InventoryInfo.cs" />
     <Compile Include="RPG\LevelInfo.cs" />
@@ -145,7 +151,6 @@
     <Compile Include="RPG\RPGObject.cs" />
     <Compile Include="RPG\TeamInfo.cs" />
     <Compile Include="RPG\Vehicle.cs" />
-    <Compile Include="RPG\Weapon.cs" />
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
     <Compile Include="Forms\ConfigFrm.cs">
@@ -175,6 +180,7 @@
     <Compile Include="UI\UIWindow.cs" />
     <Compile Include="UI\UIManager.cs" />
     <Compile Include="Utilities\CollisionTools.cs" />
+    <Compile Include="Utilities\Math.cs" />
     <Compile Include="Utilities\RMogre.cs" />
     <Compile Include="Utilities\OgreConfigFileAdapter.cs" />
     <Compile Include="Localization\LocateUCSFile.cs" />

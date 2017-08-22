@@ -47,9 +47,7 @@ namespace AMOFGameEngine.RPG
         public const float JUMP_ACCEL = 30.0f;       // character jump acceleration in upward units per squared second
         public const float GRAVITY = 90.0f;          // gravity in downward units per squared second
 
-        string charaTypeID;
-        string charaName;
-        string charaMeshName;
+        Mods.XML.ModCharacterDfnXML charaDesc;
         LevelInfo level;
         int hitpoint;
         InventoryInfo inventory;
@@ -97,20 +95,6 @@ namespace AMOFGameEngine.RPG
             get { return level; }
             set { level = value; }
         }
-        public string CharaMeshName
-        {
-            get { return charaMeshName; }
-            set { charaMeshName = value; }
-        }
-        public string CharaName
-        {
-            get { return charaName; }
-            set { charaName = value; }
-        }
-        public string CharaID
-        {
-            get { return charaTypeID; }
-        }
         public Item CurrentWieldItem
         {
             get { return currentWieldItem; }
@@ -137,7 +121,6 @@ namespace AMOFGameEngine.RPG
             this.mouse = mouse;
 
             mSwordsDrawn = false;
-            charaTypeID = string.Empty;
             inventory = new InventoryInfo();
             level = new LevelInfo();
             currentWieldItem = null;
@@ -579,7 +562,7 @@ namespace AMOFGameEngine.RPG
         private void setupBody()
         {
             bodyNode = cam.SceneManager.RootSceneNode.CreateChildSceneNode(Mogre.Vector3.UNIT_Y * 23);
-            bodyEnt = cam.SceneManager.CreateEntity(charaName, charaMeshName);
+            bodyEnt = cam.SceneManager.CreateEntity(charaDesc.Name, charaDesc.MeshName);
             bodyNode.Position = initPos;
             bodyNode.AttachObject(bodyEnt);
 
@@ -631,8 +614,9 @@ namespace AMOFGameEngine.RPG
         }
         #endregion
 
-        public void Create()
+        public void Create(Mods.XML.ModCharacterDfnXML characterDfn)
         {
+            charaDesc = characterDfn;
             setupBody();
             setupAnimations();
             if (controlled)
@@ -657,7 +641,7 @@ namespace AMOFGameEngine.RPG
             {
                 inventory.AddItemToInventory(item);
                 inventory.Weapons[0] = item;
-                if (item != null && item.ItemType == ItemType.IT_WEAPON)
+                if (item != null && item.ItemType == (ItemType.IT_ONE_HAND_WEAPON | ItemType.IT_TWO_HAND_WEAPON|ItemType.IT_PLOEARM|ItemType.IT_PISTOL|ItemType.IT_RIFLE))
                 {
                     string boneName = "";
                     switch (item.ItemAttachDir)

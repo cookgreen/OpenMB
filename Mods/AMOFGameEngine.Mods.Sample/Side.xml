@@ -1,0 +1,16 @@
+<Sides>
+  <Side>
+    <ID>side_1</ID>
+    <Name>Side One</Name>
+    <Relationships>
+      <relationship Side="side_1">-1</relationship>
+    </Relationships>
+  </Side>
+  <Side>
+    <ID>side_2</ID>
+    <Name>Side Two</Name>
+    <Relationships>
+      <relationship Side="side_2">-1</relationship>
+    </Relationships>
+  </Side>
+</Sides>

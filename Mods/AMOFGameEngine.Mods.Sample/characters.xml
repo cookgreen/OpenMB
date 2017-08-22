@@ -1,7 +1,17 @@
-<characters>
-  <character>
-    <ID>ogre_chara_1</ID>
-    <Name>Ogre Warrior</Name>
-    <Mesh>Sinbad</Mesh>
-  </character>
-</characters>
+<Characters>
+  <Character>
+    <ID>chara_archer</ID>
+    <Name>archer</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+  </Character>
+  <Character>
+    <ID>chara_infantry</ID>
+    <Name>Infantry</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+  </Character>
+  <Character>
+    <ID>chara_cavalry</ID>
+    <Name>Cavalry</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+  </Character>
+</Characters>

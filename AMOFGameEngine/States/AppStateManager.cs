@@ -10,12 +10,13 @@ using AMOFGameEngine.Localization;
 
 namespace AMOFGameEngine.States
 {
-    public class AppStateManager : AppStateListener
+    public class AppStateManager : AppStateListener, IDisposable
     {
         protected List<AppState> m_ActiveStateStack = new List<AppState>();
         protected List<state_info> m_States = new List<state_info>();
         protected bool m_bShutdown;
         public event Action OnAppStateManagerStarted;
+        private bool disposed;
 
         public struct state_info
         {
@@ -40,23 +41,6 @@ namespace AMOFGameEngine.States
          public AppStateManager()
          {
              m_bShutdown = false;
-         }
-          ~AppStateManager()
-         {
-             state_info si;
-
-             while (m_ActiveStateStack.Count!=0)
-             {
-                 m_ActiveStateStack.Last().exit();
-                 m_ActiveStateStack.RemoveAt(m_ActiveStateStack.Count()-1);
-             }
-
-             while (m_States.Count!=0)
-             {
-                 si = m_States.Last();
-                 si.state.destroy();
-                 m_States.RemoveAt(m_States.Count()-1);
-             }
          }
 
           public override void manageAppState(String stateName, AppState state)
@@ -198,6 +182,33 @@ namespace AMOFGameEngine.States
          {
              GameManager.Singleton.mTrayMgr.setListener(state);
              GameManager.Singleton.mRenderWnd.ResetStatistics();
+         }
+
+         public void Dispose()
+         {
+             this.Dispose(true);
+             GC.SuppressFinalize(this);
+         }
+
+         protected virtual void Dispose(bool disposing)
+         {
+             if (!this.disposed)
+             {
+                 if (disposing)
+                 {
+                     while (this.m_ActiveStateStack.Count != 0)
+                     {
+                         this.m_ActiveStateStack.Last<AppState>().exit();
+                         this.m_ActiveStateStack.RemoveAt(this.m_ActiveStateStack.Count<AppState>() - 1);
+                     }
+                     while (this.m_States.Count != 0)
+                     {
+                         this.m_States.Last<state_info>().state.destroy();
+                         this.m_States.RemoveAt(this.m_States.Count<state_info>() - 1);
+                     }
+                 }
+                 this.disposed = true;
+             }
          }
     }
 }
