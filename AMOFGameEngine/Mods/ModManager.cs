@@ -101,5 +101,10 @@ namespace AMOFGameEngine.Mods
                 return data;
             }
         }
+
+        public void UnloadAllMods()
+        {
+            InstalledMods.Clear();
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace AMOFGameEngine.States
     {
         bool isQuit;
         SelectMenu ModChooserMenu;
+        Label ModTitle;
         TextBox ModDescBox;
         Slider ModSlider;
         StringVector mModNames;
@@ -60,10 +61,10 @@ namespace AMOFGameEngine.States
             }
 
             GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-            Label ModTitle = GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_LEFT, "ModTitle", "Mod Info");
+            ModTitle = GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_LEFT, "ModTitle", "Mod Info");
             ModDescBox = GameManager.Singleton.mTrayMgr.createTextBox(TrayLocation.TL_LEFT, "ModInfo", "Mod Info", 250, 208);
             ModChooserMenu = GameManager.Singleton.mTrayMgr.createThickSelectMenu(TrayLocation.TL_LEFT, "SelMod", "Select Mod", 250, 10);
-            ModSlider = GameManager.Singleton.mTrayMgr.createThickSlider(TrayLocation.TL_LEFT, "ModSlider", "Slider Samples", 250, 80, 0, 0, 0);
+            ModSlider = GameManager.Singleton.mTrayMgr.createThickSlider(TrayLocation.TL_LEFT, "ModSlider", "Slider Mods", 250, 80, 0, 0, 0);
             ModChooserMenu.setItems(mModNames);
             ModChooserMenu.setCaption("Select Mod");
             if (mModNames.Count>0)
@@ -144,6 +145,7 @@ namespace AMOFGameEngine.States
                 float newIndex = ModChooserMenu.getSelectionIndex() - arg.state.Z.rel / Mogre.Math.Abs((float)arg.state.Z.rel);
                 float finalIndex = AMOFGameEngine.Utilities.Math.Clamp(newIndex, 0.0f, (float)(ModChooserMenu.getNumItems() - 1));
                 ModChooserMenu.selectItem((uint)finalIndex);
+                ModTitle.setCaption(ModChooserMenu.getSelectedItem());
                 selectedModName = ModChooserMenu.getSelectedItem();
             }
 
@@ -218,16 +220,8 @@ namespace AMOFGameEngine.States
                 else 
                     tus.SetTextureName("thumb_error.png");
 
-                BorderPanelOverlayElement bp = null;
-                if (!OverlayManager.Singleton.HasOverlayElement(itr))
-                {
-                    bp = (BorderPanelOverlayElement)
-                        OverlayManager.Singleton.CreateOverlayElementFromTemplate("SdkTrays/Picture", "BorderPanel", (itr));
-                }
-                else
-                {
-                    bp = (BorderPanelOverlayElement)OverlayManager.Singleton.GetOverlayElement(itr);
-                }
+                BorderPanelOverlayElement bp = (BorderPanelOverlayElement)
+                        OverlayManager.Singleton.CreateOverlayElementFromTemplate("SdkTrays/Picture", "BorderPanel", (name));
 
 
                 bp.HorizontalAlignment=(GuiHorizontalAlignment. GHA_RIGHT);

@@ -90,6 +90,7 @@ namespace AMOFGameEngine.States
                 GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
 
             GameManager.Singleton.mTrayMgr.clearAllTrays();
+            ModManager.Singleton.UnloadAllMods();
         }
 
         public bool keyPressed(KeyEvent keyEventRef)
