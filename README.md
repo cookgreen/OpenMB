@@ -8,7 +8,7 @@ A open source RPG game engine based on AdvancedMogreFramework
 * Character Support(doing)
 * Mod Support(doing)
 * Ogg Support(done)  
-* Simple Wrapper for oggsound(done)  
+* Soound System(done)  
 * Locate system(done)  
 * Custom Configuration Dialog(done)  
 * AppState Management(done)  
