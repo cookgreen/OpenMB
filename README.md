@@ -5,18 +5,15 @@
 A open source RPG game engine based on AdvancedMogreFramework
 
 ## Feature:
-* Character Support(doing)
-* Mod Support(doing)
-* Ogg Support(done)  
+* Character AI(doing)
+* Mod System(doing) 
 * Soound System(done)  
 * Locate system(done)  
 * Custom Configuration Dialog(done)  
-* AppState Management(done)  
-* Character Controller(done)  
+* Character System(done)  
 * Network(doing)  
 * Physx(done, beta)  
 * GUI System(done) 
-* AI(doing)  
 
 ## Based on:
 * Mogre(Graphic Render Engine;LGPL)  
