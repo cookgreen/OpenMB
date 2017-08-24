@@ -85,9 +85,11 @@ namespace AMOFGameEngine.States
         { }
         public override void exit()
         {
-            m_SceneMgr.DestroyCamera(m_Camera);
-            if(m_SceneMgr!=null)
+            if (m_SceneMgr != null)
+            {
+                m_SceneMgr.DestroyCamera(m_Camera);
                 GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
+            }
 
             GameManager.Singleton.mTrayMgr.clearAllTrays();
             ModManager.Singleton.UnloadAllMods();

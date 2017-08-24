@@ -50,8 +50,8 @@ namespace AMOFGameEngine
             ModChooser.create<ModChooser>("ModChooser");
             MainMenu.create<MainMenu>("MainMenu");
             Pause.create<Pause>("Pause");
-            GameState.create<GameState>("SinglePlayer");
-            ServerState.create<ServerState>("Multiplayer");
+            SinglePlayer.create<SinglePlayer>("SinglePlayer");
+            Multiplayer.create<Multiplayer>("Multiplayer");
 
             AppStateManager.Singleton.start(AppStateManager.Singleton.findByName("ModChooser"));
             return state;

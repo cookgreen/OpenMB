@@ -11,6 +11,14 @@ namespace AMOFGameEngine.Network
 {
     public class GameServer
     {
+        public enum ServerError
+        {
+            ERR_SAME_USERNAME,
+            ERR_CONNECTION_LOST,
+            ERR_KICKED_BY_SERVER,
+            ERR_BANNED_BY_SERVER
+        }
+
         bool isStarted;
         private ServerMetaData metaData;
         private Dictionary<int, Player> players;
@@ -91,6 +99,16 @@ namespace AMOFGameEngine.Network
 
                 return true;
             }
+        }
+
+        public void KickPlayer(int playerId)
+        {
+            Player targetPlayer = players.Where(o => o.Key == playerId).FirstOrDefault().Value;
+            if (targetPlayer == null)
+            {
+                return;
+            }
+            targetPlayer.Client.Close();
         }
 
         public void Update()

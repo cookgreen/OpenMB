@@ -9,7 +9,7 @@ using AMOFGameEngine.Maps;
 
 namespace AMOFGameEngine.States
 {
-    public class GameState : AppState
+    public class SinglePlayer : AppState
     {
         private CharacterManager characterMgr;
         private CollisionTools collisionMgr;
@@ -18,7 +18,7 @@ namespace AMOFGameEngine.States
         private SdkCameraMan camMan;
 
 
-        public GameState()
+        public SinglePlayer()
         {
             mapMngr = new MapManager();
         }

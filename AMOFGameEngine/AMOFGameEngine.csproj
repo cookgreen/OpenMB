@@ -136,6 +136,7 @@
     <Compile Include="Mods\XML\ModMusicDfnXML.cs" />
     <Compile Include="Mods\XML\ModSideDfnXML.cs" />
     <Compile Include="Mods\XML\ModXML.cs" />
+    <Compile Include="Network\GameClient.cs" />
     <Compile Include="Network\GameServer.cs" />
     <Compile Include="Network\Player.cs" />
     <Compile Include="Network\ServerMetaData.cs" />
@@ -160,8 +161,8 @@
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </Compile>
     <Compile Include="Localization\LocateSystem.cs" />
-    <Compile Include="States\GameState.cs" />
-    <Compile Include="States\ServerState.cs" />
+    <Compile Include="States\SinglePlayer.cs" />
+    <Compile Include="States\Multiplayer.cs" />
     <Compile Include="Core\GameManager.cs" />
     <Compile Include="Mods\ModData.cs" />
     <Compile Include="RPG\Item.cs" />

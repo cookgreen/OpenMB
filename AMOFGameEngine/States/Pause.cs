@@ -11,7 +11,7 @@ using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine.States
 {
-    class Pause : AppState
+    public class Pause : AppState
     {
         public Pause()
         {
@@ -56,11 +56,11 @@ namespace AMOFGameEngine.States
         { }
         public override void exit()
         {
-            GameManager.Singleton.mLog.LogMessage("Leaving PauseState...");
-
-            m_SceneMgr.DestroyCamera(m_Camera);
             if (m_SceneMgr != null)
+            {
+                m_SceneMgr.DestroyCamera(m_Camera);
                 GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
+            }
 
             GameManager.Singleton.mTrayMgr.clearAllTrays();
             GameManager.Singleton.mTrayMgr.setListener(null);

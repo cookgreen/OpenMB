@@ -8,7 +8,7 @@ using AMOFGameEngine.Widgets;
 
 namespace AMOFGameEngine.States
 {
-    public class ServerState : AppState
+    public class Multiplayer : AppState
     {
         private delegate bool ServerStartDelegate();
         private InputBox ibServerName;
@@ -21,7 +21,7 @@ namespace AMOFGameEngine.States
         private StringVector serverState;
         private ParamsPanel serverpanel;
         private bool isEscapeMenuOpened;
-        public ServerState()
+        public Multiplayer()
         {
             mapMnger = new MapManager();
             option = new Dictionary<string, string>();
@@ -103,6 +103,7 @@ namespace AMOFGameEngine.States
             this.isEscapeMenuOpened = true;
         }
 
+        //build a dummy scene...
         private unsafe void BuildGameSccene()
         {
             m_SceneMgr.SetSkyBox(true, "Examples/SpaceSkyBox");
