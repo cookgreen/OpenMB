@@ -4,6 +4,7 @@
     <Description>Sample mod for AMOFGameEngine</Description>
     <Version>1.0</Version>
     <Thumb>Thumb.png</Thumb>
+    <Movie>Background.avi</Movie>
   </Info>
   <Assembly>AMOFGameEngine.Mods.Sample</Assembly>
   <Data>

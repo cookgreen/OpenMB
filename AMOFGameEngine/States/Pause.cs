@@ -22,7 +22,6 @@ namespace AMOFGameEngine.States
 
         public override void enter(ModData e = null)
         {
-            GameManager.Singleton.mLog.LogMessage("Entering PauseState...");
             m_bQuit = false;
 
             m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(SceneType.ST_GENERIC, "PauseSceneMgr");

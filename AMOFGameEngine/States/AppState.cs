@@ -30,6 +30,7 @@ namespace AMOFGameEngine.States
         protected Camera m_Camera;
         protected SceneManager m_SceneMgr;
         protected FrameEvent m_FrameEvent;
+        protected ModData m_Data;
         public static void create<T>( String name) where T : AppState, new()
         {
             T myAppState=new T();				

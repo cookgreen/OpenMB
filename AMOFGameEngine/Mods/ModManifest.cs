@@ -23,10 +23,12 @@ namespace AMOFGameEngine.Mods
             XML.ModXML xmldata;
             if (loader.Load<XML.ModXML>(out xmldata))
             {
-                MetaData = new ModBaseInfo(xmldata.ModInfo.Name,
+                MetaData = new ModBaseInfo(InstalledPath,
+                                           xmldata.ModInfo.Name,
                                            xmldata.ModInfo.Description,
                                            xmldata.ModInfo.Version,
-                                           xmldata.ModInfo.Thumb);
+                                           xmldata.ModInfo.Thumb,
+                                           xmldata.ModInfo.Movie);
                 AssemblyName = xmldata.Assembly;
                 Data = new ModDataInfo(xmldata.Data.characterXML,
                                         xmldata.Data.soundXML,

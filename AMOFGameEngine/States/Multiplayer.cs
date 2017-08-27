@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Maps;
+using AMOFGameEngine.Mods;
 using AMOFGameEngine.Network;
 using AMOFGameEngine.Widgets;
 
@@ -21,6 +22,7 @@ namespace AMOFGameEngine.States
         private StringVector serverState;
         private ParamsPanel serverpanel;
         private bool isEscapeMenuOpened;
+
         public Multiplayer()
         {
             mapMnger = new MapManager();
@@ -30,6 +32,7 @@ namespace AMOFGameEngine.States
 
         public override void enter(Mods.ModData e = null)
         {
+            m_Data = e;
             m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
             ColourValue cvAmbineLight = new ColourValue(0.7f, 0.7f, 0.7f);
             m_SceneMgr.AmbientLight = cvAmbineLight;
@@ -225,7 +228,7 @@ namespace AMOFGameEngine.States
             }
             else if (button.getName() == "btnBack")
             {
-                changeAppState(findByName("MainMenu"));
+                changeAppState(findByName("MainMenu"), m_Data);
             }
         }
 
@@ -258,6 +261,7 @@ namespace AMOFGameEngine.States
                 m_SceneMgr.DestroyCamera(m_Camera);
                 GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
             }
+            thisServer.Exit();
         }
 
         public override void checkBoxToggled(CheckBox box)

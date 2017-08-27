@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.IO;
 using Mogre;
 using MOIS;
 using Mogre_Procedural.MogreBites;
@@ -9,6 +11,7 @@ using AMOFGameEngine.Localization;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.Utilities;
 using AMOFGameEngine.Mods;
+using AMOFGameEngine.Video;
 
 namespace AMOFGameEngine.States
 {
@@ -16,39 +19,32 @@ namespace AMOFGameEngine.States
     {
         protected bool m_bQuit;
         private SelectMenu renderMenu;
+        private VideoTexture videotex;
         public MainMenu()
         {
             m_bQuit         = false;
             m_FrameEvent    = new FrameEvent();
+            videotex = null;
         }
         public override void enter(ModData e=null)
         {
-            //if (e != null)
-            //{
-            //    modIndex = e.modIndex;
-            //}
-
+            m_Data = e;
             m_bQuit = false;
 
-            SoundManager.Singleton .PlaySoundByType(SoundType.MainMenu);
+            SoundManager.Singleton.PlaySoundByType(SoundType.MainMenu);
 
             m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
-
-            //GameManager.Singleton.console.InitConsole(ref GameManager.Singleton.mRoot);
-
-            ColourValue cvAmbineLight=new ColourValue(0.7f,0.7f,0.7f);
-            m_SceneMgr.AmbientLight=cvAmbineLight;
+            m_SceneMgr.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f); ;
  
             m_Camera = m_SceneMgr.CreateCamera("MenuCam");
-            m_Camera.SetPosition(0,25,-50);
-            Mogre.Vector3 vectorCameraLookat=new Mogre.Vector3(0,0,0);
-            m_Camera.LookAt(vectorCameraLookat);
-            m_Camera.NearClipDistance=1;//setNearClipDistance(1);
+            m_Camera.FarClipDistance = 5000;
+            m_Camera.NearClipDistance = 10;
+            m_Camera.SetPosition(320,240,500);
+            m_Camera.LookAt(new Mogre.Vector3(320, 240, 0));
 
             GameManager.Singleton.mRenderWnd.RemoveAllViewports();
             GameManager.Singleton.mViewport = GameManager.Singleton.mRenderWnd.AddViewport(null);
             GameManager.Singleton.mViewport.BackgroundColour = new ColourValue(0.5f, 0.5f, 0.5f);
-
             GameManager.Singleton.mViewport.Camera = m_Camera;
 
             m_Camera.AspectRatio=GameManager.Singleton.mViewport.ActualWidth / GameManager.Singleton.mViewport.ActualHeight;
@@ -72,6 +68,9 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
             GameManager.Singleton.mKeyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
             GameManager.Singleton.mKeyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
+
+            videotex = new VideoTexture(m_SceneMgr, 640, 480, Path.Combine(m_Data.BasicInfo.InstallPath, m_Data.BasicInfo.Movie));
+
             createScene();
         }
 
@@ -132,19 +131,20 @@ namespace AMOFGameEngine.States
         {
             if (button.getName() == "Quit")
             {
+                videotex.Dispose();
                 m_bQuit = true;
             }
             else if (button.getName() == "LoadGame")
             {
-                changeAppState(findByName("GameState"));
+                changeAppState(findByName("SinglePlayer"));
             }
             else if (button.getName() == "MultiPlayer")
             {
-                changeAppState(findByName("Multiplayer"));
+                changeAppState(findByName("Multiplayer"), m_Data);
             }
             else if (button.getName() == "SinglePlayer")
             {
-                changeAppState(findByName("SinglePlayer"));
+                changeAppState(findByName("SinglePlayer"),m_Data);
             }
             else if (button.getName() == "ModChooser")
             {
@@ -243,10 +243,24 @@ namespace AMOFGameEngine.States
             }
         }
 
-        public override void update(double timeSinceLastFrame)
+        public override unsafe void update(double timeSinceLastFrame)
         {
             m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
             GameManager.Singleton.mTrayMgr.frameRenderingQueued(m_FrameEvent);
+
+            System.Drawing.Bitmap bitmap = videotex.Stream.GetBitmap(videotex.FrameNum);
+            MemoryStream ms = new MemoryStream();
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+            byte[] bitmapBuffer = new byte[ms.Length];
+            ms.Seek(0, SeekOrigin.Begin);
+            ms.Read(bitmapBuffer, 0, bitmapBuffer.Length);
+            ms.Close();
+
+            videotex.PixelBuffer.Lock(HardwareBuffer.LockOptions.HBL_DISCARD);
+            Marshal.Copy(bitmapBuffer, 0, videotex.PixelBuffer.CurrentLock.data, bitmapBuffer.Length);
+            videotex.PixelBuffer.Unlock();
+
+            videotex.FrameNum++;
 
             if(m_bQuit == true)
             {

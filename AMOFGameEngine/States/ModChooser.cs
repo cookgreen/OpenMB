@@ -19,6 +19,7 @@ namespace AMOFGameEngine.States
         TextBox ModDescBox;
         Slider ModSlider;
         StringVector mModNames;
+        StringVector mModDescs;
         StringVector mModThumb;
         Mods mMods;
         List<OverlayContainer> mModThumbs;
@@ -31,6 +32,7 @@ namespace AMOFGameEngine.States
 
             mModNames = new StringVector();
             mModThumb = new StringVector();
+            mModDescs = new StringVector();
             mModThumbs = new List<OverlayContainer>();
         }
 
@@ -57,6 +59,7 @@ namespace AMOFGameEngine.States
             foreach (var mod in mMods)
             {
                 mModNames.Add(mod.Key);
+                mModDescs.Add(mod.Value.MetaData.Description);
                 mModThumb.Add(mod.Value.MetaData.Thumb);
             }
 
@@ -146,6 +149,7 @@ namespace AMOFGameEngine.States
                 float finalIndex = AMOFGameEngine.Utilities.Math.Clamp(newIndex, 0.0f, (float)(ModChooserMenu.getNumItems() - 1));
                 ModChooserMenu.selectItem((uint)finalIndex);
                 ModTitle.setCaption(ModChooserMenu.getSelectedItem());
+                ModDescBox.setText(mModDescs[mModNames.ToList().IndexOf(ModChooserMenu.getSelectedItem())]);
                 selectedModName = ModChooserMenu.getSelectedItem();
             }
 
@@ -189,8 +193,8 @@ namespace AMOFGameEngine.States
         {
             if (button.getName() == "Play")
             {
-                ModData data = ModManager.Singleton.LoadMod(selectedModName);
-                changeAppState(findByName("MainMenu"), data);
+                m_Data = ModManager.Singleton.LoadMod(selectedModName);
+                changeAppState(findByName("MainMenu"), m_Data);
             }
             else if (button.getName() == "Configure")
             {

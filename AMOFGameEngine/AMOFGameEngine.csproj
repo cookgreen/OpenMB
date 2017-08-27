@@ -84,6 +84,9 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AviFile">
+      <HintPath>..\Dependencies\AviFile.dll</HintPath>
+    </Reference>
     <Reference Include="Mogre">
       <HintPath>..\Dependencies\Mogre.dll</HintPath>
     </Reference>
@@ -188,6 +191,7 @@
     <Compile Include="Utilities\OgreConfigNode.cs" />
     <Compile Include="States\Pause.cs" />
     <Compile Include="UI\CharacterSelection.cs" />
+    <Compile Include="Video\VideoTexture.cs" />
     <Compile Include="Widgets\GameTrayHelper.cs" />
     <Compile Include="Widgets\InputBox.cs" />
     <Compile Include="Widgets\GameTrayManager.cs" />

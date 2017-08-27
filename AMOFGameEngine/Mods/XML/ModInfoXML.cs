@@ -16,5 +16,7 @@ namespace AMOFGameEngine.Mods.XML
         public string Version { get; set; }
         [XmlElement("Thumb")]
         public string Thumb { get; set; }
+        [XmlElement("Movie")]
+        public string Movie { get; set; }
     }
 }
