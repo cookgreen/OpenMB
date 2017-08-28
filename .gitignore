@@ -1,6 +1,5 @@
 *.pdb
 *.exe
-*.dll
 *.manifest
 *.log
 *.suo
