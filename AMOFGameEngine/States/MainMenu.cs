@@ -92,6 +92,7 @@ namespace AMOFGameEngine.States
 
             GameManager.Singleton.mTrayMgr.clearAllTrays();
             ModManager.Singleton.UnloadAllMods();
+            videotex.Dispose();
         }
 
         public bool keyPressed(KeyEvent keyEventRef)
@@ -243,29 +244,40 @@ namespace AMOFGameEngine.States
             }
         }
 
-        public override unsafe void update(double timeSinceLastFrame)
+        public override void update(double timeSinceLastFrame)
         {
-            m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
-            GameManager.Singleton.mTrayMgr.frameRenderingQueued(m_FrameEvent);
-
-            System.Drawing.Bitmap bitmap = videotex.Stream.GetBitmap(videotex.FrameNum);
-            MemoryStream ms = new MemoryStream();
-            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-            byte[] bitmapBuffer = new byte[ms.Length];
-            ms.Seek(0, SeekOrigin.Begin);
-            ms.Read(bitmapBuffer, 0, bitmapBuffer.Length);
-            ms.Close();
-
-            videotex.PixelBuffer.Lock(HardwareBuffer.LockOptions.HBL_DISCARD);
-            Marshal.Copy(bitmapBuffer, 0, videotex.PixelBuffer.CurrentLock.data, bitmapBuffer.Length);
-            videotex.PixelBuffer.Unlock();
-
-            videotex.FrameNum++;
-
-            if(m_bQuit == true)
+            if (m_bQuit == true)
             {
                 shutdown();
                 return;
+            }
+
+            m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
+            GameManager.Singleton.mTrayMgr.frameRenderingQueued(m_FrameEvent);
+
+            if (videotex.FrameNum >= videotex.Stream.CountFrames)
+            {
+                videotex.FrameNum = 0;
+            }
+            System.Drawing.Bitmap bitmap = videotex.Stream.GetBitmap(videotex.FrameNum);
+            bitmap.Save("./Media/materials/textures/frame.png");
+            try
+            {
+                Image image = new Image();
+                image.Load("frame.png", "General");
+                image.FlipAroundX();
+                videotex.PixelBuffer.BlitFromMemory(image.GetPixelBox());
+                image.Dispose();
+
+                videotex.FrameNum++;
+            }
+            catch (Exception ex)
+            {
+                GameManager.Singleton.mLog.LogMessage("[Engine Warning]: Image Data Exception. Detals:" + ex.ToString());
+            }
+            finally
+            {
+                videotex.FrameNum++;
             }
         }
     }

@@ -16,10 +16,13 @@ namespace AMOFGameEngine.Video
 
         public VideoTexture(SceneManager scm, float width,float height, string aviFileName)
         {
+            AviManager aviMgr = new AviManager(aviFileName, true);
+            Stream = aviMgr.GetVideoStream();
+
             TexturePtr VideoTexture = TextureManager.Singleton.CreateManual(
                 "Video",
                 ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
-                TextureType.TEX_TYPE_2D, 640, 480, 0, PixelFormat.PF_R8G8B8A8, (int)TextureUsage.TU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
+                TextureType.TEX_TYPE_2D, Convert.ToUInt32(Stream.Width), Convert.ToUInt32(Stream.Height), 0, PixelFormat.PF_R8G8B8A8, (int)TextureUsage.TU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
             MaterialPtr VideoMat = MaterialManager.Singleton.Create(
                 "VideoMat", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
             VideoMat.GetTechnique(0).GetPass(0).LightingEnabled = false ;
@@ -59,8 +62,6 @@ namespace AMOFGameEngine.Video
             node.Position = new Vector3(0, 0, 0);
             node.AttachObject(screen);
 
-            AviManager aviMgr = new AviManager(aviFileName, true);
-            Stream = aviMgr.GetVideoStream();
             Stream.GetFrameOpen();
             FrameNum = 0;
         }
