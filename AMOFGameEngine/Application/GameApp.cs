@@ -42,7 +42,7 @@ namespace AMOFGameEngine
                 LogManager.Singleton.LogMessage("[Engine Error]: failed to Initialize the render system!");
                 state = RunState.Error;
             }
-            if (!GameManager.Singleton.InitGame(gameOptions))
+            if (!GameManager.Singleton.InitSubSystem(gameOptions))
             {
                 LogManager.Singleton.LogMessage("[Engine Error]: failed to Initialize the game system!");
                 state = RunState.Error;

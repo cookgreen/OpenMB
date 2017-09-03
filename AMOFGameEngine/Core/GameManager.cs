@@ -163,7 +163,7 @@ namespace AMOFGameEngine
             return true;
         }
 
-        public bool InitGame(Dictionary<string, string> gameOptions)
+        public bool InitSubSystem(Dictionary<string, string> gameOptions)
         {
             //console.InitConsole(ref mRoot);
             console.AddCommand("help", new MogreConsole.CommandDelegate(console_showHelp));
@@ -176,7 +176,7 @@ namespace AMOFGameEngine
             mSoundMgr = new SoundManager();
             if (gameOptions["IsEnableMusic"] == "True")
             {
-                mSoundMgr.Init();
+                mSoundMgr.SystemInit();
             }
 
             mModMgr = new ModManager();
