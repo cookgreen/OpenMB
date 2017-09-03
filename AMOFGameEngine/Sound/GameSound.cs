@@ -13,10 +13,10 @@ namespace AMOFGameEngine.Sound
     }
     public class GameSound : IDisposable
     {
-        string soundID;
-        SoundType st;
-        List<OggSound> sound;
-        int currentIndex;
+        private string soundID;
+        private SoundType st;
+        private List<ISound> sound;
+        private int currentIndex;
         private bool disposed;
 
         public string ID
@@ -24,7 +24,7 @@ namespace AMOFGameEngine.Sound
             get { return soundID; }
             set { soundID = value; }
         }
-        public List<OggSound> Sound
+        public List<ISound> Sound
         {
             get { return sound; }
             set { sound = value; }
@@ -38,7 +38,7 @@ namespace AMOFGameEngine.Sound
         public GameSound()
         {
             st = AMOFGameEngine.Sound.SoundType.Empty;
-            sound = new List<OggSound>();
+            sound = new List<ISound>();
         }
         public void AddSound(OggSound s)
         {

@@ -154,6 +154,7 @@
     <Compile Include="RPG\TeamInfo.cs" />
     <Compile Include="RPG\Vehicle.cs" />
     <Compile Include="Sound\GameSound.cs" />
+    <Compile Include="Sound\ISound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
     <Compile Include="Forms\ConfigFrm.cs">
       <SubType>Form</SubType>

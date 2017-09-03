@@ -2,11 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NAudio;
+using NVorbis;
+using NAudio.Vorbis;
 
 namespace AMOFGameEngine.Sound
 {
+    public enum SoundState
+    {
+        Stopped,
+        Playing,
+        Paused
+    }
     public class SoundManager : IDisposable
     {
+        private NAudio.Wave.WaveOut soundEngine;
         private List<GameSound> soundLst;
         private GameSound currentSound;
         private bool disposed;
@@ -38,17 +48,9 @@ namespace AMOFGameEngine.Sound
 
        
 
-        public void Init()
+        public void SystemInit()
         {
-            GameSound sound1 = new GameSound();
-            sound1.ID = "MainMenu";
-            sound1.AddSound(new OggSound("./Music/vivaldi_winter_allegro.ogg"));
-            sound1.SoundType = SoundType.MainMenu;
-            GameSound sound2 = new GameSound();
-            sound2.ID = "YouReachNewlevel";
-            sound2.AddSound(new OggSound(""));
-
-            soundLst.Add(sound1);
+            soundEngine = new NAudio.Wave.WaveOut();
         }
 
         public void PlaySoundByType(SoundType soundType)
