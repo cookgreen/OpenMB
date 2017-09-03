@@ -46,12 +46,17 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.cmbLanguageSelect = new System.Windows.Forms.ComboBox();
             this.lblLang = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbAMGELogo)).BeginInit();
             this.tbRenderOpt.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.gbRenderOpt.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOK
@@ -173,8 +178,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.chkEnableMusic);
-            this.tabPage2.Controls.Add(this.chkEnableSound);
+            this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -188,7 +192,7 @@
             this.chkEnableMusic.AutoSize = true;
             this.chkEnableMusic.Checked = true;
             this.chkEnableMusic.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkEnableMusic.Location = new System.Drawing.Point(17, 52);
+            this.chkEnableMusic.Location = new System.Drawing.Point(6, 52);
             this.chkEnableMusic.Name = "chkEnableMusic";
             this.chkEnableMusic.Size = new System.Drawing.Size(96, 16);
             this.chkEnableMusic.TabIndex = 1;
@@ -201,7 +205,7 @@
             this.chkEnableSound.AutoSize = true;
             this.chkEnableSound.Checked = true;
             this.chkEnableSound.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkEnableSound.Location = new System.Drawing.Point(17, 20);
+            this.chkEnableSound.Location = new System.Drawing.Point(6, 20);
             this.chkEnableSound.Name = "chkEnableSound";
             this.chkEnableSound.Size = new System.Drawing.Size(96, 16);
             this.chkEnableSound.TabIndex = 0;
@@ -211,8 +215,8 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.cmbLanguageSelect);
-            this.tabPage3.Controls.Add(this.lblLang);
+            this.tabPage3.Controls.Add(this.groupBox3);
+            this.tabPage3.Controls.Add(this.groupBox2);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -227,7 +231,7 @@
             this.cmbLanguageSelect.Items.AddRange(new object[] {
             "English",
             "Simple Chinese"});
-            this.cmbLanguageSelect.Location = new System.Drawing.Point(100, 22);
+            this.cmbLanguageSelect.Location = new System.Drawing.Point(85, 20);
             this.cmbLanguageSelect.Name = "cmbLanguageSelect";
             this.cmbLanguageSelect.Size = new System.Drawing.Size(236, 20);
             this.cmbLanguageSelect.TabIndex = 1;
@@ -236,14 +240,46 @@
             // lblLang
             // 
             this.lblLang.AutoSize = true;
-            this.lblLang.Location = new System.Drawing.Point(21, 25);
+            this.lblLang.Location = new System.Drawing.Point(6, 23);
             this.lblLang.Name = "lblLang";
             this.lblLang.Size = new System.Drawing.Size(59, 12);
             this.lblLang.TabIndex = 0;
             this.lblLang.Text = "Language:";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.chkEnableMusic);
+            this.groupBox1.Controls.Add(this.chkEnableSound);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(442, 199);
+            this.groupBox1.TabIndex = 2;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Music&&Sound";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.cmbLanguageSelect);
+            this.groupBox2.Controls.Add(this.lblLang);
+            this.groupBox2.Location = new System.Drawing.Point(6, 6);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(442, 54);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Localization";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Location = new System.Drawing.Point(6, 66);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(442, 139);
+            this.groupBox3.TabIndex = 3;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Settings";
+            // 
             // ConfigFrm
             // 
+            this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(483, 452);
@@ -251,6 +287,8 @@
             this.Controls.Add(this.pbAMGELogo);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "ConfigFrm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AMOFGameEngine Option";
@@ -261,9 +299,11 @@
             this.tabPage1.PerformLayout();
             this.gbRenderOpt.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -287,5 +327,8 @@
         private System.Windows.Forms.ListBox lstConfig;
         private System.Windows.Forms.CheckBox chkEnableSound;
         private System.Windows.Forms.CheckBox chkEnableMusic;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
