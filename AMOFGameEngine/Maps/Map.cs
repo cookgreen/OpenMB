@@ -2,45 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Helper;
-using Mogre;
 
 namespace AMOFGameEngine.Maps
 {
-    public class Map
+    public abstract class Map
     {
-        DotSceneLoader mapLoader;
-        SceneManager scm;
-        MapManager parent;
-        string mapFileName;
-
-        public Map(string mapFileName, SceneManager scm)
-        {
-            mapLoader = new DotSceneLoader();
-            this.mapFileName = mapFileName;
-            this.scm = scm;
-        }
-
-        public void create(string name, MapManager mapMngr)
-        {
-            parent = mapMngr;
-            parent.AddMap(name, this);
-        }
-
-        public void enter()
-        {
-            mapLoader.ParseDotScene(mapFileName, "General",
-                scm,scm.RootSceneNode);
-        }
-
-        public void exit()
-        {
-
-        }
-
-        public void update(double timeSinceLastFrame)
-        {
-            
-        }
+        /// <summary>
+        /// call when enter a map
+        /// </summary>
+        public virtual void Load() { }
+        /// <summary>
+        /// call when leave a map
+        /// </summary>
+        public virtual void Unload() { }
     }
 }

@@ -90,9 +90,6 @@
     <Reference Include="Mogre">
       <HintPath>..\Dependencies\Mogre.dll</HintPath>
     </Reference>
-    <Reference Include="MogreNewt">
-      <HintPath>..\Dependencies\MogreNewt.dll</HintPath>
-    </Reference>
     <Reference Include="Mogre_Procedural.MogreBites">
       <HintPath>..\Dependencies\Mogre_Procedural.MogreBites.dll</HintPath>
     </Reference>
@@ -125,7 +122,9 @@
     <Compile Include="AI\AStarPathFind.cs" />
     <Compile Include="AI\CharacterFSM.cs" />
     <Compile Include="Console\MogreConsole.cs" />
+    <Compile Include="Maps\BspMap.cs" />
     <Compile Include="Maps\Map.cs" />
+    <Compile Include="Maps\SceneMap.cs" />
     <Compile Include="Maps\MapManager.cs" />
     <Compile Include="Mods\ModDataInfo.cs" />
     <Compile Include="Mods\ModManager.cs" />
@@ -146,7 +145,6 @@
     <Compile Include="RPG\Character.cs" />
     <Compile Include="RPG\CharacterManager.cs" />
     <Compile Include="RPG\Side.cs" />
-    <Compile Include="RPG\Skill.cs" />
     <Compile Include="RPG\InventoryInfo.cs" />
     <Compile Include="RPG\LevelInfo.cs" />
     <Compile Include="RPG\Mountable.cs" />
