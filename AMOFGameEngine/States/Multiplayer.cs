@@ -39,6 +39,7 @@ namespace AMOFGameEngine.States
             m_Camera = m_SceneMgr.CreateCamera("multiplayerCam");
             GameManager.Singleton.mViewport.Camera = m_Camera;
             m_Camera.AspectRatio = GameManager.Singleton.mViewport.ActualWidth / GameManager.Singleton.mViewport.ActualHeight;
+            GameManager.Singleton.mViewport.OverlaysEnabled = true;
 
             GameManager.Singleton.mTrayMgr.destroyAllWidgets();
             GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_CENTER, "lbMultiplayer", "Multiplayer", 150);
@@ -48,11 +49,14 @@ namespace AMOFGameEngine.States
 
             GameManager.Singleton.mKeyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
             GameManager.Singleton.mKeyboard.KeyReleased += new MOIS.KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
-            
+
+            GameListUI();
+
             thisServer = new GameServer();
             thisServer.OnEscapePressed += new Action(Server_OnEscapePressed);
         }
 
+        #region UI
         void HostGameUI()
         {
             GameManager.Singleton.mTrayMgr.destroyAllWidgets();
@@ -64,6 +68,75 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnOK", "OK");
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnCancel", "Cancel");
         }
+
+        private void BuildEscapeMenu()
+        {
+            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "choose_side", "Choose Side", 200f);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "choose_chara", "Choose Character", 200f);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "exit_multiplayer", "Exit", 200f);
+            this.isEscapeMenuOpened = true;
+        }
+
+        private void GameListUI()
+        {
+            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+            List<string> columns = new List<string>();
+            columns.Add("Server Name");
+            columns.Add("Module");
+            columns.Add("Game Type");
+            columns.Add("Map");
+            columns.Add("Players");
+            columns.Add("HasPassword");
+            ListView gameListView = new ListView("GameList", 0.05f, 0.1f, 0.8f, 0.9f, columns);
+            gameListView.AddItem(new List<string>()
+                {
+                    "Server_1",
+                    "Sample",
+                    "Battle",
+                    "RandomDesert",
+                    "0/32",
+                    "No"
+                });
+            gameListView.AddItem(new List<string>()
+                {
+                    "Server_2",
+                    "Sample",
+                    "DeathMatch",
+                    "RandomDesert",
+                    "0/32",
+                    "No"
+                });
+            gameListView.AddItem(new List<string>()
+                {
+                    "Server_3",
+                    "Sample",
+                    "Battle",
+                    "RandomDesert",
+                    "0/32",
+                    "No"
+                });
+            gameListView.AddItem(new List<string>()
+                {
+                    "Server_4",
+                    "Sample",
+                    "Battle",
+                    "RandomDesert",
+                    "0/32",
+                    "No"
+                });
+            gameListView.AddItem(new List<string>()
+                {
+                    "Server_5",
+                    "Sample",
+                    "Battle",
+                    "RandomDesert",
+                    "0/32",
+                    "No"
+                });
+        }
+        #endregion
+
 
         void Server_OnEscapePressed()
         {
@@ -95,15 +168,6 @@ namespace AMOFGameEngine.States
                 }
             }
             return GameManager.Singleton.mTrayMgr.injectKeyPressed(arg);
-        }
-
-        private void BuildEscapeMenu()
-        {
-            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "choose_side", "Choose Side", 200f);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "choose_chara", "Choose Character", 200f);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "exit_multiplayer", "Exit", 200f);
-            this.isEscapeMenuOpened = true;
         }
 
         //build a dummy scene...
@@ -189,10 +253,10 @@ namespace AMOFGameEngine.States
                         blendMap0.ConvertImageToTerrainSpace(x, y, out tx, out ty);
                         float height = t.GetHeightAtTerrainPosition(tx, ty);
                         float val = (height - minHeight0) / fadeDist0;
-                        val = AMOFGameEngine.Utilities.Math.Clamp(val, 0f, 1f);
+                        val = AMOFGameEngine.Utilities.Helper.Clamp(val, 0f, 1f);
                         *pBlend0++ = val;
                         val = (height - minHeight1) / fadeDist1;
-                        val = AMOFGameEngine.Utilities.Math.Clamp(val, 0f, 1f);
+                        val = AMOFGameEngine.Utilities.Helper.Clamp(val, 0f, 1f);
                         *pBlend1++ = val;
                     }
                 }
@@ -207,7 +271,7 @@ namespace AMOFGameEngine.States
         {
             if (button.getName() == "btnJoin")
             {
-
+                GameListUI();
             }
             else if (button.getName() == "btnHost")
             {

@@ -1,0 +1,64 @@
+
+template container BorderPanel(SdkTrays/InputBox)
+{
+	metrics_mode pixels
+	material SdkTrays/MiniTray
+	horz_align center
+	height 56
+	uv_coords 0.375 0.375 0.625 0.625
+	
+	border_material SdkTrays/MiniTray
+	border_size 12 12 12 12
+	border_topleft_uv     0.000 0.000 0.375 0.375
+	border_top_uv         0.375 0.000 0.625 0.375
+	border_topright_uv    0.625 0.000 1.000 0.375
+	border_left_uv        0.000 0.375 0.375 0.625
+	border_right_uv       0.625 0.375 1.000 0.625
+	border_bottomleft_uv  0.000 0.625 0.375 1.000
+	border_bottom_uv      0.375 0.625 0.625 1.000
+	border_bottomright_uv 0.625 0.625 1.000 1.000
+
+	element TextArea(InputBoxCaption)
+	{
+        metrics_mode pixels
+        horz_align center
+        alignment center
+        top 9
+        font_name SdkTrays/Caption
+        char_height 15
+        space_width 7
+        colour 0 0 0
+	}
+	
+	container BorderPanel(InputBoxText)
+	{
+		metrics_mode pixels
+		material SdkTrays/MiniTextBox
+		height 30
+		top 24
+		left 5
+		uv_coords 0.4 0.4 0.6 0.6
+		
+		border_material SdkTrays/MiniTextBox
+		border_size 13 13 13 13
+		border_topleft_uv     0.0 0.0 0.4 0.4
+		border_top_uv         0.4 0.0 0.6 0.4
+		border_topright_uv    0.6 0.0 1.0 0.4
+		border_left_uv        0.0 0.4 0.4 0.6
+		border_right_uv       0.6 0.4 1.0 0.6
+		border_bottomleft_uv  0.0 0.6 0.4 1.0
+		border_bottom_uv      0.4 0.6 0.6 1.0
+		border_bottomright_uv 0.6 0.6 1.0 1.0
+
+		element TextArea(InputBoxSmallText)
+		{
+			metrics_mode pixels
+			left 12
+			top 7
+			font_name SdkTrays/Value
+			char_height 19
+			space_width 8
+			colour 0 0 0
+		}
+	}
+}

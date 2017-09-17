@@ -92,7 +92,7 @@ namespace AMOFGameEngine.States
             selectedModName = ModChooserMenu.getSelectedItem();
             float carouselOffset = ModChooserMenu.getSelectionIndex() - mCarouselPlace;
             if ((carouselOffset <= 0.001) && (carouselOffset >= -0.001)) mCarouselPlace = ModChooserMenu.getSelectionIndex();
-            else mCarouselPlace += carouselOffset * AMOFGameEngine.Utilities.Math.Clamp((float)evt.timeSinceLastFrame * 15.0f, -1.0f, 1.0f);
+            else mCarouselPlace += carouselOffset * AMOFGameEngine.Utilities.Helper.Clamp((float)evt.timeSinceLastFrame * 15.0f, -1.0f, 1.0f);
 
             for (int i = 0; i < mModThumbs.Count; i++)
             {
@@ -146,7 +146,7 @@ namespace AMOFGameEngine.States
             if (arg.state.Z.rel != 0 && ModChooserMenu.getNumItems() != 0)
             {
                 float newIndex = ModChooserMenu.getSelectionIndex() - arg.state.Z.rel / Mogre.Math.Abs((float)arg.state.Z.rel);
-                float finalIndex = AMOFGameEngine.Utilities.Math.Clamp(newIndex, 0.0f, (float)(ModChooserMenu.getNumItems() - 1));
+                float finalIndex = AMOFGameEngine.Utilities.Helper.Clamp(newIndex, 0.0f, (float)(ModChooserMenu.getNumItems() - 1));
                 ModChooserMenu.selectItem((uint)finalIndex);
                 ModTitle.setCaption(ModChooserMenu.getSelectedItem());
                 ModDescBox.setText(mModDescs[mModNames.ToList().IndexOf(ModChooserMenu.getSelectedItem())]);

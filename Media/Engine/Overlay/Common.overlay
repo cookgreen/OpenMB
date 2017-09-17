@@ -1,0 +1,21 @@
+template container Panel(Common/HorizalLine)
+{
+	material AMGE/Engine/BackHorizalLine
+	metrics_mode relative
+	uv_coords 0.375 0.375 0.625 0.625
+	left 0
+	width 0.6
+	height 0.001
+	top 0
+}
+
+template container Panel(Common/VerticalLine)
+{
+	material AMGE/Engine/BackVerticalLine
+	metrics_mode relative
+	uv_coords 0.375 0.375 0.625 0.625
+	left 0
+	width 0.001
+	height 0.6
+	top 0
+}

@@ -183,7 +183,7 @@
     <Compile Include="UI\UIWindow.cs" />
     <Compile Include="UI\UIManager.cs" />
     <Compile Include="Utilities\CollisionTools.cs" />
-    <Compile Include="Utilities\Math.cs" />
+    <Compile Include="Utilities\Helper.cs" />
     <Compile Include="Utilities\RMogre.cs" />
     <Compile Include="Utilities\OgreConfigFileAdapter.cs" />
     <Compile Include="Localization\LocateUCSFile.cs" />
@@ -194,6 +194,7 @@
     <Compile Include="Widgets\GameTrayHelper.cs" />
     <Compile Include="Widgets\InputBox.cs" />
     <Compile Include="Widgets\GameTrayManager.cs" />
+    <Compile Include="Widgets\ListView.cs" />
     <EmbeddedResource Include="Forms\ConfigFrm.resx">
       <DependentUpon>ConfigFrm.cs</DependentUpon>
     </EmbeddedResource>

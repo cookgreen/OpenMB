@@ -1,0 +1,94 @@
+template container BorderPanel(ListView)
+{
+	material SdkTrays/MiniTray
+    metrics_mode relative
+    uv_coords 0.375 0.375 0.625 0.625
+    left 0.1
+    width 0.8
+    top 0.1
+    height 0.8
+    uv_coords 0.4 0.4 0.6 0.6
+    
+    border_material SdkTrays/MiniTextBox
+    border_size 0.008 0.008 0.01 0.01
+    border_topleft_uv     0.0 0.0 0.4 0.4
+    border_top_uv         0.4 0.0 0.6 0.4
+    border_topright_uv    0.6 0.0 1.0 0.4
+    border_left_uv        0.0 0.4 0.4 0.6
+    border_right_uv       0.6 0.4 1.0 0.6
+    border_bottomleft_uv  0.0 0.6 0.4 1.0
+    border_bottom_uv      0.4 0.6 0.6 1.0
+    border_bottomright_uv 0.6 0.6 1.0 1.0
+    
+    container BorderPanel(ListViewScroll)
+    {
+        metrics_mode relative
+        material SdkTrays/ScrollTrack
+        width 0.01
+        horz_align right
+        left -0.018
+        top 0.01
+        height 0.38
+        uv_coords 0.0 0.31 1.0 0.69
+        
+        border_material SdkTrays/ScrollTrack
+        border_size 0 0 0.01 0.01
+        border_top_uv    0.0 0.0 1.0 0.31
+        border_bottom_uv 0.0 0.69 1.0 1.0
+        
+        element Panel(ListViewDrag)
+        {            
+            metrics_mode relative
+            material SdkTrays/Handle
+            horz_align center
+            top 0.01
+            left -0.005
+            width 0.01
+            height 0.02
+        }            
+    }
+}
+
+template container Panel(ListView/Column)
+{
+	material SdkTrays/MiniDarkTray
+    metrics_mode relative
+    height 0.04
+    width 0.12
+    top 0.01
+    left 0.007
+    uv_coords 0.4 0.4 0.6 0.6
+    
+    element TextArea(ListViewColumnCaption)
+    {
+        metrics_mode relative
+        left 0.006
+        top 0.01
+        font_name SdkTrays/Caption
+        char_height 0.02
+        space_width 0.005
+        colour 0, 0, 0
+    }
+}
+
+template container Panel(ListView/ListViewCell)
+{
+	metrics_mode relative
+	material SdkTrays/MiniTray
+    height 0.04
+    width 0.12
+    top 0.01
+    left 0.007
+	uv_coords 0.4 0.4 0.6 0.6
+
+	element TextArea(ListViewCellCaption)
+	{
+        metrics_mode relative
+        left 0.006
+        top 0.01
+        font_name SdkTrays/Value
+        char_height 0.02
+        space_width 0.005
+        colour 0, 0, 0
+	}
+}

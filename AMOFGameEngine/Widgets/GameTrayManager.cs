@@ -23,5 +23,33 @@ namespace AMOFGameEngine.Widgets
             ib._assignListener(mListener);
             return ib;
         }
+
+        public static void nukeOverlayElement(OverlayElement element)
+        {
+            Mogre.OverlayContainer container = element as Mogre.OverlayContainer;
+            if (container != null)
+            {
+                List<Mogre.OverlayElement> toDelete = new List<Mogre.OverlayElement>();
+
+                Mogre.OverlayContainer.ChildIterator children = container.GetChildIterator();
+                while (children.MoveNext())
+                {
+                    toDelete.Add(children.Current);
+                }
+
+                for (int i = 0; i < toDelete.Count; i++)
+                {
+                    nukeOverlayElement(toDelete[i]);
+                }
+            }
+            if (element != null)
+            {
+                Mogre.OverlayContainer parent = element.Parent;
+                if (parent != null)
+                    parent.RemoveChild(element.Name);
+                Mogre.OverlayManager.Singleton.DestroyOverlayElement(element);
+            }
+        }
+
     }
 }

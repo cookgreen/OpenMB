@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AMOFGameEngine.Utilities
 {
-    public class Math
+    public class Helper
     {
         public static float Clamp(float val, float minval, float maxval)
         {
@@ -26,6 +26,20 @@ namespace AMOFGameEngine.Utilities
         public static uint Clamp(uint val, uint minval, uint maxval)
         {
             return System.Math.Max(System.Math.Min(val, maxval), minval);
+        }
+
+        public static uint GetStringHash(string str)
+        {
+            uint seed = 131;
+            uint hash = 0;
+            uint i = 0;
+
+            for (i = 0; i < str.Length; i++)
+            {
+                hash = (hash * seed) + ((byte)str[(int)i]);
+            }
+
+            return hash;
         }
     }
 }

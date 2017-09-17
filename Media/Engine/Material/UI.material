@@ -1,0 +1,27 @@
+material AMGE/Engine/BackHorizalLine
+{
+	technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture blackline_h.jpg
+            }
+        }
+    }
+}
+
+material AMGE/Engine/BackVerticalLine
+{
+	technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture blackline_v.jpg
+            }
+        }
+    }
+}
