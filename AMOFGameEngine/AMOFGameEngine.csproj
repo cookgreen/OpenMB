@@ -178,10 +178,8 @@
     <Compile Include="States\MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\CharacterInfo.cs" />
-    <Compile Include="UI\CharacterInventory.cs" />
-    <Compile Include="UI\UIWindow.cs" />
-    <Compile Include="UI\UIManager.cs" />
+    <Compile Include="UI\GameUI.cs" />
+    <Compile Include="UI\GameUIManager.cs" />
     <Compile Include="Utilities\CollisionTools.cs" />
     <Compile Include="Utilities\Helper.cs" />
     <Compile Include="Utilities\RMogre.cs" />
@@ -189,7 +187,6 @@
     <Compile Include="Localization\LocateUCSFile.cs" />
     <Compile Include="Utilities\OgreConfigNode.cs" />
     <Compile Include="States\Pause.cs" />
-    <Compile Include="UI\CharacterSelection.cs" />
     <Compile Include="Video\VideoTexture.cs" />
     <Compile Include="Widgets\GameTrayHelper.cs" />
     <Compile Include="Widgets\InputBox.cs" />
