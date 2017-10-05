@@ -31,8 +31,6 @@ namespace AMOFGameEngine.States
             m_Data = e;
             m_bQuit = false;
 
-            SoundManager.Singleton.PlaySoundByType(SoundType.MainMenu);
-
             m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
             m_SceneMgr.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f); ;
  
@@ -41,27 +39,13 @@ namespace AMOFGameEngine.States
             m_Camera.NearClipDistance = 10;
             m_Camera.SetPosition(320,240,500);
             m_Camera.LookAt(new Mogre.Vector3(320, 240, 0));
-
             GameManager.Singleton.mRenderWnd.RemoveAllViewports();
             GameManager.Singleton.mViewport = GameManager.Singleton.mRenderWnd.AddViewport(null);
             GameManager.Singleton.mViewport.BackgroundColour = new ColourValue(0.5f, 0.5f, 0.5f);
             GameManager.Singleton.mViewport.Camera = m_Camera;
-
             m_Camera.AspectRatio=GameManager.Singleton.mViewport.ActualWidth / GameManager.Singleton.mViewport.ActualHeight;
 
-            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-            GameManager.Singleton.mTrayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
-            GameManager.Singleton.mTrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
-            GameManager.Singleton.mTrayMgr.showCursor();
-
-            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", e != null ? LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, e.BasicInfo.Name) : LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "MenuState"), 400);
-
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "SinglePlayer", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Single Player"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "LoadGame", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Load Game"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "MultiPlayer", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Multiplayer"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Configure", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Configure"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "ModChooser", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Mods"), 250);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Quit", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Quit"), 250);
+            buildMainMenu(e);
 
             GameManager.Singleton.mMouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
             GameManager.Singleton.mMouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
@@ -69,9 +53,7 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mKeyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
             GameManager.Singleton.mKeyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
 
-            videotex = new VideoTexture(m_SceneMgr, 640, 480, Path.Combine(m_Data.BasicInfo.InstallPath, m_Data.BasicInfo.Movie));
-
-            createScene();
+            VideoTextureManager.Instance.CreateVideoTexture(m_SceneMgr, 640, 480, Path.Combine(m_Data.BasicInfo.InstallPath, m_Data.BasicInfo.Movie));
         }
 
         bool mRoot_FrameStarted(FrameEvent evt)
@@ -80,8 +62,6 @@ namespace AMOFGameEngine.States
 
             return true;
         }
-        public void createScene()
-        { }
         public override void exit()
         {
             if (m_SceneMgr != null)
@@ -89,10 +69,9 @@ namespace AMOFGameEngine.States
                 m_SceneMgr.DestroyCamera(m_Camera);
                 GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
             }
-
+            VideoTextureManager.Instance.DestroyVideoTexture();
             GameManager.Singleton.mTrayMgr.clearAllTrays();
             ModManager.Singleton.UnloadAllMods();
-            videotex.Dispose();
         }
 
         public bool keyPressed(KeyEvent keyEventRef)
@@ -103,12 +82,10 @@ namespace AMOFGameEngine.States
                 return true;
             }
 
-            GameManager.Singleton.keyPressed(keyEventRef);
             return true;
         }
         public bool keyReleased(KeyEvent keyEventRef)
         {
-            GameManager.Singleton.keyReleased(keyEventRef);
             return true;
         }
 
@@ -132,7 +109,6 @@ namespace AMOFGameEngine.States
         {
             if (button.getName() == "Quit")
             {
-                videotex.Dispose();
                 m_bQuit = true;
             }
             else if (button.getName() == "LoadGame")
@@ -157,8 +133,7 @@ namespace AMOFGameEngine.States
             }
             else if (button.getName() == "btnBack")
             {
-                exit();
-                enter();
+                buildMainMenu(m_Data);
             }
             else if (button.getName() == "btnApply")
             {
@@ -173,7 +148,6 @@ namespace AMOFGameEngine.States
             ConfigOptionMap options = GameManager.Singleton.mRoot.GetRenderSystemByName(renderMenu.getSelectedItem()).GetConfigOptions();
             for (uint i = 3; i < GameManager.Singleton.mTrayMgr.getNumWidgets(renderMenu.getTrayLocation());i++ )
             {
-
                 SelectMenu optionMenu = (SelectMenu)GameManager.Singleton.mTrayMgr.getWidget(renderMenu.getTrayLocation(), i);
                 if (optionMenu.getSelectedItem() != options[optionMenu.getCaption()].currentValue)
                     isModified = true;
@@ -254,31 +228,21 @@ namespace AMOFGameEngine.States
 
             m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
             GameManager.Singleton.mTrayMgr.frameRenderingQueued(m_FrameEvent);
+            VideoTextureManager.Instance.Update();
+        }
 
-            if (videotex.FrameNum >= videotex.Stream.CountFrames)
-            {
-                videotex.FrameNum = 0;
-            }
-            System.Drawing.Bitmap bitmap = videotex.Stream.GetBitmap(videotex.FrameNum);
-            bitmap.Save("./Media/materials/textures/frame.png");
-            try
-            {
-                Image image = new Image();
-                image.Load("frame.png", "General");
-                image.FlipAroundX();
-                videotex.PixelBuffer.BlitFromMemory(image.GetPixelBox());
-                image.Dispose();
+        private void buildMainMenu(ModData data)
+        {
+            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+            GameManager.Singleton.mTrayMgr.showCursor();
 
-                videotex.FrameNum++;
-            }
-            catch (Exception ex)
-            {
-                GameManager.Singleton.mLog.LogMessage("[Engine Warning]: Image Data Exception. Detals:" + ex.ToString());
-            }
-            finally
-            {
-                videotex.FrameNum++;
-            }
+            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", data != null ? LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, data.BasicInfo.Name) : LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "MenuState"), 400);
+
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "SinglePlayer", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Single Player"), 200);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "LoadGame", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Load Game"), 200);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "MultiPlayer", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Multiplayer"), 200);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Configure", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Configure"), 200);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "Quit", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Quit"), 200);
         }
     }
 }

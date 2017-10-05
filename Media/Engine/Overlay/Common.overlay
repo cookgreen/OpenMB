@@ -1,4 +1,4 @@
-template container Panel(Common/HorizalLine)
+template container Panel(AMGE/UI/HorizalLine)
 {
 	material AMGE/Engine/BackHorizalLine
 	metrics_mode relative
@@ -9,7 +9,7 @@ template container Panel(Common/HorizalLine)
 	top 0
 }
 
-template container Panel(Common/VerticalLine)
+template container Panel(AMGE/UI/VerticalLine)
 {
 	material AMGE/Engine/BackVerticalLine
 	metrics_mode relative

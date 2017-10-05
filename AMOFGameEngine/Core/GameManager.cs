@@ -44,6 +44,7 @@ namespace AMOFGameEngine
         public MogreConsole console;
 
         public List<RPGObject> AllGameObjects;
+        public Dictionary<string, uint> GameHashMap;
 
         static GameManager singleton;
         public static GameManager Singleton
@@ -57,6 +58,8 @@ namespace AMOFGameEngine
                 return singleton;
             }
         }
+
+        private NameValuePairList videoMode;
 
         public GameManager()
         {
@@ -74,6 +77,8 @@ namespace AMOFGameEngine
             mSoundMgr = null;
             console = new MogreConsole();
             AllGameObjects = new List<RPGObject>();
+            GameHashMap = new Dictionary<string, uint>();
+            videoMode = new NameValuePairList();
          }
 
         public bool InitRender(String wndTitle, List<OgreConfigNode> renderconfigs,Root r)
@@ -91,6 +96,9 @@ namespace AMOFGameEngine
             if (!string.IsNullOrEmpty(defaultRS))
             {
                 rs = mRoot.GetRenderSystemByName(defaultRS);
+                string strVideoMode =  renderconfigs.Where(o => o.Section == defaultRS).FirstOrDefault().Settings["Video Mode"];
+                videoMode["Width"] = strVideoMode.Split('x')[0].Trim();
+                videoMode["Height"] = strVideoMode.Split('x')[1].Trim();
             }
             if (rs != null && renderconfigs != null)
             {
@@ -184,6 +192,11 @@ namespace AMOFGameEngine
             return true;
         }
 
+        private void InitGame()
+        {
+            
+        }
+
         public void UpdateRender(double timeSinceLastFrame)
         {
         }
@@ -203,7 +216,7 @@ namespace AMOFGameEngine
 
         public bool keyPressed(KeyEvent keyEventRef)
         {
-             if(mKeyboard.IsKeyDown(MOIS.KeyCode.KC_V))
+            if(mKeyboard.IsKeyDown(MOIS.KeyCode.KC_V))
             {
                 mRenderWnd.WriteContentsToTimestampedFile("AMOF_Screenshot_", ".jpg");
                 return true;
@@ -226,6 +239,11 @@ namespace AMOFGameEngine
             if (mKeyboard.IsKeyDown(KeyCode.KC_HOME))
             {
                 console.Visible = true;
+            }
+
+            if (mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) && mKeyboard.IsKeyDown(KeyCode.KC_SPACE))
+            {
+                mRenderWnd.SetFullscreen(!mRenderWnd.IsFullScreen, Convert.ToUInt32(videoMode["Width"]), Convert.ToUInt32(videoMode["Height"]));
             }
  
             return true;

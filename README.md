@@ -1,4 +1,4 @@
-# AMOFGameEngine
+# AMGE
 ![Build](https://api.travis-ci.org/cookgreen/AMOFGameEngine.svg?branch=master)
 
 ## Introduction:

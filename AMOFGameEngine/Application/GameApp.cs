@@ -47,6 +47,9 @@ namespace AMOFGameEngine
                 LogManager.Singleton.LogMessage("[Engine Error]: failed to Initialize the game system!");
                 state = RunState.Error;
             }
+
+            GC.Collect();
+
             ModChooser.create<ModChooser>("ModChooser");
             MainMenu.create<MainMenu>("MainMenu");
             Pause.create<Pause>("Pause");
@@ -54,6 +57,7 @@ namespace AMOFGameEngine
             Multiplayer.create<Multiplayer>("Multiplayer");
 
             AppStateManager.Singleton.start(AppStateManager.Singleton.findByName("ModChooser"));
+
             return state;
         }
     }

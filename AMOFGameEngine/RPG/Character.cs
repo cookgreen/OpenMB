@@ -10,9 +10,9 @@ using AMOFGameEngine.Sound;
 
 namespace AMOFGameEngine.RPG
 {
-    public class Character : RPGObject,CharacterFSM
+    public class Character : RPGObject
     {
-        enum State
+        enum AIState
         {
             IDLE,
             Pratol,
@@ -78,12 +78,14 @@ namespace AMOFGameEngine.RPG
         SceneNode mCameraNode;
         float mPivotPitch;
         float mTimer;
-        State currentState;
+        AIState currentState;
 
-        //Mogre.Vector3 position;
+        Mogre.Vector3 charaOrientation;
+        float angle;
+
         public Mogre.Vector3 Direction
         {
-            get { return bodyNode.Orientation * Mogre.Vector3.UNIT_Z; ; }
+            get { return charaOrientation ; }
         }
         public bool Alive
         {
@@ -104,7 +106,6 @@ namespace AMOFGameEngine.RPG
         {
             get { return hitpoint; }
         }
-
         public bool IsPlayer
         {
             get
@@ -112,13 +113,29 @@ namespace AMOFGameEngine.RPG
                 return controlled;
             }
         }
+        public Side SideInfo
+        {
+            get;
+            set;
+        }
+        public Mogre.Vector3 LookAt
+        {
+            get
+            {
+                return bodyEnt.Skeleton.GetBone("head").Orientation * Mogre.Vector3.UNIT_Z;
+            }
+        }
 
-        public Character(Camera cam, Keyboard keyboard, Mouse mouse, bool controlled = false)
+
+        public Character(string characterUniqueId,Camera cam, Keyboard keyboard, Mouse mouse, bool controlled = false)
         {
             this.cam = cam;
             this.controlled = controlled;
             this.keyboard = keyboard;
             this.mouse = mouse;
+            uniqueId = Utilities.Helper.GetStringHash(characterUniqueId);
+
+            GameManager.Singleton.GameHashMap.Add(characterUniqueId, uniqueId);
 
             mSwordsDrawn = false;
             inventory = new InventoryInfo();
@@ -129,8 +146,8 @@ namespace AMOFGameEngine.RPG
             wieldedR = false;
             hitpoint = 100;
             alive = true;
-            currentState = State.IDLE;
-
+            currentState = AIState.IDLE;
+            charaOrientation = new Mogre.Vector3(0,0,1);
             keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyboard_KeyPressed);
             keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyboard_KeyReleased);
             mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouse_MouseMoved);
@@ -335,6 +352,15 @@ namespace AMOFGameEngine.RPG
                 else if (yawToGoal > 0) yawToGoal = System.Math.Max(0, System.Math.Min(yawToGoal, yawAtSpeed)); //yawToGoal = Math::Clamp<Real>(yawToGoal, 0, yawAtSpeed);
 
                 bodyNode.Yaw(new Degree(yawToGoal));
+
+                angle += yawToGoal;
+                if (angle >= 360.0f)
+                    angle -= 360.0f;
+                else if (angle < 0.0f)
+                    angle += 360.0f;
+
+                charaOrientation.x = Mogre.Math.Sin(new Degree(angle).ValueRadians);
+                charaOrientation.z = Mogre.Math.Cos(new Degree(angle).ValueRadians);
 
                 // move in current body direction (not the goal direction)
                 bodyNode.Translate(0, 0, deltaTime * RUN_SPEED * anims[(int)mBaseAnimID].Weight,
@@ -641,8 +667,9 @@ namespace AMOFGameEngine.RPG
             {
                 inventory.AddItemToInventory(item);
                 inventory.Weapons[0] = item;
-                if (item != null && item.ItemType == (ItemType.IT_ONE_HAND_WEAPON | ItemType.IT_TWO_HAND_WEAPON|ItemType.IT_PLOEARM|ItemType.IT_PISTOL|ItemType.IT_RIFLE))
+                if (item != null && item.ItemType == ItemType.IT_WEAPON)
                 {
+                    item.Owner = this;
                     string boneName = "";
                     switch (item.ItemAttachDir)
                     {
@@ -669,15 +696,6 @@ namespace AMOFGameEngine.RPG
             }
         }
 
-        public void DerivedDamage(int damage)
-        {
-            hitpoint = hitpoint - damage;
-            if (hitpoint <= 0)
-            {
-                Die();
-            }
-        }
-
         public void Die()
         {
             alive = false;
@@ -700,109 +718,24 @@ namespace AMOFGameEngine.RPG
 
         public void TurnCharacterToAnotherCharacter(double deltaT, RPGObject obj)
         {
-            Bone headBone = bodyEnt.Skeleton.GetBone("Head");
-
-            Mogre.Vector3 thisPosition = headBone.Position;
-            Mogre.Vector3 objPosition = obj.Position;
-            Mogre.Vector3 between = objPosition - thisPosition;
-            Mogre.Vector3 unitbetween = between.NormalisedCopy;
-
-            Node neckBone = headBone.Parent;
-            Quaternion neckBoneWorldOrientation = bodyNode .Orientation;
-            Mogre.Vector3 forward = unitbetween;
-            Mogre.Vector3 neckUp = neckBoneWorldOrientation.XAxis;
-            Mogre.Vector3 right = neckUp.CrossProduct(forward);
-            Mogre.Vector3 up = forward.CrossProduct(right);
-
-            Quaternion rot = new Quaternion(up, forward, right);
-            rot.Normalise();
-            rot = neckBoneWorldOrientation.Inverse() * rot;
-
-            Quaternion rotationBetween = rot * headBone.Orientation.Inverse();
-            Radian angle;
-            Mogre.Vector3 xAxis;
-            rotationBetween.ToAngleAxis(out angle, out xAxis);
-
-            rot = Quaternion.Slerp(angle.ValueRadians, headBone.Orientation, rot, true);
-
-            bodyNode.SetOrientation(rot.w, rot.x, rot.y, rot.z);
-        }
-
-        #region AI Behavior
-        //protected override void enterAttack()
-        //{
-        //    base.enterAttack();
-        //}
-        //
-        //protected override void enterDead()
-        //{
-        //    base.enterDead();
-        //}
-        //
-        //protected override void enterFlee()
-        //{
-        //    base.enterFlee();
-        //}
-        //
-        //protected override void enterIdle()
-        //{
-        //    base.enterIdle();
-        //}
-        //
-        //protected override void enterPatrol()
-        //{
-        //    base.enterPatrol();
-        //}
-
-        #endregion
-
-
-        public void processEvent(Event e)
-        {
-            throw new NotImplementedException();
-        }
-
-        void CharacterFSM.enterDead()
-        {
-            throw new NotImplementedException();
-        }
-
-        void CharacterFSM.enterIdle()
-        {
-            throw new NotImplementedException();
-        }
-
-        void CharacterFSM.enterAttack()
-        {
-            throw new NotImplementedException();
-        }
-
-        void CharacterFSM.enterPatrol()
-        {
-            throw new NotImplementedException();
-        }
-
-        void CharacterFSM.enterFlee()
-        {
-            throw new NotImplementedException();
-        }
-
-        public FSMStates CurrentState
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public void Action(Event e)
-        {
-            throw new NotImplementedException();
+            
         }
 
         public void Pratol()
         {
-            if (currentState != State.Pratol)
+            if (currentState != AIState.Pratol)
             {
-                currentState = State.Pratol;
+                currentState = AIState.Pratol;
             }
+        }
+
+        public void UnderAttack(Character attacker)
+        {
+        }
+
+        public void Attack(Character target)
+        {
+            target.UnderAttack(this);
         }
     }
 }

@@ -6,6 +6,7 @@ using AMOFGameEngine.Maps;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.Network;
 using AMOFGameEngine.Widgets;
+using AMOFGameEngine.UI;
 
 namespace AMOFGameEngine.States
 {
@@ -41,22 +42,83 @@ namespace AMOFGameEngine.States
             m_Camera.AspectRatio = GameManager.Singleton.mViewport.ActualWidth / GameManager.Singleton.mViewport.ActualHeight;
             GameManager.Singleton.mViewport.OverlaysEnabled = true;
 
-            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_CENTER, "lbMultiplayer", "Multiplayer", 150);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER,"btnHost","Host Game",200);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "btnJoin", "Join Game",200);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "btnBack", "Back", 200);
-
             GameManager.Singleton.mKeyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
             GameManager.Singleton.mKeyboard.KeyReleased += new MOIS.KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
 
-            GameListUI();
-
-            thisServer = new GameServer();
-            thisServer.OnEscapePressed += new Action(Server_OnEscapePressed);
+            BuildGameListUI();
         }
 
         #region UI
+
+        private void BuildGameListUI()
+        {
+            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+            List<string> columns = new List<string>();
+            columns.Add("Server Name");
+            columns.Add("Module");
+            columns.Add("Game Type");
+            columns.Add("Map");
+            columns.Add("Players");
+            columns.Add("HasPassword");
+            GameListUI ui = GameUIManager.Singleton.CreateGameListUI("gamelist", columns);
+            ui.AppendItem(new List<string>()
+                {
+                    "Server_1",
+                    "Native",
+                    "Battle",
+                    "Temp_Map_1",
+                    "0/20",
+                    "No"
+                });
+            ui.AppendItem(new List<string>()
+                {
+                    "Server_1",
+                    "Native",
+                    "Battle",
+                    "Temp_Map_1",
+                    "0/20",
+                    "No"
+                });
+            ui.AppendItem(new List<string>()
+                {
+                    "Server_1",
+                    "Native",
+                    "Battle",
+                    "Temp_Map_1",
+                    "0/20",
+                    "No"
+                });
+            ui.AppendItem(new List<string>()
+                {
+                    "Server_1",
+                    "Native",
+                    "Battle",
+                    "Temp_Map_1",
+                    "0/20",
+                    "No"
+                });
+            ui.AppendItem(new List<string>()
+                {
+                    "Server_1",
+                    "Native",
+                    "Battle",
+                    "Temp_Map_1",
+                    "0/20",
+                    "No"
+                });
+            ui.AppendItem(new List<string>()
+                {
+                    "Server_1",
+                    "Native",
+                    "Battle",
+                    "Temp_Map_1",
+                    "0/20",
+                    "No"
+                });
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnJoin", "Join",50);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnHost", "Host", 50);
+            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnExit", "Exit", 50);
+        }
         void HostGameUI()
         {
             GameManager.Singleton.mTrayMgr.destroyAllWidgets();
@@ -76,64 +138,6 @@ namespace AMOFGameEngine.States
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "choose_chara", "Choose Character", 200f);
             GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "exit_multiplayer", "Exit", 200f);
             this.isEscapeMenuOpened = true;
-        }
-
-        private void GameListUI()
-        {
-            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-            List<string> columns = new List<string>();
-            columns.Add("Server Name");
-            columns.Add("Module");
-            columns.Add("Game Type");
-            columns.Add("Map");
-            columns.Add("Players");
-            columns.Add("HasPassword");
-            ListView gameListView = new ListView("GameList", 0.05f, 0.1f, 0.8f, 0.9f, columns);
-            gameListView.AddItem(new List<string>()
-                {
-                    "Server_1",
-                    "Sample",
-                    "Battle",
-                    "RandomDesert",
-                    "0/32",
-                    "No"
-                });
-            gameListView.AddItem(new List<string>()
-                {
-                    "Server_2",
-                    "Sample",
-                    "DeathMatch",
-                    "RandomDesert",
-                    "0/32",
-                    "No"
-                });
-            gameListView.AddItem(new List<string>()
-                {
-                    "Server_3",
-                    "Sample",
-                    "Battle",
-                    "RandomDesert",
-                    "0/32",
-                    "No"
-                });
-            gameListView.AddItem(new List<string>()
-                {
-                    "Server_4",
-                    "Sample",
-                    "Battle",
-                    "RandomDesert",
-                    "0/32",
-                    "No"
-                });
-            gameListView.AddItem(new List<string>()
-                {
-                    "Server_5",
-                    "Sample",
-                    "Battle",
-                    "RandomDesert",
-                    "0/32",
-                    "No"
-                });
         }
         #endregion
 
@@ -253,10 +257,10 @@ namespace AMOFGameEngine.States
                         blendMap0.ConvertImageToTerrainSpace(x, y, out tx, out ty);
                         float height = t.GetHeightAtTerrainPosition(tx, ty);
                         float val = (height - minHeight0) / fadeDist0;
-                        val = AMOFGameEngine.Utilities.Helper.Clamp(val, 0f, 1f);
+                        val = AMOFGameEngine.Utilities.Helper.Clamp<float>(val, 0f, 1f);
                         *pBlend0++ = val;
                         val = (height - minHeight1) / fadeDist1;
-                        val = AMOFGameEngine.Utilities.Helper.Clamp(val, 0f, 1f);
+                        val = AMOFGameEngine.Utilities.Helper.Clamp<float>(val, 0f, 1f);
                         *pBlend1++ = val;
                     }
                 }
@@ -271,11 +275,11 @@ namespace AMOFGameEngine.States
         {
             if (button.getName() == "btnJoin")
             {
-                GameListUI();
+                GameUIManager.Singleton.CloseUI("gamelist");
             }
             else if (button.getName() == "btnHost")
             {
-                HostGameUI();
+                GameUIManager.Singleton.CloseUI("gamelist");
             }
             else if (button.getName() == "btnCancel")
             {
@@ -284,14 +288,18 @@ namespace AMOFGameEngine.States
             }
             else if (button.getName() == "btnOK")
             {
+
+                thisServer = new GameServer();
+                thisServer.OnEscapePressed += new Action(Server_OnEscapePressed);
                 GameManager.Singleton.mTrayMgr.destroyAllWidgets();
                 serverpanel=GameManager.Singleton.mTrayMgr.createParamsPanel(TrayLocation.TL_CENTER, "serverpanel", 400, serverState);
                 BuildGameSccene();
                 ServerStartDelegate server = new ServerStartDelegate(ServerStart);
                 server.Invoke();
             }
-            else if (button.getName() == "btnBack")
+            else if (button.getName() == "btnExit")
             {
+                GameUIManager.Singleton.CloseUI("gamelist");
                 changeAppState(findByName("MainMenu"), m_Data);
             }
         }
@@ -309,7 +317,7 @@ namespace AMOFGameEngine.States
 
         public override void update(double timeSinceLastFrame)
         {
-            if (thisServer.Started)
+            if (thisServer!=null&&thisServer.Started)
             {
                 thisServer.Update();
                 thisServer.GetServerState(ref serverState);
@@ -325,7 +333,10 @@ namespace AMOFGameEngine.States
                 m_SceneMgr.DestroyCamera(m_Camera);
                 GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
             }
-            thisServer.Exit();
+            if (thisServer != null)
+            {
+                thisServer.Exit();
+            }
         }
 
         public override void checkBoxToggled(CheckBox box)

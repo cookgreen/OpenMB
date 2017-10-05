@@ -18,14 +18,13 @@ namespace AMOFGameEngine.RPG
     /// </summary>
     public class Vehicle : RPGObject
     {
-        string vehicleName;
-        string vehicleMeshName;
-        Camera cam;
-        Entity vehicleEnt;
-        SceneNode vehicleNode;
-        Mouse mouse;
-        Keyboard keyboard;
-
+        private string vehicleName;
+        private string vehicleMeshName;
+        private Camera cam;
+        private Entity vehicleEnt;
+        private SceneNode vehicleNode;
+        private Mouse mouse;
+        private Keyboard keyboard;
         private int speed;
 
         public int Speed
@@ -50,6 +49,18 @@ namespace AMOFGameEngine.RPG
         {
             updateVehicleCamera();
             updateVehicleParticle();
+        }
+
+        void setupVehicle()
+        {
+            vehicleEnt = cam.SceneManager.CreateEntity(vehicleName, vehicleMeshName);
+            vehicleNode = cam.SceneManager.RootSceneNode.CreateChildSceneNode();
+            vehicleNode.AttachObject(vehicleEnt);
+        }
+
+        void setupVehicleCam()
+        {
+
         }
 
         void updateVehicleCamera()

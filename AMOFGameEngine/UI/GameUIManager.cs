@@ -47,6 +47,14 @@ namespace AMOFGameEngine.UI
             runningUI.Peek().Value.Show();
         }
 
+        public GameListUI CreateGameListUI(string name,List<string> columns)
+        {
+            GameListUI ui=new GameListUI(name,columns);
+            ui.Show();
+            runningUI.Push(new KeyValuePair<string,GameUI>(name,ui));
+            return ui;
+        }
+
         public void ChangeUI(string name)
         {
             GameUI ui = registeredUI.Where(o => o.Key == name).First().Value;
@@ -58,10 +66,7 @@ namespace AMOFGameEngine.UI
 
         public void CloseUI(string name)
         {
-            GameUI ui = registeredUI.Where(o => o.Key == name).First().Value;
-            KeyValuePair<string, GameUI> info = new KeyValuePair<string, GameUI>
-            (name, ui);
-            runningUI.Push(info);
+            GameUI ui = runningUI .Where(o => o.Key == name).First().Value;
             runningUI.Pop().Value.Close();
         }
     }

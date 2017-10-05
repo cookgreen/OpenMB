@@ -39,7 +39,7 @@ namespace AMOFGameEngine.Widgets
         public InputBox(String name, string caption, float width, float boxWidth,string text=null, bool onlyAcceptNum=false)
         {
             this.isTextMode = false;
-            this.mElement = OverlayManager.Singleton.CreateOverlayElementFromTemplate("SdkTrays/InputBox", "BorderPanel", name);
+            this.mElement = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/InputBox", "BorderPanel", name);
             this.mHighlightIndex = 0;
             this.mDisplayIndex = 0;
             this.mDragOffset = 0.0f;

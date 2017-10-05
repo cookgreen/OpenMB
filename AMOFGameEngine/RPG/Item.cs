@@ -11,22 +11,13 @@ namespace AMOFGameEngine.RPG
     /// </summary>
     public enum ItemType
     {
-        IT_INVALID,//default value
-        IT_GOOD,
-        IT_BOOK,
-        IT_BODYAMOUR,
-        IT_HEADAMOUR,
-        IT_LEGAMOUR,
-        IT_HANDAMOUR,
-        IT_ONE_HAND_WEAPON,
-        IT_TWO_HAND_WEAPON,
-        IT_PLOEARM,
-        IT_CROSSBOW,
-        IT_BOW,
-        IT_PISTOL,
-        IT_RIFLE,
-        IT_ARROW,
-        IT_BULLET
+        IT_INVALID,     //default value
+        IT_GOOD,        //Good
+        IT_BOOK,        //Book
+        IT_ARMOUR,      //Amour
+        IT_CLOTHES,     //Clothes
+        IT_WEAPON,      //Weapon
+        IT_AMMUNITION   //Ammo
     }
 
     public enum ItemAttachOption
@@ -38,16 +29,35 @@ namespace AMOFGameEngine.RPG
         IAO_RIGHTFLANK
     }
 
+    public class ItemInfo
+    {
+        private string itemName;
+        private string itemMeshName;
+        private ItemType itemType;
+
+        public string Mesh
+        {
+            get { return itemMeshName; }
+            set { itemMeshName = value; }
+        }
+        public string Name
+        {
+            get { return itemName; }
+            set { itemName = value; }
+        }
+    }
+
     /// <summary>
     /// Item class
     /// </summary>
-    public class Item : RPGObject
+    public abstract class Item : RPGObject
     {
         protected string itemID;
         protected string itemName;
         protected string itemMeshName;
         protected ItemType itemType;
         protected ItemAttachOption itemAttachDir;
+        private Character owner;
 
         Entity itemEnt;
         SceneNode itemNode;
@@ -115,6 +125,12 @@ namespace AMOFGameEngine.RPG
         {
             get { return itemAttachDir; }
             set { itemAttachDir = value; }
+        }
+
+        public Character Owner
+        {
+            get { return owner; }
+            set { owner = value; }
         }
     }
 }

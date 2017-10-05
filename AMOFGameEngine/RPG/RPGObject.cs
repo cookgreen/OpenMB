@@ -10,10 +10,21 @@ namespace AMOFGameEngine.RPG
     /// </summary>
     public abstract class RPGObject
     {
-        private uint uniqueId;
-        protected uint UniqueId
+        protected GameObjClass type;
+        public GameObjClass ObjType
         {
-            get { return uniqueId; }
+            get
+            {
+                return type;
+            }
+        }
+        protected uint uniqueId;
+        public uint UniqueId
+        {
+            get
+            {
+                return uniqueId;
+            }
         }
 
         protected Mogre.Vector3 position;

@@ -24,6 +24,14 @@ namespace AMOFGameEngine.Widgets
             return ib;
         }
 
+        public ListView createListView(TrayLocation trayLoc, string name, float height, float width, List<string> columnNames)
+        {
+            ListView lsv = new ListView(name, -1, -1, height, width, columnNames);
+            this.moveWidgetToTray(lsv,trayLoc);
+            lsv._assignListener(mListener);
+            return lsv;
+        }
+
         public static void nukeOverlayElement(OverlayElement element)
         {
             Mogre.OverlayContainer container = element as Mogre.OverlayContainer;

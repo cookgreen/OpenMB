@@ -79,7 +79,7 @@ namespace AMOFGameEngine.RPG
         {
             Mods.XML.ModCharacterDfnXML charaDfn = characterDfns.Where(o => o.ID == charaID).FirstOrDefault();
 
-            Character character = new Character(this.cam, this.keyboard, this.mouse);
+            Character character = new Character("chara_" + GameManager.Singleton.AllGameObjects.Count, this.cam, this.keyboard, this.mouse);
             character.InitPos = spawnPosition;
             character.Create(charaDfn);
             characherLst.Add(character);
@@ -90,19 +90,27 @@ namespace AMOFGameEngine.RPG
         {
             Mods.XML.ModCharacterDfnXML charaDfn = characterDfns.Where(o => o.ID == charaID).FirstOrDefault();
 
-            Player character = new Player(this.cam, this.keyboard, this.mouse);
+            Player character = new Player("player",this.cam, this.keyboard, this.mouse);
             character.InitPos = spawnPosition;
             character.Create(charaDfn);
             characherLst.Add(character);
             GameManager.Singleton.AllGameObjects.Add(character);
         }
 
-        public Character GetPlayer()
+        public Player GetPlayer()
         {
-            var player = from character in characherLst
-                         where character.IsPlayer
-                         select character;
-            return player.Count() > 0 ? player.FirstOrDefault() : null;
+            var player = from gameObj in GameManager.Singleton.AllGameObjects
+                         where gameObj.UniqueId == Utilities.Helper.GetStringHash("player")
+                         select gameObj;
+            return (Player)(player.Count() > 0 ? player.FirstOrDefault() : null);
+        }
+
+        public NameValuePairList GetCharacterInfo(string charaID)
+        {
+            Mods.XML.ModCharacterDfnXML charaDfn = characterDfns.Where(o => o.ID == charaID).FirstOrDefault();
+            NameValuePairList npl = new NameValuePairList();
+            npl["CharacteName"] = charaDfn.Name;
+            return npl;
         }
     }
 }

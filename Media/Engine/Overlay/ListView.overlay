@@ -1,4 +1,4 @@
-template container BorderPanel(ListView)
+template container BorderPanel(AMGE/UI/ListView)
 {
 	material SdkTrays/MiniTray
     metrics_mode relative

@@ -27,6 +27,26 @@ namespace AMOFGameEngine.Utilities
         {
             return System.Math.Max(System.Math.Min(val, maxval), minval);
         }
+        public static T Clamp<T>(T val, T minval, T maxval) where T : IComparable
+        {
+            T temp;
+            if (val.CompareTo(maxval) < 0)
+            {
+                temp = val;
+            }
+            else
+            {
+                temp = maxval;
+            }
+            if (temp.CompareTo(minval) > 0)
+            {
+                return temp;
+            }
+            else
+            {
+                return minval;
+            }
+        }
 
         public static uint GetStringHash(string str)
         {

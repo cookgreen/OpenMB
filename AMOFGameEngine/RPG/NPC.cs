@@ -12,8 +12,8 @@ namespace AMOFGameEngine.RPG
     /// </summary>
     public class NPC : Character
     {
-        public NPC(Camera cam, Keyboard keyboard, Mouse mouse)
-            : base(cam, keyboard, mouse, false)
+        public NPC(string npcId, Camera cam, Keyboard keyboard, Mouse mouse)
+            : base(npcId,cam, keyboard, mouse, false)
         {
 
         }

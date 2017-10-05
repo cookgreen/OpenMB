@@ -12,8 +12,8 @@ namespace AMOFGameEngine.RPG
     /// </summary>
     public class Player : Character
     {
-        public Player(Camera cam, Keyboard keyboard, Mouse mouse)
-            : base(cam,keyboard,mouse,true)
+        public Player(string playId,Camera cam, Keyboard keyboard, Mouse mouse)
+            : base(playId,cam, keyboard, mouse, true)
         {
         }
     }

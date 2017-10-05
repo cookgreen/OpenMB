@@ -1,5 +1,4 @@
-
-template container BorderPanel(SdkTrays/InputBox)
+template container BorderPanel(AMGE/UI/InputBox)
 {
 	metrics_mode pixels
 	material SdkTrays/MiniTray

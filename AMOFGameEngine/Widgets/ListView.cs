@@ -26,6 +26,7 @@ namespace AMOFGameEngine.Widgets
 
     public class ListView : Mogre_Procedural.MogreBites.Widget
     {
+        public event Action<object> SelectionChanged;
         public List<ListViewColumn> Columns
         {
             get
@@ -34,7 +35,6 @@ namespace AMOFGameEngine.Widgets
             }
         }
         public List<ListViewItem> Items;
-        private Overlay overlay;
         private string name;
         private OverlayContainer listview;
         private BorderPanelOverlayElement scroll;
@@ -46,10 +46,10 @@ namespace AMOFGameEngine.Widgets
         private float width;
         private float height;
         private float maxShowItem;
+        private List<OverlayElement> allUsedElements;
         public ListView(string name, float left, float top, float height, float width, List<string> columnNames)
         {
-            overlay = OverlayManager.Singleton.Create(name + "/Main");
-            listview = OverlayManager.Singleton.CreateOverlayElementFromTemplate("ListView", "BorderPanel", name) as OverlayContainer;
+            listview = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/ListView", "BorderPanel", name) as OverlayContainer;
             scroll = listview.GetChild(name+"/ListViewScroll") as BorderPanelOverlayElement;
             drag = scroll.GetChild(name + "/ListViewScroll" + "/ListViewDrag") as OverlayElement;
             this.name = name;
@@ -64,14 +64,11 @@ namespace AMOFGameEngine.Widgets
             maxShowItem = width / 0.04f;
             columns = new List<ListViewColumn>();
             items = new List<ListViewItem>();
+            allUsedElements = new List<OverlayElement>();
             scroll.Height = height - 0.016f;
             drag.Hide();
 
             LoadColumns(columnNames);
-
-            overlay.Add2D(listview);
-            overlay.ZOrder = 100;
-            overlay.Show();
         }
 
         public void LoadColumns(List<string> columnNames)
@@ -104,19 +101,22 @@ namespace AMOFGameEngine.Widgets
 
                 if (i != columnNames.Count - 1)
                 {
-                    var verLine = OverlayManager.Singleton.CreateOverlayElementFromTemplate("Common/VerticalLine", "Panel", "colline" + i) as PanelOverlayElement;
+                    var verLine = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/VerticalLine", "Panel", "colline" + i) as PanelOverlayElement;
                     verLine.Left = left;
                     verLine.Top = top;
                     verLine.Height = height - 0.018f;
                     verLine.Show();
                     listview.AddChild(verLine);
+                    verLine.Dispose();
+                    allUsedElements.Add(verLine);
                 }
             }
-            var horline = OverlayManager.Singleton.CreateOverlayElementFromTemplate("Common/HorizalLine", "Panel", "colhorline") as PanelOverlayElement;
+            var horline = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/HorizalLine", "Panel", "colhorline") as PanelOverlayElement;
             horline.Left = 0.008f;
             horline.Top = 0.05338f;
             horline.Width = width - 0.026f;
             horline.Show();
+            allUsedElements.Add(horline);
             listview.AddChild(horline);
         }
 
@@ -142,7 +142,7 @@ namespace AMOFGameEngine.Widgets
                 ListViewCell.Top = lvi.Top;
                 ListViewCell.Left = left;
                 ListViewCell.Width = width / item.Count - 0.005f;
-                var line = OverlayManager.Singleton.CreateOverlayElementFromTemplate("Common/HorizalLine", "Panel", "colhorline"+Guid.NewGuid()) as PanelOverlayElement; ;
+                var line = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/HorizalLine", "Panel", "colhorline" + Guid.NewGuid()) as PanelOverlayElement; ;
                 line.Left = 0.0f;
                 line.Top = 0.0f;
                 line.Width = ListViewCell.Width;
@@ -172,6 +172,35 @@ namespace AMOFGameEngine.Widgets
             {
                 drag.Hide();
             }
+        }
+
+        public OverlayContainer GetContainer()
+        {
+            return listview;
+        }
+
+        public override void Dispose()
+        {
+            for (int i = 0; i < columns.Count; i++)
+            {
+                GameTrayManager.nukeOverlayElement(columns[i].ColumnEnity);
+            }
+            for (int i = 0; i < items.Count; i++)
+            {
+                for (int j = 0; j < items[i].Items.Count; j++)
+                {
+                    GameTrayManager.nukeOverlayElement(items[i].Items[j]);
+                }
+            }
+            for (int i = 0; i < allUsedElements.Count; i++)
+            {
+                OverlayManager.Singleton.DestroyOverlayElement(allUsedElements[i]);
+            }
+            allUsedElements.Clear();
+            columns.Clear();
+            items.Clear();
+            OverlayManager.Singleton.DestroyOverlayElement(drag);
+            OverlayManager.Singleton.DestroyOverlayElement(scroll);
         }
 
         public override void _cursorMoved(Vector2 cursorPos)
