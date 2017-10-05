@@ -23,5 +23,9 @@ A open source RPG game engine based on AdvancedMogreFramework
 * <s>Prolog.NET(AI;Ms-PL)</s>  
 * Accord.NET(AI;LGPL)  
 
+## Usage:
+* Shift+Space - Full Screen
+* V - Screenshot
+
 ## License:
 GPLv3
