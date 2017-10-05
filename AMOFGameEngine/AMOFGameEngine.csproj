@@ -125,6 +125,7 @@
     <Compile Include="AI\AStarPathFind.cs" />
     <Compile Include="AI\CharacterFSM.cs" />
     <Compile Include="Console\MogreConsole.cs" />
+    <Compile Include="Core\GameObjClass.cs" />
     <Compile Include="Maps\BspMap.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\SceneMap.cs" />
