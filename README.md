@@ -2,7 +2,7 @@
 ![Build](https://api.travis-ci.org/cookgreen/AMOFGameEngine.svg?branch=master)
 
 ## Introduction:
-A open source RPG game engine based on AdvancedMogreFramework
+Open Source Role-Play Game engine based on MOGRE(Managed Ogre)
 
 ## Feature:
 * Character AI(doing)
