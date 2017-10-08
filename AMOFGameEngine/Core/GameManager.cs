@@ -32,6 +32,8 @@ namespace AMOFGameEngine
         public GameTrayManager mTrayMgr;
         public static string LastStateName;
 
+        public event Action<float> Update;
+
         public OggSound ogg;
 
         private string defaultRS;
@@ -46,20 +48,21 @@ namespace AMOFGameEngine
         public List<RPGObject> AllGameObjects;
         public Dictionary<string, uint> GameHashMap;
 
-        static GameManager singleton;
-        public static GameManager Singleton
+        static GameManager instance;
+        public static GameManager Instance
         {
             get
             {
-                if (singleton == null)
+                if (instance == null)
                 {
-                    singleton = new GameManager();
+                    instance = new GameManager();
                 }
-                return singleton;
+                return instance;
             }
         }
 
         private NameValuePairList videoMode;
+        
 
         public GameManager()
         {
@@ -89,6 +92,7 @@ namespace AMOFGameEngine
             mLog.SetDebugOutputEnabled(true);
 
             mRoot = r;
+            mRoot.FrameStarted += new FrameListener.FrameStartedHandler(mRoot_FrameStarted);
 
             RenderSystem rs = null;
 
@@ -171,6 +175,17 @@ namespace AMOFGameEngine
             return true;
         }
 
+        bool mRoot_FrameStarted(FrameEvent evt)
+        {
+            if (Update != null)
+            {
+                Update(evt.timeSinceLastFrame);
+            }
+            UpdateGame(evt.timeSinceLastFrame);
+            UpdateRender(evt.timeSinceLastFrame);
+            return true;
+        }
+
         public bool InitSubSystem(Dictionary<string, string> gameOptions)
         {
             //console.InitConsole(ref mRoot);
@@ -207,11 +222,6 @@ namespace AMOFGameEngine
             {
                 eachGameObj.Update((float)timeSinceLastFrame);
             }
-        }
-
-        public void UpdateSubSystem(double timeSinceLastFrame)
-        {
-            mSoundMgr.update();
         }
 
         public bool keyPressed(KeyEvent keyEventRef)

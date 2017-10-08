@@ -27,7 +27,7 @@ namespace AMOFGameEngine.Sound
             set { currentSound = value; }
         }
 
-        public static SoundManager Singleton
+        public static SoundManager Instance
         {
             get
             {
@@ -132,7 +132,7 @@ namespace AMOFGameEngine.Sound
             disposed = true;
         }
 
-        public void update()
+        public void Update(float timeSinceLastFrame)
         {
         }
     }

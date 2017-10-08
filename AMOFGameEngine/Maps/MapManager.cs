@@ -15,6 +15,19 @@ namespace AMOFGameEngine.Maps
             MapStack = new Stack<Map>();
         }
 
+        public static MapManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new MapManager();
+                }
+                return instance;
+            }
+        }
+        static MapManager instance;
+
         public void EnterNewMap(Map newMap)
         {
             MapStack.Push(newMap);
@@ -29,6 +42,11 @@ namespace AMOFGameEngine.Maps
         {
             MapStack.Pop();
             MapStack.Peek().Load();
+        }
+
+        public void Update(float timeSinceLastFrame)
+        {
+
         }
     }
 }

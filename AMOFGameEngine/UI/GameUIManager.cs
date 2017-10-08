@@ -19,7 +19,7 @@ namespace AMOFGameEngine.UI
         }
 
         private static GameUIManager instance;
-        public static GameUIManager Singleton
+        public static GameUIManager Instance
         {
             get
             {
@@ -68,6 +68,11 @@ namespace AMOFGameEngine.UI
         {
             GameUI ui = runningUI .Where(o => o.Key == name).First().Value;
             runningUI.Pop().Value.Close();
+        }
+
+        public void Update(float timeSinceLastFrame)
+        {
+
         }
     }
 }

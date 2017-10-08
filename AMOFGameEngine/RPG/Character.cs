@@ -135,7 +135,7 @@ namespace AMOFGameEngine.RPG
             this.mouse = mouse;
             uniqueId = Utilities.Helper.GetStringHash(characterUniqueId);
 
-            GameManager.Singleton.GameHashMap.Add(characterUniqueId, uniqueId);
+            GameManager.Instance.GameHashMap.Add(characterUniqueId, uniqueId);
 
             mSwordsDrawn = false;
             inventory = new InventoryInfo();
@@ -160,7 +160,7 @@ namespace AMOFGameEngine.RPG
         {
             if (controlled)
             {
-                SoundManager.Singleton.PlaySoundByID("YouReachNewlevel");
+                SoundManager.Instance.PlaySoundByID("YouReachNewlevel");
             }
         }
 
@@ -196,7 +196,7 @@ namespace AMOFGameEngine.RPG
                 if (arg.state.Z.rel != 0 && inventory.Weapons.Length > 0)
                 {
                     float newIndex = inventory.CurrentWeaponIndex - arg.state.Z.rel / Mogre.Math.Abs((float)arg.state.Z.rel);
-                    float finalIndex = GameManager.Singleton.Clamp(newIndex, 0.0f, (float)(4 - 1));
+                    float finalIndex = GameManager.Instance.Clamp(newIndex, 0.0f, (float)(4 - 1));
                     inventory.CurrentWeapon = inventory.Weapons[(int)finalIndex];
                 }
                 updateCameraGoal(-0.05f * arg.state.X.rel, -0.05f * arg.state.Y.rel, 0);
@@ -486,14 +486,14 @@ namespace AMOFGameEngine.RPG
                 {
                     // slowly fade this animation in until it has full weight
                     float newWeight = anims[i].Weight + deltaTime * ANIM_FADE_SPEED;
-                    anims[i].Weight = GameManager.Singleton.Clamp(newWeight, 0, 1);
+                    anims[i].Weight = GameManager.Instance.Clamp(newWeight, 0, 1);
                     if (newWeight >= 1) mFadingIn[i] = false;
                 }
                 else if (mFadingOut[i])
                 {
                     // slowly fade this animation out until it has no weight, and then disable it
                     float newWeight = anims[i].Weight - deltaTime * ANIM_FADE_SPEED;
-                    anims[i].Weight = GameManager.Singleton.Clamp(newWeight, 0, 1);
+                    anims[i].Weight = GameManager.Instance.Clamp(newWeight, 0, 1);
                     if (newWeight <= 0)
                     {
                         anims[i].Enabled = false;

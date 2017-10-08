@@ -38,8 +38,8 @@ namespace AMOFGameEngine.Network
         {
             listener = new TcpListener(new IPAddress(new byte[]{127,0,0,1}),7458);
 
-            GameManager.Singleton.mKeyboard.KeyPressed += new KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
-            GameManager.Singleton.mKeyboard.KeyReleased += new KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
+            GameManager.Instance.mKeyboard.KeyPressed += new KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
+            GameManager.Instance.mKeyboard.KeyReleased += new KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
         }
 
         bool mKeyboard_KeyReleased(KeyEvent arg)

@@ -39,7 +39,7 @@ namespace AMOFGameEngine.Video
             videotex = null;
         }
 
-        public void Update()
+        public void Update(float timeSinceLastFrame)
         {
             if (videotex.FrameNum >= videotex.Stream.CountFrames)
             {
@@ -59,7 +59,7 @@ namespace AMOFGameEngine.Video
             }
             catch (Exception ex)
             {
-                GameManager.Singleton.mLog.LogMessage("[Engine Warning]: Image Data Exception. Detals:" + ex.ToString());
+                GameManager.Instance.mLog.LogMessage("[Engine Warning]: Image Data Exception. Detals:" + ex.ToString());
             }
             finally
             {

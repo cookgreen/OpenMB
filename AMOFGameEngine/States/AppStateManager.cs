@@ -24,7 +24,7 @@ namespace AMOFGameEngine.States
             public AppState state;
         };
 
-         public static AppStateManager Singleton
+         public static AppStateManager Instance
          {
              get
              {
@@ -77,23 +77,23 @@ namespace AMOFGameEngine.States
 
 	         while(!m_bShutdown)
 	         {
-		         if(GameManager.Singleton.mRenderWnd.IsClosed)m_bShutdown = true;
+		         if(GameManager.Instance.mRenderWnd.IsClosed)m_bShutdown = true;
  
 		         WindowEventUtilities.MessagePump();
 
-                 if (GameManager.Singleton.mRenderWnd.IsActive)
+                 if (GameManager.Instance.mRenderWnd.IsActive)
 		         {
-                     startTime = (int)GameManager.Singleton.mTimer.MicrosecondsCPU;
+                     startTime = (int)GameManager.Instance.mTimer.MicrosecondsCPU;
 
                      m_ActiveStateStack.Last().update(timeSinceLastFrame * 1.0 / 1000);
-                     GameManager.Singleton.mKeyboard.Capture();
-                     GameManager.Singleton.mMouse.Capture();
-                     GameManager.Singleton.UpdateRender(timeSinceLastFrame * 1.0 / 1000);
+                     GameManager.Instance.mKeyboard.Capture();
+                     GameManager.Instance.mMouse.Capture();
+                     GameManager.Instance.UpdateRender(timeSinceLastFrame * 1.0 / 1000);
                      //GameManager.Singleton.UpdateSubSystem(timeSinceLastFrame * 1.0 / 1000);
 
-                     GameManager.Singleton.mRoot.RenderOneFrame();
+                     GameManager.Instance.mRoot.RenderOneFrame();
 
-                     timeSinceLastFrame = (int)GameManager.Singleton.mTimer.MillisecondsCPU - startTime;
+                     timeSinceLastFrame = (int)GameManager.Instance.mTimer.MillisecondsCPU - startTime;
                      
 		         }
 		         else
@@ -180,8 +180,8 @@ namespace AMOFGameEngine.States
 
          protected void init(AppState state)
          {
-             GameManager.Singleton.mTrayMgr.setListener(state);
-             GameManager.Singleton.mRenderWnd.ResetStatistics();
+             GameManager.Instance.mTrayMgr.setListener(state);
+             GameManager.Instance.mRenderWnd.ResetStatistics();
          }
 
          public void Dispose()

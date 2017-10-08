@@ -34,16 +34,16 @@ namespace AMOFGameEngine.States
         public override void enter(Mods.ModData e = null)
         {
             m_Data = e;
-            m_SceneMgr = GameManager.Singleton.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
+            m_SceneMgr = GameManager.Instance.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
             ColourValue cvAmbineLight = new ColourValue(0.7f, 0.7f, 0.7f);
             m_SceneMgr.AmbientLight = cvAmbineLight;
             m_Camera = m_SceneMgr.CreateCamera("multiplayerCam");
-            GameManager.Singleton.mViewport.Camera = m_Camera;
-            m_Camera.AspectRatio = GameManager.Singleton.mViewport.ActualWidth / GameManager.Singleton.mViewport.ActualHeight;
-            GameManager.Singleton.mViewport.OverlaysEnabled = true;
+            GameManager.Instance.mViewport.Camera = m_Camera;
+            m_Camera.AspectRatio = GameManager.Instance.mViewport.ActualWidth / GameManager.Instance.mViewport.ActualHeight;
+            GameManager.Instance.mViewport.OverlaysEnabled = true;
 
-            GameManager.Singleton.mKeyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
-            GameManager.Singleton.mKeyboard.KeyReleased += new MOIS.KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
+            GameManager.Instance.mKeyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
+            GameManager.Instance.mKeyboard.KeyReleased += new MOIS.KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
 
             BuildGameListUI();
         }
@@ -52,7 +52,7 @@ namespace AMOFGameEngine.States
 
         private void BuildGameListUI()
         {
-            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
+            GameManager.Instance.mTrayMgr.destroyAllWidgets();
             List<string> columns = new List<string>();
             columns.Add("Server Name");
             columns.Add("Module");
@@ -60,7 +60,7 @@ namespace AMOFGameEngine.States
             columns.Add("Map");
             columns.Add("Players");
             columns.Add("HasPassword");
-            GameListUI ui = GameUIManager.Singleton.CreateGameListUI("gamelist", columns);
+            GameListUI ui = GameUIManager.Instance.CreateGameListUI("gamelist", columns);
             ui.AppendItem(new List<string>()
                 {
                     "Server_1",
@@ -115,28 +115,28 @@ namespace AMOFGameEngine.States
                     "0/20",
                     "No"
                 });
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnJoin", "Join",50);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnHost", "Host", 50);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnExit", "Exit", 50);
+            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnJoin", "Join",50);
+            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnHost", "Host", 50);
+            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnExit", "Exit", 50);
         }
         void HostGameUI()
         {
-            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-            GameManager.Singleton.mTrayMgr.createLabel(TrayLocation.TL_CENTER, "lbHost", "Host Game", 300);
-            ibServerName = GameManager.Singleton.mTrayMgr.createInputBox(TrayLocation.TL_CENTER, "ibServerName", "Server Name:",300, 180, "New Server");
-            ibServerPort = GameManager.Singleton.mTrayMgr.createInputBox(TrayLocation.TL_CENTER, "ibServerPort", "Server Port:",300, 180, "7458",true);
-            chkHasPasswd = GameManager.Singleton.mTrayMgr.createCheckBox(TrayLocation.TL_CENTER, "chkHasPass", "Has Password", 300);
-            GameManager.Singleton.mTrayMgr.createLongSelectMenu(TrayLocation.TL_CENTER, "smServerMaps", "Server Map:", 190, 10);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnOK", "OK");
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnCancel", "Cancel");
+            GameManager.Instance.mTrayMgr.destroyAllWidgets();
+            GameManager.Instance.mTrayMgr.createLabel(TrayLocation.TL_CENTER, "lbHost", "Host Game", 300);
+            ibServerName = GameManager.Instance.mTrayMgr.createInputBox(TrayLocation.TL_CENTER, "ibServerName", "Server Name:",300, 180, "New Server");
+            ibServerPort = GameManager.Instance.mTrayMgr.createInputBox(TrayLocation.TL_CENTER, "ibServerPort", "Server Port:",300, 180, "7458",true);
+            chkHasPasswd = GameManager.Instance.mTrayMgr.createCheckBox(TrayLocation.TL_CENTER, "chkHasPass", "Has Password", 300);
+            GameManager.Instance.mTrayMgr.createLongSelectMenu(TrayLocation.TL_CENTER, "smServerMaps", "Server Map:", 190, 10);
+            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnOK", "OK");
+            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnCancel", "Cancel");
         }
 
         private void BuildEscapeMenu()
         {
-            GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "choose_side", "Choose Side", 200f);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "choose_chara", "Choose Character", 200f);
-            GameManager.Singleton.mTrayMgr.createButton(TrayLocation.TL_CENTER, "exit_multiplayer", "Exit", 200f);
+            GameManager.Instance.mTrayMgr.destroyAllWidgets();
+            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_CENTER, "choose_side", "Choose Side", 200f);
+            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_CENTER, "choose_chara", "Choose Character", 200f);
+            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_CENTER, "exit_multiplayer", "Exit", 200f);
             this.isEscapeMenuOpened = true;
         }
         #endregion
@@ -153,7 +153,7 @@ namespace AMOFGameEngine.States
 
         bool mKeyboard_KeyReleased(MOIS.KeyEvent arg)
         {
-            return GameManager.Singleton.mTrayMgr.injectKeyReleased(arg);
+            return GameManager.Instance.mTrayMgr.injectKeyReleased(arg);
         }
 
         bool mKeyboard_KeyPressed(MOIS.KeyEvent arg)
@@ -166,12 +166,12 @@ namespace AMOFGameEngine.States
                 }
                 else
                 {
-                    GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-                    this.serverpanel = GameManager.Singleton.mTrayMgr.createParamsPanel(TrayLocation.TL_CENTER, "serverpanel", 400f, this.serverState);
+                    GameManager.Instance.mTrayMgr.destroyAllWidgets();
+                    this.serverpanel = GameManager.Instance.mTrayMgr.createParamsPanel(TrayLocation.TL_CENTER, "serverpanel", 400f, this.serverState);
                     this.isEscapeMenuOpened = false;
                 }
             }
-            return GameManager.Singleton.mTrayMgr.injectKeyPressed(arg);
+            return GameManager.Instance.mTrayMgr.injectKeyPressed(arg);
         }
 
         //build a dummy scene...
@@ -275,11 +275,11 @@ namespace AMOFGameEngine.States
         {
             if (button.getName() == "btnJoin")
             {
-                GameUIManager.Singleton.CloseUI("gamelist");
+                GameUIManager.Instance.CloseUI("gamelist");
             }
             else if (button.getName() == "btnHost")
             {
-                GameUIManager.Singleton.CloseUI("gamelist");
+                GameUIManager.Instance.CloseUI("gamelist");
             }
             else if (button.getName() == "btnCancel")
             {
@@ -291,15 +291,15 @@ namespace AMOFGameEngine.States
 
                 thisServer = new GameServer();
                 thisServer.OnEscapePressed += new Action(Server_OnEscapePressed);
-                GameManager.Singleton.mTrayMgr.destroyAllWidgets();
-                serverpanel=GameManager.Singleton.mTrayMgr.createParamsPanel(TrayLocation.TL_CENTER, "serverpanel", 400, serverState);
+                GameManager.Instance.mTrayMgr.destroyAllWidgets();
+                serverpanel=GameManager.Instance.mTrayMgr.createParamsPanel(TrayLocation.TL_CENTER, "serverpanel", 400, serverState);
                 BuildGameSccene();
                 ServerStartDelegate server = new ServerStartDelegate(ServerStart);
                 server.Invoke();
             }
             else if (button.getName() == "btnExit")
             {
-                GameUIManager.Singleton.CloseUI("gamelist");
+                GameUIManager.Instance.CloseUI("gamelist");
                 changeAppState(findByName("MainMenu"), m_Data);
             }
         }
@@ -331,7 +331,7 @@ namespace AMOFGameEngine.States
             if (m_SceneMgr != null)
             {
                 m_SceneMgr.DestroyCamera(m_Camera);
-                GameManager.Singleton.mRoot.DestroySceneManager(m_SceneMgr);
+                GameManager.Instance.mRoot.DestroySceneManager(m_SceneMgr);
             }
             if (thisServer != null)
             {
@@ -345,11 +345,11 @@ namespace AMOFGameEngine.States
            {
                if (box.isChecked())
                {
-                   ibPasswd = GameManager.Singleton.mTrayMgr.createInputBox(TrayLocation.TL_CENTER,"ibPasswd","Password:",300,180);
+                   ibPasswd = GameManager.Instance.mTrayMgr.createInputBox(TrayLocation.TL_CENTER,"ibPasswd","Password:",300,180);
                }
                else
                {
-                   GameManager.Singleton.mTrayMgr.destroyWidget("ibPasswd");
+                   GameManager.Instance.mTrayMgr.destroyWidget("ibPasswd");
                }
            }
         }

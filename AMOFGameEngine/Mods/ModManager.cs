@@ -11,6 +11,7 @@ using AMOFGameEngine.Mods;
 namespace AMOFGameEngine.Mods
 {
     using Mods = Dictionary<string, ModManifest>;
+using System.ComponentModel;
 
     public class ModManager
     {
@@ -19,8 +20,17 @@ namespace AMOFGameEngine.Mods
         private OgreConfigFileAdapter ofa;
         private List<OgreConfigNode> modConfigData;
         private ModData currentMod;
+        private string currentModName;
+        private BackgroundWorker worker;
+        public event Action LoadingModStarted;
+        public event Action LoadingModFinished;
+        public event Action<int> LoadingModProcessing;
+        public ModData ModData
+        {
+            get { return currentMod; }
+        }
 
-        public static ModManager Singleton
+        public static ModManager Instance
         {
             get
             {
@@ -39,6 +49,65 @@ namespace AMOFGameEngine.Mods
             currentMod = null;
             modConfigData = new List<OgreConfigNode>();
             ofa = new OgreConfigFileAdapter("Mods.cfg");
+            worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += worker_DoWork;
+            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+            worker.ProgressChanged += worker_ProgressChanged;
+        }
+
+        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            if (LoadingModProcessing != null)
+            {
+                LoadingModProcessing(e.ProgressPercentage);
+            }
+        }
+
+        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (LoadingModFinished != null)
+            {
+                LoadingModFinished();
+            }
+        }
+
+        void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                if (InstalledMods == null || InstalledMods.Count <= 0)
+                {
+                    return;
+                }
+                ModManifest manifest = InstalledMods.Where(o => o.Key == currentModName).SingleOrDefault().Value;
+                currentMod = new AMOFGameEngine.Mods.ModData();
+                currentMod.BasicInfo = manifest.MetaData;
+                worker.ReportProgress(25);
+                
+                ModXMLLoader loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Characters);
+                XML.ModCharactersDfnXML characterDfn;
+                loader.Load<XML.ModCharactersDfnXML>(out characterDfn);
+                currentMod.CharacterInfos = characterDfn.CharacterDfns;
+                worker.ReportProgress(50);
+                
+                loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Items);
+                XML.ModItemsDfnXML itemDfn;
+                loader.Load<XML.ModItemsDfnXML>(out itemDfn);
+                currentMod.ItemInfos = itemDfn != null ? itemDfn.Items : null;
+                worker.ReportProgress(75);
+                
+                loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Sides);
+                XML.ModSidesDfnXML sideDfn;
+                loader.Load<XML.ModSidesDfnXML>(out sideDfn);
+                currentMod.SideInfos = sideDfn.Sides;
+                worker.ReportProgress(100);
+                System.Threading.Thread.Sleep(1000);
+            }
+            catch
+            {
+                return;
+            }
         }
 
         string GetModInstallRootDir()
@@ -68,43 +137,24 @@ namespace AMOFGameEngine.Mods
             return InstalledMods;
         }
 
-        public ModData LoadMod(string name)
+        public void LoadMod(string name)
         {
-            ModData data = null;
-            try
+            if (LoadingModStarted != null)
             {
-                if (InstalledMods == null || InstalledMods.Count <= 0)
-                {
-                    return data;
-                }
-                data = new ModData();
-                ModManifest manifest = InstalledMods.Where(o => o.Key == name).SingleOrDefault().Value;
-
-                data.BasicInfo = manifest.MetaData;
-                ModXMLLoader loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Characters);
-                XML.ModCharactersDfnXML characterDfn;
-                loader.Load<XML.ModCharactersDfnXML>(out characterDfn);
-                data.CharacterInfos = characterDfn.CharacterDfns;
-                loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Items);
-                XML.ModItemsDfnXML itemDfn;
-                loader.Load<XML.ModItemsDfnXML>(out itemDfn);
-                data.ItemInfos = itemDfn.Items;
-                loader=new ModXMLLoader(manifest.InstalledPath+"/"+manifest.Data.Sides);
-                XML.ModSidesDfnXML sideDfn;
-                loader.Load<XML.ModSidesDfnXML>(out sideDfn);
-                data.SideInfos = sideDfn.Sides;
-
-                return data;
+                LoadingModStarted();
             }
-            catch
-            {
-                return data;
-            }
+            currentModName = name;
+            worker.RunWorkerAsync();
         }
 
         public void UnloadAllMods()
         {
             InstalledMods.Clear();
+        }
+
+        public void Update(float timeSinceLastFrame)
+        {
+
         }
     }
 }

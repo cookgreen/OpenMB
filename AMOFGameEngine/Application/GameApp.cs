@@ -27,7 +27,7 @@ namespace AMOFGameEngine
             this.root = r;
             this.gameOptions = gameOptions;
             this.renderConfigs = renderConfigs;
-            AppStateManager.Singleton.OnAppStateManagerStarted += new Action(OnAppStateManagerStarted);
+            AppStateManager.Instance.OnAppStateManagerStarted += new Action(OnAppStateManagerStarted);
         }
 
         void OnAppStateManagerStarted()
@@ -37,16 +37,21 @@ namespace AMOFGameEngine
 
         public RunState Run()
         {
-            if (!GameManager.Singleton.InitRender("AMOFGameEngine Demo", renderConfigs, root))
+            if (!GameManager.Instance.InitRender("AMOFGameEngine Demo", renderConfigs, root))
             {
                 LogManager.Singleton.LogMessage("[Engine Error]: failed to Initialize the render system!");
                 state = RunState.Error;
             }
-            if (!GameManager.Singleton.InitSubSystem(gameOptions))
+            if (!GameManager.Instance.InitSubSystem(gameOptions))
             {
                 LogManager.Singleton.LogMessage("[Engine Error]: failed to Initialize the game system!");
                 state = RunState.Error;
             }
+
+            GameManager.Instance.Update += UI.GameUIManager.Instance.Update;
+            GameManager.Instance.Update += Mods.ModManager.Instance.Update;
+            GameManager.Instance.Update += Maps.MapManager.Instance.Update;
+            GameManager.Instance.Update += Sound.SoundManager.Instance.Update;
 
             GC.Collect();
 
@@ -56,7 +61,7 @@ namespace AMOFGameEngine
             SinglePlayer.create<SinglePlayer>("SinglePlayer");
             Multiplayer.create<Multiplayer>("Multiplayer");
 
-            AppStateManager.Singleton.start(AppStateManager.Singleton.findByName("ModChooser"));
+            AppStateManager.Instance.start(AppStateManager.Instance.findByName("ModChooser"));
 
             return state;
         }

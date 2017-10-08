@@ -34,8 +34,8 @@ namespace AMOFGameEngine.States
         public static void create<T>( String name) where T : AppState, new()
         {
             T myAppState=new T();				
-	        myAppState.m_pParent = AppStateManager.Singleton;
-            AppStateManager.Singleton.manageAppState(name, myAppState);
+	        myAppState.m_pParent = AppStateManager.Instance;
+            AppStateManager.Instance.manageAppState(name, myAppState);
         }
  
 	    public void destroy()
@@ -58,12 +58,12 @@ namespace AMOFGameEngine.States
 
         protected virtual void ReConfigure(string renderName, Dictionary<string, string> displayOptions)
         {
-            RenderSystem rs = GameManager.Singleton.mRoot.GetRenderSystemByName(renderName);
+            RenderSystem rs = GameManager.Instance.mRoot.GetRenderSystemByName(renderName);
             foreach (var kpl in displayOptions)
             {
                 rs.SetConfigOption(kpl.Key, kpl.Value);
             }
-            GameManager.Singleton.mRoot.QueueEndRendering();
+            GameManager.Instance.mRoot.QueueEndRendering();
         }
     }
 }

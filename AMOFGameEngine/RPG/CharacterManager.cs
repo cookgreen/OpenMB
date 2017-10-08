@@ -79,11 +79,11 @@ namespace AMOFGameEngine.RPG
         {
             Mods.XML.ModCharacterDfnXML charaDfn = characterDfns.Where(o => o.ID == charaID).FirstOrDefault();
 
-            Character character = new Character("chara_" + GameManager.Singleton.AllGameObjects.Count, this.cam, this.keyboard, this.mouse);
+            Character character = new Character("chara_" + GameManager.Instance.AllGameObjects.Count, this.cam, this.keyboard, this.mouse);
             character.InitPos = spawnPosition;
             character.Create(charaDfn);
             characherLst.Add(character);
-            GameManager.Singleton.AllGameObjects.Add(character);
+            GameManager.Instance.AllGameObjects.Add(character);
         }
 
         public void SpawnPlayer(string charaID)
@@ -94,12 +94,12 @@ namespace AMOFGameEngine.RPG
             character.InitPos = spawnPosition;
             character.Create(charaDfn);
             characherLst.Add(character);
-            GameManager.Singleton.AllGameObjects.Add(character);
+            GameManager.Instance.AllGameObjects.Add(character);
         }
 
         public Player GetPlayer()
         {
-            var player = from gameObj in GameManager.Singleton.AllGameObjects
+            var player = from gameObj in GameManager.Instance.AllGameObjects
                          where gameObj.UniqueId == Utilities.Helper.GetStringHash("player")
                          select gameObj;
             return (Player)(player.Count() > 0 ? player.FirstOrDefault() : null);
