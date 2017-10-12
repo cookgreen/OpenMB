@@ -9,10 +9,11 @@ using System.Windows.Forms;
 
 namespace AMOFGameEngine.Utilities
 {
-    public class OgreConfigFileAdapter
+    public class OgreConfigFileAdapter : IDisposable
     {
         private string filename;
         private List<OgreConfigNode> ogreconfigs;
+        private bool disposed;
 
         public OgreConfigFileAdapter(string fileName)
         {
@@ -106,6 +107,7 @@ namespace AMOFGameEngine.Utilities
                     {
                         sw.WriteLine(pd.Key + "=" + pd.Value + "\n");
                     }
+                    sw.WriteLine();
                 }
                 sw.Flush();
             }
@@ -123,6 +125,15 @@ namespace AMOFGameEngine.Utilities
             else
             {
                 return null;
+            }
+        }
+
+        public void Dispose()
+        {
+            if (!disposed)
+            {
+                ogreconfigs.Clear();
+                ogreconfigs = null;
             }
         }
     }

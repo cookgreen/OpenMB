@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mogre;
+using System.IO;
 
 namespace AMOFGameEngine.Video
 {
@@ -46,15 +47,18 @@ namespace AMOFGameEngine.Video
                 videotex.FrameNum = 0;
             }
             System.Drawing.Bitmap bitmap = videotex.Stream.GetBitmap(videotex.FrameNum);
-            bitmap.Save("./Media/materials/textures/frame.png");
+            MemoryStream ms = new MemoryStream();
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            ms.Position = 0;
             try
             {
                 Image image = new Image();
-                image.Load("frame.png", "General");
+                image.Load(Utilities.Helper.StreamToDataPtr(ms));
                 image.FlipAroundX();
                 videotex.PixelBuffer.BlitFromMemory(image.GetPixelBox());
                 image.Dispose();
-
+                ms.Close();
+                ms.Dispose();
                 videotex.FrameNum++;
             }
             catch (Exception ex)

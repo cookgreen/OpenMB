@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using Mogre;
+using System.Runtime.InteropServices;
 
 namespace AMOFGameEngine.Utilities
 {
@@ -60,6 +63,45 @@ namespace AMOFGameEngine.Utilities
             }
 
             return hash;
+        }
+
+        public static MemoryStream DataPtrToStream(DataStreamPtr ptr)
+        {
+            if (ptr.Size() != 0)
+            {
+                byte[] buffer = new byte[ptr.Size()];
+                unsafe
+                {
+                    fixed (byte* bufferPtr = &buffer[0])
+                    {
+                        ptr.Read(bufferPtr, (uint)buffer.Length);
+                    }
+                }
+                MemoryStream memoryStream = new MemoryStream(buffer);
+                return memoryStream;
+            }
+            return null;
+        }
+
+        public static DataStreamPtr StreamToDataPtr(MemoryStream stream)
+        {
+            if (stream.Length != 0)
+            {
+                BinaryReader br = new BinaryReader(stream);
+                byte[] pBuffer = br.ReadBytes((int)br.BaseStream.Length);
+                stream.Close();
+                unsafe
+                {
+                    GCHandle handle = GCHandle.Alloc(pBuffer, GCHandleType.Pinned);
+                    byte* pUnsafeByte = (byte*)handle.AddrOfPinnedObject();
+                    void* pUnsafeBuffer = (void*)handle.AddrOfPinnedObject();
+                    MemoryDataStream memorydataStream = new MemoryDataStream(pUnsafeBuffer, (uint)pBuffer.Length);
+                    DataStreamPtr ptr = new DataStreamPtr(memorydataStream);
+                    handle.Free();
+                    return ptr;
+                }
+            }
+            return null;
         }
     }
 }

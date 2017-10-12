@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Mogre;
 using System.Reflection;
+using System.ComponentModel;
+using Mogre;
 using AMOFGameEngine.Utilities;
 using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine.Mods
 {
     using Mods = Dictionary<string, ModManifest>;
-using System.ComponentModel;
 
     public class ModManager
     {
@@ -66,6 +66,7 @@ using System.ComponentModel;
 
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            worker.Dispose();
             if (LoadingModFinished != null)
             {
                 LoadingModFinished();
