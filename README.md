@@ -1,5 +1,5 @@
 # AMGE
-![Build](https://api.travis-ci.org/cookgreen/AMOFGameEngine.svg?branch=master)
+![Build](https://travis-ci.org/cookgreen/AMGE.svg?branch=dev)
 
 ## Introduction:
 Open Source Role-Play Game engine based on MOGRE(Managed Ogre)
