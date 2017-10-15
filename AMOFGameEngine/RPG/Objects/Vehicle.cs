@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using MOIS;
+using AMOFGameEngine.RPG.Traits;
 
-namespace AMOFGameEngine.RPG
+namespace AMOFGameEngine.RPG.Object
 {
 
     public enum VehicleState
@@ -16,7 +17,7 @@ namespace AMOFGameEngine.RPG
     /// <summary>
     /// Vehicle Class
     /// </summary>
-    public class Vehicle : RPGObject
+    public class Vehicle : MoveableObject,IDirvable
     {
         private string vehicleName;
         private string vehicleMeshName;

@@ -8,7 +8,7 @@ using Mogre;
 
 namespace AMOFGameEngine.Network
 {
-    public class Player
+    public class MpPlayer
     {
         private string playName;
         private TcpClient playerClient;

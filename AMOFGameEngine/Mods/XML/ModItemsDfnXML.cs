@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
+using AMOFGameEngine.RPG.Object;
+using AMOFGameEngine.RPG.Data;
 
 namespace AMOFGameEngine.Mods.XML
 {
@@ -22,6 +24,6 @@ namespace AMOFGameEngine.Mods.XML
         [XmlElement("MeshName")]
         public string MeshName { get; set; }
         [XmlElement("Type")]
-        public RPG.ItemType Type { get; set; }
+        public ItemType Type { get; set; }
     }
 }

@@ -53,5 +53,10 @@ namespace AMOFGameEngine.UI
             OverlayManager.Singleton.DestroyOverlayElement(container);
             OverlayManager.Singleton.Destroy(overlay);
         }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
     }
 }

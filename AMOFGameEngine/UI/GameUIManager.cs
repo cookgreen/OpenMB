@@ -7,7 +7,7 @@ using AMOFGameEngine.Widgets;
 
 namespace AMOFGameEngine.UI
 {
-    public class GameUIManager
+    public class GameUIManager : IDisposable
     {
         private List<KeyValuePair<string,GameUI>> registeredUI;
         private Stack<KeyValuePair<string,GameUI>> runningUI;
@@ -73,6 +73,12 @@ namespace AMOFGameEngine.UI
         public void Update(float timeSinceLastFrame)
         {
 
+        }
+
+        public void Dispose()
+        {
+            runningUI.Clear();
+            registeredUI.Clear();
         }
     }
 }

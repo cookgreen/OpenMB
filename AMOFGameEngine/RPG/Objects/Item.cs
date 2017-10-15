@@ -3,31 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mogre;
+using AMOFGameEngine.RPG.Data;
 
-namespace AMOFGameEngine.RPG
+namespace AMOFGameEngine.RPG.Object
 {
-    /// <summary>
-    /// Item Type
-    /// </summary>
-    public enum ItemType
-    {
-        IT_INVALID,     //default value
-        IT_GOOD,        //Good
-        IT_BOOK,        //Book
-        IT_ARMOUR,      //Amour
-        IT_CLOTHES,     //Clothes
-        IT_WEAPON,      //Weapon
-        IT_AMMUNITION   //Ammo
-    }
-
-    public enum ItemAttachOption
-    {
-        IAO_LEFT,
-        IAO_RIGHT,
-        IAO_FRONT,
-        IAO_LEFTFLANK,
-        IAO_RIGHTFLANK
-    }
 
     public class ItemInfo
     {

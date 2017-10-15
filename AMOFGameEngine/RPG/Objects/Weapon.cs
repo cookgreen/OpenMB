@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AMOFGameEngine.RPG.Data;
 
-namespace AMOFGameEngine.RPG
+namespace AMOFGameEngine.RPG.Object
 {
     public enum WeaponType
     {
@@ -25,7 +26,7 @@ namespace AMOFGameEngine.RPG
         public WeaponInfo info;
         public Weapon(string name, string mesh, int damage,WeaponType weaponType,Mogre.Camera cam) : base(cam)
         {
-            itemType = RPG.ItemType.IT_WEAPON;
+            itemType = ItemType.IT_WEAPON;
             info = new WeaponInfo()
             {
                 weaponName = name,

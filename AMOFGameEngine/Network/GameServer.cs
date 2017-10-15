@@ -21,7 +21,7 @@ namespace AMOFGameEngine.Network
 
         bool isStarted;
         private ServerMetaData metaData;
-        private Dictionary<int, Player> players;
+        private Dictionary<int, MpPlayer> players;
         private TcpListener listener;
 
         public event Action OnEscapePressed;
@@ -30,7 +30,7 @@ namespace AMOFGameEngine.Network
         public Dictionary<string, string> Options;
         public GameServer()
         {
-            players = new Dictionary<int, Player>();
+            players = new Dictionary<int, MpPlayer>();
             metaData = null;
         }
 
@@ -91,7 +91,7 @@ namespace AMOFGameEngine.Network
             }
             lock (players)
             {
-                Player p = new Player();
+                MpPlayer p = new MpPlayer();
                 p.Client = client;
                 p.Position = new Mogre.Vector3();
                 players.Add(players.Count, p);
@@ -103,7 +103,7 @@ namespace AMOFGameEngine.Network
 
         public void KickPlayer(int playerId)
         {
-            Player targetPlayer = players.Where(o => o.Key == playerId).FirstOrDefault().Value;
+            MpPlayer targetPlayer = players.Where(o => o.Key == playerId).FirstOrDefault().Value;
             if (targetPlayer == null)
             {
                 return;

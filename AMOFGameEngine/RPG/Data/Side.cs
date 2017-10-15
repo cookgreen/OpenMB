@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AMOFGameEngine.RPG
+namespace AMOFGameEngine.RPG.Data
 {
     /// <summary>
     /// Side of a character

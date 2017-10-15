@@ -15,7 +15,7 @@ using AMOFGameEngine.Video;
 
 namespace AMOFGameEngine.States
 {
-    class MainMenu : AppState,IDisposable
+    class MainMenu : AppState
     {
         protected bool m_bQuit;
         private SelectMenu renderMenu;

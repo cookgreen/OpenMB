@@ -123,9 +123,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AStarPathFind.cs" />
-    <Compile Include="AI\CharacterFSM.cs" />
     <Compile Include="Console\MogreConsole.cs" />
     <Compile Include="Core\GameObjClass.cs" />
+    <Compile Include="RPG\Data\Dialogue.cs" />
+    <Compile Include="RPG\Data\DialogueStartType.cs" />
+    <Compile Include="RPG\Data\ItemAttachOption.cs" />
+    <Compile Include="RPG\Data\ItemType.cs" />
+    <Compile Include="RPG\Data\MissionType.cs" />
+    <Compile Include="RPG\Managers\DialogueManager.cs" />
+    <Compile Include="RPG\Data\Mission.cs" />
+    <Compile Include="RPG\Managers\MissionManager.cs" />
+    <Compile Include="RPG\Data\Skill..cs" />
+    <Compile Include="RPG\Managers\SkillManager.cs" />
     <Compile Include="Maps\BspMap.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\SceneMap.cs" />
@@ -142,23 +151,26 @@
     <Compile Include="Mods\XML\ModMusicDfnXML.cs" />
     <Compile Include="Mods\XML\ModSideDfnXML.cs" />
     <Compile Include="Mods\XML\ModXML.cs" />
+    <Compile Include="RPG\Traits\IDirvable.cs" />
+    <Compile Include="RPG\MoveableObject.cs" />
     <Compile Include="Network\GameClient.cs" />
     <Compile Include="Network\GameServer.cs" />
     <Compile Include="Network\Player.cs" />
     <Compile Include="Network\ServerMetaData.cs" />
-    <Compile Include="RPG\Character.cs" />
-    <Compile Include="RPG\CharacterManager.cs" />
-    <Compile Include="RPG\ItemManager.cs" />
-    <Compile Include="RPG\Side.cs" />
-    <Compile Include="RPG\InventoryInfo.cs" />
-    <Compile Include="RPG\LevelInfo.cs" />
-    <Compile Include="RPG\Mountable.cs" />
-    <Compile Include="RPG\NPC.cs" />
-    <Compile Include="RPG\Player.cs" />
+    <Compile Include="RPG\Objects\Character.cs" />
+    <Compile Include="RPG\Managers\CharacterManager.cs" />
+    <Compile Include="RPG\Managers\ItemManager.cs" />
+    <Compile Include="RPG\Data\Side.cs" />
+    <Compile Include="RPG\Data\InventoryInfo.cs" />
+    <Compile Include="RPG\Data\LevelInfo.cs" />
+    <Compile Include="RPG\Traits\IMountable.cs" />
+    <Compile Include="RPG\Objects\NPC.cs" />
+    <Compile Include="RPG\Objects\Player.cs" />
     <Compile Include="RPG\RPGObject.cs" />
-    <Compile Include="RPG\TeamInfo.cs" />
-    <Compile Include="RPG\Vehicle.cs" />
-    <Compile Include="RPG\Weapon.cs" />
+    <Compile Include="RPG\Data\TeamInfo.cs" />
+    <Compile Include="RPG\Objects\Vehicle.cs" />
+    <Compile Include="RPG\Objects\Weapon.cs" />
+    <Compile Include="RPG\Traits\IUsable.cs" />
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\ISound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
@@ -173,7 +185,7 @@
     <Compile Include="States\Multiplayer.cs" />
     <Compile Include="Core\GameManager.cs" />
     <Compile Include="Mods\ModData.cs" />
-    <Compile Include="RPG\Item.cs" />
+    <Compile Include="RPG\Objects\Item.cs" />
     <Compile Include="Mods\ModBaseInfo.cs" />
     <Compile Include="Network\SendData.cs" />
     <Compile Include="States\AppState.cs" />
@@ -184,6 +196,7 @@
     <Compile Include="States\MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RPG\StaticObject.cs" />
     <Compile Include="UI\GameListUI.cs" />
     <Compile Include="UI\GameUI.cs" />
     <Compile Include="UI\GameUIManager.cs" />
@@ -196,6 +209,7 @@
     <Compile Include="States\Pause.cs" />
     <Compile Include="Video\VideoTexture.cs" />
     <Compile Include="Video\VideoTextureManager.cs" />
+    <Compile Include="Widgets\Control.cs" />
     <Compile Include="Widgets\GameTrayHelper.cs" />
     <Compile Include="Widgets\InputBox.cs" />
     <Compile Include="Widgets\GameTrayManager.cs" />
@@ -214,6 +228,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -225,7 +240,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Game\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="OgreHead.ico" />
   </ItemGroup>

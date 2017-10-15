@@ -5,8 +5,9 @@ using System.Text;
 using Mogre;
 using MOIS;
 using Mogre_Procedural.MogreBites;
+using AMOFGameEngine.RPG.Object;
 
-namespace AMOFGameEngine.RPG
+namespace AMOFGameEngine.RPG.Managers
 {
     public class CharacterManager
     {

@@ -5,7 +5,7 @@ using System.Text;
 using Mogre;
 using MOIS;
 
-namespace AMOFGameEngine.RPG
+namespace AMOFGameEngine.RPG.Object
 {
     /// <summary>
     /// Player Class

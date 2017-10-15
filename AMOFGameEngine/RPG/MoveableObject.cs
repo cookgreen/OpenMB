@@ -5,13 +5,7 @@ using System.Text;
 
 namespace AMOFGameEngine.RPG
 {
-    public enum Team
-    {
-        Self,
-        Ally,
-        Enemy
-    }
-    public class TeamInfo
+    public abstract class MoveableObject : RPGObject
     {
     }
 }

@@ -7,10 +7,11 @@ using Mogre;
 using MOIS;
 using AMOFGameEngine.AI;
 using AMOFGameEngine.Sound;
+using AMOFGameEngine.RPG.Data;
 
-namespace AMOFGameEngine.RPG
+namespace AMOFGameEngine.RPG.Object
 {
-    public class Character : RPGObject
+    public class Character : MoveableObject
     {
         enum AIState
         {

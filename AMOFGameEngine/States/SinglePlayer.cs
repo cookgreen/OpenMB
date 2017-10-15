@@ -7,6 +7,8 @@ using AMOFGameEngine.RPG;
 using AMOFGameEngine.UI;
 using AMOFGameEngine.Maps;
 using System.ComponentModel;
+using AMOFGameEngine.RPG.Managers;
+using AMOFGameEngine.RPG.Object;
 
 namespace AMOFGameEngine.States
 {
@@ -100,10 +102,6 @@ namespace AMOFGameEngine.States
 
         private unsafe void SetupTerrain()
         {
-            BackgroundWorker worker = new BackgroundWorker();
-            worker.DoWork += new DoWorkEventHandler((o,e)
-                =>
-            {
                 Light terrainLight = base.m_SceneMgr.CreateLight();
                 terrainLight.Type = Light.LightTypes.LT_DIRECTIONAL;
                 terrainLight.Direction = new Mogre.Vector3(0.55f, -0.3f, 0.75f);
@@ -195,8 +193,6 @@ namespace AMOFGameEngine.States
                     blendMap0.Update();
                     blendMap1.Update();
                 }
-                });
-            worker.RunWorkerAsync();
         }
 
         bool mKeyboard_KeyReleased(MOIS.KeyEvent arg)

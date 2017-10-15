@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AMOFGameEngine.RPG.Object;
 
-namespace AMOFGameEngine.RPG
+namespace AMOFGameEngine.RPG.Data
 {
     public class InventoryInfo
     {
