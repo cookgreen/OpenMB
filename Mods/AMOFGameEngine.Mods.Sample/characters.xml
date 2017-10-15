@@ -1,5 +1,10 @@
 <Characters>
   <Character>
+    <ID>chara_main_player</ID>
+    <Name>Player</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+  </Character>
+  <Character>
     <ID>chara_archer</ID>
     <Name>archer</Name>
     <MeshName>Sinbad.mesh</MeshName>

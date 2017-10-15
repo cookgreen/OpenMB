@@ -93,7 +93,6 @@ namespace AMOFGameEngine.Utilities
                 unsafe
                 {
                     GCHandle handle = GCHandle.Alloc(pBuffer, GCHandleType.Pinned);
-                    byte* pUnsafeByte = (byte*)handle.AddrOfPinnedObject();
                     void* pUnsafeBuffer = (void*)handle.AddrOfPinnedObject();
                     MemoryDataStream memorydataStream = new MemoryDataStream(pUnsafeBuffer, (uint)pBuffer.Length);
                     DataStreamPtr ptr = new DataStreamPtr(memorydataStream);

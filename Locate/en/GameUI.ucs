@@ -1,7 +1,7 @@
-22161220	Graphic
-22161221	Render SubSystem
-22161222	Render System Options
-22161223	Click On Options
-22161224	Game
-22161225	Language
-22161226	Audio
+ui_graphic	Graphic
+ui_render_system	Render SubSystem
+ui_render_system_options	Render System Options
+ui_click_on_options	Click On Options
+ui_game	Game
+ui_language	Language
+ui_audio	Audio

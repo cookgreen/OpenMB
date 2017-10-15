@@ -194,6 +194,9 @@ namespace AMOFGameEngine.Dialogs
 
             GameApp app = new GameApp(GameConfigOptions, ogreConfigs, r);
             app.Run();
+
+            gameCfa.Dispose();
+            cfa.Dispose();
         }
 
         private void cmbValueChange_SelectedIndexChanged(object sender, EventArgs e)
