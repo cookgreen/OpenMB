@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AMOFGameEngine.RPG.Data;
 
-namespace AMOFGameEngine.RPG.Object
+namespace AMOFGameEngine.RPG.Objects
 {
     public enum WeaponType
     {

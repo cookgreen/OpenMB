@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Mogre;
 using Mogre_Procedural.MogreBites.Addons;
 using MMOC;
@@ -6,9 +7,9 @@ using AMOFGameEngine.Mods;
 using AMOFGameEngine.RPG;
 using AMOFGameEngine.UI;
 using AMOFGameEngine.Maps;
-using System.ComponentModel;
 using AMOFGameEngine.RPG.Managers;
-using AMOFGameEngine.RPG.Object;
+using AMOFGameEngine.RPG.Objects;
+using MOIS;
 
 namespace AMOFGameEngine.States
 {
@@ -19,6 +20,7 @@ namespace AMOFGameEngine.States
         private CollisionTools collisionMgr;
         private SdkCameraMan camMan;
         private Player player;
+        Mogre.Vector3 m_TranslateVector;
 
         public SinglePlayer()
         {
@@ -29,14 +31,18 @@ namespace AMOFGameEngine.States
         {
             m_Data = data;
             CreateScene();
-            SetupTerrain();
+            //SetupTerrain();
             InitGame();
 
-            characterMgr.SpawnPlayer("chara_main_player");
-            mapMngr.EnterNewMap(new SceneMap("Cubescene.xml", m_SceneMgr));
-            characterMgr.SetSpawnPosition(new Vector3(0, 0,10));
-            characterMgr.SpawnCharacter("chara_archer");
-            player = characterMgr.GetPlayer();
+            //characterMgr.SpawnPlayer("chara_main_player");
+            //mapMngr.EnterNewMap(new SceneMap("Cubescene.xml", m_SceneMgr));
+            //characterMgr.SetSpawnPosition(new Vector3(0, 0,10));
+            //characterMgr.SpawnCharacter("chara_archer");
+            //player = characterMgr.GetPlayer();
+
+            Aircraft plane = new Aircraft(GameManager.Instance.mKeyboard, GameManager.Instance.mMouse);
+            plane.InitPos = new Mogre.Vector3(0, 0, 0);
+            plane.Setup("plane01", "razor.mesh", m_Camera);
             
             GameManager.Instance.mRoot.FrameStarted += new FrameListener.FrameStartedHandler(mRoot_FrameStarted);
         }
@@ -53,6 +59,9 @@ namespace AMOFGameEngine.States
 
         public override void update(double timeSinceLastFrame)
         {
+            m_TranslateVector = new Mogre.Vector3(0, 0, 0);
+            getInput();
+            moveCamera();
             m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
         }
 
@@ -83,7 +92,7 @@ namespace AMOFGameEngine.States
 
             Light light = m_SceneMgr.CreateLight();
             light.Type = Light.LightTypes.LT_POINT;
-            light.Position = new Vector3(-10, 40, 20);
+            light.Position = new Mogre.Vector3(-10, 40, 20);
             light.SpecularColour = ColourValue.White;
 
             camMan = new SdkCameraMan(m_Camera);
@@ -219,6 +228,46 @@ namespace AMOFGameEngine.States
         bool mMouse_MouseMoved(MOIS.MouseEvent arg)
         {
             return true;
+        }
+
+
+
+        public void moveCamera()
+        {
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
+                m_Camera.MoveRelative(m_TranslateVector);
+            m_Camera.MoveRelative(m_TranslateVector / 10);
+        }
+        public void getInput()
+        {
+                if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_A))
+                    m_TranslateVector.x = -10;
+
+                if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_D))
+                    m_TranslateVector.x = 10;
+
+                if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_W))
+                    m_TranslateVector.z = -10;
+
+                if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_S))
+                    m_TranslateVector.z = 10;
+
+                if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_Q))
+                    m_TranslateVector.y = -10;
+
+                if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_E))
+                    m_TranslateVector.y = 10;
+
+                //camera roll
+                if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_Z))
+                    m_Camera.Roll(new Angle(-10));
+
+                if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_X))
+                    m_Camera.Roll(new Angle(10));
+
+                //reset roll
+                if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_C))
+                    m_Camera.Roll(-(m_Camera.RealOrientation.Roll));
         }
 
         private void InitGame()

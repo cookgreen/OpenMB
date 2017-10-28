@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AMOFGameEngine.RPG.Objects;
 
 namespace AMOFGameEngine.RPG.Traits
 {
     /// <summary>
-    /// Can mount
+    /// Can attack
     /// </summary>
-    public interface IMountable
+    public interface IAttackable
     {
-        void Mount(Character rider);
+        void Attack(RPGObject target);
 
-        void Unmount();
+        void Defence();
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using Mogre;
 using AMOFGameEngine.RPG.Data;
 
-namespace AMOFGameEngine.RPG.Object
+namespace AMOFGameEngine.RPG.Objects
 {
 
     public class ItemInfo

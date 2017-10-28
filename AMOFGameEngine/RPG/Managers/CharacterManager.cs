@@ -5,7 +5,7 @@ using System.Text;
 using Mogre;
 using MOIS;
 using Mogre_Procedural.MogreBites;
-using AMOFGameEngine.RPG.Object;
+using AMOFGameEngine.RPG.Objects;
 
 namespace AMOFGameEngine.RPG.Managers
 {
@@ -80,22 +80,26 @@ namespace AMOFGameEngine.RPG.Managers
         {
             Mods.XML.ModCharacterDfnXML charaDfn = characterDfns.Where(o => o.ID == charaID).FirstOrDefault();
 
-            Character character = new Character("chara_" + GameManager.Instance.AllGameObjects.Count, this.cam, this.keyboard, this.mouse);
+            Character character = new Character("chara_" + GameManager.Instance.AllGameObjects.Count,keyboard,mouse);
             character.InitPos = spawnPosition;
-            character.Create(charaDfn);
-            characherLst.Add(character);
-            GameManager.Instance.AllGameObjects.Add(character);
+            if (character.Setup(cam, charaDfn))
+            {
+                characherLst.Add(character);
+                GameManager.Instance.AllGameObjects.Add(character);
+            }
         }
 
         public void SpawnPlayer(string charaID)
         {
             Mods.XML.ModCharacterDfnXML charaDfn = characterDfns.Where(o => o.ID == charaID).FirstOrDefault();
 
-            Player character = new Player("player",this.cam, this.keyboard, this.mouse);
+            Character character = new Player("player",keyboard,mouse);
             character.InitPos = spawnPosition;
-            character.Create(charaDfn);
-            characherLst.Add(character);
-            GameManager.Instance.AllGameObjects.Add(character);
+            if (character.Setup(cam, charaDfn, true))
+            {
+                characherLst.Add(character);
+                GameManager.Instance.AllGameObjects.Add(character);
+            }
         }
 
         public Player GetPlayer()

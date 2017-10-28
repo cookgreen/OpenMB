@@ -5,7 +5,11 @@ using System.Text;
 
 namespace AMOFGameEngine.RPG.Traits
 {
-    interface IUsable
+    /// <summary>
+    /// Can use
+    /// </summary>
+    public interface IUsable
     {
+        void Use();
     }
 }

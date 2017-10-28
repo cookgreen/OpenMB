@@ -122,14 +122,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\AStarPathFind.cs" />
+    <Compile Include="PathFinder\AStarPathFind.cs" />
     <Compile Include="Console\MogreConsole.cs" />
     <Compile Include="Core\GameObjClass.cs" />
+    <Compile Include="RPG\Controller\CharacterController.cs" />
     <Compile Include="RPG\Data\Dialogue.cs" />
     <Compile Include="RPG\Data\DialogueStartType.cs" />
+    <Compile Include="RPG\Controller\DragoonController.cs" />
+    <Compile Include="RPG\Controller\ControllerBase.cs" />
     <Compile Include="RPG\Data\ItemAttachOption.cs" />
     <Compile Include="RPG\Data\ItemType.cs" />
     <Compile Include="RPG\Data\MissionType.cs" />
+    <Compile Include="RPG\GameObject.cs" />
+    <Compile Include="RPG\GameObjectState.cs" />
     <Compile Include="RPG\Managers\DialogueManager.cs" />
     <Compile Include="RPG\Data\Mission.cs" />
     <Compile Include="RPG\Managers\MissionManager.cs" />
@@ -151,6 +156,11 @@
     <Compile Include="Mods\XML\ModMusicDfnXML.cs" />
     <Compile Include="Mods\XML\ModSideDfnXML.cs" />
     <Compile Include="Mods\XML\ModXML.cs" />
+    <Compile Include="RPG\Objects\Dragoon.cs" />
+    <Compile Include="RPG\Objects\Sceneprop.cs" />
+    <Compile Include="RPG\Controller\AircraftController.cs" />
+    <Compile Include="RPG\Traits\IAttackable.cs" />
+    <Compile Include="RPG\Traits\IDestroyable.cs" />
     <Compile Include="RPG\Traits\IDirvable.cs" />
     <Compile Include="RPG\MoveableObject.cs" />
     <Compile Include="Network\GameClient.cs" />
@@ -168,8 +178,9 @@
     <Compile Include="RPG\Objects\Player.cs" />
     <Compile Include="RPG\RPGObject.cs" />
     <Compile Include="RPG\Data\TeamInfo.cs" />
-    <Compile Include="RPG\Objects\Vehicle.cs" />
+    <Compile Include="RPG\Objects\Aircraft.cs" />
     <Compile Include="RPG\Objects\Weapon.cs" />
+    <Compile Include="RPG\Traits\INodifyStateChanged.cs" />
     <Compile Include="RPG\Traits\IUsable.cs" />
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\ISound.cs" />
@@ -228,7 +239,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -241,7 +251,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Game\" />
+    <Folder Include="RPG\States\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="OgreHead.ico" />

@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AMOFGameEngine.RPG.Objects;
+using AMOFGameEngine.RPG;
 
 namespace AMOFGameEngine.RPG.Traits
 {
     /// <summary>
-    /// Can mount
+    /// Nodify the engine when state changed
     /// </summary>
-    public interface IMountable
+    interface INodifyStateChanged
     {
-        void Mount(Character rider);
-
-        void Unmount();
+        void StateChanged(int oldState, int newState);
     }
 }

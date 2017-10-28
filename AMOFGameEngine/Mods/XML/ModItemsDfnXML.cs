@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using AMOFGameEngine.RPG.Object;
+using AMOFGameEngine.RPG.Objects;
 using AMOFGameEngine.RPG.Data;
 
 namespace AMOFGameEngine.Mods.XML

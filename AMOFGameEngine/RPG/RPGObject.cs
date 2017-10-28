@@ -8,25 +8,8 @@ namespace AMOFGameEngine.RPG
     /// <summary>
     /// Basic class of all rpg elements, such as scene-prop, character, 
     /// </summary>
-    public abstract class RPGObject
+    public abstract class RPGObject : GameObject
     {
-        protected GameObjClass type;
-        public GameObjClass ObjType
-        {
-            get
-            {
-                return type;
-            }
-        }
-        protected uint uniqueId;
-        public uint UniqueId
-        {
-            get
-            {
-                return uniqueId;
-            }
-        }
-
         protected Mogre.Vector3 position;
         public Mogre.Vector3 Position
         {

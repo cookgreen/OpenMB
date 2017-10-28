@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AMOFGameEngine.RPG.Objects;
 
 namespace AMOFGameEngine.RPG.Traits
 {
     /// <summary>
-    /// Can mount
+    /// Can be destroyed
     /// </summary>
-    public interface IMountable
+    interface IDestroyable
     {
-        void Mount(Character rider);
-
-        void Unmount();
+        void Destroyed();
     }
 }
