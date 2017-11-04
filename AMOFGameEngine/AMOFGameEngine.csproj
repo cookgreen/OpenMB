@@ -122,6 +122,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\State.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AI\StateMachine.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PathFinder\AStarPathFind.cs" />
     <Compile Include="Console\MogreConsole.cs" />
     <Compile Include="Core\GameObjClass.cs" />
