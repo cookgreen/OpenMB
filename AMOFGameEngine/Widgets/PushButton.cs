@@ -6,7 +6,7 @@ using Mogre;
 
 namespace AMOFGameEngine.Widgets
 {
-    public class PushButton : Mogre_Procedural.MogreBites.Widget
+    public class PushButton : Control
     {
         public event Action<object> Clicked;
         private BorderPanelOverlayElement buttonMain;
@@ -53,29 +53,27 @@ namespace AMOFGameEngine.Widgets
             }
         }
 
-        public override void _cursorReleased(Vector2 cursorPos)
+        public override void cursorReleased(Vector2 cursorPos)
         {
-            if (IsInBounds(cursorPos))
+            if (Control.isPositionInElement(buttonMain, cursorPos))
             {
-                if (Clicked != null)
-                {
-                    Clicked(this);
-                }
+
             }
         }
 
-        public override void _cursorMoved(Vector2 cursorPos)
+        public override void cursorMoved(Vector2 cursorPos)
         {
-            if (IsInBounds(cursorPos))
+            if (Control.isPositionInElement(buttonMain, cursorPos))
             {
                 buttonMain.MaterialName = "SdkTrays/Button/Over";
             }
         }
 
-        public override void _cursorPressed(Vector2 cursorPos)
+        public override void cursorPressed(Vector2 cursorPos)
         {
             if (IsInBounds(cursorPos))
             {
+                buttonMain.MaterialName = "SdkTrays/Button/Down";
                 if (Clicked != null)
                 {
                     Clicked(this);
@@ -86,6 +84,18 @@ namespace AMOFGameEngine.Widgets
         public OverlayContainer GetContainer()
         {
             return buttonMain;
+        }
+
+        public override void keyPressed(uint text)
+        {
+        }
+
+        public override void keyReleased(uint text)
+        {
+        }
+
+        public override void Dispose()
+        {
         }
     }
 }

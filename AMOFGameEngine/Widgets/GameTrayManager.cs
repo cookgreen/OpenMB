@@ -27,37 +27,9 @@ namespace AMOFGameEngine.Widgets
         public ListView createListView(TrayLocation trayLoc, string name, float height, float width, List<string> columnNames)
         {
             ListView lsv = new ListView(name, -1, -1, height, width, columnNames);
-            this.moveWidgetToTray(lsv,trayLoc);
-            lsv._assignListener(mListener);
+            //this.moveWidgetToTray(lsv,trayLoc);
+            //lsv._assignListener(mListener);
             return lsv;
         }
-
-        public static void nukeOverlayElement(OverlayElement element)
-        {
-            Mogre.OverlayContainer container = element as Mogre.OverlayContainer;
-            if (container != null)
-            {
-                List<Mogre.OverlayElement> toDelete = new List<Mogre.OverlayElement>();
-
-                Mogre.OverlayContainer.ChildIterator children = container.GetChildIterator();
-                while (children.MoveNext())
-                {
-                    toDelete.Add(children.Current);
-                }
-
-                for (int i = 0; i < toDelete.Count; i++)
-                {
-                    nukeOverlayElement(toDelete[i]);
-                }
-            }
-            if (element != null)
-            {
-                Mogre.OverlayContainer parent = element.Parent;
-                if (parent != null)
-                    parent.RemoveChild(element.Name);
-                Mogre.OverlayManager.Singleton.DestroyOverlayElement(element);
-            }
-        }
-
     }
 }

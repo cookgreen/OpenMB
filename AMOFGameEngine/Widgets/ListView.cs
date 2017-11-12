@@ -6,6 +6,11 @@ using Mogre;
 
 namespace AMOFGameEngine.Widgets
 {
+    public class ListViewSelectionChangedArgs : EventArgs
+    {
+        public ListViewItem item;
+    }
+
     public class ListViewColumn
     {
         public string ColumnName;
@@ -18,15 +23,29 @@ namespace AMOFGameEngine.Widgets
     {
         public float Top;
         public List<OverlayElement> Items;
+        public string MaterialName
+        {
+            get
+            {
+                return Items[0].MaterialName;
+            }
+            set
+            {
+                for (int i = 0; i < Items.Count; i++)
+                {
+                    Items[i].MaterialName = value;
+                }
+            }
+        }
         public ListViewItem()
         {
             Items = new List<OverlayElement>();
         }
     }
 
-    public class ListView : Mogre_Procedural.MogreBites.Widget
+    public class ListView : Control
     {
-        public event Action<object> SelectionChanged;
+        public event Action<object,ListViewSelectionChangedArgs> SelectionChanged;
         public List<ListViewColumn> Columns
         {
             get
@@ -34,19 +53,39 @@ namespace AMOFGameEngine.Widgets
                 return columns;
             }
         }
-        public List<ListViewItem> Items;
+        public List<ListViewItem> Items
+        {
+            get
+            {
+                return items;
+            }
+        }
+        public ListViewItem SelectedItem
+        {
+            get
+            {
+                return selectedItem;
+            }
+            set
+            {
+                selectedItem = value;
+            }
+        }
         private string name;
         private OverlayContainer listview;
         private BorderPanelOverlayElement scroll;
         private OverlayElement drag;
         private List<ListViewColumn> columns;
         private List<ListViewItem> items;
+        private List<ListViewItem> visibleItems;
+        private ListViewItem selectedItem;
         private float top;
         private float left;
         private float width;
         private float height;
         private float maxShowItem;
         private List<OverlayElement> allUsedElements;
+        private bool dragging;
         public ListView(string name, float left, float top, float height, float width, List<string> columnNames)
         {
             listview = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/ListView", "BorderPanel", name) as OverlayContainer;
@@ -61,12 +100,15 @@ namespace AMOFGameEngine.Widgets
             listview.Left = left;
             listview.Height = height;
             listview.Width = width;
-            maxShowItem = width / 0.04f;
-            columns = new List<ListViewColumn>();
-            items = new List<ListViewItem>();
-            allUsedElements = new List<OverlayElement>();
             scroll.Height = height - 0.016f;
             drag.Hide();
+
+            maxShowItem = height / 0.04f;
+            columns = new List<ListViewColumn>();
+            items = new List<ListViewItem>();
+            visibleItems = new List<ListViewItem>();
+            allUsedElements = new List<OverlayElement>();
+
 
             LoadColumns(columnNames);
         }
@@ -77,7 +119,7 @@ namespace AMOFGameEngine.Widgets
             {
                 foreach (var column in columns)
                 {
-                    GameTrayManager.nukeOverlayElement(column.ColumnEnity);
+                    Control.nukeOverlayElement(column.ColumnEnity);
                 }
                 columns.Clear();
             }
@@ -183,13 +225,13 @@ namespace AMOFGameEngine.Widgets
         {
             for (int i = 0; i < columns.Count; i++)
             {
-                GameTrayManager.nukeOverlayElement(columns[i].ColumnEnity);
+                Control.nukeOverlayElement(columns[i].ColumnEnity);
             }
             for (int i = 0; i < items.Count; i++)
             {
                 for (int j = 0; j < items[i].Items.Count; j++)
                 {
-                    GameTrayManager.nukeOverlayElement(items[i].Items[j]);
+                    Control.nukeOverlayElement(items[i].Items[j]);
                 }
             }
             for (int i = 0; i < allUsedElements.Count; i++)
@@ -203,15 +245,53 @@ namespace AMOFGameEngine.Widgets
             OverlayManager.Singleton.DestroyOverlayElement(scroll);
         }
 
-        public override void _cursorMoved(Vector2 cursorPos)
+        public override void cursorMoved(Vector2 cursorPos)
         {
         }
 
-        public override void _cursorPressed(Vector2 cursorPos)
+        public override void cursorPressed(Vector2 cursorPos)
+        {
+            bool found = false;
+            int idx = 0;
+            if (selectedItem != null)
+                selectedItem.MaterialName = "SdkTrays/MiniTray";
+            for (int i = 0; i < items.Count; i++)
+            {
+                for (idx = 0; idx < items[i].Items.Count; idx++)
+                {
+                    if (Control.isPositionInElement(items[i].Items[idx], cursorPos) && !found)
+                    {
+                        //we found the which item we click, let's trun its material!
+                        selectedItem = items[i];
+                        found = true;
+                        idx = -1;
+                    }
+                    else if (idx < items[i].Items.Count && found)
+                    {
+                        items[i].Items[idx].MaterialName = "AMGE/Engine/Listview/over";
+                    }
+                    if(idx == items[i].Items.Count - 1 && found)
+                    {
+                        found = false;
+                        if (SelectionChanged != null)
+                        {
+                            SelectionChanged.Invoke(this, new ListViewSelectionChangedArgs() { item = items[i] });
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+
+        public override void cursorReleased(Vector2 cursorPos)
         {
         }
 
-        public override void _cursorReleased(Vector2 cursorPos)
+        public override void keyPressed(uint text)
+        {
+        }
+
+        public override void keyReleased(uint text)
         {
         }
     }

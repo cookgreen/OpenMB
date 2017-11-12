@@ -25,3 +25,17 @@ material AMGE/Engine/BackVerticalLine
         }
     }
 }
+
+material AMGE/Engine/Listview/over
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture listview_over.png
+			}
+		}
+	}
+}
