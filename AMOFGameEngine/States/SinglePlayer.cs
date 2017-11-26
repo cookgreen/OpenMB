@@ -34,15 +34,28 @@ namespace AMOFGameEngine.States
             //SetupTerrain();
             InitGame();
 
-            //characterMgr.SpawnPlayer("chara_main_player");
-            //mapMngr.EnterNewMap(new SceneMap("Cubescene.xml", m_SceneMgr));
-            //characterMgr.SetSpawnPosition(new Vector3(0, 0,10));
-            //characterMgr.SpawnCharacter("chara_archer");
-            //player = characterMgr.GetPlayer();
+            mapMngr.EnterNewMap(new SceneMap("Cubescene.xml", m_SceneMgr));
 
-            Aircraft plane = new Aircraft(GameManager.Instance.mKeyboard, GameManager.Instance.mMouse);
-            plane.InitPos = new Mogre.Vector3(0, 0, 0);
-            plane.Setup("plane01", "razor.mesh", m_Camera);
+            int playerId = characterMgr.SpawnPlayer("chara_main_player");
+            if (playerId != -1)
+            {
+                player = (Player)characterMgr.GetCharacter(playerId);
+            }
+            characterMgr.SetSpawnPosition(new Mogre.Vector3(0, 0,10));
+            Character archer = null;
+            int charaId = characterMgr.SpawnCharacter("chara_archer");
+            if (charaId != -1)
+            {
+                archer = characterMgr.GetCharacter(charaId);
+            }
+            if (archer != null)
+            {
+                archer.Move(new Mogre.Vector3(0, 0, 1000));
+            }
+
+            //Aircraft plane = new Aircraft(GameManager.Instance.mKeyboard, GameManager.Instance.mMouse);
+            //plane.InitPos = new Mogre.Vector3(0, 0, 0);
+            //plane.Setup("plane01", "razor.mesh", m_Camera);
             
             GameManager.Instance.mRoot.FrameStarted += new FrameListener.FrameStartedHandler(mRoot_FrameStarted);
         }

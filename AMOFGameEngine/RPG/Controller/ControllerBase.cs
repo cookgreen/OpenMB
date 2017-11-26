@@ -16,6 +16,7 @@ namespace AMOFGameEngine.RPG.Controller
         protected Entity objectEntity;
         protected AnimationState[] objectAnims;
         protected int objectAnimNum;
+        protected bool isInManualMode;
 
         public Entity Entity
         {
@@ -30,11 +31,12 @@ namespace AMOFGameEngine.RPG.Controller
             get { return objectInstanceName; }
         }
 
-        public ControllerBase(string name, string meshName,Camera camera)
+        public ControllerBase(string name, string meshName, Camera camera, bool manualMode = false)
         {
             objectInstanceName = name;
             objectMeshName = meshName;
             objectCam = camera;
+            isInManualMode = manualMode;
             ControllerInit();
         }
 
@@ -72,7 +74,10 @@ namespace AMOFGameEngine.RPG.Controller
         {
 
             ControllerUpdateAnimations(deltaTime);
-            ControllerUpdateCamera(deltaTime);
+            if (isInManualMode)
+            {
+                ControllerUpdateCamera(deltaTime);
+            }
             ControllerUpdateBody(deltaTime);
             return true;
         }

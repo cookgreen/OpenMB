@@ -24,7 +24,33 @@ namespace AMOFGameEngine.AI
 
         public void Update()
         {
+            if (GlobalState != null)
+            {
+                GlobalState.Execute(owner);
+            }
+            if (CurrentState != null)
+            {
+                CurrentState.Execute(owner);
+            }
+        }
 
+        public void ChangeState(State<T> newState, params object[] extraParams)
+        {
+            if (newState != null)
+            {
+                PreviousState = CurrentState;
+                if (CurrentState != null)
+                {
+                    CurrentState.Exit(owner);
+                }
+                CurrentState = newState;
+                CurrentState.Enter(owner, extraParams);
+            }
+        }
+
+        public void RevertToPreviousState()
+        {
+            ChangeState(PreviousState);
         }
     }
 }

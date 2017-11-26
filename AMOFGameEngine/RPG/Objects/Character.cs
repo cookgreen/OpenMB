@@ -13,18 +13,132 @@ using AMOFGameEngine.Sound;
 
 namespace AMOFGameEngine.RPG.Objects
 {
-    public class CharacterInfo
+    //                       Enemy is defeated
+    //   --------------------------------------------------
+    //   |    Enemy spotted                                |     Can't defeat enemy 
+    // Idle ---------------> SpotEnemy ----------------> Attack -----------------> Flee
+    //                                  Enemy In range
+    internal class CharacterIdleState : State<Character>
+    {
+        public override void Enter(Character owner, params object[] extraParams)
+        {
+        }
+
+        public override void Execute(Character owner)
+        {
+        }
+
+        public override void Exit(Character owner)
+        {
+        }
+    }
+    internal class CharacterSpotEnemyState : State<Character>
+    {
+
+        public override void Enter(Character owner, params object[] extraParams)
+        {
+        }
+
+        public override void Execute(Character owner)
+        {
+        }
+
+        public override void Exit(Character owner)
+        {
+        }
+    }
+    internal class CharacterAttackState : State<Character>
+    {
+        Character target;
+        public override void Enter(Character owner, params object[] extraParams)
+        {
+            target = extraParams[0] as Character;
+            target.ChangeState(CharacterUnderAttackState.Instance);
+        }
+
+        public override void Execute(Character owner)
+        {
+            if (target.Info.Alive)
+                owner.Attack(target);
+            else
+                owner.ChangeState(CharacterIdleState.Instance);
+        }
+
+        public override void Exit(Character owner)
+        {
+            target = null;
+        }
+    }
+    internal class CharacterUnderAttackState : State<Character>
+    {
+        Character attacter;
+        public override void Enter(Character owner, params object[] extraParams)
+        {
+            attacter = extraParams[0] as Character;
+        }
+
+        public override void Execute(Character owner)
+        {
+            if (attacter.Info.Alive)
+                owner.Attack(attacter);
+            else
+                owner.ChangeState(CharacterIdleState.Instance);
+        }
+
+        public override void Exit(Character owner)
+        {
+            attacter = null;
+        }
+    }
+    internal class CharacterFleeState : State<Character>
+    {
+
+        public override void Enter(Character owner,params object[] extraParam)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Execute(Character owner)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Exit(Character owner)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CharacterInfo : GameObjectInfo
     {
         private string name;
-        private string mesh;
+        private string meshName;
         private LevelInfo level;
         private int hitpoint;
         private InventoryInfo inventory;
-        private Camera cam;
+        private bool alive;
 
+        public bool Alive
+        {
+            get { return alive; }
+        }
         public int HitPoint
         {
-            get { return hitpoint; }
+            get 
+            { 
+                return hitpoint; 
+            }
+            set 
+            { 
+                if (hitpoint <= 0)
+                {
+                    alive = false;
+                }
+                else
+                {
+                    hitpoint = value;
+                }
+            }
         }
         public LevelInfo Level
         {
@@ -36,58 +150,82 @@ namespace AMOFGameEngine.RPG.Objects
             get { return name; }
             set { name = value; }
         }
-        public string Mesh
+        public string MeshName
         {
-            get { return mesh; }
-            set { mesh = value; }
+            get { return meshName; }
+            set { meshName = value; }
         }
         public Camera Cam
         {
             get { return cam; }
             set { cam = value; }
         }
+        public Entity Mesh
+        {
+            get
+            {
+                return mesh;
+            }
+        }
+        public SceneNode Node
+        {
+            get
+            {
+                return node;
+            }
+        }
 
-        public CharacterInfo()
+        public CharacterInfo(string name, string meshName, Camera cam)
         {
             level = new LevelInfo();
             hitpoint = 100;
             inventory = new InventoryInfo();
         }
+
+        public override void Initization(string name, string meshName, Camera cam)
+        {
+            this.name = name;
+            this.meshName = meshName;
+            this.cam = cam;
+
+            mesh = cam.SceneManager.CreateEntity(name, meshName);
+            node = cam.SceneManager.RootSceneNode.CreateChildSceneNode();
+            node.AttachObject(mesh);
+
+            var animNames =new String[]
+	    {"IdleBase", "IdleTop", "RunBase", "RunTop", "HandsClosed", "HandsRelaxed", "DrawSwords",
+	    "SliceVertical", "SliceHorizontal", "Dance", "JumpStart", "JumpLoop", "JumpEnd"};
+
+            animations = new AnimationState[animNames.Length];
+            for (int i = 0; i < animNames.Length; i++)
+            {
+                animations[i] = mesh.GetAnimationState(animNames[i]);
+            }
+        }
+
+
+        public override void SetTopAnimation(int animId)
+        {
+
+        }
+        public override void SetBaseAnimation(int animId)
+        {
+
+        }
+        public override void Update(float timeSinceLastFrame)
+        {
+            base.Update(timeSinceLastFrame);
+        }
     }
 
     public class Character : MoveableObject, IAttackable, INodifyStateChanged
     {
-        enum AIState
-        {
-            IDLE,
-            Alarmed,
-            Pratol,
-            Attack,
-            Die,
-        }
-
+        private StateMachine<Character> stateMachine;
         private CharacterController controller;
-        private CharacterInfo charaDesc;
-        private bool alive;
-        private bool wielded;
-        private bool wieldedR;
+        private CharacterAIController ai;
+        private CharacterInfo info;
         private Item currentWieldItem;
-        private Item currentWieldItemR;
-        private AIState currentState;
-        private Mogre.Vector3 charaOrientation;
-        private float angle;
-        private int teamId;
-
         public event Action<int,int> OnStateChanged;
-        public Mogre.Vector3 Direction
-        {
-            get { return charaOrientation ; }
-        }
-        public bool Alive
-        {
-            get { return alive; }
-            set { alive = value; }
-        }
         public Item CurrentWieldItem
         {
             get { return currentWieldItem; }
@@ -98,12 +236,9 @@ namespace AMOFGameEngine.RPG.Objects
             get;
             set;
         }
-        public int Team
+        public CharacterInfo Info
         {
-            get
-            {
-                return teamId;
-            }
+            get { return info; }
         }
 
         public Character(string characterUniqueId, Keyboard keyboard, Mouse mouse)
@@ -111,12 +246,6 @@ namespace AMOFGameEngine.RPG.Objects
             uniqueId = Utilities.Helper.GetStringHash(characterUniqueId);
             GameManager.Instance.GameHashMap.Add(characterUniqueId, uniqueId);
 
-            currentWieldItem = null;
-            currentWieldItemR = null;
-            wielded = false;
-            wieldedR = false;
-            alive = true;
-            currentState = AIState.IDLE;
             keyboard.KeyPressed += keyboard_KeyPressed;
             keyboard.KeyReleased += keyboard_KeyReleased;
             mouse.MouseMoved += mouse_MouseMoved;
@@ -128,25 +257,27 @@ namespace AMOFGameEngine.RPG.Objects
         {
             try
             {
-                charaDesc = new CharacterInfo();
-                charaDesc.Name = characterDfn.Name;
-                charaDesc.Mesh = characterDfn.MeshName;
+                stateMachine = new StateMachine<Character>(this);
+                stateMachine.ChangeState(CharacterIdleState.Instance);
+                info = new CharacterInfo(characterDfn.Name, characterDfn.MeshName,cam);
                 if (controlled)
-                    controller = new CharacterController(charaDesc.Name, charaDesc.Mesh, cam);
+                    controller = new CharacterController(info.Name, info.MeshName, cam, true);
                 else
-                    controller = null;
+                    ai = new CharacterAIController(this);
 
                 return true;
             }
             catch(Exception ex)
             {
-                GameManager.Instance.mLog.LogMessage("Engine Error: " + ex.ToString());
+                GameManager.Instance.mLog.LogMessage(ex.ToString(), LogMessage.LogType.Error);
                 return false;
             }
         }
 
         public override void Update(float deltaTime)
         {
+            stateMachine.Update();
+
             if (controller != null)
             {
                 controller.ControllerUpdate(deltaTime);
@@ -155,26 +286,22 @@ namespace AMOFGameEngine.RPG.Objects
 
         public void Pratol()
         {
-            if (currentState != AIState.Pratol)
-            {
-                int currentOldState = (int)currentState;
-                currentState = AIState.Pratol;
-                StateChanged(currentOldState, (int)currentState);
-            }
+            stateMachine.ChangeState(CharacterSpotEnemyState.Instance);
         }
 
-        public void Attack(RPGObject target)
+        public void Move(Mogre.Vector3 destPosition)
         {
-            if (currentState != AIState.Attack)
-            {
-                int currentOldState = (int)currentState;
-                currentState = AIState.Attack;
-                StateChanged(currentOldState, (int)currentState);
-            }
+            ai.Move(destPosition);
         }
 
         public void UnderAttack(Character attacker)
         {
+            stateMachine.ChangeState(CharacterAttackState.Instance);
+        }
+
+        public void Flee()
+        {
+            stateMachine.ChangeState(CharacterFleeState.Instance);
         }
 
         public void Defence()
@@ -186,7 +313,7 @@ namespace AMOFGameEngine.RPG.Objects
         {
             if (controller == null)
             {
-                controller = new CharacterController(charaDesc.Name, charaDesc.Mesh, charaDesc.Cam);
+                controller = new CharacterController(info.Name, info.MeshName, info.Cam);
             }
         }
 
@@ -248,5 +375,16 @@ namespace AMOFGameEngine.RPG.Objects
             return true;
         }
         #endregion
+
+        public void Attack(RPGObject target)
+        {
+            stateMachine.ChangeState(CharacterAttackState.Instance, target);
+            ai.Attack((Character)target);
+        }
+
+        public void ChangeState(State<Character> state,params object[] extraParams)
+        {
+            stateMachine.ChangeState(state, extraParams);
+        }
     }
 }

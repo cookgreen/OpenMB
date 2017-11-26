@@ -8,6 +8,7 @@ using Mogre_Procedural;
 using Mogre_Procedural.MogreBites;
 using NVorbis;
 using AMOFGameEngine.Localization;
+using AMOFGameEngine.LogMessage;
 using AMOFGameEngine.Maps;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.RPG;
@@ -24,7 +25,7 @@ namespace AMOFGameEngine
         public Root mRoot;
         public RenderWindow mRenderWnd;
         public Viewport mViewport;
-        public Log mLog;
+        public EngineLog mLog;
         public Timer mTimer;
         public MOIS.InputManager mInputMgr;
         public Keyboard mKeyboard;
@@ -45,7 +46,7 @@ namespace AMOFGameEngine
 
         public MogreConsole console;
 
-        public List<RPGObject> AllGameObjects;
+        public Dictionary<int,RPGObject> AllGameObjects;
         public Dictionary<string, uint> GameHashMap;
 
         static GameManager instance;
@@ -79,17 +80,14 @@ namespace AMOFGameEngine
             mAppStateMgr = null;
             mSoundMgr = null;
             console = new MogreConsole();
-            AllGameObjects = new List<RPGObject>();
+            AllGameObjects = new Dictionary<int,RPGObject>();
             GameHashMap = new Dictionary<string, uint>();
             videoMode = new NameValuePairList();
          }
 
         public bool InitRender(String wndTitle, List<OgreConfigNode> renderconfigs,Root r)
         {
-            LogManager logMgr = new LogManager();
- 
-            mLog = LogManager.Singleton.CreateLog("./Log/amof.log", true, true, false);
-            mLog.SetDebugOutputEnabled(true);
+            mLog = EngineLogManager.Instance.CreateLog("./Log/Engine.log");
 
             mRoot = r;
             mRoot.FrameStarted += new FrameListener.FrameStartedHandler(mRoot_FrameStarted);
@@ -172,6 +170,9 @@ namespace AMOFGameEngine
             mTimer.Reset();
  
             mRenderWnd.IsActive=true;
+
+            mLog.LogMessage("Game Started!");
+
             return true;
         }
 
@@ -220,7 +221,7 @@ namespace AMOFGameEngine
         {
             foreach (var eachGameObj in AllGameObjects)
             {
-                eachGameObj.Update((float)timeSinceLastFrame);
+                eachGameObj.Value.Update((float)timeSinceLastFrame);
             }
         }
 

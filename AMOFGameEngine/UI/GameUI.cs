@@ -7,7 +7,7 @@ using Mogre_Procedural.MogreBites;
 
 namespace AMOFGameEngine.UI
 {
-    public class GameUI : SdkTrayListener,IDisposable
+    public class GameUI : IDisposable
     {
         public GameUI()
         {

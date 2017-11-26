@@ -14,15 +14,13 @@ public class CharacterController : ControllerBase
     public const float TURN_SPEED = 500.0f;      
     public const float ANIM_FADE_SPEED = 7.5f;   
     public const float JUMP_ACCEL = 30.0f;       
-    public const float GRAVITY = 90.0f;          
+    public const float GRAVITY = 90.0f;
 
+    private Mogre.Vector3 position;
     private SceneNode cameraPivot;
     private SceneNode cameraGoal;
     private SceneNode cameraNode;
     private float pivotPitch;
-    private Entity sword1;
-    private Entity sword2;
-    private RibbonTrail swordTrail;
     private AnimID baseAnimID;                   // current base (full- or lower-body) animation
     private AnimID topAnimID;                    // current top (upper-body) animation
     private bool[] fadingIn;
@@ -50,10 +48,9 @@ public class CharacterController : ControllerBase
 		ANIM_NONE
 	};
 
-    public CharacterController(string name, string meshName, Camera cam)
-        : base(name, meshName, cam)
+    public CharacterController(string name, string meshName, Camera cam, bool isInManualMode = false)
+        : base(name, meshName, cam, isInManualMode)
     {
-        ControllerInit();
     }
 
     public override bool ControllerSetup()
@@ -173,9 +170,7 @@ public class CharacterController : ControllerBase
                 timer - deltaTime < objectAnims[(int)topAnimID].Length / 2)
             {
                 // so transfer the swords from the sheaths to the hands
-                objectEntity.DetachAllObjectsFromBone();
-                objectEntity.AttachObjectToBone(swordsDrawn ? "Sheath.L" : "Handle.L", sword1);
-                objectEntity.AttachObjectToBone(swordsDrawn ? "Sheath.R" : "Handle.R", sword2);
+                objectEntity.DetachAllObjectsFromBone();;
                 // change the hand state to grab or let go
                 objectAnims[(int)AnimID.ANIM_HANDS_CLOSED].Enabled = !swordsDrawn;
                 objectAnims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled = swordsDrawn;
@@ -183,15 +178,9 @@ public class CharacterController : ControllerBase
                 // toggle sword trails
                 if (swordsDrawn)
                 {
-                    swordTrail.Visible = false;
-                    swordTrail.RemoveNode(sword1.ParentNode);
-                    swordTrail.RemoveNode(sword2.ParentNode);
                 }
                 else
                 {
-                    swordTrail.Visible = true;
-                    swordTrail.AddNode(sword1.ParentNode);
-                    swordTrail.AddNode(sword2.ParentNode);
                 }
             }
 
@@ -304,6 +293,8 @@ public class CharacterController : ControllerBase
             // move in current body direction (not the goal direction)
             objectSceneNode.Translate(0, 0, deltaTime * RUN_SPEED * objectAnims[(int)baseAnimID].Weight,
                 Node.TransformSpace.TS_LOCAL);
+
+            position = objectSceneNode._getDerivedPosition();
         }
 
         if (baseAnimID == AnimID.ANIM_JUMP_LOOP)
@@ -324,6 +315,23 @@ public class CharacterController : ControllerBase
         }
 
         return true;
+    }
+
+    public void Move(Mogre.Vector3 destPosition)
+    {
+        ///Animation
+        setTopAnimation(AnimID.ANIM_RUN_TOP, true);
+
+        ///Turn around
+        Mogre.Vector3 vector = destPosition - objectSceneNode.Position;
+        Mogre.Vector3 faceTo = objectSceneNode.Orientation * objectSceneNode.Position;
+
+        float angleCos = faceTo.Normalise() * vector.Normalise();
+        Radian r = Mogre.Math.ACos(angleCos);
+        objectSceneNode.Rotate(Mogre.Vector3.UNIT_Y, r);
+
+        ///Move
+        keyDirection.z += 1;
     }
 
     private void setupBody()

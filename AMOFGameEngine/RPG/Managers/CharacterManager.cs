@@ -56,58 +56,54 @@ namespace AMOFGameEngine.RPG.Managers
             characherLst.Add(character);
         }
 
-        public void UpdateCharacters(float time)
-        {
-            for (int i = 0; i < characherLst.Count; i++)
-            {
-                if (characherLst[i].Alive)
-                {
-                    characherLst[i].Update(time);
-                }
-                else
-                {
-                    characherLst.RemoveAt(i);
-                }
-            }
-        }
-
         public void SetSpawnPosition(Mogre.Vector3 position)
         {
             this.spawnPosition = position;
         }
 
-        public void SpawnCharacter(string charaID)
+        public int SpawnCharacter(string charaID)
         {
             Mods.XML.ModCharacterDfnXML charaDfn = characterDfns.Where(o => o.ID == charaID).FirstOrDefault();
 
-            Character character = new Character("chara_" + GameManager.Instance.AllGameObjects.Count,keyboard,mouse);
+            int id = GameManager.Instance.AllGameObjects.Count;
+
+            Character character = new Character(charaID + id, keyboard, mouse);
             character.InitPos = spawnPosition;
             if (character.Setup(cam, charaDfn))
             {
                 characherLst.Add(character);
-                GameManager.Instance.AllGameObjects.Add(character);
+                GameManager.Instance.AllGameObjects.Add(id,character);
+                return id;
+            }
+            else
+            {
+                return -1;
             }
         }
 
-        public void SpawnPlayer(string charaID)
+        public int SpawnPlayer(string charaID)
         {
             Mods.XML.ModCharacterDfnXML charaDfn = characterDfns.Where(o => o.ID == charaID).FirstOrDefault();
 
-            Character character = new Player("player",keyboard,mouse);
+            ///we only have one main player in single player; but we have many players in multiplayer
+            int id = GameManager.Instance.AllGameObjects.Count;
+            Character character = new Player("player_" + charaID +GameManager.Instance.AllGameObjects.Count, keyboard, mouse);
             character.InitPos = spawnPosition;
             if (character.Setup(cam, charaDfn, true))
             {
                 characherLst.Add(character);
-                GameManager.Instance.AllGameObjects.Add(character);
+                GameManager.Instance.AllGameObjects.Add(id,character);
+                return id;
+            }
+            else
+            {
+                return -1;
             }
         }
 
-        public Player GetPlayer()
+        public Character GetCharacter(int charaId)
         {
-            var player = from gameObj in GameManager.Instance.AllGameObjects
-                         where gameObj.UniqueId == Utilities.Helper.GetStringHash("player")
-                         select gameObj;
-            return (Player)(player.Count() > 0 ? player.FirstOrDefault() : null);
+            return GameManager.Instance.AllGameObjects.ContainsKey(charaId) ? (Character)GameManager.Instance.AllGameObjects[charaId] : null;
         }
 
         public NameValuePairList GetCharacterInfo(string charaID)

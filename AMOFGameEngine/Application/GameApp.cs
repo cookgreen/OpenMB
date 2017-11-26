@@ -5,6 +5,7 @@ using AMOFGameEngine.States;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.Utilities;
 using Mogre;
+using AMOFGameEngine.LogMessage;
 
 namespace AMOFGameEngine
 {
@@ -17,10 +18,10 @@ namespace AMOFGameEngine
 
     class GameApp
     {
-        RunState state;
-        Dictionary<string, string> gameOptions;
-        List<OgreConfigNode> renderConfigs;
-        Root root;
+        private RunState state;
+        private Dictionary<string, string> gameOptions;
+        private List<OgreConfigNode> renderConfigs;
+        private Root root;
         public GameApp(Dictionary<string,string> gameOptions,List<OgreConfigNode> renderConfigs,Root r)
         {
             this.state = RunState.Stopped;
@@ -39,12 +40,12 @@ namespace AMOFGameEngine
         {
             if (!GameManager.Instance.InitRender("AMOFGameEngine Demo", renderConfigs, root))
             {
-                LogManager.Singleton.LogMessage("[Engine Error]: failed to Initialize the render system!");
+                EngineLogManager.Instance.LogMessage("failed to Initialize the render system!", LogType.Error);
                 state = RunState.Error;
             }
             if (!GameManager.Instance.InitSubSystem(gameOptions))
             {
-                LogManager.Singleton.LogMessage("[Engine Error]: failed to Initialize the game system!");
+                EngineLogManager.Instance.LogMessage("failed to Initialize the game system!", LogType.Error);
                 state = RunState.Error;
             }
 
@@ -62,6 +63,8 @@ namespace AMOFGameEngine
             Multiplayer.create<Multiplayer>("Multiplayer");
 
             AppStateManager.Instance.start(AppStateManager.Instance.findByName("ModChooser"));
+
+            EngineLogManager.Instance.Dispose();
 
             return state;
         }

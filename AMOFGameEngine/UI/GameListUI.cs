@@ -9,11 +9,7 @@ namespace AMOFGameEngine.UI
 {
     public class GameListUI : GameUI
     {
-        private string name;
         private ListView lsv;
-        private PushButton btnHost;
-        private PushButton btnJoin;
-        private PushButton btnExit;
         private Overlay overlay;
         private OverlayContainer container;
         public GameListUI(string name, List<string> columns)

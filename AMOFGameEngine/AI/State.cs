@@ -20,7 +20,7 @@ namespace AMOFGameEngine.AI
                 return instance;
             }
         }
-        public virtual void Enter(T owner) { }
+        public virtual void Enter(T owner, params object[] extraParams) { }
         public virtual void Execute(T owner) { }
         public virtual void Exit(T owner) { }
     }

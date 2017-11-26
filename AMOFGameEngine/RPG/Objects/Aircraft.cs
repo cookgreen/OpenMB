@@ -56,7 +56,6 @@ namespace AMOFGameEngine.RPG.Objects
     {
         private AircraftInfo info;
         private AircraftController controller;
-        private AircraftState state;
         private Keyboard keyboard;
         private Mouse mouse;
 
@@ -64,7 +63,6 @@ namespace AMOFGameEngine.RPG.Objects
         {
             keyboard = key;
             mouse = ms;
-            this.state = AircraftState.Idle;
 
             keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyboard_KeyPressed);
             keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyboard_KeyReleased);
@@ -112,12 +110,10 @@ namespace AMOFGameEngine.RPG.Objects
 
         public void Drive(Character driver)
         {
-            state = AircraftState.Driving;
         }
 
         public void Stop()
         {
-            state = AircraftState.Idle;
         }
 
         public void Turn()
@@ -127,7 +123,6 @@ namespace AMOFGameEngine.RPG.Objects
 
         public void Destroyed()
         {
-            state = AircraftState.Destroyed;
         }
 
         public void StateChanged(int oldState, int newState)
@@ -135,7 +130,7 @@ namespace AMOFGameEngine.RPG.Objects
             throw new NotImplementedException();
         }
 
-        public void Update(float deltaTime)
+        public override void Update(float deltaTime)
         {
             controller.ControllerUpdate(deltaTime);
         }

@@ -19,12 +19,10 @@ namespace AMOFGameEngine.States
     {
         protected bool m_bQuit;
         private SelectMenu renderMenu;
-        private VideoTexture videotex;
         public MainMenu()
         {
             m_bQuit         = false;
             m_FrameEvent    = new FrameEvent();
-            videotex = null;
         }
         public override void enter(ModData e=null)
         {

@@ -50,6 +50,29 @@ namespace AMOFGameEngine.RPG.Data
             get { return state; }
             set { state = value; }
         }
+
+        /// <summary>
+        /// Who gives this mission(giver id)
+        /// </summary>
+        private int giver;
+
+        public int Giver
+        {
+            get { return giver; }
+            set { giver = value; }
+        }
+
+        /// <summary>
+        /// Who accept this mission(receiver id), normally the player
+        /// </summary>
+        private int receiver;
+
+        public int Receiver
+        {
+            get { return receiver; }
+            set { receiver = value; }
+        }
+
         /// <summary>
         /// Execute when a mission has successed
         /// </summary>

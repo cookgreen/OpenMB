@@ -18,6 +18,7 @@ namespace AMOFGameEngine.Utilities
         public OgreConfigFileAdapter(string fileName)
         {
             filename = fileName;
+            disposed = false;
         }
 
         public List<OgreConfigNode> ReadConfigData()//Read Config Data to list

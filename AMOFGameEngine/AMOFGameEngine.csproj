@@ -122,15 +122,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\GameVersion.cs" />
+    <Compile Include="RPG\Controller\AIControllerBase.cs" />
     <Compile Include="AI\State.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AI\StateMachine.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LogMessage\EngineLog.cs" />
+    <Compile Include="LogMessage\EngineLogManager.cs" />
+    <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="PathFinder\AStarPathFind.cs" />
     <Compile Include="Console\MogreConsole.cs" />
     <Compile Include="Core\GameObjClass.cs" />
+    <Compile Include="RPG\Controller\CharacterAIController.cs" />
     <Compile Include="RPG\Controller\CharacterController.cs" />
     <Compile Include="RPG\Data\Dialogue.cs" />
     <Compile Include="RPG\Data\DialogueStartType.cs" />
@@ -140,6 +146,7 @@
     <Compile Include="RPG\Data\ItemType.cs" />
     <Compile Include="RPG\Data\MissionType.cs" />
     <Compile Include="RPG\GameObject.cs" />
+    <Compile Include="RPG\GameObjectInfo.cs" />
     <Compile Include="RPG\GameObjectState.cs" />
     <Compile Include="RPG\Managers\DialogueManager.cs" />
     <Compile Include="RPG\Data\Mission.cs" />
@@ -162,6 +169,8 @@
     <Compile Include="Mods\XML\ModMusicDfnXML.cs" />
     <Compile Include="Mods\XML\ModSideDfnXML.cs" />
     <Compile Include="Mods\XML\ModXML.cs" />
+    <Compile Include="Message\Message.cs" />
+    <Compile Include="Message\MessageManager.cs" />
     <Compile Include="RPG\Objects\Dragoon.cs" />
     <Compile Include="RPG\Objects\Sceneprop.cs" />
     <Compile Include="RPG\Controller\AircraftController.cs" />
@@ -188,6 +197,7 @@
     <Compile Include="RPG\Objects\Weapon.cs" />
     <Compile Include="RPG\Traits\INodifyStateChanged.cs" />
     <Compile Include="RPG\Traits\IUsable.cs" />
+    <Compile Include="RPG\GameWorld.cs" />
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\ISound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
