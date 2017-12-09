@@ -102,8 +102,7 @@ namespace AMOFGameEngine.States
 		         }
 	         }
              //Save locate Info to file before exiting the main game loop
-             LocateSystem.Singleton.SaveLocateFile();
-             LogManager.Singleton.LogMessage("[Engine Info]: Game Quit");
+             GameManager.Instance.Exit();
          }
          public override void changeAppState(AppState state,ModData e=null)
          {

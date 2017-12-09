@@ -49,11 +49,6 @@ namespace AMOFGameEngine
                 state = RunState.Error;
             }
 
-            GameManager.Instance.Update += UI.GameUIManager.Instance.Update;
-            GameManager.Instance.Update += Mods.ModManager.Instance.Update;
-            GameManager.Instance.Update += Maps.MapManager.Instance.Update;
-            GameManager.Instance.Update += Sound.SoundManager.Instance.Update;
-
             GC.Collect();
 
             ModChooser.create<ModChooser>("ModChooser");

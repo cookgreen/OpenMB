@@ -102,5 +102,20 @@ namespace AMOFGameEngine.Utilities
             }
             return null;
         }
+
+        public static ColourValue HexToRgb(string hexstr)
+        {
+            ColourValue cv = new ColourValue();
+            if (hexstr.StartsWith("0x") && hexstr.Length == 8)
+            {
+                cv = new ColourValue(
+                 (Convert.ToInt32(hexstr[2].ToString(), 16) * 16 + Convert.ToInt32(hexstr[3].ToString(), 16)) / 255,
+                 (Convert.ToInt32(hexstr[4].ToString(), 16) * 16 + Convert.ToInt32(hexstr[5].ToString(), 16)) / 255,
+                 (Convert.ToInt32(hexstr[6].ToString(), 16) * 16 + Convert.ToInt32(hexstr[7].ToString(), 16)) / 255
+                 );
+                return cv;
+            }
+            return cv;
+        }
     }
 }

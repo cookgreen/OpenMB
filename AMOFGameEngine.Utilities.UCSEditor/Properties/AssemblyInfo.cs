@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("AMOFGameEngine.Utilities.LocateFileEditor")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("AMOFGameEngine.Utilities.UCSFileEditor")]
+[assembly: AssemblyDescription("UCS File Editor for AMOFGameEngine(AMGE)")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("AMOFGameEngine Development Team")]
 [assembly: AssemblyProduct("AMOFGameEngine.Utilities.LocateFileEditor")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("GNU GENERAL PUBLIC LICENSE Version 3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -251,7 +251,8 @@ namespace AMOFGameEngine
         {
             if(mKeyboard.IsKeyDown(MOIS.KeyCode.KC_V))
             {
-                mRenderWnd.WriteContentsToTimestampedFile("AMOF_Screenshot_", ".jpg");
+                mRenderWnd.WriteContentsToTimestampedFile("AMGE_ScreenShot_", ".jpg");
+                outputMgr.DisplayMessage("Screenshot saved to:" + Environment.CurrentDirectory);
                 return true;
             }
  

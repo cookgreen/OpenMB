@@ -56,8 +56,6 @@ namespace AMOFGameEngine.States
 
         bool mRoot_FrameStarted(FrameEvent evt)
         {
-            GameManager.Instance.console.FrameStarted(evt);
-
             return true;
         }
         public override void exit()
