@@ -11,12 +11,14 @@ using AMOFGameEngine.Localization;
 using AMOFGameEngine.LogMessage;
 using AMOFGameEngine.Maps;
 using AMOFGameEngine.Mods;
+using AMOFGameEngine.Network;
+using AMOFGameEngine.Output;
 using AMOFGameEngine.RPG;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.States;
 using AMOFGameEngine.Widgets;
+using AMOFGameEngine.UI;
 using AMOFGameEngine.Utilities;
-using Editor;
 
 namespace AMOFGameEngine
 {
@@ -26,8 +28,9 @@ namespace AMOFGameEngine
         public RenderWindow mRenderWnd;
         public Viewport mViewport;
         public EngineLog mLog;
+        public Log mMogreLog;
         public Timer mTimer;
-        public MOIS.InputManager mInputMgr;
+        public InputManager mInputMgr;
         public Keyboard mKeyboard;
         public Mouse mMouse;
         public GameTrayManager mTrayMgr;
@@ -39,12 +42,14 @@ namespace AMOFGameEngine
 
         private string defaultRS;
 
-        private AppStateManager mAppStateMgr;
-        private SoundManager mSoundMgr;
-        private ModManager mModMgr;
-        private LocateSystem mLocateMgr;
-
-        public MogreConsole console;
+        private AppStateManager appStateMgr;
+        private LocateSystem locateMgr;
+        private MapManager mapMgr;
+        private ModManager modMgr;
+        private NetworkManager networkMgr;
+        private OutputManager outputMgr;
+        private SoundManager soundMgr;
+        private GameUIManager uiMgr;
 
         public Dictionary<int,RPGObject> AllGameObjects;
         public Dictionary<string, uint> GameHashMap;
@@ -77,9 +82,8 @@ namespace AMOFGameEngine
             mKeyboard = null;
             mMouse = null;
             mTrayMgr = null;
-            mAppStateMgr = null;
-            mSoundMgr = null;
-            console = new MogreConsole();
+            appStateMgr = null;
+            soundMgr = null;
             AllGameObjects = new Dictionary<int,RPGObject>();
             GameHashMap = new Dictionary<string, uint>();
             videoMode = new NameValuePairList();
@@ -88,6 +92,8 @@ namespace AMOFGameEngine
         public bool InitRender(String wndTitle, List<OgreConfigNode> renderconfigs,Root r)
         {
             mLog = EngineLogManager.Instance.CreateLog("./Log/Engine.log");
+            mMogreLog = LogManager.Singleton.CreateLog("./Log/Mogre.log", true, true, false);
+            mMogreLog.SetDebugOutputEnabled(true);
 
             mRoot = r;
             mRoot.FrameStarted += new FrameListener.FrameStartedHandler(mRoot_FrameStarted);
@@ -160,7 +166,7 @@ namespace AMOFGameEngine
                 }
             }
 
-            TextureManager.Singleton.DefaultNumMipmaps=5;
+            TextureManager.Singleton.DefaultNumMipmaps = 5;
 
             ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 
@@ -189,28 +195,43 @@ namespace AMOFGameEngine
 
         public bool InitSubSystem(Dictionary<string, string> gameOptions)
         {
-            //console.InitConsole(ref mRoot);
-            console.AddCommand("help", new MogreConsole.CommandDelegate(console_showHelp));
+            appStateMgr = new AppStateManager();
+            locateMgr = LocateSystem.Singleton;
+            mapMgr = new MapManager();
+            modMgr = new ModManager();
+            networkMgr = new NetworkManager();
+            outputMgr = new OutputManager();
+            soundMgr = new SoundManager();
+            uiMgr = new GameUIManager();
+            
 
-            mLocateMgr = LocateSystem.Singleton;
-            if (!LocateSystem.Singleton.IsInit)
-            {
-                LocateSystem.Singleton.InitLocateSystem(mLocateMgr.GetLanguageFromFile());
-            }
-            mSoundMgr = new SoundManager();
             if (gameOptions["IsEnableMusic"] == "True")
             {
-                mSoundMgr.SystemInit();
+                soundMgr.SystemInit();
             }
-
-            mModMgr = new ModManager();
-            mAppStateMgr = new AppStateManager();
+            if (!locateMgr.IsInit)
+            {
+                locateMgr.InitLocateSystem(locateMgr.GetLanguageFromFile());
+            }
+            
+            Update += modMgr.Update;
+            Update += mapMgr.Update;
+            Update += outputMgr.Update;
+            Update += soundMgr.Update;
+            Update += uiMgr.Update;
+            
             return true;
         }
 
         private void InitGame()
         {
             
+        }
+
+        public void Exit()
+        {
+            LocateSystem.Singleton.SaveLocateFile();
+            GameManager.Instance.mLog.LogMessage("Game Quit!");
         }
 
         public void UpdateRender(double timeSinceLastFrame)
@@ -249,7 +270,6 @@ namespace AMOFGameEngine
 
             if (mKeyboard.IsKeyDown(KeyCode.KC_HOME))
             {
-                console.Visible = true;
             }
 
             if (mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) && mKeyboard.IsKeyDown(KeyCode.KC_SPACE))

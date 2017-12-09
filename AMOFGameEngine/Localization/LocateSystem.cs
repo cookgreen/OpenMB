@@ -34,6 +34,14 @@ namespace AMOFGameEngine.Localization
         LocateUCSFile ucsGameUI;
         LocateUCSFile ucsGameQuickStr;
 
+        public LOCATE Locate
+        {
+            get
+            {
+                return locate;
+            }
+        }
+
         public static LocateSystem Singleton
         {
             get

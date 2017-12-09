@@ -102,7 +102,11 @@ namespace AMOFGameEngine.Mods
                 XML.ModSidesDfnXML sideDfn;
                 loader.Load<XML.ModSidesDfnXML>(out sideDfn);
                 currentMod.SideInfos = sideDfn.Sides;
+                worker.ReportProgress(80);
+
+                FontManager.Singleton.GetByName("EngineFont").Load();
                 worker.ReportProgress(100);
+
                 System.Threading.Thread.Sleep(1000);
             }
             catch
