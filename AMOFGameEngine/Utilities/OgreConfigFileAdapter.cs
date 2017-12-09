@@ -26,16 +26,16 @@ namespace AMOFGameEngine.Utilities
             List<OgreConfigNode> settings = new List<OgreConfigNode>();
 
             string secName;
-            ConfigFile cf = new ConfigFile();
+            Mogre.ConfigFile cf = new Mogre.ConfigFile();
 
             cf.Load(filename, "\t:=", true);
-            ConfigFile.SectionIterator seci = cf.GetSectionIterator();
+            Mogre.ConfigFile.SectionIterator seci = cf.GetSectionIterator();
             while (seci.MoveNext())
             {
                 secName = seci.CurrentKey;
                 OgreConfigNode configNode = new OgreConfigNode();
                 configNode.Section = secName;
-                ConfigFile.SettingsMultiMap settings2 = seci.Current; ;
+                Mogre.ConfigFile.SettingsMultiMap settings2 = seci.Current; ;
 
                 foreach (KeyValuePair<string, string> pv in settings2)
                 {

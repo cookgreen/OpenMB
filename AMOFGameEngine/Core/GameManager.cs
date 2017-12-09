@@ -150,18 +150,16 @@ namespace AMOFGameEngine
 
  
             String secName, typeName, archName;
-            ConfigFile cf=new ConfigFile();
-            cf.Load("resources.cfg","\t:=",true);
- 
-            ConfigFile.SectionIterator seci = cf.GetSectionIterator();
-            while (seci.MoveNext())
+            AMOFGameEngine.Utilities.ConfigFile conf = new AMOFGameEngine.Utilities.ConfigFile();
+            ConfigFileParser parser = new ConfigFileParser();
+            conf = parser.Load("resources.cfg");
+            for (int i = 0; i < conf.Sections.Count; i++)
             {
-                secName = seci.CurrentKey;
-                ConfigFile.SettingsMultiMap settings = seci.Current;
-                foreach (KeyValuePair<string, string> pair in settings)
+                secName = conf.Sections[i].Name;
+                for (int j = 0; j < conf.Sections[i].KeyValuePairs.Count; j++)
                 {
-                    typeName = pair.Key;
-                    archName = pair.Value;
+                    typeName = conf.Sections[i].KeyValuePairs[j].Key;
+                    archName = conf.Sections[i].KeyValuePairs[j].Value;
                     ResourceGroupManager.Singleton.AddResourceLocation(archName, typeName, secName);
                 }
             }
