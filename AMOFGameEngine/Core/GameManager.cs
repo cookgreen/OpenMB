@@ -165,6 +165,9 @@ namespace AMOFGameEngine
                     ResourceGroupManager.Singleton.AddResourceLocation(archName, typeName, secName);
                 }
             }
+            ResourceGroupManager.Singleton.AddResourceLocation(
+                string.Format("./Media/Engine/Fonts/{0}/", LocateSystem.Singleton.Locate.ToString()), "FileSystem",
+                "General");
 
             TextureManager.Singleton.DefaultNumMipmaps = 5;
 

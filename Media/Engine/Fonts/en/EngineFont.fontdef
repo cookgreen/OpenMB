@@ -1,0 +1,7 @@
+EngineFont
+{
+	type 		truetype
+	source 		ctrl_freak.ttf
+	size 		20
+	resolution  96
+}

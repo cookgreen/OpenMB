@@ -1,0 +1,8 @@
+EngineFont
+{
+	type 		truetype
+	source 		simhei.ttf
+	size              16
+       	resolution  96
+       	code_points 19968-40869 33-166
+}
