@@ -83,9 +83,9 @@
             // pbAMGELogo
             // 
             this.pbAMGELogo.Image = ((System.Drawing.Image)(resources.GetObject("pbAMGELogo.Image")));
-            this.pbAMGELogo.Location = new System.Drawing.Point(12, 3);
+            this.pbAMGELogo.Location = new System.Drawing.Point(1, 3);
             this.pbAMGELogo.Name = "pbAMGELogo";
-            this.pbAMGELogo.Size = new System.Drawing.Size(462, 160);
+            this.pbAMGELogo.Size = new System.Drawing.Size(481, 160);
             this.pbAMGELogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbAMGELogo.TabIndex = 3;
             this.pbAMGELogo.TabStop = false;
@@ -258,6 +258,7 @@
             // 
             // cmbLanguageSelect
             // 
+            this.cmbLanguageSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbLanguageSelect.FormattingEnabled = true;
             this.cmbLanguageSelect.Items.AddRange(new object[] {
             "English",
@@ -288,6 +289,7 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "ConfigFrm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

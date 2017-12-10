@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.splitWinMain = new System.Windows.Forms.SplitContainer();
             this.lsvLocateInfo = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -49,6 +50,8 @@
             this.ofd = new System.Windows.Forms.OpenFileDialog();
             this.sfd = new System.Windows.Forms.SaveFileDialog();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutUCSEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitWinMain)).BeginInit();
             this.splitWinMain.Panel1.SuspendLayout();
             this.splitWinMain.Panel2.SuspendLayout();
@@ -137,7 +140,8 @@
             // 
             this.menus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.aboutToolStripMenuItem});
             this.menus.Location = new System.Drawing.Point(0, 0);
             this.menus.Name = "menus";
             this.menus.Size = new System.Drawing.Size(784, 25);
@@ -159,7 +163,7 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -167,7 +171,7 @@
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -175,19 +179,19 @@
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(118, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -216,6 +220,21 @@
             this.deleteThisLineToolStripMenuItem.Text = "Delete this Line";
             this.deleteThisLineToolStripMenuItem.Click += new System.EventHandler(this.deleteThisLineToolStripMenuItem_Click);
             // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutUCSEditorToolStripMenuItem});
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(55, 21);
+            this.aboutToolStripMenuItem.Text = "About";
+            // 
+            // aboutUCSEditorToolStripMenuItem
+            // 
+            this.aboutUCSEditorToolStripMenuItem.Name = "aboutUCSEditorToolStripMenuItem";
+            this.aboutUCSEditorToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+            this.aboutUCSEditorToolStripMenuItem.Text = "About UCSEditor";
+            this.aboutUCSEditorToolStripMenuItem.Click += new System.EventHandler(this.aboutUCSEditorToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -223,10 +242,12 @@
             this.ClientSize = new System.Drawing.Size(784, 470);
             this.Controls.Add(this.splitWinMain);
             this.Controls.Add(this.menus);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menus;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UCSEditor";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Resize += new System.EventHandler(this.frmMain_Resize);
             this.splitWinMain.Panel1.ResumeLayout(false);
             this.splitWinMain.Panel2.ResumeLayout(false);
@@ -262,5 +283,7 @@
         private System.Windows.Forms.TextBox txtLocalizedText;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.TextBox txtKey;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutUCSEditorToolStripMenuItem;
     }
 }

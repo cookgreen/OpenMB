@@ -152,5 +152,11 @@ namespace AMOFGameEngine.Utilities.LocateFileEditor
         {
 
         }
+
+        private void aboutUCSEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAbout about = new frmAbout();
+            about.ShowDialog();
+        }
     }
 }
