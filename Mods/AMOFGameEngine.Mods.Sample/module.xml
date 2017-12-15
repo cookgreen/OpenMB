@@ -14,7 +14,12 @@
     <Items>Items.xml</Items>
     <Sides>Side.xml</Sides>
   </Data>
-  <Media></Media>
+  <Media>
+    <MediaSection Type="FileSystem">Media|Mods/Sample/Materials</MediaSection>
+    <MediaSection Type="FileSystem">Media|Mods/Sample/Models</MediaSection>
+    <MediaSection Type="FileSystem">Media|Mods/Sample/Overlay</MediaSection>
+    <MediaSection Type="FileSystem">Media|Mods/Sample/Textures</MediaSection>
+  </Media>
   <Scripts></Scripts>
   <Maps></Maps>
 </Module>

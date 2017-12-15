@@ -3,20 +3,24 @@
     <ID>chara_main_player</ID>
     <Name>Player</Name>
     <MeshName>Sinbad.mesh</MeshName>
+    <Equips />
   </Character>
   <Character>
     <ID>chara_archer</ID>
     <Name>archer</Name>
     <MeshName>Sinbad.mesh</MeshName>
+    <Equips />
   </Character>
   <Character>
     <ID>chara_infantry</ID>
     <Name>Infantry</Name>
     <MeshName>Sinbad.mesh</MeshName>
+    <Equips />
   </Character>
   <Character>
     <ID>chara_cavalry</ID>
     <Name>Cavalry</Name>
     <MeshName>Sinbad.mesh</MeshName>
+    <Equips />
   </Character>
 </Characters>
