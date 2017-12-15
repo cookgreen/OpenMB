@@ -1,5 +1,6 @@
 *.pdb
 *.exe
+*.vshost.exe
 *.manifest
 *.log
 *.suo
