@@ -142,6 +142,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Addon\Addon.cs" />
     <Compile Include="Core\GameVersion.cs" />
     <Compile Include="Output\OutputManager.cs" />
     <Compile Include="RPG\Controller\AIControllerBase.cs" />
