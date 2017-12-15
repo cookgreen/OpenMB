@@ -5,7 +5,6 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using System.ComponentModel;
-using Mogre;
 using AMOFGameEngine.Utilities;
 using AMOFGameEngine.Mods;
 
@@ -17,8 +16,8 @@ namespace AMOFGameEngine.Mods
     {
         private Dictionary<string, ModManifest> InstalledMods;
         private string modInstallRootDir;
-        private OgreConfigFileAdapter ofa;
-        private List<OgreConfigNode> modConfigData;
+        private ConfigFileParser parser;
+        private ConfigFile modConfigData;
         private ModData currentMod;
         private string currentModName;
         private BackgroundWorker worker;
@@ -47,8 +46,9 @@ namespace AMOFGameEngine.Mods
         {
             InstalledMods = new Dictionary<string, ModManifest>();
             currentMod = null;
-            modConfigData = new List<OgreConfigNode>();
-            ofa = new OgreConfigFileAdapter("Mods.cfg");
+            modConfigData = new ConfigFile();
+            modInstallRootDir = null;
+            parser = new ConfigFileParser();
             worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
             worker.DoWork += worker_DoWork;
@@ -104,7 +104,7 @@ namespace AMOFGameEngine.Mods
                 currentMod.SideInfos = sideDfn.Sides;
                 worker.ReportProgress(80);
 
-                FontManager.Singleton.GetByName("EngineFont").Load();
+                //FontManager.Singleton.GetByName("EngineFont").Load();
                 worker.ReportProgress(100);
 
                 System.Threading.Thread.Sleep(1000);
@@ -117,8 +117,16 @@ namespace AMOFGameEngine.Mods
 
         string GetModInstallRootDir()
         {
-            modConfigData = ofa.ReadConfigData();
-            modInstallRootDir= modConfigData.FirstOrDefault(o => o.Section == "").Settings.FirstOrDefault(o => o.Key == "ModDir").Value;
+            modConfigData = parser.Load("Game.cfg");
+            ConfigFileSection section = modConfigData.GetSectionByName("Mods");
+            if (section != null)
+            {
+                string modDir = section.GetValueByKey("ModDir");
+                if (!string.IsNullOrEmpty(modDir))
+                {
+                    modInstallRootDir = modDir;
+                }
+            }
             return modInstallRootDir;
         }
 
@@ -126,16 +134,19 @@ namespace AMOFGameEngine.Mods
         {
             GetModInstallRootDir();
 
-            DirectoryInfo d = new DirectoryInfo(modInstallRootDir);
-
-            FileSystemInfo[] modDirs = d.GetFileSystemInfos();
-
-            foreach (var dir in modDirs)
+            if (!string.IsNullOrEmpty(modInstallRootDir))
             {
-                if (File.Exists(string.Format("{0}/Module.xml", dir.FullName)))
+                DirectoryInfo d = new DirectoryInfo(modInstallRootDir);
+
+                FileSystemInfo[] modDirs = d.GetFileSystemInfos();
+
+                foreach (var dir in modDirs)
                 {
-                    ModManifest manifest = new ModManifest(dir.FullName);
-                    InstalledMods.Add(manifest.MetaData.Name, manifest);
+                    if (File.Exists(string.Format("{0}/Module.xml", dir.FullName)))
+                    {
+                        ModManifest manifest = new ModManifest(dir.FullName);
+                        InstalledMods.Add(manifest.MetaData.Name, manifest);
+                    }
                 }
             }
 

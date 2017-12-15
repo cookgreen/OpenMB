@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("AMOFGameEngine.Utilities.UCSFileEditor")]
-[assembly: AssemblyDescription("UCS File Editor for AMOFGameEngine(AMGE)")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("AMOFGameEngine Development Team")]
-[assembly: AssemblyProduct("AMOFGameEngine.Utilities.LocateFileEditor")]
+[assembly: AssemblyProduct("UCS File Editor for AMOFGameEngine(AMGE)")]
 [assembly: AssemblyCopyright("GNU GENERAL PUBLIC LICENSE Version 3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
