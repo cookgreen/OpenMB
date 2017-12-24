@@ -11,6 +11,7 @@ namespace AMOFGameEngine.Utilities
         public ConfigFile Load(string filePath)
         {
             ConfigFile conf = new ConfigFile();
+            conf.Name = filePath;
             ConfigFileSection currentSection = null;
             int counter = 0;
             using (StreamReader sr = new StreamReader(filePath))
@@ -37,6 +38,7 @@ namespace AMOFGameEngine.Utilities
                                 Key = line.Split('=')[0],
                                 Value = line.Split('=')[1]
                             });
+                        conf.Sections.Add(currentSection);
                     }
                     else if (line.Split('=').Length == 2)
                     {

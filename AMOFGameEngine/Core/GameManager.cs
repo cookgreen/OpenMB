@@ -7,6 +7,7 @@ using MOIS;
 using Mogre_Procedural;
 using Mogre_Procedural.MogreBites;
 using NVorbis;
+using AMOFGameEngine.Addon;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.LogMessage;
 using AMOFGameEngine.Maps;

@@ -118,10 +118,10 @@ namespace AMOFGameEngine.Mods
         string GetModInstallRootDir()
         {
             modConfigData = parser.Load("Game.cfg");
-            ConfigFileSection section = modConfigData.GetSectionByName("Mods");
+            ConfigFileSection section = modConfigData["Mods"];
             if (section != null)
             {
-                string modDir = section.GetValueByKey("ModDir");
+                string modDir = section["ModDir"];
                 if (!string.IsNullOrEmpty(modDir))
                 {
                     modInstallRootDir = modDir;

@@ -27,6 +27,9 @@ namespace AMOFGameEngine.Dialogs
         bool isEnableMusic;
         bool isEnableSound;
         Dictionary<string, string> GameConfigOptions;
+        AMOFGameEngine.Utilities.ConfigFile cf;
+        AMOFGameEngine.Utilities.ConfigFile ogreCfg;
+        ConfigFileParser parser = new ConfigFileParser();
 
         public ConfigFrm()
         {
@@ -35,6 +38,10 @@ namespace AMOFGameEngine.Dialogs
         }
         private void ConfigFrm_Load(object sender, EventArgs e)
         {
+            parser = new ConfigFileParser();
+            cf = parser.Load("game.cfg");
+            ogreCfg = parser.Load("ogre.cfg");
+
             ogreConfigs = cfa.ReadConfigData();
             gameCfgs = gameCfa .ReadConfigData();
 
@@ -45,52 +52,28 @@ namespace AMOFGameEngine.Dialogs
                     cmbSubRenderSys.Items.Add(node.Section);
                 }
             }
-
-            for (int i = 0; i < gameCfgs.Count;i++ )
+            if (cf["Audio"]["EnableSound"] == "1")
             {
-                if (gameCfgs[i].Settings.Count > 0)
-                {
-                    switch (gameCfgs[i].Section)
-                    {
-                        case "Audio":
-                            foreach (KeyValuePair<string, string> kpl in gameCfgs[i].Settings)
-                            {
-                                if (kpl.Key == "EnableSound")
-                                {
-                                    if (kpl.Value == "1")
-                                    {
-                                        isEnableSound = true;
-                                        chkEnableSound.Checked = true;
-                                    }
-                                    else if (kpl.Value == "0")
-                                    {
-                                        isEnableSound = false;
-                                        chkEnableSound.Checked = false;
-                                    }
-                                }
-                                if (kpl.Key == "EnableMusic")
-                                {
-                                    if (kpl.Value == "1")
-                                    {
-                                        isEnableMusic = true;
-                                        chkEnableMusic .Checked = true;
-                                    }
-                                    else if (kpl.Value == "0")
-                                    {
-                                        isEnableMusic = false;
-                                        chkEnableMusic.Checked = false;
-                                    }
-                                }
-                            }
-
-                            break;
-                        case "Localized":
-                            selectedlocate = LocateSystem.Singleton.ConvertLocateShortStringToLocateInfo(gameCfgs[i].Settings["Current"]);
-
-                            break;
-                    }
-                }
+                isEnableSound = true;
+                chkEnableSound.Checked = true;
             }
+            else
+            {
+                isEnableSound = false;
+                chkEnableSound.Checked = false;
+            }
+            if (cf["Audio"]["EnableMusic"] == "1")
+            {
+                isEnableMusic = true;
+                chkEnableMusic.Checked = true;
+            }
+            else
+            {
+                isEnableMusic = false;
+                chkEnableMusic.Checked = false;
+            }
+            selectedlocate = LocateSystem.Singleton.ConvertLocateShortStringToLocateInfo(cf["Localized"]["Current"]);
+
             if (selectedlocate != LOCATE.invalid)
             {
                 cmbLanguageSelect.SelectedIndex = LocateSystem.Singleton.CovertLocateInfoToIndex(selectedlocate);
@@ -98,17 +81,20 @@ namespace AMOFGameEngine.Dialogs
                 LocateSystem.Singleton.InitLocateSystem(selectedlocate);// Init Locate System
                 LocateSystem.Singleton.IsInit = true;
 
-                tbRenderOpt.TabPages[0].Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Graphic");
-                tbRenderOpt.TabPages[1].Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Audio");
-                tbRenderOpt.TabPages[2].Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Game");
+                tbRenderOpt.TabPages[0].Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_graphic");
+                tbRenderOpt.TabPages[1].Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_audio");
+                tbRenderOpt.TabPages[2].Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_game");
 
-                lblRenderSys.Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Render SubSystem");
-                lblCOO.Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Click On Options");
-                lblLang.Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Language");
-                gbRenderOpt.Text = LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Render System Options");
+                lblRenderSys.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_rendersystem");
+                lblCOO.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_click_on_options");
+                lblLang.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_language");
+                gbRenderOpt.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_render_options");
+
+                btnOK.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_ok");
+                btnCancel.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_cancel");
             }
 
-            string defaultRenderSystem = cfa.GetDefaultRenderSystem();
+            string defaultRenderSystem = ogreCfg[""]["Render System"];
             if (!string.IsNullOrEmpty(defaultRenderSystem))
             {
                 cmbSubRenderSys.SelectedItem = defaultRenderSystem;
@@ -187,7 +173,6 @@ namespace AMOFGameEngine.Dialogs
             gameCfgs.Where(o => o.Section == "Audio").FirstOrDefault().Settings["EnableMusic"] = chkEnableMusic.Checked ? "1" : "0";
             gameCfgs.Where(o => o.Section == "Localized").FirstOrDefault().Settings["Current"] = LocateSystem.Singleton.CovertReadableStringToLocateShortString(cmbLanguageSelect.SelectedItem.ToString());
 
-            //LocateSystem.Singleton.SaveLanguageSettingsToFIle(cmbLanguageSelect.SelectedIndex);
             cfa.SaveConfig(ogreConfigs, cmbSubRenderSys.SelectedItem.ToString());
             gameCfa.SaveConfig(gameCfgs);
             this.Close();

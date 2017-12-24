@@ -49,24 +49,27 @@ namespace AMOFGameEngine.Output
 
         public void DisplayMessage(string message, string color = "0xffffff")
         {
-            TextAreaOverlayElement textArea = OverlayManager.Singleton.CreateOverlayElement("TextArea", "msgText" + textElements.Count) as TextAreaOverlayElement;
-            textArea.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-            textArea.Left = 0.01f;
-            textArea.Top = 0.9f;
-            textArea.Width = 0.2f;
-            textArea.Height = 0.1f;
-            textArea.SetParameter("font_name", "EngineFont");
-            textArea.SetParameter("char_height", "0.03");
-            textArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
-            container.AddChild(textArea);
-            textArea.Colour = Utilities.Helper.HexToRgb(color.ToString());
-            textArea.Caption = message;
-            buffer.Add(message);
-            for (int i = 0; i < textElements.IndexOf(textArea); i++)
+            if (!OverlayManager.Singleton.HasOverlayElement("msgText" + textElements.Count))
             {
-                textElements[i].Top -= (i + 1) * 0.01f;
+                TextAreaOverlayElement textArea = OverlayManager.Singleton.CreateOverlayElement("TextArea", "msgText" + textElements.Count) as TextAreaOverlayElement;
+                textArea.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
+                textArea.Left = 0.01f;
+                textArea.Top = 0.9f;
+                textArea.Width = 0.2f;
+                textArea.Height = 0.1f;
+                textArea.SetParameter("font_name", "EngineFont");
+                textArea.SetParameter("char_height", "0.03");
+                textArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
+                container.AddChild(textArea);
+                textArea.Colour = Utilities.Helper.HexToRgb(color.ToString());
+                textArea.Caption = message;
+                buffer.Add(message);
+                for (int i = 0; i < textElements.IndexOf(textArea); i++)
+                {
+                    textElements[i].Top -= (i + 1) * 0.01f;
+                }
+                textElements.Add(textArea);
             }
-            textElements.Add(textArea);
         }
 
         public void Dispose()

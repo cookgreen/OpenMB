@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.splitWinMain = new System.Windows.Forms.SplitContainer();
             this.lsvLocateInfo = new System.Windows.Forms.ListView();
@@ -47,11 +46,10 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteThisLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ofd = new System.Windows.Forms.OpenFileDialog();
-            this.sfd = new System.Windows.Forms.SaveFileDialog();
-            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutUCSEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ofd = new System.Windows.Forms.OpenFileDialog();
+            this.sfd = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitWinMain)).BeginInit();
             this.splitWinMain.Panel1.SuspendLayout();
             this.splitWinMain.Panel2.SuspendLayout();
@@ -279,7 +277,6 @@
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addNewLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteThisLineToolStripMenuItem;
-        private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.TextBox txtLocalizedText;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.TextBox txtKey;

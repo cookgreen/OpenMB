@@ -63,7 +63,25 @@ namespace AMOFGameEngine.Utilities
         {
             keyValuePairs = new List<ConfigFileKeyValuePair>();
         }
-
+        public string this[string key]
+        {
+            get
+            {
+                string resultValue;
+                var resultKeyValuePair = from kpl in keyValuePairs
+                                         where kpl.Key == key
+                                         select kpl;
+                if (resultKeyValuePair.Count() > 0)
+                {
+                    resultValue = resultKeyValuePair.ElementAt(0).Value;
+                }
+                else
+                {
+                    resultValue = null;
+                }
+                return resultValue;
+            }
+        }
         public string GetValueByKey(string key)
         {
             string resultValue;
@@ -112,6 +130,29 @@ namespace AMOFGameEngine.Utilities
         {
             sections = new List<ConfigFileSection>();
         }
+
+        public ConfigFileSection this[string sectionName]
+        {
+            get
+            {
+                ConfigFileSection resultSection;
+
+                var resultSections = from section in sections
+                                     where section.Name == sectionName
+                                     select section;
+                if (resultSections.Count() > 0)
+                {
+                    resultSection = resultSections.ElementAt(0);
+                }
+                else
+                {
+                    resultSection = null;
+                }
+
+                return resultSection;
+            }
+        }
+
         public ConfigFileSection GetSectionByName(string sectionName)
         {
             ConfigFileSection resultSection;
