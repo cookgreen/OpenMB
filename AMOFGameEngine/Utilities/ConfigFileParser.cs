@@ -54,5 +54,35 @@ namespace AMOFGameEngine.Utilities
 
             return conf;
         }
+
+        public bool Save(ConfigFile conf)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(conf.Name))
+                {
+                    for (int i = 0; i < conf.Sections.Count; i++)
+                    {
+                        if (!string.IsNullOrEmpty(conf.Sections[i].Name))
+                        {
+                            string sectionLine = string.Format("[{0}]", conf.Sections[i].Name);
+                            sw.WriteLine(sectionLine);
+                        }
+                        for (int j = 0; j < conf.Sections[i].KeyValuePairs.Count; j++)
+                        {
+                            string keyValueLine = string.Format("{0}={1}", conf.Sections[i].KeyValuePairs[j].Key, conf.Sections[i].KeyValuePairs[j].Value);
+                            sw.WriteLine(keyValueLine);
+                        }
+                        sw.WriteLine();
+                    }
+                    sw.Flush();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

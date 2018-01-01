@@ -33,6 +33,7 @@ namespace AMOFGameEngine.Localization
         LocateUCSFile ucsGameStr;
         LocateUCSFile ucsGameUI;
         LocateUCSFile ucsGameQuickStr;
+        private List<string> avaliableLocates;
 
         public LOCATE Locate
         {
@@ -57,6 +58,7 @@ namespace AMOFGameEngine.Localization
 
         public LocateSystem()
         {
+            avaliableLocates = new List<string>();
         }
 
         public void Dispose()
@@ -303,5 +305,10 @@ namespace AMOFGameEngine.Localization
             }
         }
         #endregion
+
+        public void RegisterLocate(string locate)
+        {
+            avaliableLocates.Add(locate);
+        }
     }
 }

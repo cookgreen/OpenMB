@@ -55,11 +55,18 @@ namespace AMOFGameEngine.Localization
                 {
                     while (sr.Peek() >= 0 && !sr.EndOfStream)
                     {
-                        string line = sr.ReadLine();
-                        string[] outputTmp = Regex.Split(line, "\t");
-                        if (!UCSValueTmp.ContainsKey(outputTmp[0]))
+                        try
                         {
-                            UCSValueTmp.Add(outputTmp[0], outputTmp[1]);
+                            string line = sr.ReadLine();
+                            string[] outputTmp = Regex.Split(line, "\t");
+                            if (!UCSValueTmp.ContainsKey(outputTmp[0]))
+                            {
+                                UCSValueTmp.Add(outputTmp[0], outputTmp[1]);
+                            }
+                        }
+                        catch
+                        {
+                            continue;
                         }
                     }
                 }

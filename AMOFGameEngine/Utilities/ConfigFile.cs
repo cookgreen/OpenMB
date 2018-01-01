@@ -81,6 +81,16 @@ namespace AMOFGameEngine.Utilities
                 }
                 return resultValue;
             }
+            set
+            {
+                var resultKeyValuePair = from kpl in keyValuePairs
+                                         where kpl.Key == key
+                                         select kpl;
+                if (resultKeyValuePair.Count() > 0)
+                {
+                    resultKeyValuePair.First().Value = value;
+                }
+            }
         }
         public string GetValueByKey(string key)
         {
@@ -103,6 +113,7 @@ namespace AMOFGameEngine.Utilities
     public class ConfigFile
     {
         private string name;
+        private string path;
         private List<ConfigFileSection> sections;
         public string Name
         {
@@ -113,6 +124,17 @@ namespace AMOFGameEngine.Utilities
             set
             {
                 name = value;
+            }
+        }
+        public string Path
+        {
+            get
+            {
+                return path;
+            }
+            set
+            {
+                path = value;
             }
         }
         public List<ConfigFileSection> Sections

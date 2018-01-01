@@ -7,3 +7,8 @@ ui_language	Language
 ui_render_options	Render Options
 ui_ok	OK
 ui_cancel	Cancel
+ui_music_sound	Music&Sound
+ui_enable_sound	Enable Sound
+ui_enable_music	Enable Music
+ui_localization	Localization
+ui_advanced_options	Advanced Options

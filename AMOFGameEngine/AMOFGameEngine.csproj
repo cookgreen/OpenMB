@@ -32,8 +32,8 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>false</DebugSymbols>
-    <DebugType>none</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -146,6 +146,11 @@
   <ItemGroup>
     <Compile Include="Addon\Addon.cs" />
     <Compile Include="Core\GameVersion.cs" />
+    <Compile Include="Forms\Controller\frmConfigureController.cs" />
+    <Compile Include="Forms\Model\AudioConfigure.cs" />
+    <Compile Include="Forms\Model\Configure.cs" />
+    <Compile Include="Forms\Model\GameConfigure.cs" />
+    <Compile Include="Forms\Model\GraphicConfigure.cs" />
     <Compile Include="Output\OutputManager.cs" />
     <Compile Include="RPG\Controller\AIControllerBase.cs" />
     <Compile Include="AI\State.cs">
@@ -224,11 +229,11 @@
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\ISound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
-    <Compile Include="Forms\ConfigFrm.cs">
+    <Compile Include="Forms\frmConfigure.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ConfigFrm.Designer.cs">
-      <DependentUpon>ConfigFrm.cs</DependentUpon>
+    <Compile Include="Forms\frmConfigure.Designer.cs">
+      <DependentUpon>frmConfigure.cs</DependentUpon>
     </Compile>
     <Compile Include="Localization\LocateSystem.cs" />
     <Compile Include="States\SinglePlayer.cs" />
@@ -267,8 +272,9 @@
     <Compile Include="Widgets\GameTrayManager.cs" />
     <Compile Include="Widgets\ListView.cs" />
     <Compile Include="Widgets\PushButton.cs" />
-    <EmbeddedResource Include="Forms\ConfigFrm.resx">
-      <DependentUpon>ConfigFrm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmConfigure.resx">
+      <DependentUpon>frmConfigure.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
