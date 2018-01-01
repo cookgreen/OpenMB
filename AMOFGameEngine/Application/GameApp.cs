@@ -20,14 +20,12 @@ namespace AMOFGameEngine
     {
         private RunState state;
         private Dictionary<string, string> gameOptions;
-        private List<OgreConfigNode> renderConfigs;
-        private Root root;
-        public GameApp(Dictionary<string,string> gameOptions,List<OgreConfigNode> renderConfigs,Root r)
+        private AMOFGameEngine.Utilities.ConfigFile conf;
+        public GameApp(Dictionary<string,string> gameOptions, AMOFGameEngine.Utilities.ConfigFile conf)
         {
             this.state = RunState.Stopped;
-            this.root = r;
             this.gameOptions = gameOptions;
-            this.renderConfigs = renderConfigs;
+            this.conf = conf;
             AppStateManager.Instance.OnAppStateManagerStarted += new Action(OnAppStateManagerStarted);
         }
 
@@ -38,7 +36,7 @@ namespace AMOFGameEngine
 
         public RunState Run()
         {
-            if (!GameManager.Instance.InitRender("AMOFGameEngine Demo", renderConfigs, root))
+            if (!GameManager.Instance.InitRender("AMGE", conf))
             {
                 EngineLogManager.Instance.LogMessage("failed to Initialize the render system!", LogType.Error);
                 state = RunState.Error;

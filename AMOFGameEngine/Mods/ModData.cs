@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AMOFGameEngine.RPG;
+using AMOFGameEngine.Game;
 using AMOFGameEngine.Sound;
 
 namespace AMOFGameEngine.Mods

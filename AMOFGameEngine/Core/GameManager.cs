@@ -14,12 +14,13 @@ using AMOFGameEngine.Maps;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.Network;
 using AMOFGameEngine.Output;
-using AMOFGameEngine.RPG;
+using AMOFGameEngine.Game;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.States;
 using AMOFGameEngine.Widgets;
 using AMOFGameEngine.UI;
 using AMOFGameEngine.Utilities;
+using ConfigFile = AMOFGameEngine.Utilities.ConfigFile;
 
 namespace AMOFGameEngine
 {
@@ -52,7 +53,7 @@ namespace AMOFGameEngine
         private SoundManager soundMgr;
         private GameUIManager uiMgr;
 
-        public Dictionary<int,RPGObject> AllGameObjects;
+        public Dictionary<int,GameObject> AllGameObjects;
         public Dictionary<string, uint> GameHashMap;
 
         static GameManager instance;
@@ -85,37 +86,36 @@ namespace AMOFGameEngine
             mTrayMgr = null;
             appStateMgr = null;
             soundMgr = null;
-            AllGameObjects = new Dictionary<int,RPGObject>();
+            AllGameObjects = new Dictionary<int,GameObject>();
             GameHashMap = new Dictionary<string, uint>();
             videoMode = new NameValuePairList();
          }
 
-        public bool InitRender(String wndTitle, List<OgreConfigNode> renderconfigs,Root r)
+        public bool InitRender(String wndTitle, ConfigFile renderconfig)
         {
             mLog = EngineLogManager.Instance.CreateLog("./Log/Engine.log");
             mMogreLog = LogManager.Singleton.CreateLog("./Log/Mogre.log", true, true, false);
             mMogreLog.SetDebugOutputEnabled(true);
 
-            mRoot = r;
+            mRoot = Root.Singleton;
             mRoot.FrameStarted += new FrameListener.FrameStartedHandler(mRoot_FrameStarted);
 
             RenderSystem rs = null;
 
-            defaultRS = renderconfigs.Where(o => o.Section == "").FirstOrDefault().Settings["Render System"];
+            defaultRS = renderconfig[""]["Render System"];
             if (!string.IsNullOrEmpty(defaultRS))
             {
                 rs = mRoot.GetRenderSystemByName(defaultRS);
-                string strVideoMode =  renderconfigs.Where(o => o.Section == defaultRS).FirstOrDefault().Settings["Video Mode"];
+                string strVideoMode =  renderconfig[defaultRS]["Video Mode"];
                 videoMode["Width"] = strVideoMode.Split('x')[0].Trim();
                 videoMode["Height"] = strVideoMode.Split('x')[1].Trim();
             }
-            if (rs != null && renderconfigs != null)
+            if (rs != null && renderconfig != null)
             {
-                OgreConfigNode node = renderconfigs.Where(o => o.Section == defaultRS).First();
-                if (!string.IsNullOrEmpty(node.Section))
+                ConfigFileSection node = renderconfig[defaultRS];
+                if (!string.IsNullOrEmpty(node.Name))
                 {
-
-                    foreach (KeyValuePair<string, string> kpl in node.Settings)
+                    foreach (var kpl in node.KeyValuePairs)
                     {
                         rs.SetConfigOption(kpl.Key, kpl.Value);
                     }

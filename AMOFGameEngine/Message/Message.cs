@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AMOFGameEngine.RPG.Message
+namespace AMOFGameEngine.Game.Message
 {
     public class Message
     {

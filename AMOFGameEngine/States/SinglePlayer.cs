@@ -4,18 +4,17 @@ using Mogre;
 using Mogre_Procedural.MogreBites.Addons;
 using MMOC;
 using AMOFGameEngine.Mods;
-using AMOFGameEngine.RPG;
+using AMOFGameEngine.Game;
 using AMOFGameEngine.UI;
 using AMOFGameEngine.Maps;
-using AMOFGameEngine.RPG.Managers;
-using AMOFGameEngine.RPG.Objects;
+using AMOFGameEngine.Game.Managers;
+using AMOFGameEngine.Game.Objects;
 using MOIS;
 
 namespace AMOFGameEngine.States
 {
     public class SinglePlayer : AppState
     {
-        private CharacterManager characterMgr;
         private MapManager mapMngr;
         private CollisionTools collisionMgr;
         private SdkCameraMan camMan;
@@ -35,28 +34,6 @@ namespace AMOFGameEngine.States
             InitGame();
 
             mapMngr.EnterNewMap(new SceneMap("Cubescene.xml", m_SceneMgr));
-
-            int playerId = characterMgr.SpawnPlayer("chara_main_player");
-            if (playerId != -1)
-            {
-                player = (Player)characterMgr.GetCharacter(playerId);
-            }
-            characterMgr.SetSpawnPosition(new Mogre.Vector3(0, 0,10));
-            Character archer = null;
-            int charaId = characterMgr.SpawnCharacter("chara_archer");
-            if (charaId != -1)
-            {
-                archer = characterMgr.GetCharacter(charaId);
-            }
-            if (archer != null)
-            {
-                archer.Move(new Mogre.Vector3(0, 0, 1000));
-            }
-
-            //Aircraft plane = new Aircraft(GameManager.Instance.mKeyboard, GameManager.Instance.mMouse);
-            //plane.InitPos = new Mogre.Vector3(0, 0, 0);
-            //plane.Setup("plane01", "razor.mesh", m_Camera);
-            
             GameManager.Instance.mRoot.FrameStarted += new FrameListener.FrameStartedHandler(mRoot_FrameStarted);
         }
 
@@ -285,8 +262,6 @@ namespace AMOFGameEngine.States
 
         private void InitGame()
         {
-            characterMgr = new CharacterManager(m_Camera, GameManager.Instance.mKeyboard, GameManager.Instance.mMouse);
-            characterMgr.Init(m_Data.CharacterInfos);
             mapMngr = new MapManager();
         }
     }

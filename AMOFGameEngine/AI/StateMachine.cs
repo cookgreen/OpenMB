@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AMOFGameEngine.RPG;
+using AMOFGameEngine.Game;
 
 namespace AMOFGameEngine.AI
 {
-    public class StateMachine<T> where T : RPGObject
+    public class StateMachine<T> where T : GameObject
     {
         private T owner;
         public T Owner { get { return owner; } }

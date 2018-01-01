@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AMOFGameEngine.RPG;
+using AMOFGameEngine.Game;
 
 namespace AMOFGameEngine.AI
 {
-    public class State<T> where T : RPGObject
+    public class State<T> where T : GameObject
     {
         private static State<T> instance;
         public static State<T> Instance

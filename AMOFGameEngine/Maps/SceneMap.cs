@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Helper;
 using Mogre;
-using AMOFGameEngine.RPG;
+using AMOFGameEngine.Game;
 
 namespace AMOFGameEngine.Maps
 {

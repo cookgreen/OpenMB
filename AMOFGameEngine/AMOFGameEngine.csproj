@@ -152,7 +152,7 @@
     <Compile Include="Forms\Model\GameConfigure.cs" />
     <Compile Include="Forms\Model\GraphicConfigure.cs" />
     <Compile Include="Output\OutputManager.cs" />
-    <Compile Include="RPG\Controller\AIControllerBase.cs" />
+    <Compile Include="Game\Controller\AIControllerBase.cs" />
     <Compile Include="AI\State.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -164,23 +164,25 @@
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="PathFinder\AStarPathFind.cs" />
     <Compile Include="Core\GameObjClass.cs" />
-    <Compile Include="RPG\Controller\CharacterAIController.cs" />
-    <Compile Include="RPG\Controller\CharacterController.cs" />
-    <Compile Include="RPG\Data\Dialogue.cs" />
-    <Compile Include="RPG\Data\DialogueStartType.cs" />
-    <Compile Include="RPG\Controller\DragoonController.cs" />
-    <Compile Include="RPG\Controller\ControllerBase.cs" />
-    <Compile Include="RPG\Data\ItemAttachOption.cs" />
-    <Compile Include="RPG\Data\ItemType.cs" />
-    <Compile Include="RPG\Data\MissionType.cs" />
-    <Compile Include="RPG\GameObject.cs" />
-    <Compile Include="RPG\GameObjectInfo.cs" />
-    <Compile Include="RPG\GameObjectState.cs" />
-    <Compile Include="RPG\Managers\DialogueManager.cs" />
-    <Compile Include="RPG\Data\Mission.cs" />
-    <Compile Include="RPG\Managers\MissionManager.cs" />
-    <Compile Include="RPG\Data\Skill..cs" />
-    <Compile Include="RPG\Managers\SkillManager.cs" />
+    <Compile Include="Game\Controller\CharacterAIController.cs" />
+    <Compile Include="Game\Controller\CharacterController.cs" />
+    <Compile Include="Game\Data\Dialogue.cs" />
+    <Compile Include="Game\Data\DialogueStartType.cs" />
+    <Compile Include="Game\Controller\DragoonController.cs" />
+    <Compile Include="Game\Controller\ManualControllerBase.cs" />
+    <Compile Include="Game\Data\ItemAttachOption.cs" />
+    <Compile Include="Game\Data\ItemType.cs" />
+    <Compile Include="Game\Data\MissionType.cs" />
+    <Compile Include="Game\GameObject.cs" />
+    <Compile Include="Game\GameObjectInfo.cs" />
+    <Compile Include="Game\GameObjectState.cs" />
+    <Compile Include="Game\World\GameWorldCell.cs" />
+    <Compile Include="Game\World\GameWorldCellPartition.cs" />
+    <Compile Include="Game\Managers\DialogueManager.cs" />
+    <Compile Include="Game\Data\Mission.cs" />
+    <Compile Include="Game\Managers\MissionManager.cs" />
+    <Compile Include="Game\Data\Skill..cs" />
+    <Compile Include="Game\Managers\SkillManager.cs" />
     <Compile Include="Maps\BspMap.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\SceneMap.cs" />
@@ -199,33 +201,31 @@
     <Compile Include="Mods\XML\ModXML.cs" />
     <Compile Include="Message\Message.cs" />
     <Compile Include="Message\MessageManager.cs" />
-    <Compile Include="RPG\Objects\Dragoon.cs" />
-    <Compile Include="RPG\Objects\Sceneprop.cs" />
-    <Compile Include="RPG\Controller\AircraftController.cs" />
-    <Compile Include="RPG\Traits\IAttackable.cs" />
-    <Compile Include="RPG\Traits\IDestroyable.cs" />
-    <Compile Include="RPG\Traits\IDirvable.cs" />
-    <Compile Include="RPG\MoveableObject.cs" />
+    <Compile Include="Game\Objects\Dragoon.cs" />
+    <Compile Include="Game\Objects\Sceneprop.cs" />
+    <Compile Include="Game\Controller\AircraftController.cs" />
+    <Compile Include="Game\Traits\IAttackable.cs" />
+    <Compile Include="Game\Traits\IDestroyable.cs" />
+    <Compile Include="Game\Traits\IDirvable.cs" />
+    <Compile Include="Game\MoveableObject.cs" />
     <Compile Include="Network\GameClient.cs" />
     <Compile Include="Network\GameServer.cs" />
     <Compile Include="Network\Player.cs" />
     <Compile Include="Network\ServerMetaData.cs" />
-    <Compile Include="RPG\Objects\Character.cs" />
-    <Compile Include="RPG\Managers\CharacterManager.cs" />
-    <Compile Include="RPG\Managers\ItemManager.cs" />
-    <Compile Include="RPG\Data\Side.cs" />
-    <Compile Include="RPG\Data\InventoryInfo.cs" />
-    <Compile Include="RPG\Data\LevelInfo.cs" />
-    <Compile Include="RPG\Traits\IMountable.cs" />
-    <Compile Include="RPG\Objects\NPC.cs" />
-    <Compile Include="RPG\Objects\Player.cs" />
-    <Compile Include="RPG\RPGObject.cs" />
-    <Compile Include="RPG\Data\TeamInfo.cs" />
-    <Compile Include="RPG\Objects\Aircraft.cs" />
-    <Compile Include="RPG\Objects\Weapon.cs" />
-    <Compile Include="RPG\Traits\INodifyStateChanged.cs" />
-    <Compile Include="RPG\Traits\IUsable.cs" />
-    <Compile Include="RPG\GameWorld.cs" />
+    <Compile Include="Game\Objects\Character.cs" />
+    <Compile Include="Game\Managers\ItemManager.cs" />
+    <Compile Include="Game\Data\Side.cs" />
+    <Compile Include="Game\Data\InventoryInfo.cs" />
+    <Compile Include="Game\Data\LevelInfo.cs" />
+    <Compile Include="Game\Traits\IMountable.cs" />
+    <Compile Include="Game\Objects\NPC.cs" />
+    <Compile Include="Game\Objects\Player.cs" />
+    <Compile Include="Game\Data\TeamInfo.cs" />
+    <Compile Include="Game\Objects\Aircraft.cs" />
+    <Compile Include="Game\Objects\Weapon.cs" />
+    <Compile Include="Game\Traits\INodifyStateChanged.cs" />
+    <Compile Include="Game\Traits\IUsable.cs" />
+    <Compile Include="Game\World\GameWorld.cs" />
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\ISound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
@@ -240,7 +240,7 @@
     <Compile Include="States\Multiplayer.cs" />
     <Compile Include="Core\GameManager.cs" />
     <Compile Include="Mods\ModData.cs" />
-    <Compile Include="RPG\Objects\Item.cs" />
+    <Compile Include="Game\Objects\Item.cs" />
     <Compile Include="Mods\ModBaseInfo.cs" />
     <Compile Include="Network\SendData.cs" />
     <Compile Include="States\AppState.cs" />
@@ -251,7 +251,7 @@
     <Compile Include="States\MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RPG\StaticObject.cs" />
+    <Compile Include="Game\StaticObject.cs" />
     <Compile Include="UI\GameListUI.cs" />
     <Compile Include="UI\GameUI.cs" />
     <Compile Include="UI\GameUIManager.cs" />
@@ -298,7 +298,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="RPG\States\" />
+    <Folder Include="Game\States\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="OgreHead.ico" />
