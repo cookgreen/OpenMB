@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
@@ -9,6 +10,21 @@ using MOIS;
 
 namespace AMOFGameEngine.Network
 {
+    public class ServerEventArgs : EventArgs
+    {
+        private int playerId;
+        public int PlayerID
+        {
+            get
+            {
+                return playerId;
+            }
+            set
+            {
+                playerId = value;
+            }
+        }
+    }
     public class GameServer
     {
         public enum ServerError
@@ -23,15 +39,19 @@ namespace AMOFGameEngine.Network
         private ServerMetaData metaData;
         private Dictionary<int, MpPlayer> players;
         private TcpListener listener;
+        private Mutex mutexClient;
 
         public event Action OnEscapePressed;
         public ServerMetaData MetaData { get { return metaData; } }
         public bool Started { get { return isStarted; } }
         public Dictionary<string, string> Options;
+        public delegate void ServerEventDelegate(object sender, ServerEventArgs e);
+        public event ServerEventDelegate OnNewPlayerJoin; 
         public GameServer()
         {
             players = new Dictionary<int, MpPlayer>();
             metaData = null;
+            mutexClient = new Mutex();
         }
 
         public void Init()
@@ -80,24 +100,55 @@ namespace AMOFGameEngine.Network
 
         bool NewPlayerJoin(string playerName,TcpClient client)
         {
-            if (players.Count > 0)
+            try
             {
-                if (players.Where(o => o.Value.Name == playerName).Count() > 0)
+                if (players.Count > 0)
                 {
-                    BinaryWriter bw = new BinaryWriter(client.GetStream());
-                    bw.Write("Your username has already been taken by another player!");
-                    return false;
+                    if (players.Where(o => o.Value.Name == playerName).Count() > 0)
+                    {
+                        BinaryWriter bw = new BinaryWriter(client.GetStream());
+                        bw.Write("Your username has already been taken by another player!");
+                        return false;
+                    }
+                }
+                lock (players)
+                {
+                    MpPlayer p = new MpPlayer();
+                    p.Client = client;
+                    p.Position = new Mogre.Vector3();
+                    players.Add(players.Count, p);
+                    client.Close();
+
+                }
+                ThreadPool.QueueUserWorkItem(PlayerJoinCallback, players.Count);
+                return true;
+            }
+            catch
+            {
+                if (client != null)
+                {
+                    client.Close();
+                }
+                return false;
+            }
+        }
+
+        private void PlayerJoinCallback(object state)
+        {
+            try
+            {
+                int playerId = (int)state;
+                if (OnNewPlayerJoin != null)
+                {
+                    OnNewPlayerJoin(this, new ServerEventArgs()
+                    {
+                        PlayerID = playerId
+                    });
                 }
             }
-            lock (players)
+            catch
             {
-                MpPlayer p = new MpPlayer();
-                p.Client = client;
-                p.Position = new Mogre.Vector3();
-                players.Add(players.Count, p);
-                client.Close();
 
-                return true;
             }
         }
 
