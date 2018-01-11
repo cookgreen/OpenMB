@@ -3,7 +3,7 @@
     <Name>Sample</Name>
     <Description>Sample mod for AMOFGameEngine</Description>
     <Version>1.0</Version>
-    <Thumb>Thumb.png</Thumb>
+    <Thumb>Sample_Thumb.png</Thumb>
     <Movie>Background.avi</Movie>
   </Info>
   <Assembly>AMOFGameEngine.Mods.Sample</Assembly>

@@ -146,6 +146,14 @@ namespace AMOFGameEngine.Mods
                     {
                         ModManifest manifest = new ModManifest(dir.FullName);
                         InstalledMods.Add(manifest.MetaData.Name, manifest);
+                        Mogre.ResourceGroupManager.Singleton.AddResourceLocation(
+                            string.Format("{0}\\Media\\Textures\\", dir.FullName), "FileSystem", "General");
+                        Mogre.ResourceGroupManager.Singleton.AddResourceLocation(
+                            string.Format("{0}\\Media\\Models\\", dir.FullName), "FileSystem", "General");
+                        Mogre.ResourceGroupManager.Singleton.AddResourceLocation(
+                            string.Format("{0}\\Media\\Materials\\", dir.FullName), "FileSystem", "General");
+                        Mogre.ResourceGroupManager.Singleton.AddResourceLocation(
+                            string.Format("{0}\\Media\\Program\\", dir.FullName), "FileSystem", "General");
                     }
                 }
             }

@@ -260,9 +260,9 @@ namespace AMOFGameEngine.States
                 MaterialPtr newMat = templateMat.Clone(name);
 
                 TextureUnitState tus = newMat.GetTechnique(0).GetPass(0).GetTextureUnitState(0);
-                if (ResourceGroupManager.Singleton.ResourceExists("Essential", itr + ".png"))
-                    tus.SetTextureName(itr + ".png");
-                else 
+                if (ResourceGroupManager.Singleton.ResourceExists("General", itr))
+                    tus.SetTextureName(itr);
+                else
                     tus.SetTextureName("thumb_error.png");
 
                 BorderPanelOverlayElement bp = (BorderPanelOverlayElement)
