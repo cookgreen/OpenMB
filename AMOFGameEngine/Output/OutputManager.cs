@@ -64,11 +64,11 @@ namespace AMOFGameEngine.Output
                 textArea.Colour = Utilities.Helper.HexToRgb(color.ToString());
                 textArea.Caption = message;
                 buffer.Add(message);
+                textElements.Add(textArea);
                 for (int i = 0; i < textElements.IndexOf(textArea); i++)
                 {
-                    textElements[i].Top -= (i + 1) * 0.01f;
+                    textElements[i].Top -= 0.03f;
                 }
-                textElements.Add(textArea);
             }
         }
 
@@ -82,22 +82,27 @@ namespace AMOFGameEngine.Output
 
         public void Update(float timeSinceLastFrame)
         {
-            for (int i = textElements.Count - 1; i > 0; i--)
+            for (int i = 0; i < textElements.Count;i++ )
             {
-                if (alphaSinceLastFrame >= 0)
+                alphaSinceLastFrame = textElements[i].Colour.a;
+                if (alphaSinceLastFrame > 0.0f)
                 {
-                    alphaSinceLastFrame -= 0.01f;
-                    textElements[i].Colour = new ColourValue(
+                    alphaSinceLastFrame -= 0.05f;
+                    ColourValue cv = new ColourValue(
+                           textElements[i].Colour.r,
+                           textElements[i].Colour.g,
+                           textElements[i].Colour.b,
+                           alphaSinceLastFrame);
+                    textElements[i].Colour = cv;
+                }
+                else if (alphaSinceLastFrame < 0.0f)
+                {
+                    ColourValue cv = new ColourValue(
                         textElements[i].Colour.r,
                         textElements[i].Colour.g,
                         textElements[i].Colour.b,
-                        alphaSinceLastFrame);
-                }
-                else
-                {
-                    alphaSinceLastFrame = 1;
-                    Control.nukeOverlayElement(textElements[i]);
-                    textElements.Remove(textElements[i]);
+                        0);
+                    textElements[i].Colour = cv;
                 }
             }
         }
