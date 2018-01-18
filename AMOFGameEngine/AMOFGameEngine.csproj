@@ -196,7 +196,7 @@
     <Compile Include="Mods\XML\ModInfoXML.cs" />
     <Compile Include="Mods\XML\ModItemsDfnXML.cs" />
     <Compile Include="Mods\XML\ModMapDfnXML.cs" />
-    <Compile Include="Mods\XML\ModMusicDfnXML.cs" />
+    <Compile Include="Mods\XML\ModTracksDfnXML.cs" />
     <Compile Include="Mods\XML\ModSideDfnXML.cs" />
     <Compile Include="Mods\XML\ModXML.cs" />
     <Compile Include="Message\Message.cs" />
@@ -299,6 +299,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Game\States\" />
+    <Folder Include="Script\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="OgreHead.ico" />

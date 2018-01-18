@@ -20,7 +20,6 @@ namespace AMOFGameEngine.Sound
         {
             this.fileName = oggFileName;
             soundEngine = engine;
-            oggReader = null;
             oggReader = new NAudio.Vorbis.VorbisWaveReader(fileName);
             soundEngine.Init(oggReader);
             state = SoundState.Stopped;

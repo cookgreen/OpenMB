@@ -104,7 +104,11 @@ namespace AMOFGameEngine.Mods
                 currentMod.SideInfos = sideDfn.Sides;
                 worker.ReportProgress(80);
 
-                //FontManager.Singleton.GetByName("EngineFont").Load();
+                loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Music);
+                XML.ModTracksDfnXML trackDfn;
+                loader.Load<XML.ModTracksDfnXML>(out trackDfn);
+                currentMod.MusicInfos = trackDfn.Tracks;
+
                 worker.ReportProgress(100);
 
                 System.Threading.Thread.Sleep(1000);

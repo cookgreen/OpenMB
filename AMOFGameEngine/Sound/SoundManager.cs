@@ -5,6 +5,9 @@ using System.Text;
 using NAudio;
 using NVorbis;
 using NAudio.Vorbis;
+using Mogre;
+using MogreFreeSL;
+using System.IO;
 
 namespace AMOFGameEngine.Sound
 {
@@ -16,10 +19,14 @@ namespace AMOFGameEngine.Sound
     }
     public class SoundManager : IDisposable
     {
-        private NAudio.Wave.WaveOut soundEngine;
+        private NAudio.Wave.WaveOut musicEngine;
+        private MogreFreeSL.SoundManager soundEngine;
         private List<GameSound> soundLst;
         private GameSound currentSound;
         private bool disposed;
+        private Mods.ModData modData;
+        private bool noSound;
+        private bool noMusic;
 
         public GameSound CurrentSound
         {
@@ -43,14 +50,16 @@ namespace AMOFGameEngine.Sound
         public SoundManager()
         {
             soundLst = new List<GameSound>();
+            musicEngine = new NAudio.Wave.WaveOut();
             currentSound = null;
         }
 
        
 
-        public void SystemInit()
+        public bool InitSound(Camera cam, Mods.ModData modData)
         {
-            soundEngine = new NAudio.Wave.WaveOut();
+            this.modData = modData;
+            return MogreFreeSL.SoundManager.Instance.InitializeSound(FSL_SOUND_SYSTEM.FSL_SS_DIRECTSOUND, cam);
         }
 
         public void PlaySoundByType(SoundType soundType)
@@ -89,19 +98,35 @@ namespace AMOFGameEngine.Sound
             }
         }
 
-        public void PlaySoundByID(string soundID)
+        public void PlayMusicByID(string soundID)
         {
-            var result = from sound in soundLst
-                         where sound.ID == soundID
-                         select sound;
-            if (result.Count() == 1)
+            if (!noMusic)
             {
-                if (CurrentSound != null)
+                string musicfile = string.Empty;
+                var result = from musicDfn in modData.MusicInfos
+                             where musicDfn.Id == soundID
+                             select musicDfn;
+                if (result.Count() == 1)
                 {
-                    CurrentSound.Stop();
+                    if (CurrentSound != null)
+                    {
+                        CurrentSound.Stop();
+                    }
+                    currentSound = new GameSound();
+                    if (result.First().Type == Mods.XML.TrackType.EngineTrack)
+                    {
+                        musicfile = string.Format("{0}//Music//{1}", Environment.CurrentDirectory, result.First().File);
+                    }
+                    else if (result.First().Type == Mods.XML.TrackType.ModuleTrack)
+                    {
+                        musicfile = string.Format("{0}//Music//{1}", modData.BasicInfo.InstallPath, result.First().File);
+                    }
+                    if (File.Exists(musicfile))
+                    {
+                        currentSound.AddSound(new OggSound(musicfile, musicEngine));
+                        currentSound.Play();
+                    }
                 }
-                GameSound sound = result.First();
-                sound.Play();
             }
         }
         

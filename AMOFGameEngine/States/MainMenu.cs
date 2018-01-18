@@ -43,6 +43,9 @@ namespace AMOFGameEngine.States
             GameManager.Instance.mViewport.Camera = m_Camera;
             m_Camera.AspectRatio=GameManager.Instance.mViewport.ActualWidth / GameManager.Instance.mViewport.ActualHeight;
 
+            SoundManager.Instance.InitSound(m_Camera, m_Data);
+            SoundManager.Instance.PlayMusicByID("game_title");
+
             buildMainMenu(e);
 
             GameManager.Instance.mMouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);

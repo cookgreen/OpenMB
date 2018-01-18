@@ -207,10 +207,6 @@ namespace AMOFGameEngine
             uiMgr = new GameUIManager();
             
 
-            if (gameOptions["IsEnableMusic"] == "True")
-            {
-                soundMgr.SystemInit();
-            }
             if (!locateMgr.IsInit)
             {
                 locateMgr.InitLocateSystem(locateMgr.GetLanguageFromFile());
