@@ -84,25 +84,22 @@ namespace AMOFGameEngine.Output
         {
             for (int i = 0; i < textElements.Count;i++ )
             {
-                alphaSinceLastFrame = textElements[i].Colour.a;
+                var itr = textElements[i];
+                alphaSinceLastFrame = itr.Colour.a;
                 if (alphaSinceLastFrame > 0.0f)
                 {
-                    alphaSinceLastFrame -= 0.05f;
+                    alphaSinceLastFrame -= 0.01f;
                     ColourValue cv = new ColourValue(
-                           textElements[i].Colour.r,
-                           textElements[i].Colour.g,
-                           textElements[i].Colour.b,
-                           alphaSinceLastFrame);
-                    textElements[i].Colour = cv;
+                           itr.Colour.r,
+                           itr.Colour.g,
+                           itr.Colour.b,
+                           float.Parse(alphaSinceLastFrame.ToString("0.00")));
+                    itr.Colour = cv;
                 }
-                else if (alphaSinceLastFrame < 0.0f)
+                if (alphaSinceLastFrame == 0.0f)
                 {
-                    ColourValue cv = new ColourValue(
-                        textElements[i].Colour.r,
-                        textElements[i].Colour.g,
-                        textElements[i].Colour.b,
-                        0);
-                    textElements[i].Colour = cv;
+                    OverlayManager.Singleton.DestroyOverlayElement(itr);
+                    textElements.Remove(itr);
                 }
             }
         }
