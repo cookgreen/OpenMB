@@ -7,8 +7,6 @@ using AMOFGameEngine.Mods;
 using AMOFGameEngine.Game;
 using AMOFGameEngine.UI;
 using AMOFGameEngine.Maps;
-using AMOFGameEngine.Game.Managers;
-using AMOFGameEngine.Game.Objects;
 using MOIS;
 
 namespace AMOFGameEngine.States
@@ -18,7 +16,6 @@ namespace AMOFGameEngine.States
         private MapManager mapMngr;
         private CollisionTools collisionMgr;
         private SdkCameraMan camMan;
-        private Player player;
         Mogre.Vector3 m_TranslateVector;
 
         public SinglePlayer()
@@ -30,7 +27,6 @@ namespace AMOFGameEngine.States
         {
             m_Data = data;
             CreateScene();
-            //SetupTerrain();
             InitGame();
 
             mapMngr.EnterNewMap(new SceneMap("Cubescene.xml", m_SceneMgr));

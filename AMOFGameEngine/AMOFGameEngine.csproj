@@ -14,6 +14,7 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -151,38 +151,17 @@
     <Compile Include="Forms\Model\Configure.cs" />
     <Compile Include="Forms\Model\GameConfigure.cs" />
     <Compile Include="Forms\Model\GraphicConfigure.cs" />
+    <Compile Include="Game\Character.cs" />
+    <Compile Include="Game\CharacterController.cs" />
+    <Compile Include="Game\GameObject.cs" />
+    <Compile Include="Game\Inventory.cs" />
+    <Compile Include="Game\Item.cs" />
     <Compile Include="Output\OutputManager.cs" />
-    <Compile Include="Game\Controller\AIControllerBase.cs" />
-    <Compile Include="AI\State.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AI\StateMachine.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="LogMessage\EngineLog.cs" />
     <Compile Include="LogMessage\EngineLogManager.cs" />
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="PathFinder\AStarPathFind.cs" />
     <Compile Include="Core\GameObjClass.cs" />
-    <Compile Include="Game\Controller\CharacterAIController.cs" />
-    <Compile Include="Game\Controller\CharacterController.cs" />
-    <Compile Include="Game\Data\Dialogue.cs" />
-    <Compile Include="Game\Data\DialogueStartType.cs" />
-    <Compile Include="Game\Controller\DragoonController.cs" />
-    <Compile Include="Game\Controller\ManualControllerBase.cs" />
-    <Compile Include="Game\Data\ItemAttachOption.cs" />
-    <Compile Include="Game\Data\ItemType.cs" />
-    <Compile Include="Game\Data\MissionType.cs" />
-    <Compile Include="Game\GameObject.cs" />
-    <Compile Include="Game\GameObjectInfo.cs" />
-    <Compile Include="Game\GameObjectState.cs" />
-    <Compile Include="Game\World\GameWorldCell.cs" />
-    <Compile Include="Game\World\GameWorldCellPartition.cs" />
-    <Compile Include="Game\Managers\DialogueManager.cs" />
-    <Compile Include="Game\Data\Mission.cs" />
-    <Compile Include="Game\Managers\MissionManager.cs" />
-    <Compile Include="Game\Data\Skill..cs" />
-    <Compile Include="Game\Managers\SkillManager.cs" />
     <Compile Include="Maps\BspMap.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\SceneMap.cs" />
@@ -201,31 +180,10 @@
     <Compile Include="Mods\XML\ModXML.cs" />
     <Compile Include="Message\Message.cs" />
     <Compile Include="Message\MessageManager.cs" />
-    <Compile Include="Game\Objects\Dragoon.cs" />
-    <Compile Include="Game\Objects\Sceneprop.cs" />
-    <Compile Include="Game\Controller\AircraftController.cs" />
-    <Compile Include="Game\Traits\IAttackable.cs" />
-    <Compile Include="Game\Traits\IDestroyable.cs" />
-    <Compile Include="Game\Traits\IDirvable.cs" />
-    <Compile Include="Game\MoveableObject.cs" />
     <Compile Include="Network\GameClient.cs" />
     <Compile Include="Network\GameServer.cs" />
     <Compile Include="Network\Player.cs" />
     <Compile Include="Network\ServerMetaData.cs" />
-    <Compile Include="Game\Objects\Character.cs" />
-    <Compile Include="Game\Managers\ItemManager.cs" />
-    <Compile Include="Game\Data\Side.cs" />
-    <Compile Include="Game\Data\InventoryInfo.cs" />
-    <Compile Include="Game\Data\LevelInfo.cs" />
-    <Compile Include="Game\Traits\IMountable.cs" />
-    <Compile Include="Game\Objects\NPC.cs" />
-    <Compile Include="Game\Objects\Player.cs" />
-    <Compile Include="Game\Data\TeamInfo.cs" />
-    <Compile Include="Game\Objects\Aircraft.cs" />
-    <Compile Include="Game\Objects\Weapon.cs" />
-    <Compile Include="Game\Traits\INodifyStateChanged.cs" />
-    <Compile Include="Game\Traits\IUsable.cs" />
-    <Compile Include="Game\World\GameWorld.cs" />
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\ISound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
@@ -240,7 +198,6 @@
     <Compile Include="States\Multiplayer.cs" />
     <Compile Include="Core\GameManager.cs" />
     <Compile Include="Mods\ModData.cs" />
-    <Compile Include="Game\Objects\Item.cs" />
     <Compile Include="Mods\ModBaseInfo.cs" />
     <Compile Include="Network\SendData.cs" />
     <Compile Include="States\AppState.cs" />
@@ -251,7 +208,6 @@
     <Compile Include="States\MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Game\StaticObject.cs" />
     <Compile Include="UI\GameListUI.cs" />
     <Compile Include="UI\GameUI.cs" />
     <Compile Include="UI\GameUIManager.cs" />
@@ -298,7 +254,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Game\States\" />
     <Folder Include="Script\" />
   </ItemGroup>
   <ItemGroup>

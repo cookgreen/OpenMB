@@ -61,7 +61,9 @@ namespace AMOFGameEngine.States
             columns.Add("Players");
             columns.Add("HasPassword");
             GameListUI ui = GameUIManager.Instance.CreateGameListUI("gamelist", columns);
-            ui.AppendItem(new List<string>()
+            for (int i = 0; i < 20; i++)
+            {
+                ui.AppendItem(new List<string>()
                 {
                     "Server_1",
                     "Native",
@@ -70,51 +72,7 @@ namespace AMOFGameEngine.States
                     "0/20",
                     "No"
                 });
-            ui.AppendItem(new List<string>()
-                {
-                    "Server_1",
-                    "Native",
-                    "Battle",
-                    "Temp_Map_1",
-                    "0/20",
-                    "No"
-                });
-            ui.AppendItem(new List<string>()
-                {
-                    "Server_1",
-                    "Native",
-                    "Battle",
-                    "Temp_Map_1",
-                    "0/20",
-                    "No"
-                });
-            ui.AppendItem(new List<string>()
-                {
-                    "Server_1",
-                    "Native",
-                    "Battle",
-                    "Temp_Map_1",
-                    "0/20",
-                    "No"
-                });
-            ui.AppendItem(new List<string>()
-                {
-                    "Server_1",
-                    "Native",
-                    "Battle",
-                    "Temp_Map_1",
-                    "0/20",
-                    "No"
-                });
-            ui.AppendItem(new List<string>()
-                {
-                    "Server_1",
-                    "Native",
-                    "Battle",
-                    "Temp_Map_1",
-                    "0/20",
-                    "No"
-                });
+            }
             GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnJoin", "Join",50);
             GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnHost", "Host", 50);
             GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnExit", "Exit", 50);

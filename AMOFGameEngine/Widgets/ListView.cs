@@ -83,7 +83,7 @@ namespace AMOFGameEngine.Widgets
         private float left;
         private float width;
         private float height;
-        private float maxShowItem;
+        private double maxShowItem;
         private List<OverlayElement> allUsedElements;
         private bool dragging;
         public ListView(string name, float left, float top, float height, float width, List<string> columnNames)
@@ -103,7 +103,8 @@ namespace AMOFGameEngine.Widgets
             scroll.Height = height - 0.016f;
             drag.Hide();
 
-            maxShowItem = height / 0.04f;
+            //remove column's height
+            maxShowItem = System.Math.Floor(Convert.ToDouble(float.Parse((height - 0.04f).ToString("0.00")) / 0.045f));
             columns = new List<ListViewColumn>();
             items = new List<ListViewItem>();
             visibleItems = new List<ListViewItem>();
@@ -162,6 +163,12 @@ namespace AMOFGameEngine.Widgets
             listview.AddChild(horline);
         }
 
+        public ListViewItem NewItem()
+        {
+            ListViewItem item = new ListViewItem();
+            return item;
+        }
+
         public void AddItem(List<string> item)
         {
             float left = 0.01f;
@@ -191,7 +198,7 @@ namespace AMOFGameEngine.Widgets
                 line.Show();
                 ListViewCell.AddChild(line);
                 left = left + ListViewCell.Width;
-                if (items.Count > maxShowItem)
+                if (items.Count >= maxShowItem)
                 {
                     ListViewCell.Hide();
                 }
@@ -206,9 +213,10 @@ namespace AMOFGameEngine.Widgets
 
             
 
-            if (items.Count > maxShowItem)
+            if (items.Count >= maxShowItem)
             {
                 drag.Show();
+                drag.Height = (float)(maxShowItem * 0.045f * Convert.ToDouble(maxShowItem / items.Count));
             }
             else
             {

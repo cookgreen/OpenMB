@@ -5,44 +5,40 @@ using System.Text;
 using Mogre;
 using MOIS;
 
-namespace AMOFGameEngine.Game
+namespace AMOFGameEngine.Data
 {
-    /// <summary>
-    /// 游戏角色使用的控制器
-    /// </summary>
     public class CharacterController
     {
-        private int NUM_ANIMS = 13;          // number of animations the character has
-        private const int CHAR_HEIGHT = 5;      // height of character's center of mass above ground
-        private const int CAM_HEIGHT = 2;          // height of camera above character's center of mass
-        private const int RUN_SPEED = 17;           // character running speed in units per second
-        private const float TURN_SPEED = 500.0f;      // character turning in degrees per second
-        private const float ANIM_FADE_SPEED = 7.5f;   // animation crossfade speed in % of full weight per second
-        private const float JUMP_ACCEL = 30.0f;       // character jump acceleration in upward units per squared second
-        private const float GRAVITY = 90.0f;          // gravity in downward units per squared second
-        private SceneManager mSceneMgr;
-        private Camera mCamera;
-        private SceneNode mBodyNode;
-        private SceneNode mCameraPivot;
-        private SceneNode mCameraGoal;
-        private SceneNode mCameraNode;
-        private float mPivotPitch;
-        private Entity mBodyEnt;
-        private Entity mSword1;
-        private Entity mSword2;
-        private RibbonTrail mSwordTrail;
-        private List<AnimationState> mAnims = new List<AnimationState>();    // master animation list
-        private AnimID mBaseAnimID;                   // current base (full- or lower-body) animation
-        private AnimID mTopAnimID;                    // current top (upper-body) animation
-        private List<bool> mFadingIn = new List<bool>();            // which animations are fading in
-        private List<bool> mFadingOut = new List<bool>();           // which animations are fading out
-        private bool mSwordsDrawn;
-        private Mogre.Vector3 mKeyDirection;      // player's local intended direction based on WASD keys
-        private Mogre.Vector3 mGoalDirection;     // actual intended direction in world-space
-        private float mVerticalVelocity;     // for jumping
-        private float mTimer;                // general timer to see how long animations have been playing
-        private string charaName;
-        private string charaMeshName;
+        public int NUM_ANIMS = 13;          // number of animations the character has
+        public const int CHAR_HEIGHT = 5;      // height of character's center of mass above ground
+        public const int CAM_HEIGHT = 2;          // height of camera above character's center of mass
+        public const int RUN_SPEED = 17;           // character running speed in units per second
+        public const float TURN_SPEED = 500.0f;      // character turning in degrees per second
+        public const float ANIM_FADE_SPEED = 7.5f;   // animation crossfade speed in % of full weight per second
+        public const float JUMP_ACCEL = 30.0f;       // character jump acceleration in upward units per squared second
+        public const float GRAVITY = 90.0f;          // gravity in downward units per squared second
+
+        SceneManager mSceneMgr;
+        Camera mCamera;
+        SceneNode mBodyNode;
+        SceneNode mCameraPivot;
+        SceneNode mCameraGoal;
+        SceneNode mCameraNode;
+        float mPivotPitch;
+        Entity mBodyEnt;
+        Entity mSword1;
+        Entity mSword2;
+        RibbonTrail mSwordTrail;
+        List<AnimationState> mAnims = new List<AnimationState>();    // master animation list
+        AnimID mBaseAnimID;                   // current base (full- or lower-body) animation
+        AnimID mTopAnimID;                    // current top (upper-body) animation
+        List<bool> mFadingIn = new List<bool>();            // which animations are fading in
+        List<bool> mFadingOut = new List<bool>();           // which animations are fading out
+        bool mSwordsDrawn;
+        Mogre.Vector3 mKeyDirection;      // player's local intended direction based on WASD keys
+        Mogre.Vector3 mGoalDirection;     // actual intended direction in world-space
+        float mVerticalVelocity;     // for jumping
+        float mTimer;                // general timer to see how long animations have been playing
         enum AnimID
         {
             ANIM_IDLE_BASE,
@@ -61,45 +57,31 @@ namespace AMOFGameEngine.Game
             ANIM_NONE
         };
 
+        CharacterDesc charaDesc;//Character description
         List<Entity> itemAttached;//Item that attached to character
 
-        public CharacterController(Camera cam,string name, string meshName)
+        public CharacterController(Camera cam,CharacterDesc charaDesc)
         {
             itemAttached = new List<Entity>();
             this.mSceneMgr = cam.SceneManager;
-            charaName = name;
-            charaMeshName = meshName;
+            this.charaDesc = charaDesc;
             setupBody();
             setupCamera(cam);
             setupAnimations();
         }
 
         /// <summary>
-        /// Attach a item to character body
+        /// Attach a Item to character body
         /// </summary>
+        /// <param name="sceneMgr">Scene Manager Instance</param>
         /// <param name="boneName">The bone name which want to attach</param>
-        /// <param name="itemEnt">Entity that you want to attach</param>
-        public void AttachEntityToChara(string boneName,Entity itemEnt)
+        /// <param name="uniqueName">name of the item</param>
+        /// <param name="meshName">mesh name of the item</param>
+        public void AttachItemToChara(string boneName,string uniqueName, string meshName)
         {
-            if (itemEnt.IsAttached)
-            {
-                mBodyEnt.DetachObjectFromBone(itemEnt);
-            }
-            mBodyEnt.AttachObjectToBone(boneName, itemEnt);
-            itemAttached.Add(itemEnt);
-        }
-
-        /// <summary>
-        /// Detach a item from character entity
-        /// </summary>
-        /// <param name="itemEnt">entity that you want to detach</param>
-        public void DetachEntity(Entity itemEnt)
-        {
-            if (!itemEnt.IsAttached)
-            {
-                mBodyEnt.DetachObjectFromBone(itemEnt);
-                itemAttached.Remove(itemEnt);
-            }
+            Entity Item = mSceneMgr.CreateEntity(uniqueName, meshName);
+            mBodyEnt.AttachObjectToBone(boneName, Item);
+            itemAttached.Add(Item);
         }
 
         /// <summary>
@@ -110,10 +92,10 @@ namespace AMOFGameEngine.Game
         {
             try
             {
-                if (!string.IsNullOrEmpty(charaMeshName) && !string.IsNullOrEmpty(charaName))
+                if (!string.IsNullOrEmpty(charaDesc.CharaMeshName) && !string.IsNullOrEmpty(charaDesc.CharaName))
                 {
                     mBodyNode = mSceneMgr.RootSceneNode.CreateChildSceneNode(Mogre.Vector3.UNIT_Y * CHAR_HEIGHT);
-                    mBodyEnt = mSceneMgr.CreateEntity(charaName, charaMeshName);
+                    mBodyEnt = mSceneMgr.CreateEntity(charaDesc.CharaName, charaDesc.CharaMeshName);
                     mBodyNode.AttachObject(mBodyEnt);
                     mKeyDirection = Mogre.Vector3.ZERO;
                     mVerticalVelocity = 0;
@@ -126,7 +108,7 @@ namespace AMOFGameEngine.Game
             }
             catch(Exception ex)
             {
-                GameManager.Instance.mLog.LogMessage("Engine Error: " + ex.Message);
+                GameManager.Singleton.mLog.LogMessage("Engine Error: " + ex.Message);
                 return false;
             }
         }
@@ -445,14 +427,14 @@ namespace AMOFGameEngine.Game
                 {
                     // slowly fade this animation in until it has full weight
                     float newWeight = mAnims[i].Weight + deltaTime * ANIM_FADE_SPEED;
-                    mAnims[i].Weight = Utilities.Helper.Clamp(newWeight, 0, 1);
+                    mAnims[i].Weight = GameManager.Singleton.Clamp(newWeight, 0, 1);
                     if (newWeight >= 1) mFadingIn[i] = false;
                 }
                 else if (mFadingOut[i])
                 {
                     // slowly fade this animation out until it has no weight, and then disable it
                     float newWeight = mAnims[i].Weight - deltaTime * ANIM_FADE_SPEED;
-                    mAnims[i].Weight = Utilities.Helper.Clamp(newWeight, 0, 1);
+                    mAnims[i].Weight = GameManager.Singleton.Clamp(newWeight, 0, 1);
                     if (newWeight <= 0)
                     {
                         mAnims[i].Enabled = false;
