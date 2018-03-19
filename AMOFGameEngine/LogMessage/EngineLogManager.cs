@@ -32,6 +32,10 @@ namespace AMOFGameEngine.LogMessage
         public EngineLogManager()
         {
             logs = new List<EngineLog>();
+            if(!Directory.Exists("Log"))
+            {
+                Directory.CreateDirectory("Log");
+            }
         }
 
         public EngineLog CreateLog(string name)

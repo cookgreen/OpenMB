@@ -42,32 +42,35 @@ namespace AMOFGameEngine.Video
 
         public void Update(float timeSinceLastFrame)
         {
-            if (videotex.FrameNum >= videotex.Stream.CountFrames)
+            if (videotex != null)
             {
-                videotex.FrameNum = 0;
-            }
-            System.Drawing.Bitmap bitmap = videotex.Stream.GetBitmap(videotex.FrameNum);
-            MemoryStream ms = new MemoryStream();
-            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-            ms.Position = 0;
-            try
-            {
-                Image image = new Image();
-                image.Load(Utilities.Helper.StreamToDataPtr(ms));
-                image.FlipAroundX();
-                videotex.PixelBuffer.BlitFromMemory(image.GetPixelBox());
-                image.Dispose();
-                ms.Close();
-                ms.Dispose();
-                videotex.FrameNum++;
-            }
-            catch (Exception ex)
-            {
-                GameManager.Instance.mLog.LogMessage("[Engine Warning]: Image Data Exception. Detals:" + ex.ToString());
-            }
-            finally
-            {
-                videotex.FrameNum++;
+                if (videotex.FrameNum >= videotex.Stream.CountFrames)
+                {
+                    videotex.FrameNum = 0;
+                }
+                System.Drawing.Bitmap bitmap = videotex.Stream.GetBitmap(videotex.FrameNum);
+                MemoryStream ms = new MemoryStream();
+                bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                ms.Position = 0;
+                try
+                {
+                    Image image = new Image();
+                    image.Load(Utilities.Helper.StreamToDataPtr(ms));
+                    image.FlipAroundX();
+                    videotex.PixelBuffer.BlitFromMemory(image.GetPixelBox());
+                    image.Dispose();
+                    ms.Close();
+                    ms.Dispose();
+                    videotex.FrameNum++;
+                }
+                catch (Exception ex)
+                {
+                    GameManager.Instance.mLog.LogMessage("[Engine Warning]: Image Data Exception. Detals:" + ex.ToString());
+                }
+                finally
+                {
+                    videotex.FrameNum++;
+                }
             }
         }
     }

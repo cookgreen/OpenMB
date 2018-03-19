@@ -13,4 +13,10 @@
       <relationship Side="side_2">-1</relationship>
     </Relationships>
   </Side>
+  <Side>
+    <ID>side_player</ID>
+    <Name>Player's Side</Name>
+    <Relationships>
+    </Relationships>
+  </Side>
 </Sides>

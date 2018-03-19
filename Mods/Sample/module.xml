@@ -20,6 +20,10 @@
     <MediaSection Type="FileSystem">Media|Mods/Sample/Overlay</MediaSection>
     <MediaSection Type="FileSystem">Media|Mods/Sample/Textures</MediaSection>
   </Media>
-  <Scripts></Scripts>
-  <Maps></Maps>
+  <Scripts>
+	<ScriptDir>Scripts</ScriptDir>
+  </Scripts>
+  <Maps>
+	<MapDir>Scenes</MapDir>
+  </Maps>
 </Module>

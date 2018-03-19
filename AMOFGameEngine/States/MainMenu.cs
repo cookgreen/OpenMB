@@ -11,7 +11,6 @@ using AMOFGameEngine.Localization;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.Utilities;
 using AMOFGameEngine.Mods;
-using AMOFGameEngine.Video;
 
 namespace AMOFGameEngine.States
 {
@@ -53,8 +52,7 @@ namespace AMOFGameEngine.States
             GameManager.Instance.mMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
             GameManager.Instance.mKeyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
             GameManager.Instance.mKeyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
-
-            VideoTextureManager.Instance.CreateVideoTexture(m_SceneMgr, 640, 480, Path.Combine(m_Data.BasicInfo.InstallPath, m_Data.BasicInfo.Movie));
+            
         }
 
         bool mRoot_FrameStarted(FrameEvent evt)
@@ -63,12 +61,6 @@ namespace AMOFGameEngine.States
         }
         public override void exit()
         {
-            if (m_SceneMgr != null)
-            {
-                m_SceneMgr.DestroyCamera(m_Camera);
-                GameManager.Instance.mRoot.DestroySceneManager(m_SceneMgr);
-            }
-            VideoTextureManager.Instance.DestroyVideoTexture();
             GameManager.Instance.mTrayMgr.clearAllTrays();
             ModManager.Instance.UnloadAllMods();
         }
@@ -227,7 +219,6 @@ namespace AMOFGameEngine.States
 
             m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
             GameManager.Instance.mTrayMgr.frameRenderingQueued(m_FrameEvent);
-            VideoTextureManager.Instance.Update((float)timeSinceLastFrame);
         }
 
         private void buildMainMenu(ModData data)

@@ -34,7 +34,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>..\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -154,8 +154,10 @@
     <Compile Include="Game\Character.cs" />
     <Compile Include="Game\CharacterController.cs" />
     <Compile Include="Game\GameObject.cs" />
+    <Compile Include="Game\GameWorld.cs" />
     <Compile Include="Game\Inventory.cs" />
     <Compile Include="Game\Item.cs" />
+    <Compile Include="Game\Path.cs" />
     <Compile Include="Output\OutputManager.cs" />
     <Compile Include="LogMessage\EngineLog.cs" />
     <Compile Include="LogMessage\EngineLogManager.cs" />
@@ -184,6 +186,10 @@
     <Compile Include="Network\GameServer.cs" />
     <Compile Include="Network\Player.cs" />
     <Compile Include="Network\ServerMetaData.cs" />
+    <Compile Include="Script\IScriptCommand.cs" />
+    <Compile Include="Script\ScriptFile.cs" />
+    <Compile Include="Script\ScriptLoader.cs" />
+    <Compile Include="Script\SpawnScriptCommand.cs" />
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\ISound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
@@ -253,9 +259,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Script\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="OgreHead.ico" />
   </ItemGroup>
