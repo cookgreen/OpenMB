@@ -189,6 +189,7 @@
     <Compile Include="Script\ScriptFile.cs" />
     <Compile Include="Script\ScriptLoader.cs" />
     <Compile Include="Script\SpawnScriptCommand.cs" />
+    <Compile Include="Script\TeamScriptCommand.cs" />
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\ISound.cs" />
     <Compile Include="Sound\SoundManager.cs" />

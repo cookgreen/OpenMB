@@ -15,6 +15,7 @@ namespace AMOFGameEngine.Script
             CommandArgs = new object[] {
                 "CharacterType",
                 "CharacterName",
+                "CharacterTeam",
                 "SpawnX",
                 "SpawnY",
                 "SpawnZ"
@@ -37,12 +38,13 @@ namespace AMOFGameEngine.Script
         {
             string characterType = CommandArgs[0].ToString();
             string characterName = CommandArgs[1].ToString();
-            string spawnX = CommandArgs[2].ToString();
-            string spawnY = CommandArgs[3].ToString();
-            string spawnZ = CommandArgs[4].ToString();
+            string characterTeam = CommandArgs[2].ToString();
+            string spawnX = CommandArgs[3].ToString();
+            string spawnY = CommandArgs[4].ToString();
+            string spawnZ = CommandArgs[5].ToString();
 
             GameWorld world = executeArgs[0] as GameWorld;
-            var searchRet = world.GetModData().CharacterInfos.Where(o => o.ID == characterName);
+            var searchRet = world.ModData.CharacterInfos.Where(o => o.ID == characterName);
             if(searchRet.Count()>0)
             {
                 bool isBot = false;
@@ -55,7 +57,11 @@ namespace AMOFGameEngine.Script
                     isBot = true;
                 }
 
-                world.SpawnNewCharacter(searchRet.First(),new Vector3(float.Parse(spawnX),float.Parse(spawnY), float.Parse(spawnZ)), isBot);
+                world.SpawnNewCharacter(
+                    searchRet.First(),
+                    new Vector3(float.Parse(spawnX),float.Parse(spawnY), float.Parse(spawnZ)), 
+                    characterTeam,
+                    isBot);
             }
         }
 

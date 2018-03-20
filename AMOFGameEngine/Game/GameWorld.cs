@@ -16,11 +16,15 @@ namespace AMOFGameEngine.Game
     /// </summary>
     public class GameWorld
     {
+        //Current agent under control
+        private Character playerAgent;
+
         //MOD Data
         private ModData modData;
 
         //Agents Data
         private List<Character> agents;
+        private List<Tuple<string, string, int>> teamRelationship;
 
         //Terrain Data
         private Terrain terrian;
@@ -36,17 +40,32 @@ namespace AMOFGameEngine.Game
         //Map Loader and its script
         private DotSceneLoader sceneLoader;
         private ScriptLoader scriptLoader;
-
+        
         //Map file name
         private string sceneName;
 
-        public Camera Cam { get; internal set; }
+        public Camera Cam
+        {
+            get
+            {
+                return cam;
+            }
+        }
+        public ModData ModData
+        {
+            get
+            {
+                return modData;
+            }
+        }
 
         public GameWorld(ModData modData)
         {
             this.modData = modData;
             sceneLoader = new DotSceneLoader();
             scriptLoader = new ScriptLoader();
+            playerAgent = null;
+            teamRelationship = new List<Tuple<string, string, int>>();
         }
 
         public void Init()
@@ -79,11 +98,30 @@ namespace AMOFGameEngine.Game
             GameManager.Instance.mKeyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
             GameManager.Instance.mKeyboard.KeyReleased += new MOIS.KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
         }
-
-        public void SpawnNewCharacter(ModCharacterDfnXML modCharacterDfnXML, Mogre.Vector3 position, bool isBot = true)
+        public void ChangeTeamRelationship(string team1Id, string team2Id, int relationship)
         {
-            Character c = new Character(this, cam, agents.Count, modCharacterDfnXML.Name, modCharacterDfnXML.MeshName, position, isBot);
-            agents.Add(c);
+            var ret = teamRelationship.Where(o => o.Item1 == team1Id && o.Item2 == team2Id);
+            if (ret.Count() == 0)
+            {
+                teamRelationship.Add(new Tuple<string, string, int>(team1Id, team2Id, relationship));
+            }
+            else
+            {
+                Tuple<string, string, int> newTeamRelationship = new Tuple<string, string, int>(team1Id, team2Id, relationship);
+                int index = teamRelationship.IndexOf(ret.First());
+                teamRelationship.RemoveAt(index);
+                teamRelationship.Insert(index, newTeamRelationship);
+            }
+        }
+
+        public void SpawnNewCharacter(ModCharacterDfnXML modCharacterDfnXML, Mogre.Vector3 position,string teamId, bool isBot = true)
+        {
+            Character character = new Character(this, cam, agents.Count, teamId, modCharacterDfnXML.Name, modCharacterDfnXML.MeshName, position, isBot);
+            if(!isBot)
+            {
+                playerAgent = character;
+            }
+            agents.Add(character);
         }
 
         public void Destroy()
@@ -108,11 +146,51 @@ namespace AMOFGameEngine.Game
             return sceneName;
         }
 
-        public ModData GetModData()
+        public int GetCurrentPlayerAgentId()
         {
-            return modData;
+            if (playerAgent != null)
+            {
+                //there is an agent under player's control
+                return playerAgent.Id;
+            }
+            else
+            {
+                //No agent under player's control
+                return -1;
+            }
         }
-        public void getInput()
+
+        public List<Character> GetCharactersByCondition(Func<Character, bool> condition)
+        {
+            return agents.Where(condition).ToList();
+        }
+
+        public List<Tuple<string,string, int>> GetTeamRelationshipByCondition(Func<Tuple<string, string, int>, bool> func)
+        {
+            return teamRelationship.Where(func).ToList();
+        }
+
+        public void Update(float timeSinceLastFrame)
+        {
+            m_TranslateVector = new Mogre.Vector3(0, 0, 0);
+            if (GetCurrentPlayerAgentId() == -1)
+            {
+                getInput();
+                moveCamera();
+            }
+            else
+            {
+            }
+            updateAgents(timeSinceLastFrame);
+        }
+        private void updateAgents(float timeSinceLastFrame)
+        {
+            for (int i = 0; i < agents.Count; i++)
+            {
+                agents[i].Update(timeSinceLastFrame);
+            }
+        }
+        private void getInput()
         {
             if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_A))
                 m_TranslateVector.x = -10;
@@ -131,132 +209,12 @@ namespace AMOFGameEngine.Game
 
             if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_E))
                 m_TranslateVector.y = 10;
-
-            //camera roll
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_Z))
-                cam.Roll(new Angle(-10));
-
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_X))
-                cam.Roll(new Angle(10));
-
-            //reset roll
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_C))
-                cam.Roll(-(cam.RealOrientation.Roll));
         }
-
-        public void Update(float timeSinceLastFrame)
-        {
-            m_TranslateVector = new Mogre.Vector3(0, 0, 0);
-            getInput();
-            moveCamera();
-            updateAgents(timeSinceLastFrame);
-        }
-        private void updateAgents(float timeSinceLastFrame)
-        {
-            for (int i = 0; i < agents.Count; i++)
-            {
-                agents[i].Update(timeSinceLastFrame);
-            }
-        }
-        public void moveCamera()
+        private void moveCamera()
         {
             if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
                 cam.MoveRelative(m_TranslateVector);
             cam.MoveRelative(m_TranslateVector / 10);
-        }
-        private unsafe void SetupTerrain()
-        {
-            Light terrainLight = scm.CreateLight();
-            terrainLight.Type = Light.LightTypes.LT_DIRECTIONAL;
-            terrainLight.Direction = new Mogre.Vector3(0.55f, -0.3f, 0.75f);
-            terrainLight.DiffuseColour = ColourValue.White;
-            terrainLight.SpecularColour = new ColourValue(0.4f, 0.4f, 0.4f);
-            TerrainGlobalOptions terrainOptions = new TerrainGlobalOptions
-            {
-                MaxPixelError = 8f,
-                CompositeMapDistance = 3000f,
-                LightMapDirection = terrainLight.Direction,
-                CompositeMapAmbient = scm.AmbientLight,
-                CompositeMapDiffuse = terrainLight.DiffuseColour
-            };
-            TerrainGroup terrainGroup = new TerrainGroup(scm, Terrain.Alignment.ALIGN_X_Z, 0x201, 12000f);
-            terrainGroup.SetFilenameConvention("terrain", "dat");
-            terrainGroup.Origin = Mogre.Vector3.ZERO;
-            Terrain.ImportData importdata = terrainGroup.DefaultImportSettings;
-            importdata.terrainSize = 0x201;
-            importdata.worldSize = 12000f;
-            importdata.inputScale = 600f;
-            importdata.minBatchSize = 0x21;
-            importdata.maxBatchSize = 0x41;
-            importdata.layerList.Resize(3, new Terrain.LayerInstance());
-            importdata.layerList[0].worldSize = 100f;
-            importdata.layerList[0].textureNames.Add("dirt_grayrocky_diffusespecular.dds");
-            importdata.layerList[0].textureNames.Add("dirt_grayrocky_normalheight.dds");
-            importdata.layerList[1].worldSize = 30f;
-            importdata.layerList[1].textureNames.Add("grass_green-01_diffusespecular.dds");
-            importdata.layerList[1].textureNames.Add("grass_green-01_normalheight.dds");
-            importdata.layerList[2].worldSize = 200f;
-            importdata.layerList[2].textureNames.Add("growth_weirdfungus-03_diffusespecular.dds");
-            importdata.layerList[2].textureNames.Add("growth_weirdfungus-03_normalheight.dds");
-            for (int x = 0; x <= 0; x++)
-            {
-                for (int y = 0; y <= 0; y++)
-                {
-                    string fileName = terrainGroup.GenerateFilename(x, y);
-                    if (ResourceGroupManager.Singleton.ResourceExists(terrainGroup.ResourceGroup, fileName))
-                    {
-                        terrainGroup.DefineTerrain(x, y);
-                    }
-                    else
-                    {
-                        Image img = new Image();
-                        img.Load("terrain.png", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-                        if ((x % 2) != 0)
-                        {
-                            img.FlipAroundY();
-                        }
-                        if ((y % 2) != 0)
-                        {
-                            img.FlipAroundX();
-                        }
-                        terrainGroup.DefineTerrain(x, y, img);
-                    }
-                }
-            }
-            terrainGroup.LoadAllTerrains(true);
-            TerrainGroup.TerrainIterator ti = terrainGroup.GetTerrainIterator();
-            while (ti.MoveNext())
-            {
-                Terrain t = ti.Current.instance;
-                float minHeight0 = 70f;
-                float fadeDist0 = 40f;
-                float minHeight1 = 70f;
-                float fadeDist1 = 40f;
-                TerrainLayerBlendMap blendMap0 = t.GetLayerBlendMap(1);
-                TerrainLayerBlendMap blendMap1 = t.GetLayerBlendMap(2);
-                float* pBlend0 = blendMap0.BlendPointer;
-                float* pBlend1 = blendMap0.BlendPointer;
-                for (ushort y = 0; y <= t.LayerBlendMapSize; y = (ushort)(y + 1))
-                {
-                    for (ushort x = 0; x <= t.LayerBlendMapSize; x = (ushort)(x + 1))
-                    {
-                        float tx;
-                        float ty;
-                        blendMap0.ConvertImageToTerrainSpace(x, y, out tx, out ty);
-                        float height = t.GetHeightAtTerrainPosition(tx, ty);
-                        float val = (height - minHeight0) / fadeDist0;
-                        val = AMOFGameEngine.Utilities.Helper.Clamp<float>(val, 0f, 1f);
-                        *pBlend0++ = val;
-                        val = (height - minHeight1) / fadeDist1;
-                        val = AMOFGameEngine.Utilities.Helper.Clamp<float>(val, 0f, 1f);
-                        *pBlend1++ = val;
-                    }
-                }
-                blendMap0.Dirty();
-                blendMap1.Dirty();
-                blendMap0.Update();
-                blendMap1.Update();
-            }
         }
         
         bool mKeyboard_KeyReleased(MOIS.KeyEvent arg)

@@ -1,5 +1,5 @@
-spawn player chara_main_player 0 0 0
-spawn bot chara_archer 10 0 0
-spawn bot chara_archer 10 10 0
-spawn bot chara_archer 10 0 10
-relation side_player side_1 -1
+spawn player chara_main_player 0 0 0 0
+spawn bot chara_archer 1 10 0 0
+spawn bot chara_archer 1 10 10 0
+spawn bot chara_archer 1 10 0 10
+team 0 1 -1

@@ -10,11 +10,11 @@ using AMOFGameEngine.Sound;
 namespace AMOFGameEngine.Game
 {
     /// <summary>
-    /// 游戏中具体的角色，包含血量，技能
+    /// Specific Characer in Game
     /// </summary>
     public class Character : GameObject
     {
-        //唯一标识
+        //Unique Id
         private int id;
 
         public int Id
@@ -23,7 +23,7 @@ namespace AMOFGameEngine.Game
             set { id = value; }
         }
 
-        //名字
+        //Name
         private string name;
 
         public string Name
@@ -32,7 +32,10 @@ namespace AMOFGameEngine.Game
             set { name = value; }
         }
 
-        //控制器
+        //Team, usually used to identity whether is enemy
+        private string teamId;
+
+        //Controller
         private CharacterController controller;
 
         public CharacterController Controller
@@ -41,7 +44,7 @@ namespace AMOFGameEngine.Game
             set { controller = value; }
         }
 
-        //血量
+        //Hitpoint
         private int hitpoint;
 
         public int Hitpoint
@@ -50,7 +53,7 @@ namespace AMOFGameEngine.Game
             set { hitpoint = value; }
         }
 
-        //武器
+        //Weapons
         private Item[] weapons;
 
         public Item[] Weapons
@@ -59,7 +62,7 @@ namespace AMOFGameEngine.Game
             set { weapons = value; }
         }
 
-        //穿戴
+        //Clothes
         private Item[] clothes;
 
         public Item[] Clothes
@@ -68,7 +71,7 @@ namespace AMOFGameEngine.Game
             set { clothes = value; }
         }
 
-        //背包
+        //Backpack
         private Inventory backpack;
 
         public Inventory Backpack
@@ -77,24 +80,44 @@ namespace AMOFGameEngine.Game
             set { backpack = value; }
         }
 
-        //人物所处的环境
+        public string TeamId
+        {
+            get
+            {
+                return teamId;
+            }
+        }
+
+        //Environment
         private GameWorld mWorld;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="world">Environment</param>
+        /// <param name="cam">Camera</param>
+        /// <param name="id">Unique Id</param>
+        /// <param name="teamId">Team Id</param>
+        /// <param name="name">Name</param>
+        /// <param name="meshName">Mesh Name</param>
+        /// <param name="initPosition">Init Position</param>
+        /// <param name="isBot">Is Bot or not</param>
         public Character(GameWorld world, 
                          Camera cam, 
                          int id,
+                         string teamId,
                          string name,
                          string meshName,
                          Mogre.Vector3 initPosition,
                          bool isBot)
         {
             mWorld = world;
-            Id = id;//唯一标识
-            Name = string.Empty;//默认名字
-            Hitpoint = 100;//默认100血
-            Weapons = new Item[4];//四种武器
-            Clothes = new Item[4];//四件穿戴,0-帽盔,1-衣服,2-鞋子,3-手套
-            Backpack = new Inventory(21, this);//21个单位的物品槽
+            Id = id;
+            Name = string.Empty;
+            Hitpoint = 100;
+            Weapons = new Item[4];
+            Clothes = new Item[4];
+            Backpack = new Inventory(21, this);
             controller = new CharacterController(cam, name + id.ToString(), meshName, isBot);//初始化控制器
             controller.Position = initPosition;
         }
@@ -120,6 +143,48 @@ namespace AMOFGameEngine.Game
         public void AddItemToBackpack(Item item)
         {
             Backpack.AddItemToInventory(item);
+        }
+
+        /// <summary>
+        /// Find characters against this character
+        /// </summary>
+        /// <returns>Enemies</returns>
+        public List<Character> FindEnemies()
+        {
+            List<Character> enemies = new List<Character>();
+            List<string> enemyTeamsWithMe = new List<string>();
+            var allEnemyTeams = mWorld.GetTeamRelationshipByCondition(o => o.Item3 == -1);
+            foreach(var enemyTeam in allEnemyTeams)
+            {
+                if(enemyTeam.Item1 == teamId)
+                {
+                    if (!enemyTeamsWithMe.Contains(enemyTeam.Item2))
+                    {
+                        enemyTeamsWithMe.Add(enemyTeam.Item2);
+                    }
+                }
+                else if(enemyTeam.Item2 == teamId)
+                {
+                    if (!enemyTeamsWithMe.Contains(enemyTeam.Item1))
+                    {
+                        enemyTeamsWithMe.Add(enemyTeam.Item1);
+                    }
+                }
+            }
+            foreach(var enemyTeamWithMe in enemyTeamsWithMe)
+            {
+                enemies.AddRange(mWorld.GetCharactersByCondition(o => o.TeamId == enemyTeamWithMe));
+            }
+            return enemies;
+        }
+
+        /// <summary>
+        /// Change Character to a new team
+        /// </summary>
+        /// <param name="newTeamId">New Team Id</param>
+        public void Turn(string newTeamId)
+        {
+            teamId = newTeamId;
         }
     }
 }
