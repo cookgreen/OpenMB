@@ -15,7 +15,9 @@ namespace AMOFGameEngine.Script
         {
             registeredCommand = new Dictionary<string, IScriptCommand>();
             IScriptCommand spawnCommand = new SpawnScriptCommand();
+            IScriptCommand teamCommand = new TeamScriptCommand();
             registeredCommand.Add(spawnCommand.CommandName, spawnCommand);
+            registeredCommand.Add(teamCommand.CommandName, teamCommand);
         }
         public void Parse(string scriptFileName, string groupName, params object[] runArgs)
         {
