@@ -80,9 +80,9 @@ namespace AMOFGameEngine.Game
             GameManager.Instance.mKeyboard.KeyReleased += new MOIS.KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
         }
 
-        public void SpawnNewCharacter(ModCharacterDfnXML modCharacterDfnXML, Mogre.Vector3 vector3)
+        public void SpawnNewCharacter(ModCharacterDfnXML modCharacterDfnXML, Mogre.Vector3 position, bool isBot = true)
         {
-            Character c = new Character(this, cam, agents.Count, modCharacterDfnXML.Name, modCharacterDfnXML.MeshName);
+            Character c = new Character(this, cam, agents.Count, modCharacterDfnXML.Name, modCharacterDfnXML.MeshName, position, isBot);
             agents.Add(c);
         }
 

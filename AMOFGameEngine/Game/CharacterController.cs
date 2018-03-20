@@ -30,7 +30,6 @@ namespace AMOFGameEngine.Game
         private Entity mBodyEnt;
         private Entity mSword1;
         private Entity mSword2;
-        private RibbonTrail mSwordTrail;
         private List<AnimationState> mAnims = new List<AnimationState>();    // master animation list
         private AnimID mBaseAnimID;                   // current base (full- or lower-body) animation
         private AnimID mTopAnimID;                    // current top (upper-body) animation
@@ -43,6 +42,17 @@ namespace AMOFGameEngine.Game
         private float mTimer;                // general timer to see how long animations have been playing
         private string charaName;
         private string charaMeshName;
+        public Mogre.Vector3 Position
+        {
+            get
+            {
+                return mBodyNode.Position;
+            }
+            set
+            {
+                mBodyNode.Position = value;
+            }
+        }
         enum AnimID
         {
             ANIM_IDLE_BASE,
@@ -63,14 +73,17 @@ namespace AMOFGameEngine.Game
 
         List<Entity> itemAttached;//Item that attached to character
 
-        public CharacterController(Camera cam,string name, string meshName)
+        public CharacterController(Camera cam,string name, string meshName, bool isBot)
         {
             itemAttached = new List<Entity>();
             this.mSceneMgr = cam.SceneManager;
             charaName = name;
             charaMeshName = meshName;
             setupBody();
-            setupCamera(cam);
+            if (!isBot)
+            {
+                setupCamera(cam);
+            }
             setupAnimations();
         }
 

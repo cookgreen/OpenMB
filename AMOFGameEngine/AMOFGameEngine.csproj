@@ -157,7 +157,6 @@
     <Compile Include="Game\GameWorld.cs" />
     <Compile Include="Game\Inventory.cs" />
     <Compile Include="Game\Item.cs" />
-    <Compile Include="Game\Path.cs" />
     <Compile Include="Output\OutputManager.cs" />
     <Compile Include="LogMessage\EngineLog.cs" />
     <Compile Include="LogMessage\EngineLogManager.cs" />

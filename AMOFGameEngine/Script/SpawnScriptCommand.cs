@@ -12,20 +12,17 @@ namespace AMOFGameEngine.Script
     {
         public SpawnScriptCommand()
         {
+            CommandArgs = new object[] {
+                "CharacterType",
+                "CharacterName",
+                "SpawnX",
+                "SpawnY",
+                "SpawnZ"
+            };
         }
         public object[] CommandArgs
         {
-            get
-            {
-                return new object[5]
-                    {
-                        "CharacterType",
-                        "CharacterName",
-                        "SpawnX",
-                        "SpawnY",
-                        "SpawnZ"
-                    };
-            }
+            get;
         }
 
         public string CommandName
@@ -38,20 +35,27 @@ namespace AMOFGameEngine.Script
 
         public void Execute(params object[] executeArgs)
         {
-            if(CommandArgs.Length == CommandArgs.Length)
-            {
-                string characterType = CommandArgs[0].ToString();
-                string characterName = CommandArgs[1].ToString();
-                string spawnX = CommandArgs[2].ToString();
-                string spawnY = CommandArgs[3].ToString();
-                string spawnZ = CommandArgs[4].ToString();
+            string characterType = CommandArgs[0].ToString();
+            string characterName = CommandArgs[1].ToString();
+            string spawnX = CommandArgs[2].ToString();
+            string spawnY = CommandArgs[3].ToString();
+            string spawnZ = CommandArgs[4].ToString();
 
-                GameWorld world = executeArgs[0] as GameWorld;
-                var searchRet = world.GetModData().CharacterInfos.Where(o => o.Name == characterName);
-                if(searchRet.Count()>0)
+            GameWorld world = executeArgs[0] as GameWorld;
+            var searchRet = world.GetModData().CharacterInfos.Where(o => o.ID == characterName);
+            if(searchRet.Count()>0)
+            {
+                bool isBot = false;
+                if(characterType == "player")
                 {
-                    world.SpawnNewCharacter(searchRet.First(),new Vector3(float.Parse(spawnX),float.Parse(spawnY), float.Parse(spawnZ)));
+                    isBot = false;
                 }
+                else if(characterType == "bot")
+                {
+                    isBot = true;
+                }
+
+                world.SpawnNewCharacter(searchRet.First(),new Vector3(float.Parse(spawnX),float.Parse(spawnY), float.Parse(spawnZ)), isBot);
             }
         }
 

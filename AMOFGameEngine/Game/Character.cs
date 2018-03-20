@@ -84,7 +84,9 @@ namespace AMOFGameEngine.Game
                          Camera cam, 
                          int id,
                          string name,
-                         string meshName)
+                         string meshName,
+                         Mogre.Vector3 initPosition,
+                         bool isBot)
         {
             mWorld = world;
             Id = id;//唯一标识
@@ -93,7 +95,8 @@ namespace AMOFGameEngine.Game
             Weapons = new Item[4];//四种武器
             Clothes = new Item[4];//四件穿戴,0-帽盔,1-衣服,2-鞋子,3-手套
             Backpack = new Inventory(21, this);//21个单位的物品槽
-            controller = new CharacterController(cam, name + id.ToString(), meshName);//初始化控制器
+            controller = new CharacterController(cam, name + id.ToString(), meshName, isBot);//初始化控制器
+            controller.Position = initPosition;
         }
 
         public void WearHat(Item item)
