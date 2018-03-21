@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AMOFGameEngine.Script
+namespace AMOFGameEngine.Script.Command
 {
     public class SpawnScriptCommand : IScriptCommand
     {
@@ -14,7 +14,7 @@ namespace AMOFGameEngine.Script
         {
             CommandArgs = new object[] {
                 "CharacterType",
-                "CharacterName",
+                "CharacterID",
                 "CharacterTeam",
                 "SpawnX",
                 "SpawnY",
@@ -37,32 +37,28 @@ namespace AMOFGameEngine.Script
         public void Execute(params object[] executeArgs)
         {
             string characterType = CommandArgs[0].ToString();
-            string characterName = CommandArgs[1].ToString();
+            string characterID = CommandArgs[1].ToString();
             string characterTeam = CommandArgs[2].ToString();
             string spawnX = CommandArgs[3].ToString();
             string spawnY = CommandArgs[4].ToString();
             string spawnZ = CommandArgs[5].ToString();
 
             GameWorld world = executeArgs[0] as GameWorld;
-            var searchRet = world.ModData.CharacterInfos.Where(o => o.ID == characterName);
-            if(searchRet.Count()>0)
+            bool isBot = false;
+            if(characterType == "player")
             {
-                bool isBot = false;
-                if(characterType == "player")
-                {
-                    isBot = false;
-                }
-                else if(characterType == "bot")
-                {
-                    isBot = true;
-                }
-
-                world.SpawnNewCharacter(
-                    searchRet.First(),
-                    new Vector3(float.Parse(spawnX),float.Parse(spawnY), float.Parse(spawnZ)), 
-                    characterTeam,
-                    isBot);
+                isBot = false;
             }
+            else if(characterType == "bot")
+            {
+                isBot = true;
+            }
+
+            world.SpawnNewCharacter(
+                characterID,
+                new Vector3(float.Parse(spawnX),float.Parse(spawnY), float.Parse(spawnZ)), 
+                characterTeam,
+                isBot);
         }
 
         public void PushArg(string cmdArg ,int index)

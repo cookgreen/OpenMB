@@ -44,6 +44,9 @@ namespace AMOFGameEngine.Game
         //Map file name
         private string sceneName;
 
+        //Data
+        private Dictionary<string, string> globalVarMap;
+
         public Camera Cam
         {
             get
@@ -51,6 +54,7 @@ namespace AMOFGameEngine.Game
                 return cam;
             }
         }
+
         public ModData ModData
         {
             get
@@ -66,6 +70,12 @@ namespace AMOFGameEngine.Game
             scriptLoader = new ScriptLoader();
             playerAgent = null;
             teamRelationship = new List<Tuple<string, string, int>>();
+            globalVarMap = new Dictionary<string, string>();
+            globalVarMap.Add("reg0", "0");
+            globalVarMap.Add("reg1", "0");
+            globalVarMap.Add("reg2", "0");
+            globalVarMap.Add("reg3", "0");
+            globalVarMap.Add("reg4", "0");
         }
 
         public void Init()
@@ -114,14 +124,42 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        public void SpawnNewCharacter(ModCharacterDfnXML modCharacterDfnXML, Mogre.Vector3 position,string teamId, bool isBot = true)
+        public void ChangeValue(string varname, string varvalue)
         {
-            Character character = new Character(this, cam, agents.Count, teamId, modCharacterDfnXML.Name, modCharacterDfnXML.MeshName, position, isBot);
-            if(!isBot)
+            if (globalVarMap.ContainsKey(varname))
             {
-                playerAgent = character;
+                globalVarMap[varname] = varvalue;
             }
-            agents.Add(character);
+            else
+            {
+                globalVarMap.Add(varname, varvalue);
+            }
+        }
+
+        public string GetValue(string varname)
+        {
+            if (globalVarMap.ContainsKey(varname))
+            {
+                return globalVarMap[varname];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public void SpawnNewCharacter(string characterID, Mogre.Vector3 position,string teamId, bool isBot = true)
+        {
+            var searchRet = ModData.CharacterInfos.Where(o => o.ID == characterID);
+            if (searchRet.Count() > 0)
+            {
+                Character character = new Character(this, cam, agents.Count, teamId, searchRet.First().Name + agents.Count, searchRet.First().MeshName, position, isBot);
+                if (!isBot)
+                {
+                    playerAgent = character;
+                }
+                agents.Add(character);
+            }
         }
 
         public void Destroy()

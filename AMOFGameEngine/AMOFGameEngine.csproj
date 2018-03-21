@@ -185,11 +185,14 @@
     <Compile Include="Network\GameServer.cs" />
     <Compile Include="Network\Player.cs" />
     <Compile Include="Network\ServerMetaData.cs" />
-    <Compile Include="Script\IScriptCommand.cs" />
+    <Compile Include="Script\Command\AssignScriptCommand.cs" />
+    <Compile Include="Script\Command\IScriptCommand.cs" />
+    <Compile Include="Script\Command\StoreScriptCommand.cs" />
+    <Compile Include="Script\ScriptContext.cs" />
     <Compile Include="Script\ScriptFile.cs" />
     <Compile Include="Script\ScriptLoader.cs" />
-    <Compile Include="Script\SpawnScriptCommand.cs" />
-    <Compile Include="Script\TeamScriptCommand.cs" />
+    <Compile Include="Script\Command\SpawnScriptCommand.cs" />
+    <Compile Include="Script\Command\TeamScriptCommand.cs" />
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\ISound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
