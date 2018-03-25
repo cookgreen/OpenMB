@@ -37,11 +37,11 @@ namespace AMOFGameEngine.Script.Command
 
                 if(varname.StartsWith("%"))//local var
                 {
-                    context.ChangeValue(varname.Substring(1, varname.IndexOf(varname.Last())), varvalue);
+                    context.ChangeLocalValue(varname.Substring(1, varname.IndexOf(varname.Last())), varvalue);
                 }
                 else if(varname.StartsWith("$"))//global var
                 {
-                    world.ChangeValue(varname.Substring(1, varname.IndexOf(varname.Last())), varvalue);
+                    world.ChangeGobalValue(varname.Substring(1, varname.IndexOf(varname.Last())), varvalue);
                 }
             }
             else

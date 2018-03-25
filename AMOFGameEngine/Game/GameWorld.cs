@@ -110,7 +110,9 @@ namespace AMOFGameEngine.Game
         }
         public void ChangeTeamRelationship(string team1Id, string team2Id, int relationship)
         {
-            var ret = teamRelationship.Where(o => o.Item1 == team1Id && o.Item2 == team2Id);
+            var ret = teamRelationship.Where(o => 
+            (o.Item1 == team1Id && o.Item2 == team2Id) ||
+            (o.Item1 == team2Id && o.Item2 == team1Id));
             if (ret.Count() == 0)
             {
                 teamRelationship.Add(new Tuple<string, string, int>(team1Id, team2Id, relationship));
@@ -124,7 +126,7 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        public void ChangeValue(string varname, string varvalue)
+        public void ChangeGobalValue(string varname, string varvalue)
         {
             if (globalVarMap.ContainsKey(varname))
             {
@@ -136,7 +138,7 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        public string GetValue(string varname)
+        public string GetGlobalValue(string varname)
         {
             if (globalVarMap.ContainsKey(varname))
             {

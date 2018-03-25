@@ -157,11 +157,15 @@
     <Compile Include="Game\GameWorld.cs" />
     <Compile Include="Game\Inventory.cs" />
     <Compile Include="Game\Item.cs" />
+    <Compile Include="Game\Path.cs" />
+    <Compile Include="Graph\GraphEdge.cs" />
+    <Compile Include="Graph\GraphNode.cs" />
+    <Compile Include="Graph\SparseGraph.cs" />
     <Compile Include="Output\OutputManager.cs" />
     <Compile Include="LogMessage\EngineLog.cs" />
     <Compile Include="LogMessage\EngineLogManager.cs" />
     <Compile Include="Network\NetworkManager.cs" />
-    <Compile Include="PathFinder\AStarPathFind.cs" />
+    <Compile Include="PathFinder\AStarPathFinder.cs" />
     <Compile Include="Core\GameObjClass.cs" />
     <Compile Include="Maps\BspMap.cs" />
     <Compile Include="Maps\Map.cs" />
@@ -185,6 +189,7 @@
     <Compile Include="Network\GameServer.cs" />
     <Compile Include="Network\Player.cs" />
     <Compile Include="Network\ServerMetaData.cs" />
+    <Compile Include="PathFinder\IPathFinder.cs" />
     <Compile Include="Script\Command\AssignScriptCommand.cs" />
     <Compile Include="Script\Command\IScriptCommand.cs" />
     <Compile Include="Script\Command\StoreScriptCommand.cs" />

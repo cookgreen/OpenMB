@@ -13,7 +13,7 @@ namespace AMOFGameEngine.Script
             localValMap = new Dictionary<string, string>();
         }
 
-        public string GetValue(string varname)
+        public string GetLocalValue(string varname)
         {
             if (localValMap.ContainsKey(varname))
             {
@@ -25,7 +25,7 @@ namespace AMOFGameEngine.Script
             }
         }
 
-        public void ChangeValue(string varname, string varvalue)
+        public void ChangeLocalValue(string varname, string varvalue)
         {
             if(localValMap.ContainsKey(varname))
             {
