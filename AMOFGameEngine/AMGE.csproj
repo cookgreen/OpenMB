@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AMOFGameEngine</RootNamespace>
-    <AssemblyName>AMOFGameEngine</AssemblyName>
+    <AssemblyName>AMGE</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -109,6 +109,24 @@
     <Reference Include="AviFile">
       <HintPath>..\Dependencies\AviFile.dll</HintPath>
     </Reference>
+    <Reference Include="cai-nav">
+      <HintPath>..\Dependencies\cai-nav.dll</HintPath>
+    </Reference>
+    <Reference Include="cai-nav-rcn">
+      <HintPath>..\Dependencies\cai-nav-rcn.dll</HintPath>
+    </Reference>
+    <Reference Include="cai-nmbuild">
+      <HintPath>..\Dependencies\cai-nmbuild.dll</HintPath>
+    </Reference>
+    <Reference Include="cai-nmgen">
+      <HintPath>..\Dependencies\cai-nmgen.dll</HintPath>
+    </Reference>
+    <Reference Include="cai-nmgen-rcn">
+      <HintPath>..\Dependencies\cai-nmgen-rcn.dll</HintPath>
+    </Reference>
+    <Reference Include="cai-util">
+      <HintPath>..\Dependencies\cai-util.dll</HintPath>
+    </Reference>
     <Reference Include="Mogre">
       <HintPath>..\Dependencies\Mogre.dll</HintPath>
     </Reference>
@@ -144,7 +162,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Addon\Addon.cs" />
     <Compile Include="Core\GameVersion.cs" />
     <Compile Include="Forms\Controller\frmConfigureController.cs" />
     <Compile Include="Forms\Model\AudioConfigure.cs" />
@@ -158,19 +175,15 @@
     <Compile Include="Game\Inventory.cs" />
     <Compile Include="Game\Item.cs" />
     <Compile Include="Game\Path.cs" />
-    <Compile Include="Graph\GraphEdge.cs" />
-    <Compile Include="Graph\GraphNode.cs" />
-    <Compile Include="Graph\SparseGraph.cs" />
-    <Compile Include="Output\OutputManager.cs" />
+    <Compile Include="PathFinder\NavGraphEdge.cs" />
+    <Compile Include="PathFinder\NavGraphPoint.cs" />
+    <Compile Include="PathFinder\NavGraph.cs" />
+    <Compile Include="Core\OutputManager.cs" />
     <Compile Include="LogMessage\EngineLog.cs" />
     <Compile Include="LogMessage\EngineLogManager.cs" />
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="PathFinder\AStarPathFinder.cs" />
     <Compile Include="Core\GameObjClass.cs" />
-    <Compile Include="Maps\BspMap.cs" />
-    <Compile Include="Maps\Map.cs" />
-    <Compile Include="Maps\SceneMap.cs" />
-    <Compile Include="Maps\MapManager.cs" />
     <Compile Include="Mods\ModDataInfo.cs" />
     <Compile Include="Mods\ModManager.cs" />
     <Compile Include="Mods\ModManifest.cs" />
@@ -183,18 +196,23 @@
     <Compile Include="Mods\XML\ModTracksDfnXML.cs" />
     <Compile Include="Mods\XML\ModSideDfnXML.cs" />
     <Compile Include="Mods\XML\ModXML.cs" />
-    <Compile Include="Message\Message.cs" />
-    <Compile Include="Message\MessageManager.cs" />
     <Compile Include="Network\GameClient.cs" />
     <Compile Include="Network\GameServer.cs" />
     <Compile Include="Network\Player.cs" />
     <Compile Include="Network\ServerMetaData.cs" />
     <Compile Include="PathFinder\IPathFinder.cs" />
+    <Compile Include="Script\Command\CallScriptCommand.cs" />
     <Compile Include="Script\Command\AssignScriptCommand.cs" />
+    <Compile Include="Script\Command\EndScriptCommand.cs" />
+    <Compile Include="Script\Command\FunctionScriptCommand.cs" />
     <Compile Include="Script\Command\IScriptCommand.cs" />
+    <Compile Include="Script\Command\LoopScriptCommand.cs" />
+    <Compile Include="Script\Command\RootScriptCommand.cs" />
+    <Compile Include="Script\Command\ScriptCommand.cs" />
     <Compile Include="Script\Command\StoreScriptCommand.cs" />
     <Compile Include="Script\ScriptContext.cs" />
     <Compile Include="Script\ScriptFile.cs" />
+    <Compile Include="Script\ScriptFunction.cs" />
     <Compile Include="Script\ScriptLoader.cs" />
     <Compile Include="Script\Command\SpawnScriptCommand.cs" />
     <Compile Include="Script\Command\TeamScriptCommand.cs" />
@@ -229,6 +247,7 @@
     <Compile Include="Utilities\ConfigFile.cs" />
     <Compile Include="Utilities\ConfigFileParser.cs" />
     <Compile Include="Utilities\Helper.cs" />
+    <Compile Include="Utilities\MeshToNavmesh.cs" />
     <Compile Include="Utilities\RMogre.cs" />
     <Compile Include="Utilities\OgreConfigFileAdapter.cs" />
     <Compile Include="Localization\LocateUCSFile.cs" />

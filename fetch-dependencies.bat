@@ -1,0 +1,1 @@
+@powershell -NoProfile -ExecutionPolicy Bypass -File fetch-depencies.ps1 %*

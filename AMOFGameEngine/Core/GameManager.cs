@@ -7,10 +7,8 @@ using MOIS;
 using Mogre_Procedural;
 using Mogre_Procedural.MogreBites;
 using NVorbis;
-using AMOFGameEngine.Addon;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.LogMessage;
-using AMOFGameEngine.Maps;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.Network;
 using AMOFGameEngine.Output;
@@ -46,7 +44,6 @@ namespace AMOFGameEngine
 
         private AppStateManager appStateMgr;
         private LocateSystem locateMgr;
-        private MapManager mapMgr;
         private ModManager modMgr;
         private NetworkManager networkMgr;
         private OutputManager outputMgr;
@@ -199,7 +196,6 @@ namespace AMOFGameEngine
         {
             appStateMgr = new AppStateManager();
             locateMgr = LocateSystem.Singleton;
-            mapMgr = new MapManager();
             modMgr = new ModManager();
             networkMgr = new NetworkManager();
             outputMgr = new OutputManager();
@@ -213,7 +209,6 @@ namespace AMOFGameEngine
             }
             
             Update += modMgr.Update;
-            Update += mapMgr.Update;
             Update += outputMgr.Update;
             Update += soundMgr.Update;
             Update += uiMgr.Update;
@@ -229,7 +224,8 @@ namespace AMOFGameEngine
         public void Exit()
         {
             LocateSystem.Singleton.SaveLocateFile();
-            GameManager.Instance.mLog.LogMessage("Game Quit!");
+            mLog.LogMessage("Game Quit!");
+            mLog.Dispose();
         }
 
         public void UpdateRender(double timeSinceLastFrame)

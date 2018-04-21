@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Mogre;
 using Mogre_Procedural.MogreBites;
-using AMOFGameEngine.Maps;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.Network;
 using AMOFGameEngine.Widgets;
@@ -17,7 +16,6 @@ namespace AMOFGameEngine.States
         private InputBox ibServerPort;
         private CheckBox chkHasPasswd;
         private InputBox ibPasswd;
-        private MapManager mapMnger;
         private GameServer thisServer;
         private Dictionary<string, string> option;
         private StringVector serverState;
@@ -26,7 +24,6 @@ namespace AMOFGameEngine.States
 
         public Multiplayer()
         {
-            mapMnger = new MapManager();
             option = new Dictionary<string, string>();
             serverState = new StringVector();
         }

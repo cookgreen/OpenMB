@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AMOFGameEngine.Graph
+namespace AMOFGameEngine.PathFinder
 {
-    public class GraphEdge
+    public class NavGraphEdge
     {
         private int from;
         private int to;
@@ -48,13 +48,13 @@ namespace AMOFGameEngine.Graph
             }
         }
 
-        public GraphEdge(int from, int to)
+        public NavGraphEdge(int from, int to)
         {
             this.from = from;
             this.to = to;
             this.cost = 1.0;
         }
-        public GraphEdge()
+        public NavGraphEdge()
         {
             from = -1;
             to = -1;

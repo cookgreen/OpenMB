@@ -3,30 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AMOFGameEngine.Graph
+namespace AMOFGameEngine.PathFinder
 {
-    public class SparseGraph
+    public class NavGraph
     {
-        public List<GraphNode> NodeList { get; set; }
-        public List<GraphEdge> EdgeList { get; set; }
+        public List<NavGraphPoint> NodeList { get; set; }
+        public List<NavGraphEdge> EdgeList { get; set; }
 
-        public SparseGraph()
+        public NavGraph()
         {
-            NodeList = new List<GraphNode>();
-            EdgeList = new List<GraphEdge>();
+            NodeList = new List<NavGraphPoint>();
+            EdgeList = new List<NavGraphEdge>();
         }
 
-        public void AddNode(GraphNode newNode)
+        public void AddNode(NavGraphPoint newNode)
         {
             NodeList.Add(newNode);
         }
 
-        public void RemoveNode(GraphNode node)
+        public void RemoveNode(NavGraphPoint node)
         {
             if (node != null)
             {
                 NodeList.Remove(node);
-                List<GraphEdge> tempEdgeList = new List<GraphEdge>(EdgeList);
+                List<NavGraphEdge> tempEdgeList = new List<NavGraphEdge>(EdgeList);
                 for (int i = 0; i < EdgeList.Count; i++)
                 {
                     if (EdgeList[i].From == node.Index || EdgeList[i].To == node.Index)
@@ -38,10 +38,10 @@ namespace AMOFGameEngine.Graph
         }
         public void AddEdge(int fromIndex, int toIndex)
         {
-            EdgeList.Add(new GraphEdge(fromIndex, toIndex));
+            EdgeList.Add(new NavGraphEdge(fromIndex, toIndex));
         }
 
-        public void RemoveEdge(GraphEdge edge)
+        public void RemoveEdge(NavGraphEdge edge)
         {
             EdgeList.Remove(edge);
         }

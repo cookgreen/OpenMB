@@ -6,7 +6,6 @@ using MMOC;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.Game;
 using AMOFGameEngine.UI;
-using AMOFGameEngine.Maps;
 using MOIS;
 
 namespace AMOFGameEngine.States

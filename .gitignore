@@ -4,7 +4,7 @@
 *.manifest
 *.log
 *.suo
-Mods/*.dll
+*.xml
 *.config
 *.cache
 *.Cache

@@ -1,0 +1,9 @@
+I  (Pravin Kumar aka. Aralox) wrote MeshToNavmesh, Stephen Pratt wrote the Critter AI Debug Draw classes, which I modified to work with Mogre.
+See the individual classes for more info.
+
+Discussion that led to these classes:
+http://groups.google.com/group/critterai/browse_thread/thread/598d668fd9b3e401
+
+If these classes helped you, I would be delighted to know! :)
+
+aralox@gmail.com

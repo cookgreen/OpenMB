@@ -8,11 +8,11 @@ using System.Text;
 
 namespace AMOFGameEngine.Script.Command
 {
-    public class SpawnScriptCommand : IScriptCommand
+    public class SpawnScriptCommand : ScriptCommand
     {
         public SpawnScriptCommand()
         {
-            CommandArgs = new object[] {
+            CommandArgs = new string[] {
                 "CharacterType",
                 "CharacterID",
                 "CharacterTeam",
@@ -21,12 +21,12 @@ namespace AMOFGameEngine.Script.Command
                 "SpawnZ"
             };
         }
-        public object[] CommandArgs
+        public override string[] CommandArgs
         {
             get;
         }
 
-        public string CommandName
+        public override string CommandName
         {
             get
             {
@@ -34,14 +34,22 @@ namespace AMOFGameEngine.Script.Command
             }
         }
 
-        public void Execute(params object[] executeArgs)
+        public override ScriptCommandType CommandType
         {
-            string characterType = CommandArgs[0].ToString();
-            string characterID = CommandArgs[1].ToString();
-            string characterTeam = CommandArgs[2].ToString();
-            string spawnX = CommandArgs[3].ToString();
-            string spawnY = CommandArgs[4].ToString();
-            string spawnZ = CommandArgs[5].ToString();
+            get
+            {
+                return ScriptCommandType.Line;
+            }
+        }
+
+        public override void Execute(params object[] executeArgs)
+        {
+            string characterType = CommandArgs[0].StartsWith("%") ? Context.GetLocalValue(CommandArgs[0].Substring(1)): CommandArgs[0];
+            string characterID = CommandArgs[1].StartsWith("%") ? Context.GetLocalValue(CommandArgs[1].Substring(1)) : CommandArgs[1];
+            string characterTeam = CommandArgs[2].StartsWith("%") ? Context.GetLocalValue(CommandArgs[2].Substring(1)) : CommandArgs[2];
+            string spawnX = CommandArgs[3].StartsWith("%") ? Context.GetLocalValue(CommandArgs[3].Substring(1)) : CommandArgs[3];
+            string spawnY = CommandArgs[4].StartsWith("%") ? Context.GetLocalValue(CommandArgs[4].Substring(1)) : CommandArgs[4];
+            string spawnZ = CommandArgs[5].StartsWith("%") ? Context.GetLocalValue(CommandArgs[5].Substring(1)) : CommandArgs[5];
 
             GameWorld world = executeArgs[0] as GameWorld;
             bool isBot = false;
@@ -59,11 +67,6 @@ namespace AMOFGameEngine.Script.Command
                 new Vector3(float.Parse(spawnX),float.Parse(spawnY), float.Parse(spawnZ)), 
                 characterTeam,
                 isBot);
-        }
-
-        public void PushArg(string cmdArg ,int index)
-        {
-            CommandArgs[index] = cmdArg;
         }
     }
 }

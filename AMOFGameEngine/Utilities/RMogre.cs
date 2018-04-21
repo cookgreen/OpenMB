@@ -5,6 +5,7 @@
     using System.Globalization;
     using System.Xml;
     using Mogre;
+    using System.ComponentModel;
 
     public class DotSceneLoader
     {
@@ -12,11 +13,17 @@
 
         public List<string> DynamicObjects; //String
         public List<string> StaticObjects; //String
+        public TerrainGroup TerrainGroup;
+        public event Action LoadSceneStarted;
+        public event Action LoadSceneFinished;
 
         protected SceneNode mAttachNode;
         protected SceneManager mSceneMgr;
         protected String m_sGroupName;
         protected String m_sPrependNode;
+        protected TerrainGlobalOptions mTerrainOptions;
+
+        private BackgroundWorker worker;
 
         #endregion Fields
 
@@ -24,6 +31,21 @@
 
         public DotSceneLoader()
         {
+            mTerrainOptions = new TerrainGlobalOptions();
+            worker = new BackgroundWorker();
+            worker.DoWork += LoadSceneAsync;
+            worker.RunWorkerCompleted += LoadSceneCompleted;
+        }
+
+        private void LoadSceneCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            LoadSceneFinished?.Invoke();
+        }
+
+        private void LoadSceneAsync(object sender, DoWorkEventArgs e)
+        {
+            object[] arguments = e.Argument as object[];
+            ParseDotScene((string)arguments[0], (string)arguments[1], (SceneManager)arguments[2]);
         }
 
         ~DotSceneLoader()
@@ -33,6 +55,12 @@
         #endregion Constructors
 
         #region Methods
+
+        public void ParseDotSceneAsync(String SceneName, String groupName, SceneManager yourSceneMgr)
+        {
+            worker.RunWorkerAsync(new object[] { SceneName, groupName, yourSceneMgr });
+            LoadSceneStarted?.Invoke();
+        }
 
         public void ParseDotScene(String SceneName, String groupName, SceneManager yourSceneMgr)
         {
@@ -215,6 +243,65 @@
                     farDist = getAttribReal(pElement, "far");
                 }
                 pCamera.FarClipDistance = farDist;
+            }
+        }
+
+        protected void processTerrain(XmlElement XMLNode)
+        {
+            string worldSize = getAttrib(XMLNode, "wordSize", "");
+            string mapSize = getAttrib(XMLNode, "mapSize", "");
+            string colourmapEnabled = getAttrib(XMLNode, "colourmapEnabled", "");
+            string colourMapTextureSize = getAttrib(XMLNode, "colourMapTextureSize", "");
+            string tuningCompositeMapDistance = getAttrib(XMLNode, "tuningCompositeMapDistance", "");
+            string tuningMaxPixelError = getAttrib(XMLNode, "tuningMaxPixelError", "");
+            string tuningMinBatchSize = getAttrib(XMLNode, "tuningMinBatchSize", "");
+            string tuningMaxBatchSize = getAttrib(XMLNode, "tuningMaxBatchSize", "");
+
+            Vector3 lightdir = new Vector3(0, -0.3f, 0.75f);
+            lightdir.Normalise();
+
+            Light l = mSceneMgr.CreateLight();
+            l.Type = Light.LightTypes.LT_DIRECTIONAL;
+            l.Direction = lightdir;
+            l.DiffuseColour = new ColourValue(1, 1, 1);
+            l.SpecularColour = new ColourValue(0.4f, 0.4f, 0.4f);
+            mSceneMgr.AmbientLight = new ColourValue(0.6f, 0.6f, 0.6f);
+
+            mTerrainOptions.MaxPixelError = int.Parse(tuningMaxPixelError);
+            mTerrainOptions.CompositeMapDistance = float.Parse(tuningCompositeMapDistance);
+            mTerrainOptions.LightMapDirection = lightdir;
+            mTerrainOptions.CompositeMapAmbient = mSceneMgr.AmbientLight;
+            mTerrainOptions.CompositeMapDiffuse = l.DiffuseColour;
+
+            TerrainGroup = new TerrainGroup(mSceneMgr, Terrain.Alignment.ALIGN_X_Z, ushort.Parse(mapSize), float.Parse(worldSize));
+            TerrainGroup.Origin = Vector3.ZERO;
+            TerrainGroup.ResourceGroup = "General";
+
+            XmlNode terrainPagesNode = XMLNode.SelectSingleNode("terrainPages");
+            if (terrainPagesNode != null)
+            {
+                XmlNodeList terrainNodes = terrainPagesNode.SelectNodes("terrainPage");
+                if (terrainNodes != null)
+                {
+                    for (int i = 0; i < terrainNodes.Count; i++)
+                    {
+                        processTerrainPage((XmlElement)terrainNodes[i]);
+                    }
+                }
+            }
+
+            TerrainGroup.LoadAllTerrains(true);
+            TerrainGroup.FreeTemporaryResources();
+        }
+
+        protected void processTerrainPage(XmlElement XMLNode)
+        {
+            string terrainFileName = getAttrib(XMLNode, "name", "");
+            int pageX = int.Parse(getAttrib(XMLNode, "pageX", ""));
+            int pageY = int.Parse(getAttrib(XMLNode, "pageY", ""));
+            if (ResourceGroupManager.Singleton.ResourceExists(TerrainGroup.ResourceGroup, terrainFileName))
+            {
+                TerrainGroup.DefineTerrain(pageX, pageY, terrainFileName);
             }
         }
 
@@ -602,6 +689,12 @@
             //         pElement = (XmlElement)XMLRoot.SelectSingleNode("externals");
             //         if (pElement != null)
             //            processExternals(pElement);
+
+            pElement = (XmlElement)XMLRoot.SelectSingleNode("terrain");
+            if (pElement != null)
+            {
+                processTerrain(pElement);
+            }
         }
 
         protected void processUserDataReference(XmlElement XMLNode, SceneNode pNode)

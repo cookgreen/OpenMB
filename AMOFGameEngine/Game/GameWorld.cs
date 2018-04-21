@@ -8,6 +8,7 @@ using MOIS;
 using AMOFGameEngine.Mods.XML;
 using AMOFGameEngine.Script;
 using AMOFGameEngine.Mods;
+using Mogre_Procedural.MogreBites;
 
 namespace AMOFGameEngine.Game
 {
@@ -27,7 +28,7 @@ namespace AMOFGameEngine.Game
         private List<Tuple<string, string, int>> teamRelationship;
 
         //Terrain Data
-        private Terrain terrian;
+        private TerrainGroup terrianGroup;
 
         //Static Objects Data
         private List<GameObject> staticObjects;
@@ -46,6 +47,8 @@ namespace AMOFGameEngine.Game
 
         //Data
         private Dictionary<string, string> globalVarMap;
+
+        private ProgressBar pbProgressBar;
 
         public Camera Cam
         {
@@ -67,6 +70,8 @@ namespace AMOFGameEngine.Game
         {
             this.modData = modData;
             sceneLoader = new DotSceneLoader();
+            sceneLoader.LoadSceneStarted += SceneLoader_LoadSceneStarted;
+            sceneLoader.LoadSceneFinished += SceneLoader_LoadSceneFinished;
             scriptLoader = new ScriptLoader();
             playerAgent = null;
             teamRelationship = new List<Tuple<string, string, int>>();
@@ -78,9 +83,21 @@ namespace AMOFGameEngine.Game
             globalVarMap.Add("reg4", "0");
         }
 
+        private void SceneLoader_LoadSceneFinished()
+        {
+            terrianGroup = sceneLoader.TerrainGroup;
+            pbProgressBar.setComment("Finished");
+            GameManager.Instance.mTrayMgr.destroyAllWidgets();
+        }
+
+        private void SceneLoader_LoadSceneStarted()
+        {
+            CreateLoadingScreen("Loading Scene...");
+        }
+
         public void Init()
         {
-            scm = GameManager.Instance.mRoot.CreateSceneManager(SceneType.ST_GENERIC);
+            scm = GameManager.Instance.mRoot.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE);
             scm.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
 
             cam = scm.CreateCamera("gameCam");
@@ -177,7 +194,7 @@ namespace AMOFGameEngine.Game
             this.sceneName = sceneName;
             agents = new List<Character>();
             staticObjects = new List<GameObject>();
-            sceneLoader.ParseDotScene(sceneName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, scm);
+            sceneLoader.ParseDotSceneAsync(sceneName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, scm);
             scriptLoader.Parse(System.IO.Path.GetFileNameWithoutExtension(sceneName) + ".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, this);
         }
 
@@ -280,6 +297,13 @@ namespace AMOFGameEngine.Game
         bool mMouse_MouseMoved(MOIS.MouseEvent arg)
         {
             return true;
+        }
+
+        private void CreateLoadingScreen(string text)
+        {
+            GameManager.Instance.mTrayMgr.destroyAllWidgets();
+            pbProgressBar = GameManager.Instance.mTrayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
+            pbProgressBar.setComment(text);
         }
     }
 }

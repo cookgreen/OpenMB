@@ -61,6 +61,7 @@ namespace AMOFGameEngine.LogMessage
             }
             string logMessage = string.Format("{0} - {1}: {2}", DateTime.Now, logType, message);
             sw.WriteLine(logMessage);
+            sw.Flush();
         }
 
         public void Dispose()
