@@ -47,9 +47,11 @@ namespace AMOFGameEngine.Script
             string dataString = dataStream.AsString;
 
             string[] lines = dataString.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < lines.Length; i++)
+            int length = lines.Length;
+            for (int i = 0; i < length; i++)
             {
-                if(string.IsNullOrEmpty(lines[i]))
+                lines[i] = lines[i].Replace("\t", null);
+                if (string.IsNullOrEmpty(lines[i]))
                 {
                     continue;
                 }
@@ -70,7 +72,8 @@ namespace AMOFGameEngine.Script
                         lineToken[0].Substring(0, 1).ToUpper() + lineToken[0].Substring(1) + "ScriptCommand")) as ScriptCommand;
                     registeredCommand[lineToken[0]].ParentCommand = currentCommand;
                     registeredCommand[lineToken[0]].Context = Context;
-                    for (int j = 1; j < lineToken.Length; j++)
+                    int tokenLength = lineToken.Length;
+                    for (int j = 1; j < tokenLength; j++)
                     {
                         registeredCommand[lineToken[0]].PushArg(lineToken[j], j - 1);
                     }
