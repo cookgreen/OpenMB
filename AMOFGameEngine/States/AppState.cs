@@ -40,7 +40,6 @@ namespace AMOFGameEngine.States
 	    public void destroy()
         {
         }
- 
 	    public virtual void enter(ModData data=null){}
 	    public virtual void exit(){}
 	    public virtual bool pause(){return false;}

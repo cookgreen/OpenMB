@@ -5,6 +5,7 @@ using System.Text;
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
+using AMOFGameEngine.Localization;
 using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine.States
@@ -81,16 +82,15 @@ namespace AMOFGameEngine.States
 
             GameManager.Instance.mTrayMgr.showLogo(TrayLocation.TL_RIGHT);
             GameManager.Instance.mTrayMgr.createSeparator(TrayLocation.TL_RIGHT, "LogoSep");
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "Play", "Play", 140);
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "Configure", "Configure", 140);
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "Quit", "Quit", 140);
+            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "Play", LocateSystem.Singleton.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 140);
+            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "Quit", LocateSystem.Singleton.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 140);
             
             SetupModMenu();
 
-            GameManager.Instance.mMouse.MouseMoved += new MouseListener.MouseMovedHandler(mMouse_MouseMoved);
-            GameManager.Instance.mMouse.MousePressed += new MouseListener.MousePressedHandler(mMouse_MousePressed);
-            GameManager.Instance.mMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mMouse_MouseReleased);
-            GameManager.Instance.mRoot.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(mRoot_FrameRenderingQueued);
+            GameManager.Instance.mMouse.MouseMoved += mMouse_MouseMoved;
+            GameManager.Instance.mMouse.MousePressed += mMouse_MousePressed;
+            GameManager.Instance.mMouse.MouseReleased += mMouse_MouseReleased;
+            GameManager.Instance.mRoot.FrameRenderingQueued += mRoot_FrameRenderingQueued;
 
             ModManager.Instance.LoadingModStarted += new Action(LoadingModStarted);
             ModManager.Instance.LoadingModFinished+=new Action(LoadingModFinished);
@@ -102,16 +102,16 @@ namespace AMOFGameEngine.States
             switch (obj)
             {
                 case 25:
-                    pbProcessBar.setComment("Processing Module File");
+                    pbProcessBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_processing_module_file"));
                     break;
                 case 50:
-                    pbProcessBar.setComment("Loading Resources");
+                    pbProcessBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_loading_resource"));
                     break;
                 case 75:
-                    pbProcessBar.setComment("Loading Module Data");
+                    pbProcessBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_loading_module_data"));
                     break;
                 case 100:
-                    pbProcessBar.setComment("Finished");
+                    pbProcessBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_finished"));
                     break;
             }
             pbProcessBar.setProgress(obj / 100);
@@ -220,6 +220,11 @@ namespace AMOFGameEngine.States
             {
                 GameManager.Instance.mTrayMgr.getTraysLayer().Remove2D(bp);
             }
+
+            GameManager.Instance.mMouse.MouseMoved -= mMouse_MouseMoved;
+            GameManager.Instance.mMouse.MousePressed -= mMouse_MousePressed;
+            GameManager.Instance.mMouse.MouseReleased -= mMouse_MouseReleased;
+            GameManager.Instance.mRoot.FrameRenderingQueued -= mRoot_FrameRenderingQueued;
         }
 
         public override void update(double timeSinceLastFrame)
@@ -249,7 +254,7 @@ namespace AMOFGameEngine.States
 
         void SetupModMenu()
         {
-            MaterialPtr thumbMat = MaterialManager.Singleton.Create("ModThumbnail", "Essential");
+            MaterialPtr thumbMat = MaterialManager.Singleton.Create("ModThumbnail", "General");
             thumbMat.GetTechnique(0).GetPass(0).CreateTextureUnitState();
             MaterialPtr templateMat = MaterialManager.Singleton.GetByName("ModThumbnail");
 

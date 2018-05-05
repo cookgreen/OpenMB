@@ -117,5 +117,18 @@ namespace AMOFGameEngine.Utilities
             }
             return cv;
         }
+
+        public static string ConvertUintToString(uint text)
+        {
+            char[] chars = System.Text.Encoding.Default.GetChars(BitConverter.GetBytes(text));
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in chars)
+            {
+                if (c != '\0')
+                    sb.Append(c);
+            }
+            string str = sb.ToString();
+            return str;
+        }
     }
 }

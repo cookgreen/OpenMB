@@ -104,11 +104,11 @@ namespace AMOFGameEngine.Widgets
             }
         }
 
-        public override void _keyPressed(uint text)
+        public void _keyPressed(uint text)
         {
             if (isTextMode)
             {
-                string str = GameTrayHelper.ConvertUintToString(text);
+                string str = Utilities.Helper.ConvertUintToString(text);
                 if (!bOnlyAcceptNum)
                 {
                     mText += str;//original text
@@ -140,7 +140,7 @@ namespace AMOFGameEngine.Widgets
             }
         }
 
-        public override void _keyPressed(KeyCode key)
+        public void _keyPressed(KeyCode key)
         {
             if (isTextMode)
             {

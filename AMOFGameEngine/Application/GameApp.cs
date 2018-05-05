@@ -54,6 +54,7 @@ namespace AMOFGameEngine
             Pause.create<Pause>("Pause");
             SinglePlayer.create<SinglePlayer>("SinglePlayer");
             Multiplayer.create<Multiplayer>("Multiplayer");
+            Credit.create<Credit>("Credit");
 
             AppStateManager.Instance.start(AppStateManager.Instance.findByName("ModChooser"));
 

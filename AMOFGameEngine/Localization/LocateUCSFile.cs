@@ -151,7 +151,14 @@ namespace AMOFGameEngine.Localization
                 string prefix = null;
                 prefix = str.Replace(' ', '_').ToLower();
                 string key = "qstr_" + prefix;
-                UCSValueTmp.Add(key, str);
+                if (!UCSValueTmp.ContainsKey(key))
+                {
+                    UCSValueTmp.Add(key, str);
+                }
+                else
+                {
+                    UCSValueTmp[key] = str;
+                }
 
                 return key;
             }

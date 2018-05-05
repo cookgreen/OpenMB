@@ -8,23 +8,18 @@ using MOIS;
 
 namespace AMOFGameEngine.Widgets
 {
-    public class GameTrayManager : SdkTrayManager
+    public static class GameTrayManager
     {
-        public GameTrayManager(string name,RenderWindow win,Mouse mouse,SdkTrayListener listener) :base(name,win,mouse,listener)
-        {
-
-        }
-
-        public InputBox createInputBox(TrayLocation trayLoc, string name, string caption,float width, float boxWidth, string text=null, bool onlyAcceptNum=false)
+        public static InputBox createInputBox(this SdkTrayManager trayMgr, TrayLocation trayLoc, string name, string caption,float width, float boxWidth, string text=null, bool onlyAcceptNum=false)
         {
             InputBox ib = new InputBox(name, caption, width, boxWidth, text, onlyAcceptNum);
-            this.moveWidgetToTray(ib, trayLoc);
+            trayMgr.moveWidgetToTray(ib, trayLoc);
             ib.Text = text;
-            ib._assignListener(mListener);
+            //ib._assignListener(mListener);
             return ib;
         }
 
-        public ListView createListView(TrayLocation trayLoc, string name, float height, float width, List<string> columnNames)
+        public static ListView createListView(this SdkTrayManager trayMgr, TrayLocation trayLoc, string name, float height, float width, List<string> columnNames)
         {
             ListView lsv = new ListView(name, -1, -1, height, width, columnNames);
             //this.moveWidgetToTray(lsv,trayLoc);

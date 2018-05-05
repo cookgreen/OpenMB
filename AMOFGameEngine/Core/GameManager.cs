@@ -7,16 +7,17 @@ using MOIS;
 using Mogre_Procedural;
 using Mogre_Procedural.MogreBites;
 using NVorbis;
+using AMOFGameEngine.Core;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.LogMessage;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.Network;
 using AMOFGameEngine.Output;
 using AMOFGameEngine.Game;
+using AMOFGameEngine.Screen;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.States;
 using AMOFGameEngine.Widgets;
-using AMOFGameEngine.UI;
 using AMOFGameEngine.Utilities;
 using ConfigFile = AMOFGameEngine.Utilities.ConfigFile;
 
@@ -33,7 +34,7 @@ namespace AMOFGameEngine
         public InputManager mInputMgr;
         public Keyboard mKeyboard;
         public Mouse mMouse;
-        public GameTrayManager mTrayMgr;
+        public SdkTrayManager mTrayMgr;
         public static string LastStateName;
 
         public event Action<float> Update;
@@ -48,7 +49,7 @@ namespace AMOFGameEngine
         private NetworkManager networkMgr;
         private OutputManager outputMgr;
         private SoundManager soundMgr;
-        private GameUIManager uiMgr;
+        private ScreenManager uiMgr;
 
         public Dictionary<int,GameObject> AllGameObjects;
         public Dictionary<string, uint> GameHashMap;
@@ -145,7 +146,6 @@ namespace AMOFGameEngine
             MOIS.MouseState_NativePtr mouseState = mMouse.MouseState;
                 mouseState.width = mViewport.ActualWidth;
                 mouseState.height = mViewport.ActualHeight;
-
  
             String secName, typeName, archName;
             AMOFGameEngine.Utilities.ConfigFile conf = new AMOFGameEngine.Utilities.ConfigFile();
@@ -166,10 +166,10 @@ namespace AMOFGameEngine
                 "General");
 
             TextureManager.Singleton.DefaultNumMipmaps = 5;
-
+            
             ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 
-            mTrayMgr = new GameTrayManager("AMOFTrayMgr", mRenderWnd, mMouse, new SdkTrayListener() );
+            mTrayMgr = new SdkTrayManager("AMOFTrayMgr", mRenderWnd, mMouse, new SdkTrayListener() );
 
             mTimer = new Timer();
             mTimer.Reset();
@@ -200,7 +200,7 @@ namespace AMOFGameEngine
             networkMgr = new NetworkManager();
             outputMgr = new OutputManager();
             soundMgr = new SoundManager();
-            uiMgr = new GameUIManager();
+            uiMgr = new ScreenManager();
             
 
             if (!locateMgr.IsInit)

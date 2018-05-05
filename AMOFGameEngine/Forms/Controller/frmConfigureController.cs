@@ -21,6 +21,7 @@ namespace AMOFGameEngine.Forms.Controller
         public AudioConfigure AudioConfig;
         public GameConfigure GameConfig;
         public GraphicConfigure GraphicConfig;
+        public event Action GraphicRenderSystemChanged;
         public LOCATE CurrentLoacte
         {
             get
@@ -83,6 +84,7 @@ namespace AMOFGameEngine.Forms.Controller
                 }
             }
             GraphicConfig.RenderSystem = ogreCfg[""]["Render System"];
+            GetGraphicSettingsByName(GraphicConfig.RenderSystem);
         }
 
         private void LoadAudioConfigure()

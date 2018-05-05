@@ -133,12 +133,6 @@
     <Reference Include="MogreFreeSL">
       <HintPath>..\Dependencies\MogreFreeSL.dll</HintPath>
     </Reference>
-    <Reference Include="Mogre_Procedural.MogreBites">
-      <HintPath>..\Dependencies\Mogre_Procedural.MogreBites.dll</HintPath>
-    </Reference>
-    <Reference Include="Mogre_Procedural.MogreBites.Addons">
-      <HintPath>..\Dependencies\Mogre_Procedural.MogreBites.Addons.dll</HintPath>
-    </Reference>
     <Reference Include="MOIS">
       <HintPath>..\Dependencies\MOIS.dll</HintPath>
     </Reference>
@@ -183,7 +177,6 @@
     <Compile Include="LogMessage\EngineLogManager.cs" />
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="PathFinder\AStarPathFinder.cs" />
-    <Compile Include="Core\GameObjClass.cs" />
     <Compile Include="Mods\ModDataInfo.cs" />
     <Compile Include="Mods\ModManager.cs" />
     <Compile Include="Mods\ModManifest.cs" />
@@ -201,6 +194,9 @@
     <Compile Include="Network\Player.cs" />
     <Compile Include="Network\ServerMetaData.cs" />
     <Compile Include="PathFinder\IPathFinder.cs" />
+    <Compile Include="Screen\CreditScreen.cs" />
+    <Compile Include="Screen\IScreen.cs" />
+    <Compile Include="Screen\ScreenManager.cs" />
     <Compile Include="Script\Command\CallScriptCommand.cs" />
     <Compile Include="Script\Command\AssignScriptCommand.cs" />
     <Compile Include="Script\Command\EndScriptCommand.cs" />
@@ -226,6 +222,7 @@
       <DependentUpon>frmConfigure.cs</DependentUpon>
     </Compile>
     <Compile Include="Localization\LocateSystem.cs" />
+    <Compile Include="States\Credit.cs" />
     <Compile Include="States\SinglePlayer.cs" />
     <Compile Include="States\Multiplayer.cs" />
     <Compile Include="Core\GameManager.cs" />
@@ -240,9 +237,6 @@
     <Compile Include="States\MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\GameListUI.cs" />
-    <Compile Include="UI\GameUI.cs" />
-    <Compile Include="UI\GameUIManager.cs" />
     <Compile Include="Utilities\CollisionTools.cs" />
     <Compile Include="Utilities\ConfigFile.cs" />
     <Compile Include="Utilities\ConfigFileParser.cs" />
@@ -256,11 +250,11 @@
     <Compile Include="Video\VideoTexture.cs" />
     <Compile Include="Video\VideoTextureManager.cs" />
     <Compile Include="Widgets\Control.cs" />
-    <Compile Include="Widgets\GameTrayHelper.cs" />
     <Compile Include="Widgets\InputBox.cs" />
     <Compile Include="Widgets\GameTrayManager.cs" />
     <Compile Include="Widgets\ListView.cs" />
-    <Compile Include="Widgets\PushButton.cs" />
+    <Compile Include="Widgets\SdkTrayGUI.cs" />
+    <Compile Include="Widgets\StaticText.cs" />
     <EmbeddedResource Include="Forms\frmConfigure.resx">
       <DependentUpon>frmConfigure.cs</DependentUpon>
       <SubType>Designer</SubType>

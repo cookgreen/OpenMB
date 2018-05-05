@@ -4,4 +4,9 @@ str_quit	Quit
 str_single_player	SinglePlayer
 str_multiplayer	Multiplayer
 str_load	Load Saved Game
+str_credit	Credit
 str_screenshots_saved_to_{0}	Screenshot has saved to: {0}
+str_processing_module_file	Processing Module File
+str_loading_resource	Loading Resource
+str_loading_module_data	Loading Module Data
+str_finished	Finished
