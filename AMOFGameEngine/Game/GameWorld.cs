@@ -83,6 +83,35 @@ namespace AMOFGameEngine.Game
             globalVarMap.Add("reg4", "0");
         }
 
+        public void CreateLight(string type, string name, Mogre.Vector3 pos, Mogre.Vector3 dir)
+        {
+            Light.LightTypes lt;
+            switch(type)
+            {
+                case "point":
+                    lt = Light.LightTypes.LT_POINT;
+                    break;
+                case "direction":
+                    lt = Light.LightTypes.LT_DIRECTIONAL;
+                    break;
+                case "spot_light":
+                    lt = Light.LightTypes.LT_SPOTLIGHT;
+                    break;
+                default:
+                    lt = Light.LightTypes.LT_POINT;
+                    break;
+            }
+            Light light = scm.CreateLight(name);
+            light.Type = lt;
+            light.Position = pos;
+            light.Direction = dir;
+        }
+
+        public void RemoveLight(string name)
+        {
+            scm.DestroyLight(name);
+        }
+
         private void SceneLoader_LoadSceneFinished()
         {
             terrianGroup = sceneLoader.TerrainGroup;

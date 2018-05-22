@@ -12,7 +12,7 @@ namespace AMOFGameEngine.States
 {
     using Mods = Dictionary<string, ModManifest>;
 
-    class ModChooser : AppState
+    public class ModChooser : AppState
     {
         private bool isQuit;
         private SelectMenu ModChooserMenu;

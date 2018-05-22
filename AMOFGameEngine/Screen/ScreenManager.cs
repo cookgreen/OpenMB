@@ -72,5 +72,12 @@ namespace AMOFGameEngine.Screen
         {
             UpdateCurrentScreen(timeSinceLastFrame);
         }
+
+        public void InjectMouseDown()
+        {
+            if (currentScreen != null)
+            {
+                currentScreen.InjectMouseDown();
+            }
     }
 }

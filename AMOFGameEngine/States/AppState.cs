@@ -30,9 +30,9 @@ namespace AMOFGameEngine.States
         protected SceneManager m_SceneMgr;
         protected FrameEvent m_FrameEvent;
         protected ModData m_Data;
-        public static void create<T>( String name) where T : AppState, new()
+        public static void create<T>(string name) where T : AppState, new()
         {
-            T myAppState=new T();				
+            T myAppState = new T();		
 	        myAppState.m_pParent = AppStateManager.Instance;
             AppStateManager.Instance.manageAppState(name, myAppState);
         }

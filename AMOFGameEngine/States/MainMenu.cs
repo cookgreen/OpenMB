@@ -14,7 +14,7 @@ using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine.States
 {
-    class MainMenu : AppState
+    public class MainMenu : AppState
     {
         protected bool m_bQuit;
         private SelectMenu renderMenu;
