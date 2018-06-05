@@ -21,7 +21,7 @@ namespace AMOFGameEngine.Forms.Controller
         public AudioConfigure AudioConfig;
         public GameConfigure GameConfig;
         public GraphicConfigure GraphicConfig;
-        public event Action GraphicRenderSystemChanged;
+        //public event Action GraphicRenderSystemChanged;
         public LOCATE CurrentLoacte
         {
             get

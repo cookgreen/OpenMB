@@ -93,7 +93,7 @@ namespace AMOFGameEngine.States
 
                      GameManager.Instance.mRoot.RenderOneFrame();
 
-                     timeSinceLastFrame = (int)GameManager.Instance.mTimer.MillisecondsCPU - startTime;
+                     timeSinceLastFrame = (int)GameManager.Instance.mTimer.MicrosecondsCPU - startTime;
                      
 		         }
 		         else

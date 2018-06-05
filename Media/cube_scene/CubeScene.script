@@ -1,8 +1,9 @@
 function SpawnCharacters
 	loop 0 30 10
 		spawn bot chara_archer 1 10 0 %current
-		spawn bot chara_archer 1 20 0 %current
+		spawn bot chara_archer 1 -20 0 %current
 	end
 end
+spawn player chara_archer 1 0 0 30
 call SpawnCharacters
 team 0 1 -1

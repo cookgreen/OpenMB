@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using MOIS;
+using org.critterai.nav;
+using Mogre.PhysX;
 
 namespace AMOFGameEngine.Game
 {
@@ -42,6 +44,11 @@ namespace AMOFGameEngine.Game
         private float mTimer;                // general timer to see how long animations have been playing
         private string charaName;
         private string charaMeshName;
+        private bool mControlled;
+        private NavmeshQuery mQuery;
+        private Actor mActor;
+        private Physics mPhysics;
+        private Scene mPhysicsScene;
         public Mogre.Vector3 Position
         {
             get
@@ -73,14 +80,22 @@ namespace AMOFGameEngine.Game
 
         List<Entity> itemAttached;//Item that attached to character
 
-        public CharacterController(Camera cam,string name, string meshName, bool isBot)
+        public CharacterController(
+            Camera cam,
+            NavmeshQuery query,
+            Scene physicsScene,
+            string name, 
+            string meshName, 
+            bool controlled)
         {
+            mCamera = cam;
+            mControlled = controlled;
             itemAttached = new List<Entity>();
             this.mSceneMgr = cam.SceneManager;
             charaName = name;
             charaMeshName = meshName;
             setupBody();
-            if (!isBot)
+            if (controlled)
             {
                 setupCamera(cam);
             }
@@ -152,7 +167,10 @@ namespace AMOFGameEngine.Game
         {
             updateBody(deltaTime);
             updateAnimations(deltaTime);
-            updateCamera(deltaTime);
+            if (mControlled)
+            {
+                updateCamera(deltaTime);
+            }
         }
 
         public void injectKeyDown(KeyEvent evt)
@@ -222,7 +240,10 @@ namespace AMOFGameEngine.Game
 
         public void injectMouseMove(MouseEvent evt)
         {
-            updateCameraGoal(-0.05f * evt.state.X.rel, -0.05f * evt.state.Y.rel, -0.0005f * evt.state.Z.rel);
+            if (mControlled)
+            {
+                updateCameraGoal(-0.05f * evt.state.X.rel, -0.05f * evt.state.Y.rel, -0.0005f * evt.state.Z.rel);
+            }
         }
 
         public void injectMouseDown(MouseEvent evt, MouseButtonID id)
@@ -289,7 +310,7 @@ namespace AMOFGameEngine.Game
 
             // our model is quite small, so reduce the clipping planes
             cam.NearClipDistance = 0.1f;
-            cam.FarClipDistance = 100;
+            cam.FarClipDistance = 100f;
             mCameraNode.AttachObject(cam);
 
             mPivotPitch = 0;

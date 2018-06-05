@@ -77,6 +77,7 @@ namespace AMOFGameEngine.Sound
                             CurrentSound.Stop();
                         }
                         GameSound sound = result.First();
+                        
                         sound.Play();
                     }
                     break;

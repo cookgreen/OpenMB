@@ -6,6 +6,8 @@ using System.Threading;
 using Mogre;
 using MOIS;
 using AMOFGameEngine.Sound;
+using Mogre.PhysX;
+using org.critterai.nav;
 
 namespace AMOFGameEngine.Game
 {
@@ -101,7 +103,7 @@ namespace AMOFGameEngine.Game
         /// <param name="name">Name</param>
         /// <param name="meshName">Mesh Name</param>
         /// <param name="initPosition">Init Position</param>
-        /// <param name="isBot">Is Bot or not</param>
+        /// <param name="controlled">Is Bot or not</param>
         public Character(GameWorld world, 
                          Camera cam, 
                          int id,
@@ -109,7 +111,7 @@ namespace AMOFGameEngine.Game
                          string name,
                          string meshName,
                          Mogre.Vector3 initPosition,
-                         bool isBot)
+                         bool controlled)
         {
             mWorld = world;
             Id = id;
@@ -118,7 +120,7 @@ namespace AMOFGameEngine.Game
             Weapons = new Item[4];
             Clothes = new Item[4];
             Backpack = new Inventory(21, this);
-            controller = new CharacterController(cam, name + id.ToString(), meshName, isBot);//初始化控制器
+            controller = new CharacterController(cam,world.NavmeshQuery,world.PhysicsScene, name + id.ToString(), meshName, controlled);//初始化控制器
             controller.Position = initPosition;
         }
 
@@ -185,6 +187,11 @@ namespace AMOFGameEngine.Game
         public void Turn(string newTeamId)
         {
             teamId = newTeamId;
+        }
+
+        public override void Update(float timeSinceLastFrame)
+        {
+            controller.addTime(timeSinceLastFrame);
         }
     }
 }

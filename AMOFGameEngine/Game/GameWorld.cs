@@ -9,6 +9,9 @@ using AMOFGameEngine.Mods.XML;
 using AMOFGameEngine.Script;
 using AMOFGameEngine.Mods;
 using Mogre_Procedural.MogreBites;
+using Mogre.PhysX;
+using org.critterai.nav;
+using Mogre_Procedural.MogreBites.Addons;
 
 namespace AMOFGameEngine.Game
 {
@@ -36,6 +39,7 @@ namespace AMOFGameEngine.Game
         //For Render
         private SceneManager scm;
         private Camera cam;
+        public SdkCameraMan camMan;
         private Mogre.Vector3 m_TranslateVector;
 
         //Map Loader and its script
@@ -49,6 +53,10 @@ namespace AMOFGameEngine.Game
         private Dictionary<string, string> globalVarMap;
 
         private ProgressBar pbProgressBar;
+
+        private NavmeshQuery query;
+        private Physics physics;
+        private Scene physicsScene;
 
         public Camera Cam
         {
@@ -66,9 +74,36 @@ namespace AMOFGameEngine.Game
             }
         }
 
+        public Scene PhysicsScene
+        {
+            get
+            {
+                return physicsScene;
+            }
+        }
+
+        public NavmeshQuery NavmeshQuery
+        {
+            get
+            {
+                return query;
+            }
+        }
+
         public GameWorld(ModData modData)
         {
             this.modData = modData;
+
+            physics = Physics.Create();
+            SceneDesc physicsSceneDesc = new SceneDesc();
+            physicsSceneDesc.Gravity = new Mogre.Vector3(0, -9.8f, 0);
+            physicsSceneDesc.UpAxis = 1;
+            physicsScene = physics.CreateScene(physicsSceneDesc);
+            physicsScene.Materials[0].Restitution = 0.5f;
+            physicsScene.Materials[0].StaticFriction = 0.5f;
+            physicsScene.Materials[0].DynamicFriction = 0.5f;
+            physicsScene.Simulate(0);
+
             sceneLoader = new DotSceneLoader();
             sceneLoader.LoadSceneStarted += SceneLoader_LoadSceneStarted;
             sceneLoader.LoadSceneFinished += SceneLoader_LoadSceneFinished;
@@ -130,14 +165,13 @@ namespace AMOFGameEngine.Game
             scm.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
 
             cam = scm.CreateCamera("gameCam");
-            cam.NearClipDistance = 5;
-
             cam.AspectRatio = GameManager.Instance.mViewport.ActualWidth / GameManager.Instance.mViewport.ActualHeight;
-
+            cam.NearClipDistance = 5;
+            
             GameManager.Instance.mViewport.Camera = cam;
 
             GameManager.Instance.mTrayMgr.destroyAllWidgets();
-            cam.FarClipDistance = 50000;
+            //cam.FarClipDistance = 50000;
 
             scm.SetSkyDome(true, "Examples/CloudySky", 5, 8);
 
@@ -148,12 +182,21 @@ namespace AMOFGameEngine.Game
             
             GameManager.Instance.mTrayMgr.hideCursor();
             
-            GameManager.Instance.mMouse.MouseMoved += new MOIS.MouseListener.MouseMovedHandler(mMouse_MouseMoved);
-            GameManager.Instance.mMouse.MousePressed += new MOIS.MouseListener.MousePressedHandler(mMouse_MousePressed);
-            GameManager.Instance.mMouse.MouseReleased += new MOIS.MouseListener.MouseReleasedHandler(mMouse_MouseReleased);
-            GameManager.Instance.mKeyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
-            GameManager.Instance.mKeyboard.KeyReleased += new MOIS.KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
+            GameManager.Instance.mMouse.MouseMoved += mMouse_MouseMoved;
+            GameManager.Instance.mMouse.MousePressed += mMouse_MousePressed;
+            GameManager.Instance.mMouse.MouseReleased += mMouse_MouseReleased;
+            GameManager.Instance.mKeyboard.KeyPressed += mKeyboard_KeyPressed;
+            GameManager.Instance.mKeyboard.KeyReleased += mKeyboard_KeyReleased;
+
+            GameManager.Instance.mRoot.FrameRenderingQueued += FrameRenderingQueued;
         }
+
+        private bool FrameRenderingQueued(FrameEvent evt)
+        {
+            updateAgents(evt.timeSinceLastFrame);
+            return true;
+        }
+
         public void ChangeTeamRelationship(string team1Id, string team2Id, int relationship)
         {
             var ret = teamRelationship.Where(o => 
@@ -201,7 +244,7 @@ namespace AMOFGameEngine.Game
             var searchRet = ModData.CharacterInfos.Where(o => o.ID == characterID);
             if (searchRet.Count() > 0)
             {
-                Character character = new Character(this, cam, agents.Count, teamId, searchRet.First().Name + agents.Count, searchRet.First().MeshName, position, isBot);
+                Character character = new Character(this, cam, agents.Count, teamId, searchRet.First().Name + agents.Count, searchRet.First().MeshName, position, !isBot);
                 if (!isBot)
                 {
                     playerAgent = character;
@@ -216,6 +259,14 @@ namespace AMOFGameEngine.Game
             staticObjects.Clear();
             cam.Dispose();
             scm.Dispose();
+            physicsScene.Dispose();
+            physics.Dispose();
+
+            GameManager.Instance.mMouse.MouseMoved -= mMouse_MouseMoved;
+            GameManager.Instance.mMouse.MousePressed -= mMouse_MousePressed;
+            GameManager.Instance.mMouse.MouseReleased -= mMouse_MouseReleased;
+            GameManager.Instance.mKeyboard.KeyPressed -= mKeyboard_KeyPressed;
+            GameManager.Instance.mKeyboard.KeyReleased -= mKeyboard_KeyReleased;
         }
 
         public void ChangeScene(string sceneName)
@@ -256,7 +307,7 @@ namespace AMOFGameEngine.Game
             return teamRelationship.Where(func).ToList();
         }
 
-        public void Update(float timeSinceLastFrame)
+        public void Update(double timeSinceLastFrame)
         {
             m_TranslateVector = new Mogre.Vector3(0, 0, 0);
             if (GetCurrentPlayerAgentId() == -1)
@@ -267,13 +318,15 @@ namespace AMOFGameEngine.Game
             else
             {
             }
-            updateAgents(timeSinceLastFrame);
+            physicsScene.FlushStream();
+            physicsScene.FetchResults(SimulationStatuses.AllFinished, true);
+            physicsScene.Simulate(timeSinceLastFrame);
         }
-        private void updateAgents(float timeSinceLastFrame)
+        private void updateAgents(double timeSinceLastFrame)
         {
             for (int i = 0; i < agents.Count; i++)
             {
-                agents[i].Update(timeSinceLastFrame);
+                agents[i].Update((float)timeSinceLastFrame);
             }
         }
         private void getInput()
@@ -305,11 +358,15 @@ namespace AMOFGameEngine.Game
         
         bool mKeyboard_KeyReleased(MOIS.KeyEvent arg)
         {
+            if (GetCurrentPlayerAgentId() != -1)
+                playerAgent.Controller.injectKeyUp(arg);
             return true;
         }
 
         bool mKeyboard_KeyPressed(MOIS.KeyEvent arg)
         {
+            if (GetCurrentPlayerAgentId() != -1)
+                playerAgent.Controller.injectKeyDown(arg);
             return true;
         }
 
@@ -320,11 +377,15 @@ namespace AMOFGameEngine.Game
 
         bool mMouse_MousePressed(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
         {
+            if (GetCurrentPlayerAgentId() != -1)
+                playerAgent.Controller.injectMouseDown(arg, id);
             return true;
         }
 
         bool mMouse_MouseMoved(MOIS.MouseEvent arg)
         {
+            if (GetCurrentPlayerAgentId() != -1)
+                playerAgent.Controller.injectMouseMove(arg);
             return true;
         }
 
