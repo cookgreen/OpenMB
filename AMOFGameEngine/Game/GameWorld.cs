@@ -51,6 +51,7 @@ namespace AMOFGameEngine.Game
 
         //Data
         private Dictionary<string, string> globalVarMap;
+        private ScriptLinkTable globalValueTable;
 
         private ProgressBar pbProgressBar;
 
@@ -90,6 +91,14 @@ namespace AMOFGameEngine.Game
             }
         }
 
+        public ScriptLinkTable GlobalValueTable
+        {
+            get
+            {
+                return globalValueTable;
+            }
+        }
+
         public GameWorld(ModData modData)
         {
             this.modData = modData;
@@ -116,6 +125,7 @@ namespace AMOFGameEngine.Game
             globalVarMap.Add("reg2", "0");
             globalVarMap.Add("reg3", "0");
             globalVarMap.Add("reg4", "0");
+            globalValueTable = ScriptValueRegister.Instance.GlobalValueTable;
         }
 
         public void CreateLight(string type, string name, Mogre.Vector3 pos, Mogre.Vector3 dir)

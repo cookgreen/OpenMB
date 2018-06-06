@@ -39,12 +39,8 @@ namespace AMOFGameEngine.Script.Command
             commandArgs = new string[] {
                 "AddType",
                 "Name",
-                "posX",
-                "posY",
-                "posZ",
-                "directionX",
-                "directionY",
-                "directionZ"
+                "PositionVector",
+                "DirectionVector"
             };
         }
 
@@ -52,15 +48,24 @@ namespace AMOFGameEngine.Script.Command
         {
             string type = commandArgs[0];
             string name = commandArgs[1];
-            float posX = float.Parse(commandArgs[2]);
-            float posY = float.Parse(commandArgs[3]);
-            float posZ = float.Parse(commandArgs[4]);
-            float dirX = float.Parse(commandArgs[5]);
-            float dirY = float.Parse(commandArgs[6]);
-            float dirZ = float.Parse(commandArgs[7]);
+            string posVector = commandArgs[2];
+            string dirVector = commandArgs[3];
 
             GameWorld world = executeArgs[0] as GameWorld;
-            world.CreateLight(type, name, new Vector3(posX, posY, posZ), new Vector3(dirX, dirY, dirZ));
+            var vectorPos = world.GlobalValueTable.GetRecord(posVector);
+            var vectorDir = world.GlobalValueTable.GetRecord(dirVector);
+
+            world.CreateLight(type, name,
+                new Vector3(
+                        float.Parse(vectorPos.NextNodes[0].Value),
+                        float.Parse(vectorPos.NextNodes[1].Value),
+                        float.Parse(vectorPos.NextNodes[2].Value)
+                    ),
+                new Vector3(
+                        float.Parse(vectorDir.NextNodes[0].Value),
+                        float.Parse(vectorDir.NextNodes[1].Value),
+                        float.Parse(vectorDir.NextNodes[2].Value)
+                    ));
         }
     }
 }
