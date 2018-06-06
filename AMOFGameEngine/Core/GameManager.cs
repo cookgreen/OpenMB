@@ -39,8 +39,6 @@ namespace AMOFGameEngine
 
         public event Action<float> Update;
 
-        public OggSound ogg;
-
         private string defaultRS;
 
         private AppStateManager appStateMgr;
@@ -201,7 +199,8 @@ namespace AMOFGameEngine
             outputMgr = new OutputManager();
             soundMgr = new SoundManager();
             uiMgr = new ScreenManager();
-            
+
+            soundMgr.InitSystem(gameOptions["IsEnableMusic"] == "True" ? true : false, gameOptions["IsEnableSound"] == "True" ? true : false);
 
             if (!locateMgr.IsInit)
             {

@@ -1,1 +1,6 @@
-<Sound></Sound>
+<Sounds>
+  <Sound>
+    <Id>battle_cry_1</Id>
+    <File>vivaldi_winter_allegro.ogg</File>
+  </Sound>
+</Sounds>

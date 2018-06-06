@@ -109,6 +109,11 @@ namespace AMOFGameEngine.Mods
                 loader.Load<XML.ModTracksDfnXML>(out trackDfn);
                 currentMod.MusicInfos = trackDfn.Tracks;
 
+                loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Sound);
+                XML.ModSoundsDfnXML soundDfn;
+                loader.Load<XML.ModSoundsDfnXML>(out soundDfn);
+                currentMod.SoundInfos = soundDfn.Sounds;
+
                 worker.ReportProgress(100);
 
                 System.Threading.Thread.Sleep(1000);

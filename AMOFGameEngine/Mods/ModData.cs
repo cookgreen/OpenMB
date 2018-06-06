@@ -13,6 +13,7 @@ namespace AMOFGameEngine.Mods
         private List<XML.ModCharacterDfnXML> characterInfos;
         private List<XML.ModItemDfnXML> itemInfos;
         private List<XML.ModTrackDfnXML> musicInfos;
+        private List<XML.ModSoundDfnXML> soundInfos;
         private List<XML.ModSideDfnXML> sideInfos;
         private List<XML.ModMapDfnXML> mapInfos;
 
@@ -47,6 +48,12 @@ namespace AMOFGameEngine.Mods
             set { characterInfos = value; }
         }
 
+        public List<XML.ModSoundDfnXML> SoundInfos
+        {
+            get { return soundInfos; }
+            set { soundInfos = value; }
+        }
+
         public ModData()
         {
             characterInfos = new List<XML.ModCharacterDfnXML>();
@@ -54,6 +61,7 @@ namespace AMOFGameEngine.Mods
             musicInfos = new List<XML.ModTrackDfnXML>();
             sideInfos = new List<XML.ModSideDfnXML>();
             mapInfos = new List<XML.ModMapDfnXML>();
+            soundInfos = new List<XML.ModSoundDfnXML>();
         }
     }
 }

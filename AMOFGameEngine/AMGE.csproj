@@ -180,6 +180,7 @@
     <Compile Include="Core\OutputManager.cs" />
     <Compile Include="LogMessage\EngineLog.cs" />
     <Compile Include="LogMessage\EngineLogManager.cs" />
+    <Compile Include="Mods\XML\ModSoundsDfn.cs" />
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Mods\ModDataInfo.cs" />
     <Compile Include="Mods\ModManager.cs" />
@@ -218,7 +219,6 @@
     <Compile Include="Script\Command\SpawnScriptCommand.cs" />
     <Compile Include="Script\Command\TeamScriptCommand.cs" />
     <Compile Include="Sound\GameSound.cs" />
-    <Compile Include="Sound\ISound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
     <Compile Include="Forms\frmConfigure.cs">
       <SubType>Form</SubType>
@@ -236,7 +236,6 @@
     <Compile Include="Network\SendData.cs" />
     <Compile Include="States\AppState.cs" />
     <Compile Include="States\AppStateManager.cs" />
-    <Compile Include="Sound\OggSound.cs" />
     <Compile Include="States\ModChooser.cs" />
     <Compile Include="Application\GameApp.cs" />
     <Compile Include="States\MainMenu.cs" />

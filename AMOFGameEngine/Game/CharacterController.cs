@@ -6,6 +6,7 @@ using Mogre;
 using MOIS;
 using org.critterai.nav;
 using Mogre.PhysX;
+using AMOFGameEngine.Sound;
 
 namespace AMOFGameEngine.Game
 {
@@ -213,6 +214,12 @@ namespace AMOFGameEngine.Game
                 setBaseAnimation(AnimID.ANIM_JUMP_START, true);
                 setTopAnimation(AnimID.ANIM_NONE);
                 mTimer = 0;
+            }
+
+            else if(evt.key == KeyCode.KC_C)
+            {
+                //Battle Cry
+                SoundManager.Instance.PlaySoundAtNode(mBodyNode,"battle_cry_1");
             }
 
             if (!mKeyDirection.IsZeroLength && mBaseAnimID == AnimID.ANIM_IDLE_BASE)

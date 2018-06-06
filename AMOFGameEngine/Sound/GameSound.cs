@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MogreFreeSL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace AMOFGameEngine.Sound
     {
         private string soundID;
         private SoundType st;
-        private List<ISound> sound;
+        private List<SoundObject> sound;
         private int currentIndex;
         private bool disposed;
 
@@ -24,12 +25,12 @@ namespace AMOFGameEngine.Sound
             get { return soundID; }
             set { soundID = value; }
         }
-        public List<ISound> Sound
+        public List<SoundObject> Sound
         {
             get { return sound; }
             set { sound = value; }
         }
-        public SoundType SoundType
+        public SoundType PlayType
         {
             get { return st; }
             set { st = value; }
@@ -38,9 +39,9 @@ namespace AMOFGameEngine.Sound
         public GameSound()
         {
             st = AMOFGameEngine.Sound.SoundType.Empty;
-            sound = new List<ISound>();
+            sound = new List<SoundObject>();
         }
-        public void AddSound(OggSound s)
+        public void AddSound(SoundObject s)
         {
             sound.Add(s);
         }
@@ -56,9 +57,9 @@ namespace AMOFGameEngine.Sound
         }
         public void Stop()
         {
-            if (sound.Count > 0)
+            for (int i = 0; i < sound.Count; i++)
             {
-                sound[currentIndex].Stop();
+                sound[i].Stop();
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AMOFGameEngine.Sound;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace AMOFGameEngine.Mods.XML
         public string File { get; set; }
         [XmlElement("Type")]
         public TrackType Type { get; set; }
+        [XmlElement("PlayType")]
+        public SoundType PlayType { get; set; }
     }
 
     [XmlRoot("Tracks")]
