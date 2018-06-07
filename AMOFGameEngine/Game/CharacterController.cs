@@ -11,7 +11,7 @@ using AMOFGameEngine.Sound;
 namespace AMOFGameEngine.Game
 {
     /// <summary>
-    /// 游戏角色使用的控制器
+    /// Controller used by Character
     /// </summary>
     public class CharacterController
     {

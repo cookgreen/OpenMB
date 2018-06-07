@@ -12,6 +12,7 @@ using Mogre_Procedural.MogreBites;
 using Mogre.PhysX;
 using org.critterai.nav;
 using Mogre_Procedural.MogreBites.Addons;
+using AMOFGameEngine.Utilities;
 
 namespace AMOFGameEngine.Game
 {
@@ -58,6 +59,7 @@ namespace AMOFGameEngine.Game
         private NavmeshQuery query;
         private Physics physics;
         private Scene physicsScene;
+        private List<ActorNode> actorNodeList;
 
         public Camera Cam
         {
@@ -126,12 +128,93 @@ namespace AMOFGameEngine.Game
             globalVarMap.Add("reg3", "0");
             globalVarMap.Add("reg4", "0");
             globalValueTable = ScriptValueRegister.Instance.GlobalValueTable;
+            actorNodeList = new List<ActorNode>();
+        }
+
+        public void Init()
+        {
+            scm = GameManager.Instance.mRoot.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE);
+            scm.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
+
+            cam = scm.CreateCamera("gameCam");
+            cam.AspectRatio = GameManager.Instance.mViewport.ActualWidth / GameManager.Instance.mViewport.ActualHeight;
+            cam.NearClipDistance = 5;
+
+            GameManager.Instance.mViewport.Camera = cam;
+
+            GameManager.Instance.mTrayMgr.destroyAllWidgets();
+            cam.FarClipDistance = 50000;
+
+            scm.SetSkyDome(true, "Examples/CloudySky", 5, 8);
+
+            Light light = scm.CreateLight();
+            light.Type = Light.LightTypes.LT_POINT;
+            light.Position = new Mogre.Vector3(-10, 40, 20);
+            light.SpecularColour = ColourValue.White;
+
+            GameManager.Instance.mTrayMgr.hideCursor();
+
+            GameManager.Instance.mMouse.MouseMoved += mMouse_MouseMoved;
+            GameManager.Instance.mMouse.MousePressed += mMouse_MousePressed;
+            GameManager.Instance.mMouse.MouseReleased += mMouse_MouseReleased;
+            GameManager.Instance.mKeyboard.KeyPressed += mKeyboard_KeyPressed;
+            GameManager.Instance.mKeyboard.KeyReleased += mKeyboard_KeyReleased;
+
+            GameManager.Instance.mRoot.FrameRenderingQueued += FrameRenderingQueued;
+
+        }
+
+        public void ChangeScene(string sceneName)
+        {
+            this.sceneName = sceneName;
+            agents = new List<Character>();
+            staticObjects = new List<GameObject>();
+            sceneLoader.ParseDotSceneAsync(sceneName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, scm);
+            scriptLoader.Parse(System.IO.Path.GetFileNameWithoutExtension(sceneName) + ".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, this);
+
+            MeshManager.Singleton.CreatePlane("floor", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
+                new Plane(Mogre.Vector3.UNIT_Y, 0), 100, 100, 10, 10, true, 1, 10, 10, Mogre.Vector3.UNIT_Z);
+            Entity floor = scm.CreateEntity("Floor", "floor");
+            floor.SetMaterialName("Examples/Rockwall");
+            floor.CastShadows = (false);
+            scm.RootSceneNode.AttachObject(floor);
+            ActorDesc actorDesc = new ActorDesc();
+            actorDesc.Density = 4;
+            actorDesc.Body = null;
+            actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
+                StaticMeshData(floor.GetMesh())));
+            Actor floorActor = physicsScene.CreateActor(actorDesc);
+            actorNodeList.Add(new ActorNode(scm.RootSceneNode, floorActor));
+
+            Navmesh floorNavMesh = MeshToNavmesh.LoadNavmesh(floor);
+            org.critterai.Vector3 pointStart = new org.critterai.Vector3(0, 0, 0);
+            org.critterai.Vector3 pointEnd = new org.critterai.Vector3(0, 0, 0);
+            org.critterai.Vector3 extents = new org.critterai.Vector3(2, 2, 2);
+
+            NavStatus status = NavmeshQuery.Create(floorNavMesh, 100, out query);
+        }
+
+        public void Destroy()
+        {
+            agents.Clear();
+            staticObjects.Clear();
+            cam.Dispose();
+            scm.Dispose();
+            physicsScene.Dispose();
+            physics.Dispose();
+
+            GameManager.Instance.mMouse.MouseMoved -= mMouse_MouseMoved;
+            GameManager.Instance.mMouse.MousePressed -= mMouse_MousePressed;
+            GameManager.Instance.mMouse.MouseReleased -= mMouse_MouseReleased;
+            GameManager.Instance.mKeyboard.KeyPressed -= mKeyboard_KeyPressed;
+            GameManager.Instance.mKeyboard.KeyReleased -= mKeyboard_KeyReleased;
+            GameManager.Instance.mRoot.FrameRenderingQueued -= FrameRenderingQueued;
         }
 
         public void CreateLight(string type, string name, Mogre.Vector3 pos, Mogre.Vector3 dir)
         {
             Light.LightTypes lt;
-            switch(type)
+            switch (type)
             {
                 case "point":
                     lt = Light.LightTypes.LT_POINT;
@@ -155,56 +238,6 @@ namespace AMOFGameEngine.Game
         public void RemoveLight(string name)
         {
             scm.DestroyLight(name);
-        }
-
-        private void SceneLoader_LoadSceneFinished()
-        {
-            terrianGroup = sceneLoader.TerrainGroup;
-            pbProgressBar.setComment("Finished");
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
-        }
-
-        private void SceneLoader_LoadSceneStarted()
-        {
-            CreateLoadingScreen("Loading Scene...");
-        }
-
-        public void Init()
-        {
-            scm = GameManager.Instance.mRoot.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE);
-            scm.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
-
-            cam = scm.CreateCamera("gameCam");
-            cam.AspectRatio = GameManager.Instance.mViewport.ActualWidth / GameManager.Instance.mViewport.ActualHeight;
-            cam.NearClipDistance = 5;
-            
-            GameManager.Instance.mViewport.Camera = cam;
-
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
-            //cam.FarClipDistance = 50000;
-
-            scm.SetSkyDome(true, "Examples/CloudySky", 5, 8);
-
-            Light light = scm.CreateLight();
-            light.Type = Light.LightTypes.LT_POINT;
-            light.Position = new Mogre.Vector3(-10, 40, 20);
-            light.SpecularColour = ColourValue.White;
-            
-            GameManager.Instance.mTrayMgr.hideCursor();
-            
-            GameManager.Instance.mMouse.MouseMoved += mMouse_MouseMoved;
-            GameManager.Instance.mMouse.MousePressed += mMouse_MousePressed;
-            GameManager.Instance.mMouse.MouseReleased += mMouse_MouseReleased;
-            GameManager.Instance.mKeyboard.KeyPressed += mKeyboard_KeyPressed;
-            GameManager.Instance.mKeyboard.KeyReleased += mKeyboard_KeyReleased;
-
-            GameManager.Instance.mRoot.FrameRenderingQueued += FrameRenderingQueued;
-        }
-
-        private bool FrameRenderingQueued(FrameEvent evt)
-        {
-            updateAgents(evt.timeSinceLastFrame);
-            return true;
         }
 
         public void ChangeTeamRelationship(string team1Id, string team2Id, int relationship)
@@ -263,31 +296,6 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        public void Destroy()
-        {
-            agents.Clear();
-            staticObjects.Clear();
-            cam.Dispose();
-            scm.Dispose();
-            physicsScene.Dispose();
-            physics.Dispose();
-
-            GameManager.Instance.mMouse.MouseMoved -= mMouse_MouseMoved;
-            GameManager.Instance.mMouse.MousePressed -= mMouse_MousePressed;
-            GameManager.Instance.mMouse.MouseReleased -= mMouse_MouseReleased;
-            GameManager.Instance.mKeyboard.KeyPressed -= mKeyboard_KeyPressed;
-            GameManager.Instance.mKeyboard.KeyReleased -= mKeyboard_KeyReleased;
-        }
-
-        public void ChangeScene(string sceneName)
-        {
-            this.sceneName = sceneName;
-            agents = new List<Character>();
-            staticObjects = new List<GameObject>();
-            sceneLoader.ParseDotSceneAsync(sceneName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, scm);
-            scriptLoader.Parse(System.IO.Path.GetFileNameWithoutExtension(sceneName) + ".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, this);
-        }
-
         public string GetCurrentScene()
         {
             return sceneName;
@@ -332,12 +340,19 @@ namespace AMOFGameEngine.Game
             physicsScene.FetchResults(SimulationStatuses.AllFinished, true);
             physicsScene.Simulate(timeSinceLastFrame);
         }
+
         private void updateAgents(double timeSinceLastFrame)
         {
             for (int i = 0; i < agents.Count; i++)
             {
                 agents[i].Update((float)timeSinceLastFrame);
             }
+        }
+
+        private bool FrameRenderingQueued(FrameEvent evt)
+        {
+            updateAgents(evt.timeSinceLastFrame);
+            return true;
         }
         private void getInput()
         {
@@ -397,6 +412,18 @@ namespace AMOFGameEngine.Game
             if (GetCurrentPlayerAgentId() != -1)
                 playerAgent.Controller.injectMouseMove(arg);
             return true;
+        }
+
+        private void SceneLoader_LoadSceneFinished()
+        {
+            terrianGroup = sceneLoader.TerrainGroup;
+            pbProgressBar.setComment("Finished");
+            GameManager.Instance.mTrayMgr.destroyAllWidgets();
+        }
+
+        private void SceneLoader_LoadSceneStarted()
+        {
+            CreateLoadingScreen("Loading Scene...");
         }
 
         private void CreateLoadingScreen(string text)

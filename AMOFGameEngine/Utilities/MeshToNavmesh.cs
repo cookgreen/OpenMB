@@ -1,4 +1,7 @@
-﻿/* Created by Pravin (Aka Aralox) <aralox@gmail.com>
+﻿/* @Author: Aka Aralox
+ * @Modify: Cook Green
+ * --------------------------------------------------------------------------------------------------------------
+ * Created by Pravin (Aka Aralox) <aralox@gmail.com>
  * Please email me if you have any questions, comments or suggestions about this class :)
  * 
  * See here for the discussion that helped me create this:
@@ -29,6 +32,7 @@ using System.Text.RegularExpressions;
 using org.critterai.nav;
 using Mogre;
 using Math = System.Math;
+using System.Runtime.InteropServices;
 
 public static class MeshToNavmesh
 {
@@ -187,6 +191,11 @@ public static class MeshToNavmesh
     {
         ReadFromOBJ(fileStream);
 
+        return GenerateNavmesh();
+    }
+
+    private static Navmesh GenerateNavmesh()
+    {
         #region Generate Neighboring polygon data
 
         //Then generate neighboring polygon data, by parsing the face list
@@ -203,53 +212,53 @@ public static class MeshToNavmesh
 
             //Compare this face with every other face
             for (ushort w = 0; w < faces.Count; w++)
-            if (w != q)
-            {
-                sharedVertices = 0;
-                sharedVertex  = new MyVector3<bool>();
-
-                //Go from left to right in the face MyVector3
-                for (int j = 0; j <= 2; j++)
+                if (w != q)
                 {
-                    //And compare each index with every other index 
-                    for (int k = 0; k <= 2; k++)
+                    sharedVertices = 0;
+                    sharedVertex = new MyVector3<bool>();
+
+                    //Go from left to right in the face MyVector3
+                    for (int j = 0; j <= 2; j++)
                     {
-                        if (faces[q][j] == faces[w][k])
+                        //And compare each index with every other index 
+                        for (int k = 0; k <= 2; k++)
                         {
-                            //If we find a matching index, update stuff (only for the current face, dont bother with other face, can optimise but will be confusing)
-                            sharedVertices++;
-                            sharedVertex[j] = true; //could break out of the for loop now, as face will not list the same index twice
+                            if (faces[q][j] == faces[w][k])
+                            {
+                                //If we find a matching index, update stuff (only for the current face, dont bother with other face, can optimise but will be confusing)
+                                sharedVertices++;
+                                sharedVertex[j] = true; //could break out of the for loop now, as face will not list the same index twice
+                            }
                         }
                     }
-                }
-                if (sharedVertices > 2) ReportError("error: more than 2 vertices shared between polys " + q + " and " + w);
+                    if (sharedVertices > 2) ReportError("error: more than 2 vertices shared between polys " + q + " and " + w);
 
-                //Check if these faces are sharing an edge
-                if (sharedVertices == 2)
-                {
-                    //get the Leftmost Right-To-Left Pair in the neighborPolys MyVector3 
-                    //options are: edge 0-1, 1-2, and 2-0, respectively indexing neighboringPolys. (i.e. if index 1 of neighboring polys is 45, that means that the current polygon and polygon 45 share the edge face[1] <-> face[2]
-                    if (sharedVertex[0] == true)
+                    //Check if these faces are sharing an edge
+                    if (sharedVertices == 2)
                     {
-                        if (sharedVertex[1] == true)
-                            neighborPolys[q][0] = w;        //I.e. tell this face's MyVector3 of neighboring polygons that the edge made up by vertices at 0 and 1 is shared between polygon q and w
+                        //get the Leftmost Right-To-Left Pair in the neighborPolys MyVector3 
+                        //options are: edge 0-1, 1-2, and 2-0, respectively indexing neighboringPolys. (i.e. if index 1 of neighboring polys is 45, that means that the current polygon and polygon 45 share the edge face[1] <-> face[2]
+                        if (sharedVertex[0] == true)
+                        {
+                            if (sharedVertex[1] == true)
+                                neighborPolys[q][0] = w;        //I.e. tell this face's MyVector3 of neighboring polygons that the edge made up by vertices at 0 and 1 is shared between polygon q and w
+                            else
+                                neighborPolys[q][2] = w;
+                        }
                         else
-                            neighborPolys[q][2] = w;
-                    }
-                    else
-                    {
-                        neighborPolys[q][1] = w;
+                        {
+                            neighborPolys[q][1] = w;
+                        }
+
                     }
 
-                }
-
-            } //End iterating through other faces
+                } //End iterating through other faces
 
         } //End iterating through each face
         #endregion
 
         //Now, Load these into Critter AI and create a navmesh
-        navData = new NavmeshTileBuildData(maxPolyVerts, maxPolys, maxVertsPerPoly,0,0,0);
+        navData = new NavmeshTileBuildData(maxPolyVerts, maxPolys, maxVertsPerPoly, 0, 0, 0);
 
         #region LoadBase
         //Get the min and max bounds from the vertex positions
@@ -281,7 +290,7 @@ public static class MeshToNavmesh
                 boundsMin.x = lowest;
                 boundsMax.x = highest;
             }
-            else if(axis == 1)
+            else if (axis == 1)
             {
                 boundsMin.y = lowest;
                 boundsMax.y = highest;
@@ -298,7 +307,7 @@ public static class MeshToNavmesh
         sucess = navData.LoadBase(tileX, tileZ, tileLayer, tileUserId, boundsMin, boundsMax, xzCellSize, yCellSize, walkableHeight, walkableRadius, walkableStep, bvTreeEnabled);
         if (!sucess)
             ReportError("Error, LoadBase returned false");
-        
+
         #endregion
 
         #region LoadPolys
@@ -310,7 +319,7 @@ public static class MeshToNavmesh
 
         for (int i = 0; i < vertCount; i++)
         {
-            polyVerts[3 * i + 0] = (ushort)Math.Round((vertices[i].x - boundsMin.x)/ xzCellSize);
+            polyVerts[3 * i + 0] = (ushort)Math.Round((vertices[i].x - boundsMin.x) / xzCellSize);
             polyVerts[3 * i + 1] = (ushort)Math.Round((vertices[i].y - boundsMin.y) / yCellSize);
             polyVerts[3 * i + 2] = (ushort)Math.Round((vertices[i].z - boundsMin.z) / xzCellSize);
         }
@@ -394,6 +403,165 @@ public static class MeshToNavmesh
             }
         }
     }
+
+    /**************** New Functions Begin ***************/
+    /// <summary>
+    /// Generate navmesh by entity
+    /// </summary>
+    /// <param name="ent">Ogre Entity</param>
+    /// <returns>Navmesh</returns>
+
+    public static Navmesh LoadNavmesh(Entity ent)
+    {
+        bool addedSharedVertex = false;
+        vertices.Clear();
+        faces.Clear();
+        MeshPtr mesh = ent.GetMesh();
+        Mesh.SubMeshIterator subIterator = mesh.GetSubMeshIterator();
+
+        uint vertexNum = 0;
+        uint vertexOffset = mesh.sharedVertexData.vertexStart;
+        MyVector3<float>[] verticeArray = new MyVector3<float>[vertexNum];
+        VertexElement posElem = mesh.sharedVertexData.vertexDeclaration.FindElementBySemantic(VertexElementSemantic.VES_POSITION);
+        HardwareVertexBufferSharedPtr vertexBuffer = mesh.sharedVertexData.vertexBufferBinding.GetBuffer(posElem.Source);
+
+        while (subIterator.MoveNext())
+        {
+            SubMesh subMesh = subIterator.Current;
+
+            VertexData vertexData = subMesh.useSharedVertices ? mesh.sharedVertexData : subMesh.vertexData;
+
+            HardwareIndexBufferSharedPtr indexBuffer = subMesh.indexData.indexBuffer;
+            HardwareIndexBuffer.IndexType indexType = indexBuffer.Type;
+            uint indexCount = subMesh.indexData.indexCount;
+
+            uint trisNum = indexCount / 3;
+
+            uint[] indcies = new uint[indexCount];
+            uint indexOffset = subMesh.indexData.indexStart;
+
+            if (subMesh.useSharedVertices)
+            {
+                if (!addedSharedVertex)
+                {
+                    vertexNum += mesh.sharedVertexData.vertexCount;
+                    addedSharedVertex = true;
+                }
+            }
+            else
+            {
+                vertexNum += subMesh.vertexData.vertexCount;
+            }
+
+            unsafe
+            {
+                uint* pLong = (uint*)(indexBuffer.Lock(HardwareBuffer.LockOptions.HBL_READ_ONLY));
+                ushort* pShort = (ushort*)pLong;
+                for (int i = 0; i < indexCount; i++)
+                {
+                    if (indexType == HardwareIndexBuffer.IndexType.IT_32BIT)
+                    {
+                        indcies[indexOffset] = pLong[i] + vertexNum;
+                    }
+                    else
+                    {
+                        indcies[indexOffset] = pShort[i] + vertexNum;
+                    }
+                    indexOffset++;
+                }
+            }
+
+            int indexLength = indcies.Length / 3;
+            for (int i = 0; i < indexLength; i++)
+            {
+                faces.Add(new MyVector3<ushort>(
+                        (ushort)indcies[i * 3 + 0],
+                        (ushort)indcies[i * 3 + 1],
+                        (ushort)indcies[i * 3 + 2]
+                    ));
+            }
+
+            indexBuffer.Unlock();
+
+            if (subMesh.vertexData != null)
+            {
+                vertexNum = subMesh.vertexData.vertexCount;
+                vertexOffset = subMesh.vertexData.vertexStart;
+                verticeArray = new MyVector3<float>[vertexNum];
+                posElem = subMesh.vertexData.vertexDeclaration.FindElementBySemantic(VertexElementSemantic.VES_POSITION);
+                vertexBuffer = subMesh.vertexData.vertexBufferBinding.GetBuffer(posElem.Source);
+                unsafe
+                {
+                    byte* vertexMemory = (byte*)vertexBuffer.Lock(HardwareBuffer.LockOptions.HBL_READ_ONLY);
+                    float* pVertexBuffer;
+                    for (int i = 0; i < vertexNum; i++)
+                    {
+                        posElem.BaseVertexPointerToElement(vertexMemory, &pVertexBuffer);
+                        verticeArray[vertexOffset] = (new MyVector3<float>(
+                            pVertexBuffer[0],
+                            pVertexBuffer[1],
+                            pVertexBuffer[2]
+                        ));
+                        vertexMemory += vertexBuffer.VertexSize;
+                        vertexOffset++;
+                    }
+                }
+                for (int i = 0; i < verticeArray.Length; i++)
+                {
+                    vertices.Add(verticeArray[i]);
+                }
+                vertexBuffer.Unlock();
+            }
+        }
+
+        vertexNum = mesh.sharedVertexData.vertexCount;
+        vertexOffset = mesh.sharedVertexData.vertexStart;
+        verticeArray = new MyVector3<float>[vertexNum];
+        posElem = mesh.sharedVertexData.vertexDeclaration.FindElementBySemantic(VertexElementSemantic.VES_POSITION);
+        vertexBuffer = mesh.sharedVertexData.vertexBufferBinding.GetBuffer(posElem.Source);
+
+        unsafe 
+        {
+            byte* vertexMemory = (byte*)vertexBuffer.Lock(HardwareBuffer.LockOptions.HBL_READ_ONLY);
+            float* pVertexBuffer;
+            for (int i = 0; i < vertexNum; i++)
+            {
+                posElem.BaseVertexPointerToElement(vertexMemory, &pVertexBuffer);
+                verticeArray[vertexOffset]=(new MyVector3<float>(
+                    pVertexBuffer[0],
+                    pVertexBuffer[1],
+                    pVertexBuffer[2]
+                ));
+                vertexMemory += vertexBuffer.VertexSize;
+                vertexOffset++;
+            }
+        }
+        for (int i = 0; i < verticeArray.Length; i++)
+        {
+            vertices.Add(verticeArray[i]);
+        }
+        vertexBuffer.Unlock();
+        
+        return GenerateNavmesh();
+    }
+
+    /// <summary>
+    /// Generate navmesh by TerrainGroup
+    /// </summary>
+    /// <param name="group">Terrain</param>
+    /// <returns>Navmesh</returns>
+    public static Navmesh LoadNavmesh(TerrainGroup group)
+    {
+        TerrainGroup.TerrainIterator terrainIterator = group.GetTerrainIterator();
+        while (terrainIterator.MoveNext())
+        {
+            TerrainGroup.TerrainSlot slot = terrainIterator.Current;
+            Terrain terrain = slot.instance;
+        }
+
+        return GenerateNavmesh();
+    }
+    /**************** New Functions End ***************/
 
     //used for customization of data
     public static void Customize(
