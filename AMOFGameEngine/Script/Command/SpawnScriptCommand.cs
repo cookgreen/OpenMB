@@ -16,9 +16,7 @@ namespace AMOFGameEngine.Script.Command
                 "CharacterType",
                 "CharacterID",
                 "CharacterTeam",
-                "SpawnX",
-                "SpawnY",
-                "SpawnZ"
+                "SpawnVector"
             };
         }
         public override string[] CommandArgs
@@ -47,11 +45,9 @@ namespace AMOFGameEngine.Script.Command
             string characterType = CommandArgs[0].StartsWith("%") ? Context.GetLocalValue(CommandArgs[0].Substring(1)): CommandArgs[0];
             string characterID = CommandArgs[1].StartsWith("%") ? Context.GetLocalValue(CommandArgs[1].Substring(1)) : CommandArgs[1];
             string characterTeam = CommandArgs[2].StartsWith("%") ? Context.GetLocalValue(CommandArgs[2].Substring(1)) : CommandArgs[2];
-            string spawnX = CommandArgs[3].StartsWith("%") ? Context.GetLocalValue(CommandArgs[3].Substring(1)) : CommandArgs[3];
-            string spawnY = CommandArgs[4].StartsWith("%") ? Context.GetLocalValue(CommandArgs[4].Substring(1)) : CommandArgs[4];
-            string spawnZ = CommandArgs[5].StartsWith("%") ? Context.GetLocalValue(CommandArgs[5].Substring(1)) : CommandArgs[5];
-
+            string vectorName = CommandArgs[3].StartsWith("%") ? Context.GetLocalValue(CommandArgs[3].Substring(1)) : CommandArgs[3];
             GameWorld world = executeArgs[0] as GameWorld;
+            var vector = world.GlobalValueTable.GetRecord(vectorName);
             bool isBot = false;
             if(characterType == "player")
             {
@@ -64,7 +60,10 @@ namespace AMOFGameEngine.Script.Command
 
             world.SpawnNewCharacter(
                 characterID,
-                new Vector3(float.Parse(spawnX),float.Parse(spawnY), float.Parse(spawnZ)), 
+                new Vector3(
+                    float.Parse(vector.NextNodes[0].Value),
+                    float.Parse(vector.NextNodes[1].Value), 
+                    float.Parse(vector.NextNodes[2].Value)), 
                 characterTeam,
                 isBot);
         }

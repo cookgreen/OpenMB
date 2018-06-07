@@ -206,6 +206,7 @@
     <Compile Include="Script\Command\AssignScriptCommand.cs" />
     <Compile Include="Script\Command\EndScriptCommand.cs" />
     <Compile Include="Script\Command\FunctionScriptCommand.cs" />
+    <Compile Include="Script\Command\InitVectorScriptCommand.cs" />
     <Compile Include="Script\Command\IScriptCommand.cs" />
     <Compile Include="Script\Command\LoopScriptCommand.cs" />
     <Compile Include="Script\Command\RemoveLightScriptCommand.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Script\Command\VectorSetXScriptCommand.cs" />
     <Compile Include="Script\Command\VectorSetYScriptCommand.cs" />
     <Compile Include="Script\Command\VectorSetZScriptCommand.cs" />
+    <Compile Include="Script\ScriptCommandRegister.cs" />
     <Compile Include="Script\ScriptContext.cs" />
     <Compile Include="Script\ScriptFile.cs" />
     <Compile Include="Script\ScriptFunction.cs" />

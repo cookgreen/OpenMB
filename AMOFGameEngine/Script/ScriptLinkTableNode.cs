@@ -13,6 +13,7 @@ namespace AMOFGameEngine.Script
         public ScriptLinkTableNode()
         {
             NextNodes = new List<ScriptLinkTableNode>();
+            Value = "0";
         }
     }
 }

@@ -43,13 +43,13 @@ namespace AMOFGameEngine.Script.Command
         public override void Execute(params object[] executeArgs)
         {
             GameWorld world = executeArgs[0] as GameWorld;
-            string vectorVariable = CommandArgs[1].ToString();
-            string value = CommandArgs[2].ToString();
+            string vectorVariable = CommandArgs[0].ToString();
+            string value = CommandArgs[1].ToString();
 
             ScriptLinkTableNode vector = world.GlobalValueTable.GetRecord(vectorVariable);
             if (vector != null)
             {
-                vector.NextNodes[2].Value = value;
+                vector.NextNodes[2].Value = value.StartsWith("%") ? Context.GetLocalValue(value.Substring(1)) : value;
             }
         }
     }

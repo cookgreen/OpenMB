@@ -49,7 +49,7 @@ namespace AMOFGameEngine.Script.Command
             ScriptLinkTableNode vector = world.GlobalValueTable.GetRecord(vectorVariable);
             if (vector != null)
             {
-                vector.NextNodes[0].Value = value;
+                vector.NextNodes[0].Value = value.StartsWith("%") ? Context.GetLocalValue(value.Substring(1)) : value;
             }
         }
     }

@@ -6,13 +6,12 @@ using System.Text;
 
 namespace AMOFGameEngine.Script.Command
 {
-    public class VectorSetYScriptCommand : ScriptCommand
+    class InitVectorScriptCommand : ScriptCommand
     {
-        public VectorSetYScriptCommand()
+        public InitVectorScriptCommand()
         {
             commandArgs = new string[] {
-                "Vector",
-                "Value"
+                "Vector"
             };
         }
         private string[] commandArgs;
@@ -28,7 +27,7 @@ namespace AMOFGameEngine.Script.Command
         {
             get
             {
-                return "vector_set_y";
+                return "init_vector";
             }
         }
 
@@ -44,12 +43,13 @@ namespace AMOFGameEngine.Script.Command
         {
             GameWorld world = executeArgs[0] as GameWorld;
             string vectorVariable = CommandArgs[0].ToString();
-            string value = CommandArgs[1].ToString();
 
             ScriptLinkTableNode vector = world.GlobalValueTable.GetRecord(vectorVariable);
             if (vector != null)
             {
-                vector.NextNodes[1].Value = value.StartsWith("%") ? Context.GetLocalValue(value.Substring(1)) : value;
+                vector.NextNodes[0].Value = "0";
+                vector.NextNodes[1].Value = "0";
+                vector.NextNodes[2].Value = "0";
             }
         }
     }

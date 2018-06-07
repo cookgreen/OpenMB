@@ -11,7 +11,7 @@ namespace AMOFGameEngine.Script
     public class ScriptFile
     {
         private Stack<IScriptCommand> tempCommandStack;
-        private Dictionary<string, ScriptCommand> registeredCommand;
+        private Dictionary<string, Type> registeredCommand;
         public ScriptContext Context { get; set; }
         public string FileName { get; set; }
         public Queue<IScriptCommand> ScriptCommands { get; set; }
@@ -24,15 +24,7 @@ namespace AMOFGameEngine.Script
 
             tempCommandStack = new Stack<IScriptCommand>();
 
-            registeredCommand = new Dictionary<string, ScriptCommand>();
-            registeredCommand.Add("assign", null);
-            registeredCommand.Add("call", null);
-            registeredCommand.Add("function", null);
-            registeredCommand.Add("loop", null);
-            registeredCommand.Add("spawn", null);
-            registeredCommand.Add("store", null);
-            registeredCommand.Add("team", null);
-            registeredCommand.Add("end", null);
+            registeredCommand = ScriptCommandRegister.Instance.RegisteredCommand;
         }
         public void Execute(params object[] executeParams)
         {
@@ -68,23 +60,23 @@ namespace AMOFGameEngine.Script
                 }
                 try
                 {
-                    registeredCommand[lineToken[0]] = Activator.CreateInstance(Type.GetType("AMOFGameEngine.Script.Command." +
-                        lineToken[0].Substring(0, 1).ToUpper() + lineToken[0].Substring(1) + "ScriptCommand")) as ScriptCommand;
-                    registeredCommand[lineToken[0]].ParentCommand = currentCommand;
-                    registeredCommand[lineToken[0]].Context = Context;
+                    ScriptCommand scriptCommand;
+                    scriptCommand = Activator.CreateInstance(registeredCommand[lineToken[0]]) as ScriptCommand;
+                    scriptCommand.ParentCommand = currentCommand;
+                    scriptCommand.Context = Context;
                     int tokenLength = lineToken.Length;
                     for (int j = 1; j < tokenLength; j++)
                     {
-                        registeredCommand[lineToken[0]].PushArg(lineToken[j], j - 1);
+                        scriptCommand.PushArg(lineToken[j], j - 1);
                     }
-                    switch (registeredCommand[lineToken[0]].CommandType)
+                    switch (scriptCommand.CommandType)
                     {
                         case ScriptCommandType.Line:
-                            currentCommand.SubCommands.Add(registeredCommand[lineToken[0]]);
+                            currentCommand.SubCommands.Add(scriptCommand);
                             break;
                         case ScriptCommandType.Block:
-                            currentCommand.SubCommands.Add(registeredCommand[lineToken[0]]);
-                            currentCommand = registeredCommand[lineToken[0]];
+                            currentCommand.SubCommands.Add(scriptCommand);
+                            currentCommand = scriptCommand;
                             break;
                         case ScriptCommandType.End:
                             currentCommand = currentCommand.ParentCommand;
