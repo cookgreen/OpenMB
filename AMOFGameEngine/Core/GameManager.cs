@@ -200,7 +200,7 @@ namespace AMOFGameEngine
             soundMgr = new SoundManager();
             uiMgr = new ScreenManager();
 
-            soundMgr.InitSystem(gameOptions["IsEnableMusic"] == "True" ? true : false, gameOptions["IsEnableSound"] == "True" ? true : false);
+            SoundManager.Instance.InitSystem(gameOptions["IsEnableMusic"] == "True" ? true : false, gameOptions["IsEnableSound"] == "True" ? true : false);
 
             if (!locateMgr.IsInit)
             {

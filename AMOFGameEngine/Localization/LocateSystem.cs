@@ -242,6 +242,11 @@ namespace AMOFGameEngine.Localization
             }
         }
 
+        /// <summary>
+        /// Convert a readable string to short string
+        /// </summary>
+        /// <param name="locate">Readable String, i.e. English</param>
+        /// <returns>Short string, i.e. en</returns>
         public string CovertReadableStringToLocateShortString(string locate)
         {
             switch (locate)

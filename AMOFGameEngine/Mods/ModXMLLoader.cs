@@ -21,7 +21,7 @@ namespace AMOFGameEngine.Mods
         {
             try
             {
-                System.Xml.Serialization.XmlSerializer xr = new System.Xml.Serialization.XmlSerializer(typeof(T));
+                XmlSerializer xr = new XmlSerializer(typeof(T));
                 ModXMLData = (T)xr.Deserialize(new FileStream(modPath, FileMode.Open, FileAccess.Read));
                 return true;
             }
