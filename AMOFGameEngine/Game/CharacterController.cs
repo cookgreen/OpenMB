@@ -50,6 +50,9 @@ namespace AMOFGameEngine.Game
         private Actor mActor;
         private Physics mPhysics;
         private Scene mPhysicsScene;
+        private Mogre.Vector3 mTargetDestinaton;
+        private float mDistance;
+        private Mogre.Vector3 mDirection;
         public Mogre.Vector3 Position
         {
             get
@@ -61,6 +64,15 @@ namespace AMOFGameEngine.Game
                 mBodyNode.Position = value;
             }
         }
+
+        public Mogre.Vector3 Direction
+        {
+            get
+            {
+                return mDirection;
+            }
+        }
+
         enum AnimID
         {
             ANIM_IDLE_BASE,
@@ -80,6 +92,7 @@ namespace AMOFGameEngine.Game
         };
 
         List<Entity> itemAttached;//Item that attached to character
+        private Queue<Mogre.Vector3> mWalkList;
 
         public CharacterController(
             Camera cam,
@@ -96,6 +109,7 @@ namespace AMOFGameEngine.Game
             charaName = name;
             charaMeshName = meshName;
             setupBody();
+            mTargetDestinaton = Mogre.Vector3.ZERO;
             if (controlled)
             {
                 setupCamera(cam);
@@ -172,6 +186,7 @@ namespace AMOFGameEngine.Game
             {
                 updateCamera(deltaTime);
             }
+            WalkState(deltaTime);
         }
 
         public void injectKeyDown(KeyEvent evt)
@@ -578,6 +593,87 @@ namespace AMOFGameEngine.Game
                 mFadingOut[(int)id] = false;
                 mFadingIn[(int)id] = true;
                 if (reset) mAnims[(int)id].TimePosition = 0;
+            }
+        }
+        public bool GetControlled()
+        {
+            return mControlled;
+        }
+
+        public void WalkTo(Mogre.Vector3 position)
+        {
+            mWalkList = new Queue<Mogre.Vector3>();
+
+            float a = (position.z - Position.z) / (position.x - Position.x);
+            float b = position.z - a * position.x;
+
+            for (int i = 0; i < Mogre.Math.Abs(position.x - Position.x) / 5; i++)
+            {
+                mWalkList.Enqueue(new Mogre.Vector3(position.x + i, 0, a * (position.x + i) + b));
+            }
+        }
+
+        private void WalkState(float deltaTime)
+        {
+            if (Direction == Mogre.Vector3.ZERO)
+            {
+                if (nextLocation())
+                {
+                    setTopAnimation(AnimID.ANIM_RUN_TOP, true);
+                    setBaseAnimation(AnimID.ANIM_RUN_TOP, true);
+                }
+            }
+            else
+            {
+                float move = RUN_SPEED * deltaTime;
+                mDistance -= move;
+                if (mDistance <= 0.0f)
+                {
+                    mBodyNode.SetPosition(mTargetDestinaton.x, mTargetDestinaton.y, mTargetDestinaton.z);
+                    mDirection = Mogre.Vector3.ZERO;
+                    if (!nextLocation())
+                    {
+                        setTopAnimation(AnimID.ANIM_IDLE_TOP, true);
+                        setBaseAnimation(AnimID.ANIM_IDLE_BASE, true);
+                    }
+                    else
+                    {
+                        Mogre.Vector3 src = mBodyNode.Orientation * Mogre.Vector3.NEGATIVE_UNIT_Z;
+                        if ((1.0f + src.DotProduct(Direction)) < 0.0001f)
+                        {
+                            mBodyNode.Yaw(new Degree(180));
+                        }
+                        else
+                        {
+                            Quaternion quat = src.GetRotationTo(Direction);
+                            mBodyNode.Rotate(quat);
+                        }
+                    }
+                }
+                else
+                {
+                    mBodyNode.Translate(Direction * move);
+                }
+            }
+
+            //mAnimationState->addTime(evt.timeSinceLastFrame);
+        }
+
+        private bool nextLocation()
+        {
+            if (mWalkList != null)
+            {
+                if (mWalkList.Count == 0)
+                    return false;
+                mTargetDestinaton = mWalkList.Peek(); // 取得队列的头部
+                mWalkList.Dequeue(); // 删除已走过的点
+                mDirection = mTargetDestinaton - mBodyNode.Position;//距离由目的地减去当前位置得到
+                mDistance = mDirection.Normalise();//normalise()作用是将方向向量转换成单位向量，返回向量的原始长度
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

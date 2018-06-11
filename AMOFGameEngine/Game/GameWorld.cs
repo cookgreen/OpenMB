@@ -13,6 +13,7 @@ using Mogre.PhysX;
 using org.critterai.nav;
 using Mogre_Procedural.MogreBites.Addons;
 using AMOFGameEngine.Utilities;
+using AMOFGameEngine.Trigger;
 
 namespace AMOFGameEngine.Game
 {
@@ -101,6 +102,14 @@ namespace AMOFGameEngine.Game
             }
         }
 
+        public List<Character> Agents
+        {
+            get
+            {
+                return agents;
+            }
+        }
+
         public GameWorld(ModData modData)
         {
             this.modData = modData;
@@ -129,6 +138,8 @@ namespace AMOFGameEngine.Game
             globalVarMap.Add("reg4", "0");
             globalValueTable = ScriptValueRegister.Instance.GlobalValueTable;
             actorNodeList = new List<ActorNode>();
+
+            TriggerManager.Instance.Triggers.Add(new GameTrigger(this));
         }
 
         public void Init()
@@ -339,6 +350,8 @@ namespace AMOFGameEngine.Game
             physicsScene.FlushStream();
             physicsScene.FetchResults(SimulationStatuses.AllFinished, true);
             physicsScene.Simulate(timeSinceLastFrame);
+
+            TriggerManager.Instance.Update((float)timeSinceLastFrame);
         }
 
         private void updateAgents(double timeSinceLastFrame)

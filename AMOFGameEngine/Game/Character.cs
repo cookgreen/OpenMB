@@ -46,6 +46,16 @@ namespace AMOFGameEngine.Game
             set { controller = value; }
         }
 
+        public bool GetControlled()
+        {
+            return controller.GetControlled();
+        }
+
+        public void WalkTo(Mogre.Vector3 position)
+        {
+            controller.WalkTo(position);
+        }
+
         //Hitpoint
         private int hitpoint;
 
