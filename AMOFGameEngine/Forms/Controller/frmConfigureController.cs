@@ -111,12 +111,13 @@ namespace AMOFGameEngine.Forms.Controller
         {
             GraphicConfig.RenderParams.Clear();
             List<ConfigFileKeyValuePair> dic = ogreCfg[renderSystemName].KeyValuePairs;
+            ConfigOptionMap configOptionMap = r.GetRenderSystemByName(renderSystemName).GetConfigOptions();
             List<string> graphicSettings = new List<string>();
             if (dic != null)
             {
                 for (int i = 0; i < dic.Count; i++)
                 {
-                    GraphicConfig.RenderParams.Add(dic[i].Key + ":" + dic[i].Value);
+                    GraphicConfig.RenderParams.Add(dic[i].Key + ":" + (configOptionMap[dic[i].Key].possibleValues.Contains(dic[i].Value) ? dic[i].Value : configOptionMap[dic[i].Key].possibleValues[0]));
                 }
             }
         }
