@@ -20,6 +20,7 @@ using AMOFGameEngine.States;
 using AMOFGameEngine.Widgets;
 using AMOFGameEngine.Utilities;
 using ConfigFile = AMOFGameEngine.Utilities.ConfigFile;
+using System.Text.RegularExpressions;
 
 namespace AMOFGameEngine
 {
@@ -102,7 +103,9 @@ namespace AMOFGameEngine
             if (!string.IsNullOrEmpty(defaultRS))
             {
                 rs = mRoot.GetRenderSystemByName(defaultRS);
-                string strVideoMode =  renderconfig[defaultRS]["Video Mode"];
+                string strVideoMode =  Regex.Match(
+                    renderconfig[defaultRS]["Video Mode"], 
+                    "[0-9]{3,4} x [0-9]{3,4}").Value;
                 videoMode["Width"] = strVideoMode.Split('x')[0].Trim();
                 videoMode["Height"] = strVideoMode.Split('x')[1].Trim();
             }
@@ -268,7 +271,11 @@ namespace AMOFGameEngine
 
             if (mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) && mKeyboard.IsKeyDown(KeyCode.KC_SPACE))
             {
-                mRenderWnd.SetFullscreen(!mRenderWnd.IsFullScreen, Convert.ToUInt32(videoMode["Width"]), Convert.ToUInt32(videoMode["Height"]));
+                mRenderWnd.SetFullscreen(
+                    !mRenderWnd.IsFullScreen, 
+                    Convert.ToUInt32(videoMode["Width"]), 
+                    Convert.ToUInt32(videoMode["Height"])
+                );
             }
  
             return true;
