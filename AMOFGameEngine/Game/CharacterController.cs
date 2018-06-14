@@ -7,6 +7,7 @@ using MOIS;
 using org.critterai.nav;
 using Mogre.PhysX;
 using AMOFGameEngine.Sound;
+using AMOFGameEngine.Utilities;
 
 namespace AMOFGameEngine.Game
 {
@@ -64,12 +65,15 @@ namespace AMOFGameEngine.Game
                 mBodyNode.Position = value;
             }
         }
-
         public Mogre.Vector3 Direction
         {
             get
             {
                 return mDirection;
+            }
+            set
+            {
+                mDirection = value;
             }
         }
 
@@ -108,6 +112,9 @@ namespace AMOFGameEngine.Game
             this.mSceneMgr = cam.SceneManager;
             charaName = name;
             charaMeshName = meshName;
+            mPhysicsScene = physicsScene;
+            mPhysics = physicsScene.Physics;
+            mQuery = query;
             setupBody();
             mTargetDestinaton = Mogre.Vector3.ZERO;
             if (controlled)
@@ -115,6 +122,27 @@ namespace AMOFGameEngine.Game
                 setupCamera(cam);
             }
             setupAnimations();
+            setupPhysics();
+        }
+
+        private void setupPhysics()
+        {
+            BodyDesc bodyDesc = new BodyDesc();
+            bodyDesc.LinearVelocity = new Mogre.Vector3(0, 2, 5);
+
+            ActorDesc actorDesc = new ActorDesc();
+            actorDesc.Density = 4;
+            actorDesc.Body = bodyDesc;
+            actorDesc.GlobalPosition = mBodyNode.Position;
+            actorDesc.GlobalOrientation = mBodyNode.Orientation.ToRotationMatrix();
+
+            // a quick trick the get the size of the physics shape right is to use the bounding box of the entity
+            actorDesc.Shapes.Add(
+                mPhysics.CreateConvexHull(new
+                StaticMeshData(mBodyEnt.GetMesh())));
+
+            // finally, create the actor in the physics scene
+            mActor = mPhysicsScene.CreateActor(actorDesc);
         }
 
         /// <summary>
@@ -187,6 +215,10 @@ namespace AMOFGameEngine.Game
                 updateCamera(deltaTime);
             }
             WalkState(deltaTime);
+
+            mPhysicsScene.FlushStream();
+            mPhysicsScene.FetchResults(SimulationStatuses.AllFinished, true);
+            mPhysicsScene.Simulate(deltaTime);
         }
 
         public void injectKeyDown(KeyEvent evt)
@@ -332,7 +364,7 @@ namespace AMOFGameEngine.Game
 
             // our model is quite small, so reduce the clipping planes
             cam.NearClipDistance = 0.1f;
-            cam.FarClipDistance = 100f;
+            cam.FarClipDistance = 10000f;
             mCameraNode.AttachObject(cam);
 
             mPivotPitch = 0;
@@ -638,7 +670,7 @@ namespace AMOFGameEngine.Game
                     }
                     else
                     {
-                        Mogre.Vector3 src = mBodyNode.Orientation * Mogre.Vector3.NEGATIVE_UNIT_Z;
+                        Mogre.Vector3 src = mBodyNode.Orientation * Mogre.Vector3.UNIT_Z;
                         if ((1.0f + src.DotProduct(Direction)) < 0.0001f)
                         {
                             mBodyNode.Yaw(new Degree(180));
@@ -655,8 +687,6 @@ namespace AMOFGameEngine.Game
                     mBodyNode.Translate(Direction * move);
                 }
             }
-
-            //mAnimationState->addTime(evt.timeSinceLastFrame);
         }
 
         private bool nextLocation()
@@ -665,10 +695,9 @@ namespace AMOFGameEngine.Game
             {
                 if (mWalkList.Count == 0)
                     return false;
-                mTargetDestinaton = mWalkList.Peek(); // 取得队列的头部
-                mWalkList.Dequeue(); // 删除已走过的点
-                mDirection = mTargetDestinaton - mBodyNode.Position;//距离由目的地减去当前位置得到
-                mDistance = mDirection.Normalise();//normalise()作用是将方向向量转换成单位向量，返回向量的原始长度
+                mTargetDestinaton = mWalkList.Dequeue(); 
+                mDirection = mTargetDestinaton - mBodyNode.Position;
+                mDistance = mDirection.Normalise();
                 return true;
             }
             else
