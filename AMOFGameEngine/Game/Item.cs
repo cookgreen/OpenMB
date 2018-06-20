@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mogre;
+using Mogre.PhysX;
+using AMOFGameEngine.Utilities;
 
 namespace AMOFGameEngine.Game
 {
@@ -55,35 +57,9 @@ namespace AMOFGameEngine.Game
         Entity itemEnt;
         SceneNode itemNode;
         Camera cam;
-
-        public Item(Camera cam, int id)
-        {
-            this.itemID = id;
-            this.itemName = "";
-            this.itemMeshName = "";
-            this.itemType = ItemType.IT_INVALID;
-            this.cam = cam;
-            Create();
-        }
-
-        public Item(string itemName, string itemMeshName, ItemType itemType, Camera cam)
-        {
-            this.itemName = itemName;
-            this.itemMeshName = itemMeshName;
-            this.itemType = itemType;
-            this.cam = cam;
-        }
-
-        private void Create()
-        {
-            itemEnt = cam.SceneManager.CreateEntity(itemName,itemMeshName);
-        }
-
-        public void Drop()
-        {
-            itemNode = cam.SceneManager.RootSceneNode.CreateChildSceneNode();
-            itemNode.AttachObject(itemEnt);
-        }
+        Actor itemActor;
+        Physics physics;
+        Scene physicsScene;
 
         public int ItemID
         {
@@ -118,6 +94,48 @@ namespace AMOFGameEngine.Game
         {
             get { return user; }
             set { user = value; }
+        }
+
+        public Item(Camera cam, Scene physicsScene, int id)
+        {
+            this.itemID = id;
+            this.itemName = "";
+            this.itemMeshName = "";
+            this.itemType = ItemType.IT_INVALID;
+            this.cam = cam;
+            this.physicsScene = physicsScene;
+            this.physics = physicsScene.Physics;
+            Create();
+        }
+
+        public Item(string itemName, string itemMeshName, ItemType itemType, Scene physicsScene, Camera cam)
+        {
+            this.itemName = itemName;
+            this.itemMeshName = itemMeshName;
+            this.itemType = itemType;
+            this.cam = cam;
+            this.physicsScene = physicsScene;
+            this.physics = physicsScene.Physics;
+            Create();
+        }
+
+        private void Create()
+        {
+            itemEnt = cam.SceneManager.CreateEntity(itemName,itemMeshName);
+            itemNode = cam.SceneManager.RootSceneNode.CreateChildSceneNode();
+            itemNode.AttachObject(itemEnt);
+
+            ActorDesc actorDesc = new ActorDesc();
+            actorDesc.Density = 4;
+            actorDesc.Body = null;
+            actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
+                StaticMeshData(itemEnt.GetMesh())));
+            itemActor = physicsScene.CreateActor(actorDesc);
+        }
+
+        public void Drop()
+        {
+            itemNode.DetachObject(ItemEnt);
         }
     }
 }

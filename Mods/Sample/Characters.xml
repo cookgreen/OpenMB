@@ -3,8 +3,10 @@
     <ID>chara_main_player</ID>
     <Name>Player</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<side>side_player</side>
-    <Equips />
+    <side>side_player</side>
+    <Equips>
+      <Equip>itm_sword</Equip>
+    </Equips>
   </Character>
   <Character>
     <ID>chara_archer</ID>
