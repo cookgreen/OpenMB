@@ -8,8 +8,8 @@ namespace AMOFGameEngine.Core
     public class GameVersion
     {
         private static int main = 0;
-        private static int sub = 0;
-        private static int modify = 1;
+        private static int sub = 1;
+        private static int modify = 2;
 
         public static string Current
         {
