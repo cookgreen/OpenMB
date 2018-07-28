@@ -25,13 +25,16 @@ namespace AMOFGameEngine.Script
             RegisteredCommand = new Dictionary<string, Type>();
             RegisteredCommand.Add("assign", typeof(AssignScriptCommand));
             RegisteredCommand.Add("call", typeof(CallScriptCommand));
+            RegisteredCommand.Add("condition", typeof(TriggerConditionScriptCommand));
             RegisteredCommand.Add("end", typeof(EndScriptCommand));
+            RegisteredCommand.Add("execute", typeof(TriggerExecuteSrciptCommand));
             RegisteredCommand.Add("function", typeof(FunctionScriptCommand));
             RegisteredCommand.Add("init_vector", typeof(InitVectorScriptCommand));
             RegisteredCommand.Add("loop", typeof(LoopScriptCommand));
             RegisteredCommand.Add("spawn", typeof(SpawnScriptCommand));
             RegisteredCommand.Add("store", typeof(StoreScriptCommand));
             RegisteredCommand.Add("team", typeof(TeamScriptCommand));
+            RegisteredCommand.Add("tigger", typeof(TriggerScriptCommand));
             RegisteredCommand.Add("vector_get_x", typeof(VectorGetXScriptCommand));
             RegisteredCommand.Add("vector_get_y", typeof(VectorGetYScriptCommand));
             RegisteredCommand.Add("vector_get_z", typeof(VectorGetZScriptCommand));

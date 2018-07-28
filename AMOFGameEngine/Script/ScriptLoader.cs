@@ -5,19 +5,32 @@ using System.Text;
 using System.IO;
 using AMOFGameEngine.Game;
 using Mogre;
+using AMOFGameEngine.Script.Command;
 
 namespace AMOFGameEngine.Script
 {
     public class ScriptLoader
     {
+        private ScriptFile currentFile = null;
         public ScriptLoader()
         {
         }
-        public void Parse(string scriptFileName, string groupName, params object[] runArgs)
+        public Queue<IScriptCommand> Parse(string scriptFileName, string groupName = null)
         {
-            ScriptFile file = new ScriptFile();
-            file.FileName = scriptFileName;
-            file.Parse(groupName, runArgs);
+            currentFile = new ScriptFile();
+            currentFile.FileName = scriptFileName;
+            if (!string.IsNullOrEmpty(groupName))
+                groupName = ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME;
+            currentFile.Parse(groupName);
+            return currentFile.ScriptCommands;
+        }
+
+        public void Execute(params object[] runArgs)
+        {
+            if (currentFile != null)
+            {
+                currentFile.Execute(runArgs);
+            }
         }
     }
 }

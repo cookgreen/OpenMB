@@ -181,7 +181,8 @@ namespace AMOFGameEngine.Game
             agents = new List<Character>();
             staticObjects = new List<GameObject>();
             sceneLoader.ParseDotSceneAsync(sceneName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, scm);
-            scriptLoader.Parse(System.IO.Path.GetFileNameWithoutExtension(sceneName) + ".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, this);
+            scriptLoader.Parse(System.IO.Path.GetFileNameWithoutExtension(sceneName) + ".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+            scriptLoader.Execute(this);
 
             MeshManager.Singleton.CreatePlane("floor", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
                 new Plane(Mogre.Vector3.UNIT_Y, 0), 100, 100, 10, 10, true, 1, 10, 10, Mogre.Vector3.UNIT_Z);

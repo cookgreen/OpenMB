@@ -90,7 +90,7 @@ namespace AMOFGameEngine.Script
                     continue;
                 }
             }
-            Execute(runArgs);
+            //Execute(runArgs);
         }
     }
 }

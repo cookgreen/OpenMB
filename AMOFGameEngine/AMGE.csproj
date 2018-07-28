@@ -213,6 +213,9 @@
     <Compile Include="Script\Command\RootScriptCommand.cs" />
     <Compile Include="Script\Command\ScriptCommand.cs" />
     <Compile Include="Script\Command\StoreScriptCommand.cs" />
+    <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />
+    <Compile Include="Script\Command\TriggerExecuteSrciptCommand.cs" />
+    <Compile Include="Script\Command\TriggerScriptCommand.cs" />
     <Compile Include="Script\Command\VectorGetXScriptCommand.cs" />
     <Compile Include="Script\Command\VectorGetYScriptCommand.cs" />
     <Compile Include="Script\Command\VectorGetZScriptCommand.cs" />
@@ -252,6 +255,7 @@
     <Compile Include="States\MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trigger\DummyTrigger.cs" />
     <Compile Include="Trigger\GameTrigger.cs" />
     <Compile Include="Trigger\ITrigger.cs" />
     <Compile Include="Trigger\TriggerManager.cs" />
