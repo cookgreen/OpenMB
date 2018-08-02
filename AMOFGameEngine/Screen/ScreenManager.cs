@@ -43,7 +43,7 @@ namespace AMOFGameEngine.Screen
                 currentScreen.Run();
             }
         }
-
+        
         private void CurrentScreen_OnScreenExit()
         {
             if (OnCurrentScreenExit != null)

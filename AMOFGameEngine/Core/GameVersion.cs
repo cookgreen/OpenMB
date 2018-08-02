@@ -9,7 +9,7 @@ namespace AMOFGameEngine.Core
     {
         private static int main = 0;
         private static int sub = 1;
-        private static int modify = 2;
+        private static int modify = 5;
 
         public static string Current
         {

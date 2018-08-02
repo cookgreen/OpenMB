@@ -18,6 +18,10 @@ namespace AMOFGameEngine.Game
     {
         //Unique Id
         private int id;
+        private Character currentEnemy;
+        private Item currentWieldWeapon;
+        public event Action<int, int, int> OnCharacterUseWeaponAttack;
+        public event Action<int> OnCharacterDie;
 
         public int Id
         {
@@ -44,16 +48,6 @@ namespace AMOFGameEngine.Game
         {
             get { return controller; }
             set { controller = value; }
-        }
-
-        public bool GetControlled()
-        {
-            return controller.GetControlled();
-        }
-
-        public void WalkTo(Mogre.Vector3 position)
-        {
-            controller.WalkTo(position);
         }
 
         //Hitpoint
@@ -127,11 +121,86 @@ namespace AMOFGameEngine.Game
             Id = id;
             Name = string.Empty;
             Hitpoint = 100;
-            Weapons = new Item[4];
-            Clothes = new Item[4];
+            Weapons = new Item[5];
+            Clothes = new Item[5];
             Backpack = new Inventory(21, this);
             controller = new CharacterController(cam,world.NavmeshQuery,world.PhysicsScene, name + id.ToString(), meshName, controlled);//初始化控制器
             controller.Position = initPosition;
+            currentEnemy = null;
+            currentWieldWeapon = new Fist(cam, world.PhysicsScene, -1, id);
+            currentWieldWeapon.OnWeaponAttack += CurrentWieldWeapon_OnWeaponAttack;
+        }
+
+        private void CurrentWieldWeapon_OnWeaponAttack(int arg1, int arg2)
+        {
+            if (OnCharacterUseWeaponAttack != null)
+            {
+                OnCharacterUseWeaponAttack(arg1, arg2, currentWieldWeapon.Damage);
+            }
+        }
+
+        public bool GetControlled()
+        {
+            return controller.GetControlled();
+        }
+
+        public void WalkTo(Mogre.Vector3 position)
+        {
+            controller.WalkTo(position);
+        }
+
+        public void Attack()
+        {
+            //遍历agent列表，找到一个最近的agent
+            Mogre.Vector3 targetPosition = new Mogre.Vector3();
+            float distance = -1;
+            if (currentEnemy == null)
+            {
+                int agentNum = mWorld.Agents.Count;
+                float lastDistance = -1;
+                for (int i = 0; i < agentNum; i++)
+                {
+                    Character chara = mWorld.Agents[i];
+                    distance = (Controller.Position - chara.Controller.Position).SquaredLength;
+                    if (lastDistance == -1)
+                    {
+                        lastDistance = distance;
+                    }
+                    else
+                    {
+                        if (lastDistance > distance)
+                        {
+                            lastDistance = distance;
+                            targetPosition = chara.Controller.Position;
+                            currentEnemy = chara;
+                        }
+                    }
+                }
+            }
+            //从武器库选择一把武器进行攻击
+            if (currentWieldWeapon == null)
+            {
+                if (weapons == null || weapons.Length == 0)
+                {
+
+                }
+                else
+                {
+                    currentWieldWeapon = weapons[0];
+                }
+            }
+            distance = (Controller.Position - currentEnemy.Controller.Position).Length;
+            //执行walkTo方法，直到进入武器射程
+            while (distance > currentWieldWeapon.Range)
+            {
+                WalkTo(targetPosition);
+            }
+            //播放攻击动画，进行伤害计算直到敌人血量为0
+            while (currentEnemy.Hitpoint > 0)
+            {
+                currentWieldWeapon.Attack(currentEnemy.Id);
+                controller.Attack();
+            }
         }
 
         public void WearHat(Item item)
@@ -202,6 +271,13 @@ namespace AMOFGameEngine.Game
         public override void Update(float timeSinceLastFrame)
         {
             controller.addTime(timeSinceLastFrame);
+            if (Hitpoint < 0)
+            {
+                if (OnCharacterDie != null)
+                {
+                    OnCharacterDie(id);
+                }
+            }
         }
     }
 }

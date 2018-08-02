@@ -304,7 +304,35 @@ namespace AMOFGameEngine.Game
                 {
                     playerAgent = character;
                 }
+                character.OnCharacterUseWeaponAttack += Character_OnCharacterUseWeaponAttack;
+                character.OnCharacterDie += Character_OnCharacterDie;
                 agents.Add(character);
+            }
+        }
+
+        private void Character_OnCharacterDie(int obj)
+        {
+            Character dead_chara = agents.Find(o => o.Id == obj);
+            if (dead_chara != null)
+            {
+                agents.Remove(dead_chara);
+            }
+        }
+
+        private void Character_OnCharacterUseWeaponAttack(int attacker, int victim, int damage)
+        {
+            Character charaAttacker = agents.Find(o => o.Id == attacker);
+            Character charaVictim = agents.Find(o => o.Id == victim);
+            if (charaAttacker != null && charaVictim!=null)
+            {
+                charaVictim.Hitpoint -= damage;
+                if (charaVictim.Hitpoint < 0)
+                {
+                    Output.OutputManager.Instance.DisplayMessage(string.Format(
+                        Localization.LocateSystem.Singleton.GetLocalizedString(
+                            Localization.LocateFileType.GameQuickString, 
+                            "qstr_{0}_was_killed_by_{1}"), charaVictim.Name, charaAttacker.Name));
+                }
             }
         }
 

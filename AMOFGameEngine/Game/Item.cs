@@ -48,11 +48,13 @@ namespace AMOFGameEngine.Game
     public abstract class Item : GameObject
     {
         protected int itemID;
+        protected int ownerID;
         protected string itemName;
         protected string itemMeshName;
         protected ItemType itemType;
         protected ItemAttachOption itemAttachOption;
         private Character user;
+        public event Action<int, int> OnWeaponAttack;
 
         Entity itemEnt;
         SceneNode itemNode;
@@ -96,7 +98,10 @@ namespace AMOFGameEngine.Game
             set { user = value; }
         }
 
-        public Item(Camera cam, Scene physicsScene, int id)
+        public virtual int Range { get; }
+        public virtual int Damage { get; }
+
+        public Item(Camera cam, Scene physicsScene, int id, int ownerID = -1)
         {
             this.itemID = id;
             this.itemName = "";
@@ -105,6 +110,7 @@ namespace AMOFGameEngine.Game
             this.cam = cam;
             this.physicsScene = physicsScene;
             this.physics = physicsScene.Physics;
+            this.ownerID = ownerID;
             Create();
         }
 
@@ -117,6 +123,14 @@ namespace AMOFGameEngine.Game
             this.physicsScene = physicsScene;
             this.physics = physicsScene.Physics;
             Create();
+        }
+
+        public void Attack(int victimId)
+        {
+            if (OnWeaponAttack != null)
+            {
+                OnWeaponAttack(ownerID, victimId);
+            }
         }
 
         private void Create()

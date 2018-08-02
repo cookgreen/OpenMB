@@ -172,6 +172,7 @@
     <Compile Include="Forms\Model\GraphicConfigure.cs" />
     <Compile Include="Game\Character.cs" />
     <Compile Include="Game\CharacterController.cs" />
+    <Compile Include="Game\Fist.cs" />
     <Compile Include="Game\GameObject.cs" />
     <Compile Include="Game\GameWorld.cs" />
     <Compile Include="Game\Inventory.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Network\Player.cs" />
     <Compile Include="Network\ServerMetaData.cs" />
     <Compile Include="Screen\CreditScreen.cs" />
+    <Compile Include="Screen\DummyScreen.cs" />
     <Compile Include="Screen\IScreen.cs" />
     <Compile Include="Screen\ScreenManager.cs" />
     <Compile Include="Script\Command\AddLightScriptCommand.cs" />

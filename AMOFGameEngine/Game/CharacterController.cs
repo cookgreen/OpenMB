@@ -77,6 +77,11 @@ namespace AMOFGameEngine.Game
             }
         }
 
+        public void Attack()
+        {
+            throw new NotImplementedException();
+        }
+
         enum AnimID
         {
             ANIM_IDLE_BASE,
@@ -244,7 +249,7 @@ namespace AMOFGameEngine.Game
                     // stop dancing
                     setBaseAnimation(AnimID.ANIM_IDLE_BASE);
                     setTopAnimation(AnimID.ANIM_IDLE_TOP);
-                    // re-enable hand animation
+                    // re-enable hand animation-
                     mAnims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled = true;
                 }
             }
