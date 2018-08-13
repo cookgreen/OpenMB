@@ -170,9 +170,14 @@
     <Compile Include="Forms\Model\Configure.cs" />
     <Compile Include="Forms\Model\GameConfigure.cs" />
     <Compile Include="Forms\Model\GraphicConfigure.cs" />
+    <Compile Include="Game\ItemFactory.cs" />
+    <Compile Include="Game\Items\Arrow.cs" />
+    <Compile Include="Game\Items\Bolt.cs" />
+    <Compile Include="Game\Items\Bow.cs" />
     <Compile Include="Game\Character.cs" />
     <Compile Include="Game\CharacterController.cs" />
-    <Compile Include="Game\Fist.cs" />
+    <Compile Include="Game\Items\Crossbow.cs" />
+    <Compile Include="Game\Items\Fist.cs" />
     <Compile Include="Game\GameObject.cs" />
     <Compile Include="Game\GameWorld.cs" />
     <Compile Include="Game\Inventory.cs" />
@@ -181,6 +186,10 @@
     <Compile Include="Core\OutputManager.cs" />
     <Compile Include="LogMessage\EngineLog.cs" />
     <Compile Include="LogMessage\EngineLogManager.cs" />
+    <Compile Include="Map\GameMap.cs" />
+    <Compile Include="Map\GameMapManager.cs" />
+    <Compile Include="Map\GameMapTrigger.cs" />
+    <Compile Include="Map\IMap.cs" />
     <Compile Include="Mods\XML\ModSoundsDfn.cs" />
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Mods\ModDataInfo.cs" />
