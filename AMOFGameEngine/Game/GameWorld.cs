@@ -3,53 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mogre;
-using Helper;
+using Mogre.PhysX;
+using Mogre_Procedural.MogreBites;
+using Mogre_Procedural.MogreBites.Addons;
 using MOIS;
+using org.critterai.nav;
 using AMOFGameEngine.Mods.XML;
 using AMOFGameEngine.Script;
 using AMOFGameEngine.Mods;
-using Mogre_Procedural.MogreBites;
-using Mogre.PhysX;
-using org.critterai.nav;
-using Mogre_Procedural.MogreBites.Addons;
 using AMOFGameEngine.Utilities;
 using AMOFGameEngine.Trigger;
+using AMOFGameEngine.Map;
 
 namespace AMOFGameEngine.Game
 {
     /// <summary>
-    /// Generate By a map, including characters, terrain etc
+    /// Core Component
     /// </summary>
     public class GameWorld
     {
+        #region Fields
         //Current agent under control
         private Character playerAgent;
 
         //MOD Data
         private ModData modData;
-
-        //Agents Data
-        private List<Character> agents;
+        
         private List<Tuple<string, string, int>> teamRelationship;
-
-        //Terrain Data
-        private TerrainGroup terrianGroup;
-
-        //Static Objects Data
-        private List<GameObject> staticObjects;
 
         //For Render
         private SceneManager scm;
         private Camera cam;
-        public SdkCameraMan camMan;
-        private Mogre.Vector3 m_TranslateVector;
+        private SdkCameraMan camMan;
+        private Mogre.Vector3 translateVector;
 
-        //Map Loader and its script
-        private DotSceneLoader sceneLoader;
-        private ScriptLoader scriptLoader;
-        
-        //Map file name
-        private string sceneName;
 
         //Data
         private Dictionary<string, string> globalVarMap;
@@ -61,8 +48,10 @@ namespace AMOFGameEngine.Game
         private Physics physics;
         private Scene physicsScene;
         private List<ActorNode> actorNodeList;
+        #endregion
 
-        public Camera Cam
+        #region Properties
+        public Camera Camera
         {
             get
             {
@@ -110,6 +99,16 @@ namespace AMOFGameEngine.Game
             }
         }
 
+        public SceneManager SceneManager
+        {
+            get
+            {
+                return scm;
+            }
+        }
+        #endregion
+
+        #region Constructor
         public GameWorld(ModData modData)
         {
             this.modData = modData;
@@ -123,10 +122,6 @@ namespace AMOFGameEngine.Game
             physicsScene.Materials[0].StaticFriction = 0.5f;
             physicsScene.Materials[0].DynamicFriction = 0.5f;
             physicsScene.Simulate(0);
-
-            sceneLoader = new DotSceneLoader();
-            sceneLoader.LoadSceneStarted += SceneLoader_LoadSceneStarted;
-            sceneLoader.LoadSceneFinished += SceneLoader_LoadSceneFinished;
             scriptLoader = new ScriptLoader();
             playerAgent = null;
             teamRelationship = new List<Tuple<string, string, int>>();
@@ -141,9 +136,14 @@ namespace AMOFGameEngine.Game
 
             TriggerManager.Instance.Triggers.Add(new GameTrigger(this));
         }
+        #endregion
 
+        #region Core Methods
         public void Init()
         {
+
+            GameMapManager.Instance.Initization(this);
+
             scm = GameManager.Instance.mRoot.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE);
             scm.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
 
@@ -156,12 +156,12 @@ namespace AMOFGameEngine.Game
             GameManager.Instance.mTrayMgr.destroyAllWidgets();
             cam.FarClipDistance = 50000;
 
-            scm.SetSkyDome(true, "Examples/CloudySky", 5, 8);
-
-            Light light = scm.CreateLight();
-            light.Type = Light.LightTypes.LT_POINT;
-            light.Position = new Mogre.Vector3(-10, 40, 20);
-            light.SpecularColour = ColourValue.White;
+            //scm.SetSkyDome(true, "Examples/CloudySky", 5, 8);
+            //
+            //Light light = scm.CreateLight();
+            //light.Type = Light.LightTypes.LT_POINT;
+            //light.Position = new Mogre.Vector3(-10, 40, 20);
+            //light.SpecularColour = ColourValue.White;
 
             GameManager.Instance.mTrayMgr.hideCursor();
 
@@ -177,39 +177,13 @@ namespace AMOFGameEngine.Game
 
         public void ChangeScene(string sceneName)
         {
-            this.sceneName = sceneName;
-            agents = new List<Character>();
-            staticObjects = new List<GameObject>();
-            sceneLoader.ParseDotSceneAsync(sceneName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, scm);
-            scriptLoader.Parse(System.IO.Path.GetFileNameWithoutExtension(sceneName) + ".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-            scriptLoader.Execute(this);
-
-            MeshManager.Singleton.CreatePlane("floor", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
-                new Plane(Mogre.Vector3.UNIT_Y, 0), 100, 100, 10, 10, true, 1, 10, 10, Mogre.Vector3.UNIT_Z);
-            Entity floor = scm.CreateEntity("Floor", "floor");
-            floor.SetMaterialName("Examples/Rockwall");
-            floor.CastShadows = (false);
-            scm.RootSceneNode.AttachObject(floor);
-            ActorDesc actorDesc = new ActorDesc();
-            actorDesc.Density = 4;
-            actorDesc.Body = null;
-            actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
-                StaticMeshData(floor.GetMesh())));
-            Actor floorActor = physicsScene.CreateActor(actorDesc);
-            actorNodeList.Add(new ActorNode(scm.RootSceneNode, floorActor));
-
-            Navmesh floorNavMesh = MeshToNavmesh.LoadNavmesh(floor);
-            org.critterai.Vector3 pointStart = new org.critterai.Vector3(0, 0, 0);
-            org.critterai.Vector3 pointEnd = new org.critterai.Vector3(0, 0, 0);
-            org.critterai.Vector3 extents = new org.critterai.Vector3(2, 2, 2);
-
-            NavStatus status = NavmeshQuery.Create(floorNavMesh, 100, out query);
+            GameMapManager.Instance.Load(sceneName);
         }
 
         public void Destroy()
         {
-            agents.Clear();
-            staticObjects.Clear();
+            GameMapManager.Instance.Dispose();
+
             cam.Dispose();
             scm.Dispose();
             physicsScene.Dispose();
@@ -223,6 +197,118 @@ namespace AMOFGameEngine.Game
             GameManager.Instance.mRoot.FrameRenderingQueued -= FrameRenderingQueued;
         }
 
+        public void Update(double timeSinceLastFrame)
+        {
+            translateVector = new Mogre.Vector3(0, 0, 0);
+            if (GetCurrentPlayerAgentId() == -1)
+            {
+                getInput();
+                moveCamera();
+            }
+            else
+            {
+            }
+            physicsScene.FlushStream();
+            physicsScene.FetchResults(SimulationStatuses.AllFinished, true);
+            physicsScene.Simulate(timeSinceLastFrame);
+
+            TriggerManager.Instance.Update((float)timeSinceLastFrame);
+        }
+
+        #endregion
+
+        #region API
+        public string GetCurrentScene()
+        {
+            return GameMapManager.Instance.GetCurrentMapName();
+        }
+
+        public int GetCurrentPlayerAgentId()
+        {
+            if (playerAgent != null)
+            {
+                //there is an agent under player's control
+                return playerAgent.Id;
+            }
+            else
+            {
+                //No agent under player's control
+                return -1;
+            }
+        }
+        #endregion
+
+        #region Other Methods
+        private void Character_OnCharacterDie(int obj)
+        {
+            Character dead_chara = agents.Find(o => o.Id == obj);
+            if (dead_chara != null)
+            {
+                agents.Remove(dead_chara);
+            }
+        }
+
+        private void Character_OnCharacterUseWeaponAttack(int attacker, int victim, int damage)
+        {
+            Character charaAttacker = agents.Find(o => o.Id == attacker);
+            Character charaVictim = agents.Find(o => o.Id == victim);
+            if (charaAttacker != null && charaVictim!=null)
+            {
+                charaVictim.Hitpoint -= damage;
+                if (charaVictim.Hitpoint < 0)
+                {
+                    Output.OutputManager.Instance.DisplayMessage(string.Format(
+                        Localization.LocateSystem.Singleton.GetLocalizedString(
+                            Localization.LocateFileType.GameQuickString, 
+                            "qstr_{0}_was_killed_by_{1}"), charaVictim.Name, charaAttacker.Name));
+                }
+            }
+        }
+
+        internal List<Character> GetCharactersByCondition(Func<Character, bool> condition)
+        {
+            return GameMapManager.Instance.GetCurrentMap().GetAgents().Where(condition).ToList();
+        }
+
+        internal List<Tuple<string,string, int>> GetTeamRelationshipByCondition(Func<Tuple<string, string, int>, bool> func)
+        {
+            return teamRelationship.Where(func).ToList();
+        }
+
+        private void updateAgents(double timeSinceLastFrame)
+        {
+            for (int i = 0; i < agents.Count; i++)
+            {
+                agents[i].Update((float)timeSinceLastFrame);
+            }
+        }
+
+        private void SceneLoader_LoadSceneFinished()
+        {
+            pbProgressBar.setComment("Finished");
+            GameManager.Instance.mTrayMgr.destroyAllWidgets();
+        }
+
+        private void SceneLoader_LoadSceneStarted()
+        {
+            CreateLoadingScreen("Loading Scene...");
+        }
+
+        private void CreateLoadingScreen(string text)
+        {
+            GameManager.Instance.mTrayMgr.destroyAllWidgets();
+            pbProgressBar = GameManager.Instance.mTrayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
+            pbProgressBar.setComment(text);
+        }
+
+        private bool FrameRenderingQueued(FrameEvent evt)
+        {
+            updateAgents(evt.timeSinceLastFrame);
+            return true;
+        }
+        #endregion
+
+        #region Handle Script
         public void CreateLight(string type, string name, Mogre.Vector3 pos, Mogre.Vector3 dir)
         {
             Light.LightTypes lt;
@@ -254,7 +340,7 @@ namespace AMOFGameEngine.Game
 
         public void ChangeTeamRelationship(string team1Id, string team2Id, int relationship)
         {
-            var ret = teamRelationship.Where(o => 
+            var ret = teamRelationship.Where(o =>
             (o.Item1 == team1Id && o.Item2 == team2Id) ||
             (o.Item1 == team2Id && o.Item2 == team1Id));
             if (ret.Count() == 0)
@@ -294,161 +380,61 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        public void SpawnNewCharacter(string characterID, Mogre.Vector3 position,string teamId, bool isBot = true)
+        public void SpawnNewCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
         {
-            var searchRet = ModData.CharacterInfos.Where(o => o.ID == characterID);
-            if (searchRet.Count() > 0)
-            {
-                Character character = new Character(this, cam, agents.Count, teamId, searchRet.First().Name + agents.Count, searchRet.First().MeshName, position, !isBot);
-                if (!isBot)
-                {
-                    playerAgent = character;
-                }
-                character.OnCharacterUseWeaponAttack += Character_OnCharacterUseWeaponAttack;
-                character.OnCharacterDie += Character_OnCharacterDie;
-                agents.Add(character);
-            }
+            GameMapManager.Instance.GetCurrentMap().SpawnNewCharacter(characterID, position, teamId, isBot);
         }
+        #endregion
 
-        private void Character_OnCharacterDie(int obj)
-        {
-            Character dead_chara = agents.Find(o => o.Id == obj);
-            if (dead_chara != null)
-            {
-                agents.Remove(dead_chara);
-            }
-        }
-
-        private void Character_OnCharacterUseWeaponAttack(int attacker, int victim, int damage)
-        {
-            Character charaAttacker = agents.Find(o => o.Id == attacker);
-            Character charaVictim = agents.Find(o => o.Id == victim);
-            if (charaAttacker != null && charaVictim!=null)
-            {
-                charaVictim.Hitpoint -= damage;
-                if (charaVictim.Hitpoint < 0)
-                {
-                    Output.OutputManager.Instance.DisplayMessage(string.Format(
-                        Localization.LocateSystem.Singleton.GetLocalizedString(
-                            Localization.LocateFileType.GameQuickString, 
-                            "qstr_{0}_was_killed_by_{1}"), charaVictim.Name, charaAttacker.Name));
-                }
-            }
-        }
-
-        public string GetCurrentScene()
-        {
-            return sceneName;
-        }
-
-        public int GetCurrentPlayerAgentId()
-        {
-            if (playerAgent != null)
-            {
-                //there is an agent under player's control
-                return playerAgent.Id;
-            }
-            else
-            {
-                //No agent under player's control
-                return -1;
-            }
-        }
-
-        public List<Character> GetCharactersByCondition(Func<Character, bool> condition)
-        {
-            return agents.Where(condition).ToList();
-        }
-
-        public List<Tuple<string,string, int>> GetTeamRelationshipByCondition(Func<Tuple<string, string, int>, bool> func)
-        {
-            return teamRelationship.Where(func).ToList();
-        }
-
-        public void Update(double timeSinceLastFrame)
-        {
-            m_TranslateVector = new Mogre.Vector3(0, 0, 0);
-            if (GetCurrentPlayerAgentId() == -1)
-            {
-                getInput();
-                moveCamera();
-            }
-            else
-            {
-            }
-            physicsScene.FlushStream();
-            physicsScene.FetchResults(SimulationStatuses.AllFinished, true);
-            physicsScene.Simulate(timeSinceLastFrame);
-
-            TriggerManager.Instance.Update((float)timeSinceLastFrame);
-        }
-
-        private void updateAgents(double timeSinceLastFrame)
-        {
-            for (int i = 0; i < agents.Count; i++)
-            {
-                agents[i].Update((float)timeSinceLastFrame);
-            }
-        }
-
-        private bool FrameRenderingQueued(FrameEvent evt)
-        {
-            updateAgents(evt.timeSinceLastFrame);
-            return true;
-        }
+        #region Handle Input
         private void getInput()
         {
             if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_A))
-                m_TranslateVector.x = -10;
+                translateVector.x = -10;
 
             if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_D))
-                m_TranslateVector.x = 10;
+                translateVector.x = 10;
 
             if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_W))
-                m_TranslateVector.z = -10;
+                translateVector.z = -10;
 
             if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_S))
-                m_TranslateVector.z = 10;
+                translateVector.z = 10;
 
             if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_Q))
-                m_TranslateVector.y = -10;
+                translateVector.y = -10;
 
             if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_E))
-                m_TranslateVector.y = 10;
+                translateVector.y = 10;
         }
         private void moveCamera()
         {
             if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
-                cam.MoveRelative(m_TranslateVector);
-            cam.MoveRelative(m_TranslateVector / 10);
+                cam.MoveRelative(translateVector);
+            cam.MoveRelative(translateVector / 10);
         }
-        
         bool mKeyboard_KeyReleased(MOIS.KeyEvent arg)
         {
             if (GetCurrentPlayerAgentId() != -1)
                 playerAgent.Controller.injectKeyUp(arg);
             return true;
         }
-
         bool mKeyboard_KeyPressed(MOIS.KeyEvent arg)
         {
             if (GetCurrentPlayerAgentId() != -1)
                 playerAgent.Controller.injectKeyDown(arg);
             return true;
         }
-
         bool mMouse_MouseReleased(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
         {
             return true;
         }
-
         bool mMouse_MousePressed(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
         {
             if (GetCurrentPlayerAgentId() != -1)
                 playerAgent.Controller.injectMouseDown(arg, id);
             return true;
         }
-
         bool mMouse_MouseMoved(MOIS.MouseEvent arg)
         {
             if (GetCurrentPlayerAgentId() != -1)
@@ -456,23 +442,6 @@ namespace AMOFGameEngine.Game
             return true;
         }
 
-        private void SceneLoader_LoadSceneFinished()
-        {
-            terrianGroup = sceneLoader.TerrainGroup;
-            pbProgressBar.setComment("Finished");
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
-        }
-
-        private void SceneLoader_LoadSceneStarted()
-        {
-            CreateLoadingScreen("Loading Scene...");
-        }
-
-        private void CreateLoadingScreen(string text)
-        {
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
-            pbProgressBar = GameManager.Instance.mTrayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
-            pbProgressBar.setComment(text);
-        }
+        #endregion
     }
 }

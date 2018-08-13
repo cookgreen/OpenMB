@@ -26,7 +26,7 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        public override int Damage
+        public override double Damage
         {
             get
             {

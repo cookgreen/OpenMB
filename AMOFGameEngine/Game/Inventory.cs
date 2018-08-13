@@ -6,7 +6,7 @@ using System.Text;
 namespace AMOFGameEngine.Game
 {
     /// <summary>
-    /// 物品栏
+    /// Inventory
     /// </summary>
     public class Inventory
     {

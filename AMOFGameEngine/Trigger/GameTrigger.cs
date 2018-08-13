@@ -12,10 +12,12 @@ namespace AMOFGameEngine.Trigger
     /// </summary>
     public class GameTrigger : ITrigger
     {
+        private int waveNum;
         private GameWorld world;
         public GameTrigger(GameWorld world)
         {
             this.world = world;
+            waveNum = 1;
         }
         public int ExecuteTime
         {
@@ -40,16 +42,23 @@ namespace AMOFGameEngine.Trigger
 
         public void Execute()
         {
-            var agents = world.Agents;
-            var player = agents.Find(o => o.GetControlled());
-            for (int i = 0; i < agents.Count; i++)
+            if (waveNum < 5)
             {
-                if (agents[i].Id != player.Id)
-                {
-                    //will chase player
-                    agents[i].WalkTo(player.Controller.Position);
-                }
+
             }
+            else if (waveNum < 10)
+            {
+
+            }
+            else if (waveNum < 15)
+            {
+
+            }
+            else
+            {
+
+            }
+            waveNum++;
         }
     }
 }

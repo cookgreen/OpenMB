@@ -149,9 +149,12 @@ namespace AMOFGameEngine.Game
             controller.WalkTo(position);
         }
 
-        public void Attack()
+        /// <summary>
+        /// Check the environment, find the enemy and destroy it!
+        /// </summary>
+        private void CheckEnvironment()
         {
-            //遍历agent列表，找到一个最近的agent
+            //Find the closest enemy
             Mogre.Vector3 targetPosition = new Mogre.Vector3();
             float distance = -1;
             if (currentEnemy == null)
@@ -177,29 +180,32 @@ namespace AMOFGameEngine.Game
                     }
                 }
             }
-            //从武器库选择一把武器进行攻击
-            if (currentWieldWeapon == null)
+            else
             {
-                if (weapons == null || weapons.Length == 0)
+                //Choose a weapon and prepare to attack
+                if (currentWieldWeapon == null)
                 {
+                    if (weapons == null || weapons.Length == 0)
+                    {
 
+                    }
+                    else
+                    {
+                        currentWieldWeapon = weapons[0];
+                    }
                 }
-                else
+                distance = (Controller.Position - currentEnemy.Controller.Position).Length;
+                //Keep walking util enemy engaged
+                while (distance > currentWieldWeapon.Range)
                 {
-                    currentWieldWeapon = weapons[0];
+                    WalkTo(targetPosition);
                 }
-            }
-            distance = (Controller.Position - currentEnemy.Controller.Position).Length;
-            //执行walkTo方法，直到进入武器射程
-            while (distance > currentWieldWeapon.Range)
-            {
-                WalkTo(targetPosition);
-            }
-            //播放攻击动画，进行伤害计算直到敌人血量为0
-            while (currentEnemy.Hitpoint > 0)
-            {
-                currentWieldWeapon.Attack(currentEnemy.Id);
-                controller.Attack();
+                //Attack the enemy until it die!
+                while (currentEnemy.Hitpoint > 0)
+                {
+                    currentWieldWeapon.Attack(currentEnemy.Id);
+                    controller.Attack();
+                }
             }
         }
 
@@ -273,10 +279,15 @@ namespace AMOFGameEngine.Game
             controller.addTime(timeSinceLastFrame);
             if (Hitpoint < 0)
             {
+                //R.I.P
                 if (OnCharacterDie != null)
                 {
                     OnCharacterDie(id);
                 }
+            }
+            else
+            {
+                CheckEnvironment();
             }
         }
     }
