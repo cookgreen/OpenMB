@@ -1,17 +1,17 @@
 <Items>
-  <Item>
+  <Item damage="35" range="15">
     <ID>item_sword</ID>
     <Name>Sword</Name>
     <MeshName>Sword.mesh</MeshName>
     <Type>IT_ONE_HAND_WEAPON</Type>
   </Item>
-  <Item>
+  <Item damage="45" range="200">
     <ID>item_bow</ID>
     <Name>Bow</Name>
     <MeshName>Sword.mesh</MeshName>
     <Type>IT_BOW</Type>
   </Item>
-  <Item>
+  <Item damage="50" range="30">
     <ID>item_two_hand_sword</ID>
     <Name>Two Hand Sword</Name>
     <MeshName>Sword.mesh</MeshName>

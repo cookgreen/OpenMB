@@ -86,30 +86,30 @@ namespace AMOFGameEngine.Mods
                 currentMod.BasicInfo = manifest.MetaData;
                 worker.ReportProgress(25);
                 
-                ModXMLLoader loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Characters);
+                ModXmlLoader loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Characters);
                 XML.ModCharactersDfnXML characterDfn;
                 loader.Load<XML.ModCharactersDfnXML>(out characterDfn);
                 currentMod.CharacterInfos = characterDfn.CharacterDfns;
                 worker.ReportProgress(50);
                 
-                loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Items);
+                loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Items);
                 XML.ModItemsDfnXML itemDfn;
                 loader.Load<XML.ModItemsDfnXML>(out itemDfn);
                 currentMod.ItemInfos = itemDfn != null ? itemDfn.Items : null;
                 worker.ReportProgress(75);
                 
-                loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Sides);
+                loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Sides);
                 XML.ModSidesDfnXML sideDfn;
                 loader.Load<XML.ModSidesDfnXML>(out sideDfn);
                 currentMod.SideInfos = sideDfn.Sides;
                 worker.ReportProgress(80);
 
-                loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Music);
+                loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Music);
                 XML.ModTracksDfnXML trackDfn;
                 loader.Load<XML.ModTracksDfnXML>(out trackDfn);
                 currentMod.MusicInfos = trackDfn.Tracks;
 
-                loader = new ModXMLLoader(manifest.InstalledPath + "/" + manifest.Data.Sound);
+                loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Sound);
                 XML.ModSoundsDfnXML soundDfn;
                 loader.Load<XML.ModSoundsDfnXML>(out soundDfn);
                 currentMod.SoundInfos = soundDfn.Sounds;

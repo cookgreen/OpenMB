@@ -1,4 +1,5 @@
 ﻿using AMOFGameEngine.Game;
+using AMOFGameEngine.Mods;
 using AMOFGameEngine.Script;
 using AMOFGameEngine.Trigger;
 using AMOFGameEngine.Utilities;
@@ -29,6 +30,37 @@ namespace AMOFGameEngine.Map
         private ScriptLoader scriptLoader;
         private SceneManager scm;
         private TerrainGroup terrianGroup;
+        private Scene physicsScene;
+        private NavmeshQuery query;
+        private ModData modData;
+        private Physics physics;
+        private Character playerAgent;
+        private Camera cam;
+        private GameWorld world;
+
+        public ModData ModData
+        {
+            get
+            {
+                return modData;
+            }
+        }
+
+        public Scene PhysicsScene
+        {
+            get
+            {
+                return physicsScene;
+            }
+        }
+
+        public NavmeshQuery NavmeshQuery
+        {
+            get
+            {
+                return query;
+            }
+        }
 
         public event MapLoadhandler LoadMapStarted;
         public event MapLoadhandler LoadMapFinished;
@@ -95,7 +127,14 @@ namespace AMOFGameEngine.Map
 
         public void Update(float timeSinceLastFrame)
         {
-
+            updateAgents(timeSinceLastFrame);
+        }
+        private void updateAgents(double timeSinceLastFrame)
+        {
+            for (int i = 0; i < agents.Count; i++)
+            {
+                agents[i].Update((float)timeSinceLastFrame);
+            }
         }
 
         public string GetName()
@@ -119,7 +158,7 @@ namespace AMOFGameEngine.Map
             if (searchRet.Count() > 0)
             {
                 Character character = new Character(
-                    this, cam, agents.Count, teamId, searchRet.First().Name + agents.Count, searchRet.First().MeshName, position, !isBot);
+                    world, cam, agents.Count, teamId, searchRet.First().Name + agents.Count, searchRet.First().MeshName, position, !isBot);
                 if (!isBot)
                 {
                     playerAgent = character;
@@ -128,6 +167,16 @@ namespace AMOFGameEngine.Map
                 character.OnCharacterDie += Character_OnCharacterDie;
                 agents.Add(character);
             }
+        }
+
+        private void Character_OnCharacterUseWeaponAttack(int arg1, int arg2, double arg3)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Character_OnCharacterDie(int obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

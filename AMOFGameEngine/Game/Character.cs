@@ -20,7 +20,7 @@ namespace AMOFGameEngine.Game
         private int id;
         private Character currentEnemy;
         private Item currentWieldWeapon;
-        public event Action<int, int, int> OnCharacterUseWeaponAttack;
+        public event Action<int, int, double> OnCharacterUseWeaponAttack;
         public event Action<int> OnCharacterDie;
 
         public int Id
@@ -124,10 +124,10 @@ namespace AMOFGameEngine.Game
             Weapons = new Item[5];
             Clothes = new Item[5];
             Backpack = new Inventory(21, this);
-            controller = new CharacterController(cam,world.NavmeshQuery,world.PhysicsScene, name + id.ToString(), meshName, controlled);//初始化控制器
+            controller = new CharacterController(cam,world.GetCurrentMap().NavmeshQuery,world.GetCurrentMap().PhysicsScene, name + id.ToString(), meshName, controlled);//初始化控制器
             controller.Position = initPosition;
             currentEnemy = null;
-            currentWieldWeapon = new Fist(cam, world.PhysicsScene, -1, id);
+            currentWieldWeapon = new Fist(cam, world.GetCurrentMap().PhysicsScene, -1, id);
             currentWieldWeapon.OnWeaponAttack += CurrentWieldWeapon_OnWeaponAttack;
         }
 
@@ -159,11 +159,11 @@ namespace AMOFGameEngine.Game
             float distance = -1;
             if (currentEnemy == null)
             {
-                int agentNum = mWorld.Agents.Count;
+                int agentNum = mWorld.GetCharactersByCondition(null).Count;
                 float lastDistance = -1;
                 for (int i = 0; i < agentNum; i++)
                 {
-                    Character chara = mWorld.Agents[i];
+                    Character chara = mWorld.GetCurrentMap().GetAgents()[i];
                     distance = (Controller.Position - chara.Controller.Position).SquaredLength;
                     if (lastDistance == -1)
                     {

@@ -15,9 +15,9 @@ namespace AMOFGameEngine.Game
     public enum ItemType
     {
         IT_INVALID,             //default value
+        IT_AMMUNITION,          //Ammo
         IT_GOOD,                //Good
         IT_BOOK,                //Book
-        IT_AMMUNITION,          //Ammo
         IT_HEAD_ARMOUR,         //Head Armour
         IT_BODY_ARMOUR,         //Body Armour
         IT_FOOT_ARMOUR,         //Foot Armour
@@ -51,7 +51,7 @@ namespace AMOFGameEngine.Game
     /// <summary>
     /// Item class
     /// </summary>
-    public abstract class Item : GameObject
+    public class Item : GameObject
     {
         protected int itemID;
         protected int ownerID;
@@ -59,6 +59,7 @@ namespace AMOFGameEngine.Game
         protected string itemMeshName;
         protected ItemType itemType;
         protected ItemAttachOption itemAttachOption;
+        protected List<Cartridge> cartridges;
         private Character user;
         public event Action<int, int> OnWeaponAttack;
 
@@ -106,11 +107,11 @@ namespace AMOFGameEngine.Game
             set { user = value; }
         }
 
-        public virtual int Range { get; }
-        public virtual double Damage { get; }
+        public virtual int Range { get; set; }
+        public virtual double Damage { get; set; }
 
-        public virtual Type Ammo { get; }
-        public virtual int AmmoCapcity { get; }
+        public virtual Type Ammo { get; set; }
+        public virtual int AmmoCapcity { get; set; }
 
         public Item(Camera cam, Scene physicsScene, int id, int ownerID = -1)
         {

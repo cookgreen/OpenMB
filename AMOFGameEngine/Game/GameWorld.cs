@@ -59,43 +59,11 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        public ModData ModData
-        {
-            get
-            {
-                return modData;
-            }
-        }
-
-        public Scene PhysicsScene
-        {
-            get
-            {
-                return physicsScene;
-            }
-        }
-
-        public NavmeshQuery NavmeshQuery
-        {
-            get
-            {
-                return query;
-            }
-        }
-
         public ScriptLinkTable GlobalValueTable
         {
             get
             {
                 return globalValueTable;
-            }
-        }
-
-        public List<Character> Agents
-        {
-            get
-            {
-                return agents;
             }
         }
 
@@ -122,7 +90,7 @@ namespace AMOFGameEngine.Game
             physicsScene.Materials[0].StaticFriction = 0.5f;
             physicsScene.Materials[0].DynamicFriction = 0.5f;
             physicsScene.Simulate(0);
-            scriptLoader = new ScriptLoader();
+            //scriptLoader = new ScriptLoader();
             playerAgent = null;
             teamRelationship = new List<Tuple<string, string, int>>();
             globalVarMap = new Dictionary<string, string>();
@@ -218,6 +186,11 @@ namespace AMOFGameEngine.Game
         #endregion
 
         #region API
+        public GameMap GetCurrentMap()
+        {
+            return GameMapManager.Instance.GetCurrentMap();
+        }
+
         public string GetCurrentScene()
         {
             return GameMapManager.Instance.GetCurrentMapName();
@@ -239,32 +212,28 @@ namespace AMOFGameEngine.Game
         #endregion
 
         #region Other Methods
-        private void Character_OnCharacterDie(int obj)
-        {
-            Character dead_chara = agents.Find(o => o.Id == obj);
-            if (dead_chara != null)
-            {
-                agents.Remove(dead_chara);
-            }
-        }
 
-        private void Character_OnCharacterUseWeaponAttack(int attacker, int victim, int damage)
-        {
-            Character charaAttacker = agents.Find(o => o.Id == attacker);
-            Character charaVictim = agents.Find(o => o.Id == victim);
-            if (charaAttacker != null && charaVictim!=null)
-            {
-                charaVictim.Hitpoint -= damage;
-                if (charaVictim.Hitpoint < 0)
-                {
-                    Output.OutputManager.Instance.DisplayMessage(string.Format(
-                        Localization.LocateSystem.Singleton.GetLocalizedString(
-                            Localization.LocateFileType.GameQuickString, 
-                            "qstr_{0}_was_killed_by_{1}"), charaVictim.Name, charaAttacker.Name));
-                }
-            }
-        }
+        //private void Character_OnCharacterUseWeaponAttack(int attacker, int victim, int damage)
+        //{
+        //    Character charaAttacker = agents.Find(o => o.Id == attacker);
+        //    Character charaVictim = agents.Find(o => o.Id == victim);
+        //    if (charaAttacker != null && charaVictim!=null)
+        //    {
+        //        charaVictim.Hitpoint -= damage;
+        //        if (charaVictim.Hitpoint < 0)
+        //        {
+        //            Output.OutputManager.Instance.DisplayMessage(string.Format(
+        //                Localization.LocateSystem.Singleton.GetLocalizedString(
+        //                    Localization.LocateFileType.GameQuickString, 
+        //                    "qstr_{0}_was_killed_by_{1}"), charaVictim.Name, charaAttacker.Name));
+        //        }
+        //    }
+        //}
 
+        internal List<Character> GetAllCharacters()
+        {
+            return GameMapManager.Instance.GetCurrentMap().GetAgents();
+        }
         internal List<Character> GetCharactersByCondition(Func<Character, bool> condition)
         {
             return GameMapManager.Instance.GetCurrentMap().GetAgents().Where(condition).ToList();
@@ -275,13 +244,6 @@ namespace AMOFGameEngine.Game
             return teamRelationship.Where(func).ToList();
         }
 
-        private void updateAgents(double timeSinceLastFrame)
-        {
-            for (int i = 0; i < agents.Count; i++)
-            {
-                agents[i].Update((float)timeSinceLastFrame);
-            }
-        }
 
         private void SceneLoader_LoadSceneFinished()
         {
@@ -303,7 +265,7 @@ namespace AMOFGameEngine.Game
 
         private bool FrameRenderingQueued(FrameEvent evt)
         {
-            updateAgents(evt.timeSinceLastFrame);
+            GameMapManager.Instance.Update(evt.timeSinceLastFrame);
             return true;
         }
         #endregion

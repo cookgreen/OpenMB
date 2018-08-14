@@ -9,9 +9,9 @@ namespace AMOFGameEngine.Game
 {
     public class ItemFactory
     {
-        private Camera cam;
-        private Scene physicsScene;
-        private ItemFactory instance;
+        protected Camera cam;
+        protected Scene physicsScene;
+        protected ItemFactory instance;
         public ItemFactory Instance
         {
             get
@@ -30,24 +30,32 @@ namespace AMOFGameEngine.Game
             this.physicsScene = physicsScene;
         }
 
-        public Item Produce(string type, double damage, int range)
+        public Item Produce(
+            string name, string meshName, ItemType type,
+            double damage, int range, int ammoCapcity = -1,
+            double amourNum = -1)
         {
             Item item = null;
-            switch(type)
+            switch (type)
             {
-                case "Bow":
-                    item = new Bow(cam, physicsScene, -1);
+                case ItemType.IT_BOW | ItemType.IT_CROSSBOW | ItemType.IT_RIFLE | ItemType.IT_PISTOL|
+                     ItemType.IT_ONE_HAND_WEAPON | ItemType.IT_TWO_HAND_WEAPON| ItemType.IT_POLEARM |
+                     ItemType.IT_RPG_MISSILE | ItemType.IT_SUBMACHINE_GUN| ItemType.IT_THROWN:
+                     item = ItemWeaponFactory.Instance.Produce(name, meshName, type, damage, range);
+                     break;
+                case ItemType.IT_HAND_ARMOUR| ItemType.IT_HEAD_ARMOUR| ItemType.IT_BODY_ARMOUR| 
+                     ItemType.IT_FOOT_ARMOUR:
+                     item = ItemArmourFactory.Instance.Produce(name, meshName, type, amourNum);
+                     break;
+                case ItemType.IT_ARROW | ItemType.IT_BOLT | ItemType.IT_BULLET:
+                     ItemAmmoFactory.Produce(name, meshName, type, damage, ammoCapcity);
+                     break;
+                case ItemType.IT_GOOD:
                     break;
-                case "Crossbow":
-                    item = new Crossbow(cam, physicsScene, -1);
-                    break;
-                case "Arrow":
-                    item = new Arrow(cam, physicsScene, -1);
-                    break;
-                case "Bolt":
-                    item = new Bolt(cam, physicsScene, -1);
+                case ItemType.IT_BOOK:
                     break;
             }
+            
             return item;
         }
     }

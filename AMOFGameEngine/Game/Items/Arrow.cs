@@ -7,10 +7,10 @@ using System.Text;
 
 namespace AMOFGameEngine.Game
 {
-    public class Arrow : Item
+    public class Arrow : Cartridge
     {
-        public Arrow(Camera cam, Scene physicsScene, int id, int ownerID = -1)
-            : base(cam, physicsScene, id, ownerID)
+        public Arrow(string name, string meshName, Camera cam, Scene physicsScene, int id, int ownerId = -1)
+            : base(name, meshName, cam, physicsScene, id, ownerId)
         {
 
         }

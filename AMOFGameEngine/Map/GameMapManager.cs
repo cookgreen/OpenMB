@@ -35,7 +35,7 @@ namespace AMOFGameEngine.Map
 
         private void Map_LoadMapFinished()
         {
-            currentMap = 
+            //currentMap = 
         }
 
         private void Map_LoadMapStarted()
@@ -72,6 +72,11 @@ namespace AMOFGameEngine.Map
         public GameMap GetCurrentMap()
         {
             return (GameMap)currentMap;
+        }
+
+        public void Update(float timeSinceLastFrame)
+        {
+            currentMap.Update(timeSinceLastFrame);
         }
     }
 }

@@ -10,5 +10,6 @@ namespace AMOFGameEngine.Map
     /// </summary>
     public class GameMapTrigger
     {
+
     }
 }

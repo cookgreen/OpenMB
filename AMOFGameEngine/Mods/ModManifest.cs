@@ -19,7 +19,7 @@ namespace AMOFGameEngine.Mods
         {
             InstalledPath = path;
             path = path + "/Module.xml";
-            ModXMLLoader loader = new ModXMLLoader(path);
+            ModXmlLoader loader = new ModXmlLoader(path);
             XML.ModXML xmldata;
             if (loader.Load<XML.ModXML>(out xmldata))
             {

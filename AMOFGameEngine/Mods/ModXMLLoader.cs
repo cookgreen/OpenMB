@@ -5,19 +5,21 @@ using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 using AMOFGameEngine.Mods.XML;
+using System.Xml;
 
 namespace AMOFGameEngine.Mods
 {
-    public class ModXMLLoader
+    public class ModXmlLoader
     {
-        private string modPath;
+        protected string modPath;
+        protected XmlDocument doc;
 
-        public ModXMLLoader(string path)
+        public ModXmlLoader(string path)
         {
             modPath = path;
         }
 
-        public bool Load<T>(out T ModXMLData)
+        public virtual bool Load<T>(out T ModXMLData)
         {
             try
             {

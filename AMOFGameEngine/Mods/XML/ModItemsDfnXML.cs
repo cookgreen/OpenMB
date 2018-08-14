@@ -16,6 +16,10 @@ namespace AMOFGameEngine.Mods.XML
 
     public class ModItemDfnXML
     {
+        [XmlAttribute("damage")]
+        public string Damage { get; set; }
+        [XmlAttribute("range")]
+        public string Range { get; set; }
         [XmlElement("ID")]
         public string ID { get; set; }
         [XmlElement("Name")]
@@ -23,6 +27,6 @@ namespace AMOFGameEngine.Mods.XML
         [XmlElement("MeshName")]
         public string MeshName { get; set; }
         [XmlElement("Type")]
-        public ItemType Type { get; set; }
+        public string Type { get; set; }
     }
 }
