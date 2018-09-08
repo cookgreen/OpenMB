@@ -217,6 +217,7 @@
     <Compile Include="Network\ServerMetaData.cs" />
     <Compile Include="Screen\CreditScreen.cs" />
     <Compile Include="Screen\DummyScreen.cs" />
+    <Compile Include="Screen\InventoryScreen.cs" />
     <Compile Include="Screen\IScreen.cs" />
     <Compile Include="Screen\ScreenManager.cs" />
     <Compile Include="Script\Command\AddLightScriptCommand.cs" />
@@ -296,6 +297,7 @@
     <Compile Include="Widgets\InputBox.cs" />
     <Compile Include="Widgets\GameTrayManager.cs" />
     <Compile Include="Widgets\ListView.cs" />
+    <Compile Include="Widgets\Panel.cs" />
     <Compile Include="Widgets\SdkTrayGUI.cs" />
     <Compile Include="Widgets\StaticText.cs" />
     <EmbeddedResource Include="Forms\frmConfigure.resx">

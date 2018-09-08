@@ -159,7 +159,7 @@ namespace AMOFGameEngine.Game
             float distance = -1;
             if (currentEnemy == null)
             {
-                int agentNum = mWorld.GetCharactersByCondition(null).Count;
+                int agentNum = mWorld.GetAllCharacters().Count;
                 float lastDistance = -1;
                 for (int i = 0; i < agentNum; i++)
                 {

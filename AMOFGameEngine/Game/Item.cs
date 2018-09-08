@@ -123,7 +123,7 @@ namespace AMOFGameEngine.Game
             this.physicsScene = physicsScene;
             this.physics = physicsScene.Physics;
             this.ownerID = ownerID;
-            Create();
+            //Create();
         }
 
         public Item(string itemName, string itemMeshName, ItemType itemType, Scene physicsScene, Camera cam)

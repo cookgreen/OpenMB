@@ -6,6 +6,7 @@ using AMOFGameEngine.Utilities;
 using Helper;
 using Mogre;
 using Mogre.PhysX;
+using MOIS;
 using org.critterai.nav;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace AMOFGameEngine.Map
         private List<ActorNode> actorNodeList;
         private ScriptLoader scriptLoader;
         private SceneManager scm;
-        private TerrainGroup terrianGroup;
+        //private TerrainGroup terrianGroup;
         private Scene physicsScene;
         private NavmeshQuery query;
         private ModData modData;
@@ -37,6 +38,7 @@ namespace AMOFGameEngine.Map
         private Character playerAgent;
         private Camera cam;
         private GameWorld world;
+        private Mogre.Vector3 translateVector;
 
         public ModData ModData
         {
@@ -65,9 +67,18 @@ namespace AMOFGameEngine.Map
         public event MapLoadhandler LoadMapStarted;
         public event MapLoadhandler LoadMapFinished;
 
-        public GameMap(string name, SceneManager scm)
+        public GameMap(string name, GameWorld world)
         {
             mapName = name;
+            scriptLoader = new ScriptLoader();
+            mapTriggers = new List<ITrigger>();
+            actorNodeList = new List<ActorNode>();
+            this.world = world;
+            scm = world.SceneManager;
+            modData = world.ModData;
+            cam = world.Camera;
+            physicsScene = world.PhysicsScene;
+            physics = world.PhysicsScene.Physics;
         }
 
         public void Destroy()
@@ -85,7 +96,7 @@ namespace AMOFGameEngine.Map
             staticObjects = new List<GameObject>();
             mapLoader.ParseDotSceneAsync(mapName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, scm);
             scriptLoader.Parse(System.IO.Path.GetFileNameWithoutExtension(mapName) + ".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-            scriptLoader.Execute(this);
+            scriptLoader.Execute(world);
 
             MeshManager.Singleton.CreatePlane("floor", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
                 new Plane(Mogre.Vector3.UNIT_Y, 0), 100, 100, 10, 10, true, 1, 10, 10, Mogre.Vector3.UNIT_Z);
@@ -107,6 +118,8 @@ namespace AMOFGameEngine.Map
             org.critterai.Vector3 extents = new org.critterai.Vector3(2, 2, 2);
 
             NavStatus status = NavmeshQuery.Create(floorNavMesh, 100, out query);
+
+            playerAgent = null;
         }
 
         private void mapLoader_LoadMapFinished()
@@ -128,6 +141,18 @@ namespace AMOFGameEngine.Map
         public void Update(float timeSinceLastFrame)
         {
             updateAgents(timeSinceLastFrame);
+            translateVector = new Mogre.Vector3(0, 0, 0);
+            if (playerAgent == null)
+            {
+                getInput();
+                moveCamera();
+            }
+            else
+            {
+            }
+            PhysicsScene.FlushStream();
+            PhysicsScene.FetchResults(SimulationStatuses.AllFinished, true);
+            PhysicsScene.Simulate(timeSinceLastFrame);
         }
         private void updateAgents(double timeSinceLastFrame)
         {
@@ -171,12 +196,38 @@ namespace AMOFGameEngine.Map
 
         private void Character_OnCharacterUseWeaponAttack(int arg1, int arg2, double arg3)
         {
-            throw new NotImplementedException();
+
         }
 
         private void Character_OnCharacterDie(int obj)
         {
-            throw new NotImplementedException();
+
+        }
+        private void getInput()
+        {
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_A))
+                translateVector.x = -10;
+
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_D))
+                translateVector.x = 10;
+
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_W))
+                translateVector.z = -10;
+
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_S))
+                translateVector.z = 10;
+
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_Q))
+                translateVector.y = -10;
+
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_E))
+                translateVector.y = 10;
+        }
+        private void moveCamera()
+        {
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
+                cam.MoveRelative(translateVector);
+            cam.MoveRelative(translateVector / 10);
         }
     }
 }

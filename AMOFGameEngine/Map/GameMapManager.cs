@@ -21,21 +21,30 @@ namespace AMOFGameEngine.Map
             }
         }
 
+        public GameMapManager()
+        {
+            maps = new Queue<IMap>();
+        }
+
         private GameWorld world;
         private IMap currentMap;
         private Queue<IMap> maps;
         public void Load(string name)
         {
-            IMap map = new GameMap(name, world.SceneManager);
+            if (maps.Count > 0)
+            {
+                maps.Dequeue().Destroy();
+            }
+            IMap map = new GameMap(name, world);
             maps.Enqueue(map);
             map.LoadMapStarted += Map_LoadMapStarted;
             map.LoadMapFinished += Map_LoadMapFinished;
+            currentMap = map;
             map.LoadAsync();
         }
 
         private void Map_LoadMapFinished()
         {
-            //currentMap = 
         }
 
         private void Map_LoadMapStarted()

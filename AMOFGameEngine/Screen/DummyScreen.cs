@@ -12,7 +12,7 @@ namespace AMOFGameEngine.Screen
 
         public void Exit()
         {
-            throw new NotImplementedException();
+            OnScreenExit?.Invoke();
         }
 
         public void Init()

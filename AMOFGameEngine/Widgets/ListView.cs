@@ -85,7 +85,7 @@ namespace AMOFGameEngine.Widgets
         private float height;
         private double maxShowItem;
         private List<OverlayElement> allUsedElements;
-        private bool dragging;
+        //private bool dragging;
         public ListView(string name, float left, float top, float height, float width, List<string> columnNames)
         {
             listview = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/ListView", "BorderPanel", name) as OverlayContainer;

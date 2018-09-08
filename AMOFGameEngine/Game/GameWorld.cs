@@ -10,6 +10,7 @@ using MOIS;
 using org.critterai.nav;
 using AMOFGameEngine.Mods.XML;
 using AMOFGameEngine.Script;
+using AMOFGameEngine.Screen;
 using AMOFGameEngine.Mods;
 using AMOFGameEngine.Utilities;
 using AMOFGameEngine.Trigger;
@@ -23,9 +24,6 @@ namespace AMOFGameEngine.Game
     public class GameWorld
     {
         #region Fields
-        //Current agent under control
-        private Character playerAgent;
-
         //MOD Data
         private ModData modData;
         
@@ -34,8 +32,6 @@ namespace AMOFGameEngine.Game
         //For Render
         private SceneManager scm;
         private Camera cam;
-        private SdkCameraMan camMan;
-        private Mogre.Vector3 translateVector;
 
 
         //Data
@@ -43,11 +39,9 @@ namespace AMOFGameEngine.Game
         private ScriptLinkTable globalValueTable;
 
         private ProgressBar pbProgressBar;
-
-        private NavmeshQuery query;
+        
         private Physics physics;
         private Scene physicsScene;
-        private List<ActorNode> actorNodeList;
         #endregion
 
         #region Properties
@@ -74,6 +68,22 @@ namespace AMOFGameEngine.Game
                 return scm;
             }
         }
+
+        public ModData ModData
+        {
+            get
+            {
+                return modData;
+            }
+        }
+
+        public Scene PhysicsScene
+        {
+            get
+            {
+                return physicsScene;
+            }
+        }
         #endregion
 
         #region Constructor
@@ -90,8 +100,7 @@ namespace AMOFGameEngine.Game
             physicsScene.Materials[0].StaticFriction = 0.5f;
             physicsScene.Materials[0].DynamicFriction = 0.5f;
             physicsScene.Simulate(0);
-            //scriptLoader = new ScriptLoader();
-            playerAgent = null;
+
             teamRelationship = new List<Tuple<string, string, int>>();
             globalVarMap = new Dictionary<string, string>();
             globalVarMap.Add("reg0", "0");
@@ -100,7 +109,6 @@ namespace AMOFGameEngine.Game
             globalVarMap.Add("reg3", "0");
             globalVarMap.Add("reg4", "0");
             globalValueTable = ScriptValueRegister.Instance.GlobalValueTable;
-            actorNodeList = new List<ActorNode>();
 
             TriggerManager.Instance.Triggers.Add(new GameTrigger(this));
         }
@@ -112,7 +120,7 @@ namespace AMOFGameEngine.Game
 
             GameMapManager.Instance.Initization(this);
 
-            scm = GameManager.Instance.mRoot.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE);
+            scm = GameManager.Instance.mRoot.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE, "GameSceneManager");
             scm.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
 
             cam = scm.CreateCamera("gameCam");
@@ -167,19 +175,6 @@ namespace AMOFGameEngine.Game
 
         public void Update(double timeSinceLastFrame)
         {
-            translateVector = new Mogre.Vector3(0, 0, 0);
-            if (GetCurrentPlayerAgentId() == -1)
-            {
-                getInput();
-                moveCamera();
-            }
-            else
-            {
-            }
-            physicsScene.FlushStream();
-            physicsScene.FetchResults(SimulationStatuses.AllFinished, true);
-            physicsScene.Simulate(timeSinceLastFrame);
-
             TriggerManager.Instance.Update((float)timeSinceLastFrame);
         }
 
@@ -194,20 +189,6 @@ namespace AMOFGameEngine.Game
         public string GetCurrentScene()
         {
             return GameMapManager.Instance.GetCurrentMapName();
-        }
-
-        public int GetCurrentPlayerAgentId()
-        {
-            if (playerAgent != null)
-            {
-                //there is an agent under player's control
-                return playerAgent.Id;
-            }
-            else
-            {
-                //No agent under player's control
-                return -1;
-            }
         }
         #endregion
 
@@ -265,7 +246,7 @@ namespace AMOFGameEngine.Game
 
         private bool FrameRenderingQueued(FrameEvent evt)
         {
-            GameMapManager.Instance.Update(evt.timeSinceLastFrame);
+            //GameMapManager.Instance.Update(evt.timeSinceLastFrame);
             return true;
         }
         #endregion
@@ -349,42 +330,19 @@ namespace AMOFGameEngine.Game
         #endregion
 
         #region Handle Input
-        private void getInput()
-        {
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_A))
-                translateVector.x = -10;
-
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_D))
-                translateVector.x = 10;
-
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_W))
-                translateVector.z = -10;
-
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_S))
-                translateVector.z = 10;
-
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_Q))
-                translateVector.y = -10;
-
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_E))
-                translateVector.y = 10;
-        }
-        private void moveCamera()
-        {
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
-                cam.MoveRelative(translateVector);
-            cam.MoveRelative(translateVector / 10);
-        }
         bool mKeyboard_KeyReleased(MOIS.KeyEvent arg)
         {
-            if (GetCurrentPlayerAgentId() != -1)
-                playerAgent.Controller.injectKeyUp(arg);
             return true;
         }
         bool mKeyboard_KeyPressed(MOIS.KeyEvent arg)
         {
-            if (GetCurrentPlayerAgentId() != -1)
-                playerAgent.Controller.injectKeyDown(arg);
+            switch(arg.key)
+            {
+                case KeyCode.KC_I:
+                    //Open Inventory Window
+                    ScreenManager.Instance.ChangeScreen("Inventory");
+                    break;
+            }
             return true;
         }
         bool mMouse_MouseReleased(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
@@ -393,14 +351,10 @@ namespace AMOFGameEngine.Game
         }
         bool mMouse_MousePressed(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
         {
-            if (GetCurrentPlayerAgentId() != -1)
-                playerAgent.Controller.injectMouseDown(arg, id);
             return true;
         }
         bool mMouse_MouseMoved(MOIS.MouseEvent arg)
         {
-            if (GetCurrentPlayerAgentId() != -1)
-                playerAgent.Controller.injectMouseMove(arg);
             return true;
         }
 

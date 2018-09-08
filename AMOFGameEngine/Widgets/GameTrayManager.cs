@@ -18,6 +18,24 @@ namespace AMOFGameEngine.Widgets
             //ib._assignListener(mListener);
             return ib;
         }
+        public static Panel createPanel(this SdkTrayManager trayMgr, TrayLocation trayLoc, string name)
+        {
+            Panel panel = new Panel(name);
+            trayMgr.moveWidgetToTray(panel, trayLoc);
+            return panel;
+        }
+        public static Panel createPanel(this SdkTrayManager trayMgr, TrayLocation trayLoc, string name, float width, float height)
+        {
+            Panel panel = new Panel(name, width, height);
+            trayMgr.moveWidgetToTray(panel, trayLoc);
+            return panel;
+        }
+        public static Panel createPanel(this SdkTrayManager trayMgr, TrayLocation trayLoc, string name, float width, float height, float left, float top)
+        {
+            Panel panel = new Panel(name, width, height, left, top);
+            trayMgr.moveWidgetToTray(panel, trayLoc);
+            return panel;
+        }
 
         public static ListView createListView(this SdkTrayManager trayMgr, TrayLocation trayLoc, string name, float height, float width, List<string> columnNames)
         {

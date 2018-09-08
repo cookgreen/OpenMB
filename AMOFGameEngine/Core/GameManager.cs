@@ -66,7 +66,7 @@ namespace AMOFGameEngine
             }
         }
 
-        private NameValuePairList videoMode;
+        public NameValuePairList videoMode;
         
 
         public GameManager()

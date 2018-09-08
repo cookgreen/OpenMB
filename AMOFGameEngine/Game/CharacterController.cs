@@ -79,7 +79,7 @@ namespace AMOFGameEngine.Game
 
         public void Attack()
         {
-            throw new NotImplementedException();
+
         }
 
         enum AnimID

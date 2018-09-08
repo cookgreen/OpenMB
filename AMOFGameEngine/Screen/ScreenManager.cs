@@ -28,6 +28,7 @@ namespace AMOFGameEngine.Screen
             currentScreen = null;
             screens = new Dictionary<string, IScreen>();
             screens.Add("Credit", new CreditScreen());
+            screens.Add("Inventory", new InventoryScreen());
         }
         public void ChangeScreen(string screenName)
         {

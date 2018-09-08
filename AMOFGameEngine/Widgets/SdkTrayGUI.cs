@@ -3475,6 +3475,11 @@ namespace Mogre_Procedural.MogreBites
             mExpandedMenu = m;
         }
 
+        public void AddOverlayElementToTrayLocation(OverlayElement element, TrayLocation trayLoc)
+        {
+            mTrays[(int)trayLoc].AddChild(element);
+        }
+
         protected string mName = ""; // name of this tray system
         protected Mogre.RenderWindow mWindow; // render window
         protected InputContext mInputContext = null;
