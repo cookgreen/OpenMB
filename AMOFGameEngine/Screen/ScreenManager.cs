@@ -30,7 +30,7 @@ namespace AMOFGameEngine.Screen
             screens.Add("Credit", new CreditScreen());
             screens.Add("Inventory", new InventoryScreen());
         }
-        public void ChangeScreen(string screenName)
+        public void ChangeScreen(string screenName,params object[] param)
         {
             if (currentScreen != null)
             {
@@ -40,7 +40,7 @@ namespace AMOFGameEngine.Screen
             {
                 currentScreen = screens[screenName];
                 currentScreen.OnScreenExit += CurrentScreen_OnScreenExit;
-                currentScreen.Init();
+                currentScreen.Init(param);
                 currentScreen.Run();
             }
         }

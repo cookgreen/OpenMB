@@ -132,12 +132,12 @@ namespace AMOFGameEngine.Game
             GameManager.Instance.mTrayMgr.destroyAllWidgets();
             cam.FarClipDistance = 50000;
 
-            //scm.SetSkyDome(true, "Examples/CloudySky", 5, 8);
-            //
-            //Light light = scm.CreateLight();
-            //light.Type = Light.LightTypes.LT_POINT;
-            //light.Position = new Mogre.Vector3(-10, 40, 20);
-            //light.SpecularColour = ColourValue.White;
+            scm.SetSkyDome(true, "Examples/CloudySky", 5, 8);
+            
+            Light light = scm.CreateLight();
+            light.Type = Light.LightTypes.LT_POINT;
+            light.Position = new Mogre.Vector3(-10, 40, 20);
+            light.SpecularColour = ColourValue.White;
 
             GameManager.Instance.mTrayMgr.hideCursor();
 

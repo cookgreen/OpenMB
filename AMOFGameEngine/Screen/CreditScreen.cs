@@ -80,7 +80,7 @@ namespace AMOFGameEngine.Screen
             creditBuilder.AppendLine("");
             strCreditLst.Add(creditBuilder.ToString());
         }
-        public void Init()
+        public void Init(params object[] param)
         {
             elements = new List<Widget>();
             elementNames = new List<string>();

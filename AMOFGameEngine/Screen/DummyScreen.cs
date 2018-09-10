@@ -15,9 +15,8 @@ namespace AMOFGameEngine.Screen
             OnScreenExit?.Invoke();
         }
 
-        public void Init()
+        public void Init(params object[] param)
         {
-            throw new NotImplementedException();
         }
 
         public void Run()

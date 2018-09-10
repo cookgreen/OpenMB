@@ -4,7 +4,7 @@ template container BorderPanel(CharacterEquipment)
 	uv_coords 0.375 0.375 0.625 0.625
 	width 0.3
 	height 0.5
-	left 0.05
+	left 0.025
 	top 0.05
 	border_material SdkTrays/MiniDarkTray
 	border_size 0.01 0.01 0.01 0.01
@@ -24,7 +24,7 @@ template container BorderPanel(CharacterPreview)
 	uv_coords 0.375 0.375 0.625 0.625
 	width 0.3
 	height 0.4
-	left 0.05
+	left 0.025
 	top 0.55
 	border_material SdkTrays/MiniDarkTray
 	border_size 0.01 0.01 0.01 0.01
@@ -42,9 +42,9 @@ template container BorderPanel(CharacterBackpack)
 {
 	material SdkTrays/MiniDarkTray
 	uv_coords 0.375 0.375 0.625 0.625
-	width 0.6
+	width 0.642
 	height 0.9
-	left 0.35
+	left 0.325
 	top 0.05
 	border_material SdkTrays/MiniDarkTray
 	border_size 0.01 0.01 0.01 0.01
@@ -56,4 +56,30 @@ template container BorderPanel(CharacterBackpack)
 	border_bottomleft_uv  0.000 0.625 0.375 1.000
 	border_bottom_uv      0.375 0.625 0.625 1.000
 	border_bottomright_uv 0.625 0.625 1.000 1.000
+}
+
+template container Panel(InventorySlot)
+{
+	metrics_mode pixels
+	material SdkTrays/Shade
+	
+	element BorderPanel(InventorySlot/Frame)
+	{
+		metrics_mode pixels
+		material SdkTrays/Frame
+		left -8
+		top -8
+		uv_coords 0.49 0.49 0.51 0.51
+		
+		border_material SdkTrays/MiniDarkTray
+		border_size 0.01 0.01 0.01 0.01
+		border_topleft_uv     0.000 0.000 0.375 0.375
+		border_top_uv         0.375 0.000 0.625 0.375
+		border_topright_uv    0.625 0.000 1.000 0.375
+		border_left_uv        0.000 0.375 0.375 0.625
+		border_right_uv       0.625 0.375 1.000 0.625
+		border_bottomleft_uv  0.000 0.625 0.375 1.000
+		border_bottom_uv      0.375 0.625 0.625 1.000
+		border_bottomright_uv 0.625 0.625 1.000 1.000
+	}
 }
