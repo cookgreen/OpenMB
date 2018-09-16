@@ -22,6 +22,13 @@ namespace AMOFGameEngine.Screen
         private const float INV_WIDTH = 0.12f;
         private Character character;
         public event Action OnScreenExit;
+        public string Name
+        {
+            get
+            {
+                return "Inventory";
+            }
+        }
 
         public InventoryScreen()
         {

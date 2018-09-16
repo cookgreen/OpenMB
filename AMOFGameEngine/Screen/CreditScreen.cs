@@ -16,6 +16,13 @@ namespace AMOFGameEngine.Screen
         private float alpha;
 
         public event Action OnScreenExit;
+        public string Name
+        {
+            get
+            {
+                return "Credit";
+            }
+        }
 
         public CreditScreen()
         {

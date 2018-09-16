@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Mogre;
 using MOIS;
 using Mogre_Procedural;
@@ -20,7 +21,6 @@ using AMOFGameEngine.States;
 using AMOFGameEngine.Widgets;
 using AMOFGameEngine.Utilities;
 using ConfigFile = AMOFGameEngine.Utilities.ConfigFile;
-using System.Text.RegularExpressions;
 
 namespace AMOFGameEngine
 {
@@ -37,11 +37,13 @@ namespace AMOFGameEngine
         public Mouse mMouse;
         public SdkTrayManager mTrayMgr;
         public static string LastStateName;
-
         public event Action<float> Update;
+        public Dictionary<int, GameObject> AllGameObjects;
+        public Dictionary<string, uint> GameHashMap;
+        public bool EDIT_MODE = false;
+        public bool CHEAT_MODE = false;
 
-        private string defaultRS;
-
+        private string defaultRenderSystemName;
         private AppStateManager appStateMgr;
         private LocateSystem locateMgr;
         private ModManager modMgr;
@@ -50,10 +52,7 @@ namespace AMOFGameEngine
         private SoundManager soundMgr;
         private ScreenManager uiMgr;
 
-        public Dictionary<int,GameObject> AllGameObjects;
-        public Dictionary<string, uint> GameHashMap;
-
-        static GameManager instance;
+        private static GameManager instance;
         public static GameManager Instance
         {
             get
@@ -86,6 +85,8 @@ namespace AMOFGameEngine
             AllGameObjects = new Dictionary<int,GameObject>();
             GameHashMap = new Dictionary<string, uint>();
             videoMode = new NameValuePairList();
+            EDIT_MODE = false;
+            CHEAT_MODE = false;
          }
 
         public bool InitRender(String wndTitle, ConfigFile renderconfig)
@@ -99,19 +100,19 @@ namespace AMOFGameEngine
 
             RenderSystem rs = null;
 
-            defaultRS = renderconfig[""]["Render System"];
-            if (!string.IsNullOrEmpty(defaultRS))
+            defaultRenderSystemName = renderconfig[""]["Render System"];
+            if (!string.IsNullOrEmpty(defaultRenderSystemName))
             {
-                rs = mRoot.GetRenderSystemByName(defaultRS);
+                rs = mRoot.GetRenderSystemByName(defaultRenderSystemName);
                 string strVideoMode =  Regex.Match(
-                    renderconfig[defaultRS]["Video Mode"], 
+                    renderconfig[defaultRenderSystemName]["Video Mode"], 
                     "[0-9]{3,4} x [0-9]{3,4}").Value;
                 videoMode["Width"] = strVideoMode.Split('x')[0].Trim();
                 videoMode["Height"] = strVideoMode.Split('x')[1].Trim();
             }
             if (rs != null && renderconfig != null)
             {
-                ConfigFileSection node = renderconfig[defaultRS];
+                ConfigFileSection node = renderconfig[defaultRenderSystemName];
                 if (!string.IsNullOrEmpty(node.Name))
                 {
                     foreach (var kpl in node.KeyValuePairs)
@@ -244,14 +245,13 @@ namespace AMOFGameEngine
 
         public bool keyPressed(KeyEvent keyEventRef)
         {
-            if(mKeyboard.IsKeyDown(MOIS.KeyCode.KC_V))
+            if(mKeyboard.IsKeyDown(KeyCode.KC_V))
             {
                 mRenderWnd.WriteContentsToTimestampedFile("AMGE_ScreenShot_", ".jpg");
                 outputMgr.DisplayMessage(string.Format(locateMgr.GetLocalizedString(LocateFileType.GameString,"str_screenshots_saved_to_{0}"), Environment.CurrentDirectory));
                 return true;
             }
- 
-            if(mKeyboard.IsKeyDown(MOIS.KeyCode.KC_O))
+            else if(mKeyboard.IsKeyDown(KeyCode.KC_O))
             {
                 if(mTrayMgr.isLogoVisible())
                 {
@@ -264,18 +264,31 @@ namespace AMOFGameEngine
                     mTrayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
                 }
             }
-
-            if (mKeyboard.IsKeyDown(KeyCode.KC_HOME))
-            {
-            }
-
-            if (mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) && mKeyboard.IsKeyDown(KeyCode.KC_SPACE))
+            else if (mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) && 
+                     mKeyboard.IsKeyDown(KeyCode.KC_SPACE))//Left Shift + Space
             {
                 mRenderWnd.SetFullscreen(
                     !mRenderWnd.IsFullScreen, 
                     Convert.ToUInt32(videoMode["Width"]), 
                     Convert.ToUInt32(videoMode["Height"])
                 );
+            }
+            else if(mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) && 
+                    mKeyboard.IsKeyDown(KeyCode.KC_E))//Left Shift + E
+            {
+                EDIT_MODE = !EDIT_MODE;
+            }
+            else if(mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
+                    mKeyboard.IsKeyDown(KeyCode.KC_I))//Left Shift + I
+            {
+                if(!uiMgr.CheckScreen("Console"))
+                {
+                    uiMgr.ChangeScreen("Console");
+                }
+                else
+                {
+                    uiMgr.HideCurrentScreen();
+                }
             }
  
             return true;
@@ -300,11 +313,6 @@ namespace AMOFGameEngine
         public float Clamp(float val, float minval, float maxval)
         {
             return System.Math.Max(System.Math.Min(val, maxval), minval);
-        }
-
-        void console_showHelp(List<string> args)
-        {
-
         }
 
         public void Dispose()

@@ -7,7 +7,7 @@ namespace AMOFGameEngine.Screen
 {
     public class ScreenManager
     {
-        private IScreen currentScreen;
+        private Stack<IScreen> screenStack;
         private Dictionary<string, IScreen> screens;
         private static ScreenManager instance;
         public event Action OnCurrentScreenExit;
@@ -25,23 +25,34 @@ namespace AMOFGameEngine.Screen
 
         public ScreenManager()
         {
-            currentScreen = null;
             screens = new Dictionary<string, IScreen>();
             screens.Add("Credit", new CreditScreen());
+            screens.Add("Console", new GameConsoleScreen());
             screens.Add("Inventory", new InventoryScreen());
+            instance = this;
+            screenStack = new Stack<IScreen>();
         }
         public void ChangeScreen(string screenName,params object[] param)
         {
-            if (currentScreen != null)
-            {
-                currentScreen.Exit();
-            }
             if(screens.ContainsKey(screenName))
             {
-                currentScreen = screens[screenName];
-                currentScreen.OnScreenExit += CurrentScreen_OnScreenExit;
-                currentScreen.Init(param);
-                currentScreen.Run();
+                IScreen runScreen = screens[screenName];
+                runScreen.OnScreenExit += CurrentScreen_OnScreenExit;
+                runScreen.Init(param);
+                runScreen.Run();
+                screenStack.Push(runScreen);
+            }
+        }
+
+        public void ReturnLastScreen(params object[] param)
+        {
+            if (screenStack.Count > 0)
+            {
+                screenStack.Pop().Exit();
+            }
+            if (screenStack.Count > 0)
+            {
+                screenStack.Peek().Init(param);
             }
         }
         
@@ -50,28 +61,42 @@ namespace AMOFGameEngine.Screen
             if (OnCurrentScreenExit != null)
             {
                 OnCurrentScreenExit();
+                ReturnLastScreen();
             }
         }
 
         public void Dispose()
         {
-            if (currentScreen != null)
+            while (screenStack.Count > 0)
             {
-                currentScreen.Exit();
+                screenStack.Pop().Exit();
             }
         }
 
         public void UpdateCurrentScreen(float timeSinceLastFrame)
         {
-            if (currentScreen != null)
+            if (screenStack.Count > 0)
             {
-                currentScreen.Update(timeSinceLastFrame);
+                screenStack.Peek().Update(timeSinceLastFrame);
             }
         }
 
         public void Update(float timeSinceLastFrame)
         {
             UpdateCurrentScreen(timeSinceLastFrame);
+        }
+
+        public void HideCurrentScreen()
+        {
+            if (screenStack.Count > 0)
+            {
+                screenStack.Pop().Exit();
+            }
+        }
+
+        public bool CheckScreen(string screenName)
+        {
+            return screenStack.Peek().Name == screenName;
         }
     }
 }

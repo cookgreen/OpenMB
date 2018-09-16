@@ -8,6 +8,7 @@ namespace AMOFGameEngine.Screen
     public interface IScreen
     {
         event Action OnScreenExit;
+        string Name { get; }
         void Init(params object[] param);
         void Run();
         void Update(float timeSinceLastFrame);

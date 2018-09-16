@@ -217,6 +217,7 @@
     <Compile Include="Network\ServerMetaData.cs" />
     <Compile Include="Screen\CreditScreen.cs" />
     <Compile Include="Screen\DummyScreen.cs" />
+    <Compile Include="Screen\GameConsoleScreen.cs" />
     <Compile Include="Screen\InventoryScreen.cs" />
     <Compile Include="Screen\IScreen.cs" />
     <Compile Include="Screen\ScreenManager.cs" />

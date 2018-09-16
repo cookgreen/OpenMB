@@ -5,35 +5,39 @@ using System.Text;
 
 namespace AMOFGameEngine.Screen
 {
-    public class DummyScreen : IScreen
+    public class GameConsoleScreen : IScreen
     {
         public event Action OnScreenExit;
-        public event Action OnScreenRun;
         public string Name
         {
             get
             {
-                return "Script";
+                return "Console";
             }
+        }
+
+        public GameConsoleScreen()
+        {
         }
 
         public void Exit()
         {
-            OnScreenExit?.Invoke();
+
         }
 
         public void Init(params object[] param)
         {
+
         }
 
         public void Run()
         {
-            OnScreenRun?.Invoke();
+
         }
 
         public void Update(float timeSinceLastFrame)
         {
-            throw new NotImplementedException();
+
         }
     }
 }
