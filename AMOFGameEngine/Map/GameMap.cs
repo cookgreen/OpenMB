@@ -3,7 +3,7 @@ using AMOFGameEngine.Mods;
 using AMOFGameEngine.Script;
 using AMOFGameEngine.Trigger;
 using AMOFGameEngine.Utilities;
-using Helper;
+using DotSceneLoader;
 using Mogre;
 using Mogre.PhysX;
 using MOIS;
@@ -24,7 +24,7 @@ namespace AMOFGameEngine.Map
     {
         private string mapName;
         private List<ITrigger> mapTriggers;
-        private DotSceneLoader mapLoader;
+        private DotSceneLoader.DotSceneLoader mapLoader;
         private List<Character> agents;
         private List<GameObject> staticObjects;
         private List<ActorNode> actorNodeList;
@@ -38,7 +38,10 @@ namespace AMOFGameEngine.Map
         private Character playerAgent;
         private Camera cam;
         private GameWorld world;
+        private AIMesh aimesh;
         private Mogre.Vector3 translateVector;
+        private List<Mogre.Vector3> aimeshVertexData;
+        private List<Mogre.Vector3> aimeshIndexData;
 
         public ModData ModData
         {
@@ -79,6 +82,8 @@ namespace AMOFGameEngine.Map
             cam = world.Camera;
             physicsScene = world.PhysicsScene;
             physics = world.PhysicsScene.Physics;
+            aimeshIndexData = new List<Mogre.Vector3>();
+            aimeshVertexData = new List<Mogre.Vector3>();
         }
 
         public void Destroy()
@@ -88,7 +93,7 @@ namespace AMOFGameEngine.Map
 
         public void LoadAsync()
         {
-            mapLoader = new DotSceneLoader();
+            mapLoader = new DotSceneLoader.DotSceneLoader();
             mapLoader.LoadSceneStarted += mapLoader_LoadMapStarted;
             mapLoader.LoadSceneFinished += mapLoader_LoadMapFinished;
 

@@ -276,7 +276,7 @@ namespace AMOFGameEngine.Game
 
         public override void Update(float timeSinceLastFrame)
         {
-            controller.addTime(timeSinceLastFrame);
+            controller.update(timeSinceLastFrame);
             if (Hitpoint < 0)
             {
                 //R.I.P
@@ -287,7 +287,7 @@ namespace AMOFGameEngine.Game
             }
             else
             {
-                CheckEnvironment();
+                //CheckEnvironment();
             }
         }
     }

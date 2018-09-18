@@ -211,7 +211,7 @@ namespace AMOFGameEngine.Game
         /// Update Character
         /// </summary>
         /// <param name="deltaTime"></param>
-        public void addTime(float deltaTime)
+        public void update(float deltaTime)
         {
             updateBody(deltaTime);
             updateAnimations(deltaTime);

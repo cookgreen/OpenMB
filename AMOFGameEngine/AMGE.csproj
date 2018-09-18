@@ -193,6 +193,7 @@
     <Compile Include="Core\OutputManager.cs" />
     <Compile Include="LogMessage\EngineLog.cs" />
     <Compile Include="LogMessage\EngineLogManager.cs" />
+    <Compile Include="Utilities\AIMesh.cs" />
     <Compile Include="Map\GameMap.cs" />
     <Compile Include="Map\GameMapManager.cs" />
     <Compile Include="Map\GameMapTrigger.cs" />
@@ -280,13 +281,14 @@
     <Compile Include="Trigger\ITrigger.cs" />
     <Compile Include="Trigger\TriggerManager.cs" />
     <Compile Include="Utilities\ActorNode.cs" />
+    <Compile Include="Utilities\AIMeshIndexData.cs" />
     <Compile Include="Utilities\CollisionTools.cs" />
     <Compile Include="Utilities\ConfigFile.cs" />
     <Compile Include="Utilities\ConfigFileParser.cs" />
     <Compile Include="Utilities\Helper.cs" />
     <Compile Include="Utilities\MeshToNavmesh.cs" />
     <Compile Include="Utilities\PhysxExpansion.cs" />
-    <Compile Include="Utilities\RMogre.cs" />
+    <Compile Include="Utilities\DotSceneLoader.cs" />
     <Compile Include="Utilities\OgreConfigFileAdapter.cs" />
     <Compile Include="Localization\LocateUCSFile.cs" />
     <Compile Include="Utilities\OgreConfigNode.cs" />

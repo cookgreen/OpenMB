@@ -1,11 +1,13 @@
-﻿namespace Helper
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Xml;
+using Mogre;
+using System.ComponentModel;
+using AMOFGameEngine.Utilities;
+
+namespace DotSceneLoader
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Xml;
-    using Mogre;
-    using System.ComponentModel;
 
     public class DotSceneLoader
     {
@@ -14,6 +16,7 @@
         public List<string> DynamicObjects; //String
         public List<string> StaticObjects; //String
         public TerrainGroup TerrainGroup;
+        public AIMesh AIMesh;
         public event Action LoadSceneStarted;
         public event Action LoadSceneFinished;
 
@@ -668,9 +671,9 @@
         protected void processScene(XmlElement XMLRoot)
         {
             // Process the scene parameters
-            String version = getAttrib(XMLRoot, "formatVersion", "unknown");
+            string version = getAttrib(XMLRoot, "formatVersion", "unknown");
 
-            String message = "[DotSceneLoader] Parsing dotScene file with version " + version;
+            string message = "[DotSceneLoader] Parsing dotScene file with version " + version;
 
             LogManager.Singleton.LogMessage(message);
 
@@ -695,11 +698,55 @@
             {
                 processTerrain(pElement);
             }
+
+            pElement = (XmlElement)XMLRoot.SelectSingleNode("aimesh");
+            if (pElement != null)
+            {
+                processAIMesh(pElement);
+            }
         }
 
         protected void processUserDataReference(XmlElement XMLNode, SceneNode pNode)
         {
             // TODO
+        }
+
+        private void processAIMesh(XmlElement pElement)
+        {
+            AIMesh = new AIMesh();
+            XmlElement aimeshVertexDataElement = (XmlElement)pElement.SelectSingleNode("aimesh_vertex_data");
+            if (aimeshVertexDataElement != null)
+            {
+                foreach(XmlElement vertexData in aimeshVertexDataElement.ChildNodes)
+                {
+                    Vector3 vect = new Vector3();
+                    vect.x = float.Parse(vertexData.Attributes["x"].Value.ToString());
+                    vect.y = float.Parse(vertexData.Attributes["y"].Value.ToString());
+                    vect.z = float.Parse(vertexData.Attributes["z"].Value.ToString());
+                    AIMesh.AIMeshVertexData.Add(vect);
+                }
+            }
+            XmlElement aimeshIndexDataElement = (XmlElement)pElement.SelectSingleNode("aimesh_index_data");
+            if (aimeshIndexDataElement != null)
+            {
+                foreach (XmlElement indexData in aimeshIndexDataElement.ChildNodes)
+                {
+                    AIMeshIndexData idxData = new AIMeshIndexData();
+                    foreach (XmlElement vertex in indexData.ChildNodes)
+                    {
+                        idxData.VertexNumber.Add(int.Parse(vertex.InnerText));
+                    }
+                    AIMesh.AIMeshIndicsData.Add(idxData);
+                }
+            }
+        }
+
+        public void Save(List<Entity> objectsData,
+                         AIMesh aimeshData,
+                         TerrainGroup terrainData,
+                         string xmlScene)
+        {
+
         }
 
         #endregion Methods

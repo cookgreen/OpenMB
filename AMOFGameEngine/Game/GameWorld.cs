@@ -194,23 +194,6 @@ namespace AMOFGameEngine.Game
 
         #region Other Methods
 
-        //private void Character_OnCharacterUseWeaponAttack(int attacker, int victim, int damage)
-        //{
-        //    Character charaAttacker = agents.Find(o => o.Id == attacker);
-        //    Character charaVictim = agents.Find(o => o.Id == victim);
-        //    if (charaAttacker != null && charaVictim!=null)
-        //    {
-        //        charaVictim.Hitpoint -= damage;
-        //        if (charaVictim.Hitpoint < 0)
-        //        {
-        //            Output.OutputManager.Instance.DisplayMessage(string.Format(
-        //                Localization.LocateSystem.Singleton.GetLocalizedString(
-        //                    Localization.LocateFileType.GameQuickString, 
-        //                    "qstr_{0}_was_killed_by_{1}"), charaVictim.Name, charaAttacker.Name));
-        //        }
-        //    }
-        //}
-
         internal List<Character> GetAllCharacters()
         {
             return GameMapManager.Instance.GetCurrentMap().GetAgents();
@@ -246,7 +229,7 @@ namespace AMOFGameEngine.Game
 
         private bool FrameRenderingQueued(FrameEvent evt)
         {
-            //GameMapManager.Instance.Update(evt.timeSinceLastFrame);
+            GameMapManager.Instance.Update(evt.timeSinceLastFrame);
             return true;
         }
         #endregion
