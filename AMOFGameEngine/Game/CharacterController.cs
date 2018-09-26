@@ -80,6 +80,11 @@ namespace AMOFGameEngine.Game
         public void Attack()
         {
 
+            //Play Attack animation
+            mBaseAnimID = AnimID.ANIM_SLICE_VERTICAL;
+            mTopAnimID = AnimID.ANIM_SLICE_VERTICAL;
+            setBaseAnimation(mBaseAnimID);
+            setTopAnimation(mTopAnimID);
         }
 
         enum AnimID
@@ -280,6 +285,12 @@ namespace AMOFGameEngine.Game
                 setBaseAnimation(AnimID.ANIM_RUN_BASE, true);
                 if (mTopAnimID == AnimID.ANIM_IDLE_TOP) setTopAnimation(AnimID.ANIM_RUN_TOP, true);
             }
+        }
+
+        public void Run()
+        {
+            setBaseAnimation(AnimID.ANIM_RUN_BASE);
+            setTopAnimation(AnimID.ANIM_RUN_TOP);
         }
 
         public void injectKeyUp(KeyEvent evt)

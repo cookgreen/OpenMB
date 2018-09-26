@@ -11,6 +11,12 @@ using org.critterai.nav;
 
 namespace AMOFGameEngine.Game
 {
+    public enum CharacterState
+    {
+        Seek,
+        Attack,
+        Flee
+    }
     /// <summary>
     /// Specific Characer in Game
     /// </summary>
@@ -18,6 +24,7 @@ namespace AMOFGameEngine.Game
     {
         //Unique Id
         private int id;
+        private CharacterState currentState;
         private Character currentEnemy;
         private Item currentWieldWeapon;
         public event Action<int, int, double> OnCharacterUseWeaponAttack;
@@ -129,6 +136,7 @@ namespace AMOFGameEngine.Game
             currentEnemy = null;
             currentWieldWeapon = new Fist(cam, world.GetCurrentMap().PhysicsScene, -1, id);
             currentWieldWeapon.OnWeaponAttack += CurrentWieldWeapon_OnWeaponAttack;
+            currentState = CharacterState.Seek;
         }
 
         private void CurrentWieldWeapon_OnWeaponAttack(int arg1, int arg2)
@@ -276,6 +284,38 @@ namespace AMOFGameEngine.Game
 
         public override void Update(float timeSinceLastFrame)
         {
+            //FSM
+            switch(currentState)
+            {
+                case CharacterState.Seek:
+                    List<Character> enemies = FindEnemies();
+                    if (enemies.Count > 0)
+                    {
+                        currentEnemy = enemies[0];
+                        currentState = CharacterState.Attack;
+                    }
+                    break;
+                case CharacterState.Attack:
+                    if (currentEnemy != null)
+                    {
+                        WalkTo(currentEnemy.controller.Position);
+                        if((currentEnemy.controller.Position-controller.Position).Length <= currentWieldWeapon.Range)//Enemy in range
+                        {
+                            Attack();
+                        }
+                        else
+                        {
+                            Run();
+                        }
+                    }
+                    else
+                    {
+                        currentState = CharacterState.Seek;
+                    }
+                    break;
+                case CharacterState.Flee:
+                    break;
+            }
             controller.update(timeSinceLastFrame);
             if (Hitpoint < 0)
             {
@@ -289,6 +329,16 @@ namespace AMOFGameEngine.Game
             {
                 //CheckEnvironment();
             }
+        }
+
+        private void Run()
+        {
+            controller.Run();
+        }
+
+        private void Attack()
+        {
+            controller.Attack();
         }
     }
 }
