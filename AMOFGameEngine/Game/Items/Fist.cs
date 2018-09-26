@@ -22,7 +22,7 @@ namespace AMOFGameEngine.Game
         {
             get
             {
-                return 5;
+                return 2;
             }
         }
 

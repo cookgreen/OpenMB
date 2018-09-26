@@ -40,10 +40,24 @@ namespace AMOFGameEngine
         public event Action<float> Update;
         public Dictionary<int, GameObject> AllGameObjects;
         public Dictionary<string, uint> GameHashMap;
-        public bool EDIT_MODE = false;
-        public bool CHEAT_MODE = false;
+        public bool EDIT_MODE
+        {
+            get
+            {
+                return isEditMode;
+            }
+        }
+        public bool CHEAT_MODE
+        {
+            get
+            {
+                return isCheatMode;
+            }
+        }
 
         private string defaultRenderSystemName;
+        private bool isEditMode;
+        private bool isCheatMode;
         private AppStateManager appStateMgr;
         private LocateSystem locateMgr;
         private ModManager modMgr;
@@ -85,8 +99,8 @@ namespace AMOFGameEngine
             AllGameObjects = new Dictionary<int,GameObject>();
             GameHashMap = new Dictionary<string, uint>();
             videoMode = new NameValuePairList();
-            EDIT_MODE = false;
-            CHEAT_MODE = false;
+            isEditMode = false;
+            isCheatMode = false;
          }
 
         public bool InitRender(String wndTitle, ConfigFile renderconfig)
@@ -276,7 +290,7 @@ namespace AMOFGameEngine
             else if(mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) && 
                     mKeyboard.IsKeyDown(KeyCode.KC_E))//Left Shift + E
             {
-                EDIT_MODE = !EDIT_MODE;
+                isEditMode = !isEditMode;
             }
             else if(mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
                     mKeyboard.IsKeyDown(KeyCode.KC_I))//Left Shift + I

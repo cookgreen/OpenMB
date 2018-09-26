@@ -18,7 +18,7 @@ namespace AMOFGameEngine.Map
     public delegate void MapLoadhandler();
 
     /// <summary>
-    /// Game Logic
+    /// Define a map in the game
     /// </summary>
     public class GameMap : IMap
     {
@@ -39,7 +39,7 @@ namespace AMOFGameEngine.Map
         private Camera cam;
         private GameWorld world;
         private AIMesh aimesh;
-        private Mogre.Vector3 translateVector;
+        private Mogre.Vector3 moveOffset;
         private List<Mogre.Vector3> aimeshVertexData;
         private List<Mogre.Vector3> aimeshIndexData;
 
@@ -84,11 +84,95 @@ namespace AMOFGameEngine.Map
             physics = world.PhysicsScene.Physics;
             aimeshIndexData = new List<Mogre.Vector3>();
             aimeshVertexData = new List<Mogre.Vector3>();
+
+            GameManager.Instance.mMouse.MouseMoved += Mouse_MouseMoved;
+            GameManager.Instance.mMouse.MousePressed += Mouse_MousePressed;
+            GameManager.Instance.mMouse.MouseReleased += Mouse_MouseReleased;
+            GameManager.Instance.mKeyboard.KeyPressed += Keyboard_KeyPressed;
+            GameManager.Instance.mKeyboard.KeyReleased += Keyboard_KeyReleased;
+        }
+
+        private bool Keyboard_KeyReleased(KeyEvent arg)
+        {
+            return true;
+        }
+
+        private bool Keyboard_KeyPressed(KeyEvent arg)
+        {
+            if (GameManager.Instance.EDIT_MODE)
+            {
+                switch(arg.key)
+                {
+                    case KeyCode.KC_W://Forward
+                        moveOffset.z = -10;
+                        break;
+                    case KeyCode.KC_A://Left
+                        moveOffset.x = -10;
+                        break;
+                    case KeyCode.KC_S://Backward
+                        moveOffset.z = 10;
+                        break;
+                    case KeyCode.KC_D://Right
+                        moveOffset.x = 10;
+                        break;
+                    case KeyCode.KC_Q://Decrease Height
+                        moveOffset.y = -10;
+                        break;
+                    case KeyCode.KC_E://Increase Height
+                        moveOffset.y = 10;
+                        break;
+                }
+                if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
+                {
+                    cam.MoveRelative(moveOffset);
+                }
+                else if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LCONTROL) &&
+                        GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_S))
+                {
+                    //Save the data to scene file
+                }
+                else
+                {
+                    cam.MoveRelative(moveOffset / 10);
+                }
+            }
+            return true;
+        }
+
+        private bool Mouse_MouseReleased(MouseEvent arg, MouseButtonID id)
+        {
+            if (GameManager.Instance.EDIT_MODE)
+            {
+
+            }
+            return true;
+        }
+
+        private bool Mouse_MousePressed(MouseEvent arg, MouseButtonID id)
+        {
+            if (GameManager.Instance.EDIT_MODE)
+            {
+                
+            }
+            return true;
+        }
+
+        private bool Mouse_MouseMoved(MouseEvent arg)
+        {
+            if (GameManager.Instance.EDIT_MODE)
+            {
+
+            }
+            return true;
         }
 
         public void Destroy()
         {
-
+            GameManager.Instance.mMouse.MouseMoved -= Mouse_MouseMoved;
+            GameManager.Instance.mMouse.MousePressed -= Mouse_MousePressed;
+            GameManager.Instance.mMouse.MouseReleased -= Mouse_MouseReleased;
+            GameManager.Instance.mKeyboard.KeyPressed -= Keyboard_KeyPressed;
+            GameManager.Instance.mKeyboard.KeyReleased -= Keyboard_KeyReleased;
         }
 
         public void LoadAsync()
@@ -146,15 +230,7 @@ namespace AMOFGameEngine.Map
         public void Update(float timeSinceLastFrame)
         {
             updateAgents(timeSinceLastFrame);
-            translateVector = new Mogre.Vector3(0, 0, 0);
-            if (playerAgent == null)
-            {
-                getInput();
-                moveCamera();
-            }
-            else
-            {
-            }
+            moveOffset = new Mogre.Vector3(0, 0, 0);
             PhysicsScene.FlushStream();
             PhysicsScene.FetchResults(SimulationStatuses.AllFinished, true);
             PhysicsScene.Simulate(timeSinceLastFrame);
@@ -207,32 +283,6 @@ namespace AMOFGameEngine.Map
         private void Character_OnCharacterDie(int obj)
         {
 
-        }
-        private void getInput()
-        {
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_A))
-                translateVector.x = -10;
-
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_D))
-                translateVector.x = 10;
-
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_W))
-                translateVector.z = -10;
-
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_S))
-                translateVector.z = 10;
-
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_Q))
-                translateVector.y = -10;
-
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_E))
-                translateVector.y = 10;
-        }
-        private void moveCamera()
-        {
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
-                cam.MoveRelative(translateVector);
-            cam.MoveRelative(translateVector / 10);
         }
     }
 }
