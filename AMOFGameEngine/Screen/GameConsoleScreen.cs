@@ -22,7 +22,7 @@ namespace AMOFGameEngine.Screen
 
         public void Exit()
         {
-
+            OnScreenExit?.Invoke();
         }
 
         public void Init(params object[] param)

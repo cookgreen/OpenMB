@@ -20,7 +20,7 @@ namespace AMOFGameEngine.Screen
         private int row;
         private int col;
         private const float INV_WIDTH = 0.12f;
-        private Character character;
+        //private Character character;
         public event Action OnScreenExit;
         public string Name
         {

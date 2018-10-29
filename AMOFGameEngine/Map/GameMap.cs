@@ -42,6 +42,7 @@ namespace AMOFGameEngine.Map
         private Mogre.Vector3 moveOffset;
         private List<Mogre.Vector3> aimeshVertexData;
         private List<Mogre.Vector3> aimeshIndexData;
+        private GameMapEditor editor;
 
         public ModData ModData
         {
@@ -84,6 +85,7 @@ namespace AMOFGameEngine.Map
             physics = world.PhysicsScene.Physics;
             aimeshIndexData = new List<Mogre.Vector3>();
             aimeshVertexData = new List<Mogre.Vector3>();
+            editor = new GameMapEditor(world.SceneManager);
 
             GameManager.Instance.mMouse.MouseMoved += Mouse_MouseMoved;
             GameManager.Instance.mMouse.MousePressed += Mouse_MousePressed;
@@ -99,61 +101,16 @@ namespace AMOFGameEngine.Map
 
         private bool Keyboard_KeyPressed(KeyEvent arg)
         {
-            if (GameManager.Instance.EDIT_MODE)
-            {
-                switch(arg.key)
-                {
-                    case KeyCode.KC_W://Forward
-                        moveOffset.z = -10;
-                        break;
-                    case KeyCode.KC_A://Left
-                        moveOffset.x = -10;
-                        break;
-                    case KeyCode.KC_S://Backward
-                        moveOffset.z = 10;
-                        break;
-                    case KeyCode.KC_D://Right
-                        moveOffset.x = 10;
-                        break;
-                    case KeyCode.KC_Q://Decrease Height
-                        moveOffset.y = -10;
-                        break;
-                    case KeyCode.KC_E://Increase Height
-                        moveOffset.y = 10;
-                        break;
-                }
-                if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
-                {
-                    cam.MoveRelative(moveOffset);
-                }
-                else if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LCONTROL) &&
-                        GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_S))
-                {
-                    //Save the data to scene file
-                }
-                else
-                {
-                    cam.MoveRelative(moveOffset / 10);
-                }
-            }
             return true;
         }
 
         private bool Mouse_MouseReleased(MouseEvent arg, MouseButtonID id)
         {
-            if (GameManager.Instance.EDIT_MODE)
-            {
-
-            }
             return true;
         }
 
         private bool Mouse_MousePressed(MouseEvent arg, MouseButtonID id)
         {
-            if (GameManager.Instance.EDIT_MODE)
-            {
-                
-            }
             return true;
         }
 
@@ -180,41 +137,44 @@ namespace AMOFGameEngine.Map
             mapLoader = new DotSceneLoader.DotSceneLoader();
             mapLoader.LoadSceneStarted += mapLoader_LoadMapStarted;
             mapLoader.LoadSceneFinished += mapLoader_LoadMapFinished;
-
-            agents = new List<Character>();
-            staticObjects = new List<GameObject>();
             mapLoader.ParseDotSceneAsync(mapName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, scm);
-            scriptLoader.Parse(System.IO.Path.GetFileNameWithoutExtension(mapName) + ".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-            scriptLoader.Execute(world);
-
-            MeshManager.Singleton.CreatePlane("floor", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
-                new Plane(Mogre.Vector3.UNIT_Y, 0), 100, 100, 10, 10, true, 1, 10, 10, Mogre.Vector3.UNIT_Z);
-            Entity floor = scm.CreateEntity("Floor", "floor");
-            floor.SetMaterialName("Examples/Rockwall");
-            floor.CastShadows = (false);
-            scm.RootSceneNode.AttachObject(floor);
-            ActorDesc actorDesc = new ActorDesc();
-            actorDesc.Density = 4;
-            actorDesc.Body = null;
-            actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
-                StaticMeshData(floor.GetMesh())));
-            Actor floorActor = physicsScene.CreateActor(actorDesc);
-            actorNodeList.Add(new ActorNode(scm.RootSceneNode, floorActor));
-
-            Navmesh floorNavMesh = MeshToNavmesh.LoadNavmesh(floor);
-            org.critterai.Vector3 pointStart = new org.critterai.Vector3(0, 0, 0);
-            org.critterai.Vector3 pointEnd = new org.critterai.Vector3(0, 0, 0);
-            org.critterai.Vector3 extents = new org.critterai.Vector3(2, 2, 2);
-
-            NavStatus status = NavmeshQuery.Create(floorNavMesh, 100, out query);
-
-            playerAgent = null;
         }
 
         private void mapLoader_LoadMapFinished()
         {
             if(LoadMapFinished!=null)
             {
+                agents = new List<Character>();
+                staticObjects = new List<GameObject>();
+                scriptLoader.Parse(System.IO.Path.GetFileNameWithoutExtension(mapName) + ".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                scriptLoader.Execute(world);
+
+                //MeshManager.Singleton.CreatePlane("floor", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
+                //    new Plane(Mogre.Vector3.UNIT_Y, 0), 100, 100, 10, 10, true, 1, 10, 10, Mogre.Vector3.UNIT_Z);
+                //Entity floor = scm.CreateEntity("Floor", "floor");
+                //floor.SetMaterialName("Examples/Rockwall");
+                //floor.CastShadows = (false);
+                //scm.RootSceneNode.AttachObject(floor);
+                //ActorDesc actorDesc = new ActorDesc();
+                //actorDesc.Density = 4;
+                //actorDesc.Body = null;
+                //actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
+                //    StaticMeshData(floor.GetMesh())));
+                //Actor floorActor = physicsScene.CreateActor(actorDesc);
+                //actorNodeList.Add(new ActorNode(scm.RootSceneNode, floorActor));
+                //
+                //Navmesh floorNavMesh = MeshToNavmesh.LoadNavmesh(floor);
+                //org.critterai.Vector3 pointStart = new org.critterai.Vector3(0, 0, 0);
+                //org.critterai.Vector3 pointEnd = new org.critterai.Vector3(0, 0, 0);
+                //org.critterai.Vector3 extents = new org.critterai.Vector3(2, 2, 2);
+
+                //NavStatus status = NavmeshQuery.Create(floorNavMesh, 100, out query);
+
+                playerAgent = null;
+
+                aimesh = mapLoader.AIMesh;
+                editor.Initization(aimesh);
+
                 LoadMapFinished();
             }
         }
@@ -231,12 +191,18 @@ namespace AMOFGameEngine.Map
         {
             updateAgents(timeSinceLastFrame);
             moveOffset = new Mogre.Vector3(0, 0, 0);
+            getInput();
+            moveCamera();
             PhysicsScene.FlushStream();
             PhysicsScene.FetchResults(SimulationStatuses.AllFinished, true);
             PhysicsScene.Simulate(timeSinceLastFrame);
         }
         private void updateAgents(double timeSinceLastFrame)
         {
+            if (agents == null)
+            {
+                return;
+            }
             for (int i = 0; i < agents.Count; i++)
             {
                 agents[i].Update((float)timeSinceLastFrame);
@@ -283,6 +249,32 @@ namespace AMOFGameEngine.Map
         private void Character_OnCharacterDie(int obj)
         {
 
+        }
+        private void getInput()
+        {
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_A))
+                moveOffset.x = -10;
+
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_D))
+                moveOffset.x = 10;
+
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_W))
+                moveOffset.z = -10;
+
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_S))
+                moveOffset.z = 10;
+
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_Q))
+                moveOffset.y = -10;
+
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_E))
+                moveOffset.y = 10;
+        }
+        private void moveCamera()
+        {
+            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
+                cam.MoveRelative(moveOffset);
+            cam.MoveRelative(moveOffset / 10);
         }
     }
 }

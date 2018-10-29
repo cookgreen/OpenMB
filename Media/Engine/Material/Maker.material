@@ -1,0 +1,27 @@
+material marker_vertex
+{
+	technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture marker_vertex.jpg
+            }
+        }
+    }
+}
+
+material marker_line
+{
+	technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture marker_line.jpg
+            }
+        }
+    }
+}

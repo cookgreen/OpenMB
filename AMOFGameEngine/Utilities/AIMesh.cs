@@ -14,6 +14,7 @@ namespace AMOFGameEngine.Utilities
         public List<AIMeshIndexData> AIMeshIndicsData { get; set; }
         public AIMesh()
         {
+            navmesh = null;
             AIMeshVertexData = new List<Vector3>();
             AIMeshIndicsData = new List<AIMeshIndexData>();
         }
