@@ -9,7 +9,7 @@ using Mogre_Procedural.MogreBites;
 
 namespace AMOFGameEngine.Screen
 {
-    public class GameEditorScreen : IScreen
+    public class GameEditorScreen : Screen
     {
         private OverlayContainer editorPanel;
         private Button btnSave;
@@ -18,7 +18,7 @@ namespace AMOFGameEngine.Screen
         private Button btnAIMeshCreateLine;
         private ListView lsvObjects;
         private Button btnAddObject;
-        public string Name
+        public override string Name
         {
             get
             {
@@ -26,14 +26,14 @@ namespace AMOFGameEngine.Screen
             }
         }
 
-        public event Action OnScreenExit;
+        public override event Action OnScreenExit;
 
         public GameEditorScreen()
         {
             editorPanel = null;
         }
 
-        public void Exit()
+        public override void Exit()
         {
             GameManager.Instance.mTrayMgr.getTraysLayer().Remove2D(editorPanel);
             Control.nukeOverlayElement(editorPanel);
@@ -41,15 +41,15 @@ namespace AMOFGameEngine.Screen
             OnScreenExit?.Invoke();
         }
 
-        public void Init(params object[] param)
+        public override void Init(params object[] param)
         {
             GameManager.Instance.mTrayMgr.destroyAllWidgets();
+            GameManager.Instance.mTrayMgr.showCursor();
         }
 
-        public void Run()
+        public override void Run()
         {
             float top = 0.02f;
-            GameManager.Instance.mTrayMgr.showCursor();
             editorPanel = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanel", "BorderPanel", "editorArea") as OverlayContainer;
 
             var lbGeneral = GameManager.Instance.mTrayMgr.createStaticText(TrayLocation.TL_NONE, "lbGeneral", "General", ColourValue.Black);
@@ -63,6 +63,7 @@ namespace AMOFGameEngine.Screen
             btnSave.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             btnSave.getOverlayElement().Left = 0.06f;
             btnSave.getOverlayElement().Top = 0.02f + top;
+            btnSave.OnClick += BtnSave_OnClick;
             top = btnSave.getOverlayElement().Top + btnSave.getOverlayElement().Height;
             editorPanel.AddChild(btnSave.getOverlayElement());
 
@@ -70,6 +71,7 @@ namespace AMOFGameEngine.Screen
             btnClose.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             btnClose.getOverlayElement().Left = 0.06f;
             btnClose.getOverlayElement().Top = 0.02f +top;
+            btnClose.OnClick += BtnClose_OnClick;
             top = btnClose.getOverlayElement().Top + btnClose.getOverlayElement().Height;
             editorPanel.AddChild(btnClose.getOverlayElement());
 
@@ -92,6 +94,7 @@ namespace AMOFGameEngine.Screen
             btnAIMeshCreateVertex.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             btnAIMeshCreateVertex.getOverlayElement().Left = 0.06f;
             btnAIMeshCreateVertex.getOverlayElement().Top = 0.02f + top;
+            btnAIMeshCreateVertex.OnClick += BtnAIMeshCreateVertex_OnClick;
             top = btnAIMeshCreateVertex.getOverlayElement().Top + btnAIMeshCreateVertex.getOverlayElement().Height;
             editorPanel.AddChild(btnAIMeshCreateVertex.getOverlayElement());
 
@@ -99,6 +102,7 @@ namespace AMOFGameEngine.Screen
             btnAIMeshCreateLine.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             btnAIMeshCreateLine.getOverlayElement().Left = 0.06f;
             btnAIMeshCreateLine.getOverlayElement().Top = 0.02f + top;
+            btnAIMeshCreateLine.OnClick += BtnAIMeshCreateLine_OnClick;
             top = btnAIMeshCreateLine.getOverlayElement().Top + btnAIMeshCreateLine.getOverlayElement().Height;
             editorPanel.AddChild(btnAIMeshCreateLine.getOverlayElement());
 
@@ -132,34 +136,34 @@ namespace AMOFGameEngine.Screen
             btnAddObject.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             btnAddObject.getOverlayElement().Left = 0.14f;
             btnAddObject.getOverlayElement().Top = 0.02f + top;
+            btnAddObject.OnClick += BtnAddObject_OnClick;
             top = btnAddObject.getOverlayElement().Top + btnAddObject.getOverlayElement().Height;
             editorPanel.AddChild(btnAddObject.getOverlayElement());
 
             GameManager.Instance.mTrayMgr.getTraysLayer().Add2D(editorPanel);
         }
 
-        public void Update(float timeSinceLastFrame)
-        {
-
-        }
-
-        public void InjectMouseMove(MouseEvent arg)
+        private void BtnAddObject_OnClick(object obj)
         {
         }
 
-        public void InjectMousePressed(MouseEvent arg, MouseButtonID id)
+        private void BtnAIMeshCreateLine_OnClick(object obj)
         {
         }
 
-        public void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
+        private void BtnAIMeshCreateVertex_OnClick(object obj)
         {
         }
 
-        public void InjectKeyPressed(KeyEvent arg)
+        private void BtnClose_OnClick(object obj)
         {
         }
 
-        public void InjectKeyReleased(KeyEvent arg)
+        private void BtnSave_OnClick(object obj)
+        {
+        }
+
+        public override void Update(float timeSinceLastFrame)
         {
         }
     }

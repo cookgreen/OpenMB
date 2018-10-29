@@ -15,7 +15,7 @@ namespace AMOFGameEngine.States
         {
         }
 
-        public override void enter(Mods.ModData data = null)
+        public override void enter(ModData data = null)
         {
             world = new GameWorld(data);
             world.Init();

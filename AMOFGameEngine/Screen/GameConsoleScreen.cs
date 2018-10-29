@@ -6,10 +6,10 @@ using MOIS;
 
 namespace AMOFGameEngine.Screen
 {
-    public class GameConsoleScreen : IScreen
+    public class GameConsoleScreen : Screen
     {
-        public event Action OnScreenExit;
-        public string Name
+        public override event Action OnScreenExit;
+        public override string Name
         {
             get
             {
@@ -21,44 +21,24 @@ namespace AMOFGameEngine.Screen
         {
         }
 
-        public void Exit()
+        public override void Exit()
         {
             OnScreenExit?.Invoke();
         }
 
-        public void Init(params object[] param)
+        public override void Init(params object[] param)
         {
 
         }
 
-        public void Run()
+        public override void Run()
         {
 
         }
 
-        public void Update(float timeSinceLastFrame)
+        public override void Update(float timeSinceLastFrame)
         {
 
-        }
-
-        public void InjectMouseMove(MouseEvent arg)
-        {
-        }
-
-        public void InjectMousePressed(MouseEvent arg, MouseButtonID id)
-        {
-        }
-
-        public void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
-        {
-        }
-
-        public void InjectKeyPressed(KeyEvent arg)
-        {
-        }
-
-        public void InjectKeyReleased(KeyEvent arg)
-        {
         }
     }
 }

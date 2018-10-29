@@ -335,7 +335,6 @@ namespace Mogre_Procedural.MogreBites
     //	=============================================================================
     public class Widget : IDisposable
     {
-
         public Widget() {
             mTrayLoc = TrayLocation.TL_NONE;
             mElement = null;
@@ -558,7 +557,7 @@ namespace Mogre_Procedural.MogreBites
     //	=============================================================================
     public class Button : Widget
     {
-
+        public event Action<object> OnClick;
         // Do not instantiate any widgets directly. Use SdkTrayManager.
         public Button(string name, string caption, float width) {
             mElement = Mogre.OverlayManager.Singleton.CreateOverlayElementFromTemplate("SdkTrays/Button", "BorderPanel", name);
@@ -602,6 +601,7 @@ namespace Mogre_Procedural.MogreBites
         public override void _cursorPressed(Mogre.Vector2 cursorPos) {
             if (isCursorOver(mElement, cursorPos, 4))
                 setState(ButtonState.BS_DOWN);
+            OnClick?.Invoke(this);
         }
 
         public override void _cursorReleased(Mogre.Vector2 cursorPos) {
@@ -3315,8 +3315,8 @@ namespace Mogre_Procedural.MogreBites
                 }
             }
 
-            if (!mTrayDrag) // don't process if mouse press is not in tray
-                return false;
+            //if (!mTrayDrag) // don't process if mouse press is not in tray
+            //    return false;
 
             for (int i = 0; i < 10; i++) {
                 if (!mTrays[i].IsVisible)

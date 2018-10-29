@@ -196,6 +196,7 @@
     <Compile Include="Map\GameMapEditor.cs" />
     <Compile Include="Map\GameObjectQueryFlags.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
+    <Compile Include="Screen\Screen.cs" />
     <Compile Include="Utilities\AIMesh.cs" />
     <Compile Include="Map\GameMap.cs" />
     <Compile Include="Map\GameMapManager.cs" />

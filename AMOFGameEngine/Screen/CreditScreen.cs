@@ -8,7 +8,7 @@ using MOIS;
 
 namespace AMOFGameEngine.Screen
 {
-    public class CreditScreen : IScreen
+    public class CreditScreen : Screen
     {
         private int time;
         private List<Widget> elements;
@@ -16,8 +16,8 @@ namespace AMOFGameEngine.Screen
         private StringVector strCreditLst;
         private float alpha;
 
-        public event Action OnScreenExit;
-        public string Name
+        public override event Action OnScreenExit;
+        public override string Name
         {
             get
             {
@@ -88,19 +88,19 @@ namespace AMOFGameEngine.Screen
             creditBuilder.AppendLine("");
             strCreditLst.Add(creditBuilder.ToString());
         }
-        public void Init(params object[] param)
+        public override void Init(params object[] param)
         {
             elements = new List<Widget>();
             elementNames = new List<string>();
             GameManager.Instance.mTrayMgr.destroyAllWidgets();
         }
 
-        public void Run()
+        public override void Run()
         {
             GameManager.Instance.mTrayMgr.hideCursor();
         }
 
-        public void Update(float timeSinceLastFrame)
+        public override void Update(float timeSinceLastFrame)
         {
             if (time >= 0 && time <= 2000)
             {
@@ -183,7 +183,7 @@ namespace AMOFGameEngine.Screen
             time++;
         }
 
-        public void Exit()
+        public override void Exit()
         {
             GameManager.Instance.mTrayMgr.destroyAllWidgets();
             time = 0;
@@ -191,28 +191,33 @@ namespace AMOFGameEngine.Screen
             OnScreenExit?.Invoke();
         }
 
-        public void InjectMouseMove(MouseEvent arg)
+        public override void InjectMouseMove(MouseEvent arg)
         {
+            base.InjectMouseMove(arg);
             Exit();
         }
 
-        public void InjectMousePressed(MouseEvent arg, MouseButtonID id)
+        public override void InjectMousePressed(MouseEvent arg, MouseButtonID id)
         {
+            base.InjectMousePressed(arg, id);
             Exit();
         }
 
-        public void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
+        public override void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
         {
+            base.InjectMouseReleased(arg, id);
             Exit();
         }
 
-        public void InjectKeyPressed(KeyEvent arg)
+        public override void InjectKeyPressed(KeyEvent arg)
         {
+            base.InjectKeyPressed(arg);
             Exit();
         }
 
-        public void InjectKeyReleased(KeyEvent arg)
+        public override void InjectKeyReleased(KeyEvent arg)
         {
+            base.InjectKeyReleased(arg);
             Exit();
         }
     }

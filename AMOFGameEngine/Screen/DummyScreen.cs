@@ -6,11 +6,11 @@ using MOIS;
 
 namespace AMOFGameEngine.Screen
 {
-    public class DummyScreen : IScreen
+    public class DummyScreen : Screen
     {
-        public event Action OnScreenExit;
+        public override event Action OnScreenExit;
         public event Action OnScreenRun;
-        public string Name
+        public override string Name
         {
             get
             {
@@ -18,42 +18,21 @@ namespace AMOFGameEngine.Screen
             }
         }
 
-        public void Exit()
+        public override void Exit()
         {
             OnScreenExit?.Invoke();
         }
 
-        public void Init(params object[] param)
+        public override void Init(params object[] param)
         {
         }
 
-        public void Run()
+        public override void Run()
         {
             OnScreenRun?.Invoke();
         }
 
-        public void Update(float timeSinceLastFrame)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void InjectMouseMove(MouseEvent arg)
-        {
-        }
-
-        public void InjectMousePressed(MouseEvent arg, MouseButtonID id)
-        {
-        }
-
-        public void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
-        {
-        }
-
-        public void InjectKeyPressed(KeyEvent arg)
-        {
-        }
-
-        public void InjectKeyReleased(KeyEvent arg)
+        public override void Update(float timeSinceLastFrame)
         {
         }
     }

@@ -45,6 +45,7 @@ namespace AMOFGameEngine.Screen
             {
                 screenStack.Peek().InjectMouseMove(arg);
             }
+            GameManager.Instance.mTrayMgr.injectMouseMove(arg);
         }
         public void InjectMousePressed(MouseEvent arg, MouseButtonID id)
         {
@@ -52,6 +53,7 @@ namespace AMOFGameEngine.Screen
             {
                 screenStack.Peek().InjectMousePressed(arg, id);
             }
+            GameManager.Instance.mTrayMgr.injectMouseDown(arg, id);
         }
         public void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
         {
@@ -59,6 +61,7 @@ namespace AMOFGameEngine.Screen
             {
                 screenStack.Peek().InjectMouseReleased(arg, id);
             }
+            GameManager.Instance.mTrayMgr.injectMouseUp(arg, id);
         }
         public void InjectKeyPressed(KeyEvent arg)
         {

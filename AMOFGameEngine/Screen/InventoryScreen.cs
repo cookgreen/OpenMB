@@ -10,7 +10,7 @@ using MOIS;
 
 namespace AMOFGameEngine.Screen
 {
-    public class InventoryScreen : IScreen
+    public class InventoryScreen : Screen
     {
         private List<OverlayElement> elements;
         private OverlayContainer equipmentPanel;
@@ -22,8 +22,8 @@ namespace AMOFGameEngine.Screen
         private int col;
         private const float INV_WIDTH = 0.12f;
         //private Character character;
-        public event Action OnScreenExit;
-        public string Name
+        public override event Action OnScreenExit;
+        public override string Name
         {
             get
             {
@@ -36,7 +36,7 @@ namespace AMOFGameEngine.Screen
             elements = new List<OverlayElement>();
         }
 
-        public void Exit()
+        public override void Exit()
         {
             Control.nukeOverlayElement(equipmentPanel);
             Control.nukeOverlayElement(previewPanel);
@@ -46,12 +46,12 @@ namespace AMOFGameEngine.Screen
             OnScreenExit?.Invoke();
         }
 
-        public void Init(params object[] param)
+        public override void Init(params object[] param)
         {
             GameManager.Instance.mTrayMgr.destroyAllWidgets();
         }
 
-        public void Run()
+        public override void Run()
         {
             equipmentPanel = OverlayManager.Singleton.CreateOverlayElementFromTemplate("CharacterEquipment", "BorderPanel", "inventoryPanelLeftArea") as OverlayContainer;
             previewPanel = OverlayManager.Singleton.CreateOverlayElementFromTemplate("CharacterPreview", "BorderPanel", "inventoryPanelMiddleArea") as OverlayContainer;
@@ -137,32 +137,22 @@ namespace AMOFGameEngine.Screen
             GameManager.Instance.mTrayMgr.getTraysLayer().Add2D(backpackPanel);
         }
 
-        public void Update(float timeSinceLastFrame)
+        public override void Update(float timeSinceLastFrame)
         {
         }
 
-        public void InjectMouseMove(MouseEvent arg)
+        public override void InjectKeyPressed(KeyEvent arg)
         {
-        }
-
-        public void InjectMousePressed(MouseEvent arg, MouseButtonID id)
-        {
-        }
-
-        public void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
-        {
-        }
-
-        public void InjectKeyPressed(KeyEvent arg)
-        {
+            base.InjectKeyPressed(arg);
             if (arg.key == KeyCode.KC_ESCAPE)
             {
                 Exit();
             }
         }
 
-        public void InjectKeyReleased(KeyEvent arg)
+        public override void InjectKeyReleased(KeyEvent arg)
         {
+            base.InjectKeyReleased(arg);
             if (arg.key == KeyCode.KC_ESCAPE)
             {
                 Exit();
