@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MOIS;
 
 namespace AMOFGameEngine.Screen
 {
@@ -38,6 +39,26 @@ namespace AMOFGameEngine.Screen
         public void Update(float timeSinceLastFrame)
         {
 
+        }
+
+        public void InjectMouseMove(MouseEvent arg)
+        {
+        }
+
+        public void InjectMousePressed(MouseEvent arg, MouseButtonID id)
+        {
+        }
+
+        public void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
+        {
+        }
+
+        public void InjectKeyPressed(KeyEvent arg)
+        {
+        }
+
+        public void InjectKeyReleased(KeyEvent arg)
+        {
         }
     }
 }

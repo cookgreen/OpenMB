@@ -1,5 +1,6 @@
 ﻿using AMOFGameEngine.Game;
 using AMOFGameEngine.Mods;
+using AMOFGameEngine.Screen;
 using AMOFGameEngine.Script;
 using AMOFGameEngine.Trigger;
 using AMOFGameEngine.Utilities;
@@ -32,7 +33,7 @@ namespace AMOFGameEngine.Map
         private SceneManager scm;
         //private TerrainGroup terrianGroup;
         private Scene physicsScene;
-        private NavmeshQuery query;
+        //private NavmeshQuery query;
         private ModData modData;
         private Physics physics;
         private Character playerAgent;
@@ -64,7 +65,7 @@ namespace AMOFGameEngine.Map
         {
             get
             {
-                return query;
+                return null;
             }
         }
 
@@ -86,6 +87,10 @@ namespace AMOFGameEngine.Map
             aimeshIndexData = new List<Mogre.Vector3>();
             aimeshVertexData = new List<Mogre.Vector3>();
             editor = new GameMapEditor(world.SceneManager);
+            if (GameManager.Instance.EDIT_MODE)
+            {
+                ScreenManager.Instance.ChangeScreen("InnerGameEditor");
+            }
 
             GameManager.Instance.mMouse.MouseMoved += Mouse_MouseMoved;
             GameManager.Instance.mMouse.MousePressed += Mouse_MousePressed;
@@ -96,26 +101,45 @@ namespace AMOFGameEngine.Map
 
         private bool Keyboard_KeyReleased(KeyEvent arg)
         {
+            ScreenManager.Instance.InjectKeyReleased(arg);
             return true;
         }
 
         private bool Keyboard_KeyPressed(KeyEvent arg)
         {
+            if (GameManager.Instance.EDIT_MODE)
+            {
+                if (ScreenManager.Instance.CheckScreen("InnerGameEditor") &&
+                   (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
+                    GameManager.Instance.mKeyboard.IsKeyDown(arg.key)))
+                {
+                    ScreenManager.Instance.HideCurrentScreen();
+                }
+                else if((GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
+                    GameManager.Instance.mKeyboard.IsKeyDown(arg.key)))
+                {
+                    ScreenManager.Instance.ChangeScreen("InnerGameEditor");
+                }
+            }
+            ScreenManager.Instance.InjectKeyPressed(arg);
             return true;
         }
 
         private bool Mouse_MouseReleased(MouseEvent arg, MouseButtonID id)
         {
+            ScreenManager.Instance.InjectMouseReleased(arg, id);
             return true;
         }
 
         private bool Mouse_MousePressed(MouseEvent arg, MouseButtonID id)
         {
+            ScreenManager.Instance.InjectMousePressed(arg, id);
             return true;
         }
 
         private bool Mouse_MouseMoved(MouseEvent arg)
         {
+            ScreenManager.Instance.InjectMouseMove(arg);
             if (GameManager.Instance.EDIT_MODE)
             {
 

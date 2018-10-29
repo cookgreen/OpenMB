@@ -6,6 +6,7 @@ using Mogre_Procedural.MogreBites;
 using Mogre;
 using AMOFGameEngine.Widgets;
 using AMOFGameEngine.Game;
+using MOIS;
 
 namespace AMOFGameEngine.Screen
 {
@@ -138,6 +139,34 @@ namespace AMOFGameEngine.Screen
 
         public void Update(float timeSinceLastFrame)
         {
+        }
+
+        public void InjectMouseMove(MouseEvent arg)
+        {
+        }
+
+        public void InjectMousePressed(MouseEvent arg, MouseButtonID id)
+        {
+        }
+
+        public void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
+        {
+        }
+
+        public void InjectKeyPressed(KeyEvent arg)
+        {
+            if (arg.key == KeyCode.KC_ESCAPE)
+            {
+                Exit();
+            }
+        }
+
+        public void InjectKeyReleased(KeyEvent arg)
+        {
+            if (arg.key == KeyCode.KC_ESCAPE)
+            {
+                Exit();
+            }
         }
     }
 }

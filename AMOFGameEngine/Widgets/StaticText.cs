@@ -27,6 +27,7 @@ using Mogre;
 using Mogre_Procedural.MogreBites;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -36,7 +37,7 @@ namespace AdvancedMogreFramework.Widgets
     {
         protected TextAreaOverlayElement mTextArea;
         protected bool mFitToTray;
-        public StaticText(string name, string caption, float width)
+        public StaticText(string name, string caption, float width, bool specificColor, ColourValue color)
         {
             OverlayManager overlayMgr = OverlayManager.Singleton;
             mElement = overlayMgr.CreateOverlayElement("BorderPanel", name);
@@ -48,10 +49,17 @@ namespace AdvancedMogreFramework.Widgets
             mTextArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_CENTER;
             mTextArea.SetAlignment(TextAreaOverlayElement.Alignment.Center);
             mTextArea.Top = 10;
-            mTextArea.FontName = "SdkTrays/Caption";
+            mTextArea.FontName = "EngineFont";
             mTextArea.CharHeight = 18;
             mTextArea.SpaceWidth = 9;
-            mTextArea.Colour = new ColourValue(0.9f, 1f, 0.7f);
+            if(!specificColor)
+            {
+                mTextArea.Colour = new ColourValue(0.9f, 1f, 0.7f);
+            }
+            else
+            {
+                mTextArea.Colour = color;
+            }
             ((OverlayContainer)mElement).AddChild(mTextArea);
             setCaption(caption);
         }

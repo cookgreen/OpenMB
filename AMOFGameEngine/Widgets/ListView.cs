@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mogre;
+using Mogre_Procedural.MogreBites;
 
 namespace AMOFGameEngine.Widgets
 {
@@ -43,7 +44,7 @@ namespace AMOFGameEngine.Widgets
         }
     }
 
-    public class ListView : Control
+    public class ListView : Widget
     {
         public event Action<object,ListViewSelectionChangedArgs> SelectionChanged;
         public List<ListViewColumn> Columns
@@ -110,6 +111,7 @@ namespace AMOFGameEngine.Widgets
             visibleItems = new List<ListViewItem>();
             allUsedElements = new List<OverlayElement>();
 
+            mElement = listview;
 
             LoadColumns(columnNames);
         }
@@ -253,11 +255,11 @@ namespace AMOFGameEngine.Widgets
             OverlayManager.Singleton.DestroyOverlayElement(scroll);
         }
 
-        public override void cursorMoved(Vector2 cursorPos)
+        public void cursorMoved(Vector2 cursorPos)
         {
         }
 
-        public override void cursorPressed(Vector2 cursorPos)
+        public void cursorPressed(Vector2 cursorPos)
         {
             bool found = false;
             int idx = 0;
@@ -291,15 +293,15 @@ namespace AMOFGameEngine.Widgets
             }
         }
 
-        public override void cursorReleased(Vector2 cursorPos)
+        public void cursorReleased(Vector2 cursorPos)
         {
         }
 
-        public override void keyPressed(uint text)
+        public void keyPressed(uint text)
         {
         }
 
-        public override void keyReleased(uint text)
+        public void keyReleased(uint text)
         {
         }
     }

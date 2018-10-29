@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using Mogre_Procedural.MogreBites;
+using MOIS;
 
 namespace AMOFGameEngine.Screen
 {
@@ -187,6 +188,32 @@ namespace AMOFGameEngine.Screen
             GameManager.Instance.mTrayMgr.destroyAllWidgets();
             time = 0;
             elements.Clear();
+            OnScreenExit?.Invoke();
+        }
+
+        public void InjectMouseMove(MouseEvent arg)
+        {
+            Exit();
+        }
+
+        public void InjectMousePressed(MouseEvent arg, MouseButtonID id)
+        {
+            Exit();
+        }
+
+        public void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
+        {
+            Exit();
+        }
+
+        public void InjectKeyPressed(KeyEvent arg)
+        {
+            Exit();
+        }
+
+        public void InjectKeyReleased(KeyEvent arg)
+        {
+            Exit();
         }
     }
 }

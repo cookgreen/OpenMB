@@ -2518,11 +2518,16 @@ namespace Mogre_Procedural.MogreBites
 
         public StaticText createStaticText(TrayLocation trayLoc, string name, string caption)
         {
-            return createStaticText(trayLoc, name, caption, 0f);
+            return createStaticText(trayLoc, name, caption, 0f, false, ColourValue.Black);
         }
-        public StaticText createStaticText(TrayLocation trayLoc, string name, string caption, float width)
+
+        public StaticText createStaticText(TrayLocation trayLoc, string name, string caption, ColourValue color)
         {
-            StaticText st = new StaticText(name, caption, width);
+            return createStaticText(trayLoc, name, caption, 0f, true, color);
+        }
+        public StaticText createStaticText(TrayLocation trayLoc, string name, string caption, float width, bool specificColor, ColourValue color)
+        {
+            StaticText st = new StaticText(name, caption, width, specificColor, ColourValue.Black);
             moveWidgetToTray(st, trayLoc);
             st._assignListener(mListener);
             return st;
