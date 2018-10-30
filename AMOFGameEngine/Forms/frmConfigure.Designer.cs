@@ -302,7 +302,7 @@
             this.MaximizeBox = false;
             this.Name = "frmConfigure";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AMOFGameEngine Option";
+            this.Text = "Engine Option";
             this.Load += new System.EventHandler(this.ConfigFrm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbAMGELogo)).EndInit();
             this.tbRenderOpt.ResumeLayout(false);
