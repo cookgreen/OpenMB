@@ -45,7 +45,6 @@ namespace AMOFGameEngine.Screen
             {
                 screenStack.Peek().InjectMouseMove(arg);
             }
-            GameManager.Instance.mTrayMgr.injectMouseMove(arg);
         }
         public void InjectMousePressed(MouseEvent arg, MouseButtonID id)
         {
@@ -53,7 +52,6 @@ namespace AMOFGameEngine.Screen
             {
                 screenStack.Peek().InjectMousePressed(arg, id);
             }
-            GameManager.Instance.mTrayMgr.injectMouseDown(arg, id);
         }
         public void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
         {
@@ -61,7 +59,6 @@ namespace AMOFGameEngine.Screen
             {
                 screenStack.Peek().InjectMouseReleased(arg, id);
             }
-            GameManager.Instance.mTrayMgr.injectMouseUp(arg, id);
         }
         public void InjectKeyPressed(KeyEvent arg)
         {
@@ -80,6 +77,10 @@ namespace AMOFGameEngine.Screen
 
         public void ChangeScreen(string screenName,params object[] param)
         {
+            if (screenStack.Count > 0)
+            {
+                screenStack.Peek().Exit();
+            }
             if(screens.ContainsKey(screenName))
             {
                 IScreen runScreen = screens[screenName];
@@ -107,8 +108,8 @@ namespace AMOFGameEngine.Screen
             if (OnCurrentScreenExit != null)
             {
                 OnCurrentScreenExit();
-                ReturnLastScreen();
             }
+            ReturnLastScreen();
         }
 
         public void Dispose()
@@ -132,7 +133,7 @@ namespace AMOFGameEngine.Screen
             UpdateCurrentScreen(timeSinceLastFrame);
         }
 
-        public void HideCurrentScreen()
+        public void ExitCurrentScreen()
         {
             if (screenStack.Count > 0)
             {
@@ -140,7 +141,7 @@ namespace AMOFGameEngine.Screen
             }
         }
 
-        public bool CheckScreen(string screenName)
+        public bool CheckScreenIsVisual(string screenName)
         {
             if (screenStack.Count == 0)
             {
@@ -148,7 +149,7 @@ namespace AMOFGameEngine.Screen
             }
             else
             {
-                return screenStack.Peek().Name == screenName;
+                return screenStack.Peek().Name == screenName && screenStack.Peek().IsVisible;
             }
         }
     }

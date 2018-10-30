@@ -9,11 +9,22 @@ namespace AMOFGameEngine.Map
 {
     public class GameMapEditor : IDisposable
     {
+        private GameMap map;
         private AIMesh aimesh;
         private SceneManager scm;
-        public GameMapEditor(SceneManager scm)
+
+        public GameMap Map
         {
-            this.scm = scm;
+            get
+            {
+                return map;
+            }
+        }
+
+        public GameMapEditor(GameMap map)
+        {
+            this.map = map;
+            scm = map.SceneManager;
         }
 
         public void Initization(AIMesh aimesh)

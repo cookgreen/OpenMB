@@ -49,6 +49,7 @@
             this.gbLocalization = new System.Windows.Forms.GroupBox();
             this.cmbLanguageSelect = new System.Windows.Forms.ComboBox();
             this.lblLang = new System.Windows.Forms.Label();
+            this.chkEnableEditMode = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbAMGELogo)).BeginInit();
             this.tbRenderOpt.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -56,6 +57,7 @@
             this.tabPage2.SuspendLayout();
             this.gbMusicSound.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.gbAdvanced.SuspendLayout();
             this.gbLocalization.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -235,6 +237,7 @@
             // 
             // gbAdvanced
             // 
+            this.gbAdvanced.Controls.Add(this.chkEnableEditMode);
             this.gbAdvanced.Location = new System.Drawing.Point(6, 66);
             this.gbAdvanced.Name = "gbAdvanced";
             this.gbAdvanced.Size = new System.Drawing.Size(442, 139);
@@ -274,6 +277,16 @@
             this.lblLang.TabIndex = 0;
             this.lblLang.Text = "Language:";
             // 
+            // chkEnableEditMode
+            // 
+            this.chkEnableEditMode.AutoSize = true;
+            this.chkEnableEditMode.Location = new System.Drawing.Point(8, 20);
+            this.chkEnableEditMode.Name = "chkEnableEditMode";
+            this.chkEnableEditMode.Size = new System.Drawing.Size(120, 16);
+            this.chkEnableEditMode.TabIndex = 0;
+            this.chkEnableEditMode.Text = "Enable Edit Mode";
+            this.chkEnableEditMode.UseVisualStyleBackColor = true;
+            // 
             // frmConfigure
             // 
             this.AcceptButton = this.btnOK;
@@ -300,6 +313,8 @@
             this.gbMusicSound.ResumeLayout(false);
             this.gbMusicSound.PerformLayout();
             this.tabPage3.ResumeLayout(false);
+            this.gbAdvanced.ResumeLayout(false);
+            this.gbAdvanced.PerformLayout();
             this.gbLocalization.ResumeLayout(false);
             this.gbLocalization.PerformLayout();
             this.ResumeLayout(false);
@@ -328,5 +343,6 @@
         private System.Windows.Forms.GroupBox gbMusicSound;
         private System.Windows.Forms.GroupBox gbAdvanced;
         private System.Windows.Forms.GroupBox gbLocalization;
+        private System.Windows.Forms.CheckBox chkEnableEditMode;
     }
 }

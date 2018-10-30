@@ -36,6 +36,7 @@ namespace AMOFGameEngine.Forms
                 chkEnableSound.DataBindings.Add("Checked", controller.AudioConfig, "IsEnableSound");
                 cmbLanguageSelect.DataSource = controller.GameConfig.AvaliableLocates;
                 cmbLanguageSelect.DataBindings.Add("SelectedItem", controller.GameConfig, "CurrentSelectedLocate");
+                chkEnableEditMode.DataBindings.Add("checked", controller.GameConfig, "IsEnableEditMode");
             }
         }
         public frmConfigure()
@@ -71,6 +72,8 @@ namespace AMOFGameEngine.Forms
             
                 btnOK.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_ok");
                 btnCancel.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_cancel");
+
+                chkEnableEditMode.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_is_enable_edit_mode");
             }
         }
 

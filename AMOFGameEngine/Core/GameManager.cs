@@ -233,9 +233,9 @@ namespace AMOFGameEngine
             return true;
         }
 
-        private void InitGame()
+        private void InitGame(Dictionary<string, string> gameOptions)
         {
-            
+            isEditMode = gameOptions["EditMode"] == "1" ? true : false;
         }
 
         public void Exit()
@@ -287,21 +287,16 @@ namespace AMOFGameEngine
                     Convert.ToUInt32(videoMode["Height"])
                 );
             }
-            else if(mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) && 
-                    mKeyboard.IsKeyDown(KeyCode.KC_E))//Left Shift + E
-            {
-                isEditMode = !isEditMode;
-            }
             else if(mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
                     mKeyboard.IsKeyDown(KeyCode.KC_I))//Left Shift + I
             {
-                if(!uiMgr.CheckScreen("Console"))
+                if(!uiMgr.CheckScreenIsVisual("Console"))
                 {
                     uiMgr.ChangeScreen("Console");
                 }
                 else
                 {
-                    uiMgr.HideCurrentScreen();
+                    uiMgr.ExitCurrentScreen();
                 }
             }
  

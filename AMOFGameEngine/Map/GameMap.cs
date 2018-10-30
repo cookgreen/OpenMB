@@ -69,6 +69,22 @@ namespace AMOFGameEngine.Map
             }
         }
 
+        public SceneManager SceneManager
+        {
+            get
+            {
+                return world.SceneManager;
+            }
+        }
+
+        public Camera Camera
+        {
+            get
+            {
+                return world.Camera;
+            }
+        }
+
         public event MapLoadhandler LoadMapStarted;
         public event MapLoadhandler LoadMapFinished;
 
@@ -86,7 +102,7 @@ namespace AMOFGameEngine.Map
             physics = world.PhysicsScene.Physics;
             aimeshIndexData = new List<Mogre.Vector3>();
             aimeshVertexData = new List<Mogre.Vector3>();
-            editor = new GameMapEditor(world.SceneManager);
+            editor = new GameMapEditor(this);
             if (GameManager.Instance.EDIT_MODE)
             {
                 ScreenManager.Instance.ChangeScreen("InnerGameEditor");
@@ -109,16 +125,16 @@ namespace AMOFGameEngine.Map
         {
             if (GameManager.Instance.EDIT_MODE)
             {
-                if (ScreenManager.Instance.CheckScreen("InnerGameEditor") &&
+                if (ScreenManager.Instance.CheckScreenIsVisual("InnerGameEditor") &&
                    (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
                     GameManager.Instance.mKeyboard.IsKeyDown(arg.key)))
                 {
-                    ScreenManager.Instance.HideCurrentScreen();
+                    ScreenManager.Instance.ExitCurrentScreen();
                 }
                 else if((GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
                     GameManager.Instance.mKeyboard.IsKeyDown(arg.key)))
                 {
-                    ScreenManager.Instance.ChangeScreen("InnerGameEditor");
+                    ScreenManager.Instance.ChangeScreen("InnerGameEditor", editor);
                 }
             }
             ScreenManager.Instance.InjectKeyPressed(arg);

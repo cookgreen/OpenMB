@@ -12,3 +12,4 @@ ui_enable_sound	启用声音
 ui_enable_music	启用音乐
 ui_localization	本地化
 ui_advanced_options	高级选项
+ui_is_enable_edit_mode	启用编辑模式

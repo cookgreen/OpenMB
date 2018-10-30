@@ -8,6 +8,7 @@ namespace AMOFGameEngine.Forms.Model
 {
     public class GameConfigure : Configure
     {
+        private bool isEnableEditMode;
         private string currentSelectedLocate;
         private BindingList<string> avaliableLocates;
         public string CurrentSelectedLocate
@@ -34,6 +35,21 @@ namespace AMOFGameEngine.Forms.Model
                 OnPropertyChanged("AvaliableLocates");
             }
         }
+
+        public bool IsEnableEditMode
+        {
+            get
+            {
+                return isEnableEditMode;
+            }
+
+            set
+            {
+                isEnableEditMode = value;
+                OnPropertyChanged("IsEnableEditMode");
+            }
+        }
+
         public GameConfigure()
         {
             avaliableLocates = new BindingList<string>();

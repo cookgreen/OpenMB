@@ -8,6 +8,7 @@ namespace AMOFGameEngine.Screen
 {
     public interface IScreen
     {
+        bool IsVisible { get; }
         event Action OnScreenExit;
         string Name { get; }
         void Init(params object[] param);
@@ -20,5 +21,7 @@ namespace AMOFGameEngine.Screen
         void InjectMouseReleased(MouseEvent arg, MouseButtonID id);
         void InjectKeyPressed(KeyEvent arg);
         void InjectKeyReleased(KeyEvent arg);
+        void Show();
+        void Hide();
     }
 }

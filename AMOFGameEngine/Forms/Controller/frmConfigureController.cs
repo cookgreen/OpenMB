@@ -59,6 +59,7 @@ namespace AMOFGameEngine.Forms.Controller
             selectedlocate = LocateSystem.Singleton.ConvertLocateShortStringToLocateInfo(gameCfg["Localized"]["Current"]);
             GameConfig.CurrentSelectedLocate = LocateSystem.Singleton.CovertLocateInfoStringToReadableString(selectedlocate.ToString());
             GameConfig.AvaliableLocates.Clear();
+            GameConfig.IsEnableEditMode = gameCfg["Game"]["EditMode"] == "1" ? true : false;
             DirectoryInfo di = new DirectoryInfo("./locate/");
             FileSystemInfo[] fsi = di.GetFileSystemInfos();
             foreach (var dir in fsi)
@@ -147,6 +148,7 @@ namespace AMOFGameEngine.Forms.Controller
             gameOptions.Add("IsEnableMusic", AudioConfig.IsEnableMusic.ToString());
             gameOptions.Add("IsEnableSound", AudioConfig.IsEnableSound.ToString());
             gameOptions.Add("Language", GameConfig.CurrentSelectedLocate.ToString());
+            gameOptions.Add("IsEnableEditMode", GameConfig.IsEnableEditMode.ToString());
 
             ogreCfg[""]["Render System"] = GraphicConfig.RenderSystem;
             var kpls = ogreCfg[GraphicConfig.RenderSystem].KeyValuePairs;
@@ -158,6 +160,7 @@ namespace AMOFGameEngine.Forms.Controller
             gameCfg["Audio"]["EnableMusic"] = AudioConfig.IsEnableMusic ? "1" : "0";
             gameCfg["Audio"]["EnableSound"] = AudioConfig.IsEnableSound ? "1" : "0";
             gameCfg["Localized"]["Current"] = LocateSystem.Singleton.CovertReadableStringToLocateShortString(GameConfig.CurrentSelectedLocate);
+            gameCfg["Game"]["EditMode"] = GameConfig.IsEnableEditMode ? "1" : "0";
 
             parser.Save(gameCfg);
             parser.Save(ogreCfg);

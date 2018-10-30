@@ -6,9 +6,18 @@ using System.Linq;
 using System.Text;
 using AMOFGameEngine.Widgets;
 using Mogre_Procedural.MogreBites;
+using AMOFGameEngine.Map;
 
 namespace AMOFGameEngine.Screen
 {
+    public enum EditState
+    {
+        Free,
+        EditAIMeshVertex,
+        EditAIMeshLine,
+        EditObject,
+        EditTerrain
+    }
     public class GameEditorScreen : Screen
     {
         private OverlayContainer editorPanel;
@@ -18,6 +27,15 @@ namespace AMOFGameEngine.Screen
         private Button btnAIMeshCreateLine;
         private ListView lsvObjects;
         private Button btnAddObject;
+        private GameMapEditor editor;
+        private EditState state;
+        public override bool IsVisible
+        {
+            get
+            {
+                return editorPanel.IsVisible;
+            }
+        }
         public override string Name
         {
             get
@@ -35,20 +53,28 @@ namespace AMOFGameEngine.Screen
 
         public override void Exit()
         {
-            GameManager.Instance.mTrayMgr.getTraysLayer().Remove2D(editorPanel);
-            Control.nukeOverlayElement(editorPanel);
             GameManager.Instance.mTrayMgr.hideCursor();
-            OnScreenExit?.Invoke();
+            OverlayContainer.ChildIterator children = editorPanel.GetChildIterator();
+            while (children.MoveNext())
+            {
+                OverlayElement currentElement = children.Current;
+                editorPanel.RemoveChild(currentElement.Name);
+            }
+            GameManager.Instance.mTrayMgr.getTraysLayer().Remove2D(editorPanel);
+            Widget.nukeOverlayElement(editorPanel);
         }
 
         public override void Init(params object[] param)
         {
+            editor = param[0] as GameMapEditor;
             GameManager.Instance.mTrayMgr.destroyAllWidgets();
             GameManager.Instance.mTrayMgr.showCursor();
         }
 
         public override void Run()
         {
+            state = EditState.Free;
+
             float top = 0.02f;
             editorPanel = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanel", "BorderPanel", "editorArea") as OverlayContainer;
 
@@ -145,18 +171,22 @@ namespace AMOFGameEngine.Screen
 
         private void BtnAddObject_OnClick(object obj)
         {
+            state = EditState.EditObject;
         }
 
         private void BtnAIMeshCreateLine_OnClick(object obj)
         {
+            state = EditState.EditAIMeshLine;
         }
 
         private void BtnAIMeshCreateVertex_OnClick(object obj)
         {
+            state = EditState.EditAIMeshVertex;
         }
 
         private void BtnClose_OnClick(object obj)
         {
+            OnScreenExit?.Invoke();
         }
 
         private void BtnSave_OnClick(object obj)
@@ -165,6 +195,65 @@ namespace AMOFGameEngine.Screen
 
         public override void Update(float timeSinceLastFrame)
         {
+        }
+
+        public override void InjectMousePressed(MouseEvent arg, MouseButtonID id)
+        {
+            base.InjectMousePressed(arg, id);
+        }
+
+        public override void InjectMouseMove(MouseEvent arg)
+        {
+            base.InjectMouseMove(arg);
+
+            Vector2 cursorPos = new Vector2(arg.state.X.abs, arg.state.Y.abs);
+            Ray ray = GameManager.Instance.mTrayMgr.getCursorRay(editor.Map.Camera);
+            switch (state)
+            {
+                case EditState.EditAIMeshVertex:
+                    
+                    break;
+                case EditState.Free:
+                    var query = editor.Map.SceneManager.CreateRayQuery(ray);
+                    query.QueryMask = (uint)GameObjectQueryFlags.AIMESH_VERTEX;
+                    RaySceneQueryResult result = query.Execute();
+                    foreach(var sResult in result)
+                    {
+                        if (sResult.movable != null)
+                        {
+                            //High light the object
+                            var ent = editor.Map.SceneManager.GetEntity(sResult.movable.Name);
+                            MaterialPtr material = ent.GetSubEntity(1).GetMaterial();
+                            ColourValue cv = new ColourValue(1, 1, 0);
+                            material.GetTechnique(1).SetAmbient(cv);
+                            ent.GetSubEntity(1).SetMaterial(material);
+                        }
+                    }
+                    break;
+            }
+        }
+
+        public override void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
+        {
+            base.InjectMouseReleased(arg, id);
+
+            state = EditState.Free;
+        }
+
+        public override void Show()
+        {
+            if(!editorPanel.IsVisible)
+            {
+                editorPanel.Show();
+            }
+        }
+
+        public override void Hide()
+        {
+            if(editorPanel.IsVisible)
+            {
+                editorPanel.Hide();
+            }
         }
     }
 }

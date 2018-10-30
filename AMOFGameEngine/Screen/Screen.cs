@@ -8,11 +8,19 @@ namespace AMOFGameEngine.Screen
 {
     public class Screen : IScreen
     {
+        public virtual bool IsVisible
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public virtual string Name
         {
             get
             {
-                throw new NotImplementedException();
+                return "";
             }
         }
 
@@ -21,6 +29,10 @@ namespace AMOFGameEngine.Screen
         public virtual void Exit()
         {
             OnScreenExit?.Invoke();
+        }
+
+        public virtual void Hide()
+        {
         }
 
         public virtual void Init(params object[] param)
@@ -49,6 +61,10 @@ namespace AMOFGameEngine.Screen
         }
 
         public virtual void Run()
+        {
+        }
+
+        public virtual void Show()
         {
         }
 
