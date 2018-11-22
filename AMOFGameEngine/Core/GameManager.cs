@@ -233,9 +233,17 @@ namespace AMOFGameEngine
             return true;
         }
 
-        private void InitGame(Dictionary<string, string> gameOptions)
+        public bool InitGame(Dictionary<string, string> gameOptions)
         {
-            isEditMode = gameOptions["EditMode"] == "1" ? true : false;
+            try
+            {
+                isEditMode = gameOptions["IsEnableEditMode"] == "True" ? true : false;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public void Exit()

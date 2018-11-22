@@ -46,6 +46,11 @@ namespace AMOFGameEngine
                 EngineLogManager.Instance.LogMessage("failed to Initialize the game system!", LogType.Error);
                 state = RunState.Error;
             }
+            if (!GameManager.Instance.InitGame(gameOptions))
+            {
+                EngineLogManager.Instance.LogMessage("failed to Initialize the game logic system!", LogType.Error);
+                state = RunState.Error;
+            }
 
             GC.Collect();
 

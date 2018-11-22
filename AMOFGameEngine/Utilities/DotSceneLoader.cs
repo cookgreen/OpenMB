@@ -5,6 +5,7 @@ using System.Xml;
 using Mogre;
 using System.ComponentModel;
 using AMOFGameEngine.Utilities;
+using AMOFGameEngine.Map;
 
 namespace DotSceneLoader
 {
@@ -333,10 +334,11 @@ namespace DotSceneLoader
                 mesh.SuggestTangentVectorBuildParams(VertexElementSemantic.VES_TANGENT, out src, out dest);
                 mesh.BuildTangentVectors(VertexElementSemantic.VES_TANGENT, src, dest);
 
-                pEntity = mSceneMgr.CreateEntity(name, meshFile);
+                pEntity = mSceneMgr.CreateEntity("SCENE_OBJECT_" + name + "_" + Guid.NewGuid().ToString(), meshFile);
                 pEntity.Visible = bvisible;
                 pEntity.CastShadows = bcastshadows;
                 pEntity.RenderingDistance = brenderingDistance;
+                pEntity.QueryFlags = 1 << 0;
 
                 XmlElement pElement;
                 // Process subentities (?)

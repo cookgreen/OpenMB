@@ -193,11 +193,12 @@
     <Compile Include="Core\OutputManager.cs" />
     <Compile Include="LogMessage\EngineLog.cs" />
     <Compile Include="LogMessage\EngineLogManager.cs" />
+    <Compile Include="Map\AIMeshVertex.cs" />
     <Compile Include="Map\GameMapEditor.cs" />
     <Compile Include="Map\GameObjectQueryFlags.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
     <Compile Include="Screen\Screen.cs" />
-    <Compile Include="Utilities\AIMesh.cs" />
+    <Compile Include="Map\AIMesh.cs" />
     <Compile Include="Map\GameMap.cs" />
     <Compile Include="Map\GameMapManager.cs" />
     <Compile Include="Map\GameMapTrigger.cs" />
@@ -285,7 +286,8 @@
     <Compile Include="Trigger\ITrigger.cs" />
     <Compile Include="Trigger\TriggerManager.cs" />
     <Compile Include="Utilities\ActorNode.cs" />
-    <Compile Include="Utilities\AIMeshIndexData.cs" />
+    <Compile Include="Map\AIMeshEdge.cs" />
+    <Compile Include="Map\AIMeshIndexData.cs" />
     <Compile Include="Utilities\CollisionTools.cs" />
     <Compile Include="Utilities\ConfigFile.cs" />
     <Compile Include="Utilities\ConfigFileParser.cs" />

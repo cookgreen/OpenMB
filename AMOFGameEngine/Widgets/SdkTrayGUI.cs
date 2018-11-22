@@ -390,8 +390,23 @@ namespace Mogre_Procedural.MogreBites
             Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
             float l = element._getDerivedLeft() * om.ViewportWidth;
             float t = element._getDerivedTop() * om.ViewportHeight;
-            float r = l + element.Width;
-            float b = t + element.Height;
+            float r = 0;
+            float b = 0;
+            if (element.MetricsMode == GuiMetricsMode.GMM_RELATIVE)
+            {
+                r = l + element.Width * om.ViewportWidth;
+                b = t + element.Height * om.ViewportHeight;
+            }
+            else if (element.MetricsMode == GuiMetricsMode.GMM_PIXELS)
+            {
+                r = l + element.Width;
+                b = t + element.Height;
+            }
+
+            bool b1 = cursorPos.x >= l + voidBorder;
+            bool b2 = cursorPos.x <= r - voidBorder;
+            bool b3 = cursorPos.y >= t + voidBorder;
+            bool b4 = cursorPos.y <= b - voidBorder;
 
             return (cursorPos.x >= l + voidBorder && cursorPos.x <= r - voidBorder && cursorPos.y >= t + voidBorder && cursorPos.y <= b - voidBorder);
         }
@@ -600,8 +615,10 @@ namespace Mogre_Procedural.MogreBites
 
         public override void _cursorPressed(Mogre.Vector2 cursorPos) {
             if (isCursorOver(mElement, cursorPos, 4))
+            {
                 setState(ButtonState.BS_DOWN);
-            OnClick?.Invoke(this);
+                OnClick?.Invoke(this);
+            }
         }
 
         public override void _cursorReleased(Mogre.Vector2 cursorPos) {
@@ -2097,7 +2114,7 @@ namespace Mogre_Procedural.MogreBites
             mDialogShade.Hide();
             mPriorityLayer.Add2D(mDialogShade);
 
-            string[] trayNames = { "TopLeft", "Top", "TopRight", "Left", "Center", "Right", "BottomLeft", "Bottom", "BottomRight" };
+            string[] trayNames = { "TopLeft", "Top", "TopRight", "Left", "Center", "Right", "BottomLeft", "Bottom", "BottomRight", "None" };
 
             for (uint i = 0; i < 9; i++) // make the real trays
 			{

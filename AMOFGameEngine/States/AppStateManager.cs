@@ -99,8 +99,10 @@ namespace AMOFGameEngine.States
 		         else
 		         {
                      System.Threading.Thread.Sleep(1000);
-		         }
-	         }
+                }
+
+                GC.Collect();
+            }
              //Save locate Info to file before exiting the main game loop
              GameManager.Instance.Exit();
          }

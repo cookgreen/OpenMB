@@ -103,10 +103,6 @@ namespace AMOFGameEngine.Map
             aimeshIndexData = new List<Mogre.Vector3>();
             aimeshVertexData = new List<Mogre.Vector3>();
             editor = new GameMapEditor(this);
-            if (GameManager.Instance.EDIT_MODE)
-            {
-                ScreenManager.Instance.ChangeScreen("InnerGameEditor");
-            }
 
             GameManager.Instance.mMouse.MouseMoved += Mouse_MouseMoved;
             GameManager.Instance.mMouse.MousePressed += Mouse_MousePressed;
@@ -127,12 +123,12 @@ namespace AMOFGameEngine.Map
             {
                 if (ScreenManager.Instance.CheckScreenIsVisual("InnerGameEditor") &&
                    (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
-                    GameManager.Instance.mKeyboard.IsKeyDown(arg.key)))
+                    GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_E)))
                 {
                     ScreenManager.Instance.ExitCurrentScreen();
                 }
-                else if((GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
-                    GameManager.Instance.mKeyboard.IsKeyDown(arg.key)))
+                else if(GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
+                    GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_E))
                 {
                     ScreenManager.Instance.ChangeScreen("InnerGameEditor", editor);
                 }
@@ -156,6 +152,12 @@ namespace AMOFGameEngine.Map
         private bool Mouse_MouseMoved(MouseEvent arg)
         {
             ScreenManager.Instance.InjectMouseMove(arg);
+            
+            Degree deCameraYaw = new Degree(arg.state.X.rel * -0.1f);
+            cam.Yaw(deCameraYaw);
+            Degree deCameraPitch = new Degree(arg.state.Y.rel * -0.1f);
+            cam.Pitch(deCameraPitch);
+
             if (GameManager.Instance.EDIT_MODE)
             {
 

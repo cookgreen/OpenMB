@@ -40,12 +40,15 @@ namespace AMOFGameEngine.Map
                 int index = 0;
                 foreach(var vertexData in aimesh.AIMeshVertexData)
                 {
+                    AIMeshVertex visualVertex = new AIMeshVertex();
+                    visualVertex.Position = vertexData;
                     Entity visualAIMeshVertexEnt = scm.CreateEntity("AIMESH_VERTEX_ENT_"+index, "marker_vertex.mesh");
                     SceneNode visualAIMeshVertexSceneNode = scm.RootSceneNode.CreateChildSceneNode("AIMESH_VERTEX_SCENENODE_" + index);
                     visualAIMeshVertexSceneNode.AttachObject(visualAIMeshVertexEnt);
                     visualAIMeshVertexSceneNode.Position = vertexData;
-                    visualAIMeshVertexEnt.QueryFlags = (uint)GameObjectQueryFlags.AIMESH_VERTEX;
+                    visualAIMeshVertexEnt.QueryFlags = 1 << 0;
                     visualAIMeshVertexEnt.Visible = true;
+                    visualVertex.Mesh = visualAIMeshVertexEnt;
                     index++;
                 }
                 index = 0;
@@ -69,12 +72,15 @@ namespace AMOFGameEngine.Map
                                 (startVertexData.z - endVertexData.z) / 2
                             );
 
+                            AIMeshEdge visualEdge = new AIMeshEdge();
+                            visualEdge.Position = centralVertexData;
                             Entity visualAIMeshLineEnt = scm.CreateEntity("AIMESH_LINE_ENT_" + index, "marker_line.mesh");
                             SceneNode visualAIMeshLineSceneNode = scm.RootSceneNode.CreateChildSceneNode("AIMESH_LINE_SCENENODE_" + index);
                             visualAIMeshLineSceneNode.AttachObject(visualAIMeshLineEnt);
                             visualAIMeshLineSceneNode.Position = centralVertexData;
                             Radian angle = Mogre.Math.ACos(startToEndVect.DotProduct(Vector3.UNIT_Z) / startToEndVect.Normalise());
                             visualAIMeshLineSceneNode.Rotate(Vector3.UNIT_Y, angle);
+                            visualEdge.Mesh = visualAIMeshLineEnt;
                         }
                         lastVertexNumber = vertexNumber;
                         index++;
@@ -89,8 +95,7 @@ namespace AMOFGameEngine.Map
             while (entities.MoveNext())
             {
                 MovableObject mo = entities.Current;
-                if (mo.QueryFlags == (uint)GameObjectQueryFlags.AIMESH_VERTEX ||
-                    mo.QueryFlags == (uint)GameObjectQueryFlags.AIMESH_LINE)
+                if (mo.QueryFlags == 1 << 0)
                 {
                     //Destroy this
                     mo.Visible = false;
@@ -104,8 +109,7 @@ namespace AMOFGameEngine.Map
             while (entities.MoveNext())
             {
                 MovableObject mo = entities.Current;
-                if (mo.QueryFlags == (uint)GameObjectQueryFlags.AIMESH_VERTEX ||
-                    mo.QueryFlags == (uint)GameObjectQueryFlags.AIMESH_LINE)
+                if (mo.QueryFlags == 1 << 0)
                 {
                     //Destroy this
                     mo.Visible = true;
@@ -113,14 +117,58 @@ namespace AMOFGameEngine.Map
             }
         }
 
-        public void AddNewAIMeshVertex(Vector3 newVertexPos)
+        public Entity AddNewAIMeshVertex(Vector3 newVertexPos)
         {
-            aimesh.AIMeshVertexData.Add(newVertexPos);
-            Entity visualAIMeshVertexEnt = scm.CreateEntity("AIMESH_VERTEX_ENT_" + aimesh.AIMeshVertexData.Count, "marker_vertex");
+            AIMeshVertex newVertex = new AIMeshVertex();
+            newVertex.Position = newVertexPos;
+            aimesh.AIMeshVertics.Add(newVertex);
+            Entity visualAIMeshVertexEnt = scm.CreateEntity("AIMESH_VERTEX_ENT_" + aimesh.AIMeshVertexData.Count, "marker_vertex.mesh");
             SceneNode visualAIMeshVertexSceneNode = scm.RootSceneNode.CreateChildSceneNode("AIMESH_VERTEX_SCENENODE_" + aimesh.AIMeshVertexData.Count);
             visualAIMeshVertexSceneNode.AttachObject(visualAIMeshVertexEnt);
             visualAIMeshVertexSceneNode.Position = newVertexPos;
-            visualAIMeshVertexEnt.QueryFlags = (uint)GameObjectQueryFlags.AIMESH_VERTEX;
+            visualAIMeshVertexEnt.QueryFlags = 1 << 0;
+            newVertex.Mesh = visualAIMeshVertexEnt;
+            return visualAIMeshVertexEnt;
+        }
+
+        public Entity AddNewAIMeshLine(Vector3 newLinePos)
+        {
+            AIMeshEdge newEdge = new AIMeshEdge();
+            newEdge.Position = newLinePos;
+            aimesh.AIMeshEdges.Add(newEdge);
+            Entity visualAIMeshLineEnt = scm.CreateEntity("AIMESH_LINE_ENT_" + aimesh.AIMeshEdges.Count, "marker_line.mesh");
+            SceneNode visualAIMeshLineSceneNode = scm.RootSceneNode.CreateChildSceneNode("AIMESH_LINE_SCENENODE_" + aimesh.AIMeshEdges.Count);
+            visualAIMeshLineSceneNode.AttachObject(visualAIMeshLineEnt);
+            visualAIMeshLineSceneNode.Position = newLinePos;
+            visualAIMeshLineEnt.QueryFlags = 1 << 0;
+            newEdge.Mesh = visualAIMeshLineEnt;
+            return visualAIMeshLineEnt;
+        }
+
+        public AIMeshEdge GetAIMeshEdge(Entity ent)
+        {
+            if(ent != null)
+            {
+                if(ent.Name.StartsWith("AIMESH_LINE_ENT_"))
+                {
+                    string edgeIndex = ent.Name.Split('_').Last();
+                    return aimesh.AIMeshEdges[int.Parse(edgeIndex)];
+                }
+            }
+            return null;
+        }
+
+        public AIMeshVertex GetAIMeshVertex(Entity ent)
+        {
+            if (ent != null)
+            {
+                if (ent.Name.StartsWith("AIMESH_VERTEX_ENT_"))
+                {
+                    string vertexIndex = ent.Name.Split('_').Last();
+                    return aimesh.AIMeshVertics[int.Parse(vertexIndex)];
+                }
+            }
+            return null;
         }
 
         public void Dispose()
@@ -129,7 +177,7 @@ namespace AMOFGameEngine.Map
             while (entities.MoveNext())
             {
                 MovableObject mo = entities.Current;
-                if (mo.QueryFlags == (uint)GameObjectQueryFlags.AIMESH_VERTEX)
+                if (mo.QueryFlags == 1 << 0)
                 {
                     //Destroy this
                     scm.DestroyEntity(mo.Name);

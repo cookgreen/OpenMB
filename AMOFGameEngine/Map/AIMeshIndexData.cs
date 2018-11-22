@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AMOFGameEngine.Utilities
+namespace AMOFGameEngine.Map
 {
     public class AIMeshIndexData
     {
