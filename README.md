@@ -5,23 +5,18 @@
 Open Source Role-Play Game engine based on MOGRE(Managed Ogre)
 
 ## Feature:
-* Mod System  
-* Soound System  
-* Locate system  
-* Custom Configuration Dialog  
-* Character System  
-* Network  
-* Physx  
-* GUI System  
-* Navmesh Pathfinder  
-* Script System  
+* Individual Script System
+* Mod System
+* Localization System
+* Inner Game Editor  
+* Physics System  
+* Script-driven GUI System  
 
 ## Based on:
 * Mogre  
 * NAudio  
 * NVorbis  
 * MogreBites  
-* Accord.NET  
 * Physx Candy Wrapper
 * Critter ai Navmesh path finder
 
