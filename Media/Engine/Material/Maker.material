@@ -25,3 +25,17 @@ material marker_line
         }
     }
 }
+
+material marker_pivot
+{
+	technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture marker_pivot.jpg
+            }
+        }
+    }
+}

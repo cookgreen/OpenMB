@@ -12,6 +12,7 @@ namespace AMOFGameEngine.Map
         private GameMap map;
         private AIMesh aimesh;
         private SceneManager scm;
+        private Entity objPivot;
 
         public GameMap Map
         {
@@ -25,6 +26,10 @@ namespace AMOFGameEngine.Map
         {
             this.map = map;
             scm = map.SceneManager;
+            objPivot = scm.CreateEntity("MARKER_PIVOT", "marker_pivot.mesh");
+            SceneNode objPivotSceneNode = scm.RootSceneNode.CreateChildSceneNode();
+            objPivotSceneNode.AttachObject(objPivot);
+            objPivot.Visible = false;
         }
 
         public void Initization(AIMesh aimesh)
