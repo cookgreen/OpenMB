@@ -237,6 +237,7 @@ namespace AMOFGameEngine.Screen
             {
                 if (state == EditState.Free)
                 {
+                    editor.HidePivot();
                     return;
                 }
                 currentSelectedEnt.ParentSceneNode.ShowBoundingBox = false;
@@ -267,6 +268,8 @@ namespace AMOFGameEngine.Screen
                         ent.ParentSceneNode.ShowBoundingBox = true;
                         currentSelectedEnt = ent;
                         state = EditState.Edit;
+                        Mogre.Vector3 entCenterPos = ent.GetWorldBoundingBox().Center;
+                        editor.ShowPivotAtPosition(entCenterPos);
                     }
                 }
             }

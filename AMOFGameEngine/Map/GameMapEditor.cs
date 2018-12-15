@@ -27,6 +27,7 @@ namespace AMOFGameEngine.Map
             this.map = map;
             scm = map.SceneManager;
             objPivot = scm.CreateEntity("MARKER_PIVOT", "marker_pivot.mesh");
+            objPivot.SetMaterialName("marker_pivot");
             SceneNode objPivotSceneNode = scm.RootSceneNode.CreateChildSceneNode();
             objPivotSceneNode.AttachObject(objPivot);
             objPivot.Visible = false;
@@ -188,6 +189,17 @@ namespace AMOFGameEngine.Map
                     scm.DestroyEntity(mo.Name);
                 }
             }
+        }
+
+        public void ShowPivotAtPosition(Vector3 entCenterPos)
+        {
+            objPivot.ParentSceneNode.SetVisible(true);
+            objPivot.ParentSceneNode.SetPosition(entCenterPos.x, entCenterPos.y, entCenterPos.z);
+        }
+
+        public void HidePivot()
+        {
+            objPivot.ParentSceneNode.SetVisible(false);
         }
     }
 }
