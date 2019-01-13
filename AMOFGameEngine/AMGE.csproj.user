@@ -14,4 +14,7 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <StartArguments>Engine.ShowConfig=no</StartArguments>
+  </PropertyGroup>
 </Project>

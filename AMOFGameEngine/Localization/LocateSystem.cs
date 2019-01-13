@@ -28,12 +28,19 @@ namespace AMOFGameEngine.Localization
     {
         private LOCATE locate;
         private string path="./language.txt";
-        public bool IsInit;
+        private bool isInit;
         private bool disposed;
-        LocateUCSFile ucsGameStr;
-        LocateUCSFile ucsGameUI;
-        LocateUCSFile ucsGameQuickStr;
+        private LocateUCSFile ucsGameStr;
+        private LocateUCSFile ucsGameUI;
+        private LocateUCSFile ucsGameQuickStr;
         private List<string> avaliableLocates;
+        public bool IsInit
+        {
+            get
+            {
+                return isInit;
+            }
+        }
 
         public LOCATE Locate
         {
@@ -96,6 +103,7 @@ namespace AMOFGameEngine.Localization
             ucsGameStr = new LocateUCSFile("GameStrings.ucs", locate);
             ucsGameUI = new LocateUCSFile("GameUI.ucs", locate);
             ucsGameQuickStr = new LocateUCSFile("GameQuickString.ucs", locate);
+            isInit = true;
 
             ucsGameStr.Prepare();
             ucsGameUI.Prepare();
@@ -132,6 +140,7 @@ namespace AMOFGameEngine.Localization
             return string.Format("$No Such Key '{0}'!", ID);
         }
 
+        [Obsolete("No need to read locate setting from language.txt")]
         public LOCATE GetLanguageFromFile()
         {
             string locate;

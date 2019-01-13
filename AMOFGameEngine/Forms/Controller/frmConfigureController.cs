@@ -56,7 +56,7 @@ namespace AMOFGameEngine.Forms.Controller
 
         private void LoadGameConfigure()
         {
-            selectedlocate = LocateSystem.Singleton.ConvertLocateShortStringToLocateInfo(gameCfg["Localized"]["Current"]);
+            selectedlocate = LocateSystem.Singleton.ConvertLocateShortStringToLocateInfo(gameCfg["Localized"]["CurrentLocate"]);
             GameConfig.CurrentSelectedLocate = LocateSystem.Singleton.CovertLocateInfoStringToReadableString(selectedlocate.ToString());
             GameConfig.AvaliableLocates.Clear();
             GameConfig.IsEnableEditMode = gameCfg["Game"]["EditMode"] == "1" ? true : false;
@@ -141,31 +141,34 @@ namespace AMOFGameEngine.Forms.Controller
             GetGraphicSettingsByName(renderSystemName);
         }
 
-        public Tuple<Dictionary<string,string>,AMOFGameEngine.Utilities.ConfigFile> SaveConfigure()
+        public Dictionary<string,string> SaveConfigure()
         {
             Dictionary<string, string> gameOptions = new Dictionary<string, string>();
 
-            gameOptions.Add("IsEnableMusic", AudioConfig.IsEnableMusic.ToString());
-            gameOptions.Add("IsEnableSound", AudioConfig.IsEnableSound.ToString());
-            gameOptions.Add("Language", GameConfig.CurrentSelectedLocate.ToString());
-            gameOptions.Add("IsEnableEditMode", GameConfig.IsEnableEditMode.ToString());
+            gameOptions.Add("EnableMusic", AudioConfig.IsEnableMusic.ToString());
+            gameOptions.Add("EnableSound", AudioConfig.IsEnableSound.ToString());
+            gameOptions.Add("CurrentLocate", GameConfig.CurrentSelectedLocate.ToString());
+            gameOptions.Add("EditMode", GameConfig.IsEnableEditMode.ToString());
 
+            gameOptions.Add("Render System", GraphicConfig.RenderSystem);
             ogreCfg[""]["Render System"] = GraphicConfig.RenderSystem;
             var kpls = ogreCfg[GraphicConfig.RenderSystem].KeyValuePairs;
             int length = kpls.Count;
             for (int i = 0; i < length; i++)
             {
-                kpls[i].Value = GraphicConfig.RenderParams[i].Split(':')[1];
+                string[] renderParamsToken = GraphicConfig.RenderParams[i].Split(':');
+                kpls[i].Value = renderParamsToken[1];
+                gameOptions.Add("Render Params_" + kpls[i].Key, renderParamsToken[1]);
             }
             gameCfg["Audio"]["EnableMusic"] = AudioConfig.IsEnableMusic ? "1" : "0";
             gameCfg["Audio"]["EnableSound"] = AudioConfig.IsEnableSound ? "1" : "0";
-            gameCfg["Localized"]["Current"] = LocateSystem.Singleton.CovertReadableStringToLocateShortString(GameConfig.CurrentSelectedLocate);
+            gameCfg["Localized"]["CurrentLocate"] = LocateSystem.Singleton.CovertReadableStringToLocateShortString(GameConfig.CurrentSelectedLocate);
             gameCfg["Game"]["EditMode"] = GameConfig.IsEnableEditMode ? "1" : "0";
 
             parser.Save(gameCfg);
             parser.Save(ogreCfg);
 
-            return new Tuple<Dictionary<string,string>,Utilities.ConfigFile>(gameOptions, ogreCfg);
+            return gameOptions;
         }
     }
 }

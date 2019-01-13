@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Forms;
 using Mogre;
 using MOIS;
+using AMOFGameEngine.Core;
 using AMOFGameEngine.Forms.Controller;
 using AMOFGameEngine.Forms;
 
@@ -13,10 +14,8 @@ namespace AMOFGameEngine
     {
         static void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            frmConfigureController controller = new frmConfigureController(new frmConfigure());
-            Application.Run(controller.form);
+            Core.Game game = new Core.Game(args);
+            game.Run();
         }
     }
 }

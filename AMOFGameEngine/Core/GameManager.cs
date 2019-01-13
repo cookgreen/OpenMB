@@ -26,6 +26,17 @@ namespace AMOFGameEngine
 {
     public class GameManager : IDisposable
     {
+        private string defaultRenderSystemName;
+        private bool isEditMode;
+        private bool isCheatMode;
+        private AppStateManager appStateMgr;
+        private LocateSystem locateMgr;
+        private ModManager modMgr;
+        private NetworkManager networkMgr;
+        private OutputManager outputMgr;
+        private SoundManager soundMgr;
+        private ScreenManager uiMgr;
+        private Dictionary<string, string> gameOptions;
         public Root mRoot;
         public RenderWindow mRenderWnd;
         public Viewport mViewport;
@@ -54,17 +65,6 @@ namespace AMOFGameEngine
                 return isCheatMode;
             }
         }
-
-        private string defaultRenderSystemName;
-        private bool isEditMode;
-        private bool isCheatMode;
-        private AppStateManager appStateMgr;
-        private LocateSystem locateMgr;
-        private ModManager modMgr;
-        private NetworkManager networkMgr;
-        private OutputManager outputMgr;
-        private SoundManager soundMgr;
-        private ScreenManager uiMgr;
 
         private static GameManager instance;
         public static GameManager Instance
@@ -103,46 +103,105 @@ namespace AMOFGameEngine
             isCheatMode = false;
          }
 
-        public bool InitRender(String wndTitle, ConfigFile renderconfig)
+        public bool Init(string windowTitle, Dictionary<string, string> gameOptions)
         {
+            if (!InitRender(windowTitle, ref gameOptions))
+                return false;
+
+            if (!InitSubSystem(gameOptions))
+                return false;
+
+            if (!InitGame(gameOptions))
+                return false;
+
+            return true;
+        }
+
+        private bool InitRender(string wndTitle, ref Dictionary<string, string> gameOptions)
+        {
+            mRoot = Root.Singleton == null ? new Root() : Root.Singleton;
+            mRoot.FrameStarted += new FrameListener.FrameStartedHandler(mRoot_FrameStarted);
+
             mLog = EngineLogManager.Instance.CreateLog("./Log/Engine.log");
             mMogreLog = LogManager.Singleton.CreateLog("./Log/Mogre.log", true, true, false);
             mMogreLog.SetDebugOutputEnabled(true);
 
-            mRoot = Root.Singleton;
-            mRoot.FrameStarted += new FrameListener.FrameStartedHandler(mRoot_FrameStarted);
-
             RenderSystem rs = null;
+            ConfigFileParser parser = new ConfigFileParser();
+            if (gameOptions == null)
+            {
+                gameOptions = new Dictionary<string, string>();
 
-            defaultRenderSystemName = renderconfig[""]["Render System"];
+                ConfigFile cf = parser.Load("Game.cfg");
+                var sections = cf.Sections;
+                foreach (var section in sections)
+                {
+                    foreach(var kpl in section.KeyValuePairs)
+                    {
+                        gameOptions.Add(kpl.Key, kpl.Value);
+                    }
+                }
+
+                cf = parser.Load("ogre.cfg");
+                sections = cf.Sections;
+                string renderSystem = null;
+                foreach (var section in sections)
+                {
+                    if (section.Name == "")
+                    {
+                        foreach (var kpl in section.KeyValuePairs)
+                        {
+                            renderSystem = kpl.Value;
+                            gameOptions.Add(kpl.Key, kpl.Value);
+                        }
+                    }
+                    else if(section.Name == renderSystem)
+                    {
+                        foreach (var kpl in section.KeyValuePairs)
+                        {
+                            gameOptions.Add("Render Params_" + kpl.Key, kpl.Value);
+                        }
+                    }
+                }
+            }
+
+            defaultRenderSystemName = gameOptions.Where(o => o.Key == "Render System").First().Value;
+            var renderParams = gameOptions.Where(o => o.Key.StartsWith("Render Params"));
             if (!string.IsNullOrEmpty(defaultRenderSystemName))
             {
+                var videModeRenderParam = renderParams.Where(o => o.Key == "Render Params_Video Mode").First();
                 rs = mRoot.GetRenderSystemByName(defaultRenderSystemName);
                 string strVideoMode =  Regex.Match(
-                    renderconfig[defaultRenderSystemName]["Video Mode"], 
+                    videModeRenderParam.Value, 
                     "[0-9]{3,4} x [0-9]{3,4}").Value;
                 videoMode["Width"] = strVideoMode.Split('x')[0].Trim();
                 videoMode["Height"] = strVideoMode.Split('x')[1].Trim();
             }
-            if (rs != null && renderconfig != null)
+
+            var ogreConfigMap = rs.GetConfigOptions();
+
+            if (rs != null && renderParams != null)
             {
-                ConfigFileSection node = renderconfig[defaultRenderSystemName];
-                if (!string.IsNullOrEmpty(node.Name))
+                foreach (var kpl in renderParams)
                 {
-                    foreach (var kpl in node.KeyValuePairs)
+                    string renderParamKey = kpl.Key.Split('_')[1];
+                    string renderParamValue = kpl.Value;
+                    //Validate the render parameter
+                    if (!ogreConfigMap[renderParamKey].possibleValues.Contains(renderParamValue))
                     {
-                        rs.SetConfigOption(kpl.Key, kpl.Value);
+                        renderParamValue = ogreConfigMap[renderParamKey].possibleValues[0];
                     }
+                    rs.SetConfigOption(renderParamKey, renderParamValue);
                 }
                 mRoot.RenderSystem = rs;
             }
             mRenderWnd = mRoot.Initialise(true, wndTitle);
  
             mViewport = mRenderWnd.AddViewport(null);
-            ColourValue cv=new ColourValue(0.5f,0.5f,0.5f);
-            mViewport.BackgroundColour=cv;
- 
-            mViewport.Camera=null;
+            ColourValue cv = new ColourValue(0.5f, 0.5f, 0.5f);
+            mViewport.BackgroundColour = cv;
+
+            mViewport.Camera = null;
  
             int hWnd = 0;
             
@@ -165,7 +224,7 @@ namespace AMOFGameEngine
  
             String secName, typeName, archName;
             AMOFGameEngine.Utilities.ConfigFile conf = new AMOFGameEngine.Utilities.ConfigFile();
-            ConfigFileParser parser = new ConfigFileParser();
+            
             conf = parser.Load("resources.cfg");
             for (int i = 0; i < conf.Sections.Count; i++)
             {
@@ -177,6 +236,12 @@ namespace AMOFGameEngine
                     ResourceGroupManager.Singleton.AddResourceLocation(archName, typeName, secName);
                 }
             }
+
+            if (!LocateSystem.Singleton.IsInit)
+            {
+                LocateSystem.Singleton.InitLocateSystem(LocateSystem.Singleton.ConvertLocateShortStringToLocateInfo(gameOptions.Where(o => o.Key == "CurrentLocate").First().Value));
+            }
+
             ResourceGroupManager.Singleton.AddResourceLocation(
                 string.Format("./Media/Engine/Fonts/{0}/", LocateSystem.Singleton.Locate.ToString()), "FileSystem",
                 "General");
@@ -192,9 +257,49 @@ namespace AMOFGameEngine
  
             mRenderWnd.IsActive=true;
 
+            this.gameOptions = gameOptions;
+
             mLog.LogMessage("Game Started!");
 
             return true;
+        }
+
+        private bool InitSubSystem(Dictionary<string, string> gameOptions)
+        {
+            appStateMgr = new AppStateManager();
+            locateMgr = LocateSystem.Singleton;
+            modMgr = new ModManager();
+            networkMgr = new NetworkManager();
+            outputMgr = new OutputManager();
+            soundMgr = new SoundManager();
+            uiMgr = new ScreenManager();
+
+            SoundManager.Instance.InitSystem(gameOptions["EnableMusic"] == "True" ? true : false, gameOptions["EnableSound"] == "True" ? true : false);
+
+            if (!locateMgr.IsInit)
+            {
+                locateMgr.InitLocateSystem(locateMgr.ConvertLocateShortStringToLocateInfo(gameOptions["CurrentLocae"]));
+            }
+            
+            Update += modMgr.Update;
+            Update += outputMgr.Update;
+            Update += soundMgr.Update;
+            Update += uiMgr.Update;
+            
+            return true;
+        }
+
+        private bool InitGame(Dictionary<string, string> gameOptions)
+        {
+            try
+            {
+                isEditMode = gameOptions["IsEnableEditMode"] == "True" ? true : false;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         bool mRoot_FrameStarted(FrameEvent evt)
@@ -206,44 +311,6 @@ namespace AMOFGameEngine
             UpdateGame(evt.timeSinceLastFrame);
             UpdateRender(evt.timeSinceLastFrame);
             return true;
-        }
-
-        public bool InitSubSystem(Dictionary<string, string> gameOptions)
-        {
-            appStateMgr = new AppStateManager();
-            locateMgr = LocateSystem.Singleton;
-            modMgr = new ModManager();
-            networkMgr = new NetworkManager();
-            outputMgr = new OutputManager();
-            soundMgr = new SoundManager();
-            uiMgr = new ScreenManager();
-
-            SoundManager.Instance.InitSystem(gameOptions["IsEnableMusic"] == "True" ? true : false, gameOptions["IsEnableSound"] == "True" ? true : false);
-
-            if (!locateMgr.IsInit)
-            {
-                locateMgr.InitLocateSystem(locateMgr.GetLanguageFromFile());
-            }
-            
-            Update += modMgr.Update;
-            Update += outputMgr.Update;
-            Update += soundMgr.Update;
-            Update += uiMgr.Update;
-            
-            return true;
-        }
-
-        public bool InitGame(Dictionary<string, string> gameOptions)
-        {
-            try
-            {
-                isEditMode = gameOptions["IsEnableEditMode"] == "True" ? true : false;
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
         }
 
         public void Exit()

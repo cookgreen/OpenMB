@@ -52,7 +52,6 @@ namespace AMOFGameEngine.Forms
                 cmbLanguageSelect.SelectedIndex = LocateSystem.Singleton.CovertLocateInfoToIndex(controller.CurrentLoacte);
 
                 LocateSystem.Singleton.InitLocateSystem(controller.CurrentLoacte);// Init Locate System
-                LocateSystem.Singleton.IsInit = true;
             
                 tbRenderOpt.TabPages[0].Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_graphic");
                 tbRenderOpt.TabPages[1].Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_audio");
@@ -101,8 +100,8 @@ namespace AMOFGameEngine.Forms
         private void btnOK_Click(object sender, EventArgs e)
         {
             Close();
-            Tuple<Dictionary<string, string>, AMOFGameEngine.Utilities.ConfigFile> confTuple = controller.SaveConfigure();
-            GameApp app = new GameApp(confTuple.Item1, confTuple.Item2);
+            Dictionary<string, string> gameOptions = controller.SaveConfigure();
+            GameApp app = new GameApp(gameOptions);
             app.Run();
         }
         private void cmbValueChange_SelectedIndexChanged(object sender, EventArgs e)

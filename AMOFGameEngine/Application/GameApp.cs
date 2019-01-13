@@ -20,12 +20,10 @@ namespace AMOFGameEngine
     {
         private RunState state;
         private Dictionary<string, string> gameOptions;
-        private AMOFGameEngine.Utilities.ConfigFile conf;
-        public GameApp(Dictionary<string,string> gameOptions, AMOFGameEngine.Utilities.ConfigFile conf)
+        public GameApp(Dictionary<string,string> gameOptions = null)
         {
             this.state = RunState.Stopped;
             this.gameOptions = gameOptions;
-            this.conf = conf;
             AppStateManager.Instance.OnAppStateManagerStarted += new Action(OnAppStateManagerStarted);
         }
 
@@ -36,19 +34,9 @@ namespace AMOFGameEngine
 
         public RunState Run()
         {
-            if (!GameManager.Instance.InitRender("AMGE", conf))
+            if (!GameManager.Instance.Init("AMGE", gameOptions))
             {
                 EngineLogManager.Instance.LogMessage("failed to Initialize the render system!", LogType.Error);
-                state = RunState.Error;
-            }
-            if (!GameManager.Instance.InitSubSystem(gameOptions))
-            {
-                EngineLogManager.Instance.LogMessage("failed to Initialize the game system!", LogType.Error);
-                state = RunState.Error;
-            }
-            if (!GameManager.Instance.InitGame(gameOptions))
-            {
-                EngineLogManager.Instance.LogMessage("failed to Initialize the game logic system!", LogType.Error);
                 state = RunState.Error;
             }
 

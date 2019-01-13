@@ -164,6 +164,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Argument.cs" />
+    <Compile Include="Core\Game.cs" />
     <Compile Include="Core\GameVersion.cs" />
     <Compile Include="Forms\Controller\frmConfigureController.cs" />
     <Compile Include="Forms\Model\AudioConfigure.cs" />
