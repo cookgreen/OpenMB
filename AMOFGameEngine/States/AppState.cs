@@ -25,15 +25,15 @@ namespace AMOFGameEngine.States
 };
     public class AppState : SdkTrayListener
     {
-        protected AppStateListener m_pParent;
-        protected Camera m_Camera;
-        protected SceneManager m_SceneMgr;
-        protected FrameEvent m_FrameEvent;
-        protected ModData m_Data;
+        protected AppStateListener listener;
+        protected Camera camera;
+        protected SceneManager sceneMgr;
+        protected FrameEvent frameEvent;
+        protected ModData modData;
         public static void create<T>(string name) where T : AppState, new()
         {
             T myAppState = new T();		
-	        myAppState.m_pParent = AppStateManager.Instance;
+	        myAppState.listener = AppStateManager.Instance;
             AppStateManager.Instance.manageAppState(name, myAppState);
         }
  
@@ -47,21 +47,21 @@ namespace AMOFGameEngine.States
         public virtual void update(double timeSinceLastFrame) { }
         public AppState(){}
 
-        protected AppState findByName(String stateName) { return m_pParent.findByName(stateName); }
-        protected void changeAppState(AppState state,ModData e=null) { m_pParent.changeAppState(state,e); }
-        protected bool pushAppState(AppState state) { return m_pParent.pushAppState(state); }
-        protected void popAppState() { m_pParent.popAppState(); }
-        protected void shutdown() { m_pParent.shutdown(); }
-        protected void popAllAndPushAppState<T>(AppState state) where T : AppState { m_pParent.popAllAndPushAppState<T>(state); }
+        protected AppState findByName(string stateName) { return listener.findByName(stateName); }
+        protected void changeAppState(AppState state,ModData e = null) { listener.changeAppState(state,e); }
+        protected bool pushAppState(AppState state) { return listener.pushAppState(state); }
+        protected void popAppState() { listener.popAppState(); }
+        protected void shutdown() { listener.shutdown(); }
+        protected void popAllAndPushAppState<T>(AppState state) where T : AppState { listener.popAllAndPushAppState<T>(state); }
 
         protected virtual void ReConfigure(string renderName, Dictionary<string, string> displayOptions)
         {
-            RenderSystem rs = GameManager.Instance.mRoot.GetRenderSystemByName(renderName);
+            RenderSystem rs = GameManager.Instance.root.GetRenderSystemByName(renderName);
             foreach (var kpl in displayOptions)
             {
                 rs.SetConfigOption(kpl.Key, kpl.Value);
             }
-            GameManager.Instance.mRoot.QueueEndRendering();
+            GameManager.Instance.root.QueueEndRendering();
         }
     }
 }

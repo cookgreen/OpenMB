@@ -53,7 +53,7 @@ namespace AMOFGameEngine.Script.Command
                     }
                     else
                     {
-                        GameManager.Instance.mLog.LogMessage(string.Format("Function `{0}` didn't exist!", commandArgs[0]), LogMessage.LogType.Error);
+                        GameManager.Instance.log.LogMessage(string.Format("Function `{0}` didn't exist!", commandArgs[0]), LogMessage.LogType.Error);
                     }
                 }
             }

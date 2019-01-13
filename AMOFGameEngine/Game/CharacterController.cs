@@ -207,7 +207,7 @@ namespace AMOFGameEngine.Game
             }
             catch(Exception ex)
             {
-                GameManager.Instance.mLog.LogMessage("Engine Error: " + ex.Message);
+                GameManager.Instance.log.LogMessage("Engine Error: " + ex.Message);
                 return false;
             }
         }

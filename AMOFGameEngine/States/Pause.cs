@@ -17,35 +17,35 @@ namespace AMOFGameEngine.States
         {
             m_bQuit = false;
             m_bQuestionActive = false;
-            m_FrameEvent = new FrameEvent();
+            frameEvent = new FrameEvent();
         }
 
         public override void enter(ModData e = null)
         {
             m_bQuit = false;
 
-            m_SceneMgr = GameManager.Instance.mRoot.CreateSceneManager(SceneType.ST_GENERIC, "PauseSceneMgr");
+            sceneMgr = GameManager.Instance.root.CreateSceneManager(SceneType.ST_GENERIC, "PauseSceneMgr");
             ColourValue cvAmbineLight = new ColourValue(0.7f, 0.7f, 0.7f);
-            m_SceneMgr.AmbientLight = cvAmbineLight;
+            sceneMgr.AmbientLight = cvAmbineLight;
 
-            m_Camera = m_SceneMgr.CreateCamera("PauseCam");
-            m_Camera.Position = new Mogre.Vector3(0, 0, 0);
-            m_Camera.NearClipDistance = 1;
+            camera = sceneMgr.CreateCamera("PauseCam");
+            camera.Position = new Mogre.Vector3(0, 0, 0);
+            camera.NearClipDistance = 1;
 
-            m_Camera.AspectRatio = GameManager.Instance.mViewport.ActualWidth /
-            GameManager.Instance.mViewport.ActualHeight;
+            camera.AspectRatio = GameManager.Instance.viewport.ActualWidth /
+            GameManager.Instance.viewport.ActualHeight;
 
-            GameManager.Instance.mViewport.Camera = m_Camera;
+            GameManager.Instance.viewport.Camera = camera;
 
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
-            GameManager.Instance.mTrayMgr.showCursor();
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_CENTER, "BackToMenuBtn", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Back To Game"), 250);
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Quit"), 250);
-            GameManager.Instance.mTrayMgr.createLabel(TrayLocation.TL_TOP, "PauseLbl", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Game Paused"), 250);
+            GameManager.Instance.trayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.showCursor();
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "BackToMenuBtn", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Back To Game"), 250);
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Quit"), 250);
+            GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_TOP, "PauseLbl", LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "Game Paused"), 250);
 
-            GameManager.Instance.mMouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
-            GameManager.Instance.mMouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
-            GameManager.Instance.mMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
+            GameManager.Instance.mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
+            GameManager.Instance.mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
+            GameManager.Instance.mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
 
             m_bQuestionActive = true;
 
@@ -55,19 +55,19 @@ namespace AMOFGameEngine.States
         { }
         public override void exit()
         {
-            if (m_SceneMgr != null)
+            if (sceneMgr != null)
             {
-                m_SceneMgr.DestroyCamera(m_Camera);
-                GameManager.Instance.mRoot.DestroySceneManager(m_SceneMgr);
+                sceneMgr.DestroyCamera(camera);
+                GameManager.Instance.root.DestroySceneManager(sceneMgr);
             }
 
-            GameManager.Instance.mTrayMgr.clearAllTrays();
-            GameManager.Instance.mTrayMgr.setListener(null);
+            GameManager.Instance.trayMgr.clearAllTrays();
+            GameManager.Instance.trayMgr.setListener(null);
         }
 
         public bool keyPressed(KeyEvent keyEventRef)
         {
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) && !m_bQuestionActive)
+            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_ESCAPE) && !m_bQuestionActive)
             {
                 m_bQuit = true;
                 return true;
@@ -86,17 +86,17 @@ namespace AMOFGameEngine.States
 
         public bool mouseMoved(MouseEvent evt)
         {
-            if (GameManager.Instance.mTrayMgr.injectMouseMove(evt)) return true;
+            if (GameManager.Instance.trayMgr.injectMouseMove(evt)) return true;
             return true;
         }
         public bool mousePressed(MouseEvent evt, MouseButtonID id)
         {
-            if (GameManager.Instance.mTrayMgr.injectMouseDown(evt, id)) return true;
+            if (GameManager.Instance.trayMgr.injectMouseDown(evt, id)) return true;
             return true;
         }
         public bool mouseReleased(MouseEvent evt, MouseButtonID id)
         {
-            if (GameManager.Instance.mTrayMgr.injectMouseUp(evt, id)) return true;
+            if (GameManager.Instance.trayMgr.injectMouseUp(evt, id)) return true;
             return true;
         }
 
@@ -126,15 +126,15 @@ namespace AMOFGameEngine.States
             if (yesHit == true)
                 shutdown();
             else
-                GameManager.Instance.mTrayMgr.closeDialog();
+                GameManager.Instance.trayMgr.closeDialog();
 
             m_bQuestionActive = false;
         }
 
         public override void update(double timeSinceLastFrame)
         {
-            m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
-            GameManager.Instance.mTrayMgr.frameRenderingQueued(m_FrameEvent);
+            frameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
+            GameManager.Instance.trayMgr.frameRenderingQueued(frameEvent);
 
             if (m_bQuit == true)
             {

@@ -120,16 +120,16 @@ namespace AMOFGameEngine.Game
 
             GameMapManager.Instance.Initization(this);
 
-            scm = GameManager.Instance.mRoot.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE, "GameSceneManager");
+            scm = GameManager.Instance.root.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE, "GameSceneManager");
             scm.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
 
             cam = scm.CreateCamera("gameCam");
-            cam.AspectRatio = GameManager.Instance.mViewport.ActualWidth / GameManager.Instance.mViewport.ActualHeight;
+            cam.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
             cam.NearClipDistance = 5;
 
-            GameManager.Instance.mViewport.Camera = cam;
+            GameManager.Instance.viewport.Camera = cam;
 
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.destroyAllWidgets();
             cam.FarClipDistance = 50000;
 
             scm.SetSkyDome(true, "Examples/CloudySky", 5, 8);
@@ -139,15 +139,15 @@ namespace AMOFGameEngine.Game
             light.Position = new Mogre.Vector3(-10, 40, 20);
             light.SpecularColour = ColourValue.White;
 
-            GameManager.Instance.mTrayMgr.hideCursor();
+            GameManager.Instance.trayMgr.hideCursor();
 
-            GameManager.Instance.mMouse.MouseMoved += mMouse_MouseMoved;
-            GameManager.Instance.mMouse.MousePressed += mMouse_MousePressed;
-            GameManager.Instance.mMouse.MouseReleased += mMouse_MouseReleased;
-            GameManager.Instance.mKeyboard.KeyPressed += mKeyboard_KeyPressed;
-            GameManager.Instance.mKeyboard.KeyReleased += mKeyboard_KeyReleased;
+            GameManager.Instance.mouse.MouseMoved += mMouse_MouseMoved;
+            GameManager.Instance.mouse.MousePressed += mMouse_MousePressed;
+            GameManager.Instance.mouse.MouseReleased += mMouse_MouseReleased;
+            GameManager.Instance.keyboard.KeyPressed += mKeyboard_KeyPressed;
+            GameManager.Instance.keyboard.KeyReleased += mKeyboard_KeyReleased;
 
-            GameManager.Instance.mRoot.FrameRenderingQueued += FrameRenderingQueued;
+            GameManager.Instance.root.FrameRenderingQueued += FrameRenderingQueued;
 
         }
 
@@ -165,12 +165,12 @@ namespace AMOFGameEngine.Game
             physicsScene.Dispose();
             physics.Dispose();
 
-            GameManager.Instance.mMouse.MouseMoved -= mMouse_MouseMoved;
-            GameManager.Instance.mMouse.MousePressed -= mMouse_MousePressed;
-            GameManager.Instance.mMouse.MouseReleased -= mMouse_MouseReleased;
-            GameManager.Instance.mKeyboard.KeyPressed -= mKeyboard_KeyPressed;
-            GameManager.Instance.mKeyboard.KeyReleased -= mKeyboard_KeyReleased;
-            GameManager.Instance.mRoot.FrameRenderingQueued -= FrameRenderingQueued;
+            GameManager.Instance.mouse.MouseMoved -= mMouse_MouseMoved;
+            GameManager.Instance.mouse.MousePressed -= mMouse_MousePressed;
+            GameManager.Instance.mouse.MouseReleased -= mMouse_MouseReleased;
+            GameManager.Instance.keyboard.KeyPressed -= mKeyboard_KeyPressed;
+            GameManager.Instance.keyboard.KeyReleased -= mKeyboard_KeyReleased;
+            GameManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
         }
 
         public void Update(double timeSinceLastFrame)
@@ -212,7 +212,7 @@ namespace AMOFGameEngine.Game
         private void SceneLoader_LoadSceneFinished()
         {
             pbProgressBar.setComment("Finished");
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.destroyAllWidgets();
         }
 
         private void SceneLoader_LoadSceneStarted()
@@ -222,8 +222,8 @@ namespace AMOFGameEngine.Game
 
         private void CreateLoadingScreen(string text)
         {
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
-            pbProgressBar = GameManager.Instance.mTrayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
+            GameManager.Instance.trayMgr.destroyAllWidgets();
+            pbProgressBar = GameManager.Instance.trayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
             pbProgressBar.setComment(text);
         }
 

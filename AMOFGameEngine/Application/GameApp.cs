@@ -9,14 +9,14 @@ using AMOFGameEngine.LogMessage;
 
 namespace AMOFGameEngine
 {
-    enum RunState
+    public enum RunState
     {
         Stopped,
         Running,
         Error
     }
 
-    class GameApp
+    public class GameApp
     {
         private RunState state;
         private Dictionary<string, string> gameOptions;

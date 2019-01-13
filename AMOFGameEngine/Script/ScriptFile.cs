@@ -50,12 +50,12 @@ namespace AMOFGameEngine.Script
                 string[] lineToken = lines[i].Split(' ');
                 if (lineToken.Length <= 0)
                 {
-                    GameManager.Instance.mLog.LogMessage("Error Prase Script File At Line: '" + lineToken[0] + "' Error At Line: " + (i + 1).ToString(), LogMessage.LogType.Error);
+                    GameManager.Instance.log.LogMessage("Error Prase Script File At Line: '" + lineToken[0] + "' Error At Line: " + (i + 1).ToString(), LogMessage.LogType.Error);
                     continue;
                 }
                 if (!registeredCommand.ContainsKey(lineToken[0]))
                 {
-                    GameManager.Instance.mLog.LogMessage("Script Command '" + lineToken[0] + "' Not Found At Line: " + (i + 1).ToString(), LogMessage.LogType.Warning);
+                    GameManager.Instance.log.LogMessage("Script Command '" + lineToken[0] + "' Not Found At Line: " + (i + 1).ToString(), LogMessage.LogType.Warning);
                     continue;
                 }
                 try
@@ -86,7 +86,7 @@ namespace AMOFGameEngine.Script
                 catch
                 {
                     currentCommand = null;
-                    GameManager.Instance.mLog.LogMessage("Script Command '" + lineToken[0] + "' Error At Line: " + (i + 1).ToString(), LogMessage.LogType.Error);
+                    GameManager.Instance.log.LogMessage("Script Command '" + lineToken[0] + "' Error At Line: " + (i + 1).ToString(), LogMessage.LogType.Error);
                     continue;
                 }
             }

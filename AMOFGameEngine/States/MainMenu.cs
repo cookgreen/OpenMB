@@ -21,37 +21,37 @@ namespace AMOFGameEngine.States
         public MainMenu()
         {
             m_bQuit         = false;
-            m_FrameEvent    = new FrameEvent();
+            frameEvent    = new FrameEvent();
         }
         public override void enter(ModData e=null)
         {
-            m_Data = e;
+            modData = e;
             m_bQuit = false;
 
-            m_SceneMgr = GameManager.Instance.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
-            m_SceneMgr.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f); ;
+            sceneMgr = GameManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
+            sceneMgr.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f); ;
  
-            m_Camera = m_SceneMgr.CreateCamera("MenuCam");
-            m_Camera.FarClipDistance = 5000;
-            m_Camera.NearClipDistance = 10;
-            m_Camera.SetPosition(320,240,500);
-            m_Camera.LookAt(new Mogre.Vector3(320, 240, 0));
-            GameManager.Instance.mRenderWnd.RemoveAllViewports();
-            GameManager.Instance.mViewport = GameManager.Instance.mRenderWnd.AddViewport(null);
-            GameManager.Instance.mViewport.BackgroundColour = new ColourValue(0.5f, 0.5f, 0.5f);
-            GameManager.Instance.mViewport.Camera = m_Camera;
-            m_Camera.AspectRatio=GameManager.Instance.mViewport.ActualWidth / GameManager.Instance.mViewport.ActualHeight;
+            camera = sceneMgr.CreateCamera("MenuCam");
+            camera.FarClipDistance = 5000;
+            camera.NearClipDistance = 10;
+            camera.SetPosition(320,240,500);
+            camera.LookAt(new Mogre.Vector3(320, 240, 0));
+            GameManager.Instance.renderWindow.RemoveAllViewports();
+            GameManager.Instance.viewport = GameManager.Instance.renderWindow.AddViewport(null);
+            GameManager.Instance.viewport.BackgroundColour = new ColourValue(0.5f, 0.5f, 0.5f);
+            GameManager.Instance.viewport.Camera = camera;
+            camera.AspectRatio=GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
 
-            SoundManager.Instance.InitSound(m_Camera, m_Data);
+            SoundManager.Instance.InitSound(camera, modData);
             SoundManager.Instance.PlayMusicByID("game_title");
 
             buildMainMenu(e);
 
-            GameManager.Instance.mMouse.MouseMoved += mouseMoved;
-            GameManager.Instance.mMouse.MousePressed += mousePressed;
-            GameManager.Instance.mMouse.MouseReleased += mouseReleased;
-            GameManager.Instance.mKeyboard.KeyPressed += keyPressed;
-            GameManager.Instance.mKeyboard.KeyReleased += keyReleased;
+            GameManager.Instance.mouse.MouseMoved += mouseMoved;
+            GameManager.Instance.mouse.MousePressed += mousePressed;
+            GameManager.Instance.mouse.MouseReleased += mouseReleased;
+            GameManager.Instance.keyboard.KeyPressed += keyPressed;
+            GameManager.Instance.keyboard.KeyReleased += keyReleased;
             
         }
 
@@ -61,20 +61,20 @@ namespace AMOFGameEngine.States
         }
         public override void exit()
         {
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
-            GameManager.Instance.mRoot.DestroySceneManager(m_SceneMgr);
+            GameManager.Instance.trayMgr.destroyAllWidgets();
+            GameManager.Instance.root.DestroySceneManager(sceneMgr);
             ModManager.Instance.UnloadAllMods();
 
-            GameManager.Instance.mMouse.MouseMoved -= mouseMoved;
-            GameManager.Instance.mMouse.MousePressed -= mousePressed;
-            GameManager.Instance.mMouse.MouseReleased -= mouseReleased;
-            GameManager.Instance.mKeyboard.KeyPressed -= keyPressed;
-            GameManager.Instance.mKeyboard.KeyReleased -= keyReleased;
+            GameManager.Instance.mouse.MouseMoved -= mouseMoved;
+            GameManager.Instance.mouse.MousePressed -= mousePressed;
+            GameManager.Instance.mouse.MouseReleased -= mouseReleased;
+            GameManager.Instance.keyboard.KeyPressed -= keyPressed;
+            GameManager.Instance.keyboard.KeyReleased -= keyReleased;
         }
 
         public bool keyPressed(KeyEvent keyEventRef)
         {
-            if(GameManager.Instance.mKeyboard.IsKeyDown(MOIS.KeyCode.KC_ESCAPE))
+            if(GameManager.Instance.keyboard.IsKeyDown(MOIS.KeyCode.KC_ESCAPE))
             {
                 m_bQuit = true;
                 return true;
@@ -89,17 +89,17 @@ namespace AMOFGameEngine.States
 
         public bool mouseMoved(MouseEvent evt)
         {
-            if (GameManager.Instance.mTrayMgr.injectMouseMove(evt)) return true;
+            if (GameManager.Instance.trayMgr.injectMouseMove(evt)) return true;
             return true;
         }
         public bool mousePressed(MouseEvent evt, MouseButtonID id)
         {
-            if (GameManager.Instance.mTrayMgr.injectMouseDown(evt, id)) return true;
+            if (GameManager.Instance.trayMgr.injectMouseDown(evt, id)) return true;
             return true;
         }
         public bool mouseReleased(MouseEvent evt, MouseButtonID id)
         {
-            if (GameManager.Instance.mTrayMgr.injectMouseUp(evt, id)) return true;
+            if (GameManager.Instance.trayMgr.injectMouseUp(evt, id)) return true;
             return true;
         }
 
@@ -111,13 +111,13 @@ namespace AMOFGameEngine.States
                     m_bQuit = true;
                     break;
                 case "btnLoadGame":
-                    changeAppState(findByName("SinglePlayer"), m_Data);
+                    changeAppState(findByName("SinglePlayer"), modData);
                     break;
                 case "btnMultiplayer":
                     //changeAppState(findByName("Multiplayer"), m_Data);
                     break;
                 case "btnSingleplayer":
-                    changeAppState(findByName("SinglePlayer"), m_Data);
+                    changeAppState(findByName("SinglePlayer"), modData);
                     break;
                 case "btnModChooser":
                     changeAppState(findByName("ModChooser"));
@@ -126,10 +126,10 @@ namespace AMOFGameEngine.States
                     Configure();
                     break;
                 case "btnCredit":
-                    changeAppState(findByName("Credit"), m_Data);
+                    changeAppState(findByName("Credit"), modData);
                     break;
                 case "btnBack":
-                    buildMainMenu(m_Data);
+                    buildMainMenu(modData);
                     break;
                 case "btnApply":
                     CheckConfigure();
@@ -141,10 +141,10 @@ namespace AMOFGameEngine.States
         {
             bool isModified = false;
             Dictionary<string, string> displayOptions = new Dictionary<string, string>();
-            ConfigOptionMap options = GameManager.Instance.mRoot.GetRenderSystemByName(renderMenu.getSelectedItem()).GetConfigOptions();
-            for (uint i = 3; i < GameManager.Instance.mTrayMgr.getNumWidgets(renderMenu.getTrayLocation());i++ )
+            ConfigOptionMap options = GameManager.Instance.root.GetRenderSystemByName(renderMenu.getSelectedItem()).GetConfigOptions();
+            for (uint i = 3; i < GameManager.Instance.trayMgr.getNumWidgets(renderMenu.getTrayLocation());i++ )
             {
-                SelectMenu optionMenu = (SelectMenu)GameManager.Instance.mTrayMgr.getWidget(renderMenu.getTrayLocation(), i);
+                SelectMenu optionMenu = (SelectMenu)GameManager.Instance.trayMgr.getWidget(renderMenu.getTrayLocation(), i);
                 if (optionMenu.getSelectedItem() != options[optionMenu.getCaption()].currentValue)
                     isModified = true;
                 displayOptions.Add(optionMenu.getCaption(), optionMenu.getSelectedItem());
@@ -168,36 +168,36 @@ namespace AMOFGameEngine.States
 
         private void Configure()
         {
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
-            GameManager.Instance.mTrayMgr.createLabel(TrayLocation.TL_CENTER, "lbConfig", "Configure");
-            renderMenu = GameManager.Instance.mTrayMgr.createLongSelectMenu(TrayLocation.TL_CENTER, "rendersys", "Render System", 450, 240, 10);
+            GameManager.Instance.trayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_CENTER, "lbConfig", "Configure");
+            renderMenu = GameManager.Instance.trayMgr.createLongSelectMenu(TrayLocation.TL_CENTER, "rendersys", "Render System", 450, 240, 10);
             StringVector rsNames = new StringVector();
-            Const_RenderSystemList rsList = GameManager.Instance.mRoot.GetAvailableRenderers();
+            Const_RenderSystemList rsList = GameManager.Instance.root.GetAvailableRenderers();
             for (int i = 0; i < rsList.Count; i++)
             {
                 rsNames.Add(rsList[i].Name);
             }
             renderMenu.setItems(rsNames);
-            renderMenu.selectItem(GameManager.Instance.mRoot.RenderSystem.Name);
+            renderMenu.selectItem(GameManager.Instance.root.RenderSystem.Name);
 
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnApply", "Apply");
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "btnBack", "Back");
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "btnApply", "Apply");
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "btnBack", "Back");
         }
 
         public override void itemSelected(SelectMenu menu)
         {
             if (menu == renderMenu)
             {
-                while (GameManager.Instance.mTrayMgr.getNumWidgets(renderMenu.getTrayLocation()) > 2)
+                while (GameManager.Instance.trayMgr.getNumWidgets(renderMenu.getTrayLocation()) > 2)
                 {
-                    GameManager.Instance.mTrayMgr.destroyWidget(renderMenu.getTrayLocation(), 2);
+                    GameManager.Instance.trayMgr.destroyWidget(renderMenu.getTrayLocation(), 2);
                 }
                 uint i=0;
-                ConfigOptionMap options = GameManager.Instance.mRoot.GetRenderSystemByName(renderMenu.getSelectedItem()).GetConfigOptions();
+                ConfigOptionMap options = GameManager.Instance.root.GetRenderSystemByName(renderMenu.getSelectedItem()).GetConfigOptions();
                 foreach (var item in options)
                 {
                     i++;
-                    SelectMenu optionMenu = GameManager.Instance.mTrayMgr.createLongSelectMenu(
+                    SelectMenu optionMenu = GameManager.Instance.trayMgr.createLongSelectMenu(
                         TrayLocation.TL_CENTER, "ConfigOption" + i.ToString(), item.Key, 450, 240, 10);
                     optionMenu.setItems(item.Value.possibleValues);
 
@@ -222,23 +222,23 @@ namespace AMOFGameEngine.States
                 return;
             }
 
-            m_FrameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
-            GameManager.Instance.mTrayMgr.frameRenderingQueued(m_FrameEvent);
+            frameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
+            GameManager.Instance.trayMgr.frameRenderingQueued(frameEvent);
         }
 
         private void buildMainMenu(ModData data)
         {
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
-            GameManager.Instance.mTrayMgr.showCursor();
+            GameManager.Instance.trayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.showCursor();
 
-            GameManager.Instance.mTrayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", data != null ? LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, data.BasicInfo.Name) : LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "MenuState"), 400);
+            GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", data != null ? LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, data.BasicInfo.Name) : LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "MenuState"), 400);
 
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_CENTER, "btnSingleplayer", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_single_player"), 200);
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_CENTER, "btnLoadGame", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_load"), 200);
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_CENTER, "btnMultiplayer", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_multiplayer"), 200);
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_CENTER, "btnConfigure", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_config"), 200);
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_CENTER, "btnCredit", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_credit"), 200);
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_CENTER, "btnQuit", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_quit"), 200);
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnSingleplayer", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_single_player"), 200);
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnLoadGame", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_load"), 200);
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnMultiplayer", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_multiplayer"), 200);
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnConfigure", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_config"), 200);
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnCredit", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_credit"), 200);
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnQuit", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_quit"), 200);
         }
     }
 }

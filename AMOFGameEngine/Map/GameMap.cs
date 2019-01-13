@@ -104,11 +104,11 @@ namespace AMOFGameEngine.Map
             aimeshVertexData = new List<Mogre.Vector3>();
             editor = new GameMapEditor(this);
 
-            GameManager.Instance.mMouse.MouseMoved += Mouse_MouseMoved;
-            GameManager.Instance.mMouse.MousePressed += Mouse_MousePressed;
-            GameManager.Instance.mMouse.MouseReleased += Mouse_MouseReleased;
-            GameManager.Instance.mKeyboard.KeyPressed += Keyboard_KeyPressed;
-            GameManager.Instance.mKeyboard.KeyReleased += Keyboard_KeyReleased;
+            GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
+            GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
+            GameManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
+            GameManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
+            GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
         }
 
         private bool Keyboard_KeyReleased(KeyEvent arg)
@@ -122,13 +122,13 @@ namespace AMOFGameEngine.Map
             if (GameManager.Instance.EDIT_MODE)
             {
                 if (ScreenManager.Instance.CheckScreenIsVisual("InnerGameEditor") &&
-                   (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
-                    GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_E)))
+                   (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
+                    GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_E)))
                 {
                     ScreenManager.Instance.ExitCurrentScreen();
                 }
-                else if(GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
-                    GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_E))
+                else if(GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
+                    GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_E))
                 {
                     ScreenManager.Instance.ChangeScreen("InnerGameEditor", editor);
                 }
@@ -167,11 +167,11 @@ namespace AMOFGameEngine.Map
 
         public void Destroy()
         {
-            GameManager.Instance.mMouse.MouseMoved -= Mouse_MouseMoved;
-            GameManager.Instance.mMouse.MousePressed -= Mouse_MousePressed;
-            GameManager.Instance.mMouse.MouseReleased -= Mouse_MouseReleased;
-            GameManager.Instance.mKeyboard.KeyPressed -= Keyboard_KeyPressed;
-            GameManager.Instance.mKeyboard.KeyReleased -= Keyboard_KeyReleased;
+            GameManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
+            GameManager.Instance.mouse.MousePressed -= Mouse_MousePressed;
+            GameManager.Instance.mouse.MouseReleased -= Mouse_MouseReleased;
+            GameManager.Instance.keyboard.KeyPressed -= Keyboard_KeyPressed;
+            GameManager.Instance.keyboard.KeyReleased -= Keyboard_KeyReleased;
         }
 
         public void LoadAsync()
@@ -294,27 +294,27 @@ namespace AMOFGameEngine.Map
         }
         private void getInput()
         {
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_A))
+            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_A))
                 moveOffset.x = -10;
 
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_D))
+            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_D))
                 moveOffset.x = 10;
 
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_W))
+            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_W))
                 moveOffset.z = -10;
 
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_S))
+            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_S))
                 moveOffset.z = 10;
 
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_Q))
+            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_Q))
                 moveOffset.y = -10;
 
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_E))
+            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_E))
                 moveOffset.y = 10;
         }
         private void moveCamera()
         {
-            if (GameManager.Instance.mKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
+            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_LSHIFT))
                 cam.MoveRelative(moveOffset);
             cam.MoveRelative(moveOffset / 10);
         }

@@ -41,14 +41,14 @@ namespace AMOFGameEngine.Screen
             Control.nukeOverlayElement(equipmentPanel);
             Control.nukeOverlayElement(previewPanel);
             Control.nukeOverlayElement(backpackPanel);
-            SceneManager scm = GameManager.Instance.mRoot.GetSceneManager("GameSceneManager");
+            SceneManager scm = GameManager.Instance.root.GetSceneManager("GameSceneManager");
             scm.DestroyEntity(ent);
             OnScreenExit?.Invoke();
         }
 
         public override void Init(params object[] param)
         {
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.destroyAllWidgets();
         }
 
         public override void Run()
@@ -102,7 +102,7 @@ namespace AMOFGameEngine.Screen
             }
 
             Overlay charaOverlay = new Overlay("PreviewOverlay");
-            SceneManager scm = GameManager.Instance.mRoot.GetSceneManager("GameSceneManager");
+            SceneManager scm = GameManager.Instance.root.GetSceneManager("GameSceneManager");
             ent = scm.CreateEntity("sinbad", "sinbad.mesh");
             ent.SetRenderQueueGroupAndPriority((byte)RenderQueueGroupID.RENDER_QUEUE_OVERLAY, 900);
             node = new SceneNode(scm, "sinbadNode");
@@ -130,11 +130,11 @@ namespace AMOFGameEngine.Screen
                     }
                 }
             }
-            charaOverlay.ZOrder = (ushort)(GameManager.Instance.mTrayMgr.getTraysLayer().ZOrder + 100);
+            charaOverlay.ZOrder = (ushort)(GameManager.Instance.trayMgr.getTraysLayer().ZOrder + 100);
             charaOverlay.Show();
-            GameManager.Instance.mTrayMgr.getTraysLayer().Add2D(equipmentPanel);
-            GameManager.Instance.mTrayMgr.getTraysLayer().Add2D(previewPanel);
-            GameManager.Instance.mTrayMgr.getTraysLayer().Add2D(backpackPanel);
+            GameManager.Instance.trayMgr.getTraysLayer().Add2D(equipmentPanel);
+            GameManager.Instance.trayMgr.getTraysLayer().Add2D(previewPanel);
+            GameManager.Instance.trayMgr.getTraysLayer().Add2D(backpackPanel);
         }
 
         public override void Update(float timeSinceLastFrame)

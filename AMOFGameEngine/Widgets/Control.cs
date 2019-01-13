@@ -11,11 +11,11 @@ namespace AMOFGameEngine.Widgets
     {
         public Control()
         {
-            GameManager.Instance.mMouse.MouseReleased += new MouseListener.MouseReleasedHandler(mMouse_MouseReleased);
-            GameManager.Instance.mMouse.MousePressed += new MouseListener.MousePressedHandler(mMouse_MousePressed);
-            GameManager.Instance.mMouse.MouseMoved += new MouseListener.MouseMovedHandler(mMouse_MouseMoved);
-            GameManager.Instance.mKeyboard.KeyReleased += new KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
-            GameManager.Instance.mKeyboard.KeyPressed += new KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
+            GameManager.Instance.mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mMouse_MouseReleased);
+            GameManager.Instance.mouse.MousePressed += new MouseListener.MousePressedHandler(mMouse_MousePressed);
+            GameManager.Instance.mouse.MouseMoved += new MouseListener.MouseMovedHandler(mMouse_MouseMoved);
+            GameManager.Instance.keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
+            GameManager.Instance.keyboard.KeyPressed += new KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
         }
 
         bool mMouse_MouseReleased(MouseEvent arg, MouseButtonID id)

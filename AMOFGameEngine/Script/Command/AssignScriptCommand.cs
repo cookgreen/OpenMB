@@ -54,7 +54,7 @@ namespace AMOFGameEngine.Script.Command
             }
             else
             {
-                GameManager.Instance.mLog.LogMessage("[Script Error]: Assign: Invalid argument number");
+                GameManager.Instance.log.LogMessage("[Script Error]: Assign: Invalid argument number");
             }
         }
     }

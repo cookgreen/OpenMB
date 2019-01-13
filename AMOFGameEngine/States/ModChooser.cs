@@ -40,20 +40,20 @@ namespace AMOFGameEngine.States
 
         public override void enter(ModData e = null)
         {
-            m_SceneMgr = GameManager.Instance.mRoot.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "ModChooserSceneMgr");
+            sceneMgr = GameManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "ModChooserSceneMgr");
 
             ColourValue cvAmbineLight = new ColourValue(0.7f, 0.7f, 0.7f);
-            m_SceneMgr.AmbientLight = cvAmbineLight;
+            sceneMgr.AmbientLight = cvAmbineLight;
 
-            m_Camera = m_SceneMgr.CreateCamera("ModChooserCam");
-            m_Camera.SetPosition(0, 25, -50);
+            camera = sceneMgr.CreateCamera("ModChooserCam");
+            camera.SetPosition(0, 25, -50);
             Mogre.Vector3 vectorCameraLookat = new Mogre.Vector3(0, 0, 0);
-            m_Camera.LookAt(vectorCameraLookat);
-            m_Camera.NearClipDistance = 1;
+            camera.LookAt(vectorCameraLookat);
+            camera.NearClipDistance = 1;
 
-            m_Camera.AspectRatio = GameManager.Instance.mViewport.ActualWidth / GameManager.Instance.mViewport.ActualHeight;
+            camera.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
 
-            GameManager.Instance.mViewport.Camera = m_Camera;
+            GameManager.Instance.viewport.Camera = camera;
             mModNames.Clear();
             mModThumb.Clear();
 
@@ -65,32 +65,32 @@ namespace AMOFGameEngine.States
                 mModThumb.Add(mod.Value.MetaData.Thumb);
             }
 
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
-            ModTitle = GameManager.Instance.mTrayMgr.createLabel(TrayLocation.TL_LEFT, "ModTitle", "Mod Info");
+            GameManager.Instance.trayMgr.destroyAllWidgets();
+            ModTitle = GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_LEFT, "ModTitle", "Mod Info");
             ModTitle.setCaption("Mod Info");
-            ModDescBox = GameManager.Instance.mTrayMgr.createTextBox(TrayLocation.TL_LEFT, "ModInfo", "Mod Info", 250, 208);
+            ModDescBox = GameManager.Instance.trayMgr.createTextBox(TrayLocation.TL_LEFT, "ModInfo", "Mod Info", 250, 208);
             ModDescBox.setCaption("Mod Info");
-            ModChooserMenu = GameManager.Instance.mTrayMgr.createThickSelectMenu(TrayLocation.TL_LEFT, "SelMod", "Select Mod", 250, 10);
+            ModChooserMenu = GameManager.Instance.trayMgr.createThickSelectMenu(TrayLocation.TL_LEFT, "SelMod", "Select Mod", 250, 10);
             ModChooserMenu.setCaption("Select Mod");
             ModChooserMenu.setItems(mModNames);
-            ModSlider = GameManager.Instance.mTrayMgr.createThickSlider(TrayLocation.TL_LEFT, "ModSlider", "Slider Mods", 250, 80, 0, 0, 0);
+            ModSlider = GameManager.Instance.trayMgr.createThickSlider(TrayLocation.TL_LEFT, "ModSlider", "Slider Mods", 250, 80, 0, 0, 0);
             ModSlider.setCaption("Slider Mods");
             if (mModNames.Count > 0)
             {
                 ModTitle.setCaption(ModChooserMenu.getSelectedItem());
             }
 
-            GameManager.Instance.mTrayMgr.showLogo(TrayLocation.TL_RIGHT);
-            GameManager.Instance.mTrayMgr.createSeparator(TrayLocation.TL_RIGHT, "LogoSep");
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "Play", LocateSystem.Singleton.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 140);
-            GameManager.Instance.mTrayMgr.createButton(TrayLocation.TL_RIGHT, "Quit", LocateSystem.Singleton.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 140);
+            GameManager.Instance.trayMgr.showLogo(TrayLocation.TL_RIGHT);
+            GameManager.Instance.trayMgr.createSeparator(TrayLocation.TL_RIGHT, "LogoSep");
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "Play", LocateSystem.Singleton.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 140);
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "Quit", LocateSystem.Singleton.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 140);
             
             SetupModMenu();
 
-            GameManager.Instance.mMouse.MouseMoved += mMouse_MouseMoved;
-            GameManager.Instance.mMouse.MousePressed += mMouse_MousePressed;
-            GameManager.Instance.mMouse.MouseReleased += mMouse_MouseReleased;
-            GameManager.Instance.mRoot.FrameRenderingQueued += mRoot_FrameRenderingQueued;
+            GameManager.Instance.mouse.MouseMoved += mMouse_MouseMoved;
+            GameManager.Instance.mouse.MousePressed += mMouse_MousePressed;
+            GameManager.Instance.mouse.MouseReleased += mMouse_MouseReleased;
+            GameManager.Instance.root.FrameRenderingQueued += mRoot_FrameRenderingQueued;
 
             ModManager.Instance.LoadingModStarted += new Action(LoadingModStarted);
             ModManager.Instance.LoadingModFinished+=new Action(LoadingModFinished);
@@ -120,8 +120,8 @@ namespace AMOFGameEngine.States
 
         void LoadingModFinished()
         {
-            m_Data = ModManager.Instance.ModData;
-            changeAppState(findByName("MainMenu"), m_Data);
+            modData = ModManager.Instance.ModData;
+            changeAppState(findByName("MainMenu"), modData);
         }
 
         void LoadingModStarted()
@@ -166,19 +166,19 @@ namespace AMOFGameEngine.States
                     frame.BorderMaterialName = "SdkTrays/Frame";
             }
 
-            GameManager.Instance.mTrayMgr.frameRenderingQueued(evt);
+            GameManager.Instance.trayMgr.frameRenderingQueued(evt);
 
             return true;
         }
 
         bool mMouse_MouseReleased(MouseEvent arg, MouseButtonID id)
         {
-            return GameManager.Instance.mTrayMgr.injectMouseUp(arg, id);
+            return GameManager.Instance.trayMgr.injectMouseUp(arg, id);
         }
 
         bool mMouse_MousePressed(MouseEvent arg, MouseButtonID id)
         {
-            return GameManager.Instance.mTrayMgr.injectMouseDown(arg, id);
+            return GameManager.Instance.trayMgr.injectMouseDown(arg, id);
         }
 
         bool mMouse_MouseMoved(MOIS.MouseEvent arg)
@@ -195,7 +195,7 @@ namespace AMOFGameEngine.States
                 selectedModName = ModChooserMenu.getSelectedItem();
             }
 
-            return GameManager.Instance.mTrayMgr.injectMouseMove(arg);
+            return GameManager.Instance.trayMgr.injectMouseMove(arg);
         }
 
         public override bool pause()
@@ -210,21 +210,21 @@ namespace AMOFGameEngine.States
 
         public override void exit()
         {
-            m_SceneMgr.DestroyCamera(m_Camera);
-            if (m_SceneMgr != null)
-                GameManager.Instance.mRoot.DestroySceneManager(m_SceneMgr);
+            sceneMgr.DestroyCamera(camera);
+            if (sceneMgr != null)
+                GameManager.Instance.root.DestroySceneManager(sceneMgr);
 
-            GameManager.Instance.mMouse.MouseMoved -= new MouseListener.MouseMovedHandler(mMouse_MouseMoved);
-            GameManager.Instance.mRoot.FrameRenderingQueued -= new FrameListener.FrameRenderingQueuedHandler(mRoot_FrameRenderingQueued);
+            GameManager.Instance.mouse.MouseMoved -= new MouseListener.MouseMovedHandler(mMouse_MouseMoved);
+            GameManager.Instance.root.FrameRenderingQueued -= new FrameListener.FrameRenderingQueuedHandler(mRoot_FrameRenderingQueued);
             foreach (BorderPanelOverlayElement bp in mModThumbs)
             {
-                GameManager.Instance.mTrayMgr.getTraysLayer().Remove2D(bp);
+                GameManager.Instance.trayMgr.getTraysLayer().Remove2D(bp);
             }
 
-            GameManager.Instance.mMouse.MouseMoved -= mMouse_MouseMoved;
-            GameManager.Instance.mMouse.MousePressed -= mMouse_MousePressed;
-            GameManager.Instance.mMouse.MouseReleased -= mMouse_MouseReleased;
-            GameManager.Instance.mRoot.FrameRenderingQueued -= mRoot_FrameRenderingQueued;
+            GameManager.Instance.mouse.MouseMoved -= mMouse_MouseMoved;
+            GameManager.Instance.mouse.MousePressed -= mMouse_MousePressed;
+            GameManager.Instance.mouse.MouseReleased -= mMouse_MouseReleased;
+            GameManager.Instance.root.FrameRenderingQueued -= mRoot_FrameRenderingQueued;
         }
 
         public override void update(double timeSinceLastFrame)
@@ -277,7 +277,7 @@ namespace AMOFGameEngine.States
                 bp.HorizontalAlignment=(GuiHorizontalAlignment. GHA_RIGHT);
                 bp.VerticalAlignment=(GuiVerticalAlignment. GVA_CENTER);
                 bp.MaterialName=(name);
-                GameManager.Instance.mTrayMgr.getTraysLayer().Add2D(bp);
+                GameManager.Instance.trayMgr.getTraysLayer().Add2D(bp);
 
                 mModThumbs.Add(bp);
             }  
@@ -292,10 +292,10 @@ namespace AMOFGameEngine.States
         {
             foreach (BorderPanelOverlayElement bp in mModThumbs)
             {
-                GameManager.Instance.mTrayMgr.getTraysLayer().Remove2D(bp);
+                GameManager.Instance.trayMgr.getTraysLayer().Remove2D(bp);
             }
-            GameManager.Instance.mTrayMgr.destroyAllWidgets();
-            pbProcessBar = GameManager.Instance.mTrayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
+            GameManager.Instance.trayMgr.destroyAllWidgets();
+            pbProcessBar = GameManager.Instance.trayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
             pbProcessBar.setComment("Loading Mod...Please be paient");
         }
     }

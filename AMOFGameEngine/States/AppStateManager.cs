@@ -77,23 +77,23 @@ namespace AMOFGameEngine.States
 
 	         while(!m_bShutdown)
 	         {
-		         if(GameManager.Instance.mRenderWnd.IsClosed)m_bShutdown = true;
+		         if(GameManager.Instance.renderWindow.IsClosed)m_bShutdown = true;
  
 		         WindowEventUtilities.MessagePump();
 
-                 if (GameManager.Instance.mRenderWnd.IsActive)
+                 if (GameManager.Instance.renderWindow.IsActive)
 		         {
-                     startTime = (int)GameManager.Instance.mTimer.MicrosecondsCPU;
+                     startTime = (int)GameManager.Instance.timer.MicrosecondsCPU;
 
                      m_ActiveStateStack.Last().update(timeSinceLastFrame * 1.0 / 1000);
-                     GameManager.Instance.mKeyboard.Capture();
-                     GameManager.Instance.mMouse.Capture();
+                     GameManager.Instance.keyboard.Capture();
+                     GameManager.Instance.mouse.Capture();
                      GameManager.Instance.UpdateRender(timeSinceLastFrame * 1.0 / 1000);
                      //GameManager.Singleton.UpdateSubSystem(timeSinceLastFrame * 1.0 / 1000);
 
-                     GameManager.Instance.mRoot.RenderOneFrame();
+                     GameManager.Instance.root.RenderOneFrame();
 
-                     timeSinceLastFrame = (int)GameManager.Instance.mTimer.MicrosecondsCPU - startTime;
+                     timeSinceLastFrame = (int)GameManager.Instance.timer.MicrosecondsCPU - startTime;
                      
 		         }
 		         else
@@ -179,8 +179,8 @@ namespace AMOFGameEngine.States
 
          protected void init(AppState state)
          {
-             GameManager.Instance.mTrayMgr.setListener(state);
-             GameManager.Instance.mRenderWnd.ResetStatistics();
+             GameManager.Instance.trayMgr.setListener(state);
+             GameManager.Instance.renderWindow.ResetStatistics();
          }
 
          public void Dispose()
