@@ -48,10 +48,10 @@ namespace AMOFGameEngine
             ModChooser.create<ModChooser>("ModChooser");
             MainMenu.create<MainMenu>("MainMenu");
             Pause.create<Pause>("Pause");
-            Multiplayer.create<Loading>("Loading");
             SinglePlayer.create<SinglePlayer>("SinglePlayer");
             Multiplayer.create<Multiplayer>("Multiplayer");
             Credit.create<Credit>("Credit");
+            Loading.create<Loading>("Loading");
 
             var installedMod = ModManager.Instance.GetInstalledMods();
             if (!string.IsNullOrEmpty(mod) && installedMod.ContainsKey(mod))
