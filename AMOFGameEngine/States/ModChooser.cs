@@ -15,27 +15,27 @@ namespace AMOFGameEngine.States
     public class ModChooser : AppState
     {
         private bool isQuit;
-        private SelectMenu ModChooserMenu;
-        private Label ModTitle;
-        private TextBox ModDescBox;
-        private Slider ModSlider;
+        private SelectMenu modChooserMenu;
+        private Label modTitle;
+        private TextBox modDescBox;
+        private Slider modSlider;
         private ProgressBar pbProcessBar;
-        private StringVector mModNames;
-        private StringVector mModDescs;
-        private StringVector mModThumb;
-        private Mods mMods;
-        private List<OverlayContainer> mModThumbs;
-        private float mCarouselPlace;
+        private StringVector modNames;
+        private StringVector modDescs;
+        private StringVector modThumb;
+        private Mods mods;
+        private List<OverlayContainer> modThumbs;
+        private float carouselPlace;
         private string selectedModName;
 
         public ModChooser()
         {
             isQuit = false;
 
-            mModNames = new StringVector();
-            mModThumb = new StringVector();
-            mModDescs = new StringVector();
-            mModThumbs = new List<OverlayContainer>();
+            modNames = new StringVector();
+            modThumb = new StringVector();
+            modDescs = new StringVector();
+            modThumbs = new List<OverlayContainer>();
         }
 
         public override void enter(ModData e = null)
@@ -54,30 +54,30 @@ namespace AMOFGameEngine.States
             camera.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
 
             GameManager.Instance.viewport.Camera = camera;
-            mModNames.Clear();
-            mModThumb.Clear();
+            modNames.Clear();
+            modThumb.Clear();
 
-            mMods = ModManager.Instance.GetInstalledMods();
-            foreach (var mod in mMods)
+            mods = ModManager.Instance.GetInstalledMods();
+            foreach (var mod in mods)
             {
-                mModNames.Add(mod.Key);
-                mModDescs.Add(mod.Value.MetaData.Description);
-                mModThumb.Add(mod.Value.MetaData.Thumb);
+                modNames.Add(mod.Key);
+                modDescs.Add(mod.Value.MetaData.Description);
+                modThumb.Add(mod.Value.MetaData.Thumb);
             }
 
             GameManager.Instance.trayMgr.destroyAllWidgets();
-            ModTitle = GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_LEFT, "ModTitle", "Mod Info");
-            ModTitle.setCaption("Mod Info");
-            ModDescBox = GameManager.Instance.trayMgr.createTextBox(TrayLocation.TL_LEFT, "ModInfo", "Mod Info", 250, 208);
-            ModDescBox.setCaption("Mod Info");
-            ModChooserMenu = GameManager.Instance.trayMgr.createThickSelectMenu(TrayLocation.TL_LEFT, "SelMod", "Select Mod", 250, 10);
-            ModChooserMenu.setCaption("Select Mod");
-            ModChooserMenu.setItems(mModNames);
-            ModSlider = GameManager.Instance.trayMgr.createThickSlider(TrayLocation.TL_LEFT, "ModSlider", "Slider Mods", 250, 80, 0, 0, 0);
-            ModSlider.setCaption("Slider Mods");
-            if (mModNames.Count > 0)
+            modTitle = GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_LEFT, "ModTitle", "Mod Info");
+            modTitle.setCaption("Mod Info");
+            modDescBox = GameManager.Instance.trayMgr.createTextBox(TrayLocation.TL_LEFT, "ModInfo", "Mod Info", 250, 208);
+            modDescBox.setCaption("Mod Info");
+            modChooserMenu = GameManager.Instance.trayMgr.createThickSelectMenu(TrayLocation.TL_LEFT, "SelMod", "Select Mod", 250, 10);
+            modChooserMenu.setCaption("Select Mod");
+            modChooserMenu.setItems(modNames);
+            modSlider = GameManager.Instance.trayMgr.createThickSlider(TrayLocation.TL_LEFT, "ModSlider", "Slider Mods", 250, 80, 0, 0, 0);
+            modSlider.setCaption("Slider Mods");
+            if (modNames.Count > 0)
             {
-                ModTitle.setCaption(ModChooserMenu.getSelectedItem());
+                modTitle.setCaption(modChooserMenu.getSelectedItem());
             }
 
             GameManager.Instance.trayMgr.showLogo(TrayLocation.TL_RIGHT);
@@ -85,7 +85,7 @@ namespace AMOFGameEngine.States
             GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "Play", LocateSystem.Singleton.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 140);
             GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "Quit", LocateSystem.Singleton.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 140);
             
-            SetupModMenu();
+            setupModMenu();
 
             GameManager.Instance.mouse.MouseMoved += mMouse_MouseMoved;
             GameManager.Instance.mouse.MousePressed += mMouse_MousePressed;
@@ -131,36 +131,36 @@ namespace AMOFGameEngine.States
 
         bool mRoot_FrameRenderingQueued(FrameEvent evt)
         {
-            selectedModName = ModChooserMenu.getSelectedItem();
-            float carouselOffset = ModChooserMenu.getSelectionIndex() - mCarouselPlace;
-            if ((carouselOffset <= 0.001) && (carouselOffset >= -0.001)) mCarouselPlace = ModChooserMenu.getSelectionIndex();
-            else mCarouselPlace += carouselOffset * AMOFGameEngine.Utilities.Helper.Clamp<float>(evt.timeSinceLastFrame * 15.0f, -1.0f, 1.0f);
+            selectedModName = modChooserMenu.getSelectedItem();
+            float carouselOffset = modChooserMenu.getSelectionIndex() - carouselPlace;
+            if ((carouselOffset <= 0.001) && (carouselOffset >= -0.001)) carouselPlace = modChooserMenu.getSelectionIndex();
+            else carouselPlace += carouselOffset * AMOFGameEngine.Utilities.Helper.Clamp<float>(evt.timeSinceLastFrame * 15.0f, -1.0f, 1.0f);
 
-            for (int i = 0; i < mModThumbs.Count; i++)
+            for (int i = 0; i < modThumbs.Count; i++)
             {
-                float thumbOffset = mCarouselPlace - i;
+                float thumbOffset = carouselPlace - i;
                 float phase = (thumbOffset / 2.0f) - 2.8f;
 
                 if (thumbOffset < -5 || thumbOffset > 4)    // prevent thumbnails from wrapping around in a circle
                 {
-                    mModThumbs[i].Hide();
+                    modThumbs[i].Hide();
                     continue;
                 }
-                else mModThumbs[i].Show();
+                else modThumbs[i].Show();
 
                 float left = Mogre.Math.Cos(phase) * 200.0f;
                 float top = Mogre.Math.Sin(phase) * 200.0f;
                 float scale = 1.0f / Convert.ToSingle(System.Math.Pow((Mogre.Math.Abs(thumbOffset) + 1.0f), 0.75f));
 
-                OverlayContainer.ChildContainerIterator xx = mModThumbs[i].GetChildContainerIterator();
+                OverlayContainer.ChildContainerIterator xx = modThumbs[i].GetChildContainerIterator();
                 BorderPanelOverlayElement frame = (BorderPanelOverlayElement)xx.ElementAt(0);
 
-                mModThumbs[i].SetDimensions(128.0f * scale, 96.0f * scale);
-                frame.SetDimensions(mModThumbs[i].Width + 16.0f, mModThumbs[i].Height + 16.0f);
-                mModThumbs[i].SetPosition((left - 80.0f - (mModThumbs[i].Width / 2.0f)),
-                    (top - 5.0f - (mModThumbs[i].Height / 2.0f)));
+                modThumbs[i].SetDimensions(128.0f * scale, 96.0f * scale);
+                frame.SetDimensions(modThumbs[i].Width + 16.0f, modThumbs[i].Height + 16.0f);
+                modThumbs[i].SetPosition((left - 80.0f - (modThumbs[i].Width / 2.0f)),
+                    (top - 5.0f - (modThumbs[i].Height / 2.0f)));
 
-                if (i == ModChooserMenu.getSelectionIndex())
+                if (i == modChooserMenu.getSelectionIndex())
                     frame.BorderMaterialName = "SdkTrays/Frame/Over";
                 else
                     frame.BorderMaterialName = "SdkTrays/Frame";
@@ -185,14 +185,14 @@ namespace AMOFGameEngine.States
         {
 
             MouseState_NativePtr state = arg.state;
-            if (arg.state.Z.rel != 0 && ModChooserMenu.getNumItems() != 0)
+            if (arg.state.Z.rel != 0 && modChooserMenu.getNumItems() != 0)
             {
-                float newIndex = ModChooserMenu.getSelectionIndex() - arg.state.Z.rel / Mogre.Math.Abs((float)arg.state.Z.rel);
-                float finalIndex = AMOFGameEngine.Utilities.Helper.Clamp<float>(newIndex, 0.0f, (float)(ModChooserMenu.getNumItems() - 1));
-                ModChooserMenu.selectItem((uint)finalIndex);
-                ModTitle.setCaption(ModChooserMenu.getSelectedItem());
-                ModDescBox.setText(mModDescs[mModNames.ToList().IndexOf(ModChooserMenu.getSelectedItem())]);
-                selectedModName = ModChooserMenu.getSelectedItem();
+                float newIndex = modChooserMenu.getSelectionIndex() - arg.state.Z.rel / Mogre.Math.Abs((float)arg.state.Z.rel);
+                float finalIndex = AMOFGameEngine.Utilities.Helper.Clamp<float>(newIndex, 0.0f, (float)(modChooserMenu.getNumItems() - 1));
+                modChooserMenu.selectItem((uint)finalIndex);
+                modTitle.setCaption(modChooserMenu.getSelectedItem());
+                modDescBox.setText(modDescs[modNames.ToList().IndexOf(modChooserMenu.getSelectedItem())]);
+                selectedModName = modChooserMenu.getSelectedItem();
             }
 
             return GameManager.Instance.trayMgr.injectMouseMove(arg);
@@ -216,7 +216,7 @@ namespace AMOFGameEngine.States
 
             GameManager.Instance.mouse.MouseMoved -= new MouseListener.MouseMovedHandler(mMouse_MouseMoved);
             GameManager.Instance.root.FrameRenderingQueued -= new FrameListener.FrameRenderingQueuedHandler(mRoot_FrameRenderingQueued);
-            foreach (BorderPanelOverlayElement bp in mModThumbs)
+            foreach (BorderPanelOverlayElement bp in modThumbs)
             {
                 GameManager.Instance.trayMgr.getTraysLayer().Remove2D(bp);
             }
@@ -252,15 +252,15 @@ namespace AMOFGameEngine.States
             }
         }
 
-        void SetupModMenu()
+        private void setupModMenu()
         {
             MaterialPtr thumbMat = MaterialManager.Singleton.Create("ModThumbnail", "General");
             thumbMat.GetTechnique(0).GetPass(0).CreateTextureUnitState();
             MaterialPtr templateMat = MaterialManager.Singleton.GetByName("ModThumbnail");
 
-            foreach ( string itr in mModThumb )
+            foreach ( string itr in modThumb )
             {
-                String name = "ModThumb" + (mModThumbs.Count + 1).ToString();
+                String name = "ModThumb" + (modThumbs.Count + 1).ToString();
 
                 MaterialPtr newMat = templateMat.Clone(name);
 
@@ -279,7 +279,7 @@ namespace AMOFGameEngine.States
                 bp.MaterialName=(name);
                 GameManager.Instance.trayMgr.getTraysLayer().Add2D(bp);
 
-                mModThumbs.Add(bp);
+                modThumbs.Add(bp);
             }  
         }
 
@@ -290,7 +290,7 @@ namespace AMOFGameEngine.States
 
         private void CreateLoadingScreen()
         {
-            foreach (BorderPanelOverlayElement bp in mModThumbs)
+            foreach (BorderPanelOverlayElement bp in modThumbs)
             {
                 GameManager.Instance.trayMgr.getTraysLayer().Remove2D(bp);
             }

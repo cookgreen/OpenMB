@@ -6,6 +6,7 @@ using AMOFGameEngine.Localization;
 using AMOFGameEngine.Utilities;
 using Mogre;
 using AMOFGameEngine.LogMessage;
+using AMOFGameEngine.Mods;
 
 namespace AMOFGameEngine
 {
@@ -20,10 +21,12 @@ namespace AMOFGameEngine
     {
         private RunState state;
         private Dictionary<string, string> gameOptions;
-        public GameApp(Dictionary<string,string> gameOptions = null)
+        private string mod;
+        public GameApp(Dictionary<string,string> gameOptions = null, string mod = null)
         {
             this.state = RunState.Stopped;
             this.gameOptions = gameOptions;
+            this.mod = mod;
             AppStateManager.Instance.OnAppStateManagerStarted += new Action(OnAppStateManagerStarted);
         }
 
@@ -36,8 +39,8 @@ namespace AMOFGameEngine
         {
             if (!GameManager.Instance.Init("AMGE", gameOptions))
             {
-                EngineLogManager.Instance.LogMessage("failed to Initialize the render system!", LogType.Error);
-                state = RunState.Error;
+                EngineLogManager.Instance.LogMessage("Failed to initialize the game engine!", LogType.Error);
+                return RunState.Error;
             }
 
             GC.Collect();
@@ -45,11 +48,21 @@ namespace AMOFGameEngine
             ModChooser.create<ModChooser>("ModChooser");
             MainMenu.create<MainMenu>("MainMenu");
             Pause.create<Pause>("Pause");
+            Multiplayer.create<Loading>("Loading");
             SinglePlayer.create<SinglePlayer>("SinglePlayer");
             Multiplayer.create<Multiplayer>("Multiplayer");
             Credit.create<Credit>("Credit");
 
-            AppStateManager.Instance.start(AppStateManager.Instance.findByName("ModChooser"));
+            var installedMod = ModManager.Instance.GetInstalledMods();
+            if (!string.IsNullOrEmpty(mod) && installedMod.ContainsKey(mod))
+            {
+                GameManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", mod);
+                AppStateManager.Instance.start(AppStateManager.Instance.findByName("Loading"));
+            }
+            else
+            {
+                AppStateManager.Instance.start(AppStateManager.Instance.findByName("ModChooser"));
+            }
 
             EngineLogManager.Instance.Dispose();
 

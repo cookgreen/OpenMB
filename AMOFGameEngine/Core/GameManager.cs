@@ -51,6 +51,7 @@ namespace AMOFGameEngine
         public event Action<float> Update;
         public Dictionary<int, GameObject> AllGameObjects;
         public Dictionary<string, uint> GameHashMap;
+        public LoadingData loadingData;
         public bool EDIT_MODE
         {
             get
@@ -101,6 +102,7 @@ namespace AMOFGameEngine
             videoMode = new NameValuePairList();
             isEditMode = false;
             isCheatMode = false;
+            loadingData = new LoadingData(LoadingType.NONE, null, null);
          }
 
         public bool Init(string windowTitle, Dictionary<string, string> gameOptions)
@@ -293,7 +295,7 @@ namespace AMOFGameEngine
         {
             try
             {
-                isEditMode = gameOptions["IsEnableEditMode"] == "True" ? true : false;
+                isEditMode = gameOptions["EditMode"] == "1" ? true : false;
                 return true;
             }
             catch

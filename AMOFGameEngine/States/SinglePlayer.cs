@@ -34,6 +34,10 @@ namespace AMOFGameEngine.States
 
         public override void update(double timeSinceLastFrame)
         {
+            if (world == null)
+            {
+                return;
+            }
             world.Update((float)timeSinceLastFrame);
             frameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
         }

@@ -14,7 +14,7 @@ namespace AMOFGameEngine.Mods
 
     public class ModManager
     {
-        private Dictionary<string, ModManifest> InstalledMods;
+        private Dictionary<string, ModManifest> installedMods;
         private string modInstallRootDir;
         private ConfigFileParser parser;
         private ConfigFile modConfigData;
@@ -40,11 +40,20 @@ namespace AMOFGameEngine.Mods
                 return instance;
             }
         }
+
+        public Mods InstalledMods
+        {
+            get
+            {
+                return installedMods;
+            }
+        }
+
         static ModManager instance;
 
         public ModManager()
         {
-            InstalledMods = new Dictionary<string, ModManifest>();
+            installedMods = new Dictionary<string, ModManifest>();
             currentMod = null;
             modConfigData = new ConfigFile();
             modInstallRootDir = null;
@@ -77,11 +86,11 @@ namespace AMOFGameEngine.Mods
         {
             try
             {
-                if (InstalledMods == null || InstalledMods.Count <= 0)
+                if (installedMods == null || installedMods.Count <= 0)
                 {
                     return;
                 }
-                ModManifest manifest = InstalledMods.Where(o => o.Key == currentModName).SingleOrDefault().Value;
+                ModManifest manifest = installedMods.Where(o => o.Key == currentModName).SingleOrDefault().Value;
                 currentMod = new AMOFGameEngine.Mods.ModData();
                 currentMod.BasicInfo = manifest.MetaData;
                 worker.ReportProgress(25);
@@ -154,7 +163,9 @@ namespace AMOFGameEngine.Mods
                     if (File.Exists(string.Format("{0}/Module.xml", dir.FullName)))
                     {
                         ModManifest manifest = new ModManifest(dir.FullName);
-                        InstalledMods.Add(manifest.MetaData.Name, manifest);
+                        if (installedMods.ContainsKey(manifest.MetaData.Name))
+                            continue;
+                        installedMods.Add(manifest.MetaData.Name, manifest);
                         Mogre.ResourceGroupManager.Singleton.AddResourceLocation(
                             string.Format("{0}\\Media\\Textures\\", dir.FullName), "FileSystem", "General");
                         Mogre.ResourceGroupManager.Singleton.AddResourceLocation(
@@ -167,7 +178,7 @@ namespace AMOFGameEngine.Mods
                 }
             }
 
-            return InstalledMods;
+            return installedMods;
         }
 
         public void LoadMod(string name)
@@ -182,7 +193,7 @@ namespace AMOFGameEngine.Mods
 
         public void UnloadAllMods()
         {
-            InstalledMods.Clear();
+            installedMods.Clear();
         }
 
         public void Update(float timeSinceLastFrame)

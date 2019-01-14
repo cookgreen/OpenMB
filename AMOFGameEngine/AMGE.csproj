@@ -270,6 +270,7 @@
     </Compile>
     <Compile Include="Localization\LocateSystem.cs" />
     <Compile Include="States\Credit.cs" />
+    <Compile Include="States\Loading.cs" />
     <Compile Include="States\SinglePlayer.cs" />
     <Compile Include="States\Multiplayer.cs" />
     <Compile Include="Core\GameManager.cs" />

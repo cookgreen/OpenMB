@@ -12,6 +12,7 @@ namespace AMOFGameEngine.Core
         {
             arguments = new Dictionary<string, string>();
             arguments.Add("Engine.ShowConfig", "");
+            arguments.Add("Engine.Mod", "");
         }
 
         public string GetArgValue(string argumentName)

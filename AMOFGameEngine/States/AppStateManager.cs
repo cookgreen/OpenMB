@@ -12,15 +12,15 @@ namespace AMOFGameEngine.States
 {
     public class AppStateManager : AppStateListener, IDisposable
     {
-        protected List<AppState> m_ActiveStateStack = new List<AppState>();
-        protected List<state_info> m_States = new List<state_info>();
-        protected bool m_bShutdown;
+        protected List<AppState> activeStateStack = new List<AppState>();
+        protected List<state_info> atates = new List<state_info>();
+        protected bool isShutdown;
         public event Action OnAppStateManagerStarted;
         private bool disposed;
 
         public struct state_info
         {
-            public String name;
+            public string name;
             public AppState state;
         };
 
@@ -40,7 +40,7 @@ namespace AMOFGameEngine.States
 
          public AppStateManager()
          {
-             m_bShutdown = false;
+             isShutdown = false;
          }
 
           public override void manageAppState(String stateName, AppState state)
@@ -48,13 +48,13 @@ namespace AMOFGameEngine.States
 		        state_info new_state_info;
 		        new_state_info.name = stateName;
 		        new_state_info.state = state;
-		        m_States.Insert(m_States.Count(),new_state_info);
+		        atates.Insert(atates.Count(),new_state_info);
          }
 
          public override AppState findByName(String stateName)
          {
 
-             foreach (state_info itr in m_States)
+             foreach (state_info itr in atates)
 	        {
 		        if(itr.name==stateName)
 			    return itr.state;
@@ -75,30 +75,34 @@ namespace AMOFGameEngine.States
                  OnAppStateManagerStarted();
              }
 
-	         while(!m_bShutdown)
+	         while(!isShutdown)
 	         {
-		         if(GameManager.Instance.renderWindow.IsClosed)m_bShutdown = true;
+                if (GameManager.Instance.renderWindow.IsClosed)
+                {
+                    isShutdown = true;
+                    break;
+                }
  
-		         WindowEventUtilities.MessagePump();
+		        WindowEventUtilities.MessagePump();
 
-                 if (GameManager.Instance.renderWindow.IsActive)
-		         {
-                     startTime = (int)GameManager.Instance.timer.MicrosecondsCPU;
+                if (GameManager.Instance.renderWindow.IsActive)
+		        {
+                    startTime = (int)GameManager.Instance.timer.MicrosecondsCPU;
 
-                     m_ActiveStateStack.Last().update(timeSinceLastFrame * 1.0 / 1000);
-                     GameManager.Instance.keyboard.Capture();
-                     GameManager.Instance.mouse.Capture();
-                     GameManager.Instance.UpdateRender(timeSinceLastFrame * 1.0 / 1000);
-                     //GameManager.Singleton.UpdateSubSystem(timeSinceLastFrame * 1.0 / 1000);
+                    activeStateStack.Last().update(timeSinceLastFrame * 1.0 / 1000);
+                    GameManager.Instance.keyboard.Capture();
+                    GameManager.Instance.mouse.Capture();
+                    GameManager.Instance.UpdateRender(timeSinceLastFrame * 1.0 / 1000);
+                    //GameManager.Singleton.UpdateSubSystem(timeSinceLastFrame * 1.0 / 1000);
 
-                     GameManager.Instance.root.RenderOneFrame();
+                    GameManager.Instance.root.RenderOneFrame();
 
-                     timeSinceLastFrame = (int)GameManager.Instance.timer.MicrosecondsCPU - startTime;
+                    timeSinceLastFrame = (int)GameManager.Instance.timer.MicrosecondsCPU - startTime;
                      
-		         }
-		         else
-		         {
-                     System.Threading.Thread.Sleep(1000);
+		        }
+		        else
+		        {
+                    System.Threading.Thread.Sleep(1000);
                 }
             }
              //Save locate Info to file before exiting the main game loop
@@ -108,73 +112,73 @@ namespace AMOFGameEngine.States
          {
              if (state != null)
              {
-                 if (m_ActiveStateStack.Count != 0)
+                 if (activeStateStack.Count != 0)
                  {
-                     m_ActiveStateStack.Last().exit();
-                     m_ActiveStateStack.RemoveAt(m_ActiveStateStack.Count() - 1);
+                     activeStateStack.Last().exit();
+                     activeStateStack.RemoveAt(activeStateStack.Count() - 1);
                  }
 
-                 m_ActiveStateStack.Add(state);
+                 activeStateStack.Add(state);
                  init(state);
-                 m_ActiveStateStack.Last().enter(e);
+                 activeStateStack.Last().enter(e);
              }
          }
          public override bool pushAppState(AppState state)
          {
-             if (m_ActiveStateStack.Count!=0)
+             if (activeStateStack.Count!=0)
              {
-                 if (!m_ActiveStateStack.Last().pause())
+                 if (!activeStateStack.Last().pause())
                      return false;
              }
 
-             m_ActiveStateStack.Add(state);
+             activeStateStack.Add(state);
              init(state);
-             m_ActiveStateStack.Last().enter();
+             activeStateStack.Last().enter();
 
              return true;
          }
          public override void popAppState()
          {
-             if (m_ActiveStateStack.Count != 0)
+             if (activeStateStack.Count != 0)
              {
-                 m_ActiveStateStack.Last().exit();
-                 m_ActiveStateStack.RemoveAt(m_ActiveStateStack.Count()-1);
+                 activeStateStack.Last().exit();
+                 activeStateStack.RemoveAt(activeStateStack.Count()-1);
              }
 
-             if (m_ActiveStateStack.Count != 0)
+             if (activeStateStack.Count != 0)
              {
-                 init(m_ActiveStateStack.Last());
-                 m_ActiveStateStack.Last().resume();
+                 init(activeStateStack.Last());
+                 activeStateStack.Last().resume();
              }
              else
                  shutdown();
          }
          public override void popAllAndPushAppState<T>(AppState state)
         {
-            while (m_ActiveStateStack.Count != 0)
+            while (activeStateStack.Count != 0)
             {
-                m_ActiveStateStack.Last().exit();
-                m_ActiveStateStack.RemoveAt(m_ActiveStateStack.Count()-1);
+                activeStateStack.Last().exit();
+                activeStateStack.RemoveAt(activeStateStack.Count()-1);
             }
 
             pushAppState(state);
         }
          public override void pauseAppState()
          {
-             if (m_ActiveStateStack.Count != 0)
+             if (activeStateStack.Count != 0)
              {
-                 m_ActiveStateStack.Last().pause();
+                 activeStateStack.Last().pause();
              }
 
-             if (m_ActiveStateStack.Count() > 2)
+             if (activeStateStack.Count() > 2)
              {
-                 init(m_ActiveStateStack.ElementAt(m_ActiveStateStack.Count() - 2));
-                 m_ActiveStateStack.ElementAt(m_ActiveStateStack.Count() - 2).resume();
+                 init(activeStateStack.ElementAt(activeStateStack.Count() - 2));
+                 activeStateStack.ElementAt(activeStateStack.Count() - 2).resume();
              }
          }
          public override void shutdown()
          {
-             m_bShutdown = true;
+             isShutdown = true;
          }
 
          protected void init(AppState state)
@@ -191,19 +195,19 @@ namespace AMOFGameEngine.States
 
          protected virtual void Dispose(bool disposing)
          {
-             if (!this.disposed)
+             if (!disposed)
              {
                  if (disposing)
                  {
-                     while (this.m_ActiveStateStack.Count != 0)
+                     while (this.activeStateStack.Count != 0)
                      {
-                         this.m_ActiveStateStack.Last<AppState>().exit();
-                         this.m_ActiveStateStack.RemoveAt(this.m_ActiveStateStack.Count<AppState>() - 1);
+                         this.activeStateStack.Last<AppState>().exit();
+                         this.activeStateStack.RemoveAt(this.activeStateStack.Count<AppState>() - 1);
                      }
-                     while (this.m_States.Count != 0)
+                     while (this.atates.Count != 0)
                      {
-                         this.m_States.Last<state_info>().state.destroy();
-                         this.m_States.RemoveAt(this.m_States.Count<state_info>() - 1);
+                         this.atates.Last<state_info>().state.destroy();
+                         this.atates.RemoveAt(this.atates.Count<state_info>() - 1);
                      }
                  }
                  this.disposed = true;

@@ -30,6 +30,8 @@ namespace AMOFGameEngine.Core
 
         public void Run()
         {
+            string modArg = gameArgument.GetArgValue("Engine.Mod");
+
             string showConfigArg = gameArgument.GetArgValue("Engine.ShowConfig");
             if (string.IsNullOrEmpty(showConfigArg) || showConfigArg == "yes")
             {
@@ -40,7 +42,7 @@ namespace AMOFGameEngine.Core
             }
             else
             {
-                GameApp app = new GameApp();
+                GameApp app = new GameApp(null, modArg);
                 app.Run();
             }
         }
