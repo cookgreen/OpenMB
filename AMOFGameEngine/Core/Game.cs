@@ -20,7 +20,10 @@ namespace AMOFGameEngine.Core
                 {
                     string newArg = arg.Trim().Replace(" ", null);//Remove Space
                     string[] tokens = newArg.Split('=');
-                    gameArgument.AddArg(tokens[0], tokens[1]);
+                    if (tokens.Length == 2)
+                    {
+                        gameArgument.AddArg(tokens[0], tokens[1]);
+                    }
                 }
             }
         }
