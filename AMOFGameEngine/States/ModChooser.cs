@@ -91,42 +91,6 @@ namespace AMOFGameEngine.States
             GameManager.Instance.mouse.MousePressed += mMouse_MousePressed;
             GameManager.Instance.mouse.MouseReleased += mMouse_MouseReleased;
             GameManager.Instance.root.FrameRenderingQueued += mRoot_FrameRenderingQueued;
-
-            ModManager.Instance.LoadingModStarted += new Action(LoadingModStarted);
-            ModManager.Instance.LoadingModFinished+=new Action(LoadingModFinished);
-            ModManager.Instance.LoadingModProcessing += new Action<int>(LoadingModProcessing);
-        }
-
-        void LoadingModProcessing(int obj)
-        {
-            switch (obj)
-            {
-                case 25:
-                    pbProcessBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_processing_module_file"));
-                    break;
-                case 50:
-                    pbProcessBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_loading_resource"));
-                    break;
-                case 75:
-                    pbProcessBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_loading_module_data"));
-                    break;
-                case 100:
-                    pbProcessBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_finished"));
-                    break;
-            }
-            pbProcessBar.setProgress(obj / 100);
-        }
-
-
-        void LoadingModFinished()
-        {
-            modData = ModManager.Instance.ModData;
-            changeAppState(findByName("MainMenu"), modData);
-        }
-
-        void LoadingModStarted()
-        {
-            CreateLoadingScreen();
         }
 
         bool mRoot_FrameRenderingQueued(FrameEvent evt)
@@ -240,7 +204,8 @@ namespace AMOFGameEngine.States
         {
             if (button.getName() == "Play")
             {
-                ModManager.Instance.LoadMod(selectedModName);
+                GameManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", selectedModName, "MainMenu");
+                changeAppState(findByName("Loading"));
             }
             else if (button.getName() == "Configure")
             {
@@ -260,7 +225,7 @@ namespace AMOFGameEngine.States
 
             foreach ( string itr in modThumb )
             {
-                String name = "ModThumb" + (modThumbs.Count + 1).ToString();
+                string name = "ModThumb" + (modThumbs.Count + 1).ToString();
 
                 MaterialPtr newMat = templateMat.Clone(name);
 
@@ -286,17 +251,6 @@ namespace AMOFGameEngine.States
         void ConfigureScreen()
         {
             
-        }
-
-        private void CreateLoadingScreen()
-        {
-            foreach (BorderPanelOverlayElement bp in modThumbs)
-            {
-                GameManager.Instance.trayMgr.getTraysLayer().Remove2D(bp);
-            }
-            GameManager.Instance.trayMgr.destroyAllWidgets();
-            pbProcessBar = GameManager.Instance.trayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
-            pbProcessBar.setComment("Loading Mod...Please be paient");
         }
     }
 }

@@ -17,6 +17,7 @@ namespace AMOFGameEngine.Forms
 {
     public partial class frmConfigure : Form
     {
+        private string mod;
         private frmConfigureController controller;
         public frmConfigureController Controller
         {
@@ -39,9 +40,10 @@ namespace AMOFGameEngine.Forms
                 chkEnableEditMode.DataBindings.Add("checked", controller.GameConfig, "IsEnableEditMode");
             }
         }
-        public frmConfigure()
+        public frmConfigure(string mod = null)
         {
             InitializeComponent();
+            this.mod = mod;
         }
         private void ConfigFrm_Load(object sender, EventArgs e)
         {
@@ -101,7 +103,7 @@ namespace AMOFGameEngine.Forms
         {
             Close();
             Dictionary<string, string> gameOptions = controller.SaveConfigure();
-            GameApp app = new GameApp(gameOptions);
+            GameApp app = new GameApp(gameOptions, mod);
             app.Run();
         }
         private void cmbValueChange_SelectedIndexChanged(object sender, EventArgs e)

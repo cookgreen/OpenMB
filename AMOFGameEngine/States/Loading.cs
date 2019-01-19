@@ -5,6 +5,7 @@ using System.Text;
 using AMOFGameEngine.Mods;
 using Mogre;
 using Mogre_Procedural.MogreBites;
+using AMOFGameEngine.Localization;
 
 namespace AMOFGameEngine.States
 {
@@ -12,6 +13,7 @@ namespace AMOFGameEngine.States
     {
         private LoadingType type;
         private string comment;
+        private string loadingObjName;
         private object data;
 
         public LoadingType Type
@@ -38,10 +40,23 @@ namespace AMOFGameEngine.States
             }
         }
 
-        public LoadingData(LoadingType type, string comment, object data)
+        public string LoadingObjName
+        {
+            get
+            {
+                return loadingObjName;
+            }
+        }
+
+        public LoadingData(
+            LoadingType type, 
+            string comment, 
+            string loadingObjName,
+            object data)
         {
             this.type = type;
             this.comment = comment;
+            this.loadingObjName = loadingObjName;
             this.data = data;
         }
     }
@@ -81,7 +96,7 @@ namespace AMOFGameEngine.States
                 case LoadingType.LOADING_MOD:
                     ModManager.Instance.LoadingModProcessing += new Action<int>(LoadingModProcessing);
                     ModManager.Instance.LoadingModFinished += new Action(LoadingModFinished);
-                    ModManager.Instance.LoadMod(GameManager.Instance.loadingData.Data.ToString());
+                    ModManager.Instance.LoadMod(GameManager.Instance.loadingData.LoadingObjName);
                     break;
             }
         }
@@ -89,12 +104,27 @@ namespace AMOFGameEngine.States
         private void LoadingModFinished()
         {
             var modData = ModManager.Instance.ModData;
-            changeAppState(findByName("MainMenu"), modData);
+            changeAppState(findByName(GameManager.Instance.loadingData.Data.ToString()), modData);
         }
 
         private void LoadingModProcessing(int progress)
         {
-            //progressBar.setProgress(progress);
+            switch (progress)
+            {
+                case 25:
+                    progressBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_processing_module_file"));
+                    break;
+                case 50:
+                    progressBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_loading_resource"));
+                    break;
+                case 75:
+                    progressBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_loading_module_data"));
+                    break;
+                case 100:
+                    progressBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_finished"));
+                    break;
+            }
+            progressBar.setProgress(progress / 100);
         }
 
         public override void exit()

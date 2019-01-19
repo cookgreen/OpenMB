@@ -56,7 +56,7 @@ namespace AMOFGameEngine
             var installedMod = ModManager.Instance.GetInstalledMods();
             if (!string.IsNullOrEmpty(mod) && installedMod.ContainsKey(mod))
             {
-                GameManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", mod);
+                GameManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", mod, "MainMenu");
                 AppStateManager.Instance.start(AppStateManager.Instance.findByName("Loading"));
             }
             else

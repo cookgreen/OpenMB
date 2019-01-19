@@ -100,7 +100,7 @@ namespace AMOFGameEngine
             videoMode = new NameValuePairList();
             isEditMode = false;
             isCheatMode = false;
-            loadingData = new LoadingData(LoadingType.NONE, null, null);
+            loadingData = new LoadingData(LoadingType.NONE, null, null, null);
          }
 
         public bool Init(string windowTitle, Dictionary<string, string> gameOptions)
