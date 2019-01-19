@@ -120,7 +120,7 @@ namespace AMOFGameEngine
         private bool InitRender(string wndTitle, ref Dictionary<string, string> gameOptions)
         {
             root = Root.Singleton == null ? new Root() : Root.Singleton;
-            root.FrameStarted += new FrameListener.FrameStartedHandler(mRoot_FrameStarted);
+            root.FrameStarted += new FrameListener.FrameStartedHandler(frameStarted);
 
             log = EngineLogManager.Instance.CreateLog("./Log/Engine.log");
             rendererLog = LogManager.Singleton.CreateLog("./Log/Mogre.log", true, true, false);
@@ -208,8 +208,8 @@ namespace AMOFGameEngine
             renderWindow.GetCustomAttribute("WINDOW", out hWnd);
  
             inputMgr = InputManager.CreateInputSystem((uint)hWnd);
-            keyboard = (MOIS.Keyboard)inputMgr.CreateInputObject(MOIS.Type.OISKeyboard, true);
-            mouse =  (MOIS.Mouse)inputMgr.CreateInputObject(MOIS.Type.OISMouse, true);
+            keyboard = (Keyboard)inputMgr.CreateInputObject(MOIS.Type.OISKeyboard, true);
+            mouse =  (Mouse)inputMgr.CreateInputObject(MOIS.Type.OISMouse, true);
 
             mouse.MouseMoved+=new MouseListener.MouseMovedHandler(mouseMoved);
             mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
@@ -218,11 +218,11 @@ namespace AMOFGameEngine
             keyboard.KeyPressed += new KeyListener.KeyPressedHandler(keyPressed);
             keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(keyReleased);
 
-            MOIS.MouseState_NativePtr mouseState = mouse.MouseState;
+            MouseState_NativePtr mouseState = mouse.MouseState;
                 mouseState.width = viewport.ActualWidth;
                 mouseState.height = viewport.ActualHeight;
- 
-            String secName, typeName, archName;
+
+            string secName, typeName, archName;
             IniConfigFile conf = new IniConfigFile();
             
             conf = (IniConfigFile)parser.Load("resources.cfg");
@@ -275,11 +275,6 @@ namespace AMOFGameEngine
             uiMgr = new ScreenManager();
 
             SoundManager.Instance.InitSystem(gameOptions["EnableMusic"] == "True" ? true : false, gameOptions["EnableSound"] == "True" ? true : false);
-
-            if (!locateMgr.IsInit)
-            {
-                locateMgr.InitLocateSystem(locateMgr.ConvertLocateShortStringToLocateInfo(gameOptions["CurrentLocae"]));
-            }
             
             Update += modMgr.Update;
             Update += outputMgr.Update;
@@ -302,7 +297,7 @@ namespace AMOFGameEngine
             }
         }
 
-        bool mRoot_FrameStarted(FrameEvent evt)
+        bool frameStarted(FrameEvent evt)
         {
             if (Update != null)
             {
