@@ -38,7 +38,7 @@ namespace AMOFGameEngine.Core
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 frmConfigureController controller = new frmConfigureController(new frmConfigure());
-                Application.Run(controller.form);
+                controller.form.ShowDialog();
             }
             else
             {

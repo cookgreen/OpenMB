@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AMOFGameEngine.Utilities
+namespace AMOFGameEngine.Configure
 {
-    public class ConfigFileKeyValuePair
+    public class IniConfigFileKeyValuePair
     {
         private string key;
         private string val;
@@ -33,10 +33,10 @@ namespace AMOFGameEngine.Utilities
         }
     }
 
-    public class ConfigFileSection
+    public class IniConfigFileSection
     {
         private string name;
-        private List<ConfigFileKeyValuePair> keyValuePairs;
+        private List<IniConfigFileKeyValuePair> keyValuePairs;
         public string Name
         {
             get
@@ -48,7 +48,7 @@ namespace AMOFGameEngine.Utilities
                 name = value;
             }
         }
-        public List<ConfigFileKeyValuePair> KeyValuePairs
+        public List<IniConfigFileKeyValuePair> KeyValuePairs
         {
             get
             {
@@ -59,9 +59,9 @@ namespace AMOFGameEngine.Utilities
                 keyValuePairs = value;
             }
         }
-        public ConfigFileSection()
+        public IniConfigFileSection()
         {
-            keyValuePairs = new List<ConfigFileKeyValuePair>();
+            keyValuePairs = new List<IniConfigFileKeyValuePair>();
         }
         public string this[string key]
         {
@@ -110,11 +110,11 @@ namespace AMOFGameEngine.Utilities
         }
     }
 
-    public class ConfigFile
+    public class IniConfigFile : IConfigFile
     {
         private string name;
         private string path;
-        private List<ConfigFileSection> sections;
+        private List<IniConfigFileSection> sections;
         public string Name
         {
             get
@@ -137,7 +137,7 @@ namespace AMOFGameEngine.Utilities
                 path = value;
             }
         }
-        public List<ConfigFileSection> Sections
+        public List<IniConfigFileSection> Sections
         {
             get
             {
@@ -148,16 +148,16 @@ namespace AMOFGameEngine.Utilities
                 sections = value;
             }
         }
-        public ConfigFile()
+        public IniConfigFile()
         {
-            sections = new List<ConfigFileSection>();
+            sections = new List<IniConfigFileSection>();
         }
 
-        public ConfigFileSection this[string sectionName]
+        public IniConfigFileSection this[string sectionName]
         {
             get
             {
-                ConfigFileSection resultSection;
+                IniConfigFileSection resultSection;
 
                 var resultSections = from section in sections
                                      where section.Name == sectionName
@@ -175,9 +175,9 @@ namespace AMOFGameEngine.Utilities
             }
         }
 
-        public ConfigFileSection GetSectionByName(string sectionName)
+        public IniConfigFileSection GetSectionByName(string sectionName)
         {
-            ConfigFileSection resultSection;
+            IniConfigFileSection resultSection;
 
             var resultSections = from section in sections
                                  where section.Name == sectionName

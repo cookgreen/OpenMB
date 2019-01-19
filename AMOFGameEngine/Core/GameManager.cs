@@ -8,7 +8,7 @@ using MOIS;
 using Mogre_Procedural;
 using Mogre_Procedural.MogreBites;
 using NVorbis;
-using AMOFGameEngine.Core;
+using AMOFGameEngine.Configure;
 using AMOFGameEngine.Localization;
 using AMOFGameEngine.LogMessage;
 using AMOFGameEngine.Mods;
@@ -19,8 +19,6 @@ using AMOFGameEngine.Screen;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.States;
 using AMOFGameEngine.Widgets;
-using AMOFGameEngine.Utilities;
-using ConfigFile = AMOFGameEngine.Utilities.ConfigFile;
 
 namespace AMOFGameEngine
 {
@@ -129,12 +127,12 @@ namespace AMOFGameEngine
             rendererLog.SetDebugOutputEnabled(true);
 
             RenderSystem rs = null;
-            ConfigFileParser parser = new ConfigFileParser();
+            IniConfigFileParser parser = new IniConfigFileParser();
             if (gameOptions == null)
             {
                 gameOptions = new Dictionary<string, string>();
 
-                ConfigFile cf = parser.Load("Game.cfg");
+                IniConfigFile cf = (IniConfigFile)parser.Load("Game.cfg");
                 var sections = cf.Sections;
                 foreach (var section in sections)
                 {
@@ -144,7 +142,7 @@ namespace AMOFGameEngine
                     }
                 }
 
-                cf = parser.Load("ogre.cfg");
+                cf = (IniConfigFile)parser.Load("ogre.cfg");
                 sections = cf.Sections;
                 string renderSystem = null;
                 foreach (var section in sections)
@@ -225,9 +223,9 @@ namespace AMOFGameEngine
                 mouseState.height = viewport.ActualHeight;
  
             String secName, typeName, archName;
-            AMOFGameEngine.Utilities.ConfigFile conf = new AMOFGameEngine.Utilities.ConfigFile();
+            IniConfigFile conf = new IniConfigFile();
             
-            conf = parser.Load("resources.cfg");
+            conf = (IniConfigFile)parser.Load("resources.cfg");
             for (int i = 0; i < conf.Sections.Count; i++)
             {
                 secName = conf.Sections[i].Name;

@@ -46,10 +46,10 @@
             this.chkEnableSound = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.gbAdvanced = new System.Windows.Forms.GroupBox();
+            this.chkEnableEditMode = new System.Windows.Forms.CheckBox();
             this.gbLocalization = new System.Windows.Forms.GroupBox();
             this.cmbLanguageSelect = new System.Windows.Forms.ComboBox();
             this.lblLang = new System.Windows.Forms.Label();
-            this.chkEnableEditMode = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbAMGELogo)).BeginInit();
             this.tbRenderOpt.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -245,6 +245,16 @@
             this.gbAdvanced.TabStop = false;
             this.gbAdvanced.Text = "Advanced Options";
             // 
+            // chkEnableEditMode
+            // 
+            this.chkEnableEditMode.AutoSize = true;
+            this.chkEnableEditMode.Location = new System.Drawing.Point(8, 20);
+            this.chkEnableEditMode.Name = "chkEnableEditMode";
+            this.chkEnableEditMode.Size = new System.Drawing.Size(120, 16);
+            this.chkEnableEditMode.TabIndex = 0;
+            this.chkEnableEditMode.Text = "Enable Edit Mode";
+            this.chkEnableEditMode.UseVisualStyleBackColor = true;
+            // 
             // gbLocalization
             // 
             this.gbLocalization.Controls.Add(this.cmbLanguageSelect);
@@ -277,16 +287,6 @@
             this.lblLang.TabIndex = 0;
             this.lblLang.Text = "Language:";
             // 
-            // chkEnableEditMode
-            // 
-            this.chkEnableEditMode.AutoSize = true;
-            this.chkEnableEditMode.Location = new System.Drawing.Point(8, 20);
-            this.chkEnableEditMode.Name = "chkEnableEditMode";
-            this.chkEnableEditMode.Size = new System.Drawing.Size(120, 16);
-            this.chkEnableEditMode.TabIndex = 0;
-            this.chkEnableEditMode.Text = "Enable Edit Mode";
-            this.chkEnableEditMode.UseVisualStyleBackColor = true;
-            // 
             // frmConfigure
             // 
             this.AcceptButton = this.btnOK;
@@ -303,6 +303,7 @@
             this.Name = "frmConfigure";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Engine Option";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmConfigure_FormClosed);
             this.Load += new System.EventHandler(this.ConfigFrm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbAMGELogo)).EndInit();
             this.tbRenderOpt.ResumeLayout(false);

@@ -46,13 +46,13 @@ namespace AMOFGameEngine.Forms
         private void ConfigFrm_Load(object sender, EventArgs e)
         {
             controller.Init();
+            LocateSystem.Singleton.InitLocateSystem(controller.CurrentLoacte);// Init Locate System
+            controller.InitLocates();
 
             if (controller.CurrentLoacte != LOCATE.invalid)
             {
                 cmbLanguageSelect.SelectedIndex = LocateSystem.Singleton.CovertLocateInfoToIndex(controller.CurrentLoacte);
-
-                LocateSystem.Singleton.InitLocateSystem(controller.CurrentLoacte);// Init Locate System
-            
+                
                 tbRenderOpt.TabPages[0].Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_graphic");
                 tbRenderOpt.TabPages[1].Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_audio");
                 tbRenderOpt.TabPages[2].Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_game");
@@ -94,7 +94,7 @@ namespace AMOFGameEngine.Forms
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            Close();
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -112,6 +112,11 @@ namespace AMOFGameEngine.Forms
                                                       lstConfig.SelectedItem.ToString().Split(':')[0],
                                                       cmbValueChange.SelectedItem.ToString());
             }
+        }
+
+        private void frmConfigure_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Close();
         }
     }
 }

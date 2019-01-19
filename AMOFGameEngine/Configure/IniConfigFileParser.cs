@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace AMOFGameEngine.Utilities
+namespace AMOFGameEngine.Configure
 {
-    public class ConfigFileParser
+    public class IniConfigFileParser : IConfigParser
     {
-        public ConfigFile Load(string filePath)
+        public IConfigFile Load(string filePath)
         {
-            ConfigFile conf = new ConfigFile();
+            IniConfigFile conf = new IniConfigFile();
             conf.Name = filePath;
-            ConfigFileSection currentSection = null;
+            IniConfigFileSection currentSection = null;
             int counter = 0;
             using (StreamReader sr = new StreamReader(filePath))
             {
@@ -25,15 +25,15 @@ namespace AMOFGameEngine.Utilities
                     }
                     else if (line.StartsWith("[") && line.EndsWith("]"))
                     {
-                        currentSection = new ConfigFileSection();
+                        currentSection = new IniConfigFileSection();
                         currentSection.Name = line.Substring(1, line.IndexOf(']') - 1);
                         conf.Sections.Add(currentSection);
                     }
                     else if (counter == 0 && line.Split('=').Length == 2)//No section
                     {
-                        currentSection = new ConfigFileSection();
+                        currentSection = new IniConfigFileSection();
                         currentSection.Name = string.Empty;
-                        currentSection.KeyValuePairs.Add(new ConfigFileKeyValuePair()
+                        currentSection.KeyValuePairs.Add(new IniConfigFileKeyValuePair()
                             {
                                 Key = line.Split('=')[0],
                                 Value = line.Split('=')[1]
@@ -42,7 +42,7 @@ namespace AMOFGameEngine.Utilities
                     }
                     else if (line.Split('=').Length == 2)
                     {
-                        currentSection.KeyValuePairs.Add(new ConfigFileKeyValuePair()
+                        currentSection.KeyValuePairs.Add(new IniConfigFileKeyValuePair()
                         {
                             Key = line.Split('=')[0],
                             Value = line.Split('=')[1]
@@ -55,10 +55,11 @@ namespace AMOFGameEngine.Utilities
             return conf;
         }
 
-        public bool Save(ConfigFile conf)
+        public bool Save(IConfigFile cf)
         {
             try
             {
+                IniConfigFile conf = (IniConfigFile)cf;
                 using (StreamWriter sw = new StreamWriter(conf.Name))
                 {
                     for (int i = 0; i < conf.Sections.Count; i++)

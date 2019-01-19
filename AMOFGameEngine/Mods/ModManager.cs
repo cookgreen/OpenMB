@@ -7,6 +7,7 @@ using System.Reflection;
 using System.ComponentModel;
 using AMOFGameEngine.Utilities;
 using AMOFGameEngine.Mods;
+using AMOFGameEngine.Configure;
 
 namespace AMOFGameEngine.Mods
 {
@@ -16,8 +17,8 @@ namespace AMOFGameEngine.Mods
     {
         private Dictionary<string, ModManifest> installedMods;
         private string modInstallRootDir;
-        private ConfigFileParser parser;
-        private ConfigFile modConfigData;
+        private IniConfigFileParser parser;
+        private IniConfigFile modConfigData;
         private ModData currentMod;
         private string currentModName;
         private BackgroundWorker worker;
@@ -55,9 +56,9 @@ namespace AMOFGameEngine.Mods
         {
             installedMods = new Dictionary<string, ModManifest>();
             currentMod = null;
-            modConfigData = new ConfigFile();
+            modConfigData = new IniConfigFile();
             modInstallRootDir = null;
-            parser = new ConfigFileParser();
+            parser = new IniConfigFileParser();
             worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
             worker.DoWork += worker_DoWork;
@@ -135,8 +136,8 @@ namespace AMOFGameEngine.Mods
 
         string GetModInstallRootDir()
         {
-            modConfigData = parser.Load("Game.cfg");
-            ConfigFileSection section = modConfigData["Mods"];
+            modConfigData = (IniConfigFile)parser.Load("Game.cfg");
+            IniConfigFileSection section = modConfigData["Mods"];
             if (section != null)
             {
                 string modDir = section["ModDir"];

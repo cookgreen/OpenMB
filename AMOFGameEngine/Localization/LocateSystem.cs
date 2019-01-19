@@ -61,6 +61,15 @@ namespace AMOFGameEngine.Localization
                 return instance;
             }
         }
+
+        public List<string> AvaliableLocates
+        {
+            get
+            {
+                return avaliableLocates;
+            }
+        }
+
         static LocateSystem instance;
 
         public LocateSystem()
@@ -107,6 +116,20 @@ namespace AMOFGameEngine.Localization
 
             ucsGameStr.Prepare();
             ucsGameUI.Prepare();
+            
+            DirectoryInfo di = new DirectoryInfo("./locate/");
+            FileSystemInfo[] fsi = di.GetFileSystemInfos();
+            foreach (var dir in fsi)
+            {
+                if (File.Exists(string.Format(@"{0}\GameQuickString.ucs", dir.FullName)) &&
+                    File.Exists(string.Format(@"{0}\GameStrings.ucs", dir.FullName)) &&
+                    File.Exists(string.Format(@"{0}\GameUI.ucs", dir.FullName)))
+                {
+                    //valid locate directory
+                    RegisterLocate(dir.Name);
+                }
+            }
+
             if (ucsGameStr.Process() && ucsGameUI.Process() && ucsGameQuickStr.Process())
             {
                 return true;
@@ -191,7 +214,7 @@ namespace AMOFGameEngine.Localization
                     tmpw = tmpr;
                     sr.Close();
                 }
-                if (CovertLocateInfoStringToReadableString(tmpw) != index.ToString())
+                if (ConvertLocateShortStringToReadableString(tmpw) != index.ToString())
                 {
                     sw.BaseStream.Seek(0, SeekOrigin.Begin);
                     sw.Write(CovertIndexToLocateInfo(index));
@@ -277,7 +300,7 @@ namespace AMOFGameEngine.Localization
             }
         }
 
-        public string CovertLocateInfoStringToReadableString(string locate)
+        public string ConvertLocateShortStringToReadableString(string locate)
         {
             switch (locate)
             {
@@ -322,7 +345,7 @@ namespace AMOFGameEngine.Localization
 
         public void RegisterLocate(string locate)
         {
-            avaliableLocates.Add(locate);
+            AvaliableLocates.Add(locate);
         }
     }
 }

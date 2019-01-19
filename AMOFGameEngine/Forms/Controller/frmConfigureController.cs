@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Mogre;
+using AMOFGameEngine.Configure;
 using AMOFGameEngine.Forms.Model;
 using AMOFGameEngine.Localization;
-using AMOFGameEngine.Utilities;
 
 namespace AMOFGameEngine.Forms.Controller
 {
@@ -14,9 +14,9 @@ namespace AMOFGameEngine.Forms.Controller
     {
         private Root r;
         private LOCATE selectedlocate;
-        private AMOFGameEngine.Utilities.ConfigFile gameCfg;
-        private AMOFGameEngine.Utilities.ConfigFile ogreCfg;
-        private ConfigFileParser parser;
+        private IniConfigFile gameCfg;
+        private IniConfigFile ogreCfg;
+        private IniConfigFileParser parser;
         public frmConfigure form;
         public AudioConfigure AudioConfig;
         public GameConfigure GameConfig;
@@ -38,9 +38,9 @@ namespace AMOFGameEngine.Forms.Controller
             GameConfig = new GameConfigure();
             GraphicConfig = new GraphicConfigure();
 
-            parser = new ConfigFileParser();
-            gameCfg = parser.Load("game.cfg");
-            ogreCfg = parser.Load("ogre.cfg");
+            parser = new IniConfigFileParser();
+            gameCfg = (IniConfigFile)parser.Load("game.cfg");
+            ogreCfg = (IniConfigFile)parser.Load("ogre.cfg");
             r = new Root();
 
             form.Controller = this;
@@ -57,22 +57,8 @@ namespace AMOFGameEngine.Forms.Controller
         private void LoadGameConfigure()
         {
             selectedlocate = LocateSystem.Singleton.ConvertLocateShortStringToLocateInfo(gameCfg["Localized"]["CurrentLocate"]);
-            GameConfig.CurrentSelectedLocate = LocateSystem.Singleton.CovertLocateInfoStringToReadableString(selectedlocate.ToString());
-            GameConfig.AvaliableLocates.Clear();
+            GameConfig.CurrentSelectedLocate = LocateSystem.Singleton.ConvertLocateShortStringToReadableString(selectedlocate.ToString());
             GameConfig.IsEnableEditMode = gameCfg["Game"]["EditMode"] == "1" ? true : false;
-            DirectoryInfo di = new DirectoryInfo("./locate/");
-            FileSystemInfo[] fsi = di.GetFileSystemInfos();
-            foreach (var dir in fsi)
-            {
-                if(File.Exists(string.Format(@"{0}\GameQuickString.ucs", dir.FullName))&&
-                    File.Exists(string.Format(@"{0}\GameStrings.ucs", dir.FullName)) &&
-                    File.Exists(string.Format(@"{0}\GameUI.ucs", dir.FullName)))
-                {
-                    //valid locate directory
-                    LocateSystem.Singleton.RegisterLocate(dir.Name);
-                    GameConfig.AvaliableLocates.Add(LocateSystem.Singleton.CovertLocateInfoStringToReadableString(dir.Name));
-                }
-            }
         }
 
         private void LoadGraphicConfigure()
@@ -86,6 +72,15 @@ namespace AMOFGameEngine.Forms.Controller
             }
             GraphicConfig.RenderSystem = ogreCfg[""]["Render System"];
             GetGraphicSettingsByName(GraphicConfig.RenderSystem);
+        }
+
+        internal void InitLocates()
+        {
+            GameConfig.AvaliableLocates.Clear();
+            foreach (var locateStr in LocateSystem.Singleton.AvaliableLocates)
+            {
+                GameConfig.AvaliableLocates.Add(LocateSystem.Singleton.ConvertLocateShortStringToReadableString(locateStr));
+            }
         }
 
         private void LoadAudioConfigure()
@@ -111,7 +106,7 @@ namespace AMOFGameEngine.Forms.Controller
         public void GetGraphicSettingsByName(string renderSystemName)
         {
             GraphicConfig.RenderParams.Clear();
-            List<ConfigFileKeyValuePair> dic = ogreCfg[renderSystemName].KeyValuePairs;
+            List<IniConfigFileKeyValuePair> dic = ogreCfg[renderSystemName].KeyValuePairs;
             ConfigOptionMap configOptionMap = r.GetRenderSystemByName(renderSystemName).GetConfigOptions();
             List<string> graphicSettings = new List<string>();
             if (dic != null)

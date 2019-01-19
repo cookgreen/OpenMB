@@ -79,20 +79,20 @@ namespace AMOFGameEngine.States
             switch (GameManager.Instance.loadingData.Type)
             {
                 case LoadingType.LOADING_MOD:
-                    ModManager.Instance.LoadingModProcessing += new Action<int>(Instance_LoadingModProcessing);
-                    ModManager.Instance.LoadingModFinished += new Action(Instance_LoadingModFinished);
+                    ModManager.Instance.LoadingModProcessing += new Action<int>(LoadingModProcessing);
+                    ModManager.Instance.LoadingModFinished += new Action(LoadingModFinished);
                     ModManager.Instance.LoadMod(GameManager.Instance.loadingData.Data.ToString());
                     break;
             }
         }
 
-        private void Instance_LoadingModFinished()
+        private void LoadingModFinished()
         {
             var modData = ModManager.Instance.ModData;
             changeAppState(findByName("MainMenu"), modData);
         }
 
-        private void Instance_LoadingModProcessing(int progress)
+        private void LoadingModProcessing(int progress)
         {
             //progressBar.setProgress(progress);
         }
