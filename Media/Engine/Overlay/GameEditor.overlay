@@ -3,9 +3,9 @@ template container BorderPanel(EditorPanel)
 	material SdkTrays/MiniDarkTray
 	uv_coords 0.375 0.375 0.625 0.625
 	width 0.3
-	height 0.97
-	left 0.69
-	top 0.02
+	height 1
+	left 0.7
+	top 0
 	border_material SdkTrays/MiniDarkTray
 	border_size 0.01 0.01 0.01 0.01
 	border_topleft_uv     0.000 0.000 0.375 0.375

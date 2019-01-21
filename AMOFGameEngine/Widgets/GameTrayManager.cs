@@ -36,13 +36,5 @@ namespace AMOFGameEngine.Widgets
             trayMgr.moveWidgetToTray(panel, trayLoc);
             return panel;
         }
-
-        public static ListView createListView(this SdkTrayManager trayMgr, TrayLocation trayLoc, string name, float height, float width, List<string> columnNames)
-        {
-            ListView lsv = new ListView(name, -1, -1, height, width, columnNames);
-            //this.moveWidgetToTray(lsv,trayLoc);
-            //lsv._assignListener(mListener);
-            return lsv;
-        }
     }
 }

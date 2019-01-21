@@ -79,7 +79,7 @@ namespace AMOFGameEngine.States
 
             camera = sceneMgr.CreateCamera("LoadingScreenCam");
             camera.SetPosition(0, 25, -50);
-            Mogre.Vector3 vectorCameraLookat = new Mogre.Vector3(0, 0, 0);
+            Vector3 vectorCameraLookat = new Mogre.Vector3(0, 0, 0);
             camera.LookAt(vectorCameraLookat);
             camera.NearClipDistance = 1;
 
@@ -94,8 +94,8 @@ namespace AMOFGameEngine.States
             switch (GameManager.Instance.loadingData.Type)
             {
                 case LoadingType.LOADING_MOD:
-                    ModManager.Instance.LoadingModProcessing += new Action<int>(LoadingModProcessing);
-                    ModManager.Instance.LoadingModFinished += new Action(LoadingModFinished);
+                    ModManager.Instance.LoadingModProcessing += LoadingModProcessing;
+                    ModManager.Instance.LoadingModFinished += LoadingModFinished;
                     ModManager.Instance.LoadMod(GameManager.Instance.loadingData.LoadingObjName);
                     break;
             }
@@ -133,6 +133,9 @@ namespace AMOFGameEngine.States
             sceneMgr.DestroyCamera(camera);
             if (sceneMgr != null)
                 GameManager.Instance.root.DestroySceneManager(sceneMgr);
+
+            ModManager.Instance.LoadingModFinished -= LoadingModFinished;
+            ModManager.Instance.LoadingModProcessing -= LoadingModProcessing;
         }
     }
 }

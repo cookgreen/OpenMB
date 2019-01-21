@@ -288,7 +288,7 @@ namespace AMOFGameEngine
         {
             try
             {
-                isEditMode = gameOptions["EditMode"] == "1" ? true : false;
+                isEditMode = gameOptions["EditMode"] == "True" ? true : false;
                 return true;
             }
             catch

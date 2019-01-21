@@ -101,7 +101,7 @@ namespace AMOFGameEngine.Forms
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            Close();
+            Hide();
             Dictionary<string, string> gameOptions = controller.SaveConfigure();
             GameApp app = new GameApp(gameOptions, mod);
             app.Run();

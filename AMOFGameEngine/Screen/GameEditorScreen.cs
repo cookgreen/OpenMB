@@ -7,6 +7,7 @@ using System.Text;
 using AMOFGameEngine.Widgets;
 using Mogre_Procedural.MogreBites;
 using AMOFGameEngine.Map;
+using AdvancedMogreFramework.Widgets;
 
 namespace AMOFGameEngine.Screen
 {
@@ -40,11 +41,19 @@ namespace AMOFGameEngine.Screen
 
     public class GameEditorScreen : Screen
     {
+        private const float MARGIN_TOP = 0.02f;
+        private const float MARGIN_RIGHT = 0.02f;
+        private const float MARGIN_BOTTOM = 0.02f;
         private OverlayContainer editorPanel;
+        private StaticText lbGeneral;
+        private StaticText lbObjects;
+        private StaticText lbAIMesh;
         private Button btnSave;
         private Button btnClose;
         private Button btnAIMeshCreateVertex;
         private Button btnAIMeshCreateLine;
+        private OverlayElement horline;
+        private OverlayElement horline2;
         private ListView lsvObjects;
         private Button btnAddObject;
         private GameMapEditor editor;
@@ -85,8 +94,20 @@ namespace AMOFGameEngine.Screen
             {
                 OverlayElement currentElement = children.Current;
                 editorPanel.RemoveChild(currentElement.Name);
-                //Widget.nukeOverlayElement(currentElement);
             }
+
+            GameManager.Instance.trayMgr.destroyWidget(btnAddObject);
+            GameManager.Instance.trayMgr.destroyWidget(btnAIMeshCreateLine);
+            GameManager.Instance.trayMgr.destroyWidget(btnAIMeshCreateVertex);
+            GameManager.Instance.trayMgr.destroyWidget(btnClose);
+            GameManager.Instance.trayMgr.destroyWidget(btnSave);
+            GameManager.Instance.trayMgr.destroyWidget(lbAIMesh);
+            GameManager.Instance.trayMgr.destroyWidget(lbGeneral);
+            GameManager.Instance.trayMgr.destroyWidget(lbObjects);
+            GameManager.Instance.trayMgr.destroyWidget(lsvObjects);
+            Widget.nukeOverlayElement(horline);
+            Widget.nukeOverlayElement(horline2);
+            
             GameManager.Instance.trayMgr.getTraysLayer().Remove2D(editorPanel);
             Widget.nukeOverlayElement(editorPanel);
         }
@@ -105,10 +126,10 @@ namespace AMOFGameEngine.Screen
             state = EditState.Free;
             operation = EditOperation.None;
 
-            float top = 0.02f;
+            float top = MARGIN_TOP;
             editorPanel = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanel", "BorderPanel", "editorArea") as OverlayContainer;
 
-            var lbGeneral = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbGeneral", "General", ColourValue.Black);
+            lbGeneral = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbGeneral", "General", ColourValue.Black);
             lbGeneral.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             lbGeneral.getOverlayElement().Left = 0.06f;
             lbGeneral.getOverlayElement().Top =  top;
@@ -131,7 +152,7 @@ namespace AMOFGameEngine.Screen
             top = btnClose.getOverlayElement().Top + btnClose.getOverlayElement().Height;
             editorPanel.AddChild(btnClose.getOverlayElement());
 
-            var horline = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/HorizalLine", "Panel", "horline") as PanelOverlayElement;
+            horline = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/HorizalLine", "Panel", "horline") as PanelOverlayElement;
             horline.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             horline.Left = 0.01f;
             horline.Width = 0.28f;
@@ -139,7 +160,7 @@ namespace AMOFGameEngine.Screen
             top = horline.Top + horline.Height;
             editorPanel.AddChild(horline);
 
-            var lbAIMesh = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbAIMesh", "AIMesh", ColourValue.Black);
+            lbAIMesh = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbAIMesh", "AIMesh", ColourValue.Black);
             lbAIMesh.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             lbAIMesh.getOverlayElement().Left = 0.06f;
             lbAIMesh.getOverlayElement().Top = 0.02f + top;
@@ -162,7 +183,7 @@ namespace AMOFGameEngine.Screen
             top = btnAIMeshCreateLine.getOverlayElement().Top + btnAIMeshCreateLine.getOverlayElement().Height;
             editorPanel.AddChild(btnAIMeshCreateLine.getOverlayElement());
 
-            var horline2 = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/HorizalLine", "Panel", "horline2") as PanelOverlayElement;
+            horline2 = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/HorizalLine", "Panel", "horline2") as PanelOverlayElement;
             horline2.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             horline2.Left = 0.01f;
             horline2.Width = 0.28f;
@@ -170,7 +191,7 @@ namespace AMOFGameEngine.Screen
             top = horline2.Top + horline2.Height;
             editorPanel.AddChild(horline2);
 
-            var lbObjects = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbObjects", "Objects", ColourValue.Black);
+            lbObjects = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbObjects", "Objects", ColourValue.Black);
             lbObjects.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             lbObjects.getOverlayElement().Left = 0.06f;
             lbObjects.getOverlayElement().Top = 0.02f + top;

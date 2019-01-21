@@ -37,6 +37,7 @@ namespace Mogre_Procedural.MogreBites
     using Math = System.Math;
     using InputContext = MOIS.Mouse;
     using AdvancedMogreFramework.Widgets;
+    using AMOFGameEngine.Widgets;
 
     public enum TrayLocation : int // enumerator values for widget tray anchoring locations
     {
@@ -2620,6 +2621,14 @@ namespace Mogre_Procedural.MogreBites
             ProgressBar pb = new ProgressBar(name, caption, width, commentBoxWidth);
             moveWidgetToTray(pb, trayLoc);
             return pb;
+        }
+
+        public ListView createListView(TrayLocation trayLoc, string name, float height, float width, List<string> columnNames)
+        {
+            ListView lsv = new ListView(name, -1, -1, height, width, columnNames);
+            moveWidgetToTray(lsv, trayLoc);
+            lsv._assignListener(mListener);
+            return lsv;
         }
 
         //        -----------------------------------------------------------------------------

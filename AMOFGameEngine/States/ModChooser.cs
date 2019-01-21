@@ -87,13 +87,13 @@ namespace AMOFGameEngine.States
             
             setupModMenu();
 
-            GameManager.Instance.mouse.MouseMoved += mMouse_MouseMoved;
-            GameManager.Instance.mouse.MousePressed += mMouse_MousePressed;
-            GameManager.Instance.mouse.MouseReleased += mMouse_MouseReleased;
-            GameManager.Instance.root.FrameRenderingQueued += mRoot_FrameRenderingQueued;
+            GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
+            GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
+            GameManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
+            GameManager.Instance.root.FrameRenderingQueued += FrameRenderingQueued;
         }
 
-        bool mRoot_FrameRenderingQueued(FrameEvent evt)
+        bool FrameRenderingQueued(FrameEvent evt)
         {
             selectedModName = modChooserMenu.getSelectedItem();
             float carouselOffset = modChooserMenu.getSelectionIndex() - carouselPlace;
@@ -135,17 +135,17 @@ namespace AMOFGameEngine.States
             return true;
         }
 
-        bool mMouse_MouseReleased(MouseEvent arg, MouseButtonID id)
+        bool Mouse_MouseReleased(MouseEvent arg, MouseButtonID id)
         {
             return GameManager.Instance.trayMgr.injectMouseUp(arg, id);
         }
 
-        bool mMouse_MousePressed(MouseEvent arg, MouseButtonID id)
+        bool Mouse_MousePressed(MouseEvent arg, MouseButtonID id)
         {
             return GameManager.Instance.trayMgr.injectMouseDown(arg, id);
         }
 
-        bool mMouse_MouseMoved(MOIS.MouseEvent arg)
+        bool Mouse_MouseMoved(MOIS.MouseEvent arg)
         {
 
             MouseState_NativePtr state = arg.state;
@@ -178,17 +178,17 @@ namespace AMOFGameEngine.States
             if (sceneMgr != null)
                 GameManager.Instance.root.DestroySceneManager(sceneMgr);
 
-            GameManager.Instance.mouse.MouseMoved -= new MouseListener.MouseMovedHandler(mMouse_MouseMoved);
-            GameManager.Instance.root.FrameRenderingQueued -= new FrameListener.FrameRenderingQueuedHandler(mRoot_FrameRenderingQueued);
+            GameManager.Instance.mouse.MouseMoved -= new MouseListener.MouseMovedHandler(Mouse_MouseMoved);
+            GameManager.Instance.root.FrameRenderingQueued -= new FrameListener.FrameRenderingQueuedHandler(FrameRenderingQueued);
             foreach (BorderPanelOverlayElement bp in modThumbs)
             {
                 GameManager.Instance.trayMgr.getTraysLayer().Remove2D(bp);
             }
 
-            GameManager.Instance.mouse.MouseMoved -= mMouse_MouseMoved;
-            GameManager.Instance.mouse.MousePressed -= mMouse_MousePressed;
-            GameManager.Instance.mouse.MouseReleased -= mMouse_MouseReleased;
-            GameManager.Instance.root.FrameRenderingQueued -= mRoot_FrameRenderingQueued;
+            GameManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
+            GameManager.Instance.mouse.MousePressed -= Mouse_MousePressed;
+            GameManager.Instance.mouse.MouseReleased -= Mouse_MouseReleased;
+            GameManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
         }
 
         public override void update(double timeSinceLastFrame)
