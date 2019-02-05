@@ -33,7 +33,6 @@ namespace AMOFGameEngine.Game
         private SceneManager scm;
         private Camera cam;
 
-
         //Data
         private Dictionary<string, string> globalVarMap;
         private ScriptLinkTable globalValueTable;
@@ -42,6 +41,8 @@ namespace AMOFGameEngine.Game
         
         private Physics physics;
         private Scene physicsScene;
+
+        private Queue<Activity> queuedActions;
         #endregion
 
         #region Properties
@@ -111,6 +112,7 @@ namespace AMOFGameEngine.Game
             globalValueTable = ScriptValueRegister.Instance.GlobalValueTable;
 
             TriggerManager.Instance.Triggers.Add(new GameTrigger(this));
+            queuedActions = new Queue<Activity>();
         }
         #endregion
 
@@ -173,9 +175,23 @@ namespace AMOFGameEngine.Game
             GameManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
         }
 
+        public void QueueAction(Activity action)
+        {
+            queuedActions.Enqueue(action);
+        }
+
         public void Update(double timeSinceLastFrame)
         {
             TriggerManager.Instance.Update((float)timeSinceLastFrame);
+            while (queuedActions.Count > 0)
+            {
+                Activity action = queuedActions.Peek();
+                action.Update((float)timeSinceLastFrame);
+                if (action.State != ActionState.Queued)
+                {
+                    queuedActions.Dequeue();
+                }
+            }
         }
 
         #endregion

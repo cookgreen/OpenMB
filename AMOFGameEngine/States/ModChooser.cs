@@ -19,7 +19,6 @@ namespace AMOFGameEngine.States
         private Label modTitle;
         private TextBox modDescBox;
         private Slider modSlider;
-        private ProgressBar pbProcessBar;
         private StringVector modNames;
         private StringVector modDescs;
         private StringVector modThumb;

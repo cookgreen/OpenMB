@@ -164,6 +164,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\Activity.cs" />
     <Compile Include="Configure\ConfigureSystem.cs" />
     <Compile Include="Configure\IConfigFile.cs" />
     <Compile Include="Configure\IConfigParser.cs" />
@@ -196,11 +197,14 @@
     <Compile Include="Game\Items\Rifle.cs" />
     <Compile Include="Game\ItemWeaponFactory.cs" />
     <Compile Include="Core\OutputManager.cs" />
+    <Compile Include="Game\IUpdate.cs" />
+    <Compile Include="Game\Move.cs" />
     <Compile Include="LogMessage\EngineLog.cs" />
     <Compile Include="LogMessage\EngineLogManager.cs" />
     <Compile Include="Map\AIMeshVertex.cs" />
     <Compile Include="Map\GameMapEditor.cs" />
     <Compile Include="Map\GameObjectQueryFlags.cs" />
+    <Compile Include="Game\MoveInfo.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
     <Compile Include="Screen\Screen.cs" />
     <Compile Include="Map\AIMesh.cs" />
