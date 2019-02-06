@@ -10,6 +10,7 @@ namespace AMOFGameEngine.Game
     public abstract class Activity : IUpdate
     {
         public ActionState State;
+        public event Action ActivityCompleted;
         public abstract void Update(float deltaTime);
     }
 }

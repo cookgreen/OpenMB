@@ -25,12 +25,11 @@ namespace AMOFGameEngine.Game
     {
         //Unique Id
         private int id;
-        private CharacterState currentState;
-        private Character currentEnemy;
-        private Item currentWieldWeapon;
+        private DecisionSystem brain;
+        private WeaponSystem weaponSystem;
+        private EquipmentSystem equipmentSystem;
+
         private Dictionary<string, CharacterController.AnimID> animations;
-        public event Action<int, int, double> OnCharacterUseWeaponAttack;
-        public event Action<int> OnCharacterDie;
 
         public int Id
         {
@@ -53,12 +52,6 @@ namespace AMOFGameEngine.Game
         //Controller
         private CharacterController controller;
 
-        public CharacterController Controller
-        {
-            get { return controller; }
-            set { controller = value; }
-        }
-
         //Hitpoint
         private int hitpoint;
 
@@ -66,38 +59,6 @@ namespace AMOFGameEngine.Game
         {
             get { return hitpoint; }
             set { hitpoint = value; }
-        }
-
-        //Weapons
-        private Item[] weapons;
-
-        public Item[] Weapons
-        {
-            get { return weapons; }
-            set { weapons = value; }
-        }
-
-        internal void SetBodyPos(float x, float y, float z)
-        {
-            throw new NotImplementedException();
-        }
-
-        //Clothes
-        private Item[] clothes;
-
-        public Item[] Clothes
-        {
-            get { return clothes; }
-            set { clothes = value; }
-        }
-
-        //Backpack
-        private Inventory backpack;
-
-        public Inventory Backpack
-        {
-            get { return backpack; }
-            set { backpack = value; }
         }
 
         public string TeamId
@@ -113,6 +74,14 @@ namespace AMOFGameEngine.Game
             get
             {
                 return controller.Position;
+            }
+        }
+
+        public bool IsDead
+        {
+            get
+            {
+                return Hitpoint <= 0;
             }
         }
 
@@ -143,15 +112,12 @@ namespace AMOFGameEngine.Game
             Id = id;
             Name = string.Empty;
             Hitpoint = 100;
-            Weapons = new Item[5];
-            Clothes = new Item[5];
-            Backpack = new Inventory(21, this);
             controller = new CharacterController(cam,world.GetCurrentMap().NavmeshQuery,world.GetCurrentMap().PhysicsScene, name + id.ToString(), meshName, controlled);//初始化控制器
             controller.Position = initPosition;
-            currentEnemy = null;
-            currentWieldWeapon = new Fist(cam, world.GetCurrentMap().PhysicsScene, -1, id);
-            currentWieldWeapon.OnWeaponAttack += CurrentWieldWeapon_OnWeaponAttack;
-            currentState = CharacterState.Seek;
+
+            brain = new DecisionSystem(this);
+            weaponSystem = new WeaponSystem(this, new Fist(cam, world.GetCurrentMap().PhysicsScene, -1, id));
+            equipmentSystem = new EquipmentSystem(this);
 
             moveInfo = new MoveInfo(CharacterController.RUN_SPEED);
 
@@ -173,14 +139,6 @@ namespace AMOFGameEngine.Game
             animations.Add("ANIM_SLICE_VERTICAL", CharacterController.AnimID.ANIM_SLICE_VERTICAL);
         }
 
-        private void CurrentWieldWeapon_OnWeaponAttack(int arg1, int arg2)
-        {
-            if (OnCharacterUseWeaponAttack != null)
-            {
-                OnCharacterUseWeaponAttack(arg1, arg2, currentWieldWeapon.Damage);
-            }
-        }
-
         public bool GetControlled()
         {
             return controller.GetControlled();
@@ -190,7 +148,7 @@ namespace AMOFGameEngine.Game
         {
             if (item != null && item.ItemType == ItemType.IT_HEAD_ARMOUR)
             {
-                Clothes[0] = item;
+                equipmentSystem.EquipClothes(item, 0);
                 controller.AttachEntityToChara("head", item.ItemEnt);
             }
         }
@@ -199,14 +157,14 @@ namespace AMOFGameEngine.Game
         {
             if (item != null && item.ItemType == ItemType.IT_BODY_ARMOUR)
             {
-                Clothes[1] = item;
+                equipmentSystem.EquipClothes(item, 1);
                 controller.AttachEntityToChara("back", item.ItemEnt);
             }
         }
 
         public void AddItemToBackpack(Item item)
         {
-            Backpack.AddItemToInventory(item);
+            equipmentSystem.EquipNewItem(item);
         }
 
         /// <summary>
@@ -253,70 +211,9 @@ namespace AMOFGameEngine.Game
 
         public override void Update(float timeSinceLastFrame)
         {
-            //FSM
-            switch(currentState)
-            {
-                case CharacterState.Idle:
-                    currentState = CharacterState.Seek;
-                    break;
-                case CharacterState.Seek:
-                    List<Character> enemies = FindEnemies();
-                    if (enemies.Count > 0)
-                    {
-                        currentEnemy = enemies[0];
-                        currentState = CharacterState.Attack;
-                    }
-                    break;
-                case CharacterState.Attack:
-                    if (currentEnemy != null)
-                    {
-                        world.QueueAction(new Move(this, currentEnemy.Position));
-                        if((currentEnemy.controller.Position-controller.Position).Length <= currentWieldWeapon.Range)//Enemy in range
-                        {
-                            Attack();
-                        }
-                        else
-                        {
-                            Run();
-                        }
-                    }
-                    else
-                    {
-                        currentState = CharacterState.Seek;
-                    }
-                    break;
-                case CharacterState.Flee:
-                    break;
-            }
+            brain.Update(timeSinceLastFrame);
             controller.update(timeSinceLastFrame);
-            if (Hitpoint < 0)
-            {
-                //R.I.P
-                if (OnCharacterDie != null)
-                {
-                    OnCharacterDie(id);
-                }
-            }
-            else
-            {
-                //CheckEnvironment();
-            }
-        }
-
-        private void Wander()
-        {
-            //Move Randomly in the scene
-            controller.Wander();
-        }
-
-        private void Run()
-        {
-            controller.Run();
-        }
-
-        private void Attack()
-        {
-            controller.Attack();
+            weaponSystem.Update(timeSinceLastFrame);
         }
 
         public void RotateBody(Quaternion quat)
@@ -337,6 +234,11 @@ namespace AMOFGameEngine.Game
         public void YawBody(Degree degree)
         {
             controller.YawBody(degree);
+        }
+
+        public void SetBodyPos(float x, float y, float z)
+        {
+            controller.SetBodyPos(x, y, z);
         }
 
         public void SetTopAnimation(string animName, bool v)

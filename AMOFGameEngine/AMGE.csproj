@@ -176,6 +176,9 @@
     <Compile Include="Forms\Model\Configure.cs" />
     <Compile Include="Forms\Model\GameConfigure.cs" />
     <Compile Include="Forms\Model\GraphicConfigure.cs" />
+    <Compile Include="Game\Attack.cs" />
+    <Compile Include="Game\DecisionSystem.cs" />
+    <Compile Include="Game\EquipmentSystem.cs" />
     <Compile Include="Game\ItemAmmoFactory.cs" />
     <Compile Include="Game\ItemArmourFactory.cs" />
     <Compile Include="Game\ItemFactory.cs" />
@@ -199,6 +202,8 @@
     <Compile Include="Core\OutputManager.cs" />
     <Compile Include="Game\IUpdate.cs" />
     <Compile Include="Game\Move.cs" />
+    <Compile Include="Game\Items\OneHandWeapon.cs" />
+    <Compile Include="Game\WeaponSystem.cs" />
     <Compile Include="LogMessage\EngineLog.cs" />
     <Compile Include="LogMessage\EngineLogManager.cs" />
     <Compile Include="Map\AIMeshVertex.cs" />

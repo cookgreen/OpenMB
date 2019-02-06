@@ -277,8 +277,6 @@ namespace AMOFGameEngine.Map
                 {
                     playerAgent = character;
                 }
-                character.OnCharacterUseWeaponAttack += Character_OnCharacterUseWeaponAttack;
-                character.OnCharacterDie += Character_OnCharacterDie;
                 agents.Add(character);
             }
         }

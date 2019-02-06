@@ -224,7 +224,6 @@ namespace AMOFGameEngine.Game
             {
                 updateCamera(deltaTime);
             }
-            WalkState(deltaTime);
 
             physicsScene.FlushStream();
             physicsScene.FetchResults(SimulationStatuses.AllFinished, true);
@@ -328,6 +327,11 @@ namespace AMOFGameEngine.Game
         public void TranslateBody(Mogre.Vector3 vector3)
         {
             bodyNode.Translate(vector3);
+        }
+
+        public void SetBodyPos(float x, float y, float z)
+        {
+            bodyNode.SetPosition(x, y, z);
         }
 
         public void injectMouseDown(MouseEvent evt, MouseButtonID id)
