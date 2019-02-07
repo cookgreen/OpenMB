@@ -19,6 +19,7 @@ namespace AMOFGameEngine.Game
         {
             this.owner = owner;
             enemies = new List<Character>();
+            enemy = null;
         }
 
         public void Update(float deltaTime)
@@ -35,7 +36,7 @@ namespace AMOFGameEngine.Game
                 case CharacterState.Wander://Walk Randomly
                     break;
                 case CharacterState.Attack://Destroy the enemy
-                    owner.QueueActivity(new Attack(owner, enemy, owner.weaponSystem.CurrentWeapon.Animations));
+                    owner.QueueActivity(new Attack(owner, enemy, owner.WeaponSystem.CurrentWeapon.Animations));
                     break;
                 case CharacterState.Flee://Retreat!
                     break;

@@ -20,7 +20,13 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        public Item Produce(string name, string meshName, ItemType type, double armourNum)
+        public Item Produce(
+            string name, 
+            string meshName, 
+            ItemType type, 
+            ItemUseAttachOption itemAttachOptionWhenUse, 
+            ItemHaveAttachOption itemHaveAttachOption,
+            double armourNum)
         {
             Armour item = new Armour(name, meshName, cam, physicsScene);
             switch(type)

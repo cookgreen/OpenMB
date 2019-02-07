@@ -75,8 +75,7 @@ namespace AMOFGameEngine.Game
 
         public Item GetItemByXml(ModItemDfnXML itemXml)
         {
-            Item itm = new Item(itemXml.Name, itemXml.MeshName, itemXml.Type, physicsScene, cam);
-            return itm;
+            return ItemFactory.Instance.Produce(itemXml);
         }
 
         public ModData ModData
@@ -183,23 +182,9 @@ namespace AMOFGameEngine.Game
             GameManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
         }
 
-        public void QueueAction(Activity action)
-        {
-            queuedActions.Enqueue(action);
-        }
-
         public void Update(double timeSinceLastFrame)
         {
             TriggerManager.Instance.Update((float)timeSinceLastFrame);
-            while (queuedActions.Count > 0)
-            {
-                Activity action = queuedActions.Peek();
-                action.Update((float)timeSinceLastFrame);
-                if (action.State != ActionState.Queued)
-                {
-                    queuedActions.Dequeue();
-                }
-            }
         }
 
         #endregion

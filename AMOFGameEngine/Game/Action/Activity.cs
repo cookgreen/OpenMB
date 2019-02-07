@@ -19,6 +19,10 @@ namespace AMOFGameEngine.Game.Action
             {
                 return parentActivity;
             }
+            set
+            {
+                parentActivity = this;
+            }
         }
         public Activity NextActivity
         {
@@ -34,7 +38,7 @@ namespace AMOFGameEngine.Game.Action
 
         public void Enqueue(Activity newActivity)
         {
-            ParentActivity = this;
+            parentActivity = this;
             NextActivity = newActivity;
         }
 

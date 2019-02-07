@@ -41,14 +41,28 @@ namespace AMOFGameEngine.Game
         IT_WEAPON = IT_ONE_HAND_WEAPON | IT_TWO_HAND_WEAPON | IT_POLEARM | IT_BOW | IT_CROSSBOW | IT_THROWN | IT_RIFLE | IT_PISTOL | IT_SUBMACHINE_GUN | IT_LIGHT_MACHINE_GUN | IT_LAUNCHER,
         IT_ARMOUR = IT_HEAD_ARMOUR | IT_BODY_ARMOUR | IT_FOOT_ARMOUR | IT_HAND_ARMOUR
     }
-
-    public enum ItemAttachOption
+    /// <summary>
+    /// How did the item attach to the character when the character use this item?
+    /// </summary>
+    public enum ItemUseAttachOption
     {
-        IAO_LEFT,
-        IAO_RIGHT,
-        IAO_FRONT,
-        IAO_LEFTFLANK,
-        IAO_RIGHTFLANK
+        IAO_NO_VALUE,
+        IAO_LEFT_HAND,//Attach to the left hand
+        IAO_RIGHT_HAND,//Attach to the right hand
+        IAO_LEFT_FOOT,//Attach to the left foot
+        IAO_RIGHT_FOOT,//Attach to the right foot
+        IAO_BODY,//Use this for body amour
+        IAO_HEAD,//Use this for head amour
+    }
+
+    public enum ItemHaveAttachOption
+    {
+        IHAO_NO_VALUE,
+        IHAO_INVISIBLE,
+        IHAO_BACK_FROM_RIGHT_TO_LEFT,
+        IHAO_BACK_FROM_LEFT_TO_RIGHT,
+        IHAO_BACK_VERTICAL,
+        IHAO_BACK_HORIZONL
     }
 
     /// <summary>
@@ -61,7 +75,8 @@ namespace AMOFGameEngine.Game
         protected string itemName;
         protected string itemMeshName;
         protected ItemType itemType;
-        protected ItemAttachOption itemAttachOption;
+        protected ItemHaveAttachOption itemAttachOptionWhenHave;
+        protected ItemUseAttachOption itemAttachOptionWhenUse;
         protected List<Cartridge> cartridges;
         private Character user;
         public event Action<int, int> OnWeaponAttack;
@@ -98,10 +113,10 @@ namespace AMOFGameEngine.Game
         {
             get { return itemEnt; }
         }
-        public ItemAttachOption ItemAttachOption
+        public ItemUseAttachOption ItemAttachOption
         {
-            get { return itemAttachOption; }
-            set { itemAttachOption = value; }
+            get { return itemAttachOptionWhenUse; }
+            set { itemAttachOptionWhenUse = value; }
         }
 
         public Character User
@@ -130,14 +145,21 @@ namespace AMOFGameEngine.Game
             //Create();
         }
 
-        public Item(string itemName, string itemMeshName, ItemType itemType, Scene physicsScene, Camera cam)
+        public Item(
+            string itemName, string itemMeshName, ItemType itemType, 
+            ItemHaveAttachOption itemAttachOptionWhenHave,
+            ItemUseAttachOption itemAttachOptionWhenUse,
+            Scene physicsScene, Camera cam)
         {
             this.itemName = itemName;
             this.itemMeshName = itemMeshName;
             this.itemType = itemType;
+            this.itemAttachOptionWhenUse = itemAttachOptionWhenUse;
+            this.itemAttachOptionWhenHave = itemAttachOptionWhenHave;
             this.cam = cam;
             this.physicsScene = physicsScene;
             this.physics = physicsScene.Physics;
+            
             Create();
         }
 

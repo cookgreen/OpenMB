@@ -199,7 +199,6 @@
     <Compile Include="Game\Item.cs" />
     <Compile Include="Game\Items\Pistol.cs" />
     <Compile Include="Game\Items\Rifle.cs" />
-    <Compile Include="Game\Items\Sword.cs" />
     <Compile Include="Game\ItemWeaponFactory.cs" />
     <Compile Include="Core\OutputManager.cs" />
     <Compile Include="Game\IUpdate.cs" />

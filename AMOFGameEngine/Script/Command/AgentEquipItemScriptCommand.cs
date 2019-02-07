@@ -53,8 +53,9 @@ namespace AMOFGameEngine.Script.Command
                 if (agent != null)
                 {
                     Item item = world.GetItemByXml(itemXml);
-                    agent.EquipmentSystem.EquipNewItem(item);
-                }
+                    agent.EquipWeapon(item);
+                   agent.EquipmentSystem.EquipNewItem(item);
+              }
             }
         }
     }

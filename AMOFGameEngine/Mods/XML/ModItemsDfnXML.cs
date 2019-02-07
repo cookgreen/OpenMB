@@ -22,13 +22,27 @@ namespace AMOFGameEngine.Mods.XML
         public string Range { get; set; }
         [XmlElement("ID")]
         public string ID { get; set; }
-        [XmlElement("Name")]
-        public string Name { get; set; }
+        [XmlElement("Desc")]
+        public string Desc { get; set; }
         [XmlElement("MeshName")]
         public string MeshName { get; set; }
         [XmlElement("Type")]
         public ItemType Type { get; set; }
         [XmlArray("Animations")]
         public string[] Animation { get; set; }
+        [XmlElement("AttachOptionWhenHave")]
+        public ItemHaveAttachOption AttachOptionWhenHave { get; set; }
+        [XmlElement("AttachOptionWhenUse")]
+        public ItemUseAttachOption AttachOptionWhenUse { get; set; }
+        [XmlElement("AmmoCapcity")]
+        public int AmmoCapcity { get; set; }
+        [XmlElement("AmourNum")]
+        public double AmourNum { get; set; }
+
+        public ModItemDfnXML()
+        {
+            AttachOptionWhenHave = ItemHaveAttachOption.IHAO_NO_VALUE;
+            AttachOptionWhenUse = ItemUseAttachOption.IAO_NO_VALUE;
+        }
     }
 }

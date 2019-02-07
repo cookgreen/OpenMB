@@ -51,10 +51,9 @@ namespace AMOFGameEngine.Game
         private Actor physicsActor;
         private Physics physics;
         private Scene physicsScene;
-        private Mogre.Vector3 targetDestinaton;
-        private float distance;
         private Mogre.Vector3 direction;
-        private Queue<Mogre.Vector3> walkPath;
+        private Dictionary<ItemUseAttachOption, string> useAttachBoneDic;
+        private Dictionary<ItemHaveAttachOption, string> haveAttachBoneDic;
         public Mogre.Vector3 Position
         {
             get
@@ -76,16 +75,6 @@ namespace AMOFGameEngine.Game
             {
                 direction = value;
             }
-        }
-
-        public void Attack()
-        {
-
-            //Play Attack animation
-            baseAnimID = AnimID.ANIM_SLICE_VERTICAL;
-            topAnimID = AnimID.ANIM_SLICE_VERTICAL;
-            SetBaseAnimation(baseAnimID);
-            SetTopAnimation(topAnimID);
         }
 
         public enum AnimID
@@ -126,13 +115,15 @@ namespace AMOFGameEngine.Game
             physics = physicsScene.Physics;
             this.query = query;
             setupBody();
-            targetDestinaton = Mogre.Vector3.ZERO;
             if (controlled)
             {
                 setupCamera(cam);
             }
             setupAnimations();
             setupPhysics();
+
+            useAttachBoneDic = new Dictionary<ItemUseAttachOption, string>();
+            haveAttachBoneDic = new Dictionary<ItemHaveAttachOption, string>();
         }
 
         private void setupPhysics()
@@ -666,89 +657,9 @@ namespace AMOFGameEngine.Game
             return controlled;
         }
 
-        public void WalkTo(Mogre.Vector3 position)
+        public void AttachItem(ItemUseAttachOption itemAttachOption, Item item)
         {
-            walkPath = new Queue<Mogre.Vector3>();
 
-            float a = (position.z - Position.z) / (position.x - Position.x);
-            float b = position.z - a * position.x;
-
-            for (int i = 0; i < Mogre.Math.Abs(position.x - Position.x) / 5; i++)
-            {
-                walkPath.Enqueue(new Mogre.Vector3(position.x + i, 0, a * (position.x + i) + b));
-            }
-        }
-
-        public void Wander()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Run()
-        {
-            SetBaseAnimation(AnimID.ANIM_RUN_BASE);
-            SetTopAnimation(AnimID.ANIM_RUN_TOP);
-        }
-
-        private void WalkState(float deltaTime)
-        {
-            if (Direction == Mogre.Vector3.ZERO)
-            {
-                if (nextLocation())
-                {
-                    SetTopAnimation(AnimID.ANIM_RUN_TOP, true);
-                    SetBaseAnimation(AnimID.ANIM_RUN_TOP, true);
-                }
-            }
-            else
-            {
-                float move = RUN_SPEED * deltaTime;
-                distance -= move;
-                if (distance <= 0.0f)
-                {
-                    bodyNode.SetPosition(targetDestinaton.x, targetDestinaton.y, targetDestinaton.z);
-                    direction = Mogre.Vector3.ZERO;
-                    if (!nextLocation())
-                    {
-                        SetTopAnimation(AnimID.ANIM_IDLE_TOP, true);
-                        SetBaseAnimation(AnimID.ANIM_IDLE_BASE, true);
-                    }
-                    else
-                    {
-                        Mogre.Vector3 src = bodyNode.Orientation * Mogre.Vector3.UNIT_Z;
-                        if ((1.0f + src.DotProduct(Direction)) < 0.0001f)
-                        {
-                            bodyNode.Yaw(new Degree(180));
-                        }
-                        else
-                        {
-                            Quaternion quat = src.GetRotationTo(Direction);
-                            bodyNode.Rotate(quat);
-                        }
-                    }
-                }
-                else
-                {
-                    bodyNode.Translate(Direction * move);
-                }
-            }
-        }
-
-        private bool nextLocation()
-        {
-            if (walkPath != null)
-            {
-                if (walkPath.Count == 0)
-                    return false;
-                targetDestinaton = walkPath.Dequeue(); 
-                direction = targetDestinaton - bodyNode.Position;
-                distance = direction.Normalise();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 }

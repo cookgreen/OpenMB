@@ -81,6 +81,14 @@ namespace AMOFGameEngine.Game
             }
         }
 
+        public void EquipWeapon(Item item)
+        {
+            if (equipmentSystem.EquipNewWeapon(item))
+            {
+                controller.AttachItem(item.ItemAttachOption, item);
+            }
+        }
+
         public bool IsDead
         {
             get
@@ -119,14 +127,15 @@ namespace AMOFGameEngine.Game
         /// <param name="meshName">Mesh Name</param>
         /// <param name="initPosition">Init Position</param>
         /// <param name="controlled">Is Bot or not</param>
-        public Character(GameWorld world, 
-                         Camera cam, 
-                         int id,
-                         string teamId,
-                         string name,
-                         string meshName,
-                         Mogre.Vector3 initPosition,
-                         bool controlled)
+        public Character(
+            GameWorld world, 
+            Camera cam, 
+            int id,
+            string teamId,
+            string name,
+            string meshName,
+            Mogre.Vector3 initPosition,
+            bool controlled)
         {
             this.world = world;
             Id = id;

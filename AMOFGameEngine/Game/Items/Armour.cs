@@ -10,7 +10,10 @@ namespace AMOFGameEngine.Game
     public class Armour : Item
     {
         public Armour(string name, string meshName, Camera cam, Scene physicsScene)
-            : base(name, meshName, ItemType.IT_INVALID, physicsScene, cam)
+            : base(name, meshName, ItemType.IT_BODY_ARMOUR,
+                  ItemHaveAttachOption.IHAO_NO_VALUE,
+                  ItemUseAttachOption.IAO_BODY, 
+                  physicsScene, cam)
         {
             HeadArmourNum = 0;
             BodyArmourNum = 0;

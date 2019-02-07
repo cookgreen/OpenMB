@@ -5,11 +5,27 @@ using System.Text;
 
 namespace AMOFGameEngine.Game
 {
-    class ItemAmmoFactory
+    public class ItemAmmoFactory : ItemFactory
     {
-        internal static void Produce(string name, string meshName, ItemType type, double damage, int ammoCapcity)
+        private static new ItemAmmoFactory instance;
+        public static new ItemAmmoFactory Instance
         {
-            throw new NotImplementedException();
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ItemAmmoFactory();
+                }
+                return instance;
+            }
+        } 
+        public static Item Produce(
+            string name, string meshName, ItemType type, 
+            ItemUseAttachOption itemAttachOptionWhenUse, 
+            ItemHaveAttachOption itemAttachOptionWhenHave,
+            double damage, int ammoCapcity)
+        {
+            return null;
         }
     }
 }
