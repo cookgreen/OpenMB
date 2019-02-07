@@ -232,12 +232,8 @@ namespace AMOFGameEngine.Map
         public void Update(float timeSinceLastFrame)
         {
             updateAgents(timeSinceLastFrame);
-            moveOffset = new Mogre.Vector3(0, 0, 0);
-            getInput();
-            moveCamera();
-            PhysicsScene.FlushStream();
-            PhysicsScene.FetchResults(SimulationStatuses.AllFinished, true);
-            PhysicsScene.Simulate(timeSinceLastFrame);
+            updateMapCamera(timeSinceLastFrame);
+            updatePhysics(timeSinceLastFrame);
         }
         private void updateAgents(double timeSinceLastFrame)
         {
@@ -249,6 +245,27 @@ namespace AMOFGameEngine.Map
             {
                 agents[i].Update((float)timeSinceLastFrame);
             }
+        }
+
+        private void updateMapCamera(float timeSinceLastFrame)
+        {
+            moveOffset = new Mogre.Vector3(0, 0, 0);
+            if (GameManager.Instance.EDIT_MODE || playerAgent == null)
+            {
+                getInput();
+                moveCamera();
+            }
+            else
+            {
+                playerAgent.Update(timeSinceLastFrame);
+            }
+        }
+
+        private void updatePhysics(float timeSinceLastFrame)
+        {
+            PhysicsScene.FlushStream();
+            PhysicsScene.FetchResults(SimulationStatuses.AllFinished, true);
+            PhysicsScene.Simulate(timeSinceLastFrame);
         }
 
         public string GetName()
@@ -266,7 +283,7 @@ namespace AMOFGameEngine.Map
             return staticObjects;
         }
 
-        public void SpawnNewCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
+        public void CreateCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
         {
             var searchRet = ModData.CharacterInfos.Where(o => o.ID == characterID);
             if (searchRet.Count() > 0)
@@ -279,16 +296,6 @@ namespace AMOFGameEngine.Map
                 }
                 agents.Add(character);
             }
-        }
-
-        private void Character_OnCharacterUseWeaponAttack(int arg1, int arg2, double arg3)
-        {
-
-        }
-
-        private void Character_OnCharacterDie(int obj)
-        {
-
         }
         private void getInput()
         {

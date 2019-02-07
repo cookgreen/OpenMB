@@ -36,7 +36,10 @@ namespace AMOFGameEngine.Game
         IT_ARROW,               //Arrow
         IT_BOLT,                //Bolt
         IT_RPG_MISSILE,         //Missile for RPG Launcher
-        IT_BULLET               //Bullet for Gun
+        IT_BULLET,              //Bullet for Gun
+
+        IT_WEAPON = IT_ONE_HAND_WEAPON | IT_TWO_HAND_WEAPON | IT_POLEARM | IT_BOW | IT_CROSSBOW | IT_THROWN | IT_RIFLE | IT_PISTOL | IT_SUBMACHINE_GUN | IT_LIGHT_MACHINE_GUN | IT_LAUNCHER,
+        IT_ARMOUR = IT_HEAD_ARMOUR | IT_BODY_ARMOUR | IT_FOOT_ARMOUR | IT_HAND_ARMOUR
     }
 
     public enum ItemAttachOption
@@ -112,6 +115,7 @@ namespace AMOFGameEngine.Game
 
         public virtual Type Ammo { get; set; }
         public virtual int AmmoCapcity { get; set; }
+        public virtual string[] Animations { get; set; }
 
         public Item(Camera cam, Scene physicsScene, int id, int ownerID = -1)
         {

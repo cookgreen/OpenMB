@@ -58,7 +58,7 @@ namespace AMOFGameEngine.Script.Command
                 isBot = true;
             }
 
-            world.SpawnNewCharacter(
+            world.CreateCharacter(
                 characterID,
                 new Vector3(
                     float.Parse(vector.NextNodes[0].Value),

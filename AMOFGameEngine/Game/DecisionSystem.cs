@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AMOFGameEngine.Game.Action;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace AMOFGameEngine.Game
     {
         private Character owner;
         private CharacterState ownerState;
+        private Character enemy;
         private List<Character> enemies;
         public DecisionSystem(Character owner)
         {
@@ -28,7 +30,12 @@ namespace AMOFGameEngine.Game
                     break;
                 case CharacterState.Seek://Search the enemy
                     break;
+                case CharacterState.Follow://Follow the target
+                    break;
+                case CharacterState.Wander://Walk Randomly
+                    break;
                 case CharacterState.Attack://Destroy the enemy
+                    owner.QueueActivity(new Attack(owner, enemy, owner.weaponSystem.CurrentWeapon.Animations));
                     break;
                 case CharacterState.Flee://Retreat!
                     break;

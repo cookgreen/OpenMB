@@ -19,6 +19,14 @@ namespace AMOFGameEngine.Game
             get { return capicity; }
         }
 
+        public bool IsFull
+        {
+            get
+            {
+                return items.Count == capicity;
+            }
+        }
+
         public Inventory(int initCapicity, Character owner)
         {
             capicity = initCapicity;

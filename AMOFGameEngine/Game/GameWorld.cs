@@ -41,8 +41,6 @@ namespace AMOFGameEngine.Game
         
         private Physics physics;
         private Scene physicsScene;
-
-        private Queue<Activity> queuedActions;
         #endregion
 
         #region Properties
@@ -68,6 +66,17 @@ namespace AMOFGameEngine.Game
             {
                 return scm;
             }
+        }
+
+        public Character GetAgentById(int id)
+        {
+            return GetCurrentMap().GetAgents().ElementAt(id);
+        }
+
+        public Item GetItemByXml(ModItemDfnXML itemXml)
+        {
+            Item itm = new Item(itemXml.Name, itemXml.MeshName, itemXml.Type, physicsScene, cam);
+            return itm;
         }
 
         public ModData ModData
@@ -112,7 +121,6 @@ namespace AMOFGameEngine.Game
             globalValueTable = ScriptValueRegister.Instance.GlobalValueTable;
 
             TriggerManager.Instance.Triggers.Add(new GameTrigger(this));
-            queuedActions = new Queue<Activity>();
         }
         #endregion
 
@@ -322,9 +330,9 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        public void SpawnNewCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
+        public void CreateCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
         {
-            GameMapManager.Instance.GetCurrentMap().SpawnNewCharacter(characterID, position, teamId, isBot);
+            GameMapManager.Instance.GetCurrentMap().CreateCharacter(characterID, position, teamId, isBot);
         }
         #endregion
 

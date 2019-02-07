@@ -27,6 +27,8 @@ namespace AMOFGameEngine.Mods.XML
         [XmlElement("MeshName")]
         public string MeshName { get; set; }
         [XmlElement("Type")]
-        public string Type { get; set; }
+        public ItemType Type { get; set; }
+        [XmlArray("Animations")]
+        public string[] Animation { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AMOFGameEngine.Game
+namespace AMOFGameEngine.Game.Action
 {
     public class Move : Activity
     {
@@ -47,14 +47,14 @@ namespace AMOFGameEngine.Game
                 if (distance <= 0.0f)
                 {
                     agent.SetBodyPos(destination.x, destination.y, destination.z);
-                    direction = Mogre.Vector3.ZERO;
+                    direction = Vector3.ZERO;
                     if (!nextLocation())
                     {
                         agent.SetAnimation("ANIM_RUN_TOP", "ANIM_RUN_BASE", true);
                     }
                     else
                     {
-                        Mogre.Vector3 src = agent.GetBodyOrientation() * Mogre.Vector3.UNIT_Z;
+                        Vector3 src = agent.GetBodyOrientation() * Vector3.UNIT_Z;
                         if ((1.0f + src.DotProduct(direction)) < 0.0001f)
                         {
                             agent.YawBody(new Degree(180));

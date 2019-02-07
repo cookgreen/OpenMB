@@ -24,6 +24,7 @@ namespace AMOFGameEngine.Script
         {
             RegisteredCommand = new Dictionary<string, Type>();
             RegisteredCommand.Add("assign", typeof(AssignScriptCommand));
+            RegisteredCommand.Add("agent_equip_item", typeof(AgentEquipItemScriptCommand));
             RegisteredCommand.Add("call", typeof(CallScriptCommand));
             RegisteredCommand.Add("condition", typeof(TriggerConditionScriptCommand));
             RegisteredCommand.Add("end", typeof(EndScriptCommand));

@@ -8,6 +8,7 @@ using MOIS;
 using AMOFGameEngine.Sound;
 using Mogre.PhysX;
 using org.critterai.nav;
+using AMOFGameEngine.Game.Action;
 
 namespace AMOFGameEngine.Game
 {
@@ -15,6 +16,8 @@ namespace AMOFGameEngine.Game
     {
         Idle,
         Seek,
+        Follow,
+        Wander,
         Attack,
         Flee
     }
@@ -28,6 +31,7 @@ namespace AMOFGameEngine.Game
         private DecisionSystem brain;
         private WeaponSystem weaponSystem;
         private EquipmentSystem equipmentSystem;
+        private Activity currentActivity;
 
         private Dictionary<string, CharacterController.AnimID> animations;
 
@@ -85,6 +89,22 @@ namespace AMOFGameEngine.Game
             }
         }
 
+        public WeaponSystem WeaponSystem
+        {
+            get
+            {
+                return weaponSystem;
+            }
+        }
+
+        public EquipmentSystem EquipmentSystem
+        {
+            get
+            {
+                return equipmentSystem;
+            }
+        }
+
         //Environment
         private GameWorld world;
 
@@ -119,6 +139,7 @@ namespace AMOFGameEngine.Game
             weaponSystem = new WeaponSystem(this, new Fist(cam, world.GetCurrentMap().PhysicsScene, -1, id));
             equipmentSystem = new EquipmentSystem(this);
 
+            currentActivity = new Idle();
             moveInfo = new MoveInfo(CharacterController.RUN_SPEED);
 
             /* TODO: Use Xml file to define the animation dynamically */
@@ -160,11 +181,6 @@ namespace AMOFGameEngine.Game
                 equipmentSystem.EquipClothes(item, 1);
                 controller.AttachEntityToChara("back", item.ItemEnt);
             }
-        }
-
-        public void AddItemToBackpack(Item item)
-        {
-            equipmentSystem.EquipNewItem(item);
         }
 
         /// <summary>
@@ -214,6 +230,8 @@ namespace AMOFGameEngine.Game
             brain.Update(timeSinceLastFrame);
             controller.update(timeSinceLastFrame);
             weaponSystem.Update(timeSinceLastFrame);
+            equipmentSystem.Update(timeSinceLastFrame);
+            currentActivity.Update(timeSinceLastFrame);
         }
 
         public void RotateBody(Quaternion quat)
@@ -263,6 +281,17 @@ namespace AMOFGameEngine.Game
         {
             SetTopAnimation(topAnimName, v);
             SetBaseAnimation(baseAnimName, v);
+        }
+
+        public void QueueActivity(Activity newActivity)
+        {
+            currentActivity.Enqueue(newActivity);
+            currentActivity = currentActivity.NextActivity;
+        }
+
+        public void RestoreLastActivity()
+        {
+            currentActivity = currentActivity.ParentActivity;
         }
     }
 }

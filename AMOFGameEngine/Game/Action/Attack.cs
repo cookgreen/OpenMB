@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AMOFGameEngine.Game
+namespace AMOFGameEngine.Game.Action
 {
     public class Attack : Activity
     {
@@ -30,6 +30,7 @@ namespace AMOFGameEngine.Game
             }
             else
             {
+                attacker.RestoreLastActivity();
                 State = ActionState.Done;
             }
         }

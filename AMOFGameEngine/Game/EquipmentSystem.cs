@@ -20,7 +20,7 @@ namespace AMOFGameEngine.Game
         //Clothes
         private Item[] clothes;
 
-        public Item[] Clotheses
+        public Item[] Clothes
         {
             get { return clothes; }
             set { clothes = value; }
@@ -42,7 +42,46 @@ namespace AMOFGameEngine.Game
             clothes = new Item[4];
             Backpack = new Inventory(21, owner);
         }
-        
+
+        public bool EquipNewWeapon(Item newWeapon)
+        {
+            for (int i = 0; i < weapons.Length; i++)
+            {
+                if (weapons[i]==null)
+                {
+                    weapons[i] = newWeapon;
+                    return true;
+                }
+            }
+            return false;//No empty weapon slot
+        }
+
+        public bool EquipNewClothes(Item newClothes)
+        {
+            for (int i = 0; i < clothes.Length; i++)
+            {
+                if (clothes[i] == null)
+                {
+                    clothes[i] = newClothes;
+                    return true;
+                }
+            }
+            return false;//No empty clothes slot
+        }
+
+        public bool AddItemToBackpack(Item newItem)
+        {
+            if(!backpack.IsFull)
+            {
+                backpack.AddItemToInventory(newItem);
+                return true;
+            }
+            else
+            {
+                return false;//Backpack is full
+            }
+        }
+
         public void EquipNewWeapon(Item newWeapon, int index)
         {
             if (index < 0 || index >= weapons.Length)
@@ -63,7 +102,29 @@ namespace AMOFGameEngine.Game
 
         public void EquipNewItem(Item item)
         {
-            backpack.AddItemToInventory(item);
+            if (item.ItemType == ItemType.IT_WEAPON)
+            {
+                if (!EquipNewWeapon(item))
+                {
+                    AddItemToBackpack(item);
+                }
+            }
+            else if (item.ItemType == ItemType.IT_ARMOUR)
+            {
+                if (!EquipNewClothes(item))
+                {
+                    AddItemToBackpack(item);
+                }
+            }
+            else
+            {
+                AddItemToBackpack(item);
+            }
+        }
+
+        public void Update(float timeSinceLastFrame)
+        {
+
         }
     }
 }
