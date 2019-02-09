@@ -9,6 +9,7 @@ using AMOFGameEngine.Sound;
 using Mogre.PhysX;
 using org.critterai.nav;
 using AMOFGameEngine.Game.Action;
+using AMOFGameEngine.Mods.XML;
 
 namespace AMOFGameEngine.Game
 {
@@ -135,13 +136,14 @@ namespace AMOFGameEngine.Game
             string name,
             string meshName,
             Mogre.Vector3 initPosition,
+            ModRaceDfnXml raceXml,
             bool controlled)
         {
             this.world = world;
             Id = id;
             Name = string.Empty;
             Hitpoint = 100;
-            controller = new CharacterController(cam,world.GetCurrentMap().NavmeshQuery,world.GetCurrentMap().PhysicsScene, name + id.ToString(), meshName, controlled);//初始化控制器
+            controller = new CharacterController(cam,world.GetCurrentMap().NavmeshQuery,world.GetCurrentMap().PhysicsScene, name + id.ToString(), meshName, raceXml, controlled);//初始化控制器
             controller.Position = initPosition;
 
             brain = new DecisionSystem(this);
@@ -150,23 +152,6 @@ namespace AMOFGameEngine.Game
 
             currentActivity = new Idle();
             moveInfo = new MoveInfo(CharacterController.RUN_SPEED);
-
-            /* TODO: Use Xml file to define the animation dynamically */
-            animations = new Dictionary<string, CharacterController.AnimID>();
-            animations.Add("ANIM_DANCE", CharacterController.AnimID.ANIM_DANCE);
-            animations.Add("ANIM_DRAW_SWORDS", CharacterController.AnimID.ANIM_DRAW_SWORDS);
-            animations.Add("ANIM_HANDS_CLOSED", CharacterController.AnimID.ANIM_HANDS_CLOSED);
-            animations.Add("ANIM_HANDS_RELAXED", CharacterController.AnimID.ANIM_HANDS_RELAXED);
-            animations.Add("ANIM_IDLE_BASE", CharacterController.AnimID.ANIM_IDLE_BASE);
-            animations.Add("ANIM_IDLE_TOP", CharacterController.AnimID.ANIM_IDLE_TOP);
-            animations.Add("ANIM_JUMP_END", CharacterController.AnimID.ANIM_JUMP_END);
-            animations.Add("ANIM_JUMP_LOOP", CharacterController.AnimID.ANIM_JUMP_LOOP);
-            animations.Add("ANIM_JUMP_START", CharacterController.AnimID.ANIM_JUMP_START);
-            animations.Add("ANIM_NONE", CharacterController.AnimID.ANIM_NONE);
-            animations.Add("ANIM_RUN_BASE", CharacterController.AnimID.ANIM_RUN_BASE);
-            animations.Add("ANIM_RUN_TOP", CharacterController.AnimID.ANIM_RUN_TOP);
-            animations.Add("ANIM_SLICE_HORIZONTAL", CharacterController.AnimID.ANIM_SLICE_HORIZONTAL);
-            animations.Add("ANIM_SLICE_VERTICAL", CharacterController.AnimID.ANIM_SLICE_VERTICAL);
         }
 
         public bool GetControlled()
@@ -270,20 +255,22 @@ namespace AMOFGameEngine.Game
 
         public void SetTopAnimation(string animName, bool v)
         {
-            if (!animations.ContainsKey(animName))
+            CharacterAnimation animation = controller.GetAnimationByName(animName);
+            if (animation==null)
             {
                 return;
             }
-            controller.SetTopAnimation(animations[animName]);
+            controller.SetTopAnimation(animation);
         }
 
         public void SetBaseAnimation(string animName, bool v)
         {
-            if (!animations.ContainsKey(animName))
+            CharacterAnimation animation = controller.GetAnimationByName(animName);
+            if (animation == null)
             {
                 return;
             }
-            controller.SetBaseAnimation(animations[animName]);
+            controller.SetBaseAnimation(animation, v);
         }
 
         public void SetAnimation(string topAnimName, string baseAnimName, bool v)

@@ -34,7 +34,8 @@ namespace AMOFGameEngine.Mods
                                         xmldata.Data.soundXML,
                                         xmldata.Data.musicXML,
                                         xmldata.Data.itemXML,
-                                        xmldata.Data.sideXML);
+                                        xmldata.Data.sideXML,
+                                        xmldata.Data.raceXML);
                 Media = xmldata.Media.ToArray();
                 Scripts = xmldata.Scripts.ToArray();
                 Maps = xmldata.Maps.ToArray();

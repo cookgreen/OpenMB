@@ -4,7 +4,6 @@
 *.manifest
 *.log
 *.suo
-*.xml
 *.config
 *.cache
 *.Cache

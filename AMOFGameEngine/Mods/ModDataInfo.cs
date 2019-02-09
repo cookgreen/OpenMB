@@ -12,14 +12,16 @@ namespace AMOFGameEngine.Mods
         public readonly string Music;
         public readonly string Items;
         public readonly string Sides;
+        public readonly string Races;
 
-        public ModDataInfo(string characters,string sound,string music,string items,string sides)
+        public ModDataInfo(string characters,string sound,string music,string items,string sides, string races)
         {
             Characters = characters;
             Sound = sound;
             Music = music;
             Items = items;
             Sides = sides;
+            Races = races;
         }
     }
 }

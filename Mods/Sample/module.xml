@@ -1,7 +1,7 @@
 <Module>
   <Info>
     <Name>Sample</Name>
-    <Description>Sample mod for AMOFGameEngine</Description>
+    <Description>Sample mod for AMGE</Description>
     <Version>1.0</Version>
     <Thumb>Sample_Thumb.png</Thumb>
     <Movie>Background.avi</Movie>
@@ -13,6 +13,7 @@
     <Sound>Sound.xml</Sound>
     <Items>Items.xml</Items>
     <Sides>Side.xml</Sides>
+    <Races>Race.xml</Races>
   </Data>
   <Media>
     <MediaSection Type="FileSystem">Media|Mods/Sample/Materials</MediaSection>

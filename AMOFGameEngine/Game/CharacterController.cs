@@ -8,6 +8,7 @@ using org.critterai.nav;
 using Mogre.PhysX;
 using AMOFGameEngine.Sound;
 using AMOFGameEngine.Utilities;
+using AMOFGameEngine.Mods.XML;
 
 namespace AMOFGameEngine.Game
 {
@@ -16,7 +17,6 @@ namespace AMOFGameEngine.Game
     /// </summary>
     public class CharacterController
     {
-        private int NUM_ANIMS = 13;          // number of animations the character has
         private const int CHAR_HEIGHT = 5;      // height of character's center of mass above ground
         private const int CAM_HEIGHT = 2;          // height of camera above character's center of mass
         public const int RUN_SPEED = 17;           // character running speed in units per second
@@ -32,14 +32,11 @@ namespace AMOFGameEngine.Game
         private SceneNode cameraNode;
         private float pivotPitch;
         private Entity bodyEnt;
-        private Entity sword1;
-        private Entity sword2;
-        private List<AnimationState> anims = new List<AnimationState>();    // master animation list
-        private AnimID baseAnimID;                   // current base (full- or lower-body) animation
-        private AnimID topAnimID;                    // current top (upper-body) animation
+        private List<CharacterAnimation> anims = new List<CharacterAnimation>();    // master animation list
+        private CharacterAnimation baseAnimID;                   // current base (full- or lower-body) animation
+        private CharacterAnimation topAnimID;                    // current top (upper-body) animation
         private List<bool> fadingIn = new List<bool>();            // which animations are fading in
         private List<bool> fadingOut = new List<bool>();           // which animations are fading out
-        private bool swordsDrawn;
         private Mogre.Vector3 keyDirection;      // player's local intended direction based on WASD keys
         private Mogre.Vector3 goalDirection;     // actual intended direction in world-space
         private float verticalVelocity;     // for jumping
@@ -54,6 +51,7 @@ namespace AMOFGameEngine.Game
         private Mogre.Vector3 direction;
         private Dictionary<ItemUseAttachOption, string> useAttachBoneDic;
         private Dictionary<ItemHaveAttachOption, string> haveAttachBoneDic;
+        private ModRaceDfnXml raceXml;
         public Mogre.Vector3 Position
         {
             get
@@ -103,6 +101,7 @@ namespace AMOFGameEngine.Game
             Scene physicsScene,
             string name, 
             string meshName, 
+            ModRaceDfnXml raceXml,
             bool controlled)
         {
             camera = cam;
@@ -119,6 +118,9 @@ namespace AMOFGameEngine.Game
             {
                 setupCamera(cam);
             }
+
+            this.raceXml = raceXml;
+
             setupAnimations();
             setupPhysics();
 
@@ -223,43 +225,43 @@ namespace AMOFGameEngine.Game
 
         public void injectKeyDown(KeyEvent evt)
         {
-            if (evt.key == KeyCode.KC_Q && (topAnimID == AnimID.ANIM_IDLE_TOP || topAnimID == AnimID.ANIM_RUN_TOP))
-            {
-                // take swords out (or put them back, since it's the same animation but reversed)
-                SetTopAnimation(AnimID.ANIM_DRAW_SWORDS, true);
-                timer = 0;
-            }
-            else if (evt.key == KeyCode.KC_E && !swordsDrawn)
-            {
-                if (topAnimID == AnimID.ANIM_IDLE_TOP || topAnimID == AnimID.ANIM_RUN_TOP)
-                {
-                    // start dancing
-                    SetBaseAnimation(AnimID.ANIM_DANCE, true);
-                    SetTopAnimation(AnimID.ANIM_NONE);
-                    // disable hand animation because the dance controls hands
-                    anims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled = false;
-                }
-                else if (baseAnimID == AnimID.ANIM_DANCE)
-                {
-                    // stop dancing
-                    SetBaseAnimation(AnimID.ANIM_IDLE_BASE);
-                    SetTopAnimation(AnimID.ANIM_IDLE_TOP);
-                    // re-enable hand animation-
-                    anims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled = true;
-                }
-            }
+            //if (evt.key == KeyCode.KC_Q && (topAnimID.Type == CharacterAnimationType.CAT_IDLE_TOP || topAnimID.Type == CharacterAnimationType.CAT_RUN_TOP))
+            //{
+            //    // take swords out (or put them back, since it's the same animation but reversed)
+            //    SetTopAnimation(AnimID.ANIM_DRAW_SWORDS, true);
+            //    timer = 0;
+            //}
+            //if (evt.key == KeyCode.KC_E && !swordsDrawn)
+            //{
+            //    if (topAnimID.Type == CharacterAnimationType.CAT_IDLE_TOP || topAnimID == AnimID.ANIM_RUN_TOP)
+            //    {
+            //        // start dancing
+            //        SetBaseAnimation(AnimID.ANIM_DANCE, true);
+            //        SetTopAnimation(AnimID.ANIM_NONE);
+            //        // disable hand animation because the dance controls hands
+            //        anims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled = false;
+            //    }
+            //    else if (baseAnimID == AnimID.ANIM_DANCE)
+            //    {
+            //        // stop dancing
+            //        SetBaseAnimation(AnimID.ANIM_IDLE_BASE);
+            //        SetTopAnimation(AnimID.ANIM_IDLE_TOP);
+            //        // re-enable hand animation-
+            //        anims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled = true;
+            //    }
+            //}
 
             // keep track of the player's intended direction
-            else if (evt.key == KeyCode.KC_W) keyDirection.z = -1;
+            if (evt.key == KeyCode.KC_W) keyDirection.z = -1;
             else if (evt.key == KeyCode.KC_A) keyDirection.x = -1;
             else if (evt.key == KeyCode.KC_S) keyDirection.z = 1;
             else if (evt.key == KeyCode.KC_D) keyDirection.x = 1;
 
-            else if (evt.key == KeyCode.KC_SPACE && (topAnimID == AnimID.ANIM_IDLE_TOP || topAnimID == AnimID.ANIM_RUN_TOP))
+            else if (evt.key == KeyCode.KC_SPACE && (topAnimID.Type == CharacterAnimationType.CAT_IDLE_TOP || topAnimID.Type == CharacterAnimationType.CAT_RUN_TOP))
             {
                 // jump if on ground
-                SetBaseAnimation(AnimID.ANIM_JUMP_START, true);
-                SetTopAnimation(AnimID.ANIM_NONE);
+                SetBaseAnimation(anims.Where(o=>o.Type== CharacterAnimationType.CAT_JUMP_START).First(), true);
+                SetTopAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_NONE).First());
                 timer = 0;
             }
 
@@ -269,11 +271,14 @@ namespace AMOFGameEngine.Game
                 SoundManager.Instance.PlaySoundAtNode(bodyNode,"battle_cry_1");
             }
 
-            if (!keyDirection.IsZeroLength && baseAnimID == AnimID.ANIM_IDLE_BASE)
+            if (!keyDirection.IsZeroLength && baseAnimID.Type == CharacterAnimationType.CAT_IDLE_BASE)
             {
                 // start running if not already moving and the player wants to move
-                SetBaseAnimation(AnimID.ANIM_RUN_BASE, true);
-                if (topAnimID == AnimID.ANIM_IDLE_TOP) SetTopAnimation(AnimID.ANIM_RUN_TOP, true);
+                SetBaseAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_RUN_BASE).First(), true);
+                if (topAnimID.Type == CharacterAnimationType.CAT_IDLE_TOP)
+                {
+                    SetTopAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_RUN_TOP).First(), true);
+                }
             }
         }
 
@@ -284,11 +289,11 @@ namespace AMOFGameEngine.Game
             else if (evt.key == KeyCode.KC_S && keyDirection.z == 1) keyDirection.z = 0;
             else if (evt.key == KeyCode.KC_D && keyDirection.x == 1) keyDirection.x = 0;
 
-            if (keyDirection.IsZeroLength && baseAnimID == AnimID.ANIM_RUN_BASE)
+            if (keyDirection.IsZeroLength && baseAnimID.Type == CharacterAnimationType.CAT_RUN_BASE)
             {
                 // stop running if already moving and the player doesn't want to move
-                SetBaseAnimation(AnimID.ANIM_IDLE_BASE);
-                if (topAnimID == AnimID.ANIM_RUN_TOP) SetTopAnimation(AnimID.ANIM_IDLE_TOP);
+                SetBaseAnimation(anims.Where(o=>o.Type== CharacterAnimationType.CAT_IDLE_BASE).First());
+                if (topAnimID.Type == CharacterAnimationType.CAT_RUN_TOP) SetTopAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_IDLE_TOP).First());
             }
         }
 
@@ -327,13 +332,13 @@ namespace AMOFGameEngine.Game
 
         public void injectMouseDown(MouseEvent evt, MouseButtonID id)
         {
-            if (swordsDrawn && (topAnimID == AnimID.ANIM_IDLE_TOP || topAnimID == AnimID.ANIM_RUN_TOP))
-            {
-                // if swords are out, and character's not doing something weird, then SLICE!
-                if (id == MouseButtonID.MB_Left) SetTopAnimation(AnimID.ANIM_SLICE_VERTICAL, true);
-                else if (id == MouseButtonID.MB_Right) SetTopAnimation(AnimID.ANIM_SLICE_HORIZONTAL, true);
-                timer = 0;
-            }
+            //if (swordsDrawn && (topAnimID == AnimID.ANIM_IDLE_TOP || topAnimID == AnimID.ANIM_RUN_TOP))
+            //{
+            //    // if swords are out, and character's not doing something weird, then SLICE!
+            //    if (id == MouseButtonID.MB_Left) SetTopAnimation(AnimID.ANIM_SLICE_VERTICAL, true);
+            //    else if (id == MouseButtonID.MB_Right) SetTopAnimation(AnimID.ANIM_SLICE_HORIZONTAL, true);
+            //    timer = 0;
+            //}
         }
 
         /// <summary>
@@ -342,18 +347,19 @@ namespace AMOFGameEngine.Game
         private void setupAnimations()
         {
             bodyEnt.Skeleton.BlendMode = SkeletonAnimationBlendMode.ANIMBLEND_CUMULATIVE;
-
-            var animNames = new string[]
-	    {"IdleBase", "IdleTop", "RunBase", "RunTop", "HandsClosed", "HandsRelaxed", "DrawSwords",
-	    "SliceVertical", "SliceHorizontal", "Dance", "JumpStart", "JumpLoop", "JumpEnd"};
-
+            
             // populate our animation list
-            for (int i = 0; i < NUM_ANIMS; i++)
+            for (int i = 0; i < raceXml.RaceAnimations.Count; i++)
             {
-                AnimationState animState;
-                animState = bodyEnt.GetAnimationState(animNames[i]);
-                anims.Add(animState);
-                animState.Loop = (true);
+                var raceAnimation = raceXml.RaceAnimations[i];
+                AnimationState animState = null;
+                if(!string.IsNullOrEmpty(raceAnimation.Name))
+                {
+                    animState = bodyEnt.GetAnimationState(raceAnimation.Name);
+                    animState.Loop = true;
+                }
+                CharacterAnimation characterAnim = new CharacterAnimation(raceAnimation.Name, animState, raceAnimation.type);
+                anims.Add(characterAnim);
                 bool fadingIn = false;
                 this.fadingIn.Add(fadingIn);
                 bool fadingOut = false;
@@ -361,13 +367,13 @@ namespace AMOFGameEngine.Game
             }
 
             // start off in the idle state (top and bottom together)
-            SetBaseAnimation(AnimID.ANIM_IDLE_BASE);
-            SetTopAnimation(AnimID.ANIM_IDLE_TOP);
+            SetBaseAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_IDLE_BASE).First());
+            SetTopAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_IDLE_TOP).First());
 
             // relax the hands since we're not holding anything
-            anims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled = (true);
+            anims.Where(o => o.Type == CharacterAnimationType.CAT_HANDS_RELAXED).First().AnimationState.Enabled = true;
 
-            swordsDrawn = false;
+            //swordsDrawn = false;
         }
 
         /// <summary>
@@ -399,7 +405,7 @@ namespace AMOFGameEngine.Game
         {
             goalDirection = Mogre.Vector3.ZERO;   // we will calculate this
 
-            if (keyDirection != Mogre.Vector3.ZERO && baseAnimID != AnimID.ANIM_DANCE)
+            if (keyDirection != Mogre.Vector3.ZERO && baseAnimID.Type != CharacterAnimationType.CAT_CUSTOME_BLOCK)
             {
                 // calculate actually goal direction in world based on player's key directions
                 goalDirection += keyDirection.z * cameraNode.Orientation.ZAxis;
@@ -414,7 +420,7 @@ namespace AMOFGameEngine.Game
                 // this is how much the character CAN turn this frame
                 float yawAtSpeed = yawToGoal / Mogre.Math.Abs(yawToGoal) * deltaTime * TURN_SPEED;
                 // reduce "turnability" if we're in midair
-                if (baseAnimID == AnimID.ANIM_JUMP_LOOP) yawAtSpeed *= 0.2f;
+                if (baseAnimID.Type == CharacterAnimationType.CAT_JUMP_LOOP) yawAtSpeed *= 0.2f;
 
                 // turn as much as we can, but not more than we need to
                 if (yawToGoal < 0) yawToGoal = System.Math.Min(0, System.Math.Max(yawToGoal, yawAtSpeed)); //yawToGoal = Math::Clamp<Real>(yawToGoal, yawAtSpeed, 0);
@@ -423,11 +429,11 @@ namespace AMOFGameEngine.Game
                 bodyNode.Yaw(new Degree(yawToGoal));
 
                 // move in current body direction (not the goal direction)
-                bodyNode.Translate(0, 0, deltaTime * RUN_SPEED * anims[(int)baseAnimID].Weight,
+                bodyNode.Translate(0, 0, deltaTime * RUN_SPEED * baseAnimID.AnimationState.Weight,
                     Node.TransformSpace.TS_LOCAL);
             }
 
-            if (baseAnimID == AnimID.ANIM_JUMP_LOOP)
+            if (baseAnimID.Type == CharacterAnimationType.CAT_JUMP_LOOP)
             {
                 // if we're jumping, add a vertical offset too, and apply gravity
                 bodyNode.Translate(0, verticalVelocity * deltaTime, 0, Node.TransformSpace.TS_LOCAL);
@@ -439,7 +445,7 @@ namespace AMOFGameEngine.Game
                     // if we've hit the ground, change to landing state
                     pos.y = CHAR_HEIGHT;
                     bodyNode.Position = pos;
-                    SetBaseAnimation(AnimID.ANIM_JUMP_END, true);
+                    SetBaseAnimation(anims.Where(o=>o.Type== CharacterAnimationType.CAT_JUMP_END).First(), true);
                     timer = 0;
                 }
             }
@@ -448,103 +454,109 @@ namespace AMOFGameEngine.Game
         private void updateAnimations(float deltaTime)
         {
             float baseAnimSpeed = 1;
-            float topAnimSpeed = 1;
+            //float topAnimSpeed = 1;
 
             timer += deltaTime;
 
-            if (topAnimID == AnimID.ANIM_DRAW_SWORDS)
+            //if (topAnimID == AnimID.ANIM_DRAW_SWORDS)
+            //{
+            //    sword1 = itemAttached.Where(o => o.Name == "SinbadSword1").First();
+            //    sword2 = itemAttached.Where(o => o.Name == "SinbadSword2").First();
+            //    // flip the draw swords animation if we need to put it back
+            //    topAnimSpeed = swordsDrawn ? -1 : 1;
+            //
+            //    // half-way through the animation is when the hand grasps the handles...
+            //    if (timer >= anims[(int)topAnimID].Length / 2 &&
+            //        timer - deltaTime < anims[(int)topAnimID].Length / 2)
+            //    {
+            //        // so transfer the swords from the sheaths to the hands
+            //        bodyEnt.DetachAllObjectsFromBone();
+            //        bodyEnt.AttachObjectToBone(swordsDrawn ? "Sheath.L" : "Handle.L", sword1);
+            //        bodyEnt.AttachObjectToBone(swordsDrawn ? "Sheath.R" : "Handle.R", sword2);
+            //        // change the hand state to grab or let go
+            //        anims[(int)AnimID.ANIM_HANDS_CLOSED].Enabled = !swordsDrawn;
+            //        anims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled = swordsDrawn;
+            //
+            //        // toggle sword trails
+            //        if (swordsDrawn)
+            //        {
+            //            //mSwordTrail.Visible = false;
+            //            //mSwordTrail.RemoveNode(mSword1.ParentNode);
+            //            //mSwordTrail.RemoveNode(mSword2.ParentNode);
+            //        }
+            //        else
+            //        {
+            //            //mSwordTrail.Visible = true;
+            //            //mSwordTrail.AddNode(mSword1.ParentNode);
+            //            //mSwordTrail.AddNode(mSword2.ParentNode);
+            //        }
+            //    }
+            //
+            //    if (timer >= anims[(int)topAnimID].Length)
+            //    {
+            //        // animation is finished, so return to what we were doing before
+            //        if (baseAnimID == AnimID.ANIM_IDLE_BASE) SetTopAnimation(AnimID.ANIM_IDLE_TOP);
+            //        else
+            //        {
+            //            SetTopAnimation(AnimID.ANIM_RUN_TOP);
+            //            anims[(int)AnimID.ANIM_RUN_TOP].TimePosition = anims[(int)AnimID.ANIM_RUN_BASE].TimePosition;
+            //        }
+            //        swordsDrawn = !swordsDrawn;
+            //    }
+            //}
+            //else if (topAnimID == AnimID.ANIM_SLICE_VERTICAL || topAnimID == AnimID.ANIM_SLICE_HORIZONTAL)
+            //{
+            //    if (timer >= anims[(int)topAnimID].Length)
+            //    {
+            //        // animation is finished, so return to what we were doing before
+            //        if (baseAnimID == AnimID.ANIM_IDLE_BASE) SetTopAnimation(AnimID.ANIM_IDLE_TOP);
+            //        else
+            //        {
+            //            SetTopAnimation(AnimID.ANIM_RUN_TOP);
+            //            anims[(int)AnimID.ANIM_RUN_TOP].TimePosition = anims[(int)AnimID.ANIM_RUN_BASE].TimePosition;
+            //        }
+            //    }
+            //
+            //    // don't sway hips from side to side when slicing. that's just embarrasing.
+            //    if (baseAnimID == AnimID.ANIM_IDLE_BASE) baseAnimSpeed = 0;
+            //}
+            if (baseAnimID.Type == CharacterAnimationType.CAT_JUMP_START)
             {
-                sword1 = itemAttached.Where(o => o.Name == "SinbadSword1").First();
-                sword2 = itemAttached.Where(o => o.Name == "SinbadSword2").First();
-                // flip the draw swords animation if we need to put it back
-                topAnimSpeed = swordsDrawn ? -1 : 1;
-
-                // half-way through the animation is when the hand grasps the handles...
-                if (timer >= anims[(int)topAnimID].Length / 2 &&
-                    timer - deltaTime < anims[(int)topAnimID].Length / 2)
-                {
-                    // so transfer the swords from the sheaths to the hands
-                    bodyEnt.DetachAllObjectsFromBone();
-                    bodyEnt.AttachObjectToBone(swordsDrawn ? "Sheath.L" : "Handle.L", sword1);
-                    bodyEnt.AttachObjectToBone(swordsDrawn ? "Sheath.R" : "Handle.R", sword2);
-                    // change the hand state to grab or let go
-                    anims[(int)AnimID.ANIM_HANDS_CLOSED].Enabled = !swordsDrawn;
-                    anims[(int)AnimID.ANIM_HANDS_RELAXED].Enabled = swordsDrawn;
-
-                    // toggle sword trails
-                    if (swordsDrawn)
-                    {
-                        //mSwordTrail.Visible = false;
-                        //mSwordTrail.RemoveNode(mSword1.ParentNode);
-                        //mSwordTrail.RemoveNode(mSword2.ParentNode);
-                    }
-                    else
-                    {
-                        //mSwordTrail.Visible = true;
-                        //mSwordTrail.AddNode(mSword1.ParentNode);
-                        //mSwordTrail.AddNode(mSword2.ParentNode);
-                    }
-                }
-
-                if (timer >= anims[(int)topAnimID].Length)
-                {
-                    // animation is finished, so return to what we were doing before
-                    if (baseAnimID == AnimID.ANIM_IDLE_BASE) SetTopAnimation(AnimID.ANIM_IDLE_TOP);
-                    else
-                    {
-                        SetTopAnimation(AnimID.ANIM_RUN_TOP);
-                        anims[(int)AnimID.ANIM_RUN_TOP].TimePosition = anims[(int)AnimID.ANIM_RUN_BASE].TimePosition;
-                    }
-                    swordsDrawn = !swordsDrawn;
-                }
-            }
-            else if (topAnimID == AnimID.ANIM_SLICE_VERTICAL || topAnimID == AnimID.ANIM_SLICE_HORIZONTAL)
-            {
-                if (timer >= anims[(int)topAnimID].Length)
-                {
-                    // animation is finished, so return to what we were doing before
-                    if (baseAnimID == AnimID.ANIM_IDLE_BASE) SetTopAnimation(AnimID.ANIM_IDLE_TOP);
-                    else
-                    {
-                        SetTopAnimation(AnimID.ANIM_RUN_TOP);
-                        anims[(int)AnimID.ANIM_RUN_TOP].TimePosition = anims[(int)AnimID.ANIM_RUN_BASE].TimePosition;
-                    }
-                }
-
-                // don't sway hips from side to side when slicing. that's just embarrasing.
-                if (baseAnimID == AnimID.ANIM_IDLE_BASE) baseAnimSpeed = 0;
-            }
-            else if (baseAnimID == AnimID.ANIM_JUMP_START)
-            {
-                if (timer >= anims[(int)baseAnimID].Length)
+                if (timer >= baseAnimID.AnimationState.Length)
                 {
                     // takeoff animation finished, so time to leave the ground!
-                    SetBaseAnimation(AnimID.ANIM_JUMP_LOOP, true);
+                    SetBaseAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_JUMP_LOOP).First(), true);
                     // apply a jump acceleration to the character
                     verticalVelocity = JUMP_ACCEL;
                 }
             }
-            else if (baseAnimID == AnimID.ANIM_JUMP_END)
+            else if (baseAnimID.Type == CharacterAnimationType.CAT_JUMP_END)
             {
-                if (timer >= anims[(int)baseAnimID].Length)
+                if (timer >= baseAnimID.AnimationState.Length)
                 {
                     // safely landed, so go back to running or idling
                     if (keyDirection == Mogre.Vector3.ZERO)
                     {
-                        SetBaseAnimation(AnimID.ANIM_IDLE_BASE);
-                        SetTopAnimation(AnimID.ANIM_IDLE_TOP);
+                        SetBaseAnimation(anims.Where(o=>o.Type== CharacterAnimationType.CAT_IDLE_BASE).First());
+                        SetTopAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_IDLE_TOP).First());
                     }
                     else
                     {
-                        SetBaseAnimation(AnimID.ANIM_RUN_BASE, true);
-                        SetTopAnimation(AnimID.ANIM_RUN_TOP, true);
+                        SetBaseAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_RUN_BASE).First(), true);
+                        SetTopAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_RUN_TOP).First(), true);
                     }
                 }
             }
 
             // increment the current base and top animation times
-            if (baseAnimID != AnimID.ANIM_NONE) anims[(int)baseAnimID].AddTime(deltaTime * baseAnimSpeed);
-            if (topAnimID != AnimID.ANIM_NONE) anims[(int)topAnimID].AddTime(deltaTime * topAnimSpeed);
+            if (baseAnimID.Type != CharacterAnimationType.CAT_NONE)
+            {
+                baseAnimID.AnimationState.AddTime(deltaTime * baseAnimSpeed);
+            }
+            if (topAnimID.Type != CharacterAnimationType.CAT_NONE)
+            {
+                topAnimID.AnimationState.AddTime(deltaTime * baseAnimSpeed);
+            }
 
             // apply smooth transitioning between our animations
             fadeAnimations(deltaTime);
@@ -552,23 +564,23 @@ namespace AMOFGameEngine.Game
 
         private void fadeAnimations(float deltaTime)
         {
-            for (int i = 0; i < NUM_ANIMS; i++)
+            for (int i = 0; i < anims.Count; i++)
             {
                 if (fadingIn[i])
                 {
                     // slowly fade this animation in until it has full weight
-                    float newWeight = anims[i].Weight + deltaTime * ANIM_FADE_SPEED;
-                    anims[i].Weight = Utilities.Helper.Clamp(newWeight, 0, 1);
+                    float newWeight = anims[i].AnimationState.Weight + deltaTime * ANIM_FADE_SPEED;
+                    anims[i].AnimationState.Weight = Utilities.Helper.Clamp(newWeight, 0, 1);
                     if (newWeight >= 1) fadingIn[i] = false;
                 }
                 else if (fadingOut[i])
                 {
                     // slowly fade this animation out until it has no weight, and then disable it
-                    float newWeight = anims[i].Weight - deltaTime * ANIM_FADE_SPEED;
-                    anims[i].Weight = Utilities.Helper.Clamp(newWeight, 0, 1);
+                    float newWeight = anims[i].AnimationState.Weight - deltaTime * ANIM_FADE_SPEED;
+                    anims[i].AnimationState.Weight = Utilities.Helper.Clamp(newWeight, 0, 1);
                     if (newWeight <= 0)
                     {
-                        anims[i].Enabled = false;
+                        anims[i].AnimationState.Enabled = false;
                         fadingOut[i] = false;
                     }
                 }
@@ -609,47 +621,49 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        public void SetBaseAnimation(AnimID id, bool reset = false)
+        public void SetBaseAnimation(CharacterAnimation animation, bool reset = false)
         {
-            if (baseAnimID >= 0 && (int)baseAnimID < NUM_ANIMS)
+            int index = anims.IndexOf(animation);
+            if (index != -1)
             {
                 // if we have an old animation, fade it out
-                fadingIn[(int)baseAnimID] = false;
-                fadingOut[(int)baseAnimID] = true;
+                fadingIn[index] = false;
+                fadingOut[index] = true;
             }
 
-            baseAnimID = id;
+            baseAnimID = animation;
 
-            if (id != AnimID.ANIM_NONE)
+            if (animation.Type != CharacterAnimationType.CAT_NONE)
             {
                 // if we have a new animation, enable it and fade it in
-                anims[(int)id].Enabled = (true);
-                anims[(int)id].Weight = 0;
-                fadingOut[(int)id] = false;
-                fadingIn[(int)id] = true;
-                if (reset) anims[(int)id].TimePosition = 0;
+                anims[index].AnimationState.Enabled = (true);
+                anims[index].AnimationState.Weight = 0;
+                fadingOut[index] = false;
+                fadingIn[index] = true;
+                if (reset) anims[index].AnimationState.TimePosition = 0;
             }
         }
 
-        public void SetTopAnimation(AnimID id, bool reset = false)
+        public void SetTopAnimation(CharacterAnimation animation, bool reset = false)
         {
-            if (topAnimID >= 0 && (int)topAnimID < NUM_ANIMS)
+            int index = anims.IndexOf(animation);
+            if (topAnimID != null)
             {
                 // if we have an old animation, fade it out
-                fadingIn[(int)topAnimID] = false;
-                fadingOut[(int)topAnimID] = true;
+                fadingIn[index] = false;
+                fadingOut[index] = true;
             }
 
-            topAnimID = id;
+            topAnimID = animation;
 
-            if (id != AnimID.ANIM_NONE)
+            if (animation.Type != CharacterAnimationType.CAT_NONE)
             {
                 // if we have a new animation, enable it and fade it in
-                anims[(int)id].Enabled = true;
-                anims[(int)id].Weight = 0;
-                fadingOut[(int)id] = false;
-                fadingIn[(int)id] = true;
-                if (reset) anims[(int)id].TimePosition = 0;
+                anims[index].AnimationState.Enabled = true;
+                anims[index].AnimationState.Weight = 0;
+                fadingOut[index] = false;
+                fadingIn[index] = true;
+                if (reset) anims[index].AnimationState.TimePosition = 0;
             }
         }
         public bool GetControlled()
@@ -660,6 +674,11 @@ namespace AMOFGameEngine.Game
         public void AttachItem(ItemUseAttachOption itemAttachOption, Item item)
         {
 
+        }
+
+        public CharacterAnimation GetAnimationByName(string animName)
+        {
+            return anims.Where(o => o.Name == animName).First();
         }
     }
 }

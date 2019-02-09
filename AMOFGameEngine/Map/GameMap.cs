@@ -285,17 +285,32 @@ namespace AMOFGameEngine.Map
 
         public void CreateCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
         {
-            var searchRet = ModData.CharacterInfos.Where(o => o.ID == characterID);
-            if (searchRet.Count() > 0)
+            var troopersXml = ModData.CharacterInfos.Where(o => o.ID == characterID);
+            if (troopersXml.Count() == 0)
             {
-                Character character = new Character(
-                    world, cam, agents.Count, teamId, searchRet.First().Name + agents.Count, searchRet.First().MeshName, position, !isBot);
-                if (!isBot)
-                {
-                    playerAgent = character;
-                }
-                agents.Add(character);
+                GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid trooper id!", LogMessage.LogType.Warning);
+                return;
             }
+            var trooperXml = troopersXml.First();
+            var racesXml = ModData.RaceInfos.Where(o => o.RaceID == trooperXml.RaceID);
+            if (racesXml.Count() == 0)
+            {
+                GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid race id!", LogMessage.LogType.Warning);
+                return;
+            }
+            var raceXml = racesXml.First();
+
+            Character character = new Character(
+                world, cam, agents.Count, teamId, 
+                troopersXml.First().Name + agents.Count, 
+                troopersXml.First().MeshName, 
+                position, raceXml, !isBot);
+            if (!isBot)
+            {
+                playerAgent = character;
+            }
+            agents.Add(character);
+            
         }
         private void getInput()
         {

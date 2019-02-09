@@ -178,6 +178,7 @@
     <Compile Include="Forms\Model\GraphicConfigure.cs" />
     <Compile Include="Game\Action\Attack.cs" />
     <Compile Include="Game\Action\Idle.cs" />
+    <Compile Include="Game\CharacterAnimation.cs" />
     <Compile Include="Game\DecisionSystem.cs" />
     <Compile Include="Game\EquipmentSystem.cs" />
     <Compile Include="Game\ItemAmmoFactory.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Map\GameMapEditor.cs" />
     <Compile Include="Map\GameObjectQueryFlags.cs" />
     <Compile Include="Game\MoveInfo.cs" />
+    <Compile Include="Mods\XML\ModRaceDfnXml.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
     <Compile Include="Screen\Screen.cs" />
     <Compile Include="Map\AIMesh.cs" />
