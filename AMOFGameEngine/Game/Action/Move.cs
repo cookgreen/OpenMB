@@ -30,13 +30,13 @@ namespace AMOFGameEngine.Game.Action
         }
 
 
-        private void WalkState(float deltaTime)
+        private void Walk(float deltaTime)
         {
             if (direction == Mogre.Vector3.ZERO)
             {
                 if (nextLocation())
                 {
-                    agent.SetAnimation("ANIM_IDLE_TOP", "ANIM_IDLE_BASE", true);
+                    agent.SetAnimation("IdleTop", "IdleBase", true);
                     State = ActionState.Done;
                 }
             }
@@ -50,7 +50,7 @@ namespace AMOFGameEngine.Game.Action
                     direction = Vector3.ZERO;
                     if (!nextLocation())
                     {
-                        agent.SetAnimation("ANIM_RUN_TOP", "ANIM_RUN_BASE", true);
+                        agent.SetAnimation("RunTop", "RunBase", true);
                     }
                     else
                     {
@@ -96,7 +96,7 @@ namespace AMOFGameEngine.Game.Action
             {
                 return;
             }
-            WalkState(deltaTime);
+            Walk(deltaTime);
         }
     }
 }

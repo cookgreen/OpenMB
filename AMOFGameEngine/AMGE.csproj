@@ -177,8 +177,10 @@
     <Compile Include="Forms\Model\GameConfigure.cs" />
     <Compile Include="Forms\Model\GraphicConfigure.cs" />
     <Compile Include="Game\Action\Attack.cs" />
+    <Compile Include="Game\Action\Follow.cs" />
     <Compile Include="Game\Action\Idle.cs" />
     <Compile Include="Game\CharacterAnimation.cs" />
+    <Compile Include="Game\CharacterMessage.cs" />
     <Compile Include="Game\DecisionSystem.cs" />
     <Compile Include="Game\EquipmentSystem.cs" />
     <Compile Include="Game\ItemAmmoFactory.cs" />

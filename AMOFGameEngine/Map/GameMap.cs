@@ -273,6 +273,11 @@ namespace AMOFGameEngine.Map
             return mapName;
         }
 
+        public Character GetAgentById(int agentId)
+        {
+            return agents.ElementAt(agentId);
+        }
+
         public List<Character> GetAgents()
         {
             return agents;

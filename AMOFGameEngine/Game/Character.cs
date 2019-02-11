@@ -32,9 +32,8 @@ namespace AMOFGameEngine.Game
         private DecisionSystem brain;
         private WeaponSystem weaponSystem;
         private EquipmentSystem equipmentSystem;
+        private List<CharacterMessage> messageQueue;
         private Activity currentActivity;
-
-        private Dictionary<string, CharacterController.AnimID> animations;
 
         public int Id
         {
@@ -114,6 +113,14 @@ namespace AMOFGameEngine.Game
             }
         }
 
+        public Activity CurrentActivity
+        {
+            get
+            {
+                return currentActivity;
+            }
+        }
+
         //Environment
         private GameWorld world;
 
@@ -152,6 +159,8 @@ namespace AMOFGameEngine.Game
 
             currentActivity = new Idle();
             moveInfo = new MoveInfo(CharacterController.RUN_SPEED);
+
+            messageQueue = new List<CharacterMessage>();
         }
 
         public bool GetControlled()
@@ -225,7 +234,7 @@ namespace AMOFGameEngine.Game
             controller.update(timeSinceLastFrame);
             weaponSystem.Update(timeSinceLastFrame);
             equipmentSystem.Update(timeSinceLastFrame);
-            currentActivity.Update(timeSinceLastFrame);
+            UpdateActivity(timeSinceLastFrame);
         }
 
         public void RotateBody(Quaternion quat)
@@ -285,9 +294,61 @@ namespace AMOFGameEngine.Game
             currentActivity = currentActivity.NextActivity;
         }
 
+        public void UpdateActivity(float deltaTime)
+        {
+            Activity tempActivity = currentActivity;
+            while (tempActivity != null)
+            {
+                tempActivity.Update(deltaTime);
+                var nextActivity = tempActivity.NextActivity;
+                if (tempActivity.State == ActionState.Cancel || tempActivity.State == ActionState.Done)
+                {
+                    tempActivity.Dequeue();
+                }
+                tempActivity = nextActivity;
+            }
+        }
+
+        public void HandleMessage()
+        {
+            var urgentMessages = messageQueue.Where(o => o.Level == MessageLevel.heigh || o.Level == MessageLevel.veryhigh);
+            for (int i = 0; i < urgentMessages.Count(); i++)
+            {
+                var urgentMessage = urgentMessages.ElementAt(i);
+                switch(urgentMessage.Type)
+                {
+                    case MessageType.enemy_spotted:
+                        brain.ReGroupAndAttackWhenReady();
+                        break;
+                    case MessageType.need_backup:
+                        brain.TryReforceAllies();
+                        break;
+                }
+            }
+        }
+
         public void RestoreLastActivity()
         {
             currentActivity = currentActivity.ParentActivity;
+        }
+
+        public bool CheckActivity<T>() where T : Activity
+        {
+            return currentActivity.GetType() is T;
+        }
+
+        public void ReceiveMessage(CharacterMessage message)
+        {
+            messageQueue.Add(message);
+        }
+
+        public void SendMessage(MessageLevel level, MessageType type, int agentId)
+        {
+            var agent = world.GetCurrentMap().GetAgentById(agentId);
+            if (agent != null)
+            {
+                agent.ReceiveMessage(new CharacterMessage(level, type));
+            }
         }
     }
 }

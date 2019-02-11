@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AMOFGameEngine.Game.Action
 {
-    public enum ActionState { Queued, Done, Cancel}
+    public enum ActionState { Queued, Done, Cancel,Processing}
     //An Action in world
     public abstract class Activity : IUpdate
     {
