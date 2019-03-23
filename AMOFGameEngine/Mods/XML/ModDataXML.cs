@@ -18,7 +18,7 @@ namespace AMOFGameEngine.Mods.XML
         public string itemXML { get; set; }
         [XmlElement("Sides")]
         public string sideXML { get; set; }
-        [XmlElement("Races")]
-        public string raceXML { get; set; }
+        [XmlElement("Skin")]
+        public string skinXML { get; set; }
     }
 }

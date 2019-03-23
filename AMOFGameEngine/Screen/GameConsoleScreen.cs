@@ -23,7 +23,10 @@ namespace AMOFGameEngine.Screen
 
         public override void Exit()
         {
-            OnScreenExit?.Invoke();
+            if(OnScreenExit!=null)
+            {
+                OnScreenExit();
+            }
         }
 
         public override void Init(params object[] param)

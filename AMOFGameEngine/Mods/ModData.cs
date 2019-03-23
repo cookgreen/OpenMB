@@ -17,7 +17,7 @@ namespace AMOFGameEngine.Mods
         private List<ModSoundDfnXML> soundInfos;
         private List<ModSideDfnXML> sideInfos;
         private List<ModMapDfnXML> mapInfos;
-        private List<ModRaceDfnXml> raceInfos;
+        private List<ModCharacterSkinDfnXML> skinInfos;
 
         public ModBaseInfo BasicInfo
         {
@@ -56,10 +56,10 @@ namespace AMOFGameEngine.Mods
             set { soundInfos = value; }
         }
 
-        public List<ModRaceDfnXml> RaceInfos
+        public List<ModCharacterSkinDfnXML> SkinInfos
         {
-            get { return raceInfos; }
-            set { raceInfos = value; }
+            get { return skinInfos; }
+            set { skinInfos = value; }
         }
 
         public ModData()
@@ -70,7 +70,7 @@ namespace AMOFGameEngine.Mods
             sideInfos = new List<ModSideDfnXML>();
             mapInfos = new List<ModMapDfnXML>();
             soundInfos = new List<ModSoundDfnXML>();
-            raceInfos = new List<ModRaceDfnXml>();
+            skinInfos = new List<ModCharacterSkinDfnXML>();
         }
     }
 }

@@ -13,7 +13,7 @@
     <Sound>Sound.xml</Sound>
     <Items>Items.xml</Items>
     <Sides>Side.xml</Sides>
-    <Races>Race.xml</Races>
+    <Skin>Skin.xml</Skin>
   </Data>
   <Media>
     <MediaSection Type="FileSystem">Media|Mods/Sample/Materials</MediaSection>

@@ -188,7 +188,10 @@ namespace AMOFGameEngine.Screen
             GameManager.Instance.trayMgr.destroyAllWidgets();
             time = 0;
             elements.Clear();
-            OnScreenExit?.Invoke();
+            if(OnScreenExit!=null)
+            {
+                OnScreenExit();
+            }
         }
 
         public override void InjectMouseMove(MouseEvent arg)

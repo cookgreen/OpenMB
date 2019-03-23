@@ -8,7 +8,14 @@ namespace AMOFGameEngine.Script
 {
     class ScriptCommandRegister
     {
-        public Dictionary<string, Type> RegisteredCommand { get; }
+        private Dictionary<string, Type> registerCommand;
+        public Dictionary<string, Type> RegisteredCommand 
+        {
+            get
+            {
+                return registerCommand;
+            }
+        }
         private static ScriptCommandRegister instance;
         public static ScriptCommandRegister Instance
         {
@@ -22,7 +29,8 @@ namespace AMOFGameEngine.Script
 
         public ScriptCommandRegister()
         {
-            RegisteredCommand = new Dictionary<string, Type>();
+            
+            registerCommand = new Dictionary<string, Type>();
             RegisteredCommand.Add("assign", typeof(AssignScriptCommand));
             RegisteredCommand.Add("agent_equip_item", typeof(AgentEquipItemScriptCommand));
             RegisteredCommand.Add("call", typeof(CallScriptCommand));

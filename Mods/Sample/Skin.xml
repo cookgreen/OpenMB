@@ -1,6 +1,6 @@
-<Races>
-  <Race>
-    <ID>race_sinbad</ID>
+<Skin>
+  <CharacterSkin>
+    <ID>skn_sinbad</ID>
     <Name>Sinbad</Name>
     <Desc>Ogre3d Sample Sinbad Character</Desc>
     <Animations>
@@ -19,5 +19,5 @@
       <Animation Type="CAT_JUMP_END">JumpEnd</Animation>
       <Animation Type="CAT_NONE"></Animation>
     </Animations>
-  </Race>  
-</Races>
+  </CharacterSkin>  
+</Skin>

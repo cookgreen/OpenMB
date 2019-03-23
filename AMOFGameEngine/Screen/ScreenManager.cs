@@ -3,14 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mogre;
 
 namespace AMOFGameEngine.Screen
 {
     public class ScreenManager
     {
-        private Stack<IScreen> screenStack;
-        private Dictionary<string, IScreen> screens;
+        private Stack<IScreen> runningScreenStack;
+        private Dictionary<string, IScreen> innerScreens;
         private static ScreenManager instance;
+        private Camera camera;
+
+        public Camera Camera
+        {
+            get { return camera; }
+            set { camera = value; }
+        }
         public event Action OnCurrentScreenExit;
         public static ScreenManager Instance
         {
@@ -26,80 +34,97 @@ namespace AMOFGameEngine.Screen
 
         public ScreenManager()
         {
-            screens = new Dictionary<string, IScreen>();
+            innerScreens = new Dictionary<string, IScreen>();
             IScreen screenCredit = new CreditScreen();
             IScreen screenConsole = new GameConsoleScreen();
             IScreen screenInventory = new InventoryScreen();
             IScreen screenEditor = new GameEditorScreen();
-            screens.Add(screenCredit.Name, screenCredit);
-            screens.Add(screenConsole.Name, screenConsole);
-            screens.Add(screenInventory.Name, screenInventory);
-            screens.Add(screenEditor.Name, screenEditor);
+            innerScreens.Add(screenCredit.Name, screenCredit);
+            innerScreens.Add(screenConsole.Name, screenConsole);
+            innerScreens.Add(screenInventory.Name, screenInventory);
+            innerScreens.Add(screenEditor.Name, screenEditor);
             instance = this;
-            screenStack = new Stack<IScreen>();
+            runningScreenStack = new Stack<IScreen>();
         }
 
         public void InjectMouseMove(MouseEvent arg)
         {
-            if (screenStack.Count > 0)
+            if (runningScreenStack.Count > 0)
             {
-                screenStack.Peek().InjectMouseMove(arg);
+                runningScreenStack.Peek().InjectMouseMove(arg);
             }
         }
         public void InjectMousePressed(MouseEvent arg, MouseButtonID id)
         {
-            if (screenStack.Count > 0)
+            if (runningScreenStack.Count > 0)
             {
-                screenStack.Peek().InjectMousePressed(arg, id);
+                runningScreenStack.Peek().InjectMousePressed(arg, id);
             }
         }
         public void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
         {
-            if (screenStack.Count > 0)
+            if (runningScreenStack.Count > 0)
             {
-                screenStack.Peek().InjectMouseReleased(arg, id);
+                runningScreenStack.Peek().InjectMouseReleased(arg, id);
             }
         }
         public void InjectKeyPressed(KeyEvent arg)
         {
-            if (screenStack.Count > 0)
+            if (runningScreenStack.Count > 0)
             {
-                screenStack.Peek().InjectKeyPressed(arg);
+                runningScreenStack.Peek().InjectKeyPressed(arg);
             }
         }
         public void InjectKeyReleased(KeyEvent arg)
         {
-            if (screenStack.Count > 0)
+            if (runningScreenStack.Count > 0)
             {
-                screenStack.Peek().InjectKeyReleased(arg);
+                runningScreenStack.Peek().InjectKeyReleased(arg);
             }
         }
 
         public void ChangeScreen(string screenName,params object[] param)
         {
-            if (screenStack.Count > 0)
+            if (runningScreenStack.Count > 0)
             {
-                screenStack.Peek().Exit();
+                if (runningScreenStack.Peek().Name == screenName)
+                {
+                    runningScreenStack.Pop().Exit();
+                }
+                else
+                {
+                    if (innerScreens.ContainsKey(screenName))
+                    {
+                        IScreen runScreen = innerScreens[screenName];
+                        runScreen.OnScreenExit += CurrentScreen_OnScreenExit;
+                        runScreen.Init(param);
+                        runScreen.Run();
+                        runningScreenStack.Push(runScreen);
+                    }
+                }
             }
-            if(screens.ContainsKey(screenName))
+            else
             {
-                IScreen runScreen = screens[screenName];
-                runScreen.OnScreenExit += CurrentScreen_OnScreenExit;
-                runScreen.Init(param);
-                runScreen.Run();
-                screenStack.Push(runScreen);
+                if (innerScreens.ContainsKey(screenName))
+                {
+                    IScreen runScreen = innerScreens[screenName];
+                    runScreen.OnScreenExit += CurrentScreen_OnScreenExit;
+                    runScreen.Init(param);
+                    runScreen.Run();
+                    runningScreenStack.Push(runScreen);
+                }
             }
         }
 
         public void ReturnLastScreen(params object[] param)
         {
-            if (screenStack.Count > 0)
+            if (runningScreenStack.Count > 0)
             {
-                screenStack.Pop().Exit();
+                runningScreenStack.Pop().Exit();
             }
-            if (screenStack.Count > 0)
+            if (runningScreenStack.Count > 0)
             {
-                screenStack.Peek().Init(param);
+                runningScreenStack.Peek().Init(param);
             }
         }
         
@@ -114,17 +139,17 @@ namespace AMOFGameEngine.Screen
 
         public void Dispose()
         {
-            while (screenStack.Count > 0)
+            while (runningScreenStack.Count > 0)
             {
-                screenStack.Pop().Exit();
+                runningScreenStack.Pop().Exit();
             }
         }
 
         public void UpdateCurrentScreen(float timeSinceLastFrame)
         {
-            if (screenStack.Count > 0)
+            if (runningScreenStack.Count > 0)
             {
-                screenStack.Peek().Update(timeSinceLastFrame);
+                runningScreenStack.Peek().Update(timeSinceLastFrame);
             }
         }
 
@@ -135,21 +160,21 @@ namespace AMOFGameEngine.Screen
 
         public void ExitCurrentScreen()
         {
-            if (screenStack.Count > 0)
+            if (runningScreenStack.Count > 0)
             {
-                screenStack.Pop().Exit();
+                runningScreenStack.Pop().Exit();
             }
         }
 
         public bool CheckScreenIsVisual(string screenName)
         {
-            if (screenStack.Count == 0)
+            if (runningScreenStack.Count == 0)
             {
                 return false;
             }
             else
             {
-                return screenStack.Peek().Name == screenName && screenStack.Peek().IsVisible;
+                return runningScreenStack.Peek().Name == screenName && runningScreenStack.Peek().IsVisible;
             }
         }
     }

@@ -8,14 +8,19 @@ namespace AMOFGameEngine.Script.Command
 {
     class AssignScriptCommand : ScriptCommand
     {
+        private string[] commandArgs;
         private ScriptContext context;
         public AssignScriptCommand(ScriptContext context)
         {
             this.context = context;
+            commandArgs = null;
         }
         public override string[] CommandArgs
         {
-            get;
+            get
+            {
+                return commandArgs;
+            }
         }
 
         public override string CommandName

@@ -120,6 +120,17 @@ namespace AMOFGameEngine.Game
             globalValueTable = ScriptValueRegister.Instance.GlobalValueTable;
 
             TriggerManager.Instance.Triggers.Add(new GameTrigger(this));
+
+            /*Physx Debugger*/
+            if (physics.RemoteDebugger.IsConnected)
+            {
+                physics.RemoteDebugger.Connect("127.0.0.1", 5425);
+            }
+            else
+            {
+                physics.RemoteDebugger.Disconnect();
+                physics.RemoteDebugger.Connect("127.0.0.1", 5425);
+            }
         }
         #endregion
 
@@ -158,6 +169,7 @@ namespace AMOFGameEngine.Game
 
             GameManager.Instance.root.FrameRenderingQueued += FrameRenderingQueued;
 
+            ScreenManager.Instance.Camera = cam;
         }
 
         public void ChangeScene(string sceneName)
@@ -328,13 +340,6 @@ namespace AMOFGameEngine.Game
         }
         bool mKeyboard_KeyPressed(MOIS.KeyEvent arg)
         {
-            switch(arg.key)
-            {
-                case KeyCode.KC_I:
-                    //Open Inventory Window
-                    ScreenManager.Instance.ChangeScreen("Inventory");
-                    break;
-            }
             return true;
         }
         bool mMouse_MouseReleased(MOIS.MouseEvent arg, MOIS.MouseButtonID id)

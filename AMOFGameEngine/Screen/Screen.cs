@@ -28,7 +28,10 @@ namespace AMOFGameEngine.Screen
 
         public virtual void Exit()
         {
-            OnScreenExit?.Invoke();
+            if(OnScreenExit!=null)
+            {
+                OnScreenExit();
+            }
         }
 
         public virtual void Hide()

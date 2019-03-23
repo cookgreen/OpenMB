@@ -43,7 +43,10 @@ namespace DotSceneLoader
 
         private void LoadSceneCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            LoadSceneFinished?.Invoke();
+            if(LoadSceneFinished!=null)
+            {
+                LoadSceneFinished();
+            }
         }
 
         private void LoadSceneAsync(object sender, DoWorkEventArgs e)
@@ -63,7 +66,10 @@ namespace DotSceneLoader
         public void ParseDotSceneAsync(String SceneName, String groupName, SceneManager yourSceneMgr)
         {
             worker.RunWorkerAsync(new object[] { SceneName, groupName, yourSceneMgr });
-            LoadSceneStarted?.Invoke();
+            if (LoadSceneStarted != null)
+            {
+                LoadSceneStarted();
+            }
         }
 
         public void ParseDotScene(String SceneName, String groupName, SceneManager yourSceneMgr)

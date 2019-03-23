@@ -29,6 +29,7 @@ namespace AMOFGameEngine.Game
     {
         //Unique Id
         private int id;
+        private string meshName;
         private DecisionSystem brain;
         private WeaponSystem weaponSystem;
         private EquipmentSystem equipmentSystem;
@@ -48,6 +49,14 @@ namespace AMOFGameEngine.Game
         {
             get { return name; }
             set { name = value; }
+        }
+
+        public string MeshName
+        {
+            get
+            {
+                return meshName;
+            }
         }
 
         //Team, usually used to identity whether is enemy
@@ -121,6 +130,14 @@ namespace AMOFGameEngine.Game
             }
         }
 
+        public SceneNode SceneNode
+        {
+            get
+            {
+                return controller.BodyNode;
+            }
+        }
+
         //Environment
         private GameWorld world;
 
@@ -134,7 +151,7 @@ namespace AMOFGameEngine.Game
         /// <param name="name">Name</param>
         /// <param name="meshName">Mesh Name</param>
         /// <param name="initPosition">Init Position</param>
-        /// <param name="controlled">Is Bot or not</param>
+        /// <param name="isBot">Is Bot or not</param>
         public Character(
             GameWorld world, 
             Camera cam, 
@@ -143,16 +160,15 @@ namespace AMOFGameEngine.Game
             string name,
             string meshName,
             Mogre.Vector3 initPosition,
-            ModRaceDfnXml raceXml,
-            bool controlled)
+            ModCharacterSkinDfnXML skin,
+            bool isBot)
         {
             this.world = world;
             Id = id;
             Name = string.Empty;
             Hitpoint = 100;
-            controller = new CharacterController(cam,world.GetCurrentMap().NavmeshQuery,world.GetCurrentMap().PhysicsScene, name + id.ToString(), meshName, raceXml, controlled);//初始化控制器
-            controller.Position = initPosition;
-
+            controller = new CharacterController(cam,world.GetCurrentMap().NavmeshQuery,world.GetCurrentMap().PhysicsScene, name + id.ToString(), meshName, skin, isBot, initPosition);//初始化控制器
+            this.meshName = meshName;
             brain = new DecisionSystem(this);
             weaponSystem = new WeaponSystem(this, new Fist(cam, world.GetCurrentMap().PhysicsScene, -1, id));
             equipmentSystem = new EquipmentSystem(this);
@@ -349,6 +365,31 @@ namespace AMOFGameEngine.Game
             {
                 agent.ReceiveMessage(new CharacterMessage(level, type));
             }
+        }
+
+        public void injectMouseMove(MouseEvent evt)
+        {
+            controller.injectMouseMove(evt);
+        }
+
+        public void injectKeyPressed(KeyEvent arg)
+        {
+            controller.injectKeyDown(arg);
+        }
+
+        public void injectKeyUp(KeyEvent evt)
+        {
+            controller.injectKeyUp(evt);
+        }
+
+        public string GetIdleTopAnim()
+        {
+            return controller.GetAnimationNameByType(CharacterAnimationType.CAT_IDLE_TOP);
+        }
+
+        public string GetIdleBaseAnim()
+        {
+            return controller.GetAnimationNameByType(CharacterAnimationType.CAT_IDLE_BASE);
         }
     }
 }

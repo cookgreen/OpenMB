@@ -240,7 +240,10 @@ namespace AMOFGameEngine.Screen
 
         private void BtnClose_OnClick(object obj)
         {
-            OnScreenExit?.Invoke();
+            if(OnScreenExit!=null)
+            {
+                OnScreenExit();
+            }
         }
 
         private void BtnSave_OnClick(object obj)

@@ -36,6 +36,7 @@ namespace AMOFGameEngine.Map
         //private NavmeshQuery query;
         private ModData modData;
         private Physics physics;
+        private ControllerManager controllerMgr;
         private Character playerAgent;
         private Camera cam;
         private GameWorld world;
@@ -85,6 +86,12 @@ namespace AMOFGameEngine.Map
             }
         }
 
+        public Character PlayerAgent
+        {
+            get { return playerAgent; }
+            set { playerAgent = value; }
+        }
+
         public event MapLoadhandler LoadMapStarted;
         public event MapLoadhandler LoadMapFinished;
 
@@ -100,6 +107,7 @@ namespace AMOFGameEngine.Map
             cam = world.Camera;
             physicsScene = world.PhysicsScene;
             physics = world.PhysicsScene.Physics;
+            controllerMgr = physics.ControllerManager;
             aimeshIndexData = new List<Mogre.Vector3>();
             aimeshVertexData = new List<Mogre.Vector3>();
             editor = new GameMapEditor(this);
@@ -111,29 +119,80 @@ namespace AMOFGameEngine.Map
             GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
         }
 
+        public void CreateCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
+        {
+            var findTrooperList = ModData.CharacterInfos.Where(o => o.ID == characterID);
+            if (findTrooperList.Count() == 0)
+            {
+                GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid trooper id!", LogMessage.LogType.Warning);
+                return;
+            }
+            var findTrooper = findTrooperList.First();
+
+            var findSkinList = ModData.SkinInfos.Where(o => o.skinID == findTrooper.SkinID);
+            if (findSkinList.Count() == 0)
+            {
+                GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid skin id!", LogMessage.LogType.Warning);
+                return;
+            }
+            var findSkin = findSkinList.First();
+
+            Character character = new Character(
+                world, cam, agents.Count, teamId,
+                findTrooper.Name + agents.Count,
+                findTrooper.MeshName,
+                position, findSkin, isBot);
+            if (!isBot)
+            {
+                if (playerAgent != null)
+                {
+                    GameManager.Instance.log.LogMessage("TRY TO ASSIGN TROOPER AS PLAYER FAILED: There is already a trooper assigned!", LogMessage.LogType.Warning);
+                    return;
+                }
+                playerAgent = character;
+            }
+
+            agents.Add(character);
+
+        }
+
         private bool Keyboard_KeyReleased(KeyEvent arg)
         {
             ScreenManager.Instance.InjectKeyReleased(arg);
+
+            if (playerAgent != null)
+            {
+                playerAgent.injectKeyUp(arg);
+            }
             return true;
         }
 
         private bool Keyboard_KeyPressed(KeyEvent arg)
         {
-            if (GameManager.Instance.EDIT_MODE)
+            switch (arg.key)
             {
-                if (ScreenManager.Instance.CheckScreenIsVisual("InnerGameEditor") &&
-                   (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
-                    GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_E)))
-                {
-                    ScreenManager.Instance.ExitCurrentScreen();
-                }
-                else if(GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
-                    GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_E))
-                {
+                case KeyCode.KC_LSHIFT | KeyCode.KC_E:
+                    if (!GameManager.Instance.IS_ENABLE_EDIT_MODE)
+                    {
+                        break;
+                    }
                     ScreenManager.Instance.ChangeScreen("InnerGameEditor", editor);
-                }
+                    break;
+                case KeyCode.KC_I:
+                    //Open Inventory Window
+                    if (playerAgent == null)
+                    {
+                        break;
+                    }
+                    ScreenManager.Instance.ChangeScreen("Inventory", playerAgent.MeshName, new string[]{
+                        playerAgent.GetIdleTopAnim(), playerAgent.GetIdleBaseAnim()
+                    });
+                    break;
             }
-            ScreenManager.Instance.InjectKeyPressed(arg);
+            if (playerAgent != null)
+            {
+                playerAgent.injectKeyPressed(arg);
+            }
             return true;
         }
 
@@ -152,13 +211,20 @@ namespace AMOFGameEngine.Map
         private bool Mouse_MouseMoved(MouseEvent arg)
         {
             ScreenManager.Instance.InjectMouseMove(arg);
-            
-            Degree deCameraYaw = new Degree(arg.state.X.rel * -0.1f);
-            cam.Yaw(deCameraYaw);
-            Degree deCameraPitch = new Degree(arg.state.Y.rel * -0.1f);
-            cam.Pitch(deCameraPitch);
 
-            if (GameManager.Instance.EDIT_MODE)
+            if (playerAgent == null)
+            {
+                Degree deCameraYaw = new Degree(arg.state.X.rel * -0.1f);
+                cam.Yaw(deCameraYaw);
+                Degree deCameraPitch = new Degree(arg.state.Y.rel * -0.1f);
+                cam.Pitch(deCameraPitch);
+            }
+            else
+            {
+                playerAgent.injectMouseMove(arg);
+            }
+
+            if (GameManager.Instance.IS_ENABLE_EDIT_MODE)
             {
 
             }
@@ -191,28 +257,21 @@ namespace AMOFGameEngine.Map
                 scriptLoader.Parse(System.IO.Path.GetFileNameWithoutExtension(mapName) + ".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
                 scriptLoader.Execute(world);
 
-                //MeshManager.Singleton.CreatePlane("floor", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
-                //    new Plane(Mogre.Vector3.UNIT_Y, 0), 100, 100, 10, 10, true, 1, 10, 10, Mogre.Vector3.UNIT_Z);
-                //Entity floor = scm.CreateEntity("Floor", "floor");
-                //floor.SetMaterialName("Examples/Rockwall");
-                //floor.CastShadows = (false);
-                //scm.RootSceneNode.AttachObject(floor);
-                //ActorDesc actorDesc = new ActorDesc();
-                //actorDesc.Density = 4;
-                //actorDesc.Body = null;
-                //actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
-                //    StaticMeshData(floor.GetMesh())));
-                //Actor floorActor = physicsScene.CreateActor(actorDesc);
-                //actorNodeList.Add(new ActorNode(scm.RootSceneNode, floorActor));
-                //
-                //Navmesh floorNavMesh = MeshToNavmesh.LoadNavmesh(floor);
-                //org.critterai.Vector3 pointStart = new org.critterai.Vector3(0, 0, 0);
-                //org.critterai.Vector3 pointEnd = new org.critterai.Vector3(0, 0, 0);
-                //org.critterai.Vector3 extents = new org.critterai.Vector3(2, 2, 2);
-
-                //NavStatus status = NavmeshQuery.Create(floorNavMesh, 100, out query);
-
-                playerAgent = null;
+                MeshManager.Singleton.CreatePlane("floor", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
+                    new Plane(Mogre.Vector3.UNIT_Y, 0), 100, 100, 10, 10, true, 1, 10, 10, Mogre.Vector3.UNIT_Z);
+                Entity floor = scm.CreateEntity("Floor", "floor");
+                floor.SetMaterialName("Examples/Rockwall");
+                floor.CastShadows = false;
+                SceneNode sceneNode = scm.RootSceneNode.CreateChildSceneNode();
+                sceneNode.AttachObject(floor);
+                sceneNode.SetPosition(0, -5, 0);
+                ActorDesc actorDesc = new ActorDesc();
+                actorDesc.Density = 4;
+                actorDesc.Body = null;
+                actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
+                    StaticMeshData(floor.GetMesh())));
+                Actor floorActor = physicsScene.CreateActor(actorDesc);
+                actorNodeList.Add(new ActorNode(scm.RootSceneNode, floorActor));
 
                 aimesh = mapLoader.AIMesh;
                 editor.Initization(aimesh);
@@ -250,7 +309,7 @@ namespace AMOFGameEngine.Map
         private void updateMapCamera(float timeSinceLastFrame)
         {
             moveOffset = new Mogre.Vector3(0, 0, 0);
-            if (GameManager.Instance.EDIT_MODE || playerAgent == null)
+            if (playerAgent == null)
             {
                 getInput();
                 moveCamera();
@@ -263,9 +322,13 @@ namespace AMOFGameEngine.Map
 
         private void updatePhysics(float timeSinceLastFrame)
         {
-            PhysicsScene.FlushStream();
-            PhysicsScene.FetchResults(SimulationStatuses.AllFinished, true);
+            while (!PhysicsScene.FetchResults(SimulationStatuses.AllFinished, false))
+            {
+ 
+            }
+
             PhysicsScene.Simulate(timeSinceLastFrame);
+            PhysicsScene.FlushStream();
         }
 
         public string GetName()
@@ -286,36 +349,6 @@ namespace AMOFGameEngine.Map
         public List<GameObject> GetStaticObjects()
         {
             return staticObjects;
-        }
-
-        public void CreateCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
-        {
-            var troopersXml = ModData.CharacterInfos.Where(o => o.ID == characterID);
-            if (troopersXml.Count() == 0)
-            {
-                GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid trooper id!", LogMessage.LogType.Warning);
-                return;
-            }
-            var trooperXml = troopersXml.First();
-            var racesXml = ModData.RaceInfos.Where(o => o.RaceID == trooperXml.RaceID);
-            if (racesXml.Count() == 0)
-            {
-                GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid race id!", LogMessage.LogType.Warning);
-                return;
-            }
-            var raceXml = racesXml.First();
-
-            Character character = new Character(
-                world, cam, agents.Count, teamId, 
-                troopersXml.First().Name + agents.Count, 
-                troopersXml.First().MeshName, 
-                position, raceXml, !isBot);
-            if (!isBot)
-            {
-                playerAgent = character;
-            }
-            agents.Add(character);
-            
         }
         private void getInput()
         {

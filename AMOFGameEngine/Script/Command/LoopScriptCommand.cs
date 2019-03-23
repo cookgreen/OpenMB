@@ -7,10 +7,11 @@ namespace AMOFGameEngine.Script.Command
 {
     public class LoopScriptCommand : ScriptCommand
     {
+        private string[] commandArgs;
         public LoopScriptCommand()
         {
             SubCommands = new List<IScriptCommand>();
-            CommandArgs = new string[] 
+            commandArgs = new string[] 
             {
                 "StartVal",
                 "EndVal",
@@ -19,7 +20,10 @@ namespace AMOFGameEngine.Script.Command
         }
         public override string[] CommandArgs
         {
-            get;
+            get
+            {
+                return commandArgs;
+            }
         }
 
         public override string CommandName

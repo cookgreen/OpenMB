@@ -16,12 +16,16 @@ namespace AMOFGameEngine.Screen
         private OverlayContainer equipmentPanel;
         private OverlayContainer previewPanel;
         private OverlayContainer backpackPanel;
-        private SceneNode node;
-        private Entity ent;
         private int row;
         private int col;
         private const float INV_WIDTH = 0.12f;
-        //private Character character;
+        private Entity ent;
+        private SceneNode sceneNode;
+        private string meshName;
+        private Overlay meshLayer;
+        private string[] animNames;
+        private AnimationState baseAnim;
+        private AnimationState topAnim;
         public override event Action OnScreenExit;
         public override string Name
         {
@@ -36,23 +40,50 @@ namespace AMOFGameEngine.Screen
             elements = new List<OverlayElement>();
         }
 
-        public override void Exit()
-        {
-            Control.nukeOverlayElement(equipmentPanel);
-            Control.nukeOverlayElement(previewPanel);
-            Control.nukeOverlayElement(backpackPanel);
-            SceneManager scm = GameManager.Instance.root.GetSceneManager("GameSceneManager");
-            scm.DestroyEntity(ent);
-            OnScreenExit?.Invoke();
-        }
-
+        /// <summary>
+        /// Init parameters:
+        /// 1. meshName
+        /// 2. animation name array
+        ///     a. animation top name
+        ///     b. animation base name
+        /// </summary>
+        /// <param name="param"></param>
         public override void Init(params object[] param)
         {
+            if (param.Length > 0)
+            {
+                meshName = param[0].ToString();
+                animNames = param[1] as string[];
+            }
             GameManager.Instance.trayMgr.destroyAllWidgets();
         }
 
         public override void Run()
         {
+            meshLayer = OverlayManager.Singleton.Create("CharacterPreview");
+            meshLayer.ZOrder = 999;
+
+            SceneManager scm = ScreenManager.Instance.Camera.SceneManager;
+            ent = scm.CreateEntity(Guid.NewGuid().ToString(), meshName);
+            sceneNode = scm.CreateSceneNode();
+            sceneNode.Translate(new Mogre.Vector3(0, 0, 0));
+            sceneNode.Rotate(Quaternion.IDENTITY);
+            float lenght = ent.BoundingBox.Size.Length * 2;
+            sceneNode.Translate(new Mogre.Vector3(-7f, 5f, -1.0f * lenght));
+            ent.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_MAX;
+            ent.Skeleton.BlendMode = SkeletonAnimationBlendMode.ANIMBLEND_CUMULATIVE;
+
+            baseAnim = ent.GetAnimationState(animNames[1]);
+            topAnim = ent.GetAnimationState(animNames[0]);
+            baseAnim.Enabled = true;
+            topAnim.Enabled = true;
+            baseAnim.Loop = true;
+            topAnim.Loop = true;
+
+            sceneNode.AttachObject(ent);
+            meshLayer.Add3D(sceneNode);
+            meshLayer.Show();
+
             equipmentPanel = OverlayManager.Singleton.CreateOverlayElementFromTemplate("CharacterEquipment", "BorderPanel", "inventoryPanelLeftArea") as OverlayContainer;
             previewPanel = OverlayManager.Singleton.CreateOverlayElementFromTemplate("CharacterPreview", "BorderPanel", "inventoryPanelMiddleArea") as OverlayContainer;
             backpackPanel = OverlayManager.Singleton.CreateOverlayElementFromTemplate("CharacterBackpack", "BorderPanel", "inventoryPanelRightArea") as OverlayContainer;
@@ -100,38 +131,6 @@ namespace AMOFGameEngine.Screen
                 elements.Add(invSlotElement);
                 col_counter++;
             }
-
-            Overlay charaOverlay = new Overlay("PreviewOverlay");
-            SceneManager scm = GameManager.Instance.root.GetSceneManager("GameSceneManager");
-            ent = scm.CreateEntity("sinbad", "sinbad.mesh");
-            ent.SetRenderQueueGroupAndPriority((byte)RenderQueueGroupID.RENDER_QUEUE_OVERLAY, 900);
-            node = new SceneNode(scm, "sinbadNode");
-            node.Scale(0.1f, 0.1f, 0.1f);
-            node.Translate(0, 0, 0);
-            node.AttachObject(ent);
-            charaOverlay.Add3D(node);
-
-            for (uint i = 0; i < ent.NumSubEntities; ++i)
-            {
-                SubEntity subEnt = ent.GetSubEntity(i);
-                if (subEnt != null)
-                {
-                    Technique tech = subEnt.GetMaterial().GetBestTechnique();
-                    if (tech != null)
-                    {
-                        for (ushort iPass = 0; iPass < tech.NumPasses; ++iPass)
-                        {
-                            Pass pass = tech.GetPass(iPass);
-                            if (pass != null)
-                            {
-                                pass.DepthCheckEnabled = false;
-                            }
-                        }
-                    }
-                }
-            }
-            charaOverlay.ZOrder = (ushort)(GameManager.Instance.trayMgr.getTraysLayer().ZOrder + 100);
-            charaOverlay.Show();
             GameManager.Instance.trayMgr.getTraysLayer().Add2D(equipmentPanel);
             GameManager.Instance.trayMgr.getTraysLayer().Add2D(previewPanel);
             GameManager.Instance.trayMgr.getTraysLayer().Add2D(backpackPanel);
@@ -139,6 +138,8 @@ namespace AMOFGameEngine.Screen
 
         public override void Update(float timeSinceLastFrame)
         {
+            baseAnim.AddTime(timeSinceLastFrame);
+            topAnim.AddTime(timeSinceLastFrame);
         }
 
         public override void InjectKeyPressed(KeyEvent arg)
@@ -156,6 +157,26 @@ namespace AMOFGameEngine.Screen
             if (arg.key == KeyCode.KC_ESCAPE)
             {
                 Exit();
+            }
+        }
+
+        public override void Exit()
+        {
+            OverlayManager.Singleton.Destroy(meshLayer);
+
+            SceneManager scm = ScreenManager.Instance.Camera.SceneManager;
+            scm.DestroySceneNode(sceneNode);
+            scm.DestroyEntity(ent);
+
+            baseAnim.Dispose();
+            topAnim.Dispose();
+
+            Control.nukeOverlayElement(equipmentPanel);
+            Control.nukeOverlayElement(previewPanel);
+            Control.nukeOverlayElement(backpackPanel);
+            if (OnScreenExit != null)
+            {
+                OnScreenExit();
             }
         }
     }

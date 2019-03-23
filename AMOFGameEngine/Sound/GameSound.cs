@@ -3,22 +3,38 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace AMOFGameEngine.Sound
 {
+    public enum PlayMode
+    {
+        Loop,//Will play the sound list one by one
+        Random//When play one finished, choose a sound randomly in the sound list, and play
+    }
     public enum SoundType
     {
         Empty,
-        MainMenu,
-        Scene
+        MainMenu,//Will Play in the main menu
+        Scene//Will play in the scene
+    }
+    public enum SoundStatus
+    {
+        Ready,
+        Playing,
+        Stopped
     }
     public class GameSound : IDisposable
     {
         private string soundID;
-        private SoundType st;
-        private List<SoundObject> sound;
+        private SoundType type;
+        private SoundStatus status;
+        private List<SoundObject> soundList;
         private int currentIndex;
         private bool disposed;
+        private bool? disposing;
+        private BackgroundWorker playThread;
+        private Random rand;
 
         public string ID
         {
@@ -27,40 +43,99 @@ namespace AMOFGameEngine.Sound
         }
         public List<SoundObject> Sound
         {
-            get { return sound; }
-            set { sound = value; }
+            get { return soundList; }
+            set { soundList = value; }
         }
         public SoundType PlayType
         {
-            get { return st; }
-            set { st = value; }
+            get { return type; }
+            set { type = value; }
         }
 
         public GameSound()
         {
-            st = AMOFGameEngine.Sound.SoundType.Empty;
-            sound = new List<SoundObject>();
+            type = AMOFGameEngine.Sound.SoundType.Empty;
+            soundList = new List<SoundObject>();
+            playThread = new BackgroundWorker();
+            playThread.RunWorkerCompleted += new RunWorkerCompletedEventHandler(playThread_RunWorkerCompleted);
+            playThread.WorkerSupportsCancellation = true;
+            disposing = null;
+            rand = new Random();
         }
+
+        void playThread_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (disposing.HasValue)
+            {
+                playThread.Dispose();
+            }
+        }
+
         public void AddSound(SoundObject s)
         {
-            sound.Add(s);
+            soundList.Add(s);
         }
-        public void Play()
+        public void Play(PlayMode mode = PlayMode.Loop)
         {
-            if (sound.Count > 0)
+            if (status == SoundStatus.Playing)
             {
-                Random rand = new Random();
-                int rk=rand.Next(0,sound.Count);
-                sound[rk].Play();
-                currentIndex = rk;
+                status = SoundStatus.Stopped;
             }
+
+            currentIndex = 0;
+            status = SoundStatus.Playing;
+            if (soundList.Count == 0)
+            {
+                return;
+            }
+            playThread.DoWork += ((o, e) => {
+                while (true)
+                {
+                    if (status == SoundStatus.Stopped)
+                    {
+                        status = SoundStatus.Ready;
+                        break;
+                    }
+                    else
+                    {
+                        if (!soundList[currentIndex].IsPlaying())
+                        {
+                            soundList[currentIndex].Play();
+                        }
+                        else
+                        {
+                            while (true)//Wait until current sound finished
+                            {
+                                if (!soundList[currentIndex].IsPlaying())
+                                {
+                                    switch (mode)
+                                    {
+                                        case PlayMode.Loop:
+                                            if (currentIndex == soundList.Count - 1)
+                                            {
+                                                currentIndex = 0;
+                                            }
+                                            else
+                                            {
+                                                currentIndex++;
+                                            }
+                                            break;
+                                        case PlayMode.Random:
+                                            int rk = rand.Next(soundList.Count);
+                                            currentIndex = rk;
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            playThread.RunWorkerAsync();
         }
         public void Stop()
         {
-            for (int i = 0; i < sound.Count; i++)
-            {
-                sound[i].Stop();
-            }
+            status = SoundStatus.Stopped;
         }
 
         public void Dispose()
@@ -76,8 +151,19 @@ namespace AMOFGameEngine.Sound
             }
             if (disposing)
             {
-                sound.Clear();
-                sound = null;
+                this.disposing = disposing;
+
+                if (playThread.IsBusy)
+                {
+                    playThread.CancelAsync();
+                }
+                else if (!playThread.CancellationPending)
+                {
+                    playThread.Dispose();
+                }
+
+                soundList.Clear();
+                soundList = null;
             }
             disposed = true;
         }

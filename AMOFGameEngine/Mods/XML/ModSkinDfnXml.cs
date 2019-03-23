@@ -7,20 +7,20 @@ using System.Xml.Serialization;
 
 namespace AMOFGameEngine.Mods.XML
 {
-    [XmlRoot("Races")]
-    public class ModRacesDfnXml
+    [XmlRoot("Skin")]
+    public class ModSkinDfnXML
     {
-        [XmlElement("Race")]
-        public List<ModRaceDfnXml> Races { get; set; }
+        [XmlElement("CharacterSkin")]
+        public List<ModCharacterSkinDfnXML> CharacterSkinList { get; set; }
     }
 
-    [XmlRoot("Race")]
-    public class ModRaceDfnXml
+    [XmlRoot("CharacterSkin")]
+    public class ModCharacterSkinDfnXML
     {
         [XmlElement("ID")]
-        public string RaceID { get; set; }
+        public string skinID { get; set; }
         [XmlElement("Name")]
-        public string RaceName { get; set; }
+        public string skinName { get; set; }
         [XmlArray("Animations")]
         [XmlArrayItem("Animation")]
         public List<ModRaceAnimationDfnXml> RaceAnimations { get; set; }

@@ -1,3 +1,7 @@
+packages/*
+Debug/*
+*/Debug/*
+*/obj/*
 *.pdb
 *.exe
 *.vshost.exe
@@ -8,7 +12,15 @@
 *.cache
 *.Cache
 *.FileListAbsolute.txt
-packages/*
 *.resources
 *.cfg
 *.cs.dll
+*.bi
+*.metagen
+*.db
+*.opendb
+*.ipch
+*.tlog
+*.obj
+*.resources
+*.ilk

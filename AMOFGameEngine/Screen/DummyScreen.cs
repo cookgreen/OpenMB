@@ -20,7 +20,10 @@ namespace AMOFGameEngine.Screen
 
         public override void Exit()
         {
-            OnScreenExit?.Invoke();
+            if(OnScreenExit!=null)
+            {
+                OnScreenExit();
+            }
         }
 
         public override void Init(params object[] param)
@@ -29,7 +32,10 @@ namespace AMOFGameEngine.Screen
 
         public override void Run()
         {
-            OnScreenRun?.Invoke();
+            if(OnScreenRun!=null)
+            {
+                OnScreenRun();
+            }
         }
 
         public override void Update(float timeSinceLastFrame)

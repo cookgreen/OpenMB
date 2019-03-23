@@ -10,9 +10,10 @@ namespace AMOFGameEngine.Script.Command
 {
     public class SpawnScriptCommand : ScriptCommand
     {
+        private string[] commandArgs;
         public SpawnScriptCommand()
         {
-            CommandArgs = new string[] {
+            commandArgs = new string[] {
                 "CharacterType",
                 "CharacterID",
                 "CharacterTeam",
@@ -21,7 +22,10 @@ namespace AMOFGameEngine.Script.Command
         }
         public override string[] CommandArgs
         {
-            get;
+            get
+            {
+                return commandArgs;
+            }
         }
 
         public override string CommandName

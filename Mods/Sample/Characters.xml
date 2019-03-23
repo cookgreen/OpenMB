@@ -4,7 +4,7 @@
     <Name>Player</Name>
     <MeshName>Sinbad.mesh</MeshName>
     <side>side_player</side>
-	<RaceID>race_sinbad</RaceID>
+	<SkinID>skn_sinbad</SkinID>
     <Equips>
       <Equip>itm_sword</Equip>
     </Equips>
@@ -13,7 +13,7 @@
     <ID>chara_archer</ID>
     <Name>archer</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<RaceID>race_sinbad</RaceID>
+	<SkinID>skn_sinbad</SkinID>
 	<side>side_1</side>
     <Equips />
   </Character>
@@ -21,7 +21,7 @@
     <ID>chara_infantry</ID>
     <Name>Infantry</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<RaceID>race_sinbad</RaceID>
+	<SkinID>skn_sinbad</SkinID>
 	<side>side_1</side>
     <Equips />
   </Character>
@@ -29,7 +29,7 @@
     <ID>chara_cavalry</ID>
     <Name>Cavalry</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<RaceID>race_sinbad</RaceID>
+	<SkinID>skn_sinbad</SkinID>
 	<side>side_1</side>
     <Equips />
   </Character>

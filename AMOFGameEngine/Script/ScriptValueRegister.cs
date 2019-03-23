@@ -19,12 +19,18 @@ namespace AMOFGameEngine.Script
                 return instance;
             }
         }
-
-        public ScriptLinkTable GlobalValueTable { get;}
+        private ScriptLinkTable globalValueTable;
+        public ScriptLinkTable GlobalValueTable 
+        {
+            get
+            {
+                return globalValueTable;
+            }
+        }
 
         public ScriptValueRegister()
         {
-            GlobalValueTable = new ScriptLinkTable();
+            globalValueTable = new ScriptLinkTable();
             for (int i = 0; i < 5; i++)
             {
                 ScriptLinkTableNode vect = new ScriptLinkTableNode();

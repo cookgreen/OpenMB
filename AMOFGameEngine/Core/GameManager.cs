@@ -22,6 +22,11 @@ using AMOFGameEngine.Widgets;
 
 namespace AMOFGameEngine
 {
+    public enum EngineState
+    {
+        NORMAL,
+        EDIT_MODE
+    }
     public class GameManager : IDisposable
     {
         private string defaultRenderSystemName;
@@ -34,6 +39,7 @@ namespace AMOFGameEngine
         private OutputManager outputMgr;
         private SoundManager soundMgr;
         private ScreenManager uiMgr;
+        private EngineState currentState;
         private Dictionary<string, string> gameOptions;
         public Root root;
         public RenderWindow renderWindow;
@@ -50,18 +56,24 @@ namespace AMOFGameEngine
         public Dictionary<int, GameObject> AllGameObjects;
         public Dictionary<string, uint> GameHashMap;
         public LoadingData loadingData;
-        public bool EDIT_MODE
+        public bool IS_ENABLE_EDIT_MODE
         {
             get
             {
                 return isEditMode;
             }
         }
-        public bool CHEAT_MODE
+        public bool IS_ENABLE_CHEAT_MODE
         {
             get
             {
                 return isCheatMode;
+            }
+        }
+        public EngineState CurrentState
+        {
+            get {
+                return currentState;
             }
         }
 
@@ -303,7 +315,6 @@ namespace AMOFGameEngine
             {
                 Update(evt.timeSinceLastFrame);
             }
-            UpdateGame(evt.timeSinceLastFrame);
             UpdateRender(evt.timeSinceLastFrame);
             return true;
         }
@@ -357,18 +368,6 @@ namespace AMOFGameEngine
                     Convert.ToUInt32(videoMode["Height"])
                 );
             }
-            else if(keyboard.IsKeyDown(KeyCode.KC_LSHIFT) &&
-                    keyboard.IsKeyDown(KeyCode.KC_I))//Left Shift + I
-            {
-                if(!uiMgr.CheckScreenIsVisual("Console"))
-                {
-                    uiMgr.ChangeScreen("Console");
-                }
-                else
-                {
-                    uiMgr.ExitCurrentScreen();
-                }
-            }
  
             return true;
         }
@@ -392,6 +391,15 @@ namespace AMOFGameEngine
         public float Clamp(float val, float minval, float maxval)
         {
             return System.Math.Max(System.Math.Min(val, maxval), minval);
+        }
+
+        public void ChangeState(EngineState newState)
+        {
+            if (currentState == newState)
+            {
+                return;
+            }
+            currentState = newState;
         }
 
         public void Dispose()

@@ -618,7 +618,10 @@ namespace Mogre_Procedural.MogreBites
             if (isCursorOver(mElement, cursorPos, 4))
             {
                 setState(ButtonState.BS_DOWN);
-                OnClick?.Invoke(this);
+                if(OnClick!=null)
+                {
+                    OnClick(this);
+                }
             }
         }
 

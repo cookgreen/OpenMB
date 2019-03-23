@@ -8,9 +8,10 @@ namespace AMOFGameEngine.Script.Command
 {
     class TeamScriptCommand : ScriptCommand
     {
+        private string[] commandArgs;
         public TeamScriptCommand()
         {
-            CommandArgs = new string[]
+            commandArgs = new string[]
             {
                 "Team1",
                 "Team2",
@@ -19,7 +20,10 @@ namespace AMOFGameEngine.Script.Command
         }
         public override string[] CommandArgs
         {
-            get;
+            get
+            {
+                return commandArgs;
+            }
         }
 
         public override string CommandName

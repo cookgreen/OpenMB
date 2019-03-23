@@ -27,8 +27,9 @@ namespace AMOFGameEngine.Mods
                 ModXMLData = (T)xr.Deserialize(new FileStream(modPath, FileMode.Open, FileAccess.Read));
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
+                GameManager.Instance.log.LogMessage(ex.ToString(), LogMessage.LogType.Error);
                 ModXMLData = default(T);
                 return false;
             }

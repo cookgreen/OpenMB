@@ -214,7 +214,7 @@
     <Compile Include="Map\GameMapEditor.cs" />
     <Compile Include="Map\GameObjectQueryFlags.cs" />
     <Compile Include="Game\MoveInfo.cs" />
-    <Compile Include="Mods\XML\ModRaceDfnXml.cs" />
+    <Compile Include="Mods\XML\ModSkinDfnXml.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
     <Compile Include="Screen\Screen.cs" />
     <Compile Include="Map\AIMesh.cs" />
