@@ -391,5 +391,20 @@ namespace AMOFGameEngine.Game
         {
             return controller.GetAnimationNameByType(CharacterAnimationType.CAT_IDLE_BASE);
         }
+
+        public void AttachCamera(Camera camera)
+        {
+            controller.setupCamera(camera);
+        }
+
+        public Camera DetachCamera()
+        {
+            return controller.removeCamera();
+        }
+
+        public void UpdateCamera(float deltaTime)
+        {
+            controller.updateCamera(deltaTime);
+        }
     }
 }

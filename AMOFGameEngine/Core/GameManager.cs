@@ -388,10 +388,6 @@ namespace AMOFGameEngine
         {
             return true;
         }
-        public float Clamp(float val, float minval, float maxval)
-        {
-            return System.Math.Max(System.Math.Min(val, maxval), minval);
-        }
 
         public void ChangeState(EngineState newState)
         {

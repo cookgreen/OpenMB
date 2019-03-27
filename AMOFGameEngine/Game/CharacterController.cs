@@ -200,7 +200,7 @@ namespace AMOFGameEngine.Game
         /// Set the camera
         /// </summary>
         /// <param name="cam">Camera Instance</param>
-        private void setupCamera(Camera cam)
+        public void setupCamera(Camera cam)
         {
             cameraPivot = cam.SceneManager.RootSceneNode.CreateChildSceneNode();
             // this is where the camera should be soon, and it spins around the pivot
@@ -219,6 +219,19 @@ namespace AMOFGameEngine.Game
             cameraNode.AttachObject(cam);
 
             pivotPitch = 0;
+        }
+
+        public Camera removeCamera()
+        {
+            Camera cam = (Camera)cameraNode.GetAttachedObjectIterator().ElementAt(0);
+            cameraNode.DetachAllObjects();
+            sceneMgr.DestroySceneNode(cameraNode);
+            sceneMgr.DestroySceneNode(cameraGoal);
+            sceneMgr.DestroySceneNode(cameraPivot);
+            cameraNode = null;
+            cameraGoal = null;
+            cameraPivot = null;
+            return cam;
         }
 
         private void setupPhysics()
@@ -526,7 +539,7 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        private void updateCamera(float deltaTime)
+        public void updateCamera(float deltaTime)
         {
             // place the camera pivot roughly at the character's shoulder
             cameraPivot.Position = bodyNode.Position + Mogre.Vector3.UNIT_Y * CAM_HEIGHT;

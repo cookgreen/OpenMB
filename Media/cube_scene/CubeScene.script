@@ -11,6 +11,5 @@ function SpawnCharacters
 	end
 end
 init_vector vect1
-spawn player chara_archer 0 vect1
 call SpawnCharacters
 team 0 1 -1

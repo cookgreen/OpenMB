@@ -164,6 +164,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\CameraHandler.cs" />
     <Compile Include="Game\Action\Activity.cs" />
     <Compile Include="Configure\ConfigureSystem.cs" />
     <Compile Include="Configure\IConfigFile.cs" />
