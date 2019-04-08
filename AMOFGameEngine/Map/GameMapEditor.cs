@@ -151,6 +151,31 @@ namespace AMOFGameEngine.Map
             return visualAIMeshLineEnt;
         }
 
+        public Entity ConnectTwoVertex(Vector3 vertexPos1, Vector3 vertexPos2)
+        {
+            Vector3 vect = vertexPos1 - vertexPos2;
+            Vector3 edgePos = new Vector3(
+                (vertexPos1.x - vertexPos2.x) / 2,
+                (vertexPos1.y - vertexPos2.y) / 2,
+                (vertexPos1.z - vertexPos2.z) / 2
+            );
+            Entity visualAIMeshLineEnt = scm.CreateEntity("AIMESH_LINE_ENT_" + aimesh.AIMeshEdges.Count, "marker_line.mesh");
+            SceneNode visualAIMeshLineSceneNode = scm.RootSceneNode.CreateChildSceneNode("AIMESH_LINE_SCENENODE_" + aimesh.AIMeshEdges.Count);
+            visualAIMeshLineSceneNode.AttachObject(visualAIMeshLineEnt);
+            visualAIMeshLineSceneNode.Position = edgePos;
+
+            Quaternion oritentation = visualAIMeshLineSceneNode.Orientation;
+            Vector3 vect2 = oritentation * Vector3.UNIT_Z;
+            Vector3 axis = vect.CrossProduct(vect2);
+            vect.Normalise();
+            vect2.Normalise();
+            Radian angle = Mogre.Math.ACos(vect.DotProduct(vect2));
+            Quaternion rotate = new Quaternion(angle, axis);
+            visualAIMeshLineSceneNode.Rotate(rotate);
+
+            return visualAIMeshLineEnt;
+        }
+
         public AIMeshEdge GetAIMeshEdge(Entity ent)
         {
             if(ent != null)
