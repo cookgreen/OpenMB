@@ -45,6 +45,8 @@ namespace AMOFGameEngine.Map
         private List<Mogre.Vector3> aimeshIndexData;
         private GameMapEditor editor;
         private CameraHandler cameraHanlder;
+        private bool combineKey;
+        private KeyCode combineKeyCode;
 
         public ModData ModData
         {
@@ -107,6 +109,7 @@ namespace AMOFGameEngine.Map
             aimeshVertexData = new List<Mogre.Vector3>();
             editor = new GameMapEditor(this);
             cameraHanlder = new CameraHandler(this);
+            combineKey = false;
 
             GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
             GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
@@ -152,31 +155,43 @@ namespace AMOFGameEngine.Map
 
         }
 
-        private bool Keyboard_KeyReleased(KeyEvent arg)
-        {
-            ScreenManager.Instance.InjectKeyReleased(arg);
-
-            if (playerAgent != null)
-            {
-                playerAgent.injectKeyUp(arg);
-            }
-            else
-            {
-                cameraHanlder.InjectKeyReleased(arg);
-            }
-            return true;
-        }
-
         private bool Keyboard_KeyPressed(KeyEvent arg)
         {
             switch (arg.key)
             {
-                case KeyCode.KC_LSHIFT | KeyCode.KC_E:
-                    if (!GameManager.Instance.IS_ENABLE_EDIT_MODE)
+                case KeyCode.KC_LCONTROL:
+                    if (combineKey && combineKeyCode == KeyCode.KC_LCONTROL)
                     {
                         break;
                     }
-                    ScreenManager.Instance.ChangeScreen("InnerGameEditor", editor);
+                    combineKey = true;
+                    combineKeyCode = arg.key;
+                    break;
+                case KeyCode.KC_E:
+                    if (!combineKey)
+                    {
+                        //Press `E` normally
+                        cameraHanlder.InjectKeyPressed(arg);
+                    }
+                    else if (!GameManager.Instance.IS_ENABLE_EDIT_MODE)
+                    {
+                        break;//Press `Ctrl+E` but EditMode is disabled
+                    }
+                    else
+                    {
+                        //EditMode
+                        ScreenManager.Instance.ChangeScreen("InnerGameEditor", editor);
+                    }
+                    break;
+                case KeyCode.KC_SPACE:
+                    if (!combineKey && combineKeyCode != KeyCode.KC_LCONTROL)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        GameManager.Instance.SetFullScreen();
+                    }
                     break;
                 case KeyCode.KC_I:
                     //Open Inventory Window
@@ -188,48 +203,75 @@ namespace AMOFGameEngine.Map
                         playerAgent.GetIdleTopAnim(), playerAgent.GetIdleBaseAnim()
                     });
                     break;
+                default:
+                    if (playerAgent != null)
+                    {
+                        playerAgent.InjectKeyPressed(arg);
+                    }
+                    else
+                    {
+                        cameraHanlder.InjectKeyPressed(arg);
+                    }
+                    break;
             }
+            return true;
+        }
+
+        private bool Keyboard_KeyReleased(KeyEvent arg)
+        {
+            combineKey = false;
+            ScreenManager.Instance.InjectKeyReleased(arg);
+
             if (playerAgent != null)
             {
-                playerAgent.injectKeyPressed(arg);
+                playerAgent.InjectKeyUp(arg);
             }
             else
             {
-                cameraHanlder.InjectKeyPressed(arg);
+                cameraHanlder.InjectKeyReleased(arg);
+            }
+            return true;
+        }
+
+        private bool Mouse_MouseMoved(MouseEvent arg)
+        {
+            if (ScreenManager.Instance.CheckEnterScreen(new Vector2(arg.state.X.abs, arg.state.Y.abs)))
+            {
+                ScreenManager.Instance.InjectMouseMove(arg);
+            }
+            else if (playerAgent == null)
+            {
+                cameraHanlder.InjectMouseMove(arg);
+            }
+            else
+            {
+                playerAgent.InjectMouseMove(arg);
             }
             return true;
         }
 
         private bool Mouse_MouseReleased(MouseEvent arg, MouseButtonID id)
         {
-            ScreenManager.Instance.InjectMouseReleased(arg, id);
-            cameraHanlder.InjectMouseReleased(arg, id);
+            if (ScreenManager.Instance.CheckHasScreen())
+            {
+                ScreenManager.Instance.InjectMouseReleased(arg, id);
+            }
+            else
+            {
+                cameraHanlder.InjectMouseReleased(arg, id);
+            }
             return true;
         }
 
         private bool Mouse_MousePressed(MouseEvent arg, MouseButtonID id)
         {
-            ScreenManager.Instance.InjectMousePressed(arg, id);
-            cameraHanlder.InjectMousePressed(arg, id);
-            return true;
-        }
-
-        private bool Mouse_MouseMoved(MouseEvent arg)
-        {
-            ScreenManager.Instance.InjectMouseMove(arg);
-
-            if (playerAgent == null)
+            if (ScreenManager.Instance.CheckHasScreen())
             {
-                cameraHanlder.InjectMouseMove(arg);
+                ScreenManager.Instance.InjectMousePressed(arg, id);
             }
             else
             {
-                playerAgent.injectMouseMove(arg);
-            }
-
-            if (GameManager.Instance.IS_ENABLE_EDIT_MODE)
-            {
-
+                cameraHanlder.InjectMousePressed(arg, id);
             }
             return true;
         }

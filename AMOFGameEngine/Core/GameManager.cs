@@ -276,6 +276,15 @@ namespace AMOFGameEngine
             return true;
         }
 
+        public void SetFullScreen()
+        {
+            renderWindow.SetFullscreen(
+                !renderWindow.IsFullScreen,
+                Convert.ToUInt32(videoMode["Width"]),
+                Convert.ToUInt32(videoMode["Height"])
+            );
+        }
+
         private bool InitSubSystem(Dictionary<string, string> gameOptions)
         {
             appStateMgr = new AppStateManager();
@@ -358,15 +367,6 @@ namespace AMOFGameEngine
                     trayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
                     trayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
                 }
-            }
-            else if (keyboard.IsKeyDown(KeyCode.KC_LSHIFT) && 
-                     keyboard.IsKeyDown(KeyCode.KC_SPACE))//Left Shift + Space
-            {
-                renderWindow.SetFullscreen(
-                    !renderWindow.IsFullScreen, 
-                    Convert.ToUInt32(videoMode["Width"]), 
-                    Convert.ToUInt32(videoMode["Height"])
-                );
             }
  
             return true;

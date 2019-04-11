@@ -367,17 +367,17 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        public void injectMouseMove(MouseEvent evt)
+        public void InjectMouseMove(MouseEvent evt)
         {
             controller.injectMouseMove(evt);
         }
 
-        public void injectKeyPressed(KeyEvent arg)
+        public void InjectKeyPressed(KeyEvent arg)
         {
             controller.injectKeyDown(arg);
         }
 
-        public void injectKeyUp(KeyEvent evt)
+        public void InjectKeyUp(KeyEvent evt)
         {
             controller.injectKeyUp(evt);
         }

@@ -1,4 +1,5 @@
-﻿using MOIS;
+﻿using Mogre;
+using MOIS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,5 +24,6 @@ namespace AMOFGameEngine.Screen
         void InjectKeyReleased(KeyEvent arg);
         void Show();
         void Hide();
+        bool CheckEnterScreen(Vector2 mousePos);
     }
 }

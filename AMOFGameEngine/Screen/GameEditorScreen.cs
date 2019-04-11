@@ -415,6 +415,11 @@ namespace AMOFGameEngine.Screen
             }
         }
 
+        public override bool CheckEnterScreen(Vector2 mousePos)
+        {
+            return Widget.isCursorOver(editorPanel, mousePos);
+        }
+
         private void HandleObjOperation(Vector2 offset)
         {
             switch(operation)

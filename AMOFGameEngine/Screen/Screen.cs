@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MOIS;
+using Mogre;
 
 namespace AMOFGameEngine.Screen
 {
@@ -25,6 +26,11 @@ namespace AMOFGameEngine.Screen
         }
 
         public virtual event Action OnScreenExit;
+
+        public virtual bool CheckEnterScreen(Vector2 mousePos)
+        {
+            return false;
+        }
 
         public virtual void Exit()
         {

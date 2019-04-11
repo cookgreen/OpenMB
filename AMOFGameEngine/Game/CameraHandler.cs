@@ -81,46 +81,50 @@ namespace AMOFGameEngine.Game
                 cameraState = CameraState.Free;
                 currentAgentId = -1;
             }
+            else
+            {
+                cameraMovement = new Vector3(0, 0, 0);
+                switch (arg.key)
+                {
+                    case KeyCode.KC_A:
+                        cameraMovement.x = -10;
+                        break;
+                    case KeyCode.KC_D:
+                        cameraMovement.x = 10;
+                        break;
+                    case KeyCode.KC_W:
+                        cameraMovement.z = -10;
+                        break;
+                    case KeyCode.KC_S:
+                        cameraMovement.z = 10;
+                        break;
+                    case KeyCode.KC_Q:
+                        cameraMovement.y = -10;
+                        break;
+                    case KeyCode.KC_E:
+                        cameraMovement.y = 10;
+                        break;
+                }
+            }
         }
 
         public void InjectKeyReleased(KeyEvent arg)
         {
-
+            cameraMovement = new Vector3(0, 0, 0);
         }
 
         public void Update(float timeSinceLastFrame)
         {
-            cameraMovement = new Vector3(0, 0, 0);
             switch (cameraState)
             {
                 case CameraState.Free:
-                    getInput();
                     moveCamera();
                     break;
                 case CameraState.Follow:
                     map.GetAgentById(currentAgentId).UpdateCamera(timeSinceLastFrame);
                     break;
             }
-        }
-        private void getInput()
-        {
-            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_A))
-                cameraMovement.x = -10;
-
-            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_D))
-                cameraMovement.x = 10;
-
-            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_W))
-                cameraMovement.z = -10;
-
-            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_S))
-                cameraMovement.z = 10;
-
-            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_Q))
-                cameraMovement.y = -10;
-
-            if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_E))
-                cameraMovement.y = 10;
+            GameManager.Instance.trayMgr.refreshCursor();
         }
         private void moveCamera()
         {

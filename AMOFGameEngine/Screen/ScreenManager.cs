@@ -177,5 +177,15 @@ namespace AMOFGameEngine.Screen
                 return runningScreenStack.Peek().Name == screenName && runningScreenStack.Peek().IsVisible;
             }
         }
+
+        public bool CheckHasScreen()
+        {
+            return runningScreenStack.Count > 0;
+        }
+
+        public bool CheckEnterScreen(Vector2 mousePos)
+        {
+            return runningScreenStack.Count > 0 ? runningScreenStack.Peek().CheckEnterScreen(mousePos) : false;
+        }
     }
 }
