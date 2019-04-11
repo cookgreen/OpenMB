@@ -9,8 +9,8 @@ namespace AMOFGameEngine.Game
 {
     public class Bolt : Item
     {
-        public Bolt(Camera cam, Scene physicsScene, int id, int ownerID = -1)
-            : base(cam, physicsScene, id, ownerID)
+        public Bolt(GameWorld world, int id, int ownerID = -1)
+            : base(world, id, ownerID)
         {
 
         }

@@ -75,7 +75,7 @@ namespace AMOFGameEngine.Game
 
         public Item GetItemByXml(ModItemDfnXML itemXml)
         {
-            return ItemFactory.Instance.Produce(itemXml);
+            return ItemFactory.Instance.Produce(itemXml, this);
         }
 
         public ModData ModData
@@ -330,6 +330,16 @@ namespace AMOFGameEngine.Game
         public void CreateCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
         {
             GameMapManager.Instance.GetCurrentMap().CreateCharacter(characterID, position, teamId, isBot);
+        }
+
+        public void CreateSceneProp(string meshName, Mogre.Vector3 position)
+        {
+            GameMapManager.Instance.GetCurrentMap().CreateSceneProp(meshName, position);
+        }
+
+        public void CreatePlane(string materialName, Mogre.Vector3 vector31, float v1, int v2, int v3, int v4, int v5, ushort v6, int v7, int v8, Mogre.Vector3 vector32, Mogre.Vector3 vector33)
+        {
+            GameMapManager.Instance.GetCurrentMap().CreatePlane(materialName, vector31, v1, v2, v3, v4, v5, v6, v7, v8, vector32, vector33);
         }
         #endregion
 

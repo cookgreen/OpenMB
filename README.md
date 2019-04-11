@@ -23,7 +23,7 @@ Open Source Role-Play Game engine based on MOGRE(Managed Ogre)
 ## Usage:
 * Shift+Space - Full Screen
 * V - Screenshot
-* LShift+E - Edit Mode
+* LControl+E - Edit Mode
 
 ## License:
 GPLv3

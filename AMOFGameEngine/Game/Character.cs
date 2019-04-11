@@ -27,14 +27,14 @@ namespace AMOFGameEngine.Game
     /// </summary>
     public class Character : GameObject
     {
-        //Unique Id
-        private int id;
         private string meshName;
         private DecisionSystem brain;
         private WeaponSystem weaponSystem;
         private EquipmentSystem equipmentSystem;
         private List<CharacterMessage> messageQueue;
         private Activity currentActivity;
+        private ModCharacterSkinDfnXML skin;
+        private bool isBot;
 
         public int Id
         {
@@ -79,14 +79,6 @@ namespace AMOFGameEngine.Game
             get
             {
                 return teamId;
-            }
-        }
-
-        public Mogre.Vector3 Position
-        {
-            get
-            {
-                return controller.Position;
             }
         }
 
@@ -138,9 +130,6 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        //Environment
-        private GameWorld world;
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -153,30 +142,36 @@ namespace AMOFGameEngine.Game
         /// <param name="initPosition">Init Position</param>
         /// <param name="isBot">Is Bot or not</param>
         public Character(
-            GameWorld world, 
-            Camera cam, 
+            GameWorld world,
             int id,
             string teamId,
-            string name,
             string meshName,
             Mogre.Vector3 initPosition,
             ModCharacterSkinDfnXML skin,
-            bool isBot)
+            bool isBot) : base(id, world)
         {
             this.world = world;
-            Id = id;
-            Name = string.Empty;
-            Hitpoint = 100;
-            controller = new CharacterController(cam,world.GetCurrentMap().NavmeshQuery,world.GetCurrentMap().PhysicsScene, name + id.ToString(), meshName, skin, isBot, initPosition);//初始化控制器
             this.meshName = meshName;
+            this.skin = skin;
+            this.isBot = isBot;
+            Id = id;
+            position = initPosition;
+            Hitpoint = 100;
             brain = new DecisionSystem(this);
-            weaponSystem = new WeaponSystem(this, new Fist(cam, world.GetCurrentMap().PhysicsScene, -1, id));
+            weaponSystem = new WeaponSystem(this, new Fist(world, -1, id));
             equipmentSystem = new EquipmentSystem(this);
 
             currentActivity = new Idle();
             moveInfo = new MoveInfo(CharacterController.RUN_SPEED);
 
             messageQueue = new List<CharacterMessage>();
+
+            create();
+        }
+
+        protected override void create()
+        {
+            controller = new CharacterController(world.Camera, world.GetCurrentMap().NavmeshQuery, world.GetCurrentMap().PhysicsScene, meshName, skin, isBot, position);
         }
 
         public bool GetControlled()
@@ -246,6 +241,7 @@ namespace AMOFGameEngine.Game
 
         public override void Update(float timeSinceLastFrame)
         {
+            position = controller.Position;
             brain.Update(timeSinceLastFrame);
             controller.update(timeSinceLastFrame);
             weaponSystem.Update(timeSinceLastFrame);

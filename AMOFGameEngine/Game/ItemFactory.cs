@@ -31,10 +31,12 @@ namespace AMOFGameEngine.Game
         }
 
         public Item Produce(
+            int id,
             string desc, string meshName, ItemType type,
             ItemUseAttachOption itemUseAttachOption,
             ItemHaveAttachOption itemHaveAttachOption,
-            double damage, int range, int ammoCapcity = -1,
+            double damage, int range,
+            GameWorld world, int ammoCapcity = -1,
             double amourNum = -1)
         {
             Item item = null;
@@ -44,18 +46,22 @@ namespace AMOFGameEngine.Game
                      ItemType.IT_ONE_HAND_WEAPON | ItemType.IT_TWO_HAND_WEAPON| ItemType.IT_POLEARM |
                      ItemType.IT_RPG_MISSILE | ItemType.IT_SUBMACHINE_GUN| ItemType.IT_THROWN:
                      item = ItemWeaponFactory.Instance.Produce(
+                         id,
                          desc, meshName, type,
                          itemUseAttachOption,
                          itemHaveAttachOption,
-                         damage, range);
+                         damage, range,
+                         world);
                      break;
                 case ItemType.IT_HAND_ARMOUR| ItemType.IT_HEAD_ARMOUR| ItemType.IT_BODY_ARMOUR| 
                      ItemType.IT_FOOT_ARMOUR:
                      item = ItemArmourFactory.Instance.Produce(
+                         id,
                          desc, meshName, type, 
                          itemUseAttachOption,
                          itemHaveAttachOption,
-                         amourNum);
+                         amourNum,
+                         world);
                      break;
                 case ItemType.IT_ARROW | ItemType.IT_BOLT | ItemType.IT_BULLET:
                      item = ItemAmmoFactory.Produce(
@@ -73,10 +79,10 @@ namespace AMOFGameEngine.Game
             return item;
         }
 
-        public Item Produce(Mods.XML.ModItemDfnXML itemXml)
+        public Item Produce(Mods.XML.ModItemDfnXML itemXml, GameWorld world)
         {
-            return Produce(itemXml.Desc, itemXml.MeshName, itemXml.Type, itemXml.AttachOptionWhenUse,
-                itemXml.AttachOptionWhenHave, double.Parse(itemXml.Damage), int.Parse(itemXml.Range), itemXml.AmmoCapcity, itemXml.AmourNum);
+            return world.GetCurrentMap().Produce(itemXml.Desc, itemXml.MeshName, itemXml.Type, itemXml.AttachOptionWhenUse,
+                itemXml.AttachOptionWhenHave, double.Parse(itemXml.Damage), int.Parse(itemXml.Range), world, itemXml.AmmoCapcity, itemXml.AmourNum);
         }
     }
 }

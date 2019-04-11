@@ -84,10 +84,7 @@ namespace AMOFGameEngine.Game
         #region Render
         private Entity itemEnt;
         private SceneNode itemNode;
-        private Camera cam;
         private Actor itemActor;
-        private Physics physics;
-        private Scene physicsScene;
         #endregion
 
         public int ItemID
@@ -132,35 +129,28 @@ namespace AMOFGameEngine.Game
         public virtual int AmmoCapcity { get; set; }
         public virtual string[] Animations { get; set; }
 
-        public Item(Camera cam, Scene physicsScene, int id, int ownerID = -1)
+        public Item(GameWorld world, int id, int ownerID = -1) : base(id, world)
         {
             this.itemID = id;
             this.itemName = "";
             this.itemMeshName = "";
             this.itemType = ItemType.IT_INVALID;
-            this.cam = cam;
-            this.physicsScene = physicsScene;
-            this.physics = physicsScene.Physics;
             this.ownerID = ownerID;
-            //Create();
         }
 
         public Item(
+            int id,
             string itemName, string itemMeshName, ItemType itemType, 
             ItemHaveAttachOption itemAttachOptionWhenHave,
             ItemUseAttachOption itemAttachOptionWhenUse,
-            Scene physicsScene, Camera cam)
+            GameWorld world) : base(id, world)
         {
             this.itemName = itemName;
             this.itemMeshName = itemMeshName;
             this.itemType = itemType;
             this.itemAttachOptionWhenUse = itemAttachOptionWhenUse;
             this.itemAttachOptionWhenHave = itemAttachOptionWhenHave;
-            this.cam = cam;
-            this.physicsScene = physicsScene;
-            this.physics = physicsScene.Physics;
-            
-            Create();
+            create();
         }
 
         public void Attack(int victimId)
@@ -171,10 +161,10 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        private void Create()
+        protected override void create()
         {
-            itemEnt = cam.SceneManager.CreateEntity(itemName,itemMeshName);
-            itemNode = cam.SceneManager.RootSceneNode.CreateChildSceneNode();
+            itemEnt = camera.SceneManager.CreateEntity(itemName,itemMeshName);
+            itemNode = camera.SceneManager.RootSceneNode.CreateChildSceneNode();
             itemNode.AttachObject(itemEnt);
 
             ActorDesc actorDesc = new ActorDesc();

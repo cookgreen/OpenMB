@@ -9,8 +9,8 @@ namespace AMOFGameEngine.Game
 {
     public class Bow : Item
     {
-        public Bow(string desc, string meshName, Scene physicsScene, Camera cam) :
-            base(desc, meshName, ItemType.IT_ONE_HAND_WEAPON, ItemHaveAttachOption.IHAO_BACK_FROM_LEFT_TO_RIGHT, ItemUseAttachOption.IAO_LEFT_HAND, physicsScene, cam)
+        public Bow(int id, string desc, string meshName, GameWorld world) :
+            base(id, desc, meshName, ItemType.IT_ONE_HAND_WEAPON, ItemHaveAttachOption.IHAO_BACK_FROM_LEFT_TO_RIGHT, ItemUseAttachOption.IAO_LEFT_HAND, world)
         {
 
         }

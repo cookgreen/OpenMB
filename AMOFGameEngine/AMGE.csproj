@@ -208,6 +208,8 @@
     <Compile Include="Game\IUpdate.cs" />
     <Compile Include="Game\Action\Move.cs" />
     <Compile Include="Game\Items\OneHandWeapon.cs" />
+    <Compile Include="Game\ScenePlane.cs" />
+    <Compile Include="Game\SceneProp.cs" />
     <Compile Include="Game\WeaponSystem.cs" />
     <Compile Include="LogMessage\EngineLog.cs" />
     <Compile Include="LogMessage\EngineLogManager.cs" />
@@ -259,6 +261,8 @@
     <Compile Include="Script\Command\RemoveLightScriptCommand.cs" />
     <Compile Include="Script\Command\RootScriptCommand.cs" />
     <Compile Include="Script\Command\ScriptCommand.cs" />
+    <Compile Include="Script\Command\SpawnPlaneScriptCommand.cs" />
+    <Compile Include="Script\Command\SpawnScenePropScriptCommand.cs" />
     <Compile Include="Script\Command\StoreScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerExecuteSrciptCommand.cs" />

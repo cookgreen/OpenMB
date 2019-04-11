@@ -21,14 +21,16 @@ namespace AMOFGameEngine.Game
         }
 
         public Item Produce(
+            int id,
             string name, 
             string meshName, 
             ItemType type, 
             ItemUseAttachOption itemAttachOptionWhenUse, 
             ItemHaveAttachOption itemHaveAttachOption,
-            double armourNum)
+            double armourNum,
+            GameWorld world)
         {
-            Armour item = new Armour(name, meshName, cam, physicsScene);
+            Armour item = new Armour(id, name, meshName, world);
             switch(type)
             {
                 case ItemType.IT_HAND_ARMOUR:

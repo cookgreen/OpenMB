@@ -9,8 +9,8 @@ namespace AMOFGameEngine.Game
 {
     public class Arrow : Cartridge
     {
-        public Arrow(string name, string meshName, Camera cam, Scene physicsScene, int id, int ownerId = -1)
-            : base(name, meshName, cam, physicsScene, id, ownerId)
+        public Arrow(string name, string meshName, GameWorld world, int id, int ownerId = -1)
+            : base(name, meshName, id, world, ownerId)
         {
 
         }

@@ -12,8 +12,8 @@ namespace AMOFGameEngine.Game
     /// </summary>
     public class Fist : Item
     {
-        public Fist(Camera cam, Scene physicsScene, int id, int ownerID = -1)
-            : base(cam, physicsScene, id, ownerID)
+        public Fist(GameWorld world, int id, int ownerID = -1)
+            : base(world, id, ownerID)
         {
 
         }

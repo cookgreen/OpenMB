@@ -41,7 +41,6 @@ namespace AMOFGameEngine.Game
         private Mogre.Vector3 goalDirection;     // actual intended direction in world-space
         private float verticalVelocity;     // for jumping
         private float timer;                // general timer to see how long animations have been playing
-        private string charaName;
         private string charaMeshName;
         private bool controlled;
         private NavmeshQuery query;
@@ -102,7 +101,6 @@ namespace AMOFGameEngine.Game
             Camera cam,
             NavmeshQuery query,
             Scene physicsScene,
-            string name, 
             string meshName, 
             ModCharacterSkinDfnXML skin,
             bool isBot,
@@ -112,7 +110,6 @@ namespace AMOFGameEngine.Game
             this.controlled = !isBot;
             itemAttached = new List<Entity>();
             this.sceneMgr = cam.SceneManager;
-            charaName = name;
             charaMeshName = meshName;
             this.physicsScene = physicsScene;
             physics = physicsScene.Physics;
@@ -138,10 +135,10 @@ namespace AMOFGameEngine.Game
         {
             try
             {
-                if (!string.IsNullOrEmpty(charaMeshName) && !string.IsNullOrEmpty(charaName))
+                if (!string.IsNullOrEmpty(charaMeshName))
                 {
                     bodyNode = sceneMgr.RootSceneNode.CreateChildSceneNode(Mogre.Vector3.UNIT_Y * CHAR_HEIGHT * initPosition.y);
-                    bodyEnt = sceneMgr.CreateEntity(charaName, charaMeshName);
+                    bodyEnt = sceneMgr.CreateEntity(Guid.NewGuid().ToString(), charaMeshName);
                     bodyNode.AttachObject(bodyEnt);
                     bodyNode.SetPosition(initPosition.x, bodyNode.Position.y, initPosition.z);
                     keyDirection = Mogre.Vector3.ZERO;

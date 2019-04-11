@@ -27,7 +27,7 @@ namespace AMOFGameEngine.Map
         private List<ITrigger> mapTriggers;
         private DotSceneLoader.DotSceneLoader mapLoader;
         private List<Character> agents;
-        private List<GameObject> staticObjects;
+        private List<GameObject> gameObjects;
         private List<ActorNode> actorNodeList;
         private ScriptLoader scriptLoader;
         private SceneManager scm;
@@ -118,6 +118,12 @@ namespace AMOFGameEngine.Map
             GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
         }
 
+        public Item Produce(string desc, string meshName, ItemType type, ItemUseAttachOption attachOptionWhenUse, ItemHaveAttachOption attachOptionWhenHave, double damage, int range, GameWorld world, int ammoCapcity, double amourNum)
+        {
+            return ItemFactory.Instance.Produce(gameObjects.Count, desc, meshName, type, attachOptionWhenUse,
+                   attachOptionWhenHave, damage, range, world, ammoCapcity, amourNum);
+        }
+
         public void CreateCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
         {
             var findTrooperList = ModData.CharacterInfos.Where(o => o.ID == characterID);
@@ -137,8 +143,7 @@ namespace AMOFGameEngine.Map
             var findSkin = findSkinList.First();
 
             Character character = new Character(
-                world, cam, agents.Count, teamId,
-                findTrooper.Name + agents.Count,
+                world, agents.Count, teamId,
                 findTrooper.MeshName,
                 position, findSkin, isBot);
             if (!isBot)
@@ -151,8 +156,20 @@ namespace AMOFGameEngine.Map
                 playerAgent = character;
             }
 
-            agents.Add(character);
+            gameObjects.Add(character);
+        }
 
+        public void CreateSceneProp(string meshName, Mogre.Vector3 position)
+        {
+            SceneProp sceneProp = new SceneProp(gameObjects.Count, world, meshName, position);
+            gameObjects.Add(sceneProp);
+        }
+
+        public void CreatePlane(string materialName, Mogre.Vector3 rkNormals, float consts, int width, int height, int xsegements, int ysegements, ushort numTexCoords, int uTile, int vTile, Mogre.Vector3 upVector, Mogre.Vector3 initPosition)
+        {
+            ScenePlane plane = new ScenePlane(gameObjects.Count, world, rkNormals, consts, materialName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
+                width, height, xsegements, ysegements, true, numTexCoords, uTile, vTile, upVector, initPosition);
+            gameObjects.Add(plane);
         }
 
         private bool Keyboard_KeyPressed(KeyEvent arg)
@@ -298,25 +315,9 @@ namespace AMOFGameEngine.Map
             if(LoadMapFinished!=null)
             {
                 agents = new List<Character>();
-                staticObjects = new List<GameObject>();
+                gameObjects = new List<GameObject>();
                 scriptLoader.Parse(System.IO.Path.GetFileNameWithoutExtension(mapName) + ".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
                 scriptLoader.Execute(world);
-
-                MeshManager.Singleton.CreatePlane("floor", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
-                    new Plane(Mogre.Vector3.UNIT_Y, 0), 100, 100, 10, 10, true, 1, 10, 10, Mogre.Vector3.UNIT_Z);
-                Entity floor = scm.CreateEntity("Floor", "floor");
-                floor.SetMaterialName("Examples/Rockwall");
-                floor.CastShadows = false;
-                SceneNode sceneNode = scm.RootSceneNode.CreateChildSceneNode();
-                sceneNode.AttachObject(floor);
-                sceneNode.SetPosition(0, -5, 0);
-                ActorDesc actorDesc = new ActorDesc();
-                actorDesc.Density = 4;
-                actorDesc.Body = null;
-                actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
-                    StaticMeshData(floor.GetMesh())));
-                Actor floorActor = physicsScene.CreateActor(actorDesc);
-                actorNodeList.Add(new ActorNode(scm.RootSceneNode, floorActor));
 
                 aimesh = mapLoader.AIMesh;
                 editor.Initization(aimesh);
@@ -335,19 +336,19 @@ namespace AMOFGameEngine.Map
 
         public void Update(float timeSinceLastFrame)
         {
-            updateAgents(timeSinceLastFrame);
+            updateGameObjects(timeSinceLastFrame);
             updateMapCamera(timeSinceLastFrame);
             updatePhysics(timeSinceLastFrame);
         }
-        private void updateAgents(double timeSinceLastFrame)
+        private void updateGameObjects(double timeSinceLastFrame)
         {
-            if (agents == null)
+            if (gameObjects == null)
             {
                 return;
             }
-            for (int i = 0; i < agents.Count; i++)
+            for (int i = 0; i < gameObjects.Count; i++)
             {
-                agents[i].Update((float)timeSinceLastFrame);
+                gameObjects[i].Update((float)timeSinceLastFrame);
             }
         }
 
@@ -391,7 +392,7 @@ namespace AMOFGameEngine.Map
 
         public List<GameObject> GetStaticObjects()
         {
-            return staticObjects;
+            return gameObjects;
         }
     }
 }

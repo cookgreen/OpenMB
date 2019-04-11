@@ -58,5 +58,10 @@ namespace AMOFGameEngine.Script.Command
         {
             CommandArgs[index] = cmdArg;
         }
+
+        protected string getParamterValue(string commandArg)
+        {
+            return commandArg.StartsWith("%") ? Context.GetLocalValue(commandArg.Substring(1)) : commandArg;
+        }
     }
 }

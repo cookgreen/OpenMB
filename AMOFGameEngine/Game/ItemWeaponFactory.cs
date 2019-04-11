@@ -21,30 +21,31 @@ namespace AMOFGameEngine.Game
         }
 
         public Item Produce(
+            int id,
             string desc, string meshName, ItemType type, 
-            double damage, int range)
+            double damage, int range, GameWorld world)
         {
             Item item = null;
             switch(type)
             {
                 case ItemType.IT_BOW:
-                    item = new Bow(desc, meshName, physicsScene, cam);
+                    item = new Bow(id, desc, meshName, world);
                     break;
                 case ItemType.IT_CROSSBOW:
-                    item = new Crossbow(desc, meshName, physicsScene, cam);
+                    item = new Crossbow(id, desc, meshName, world);
                     break;
                 case ItemType.IT_ONE_HAND_WEAPON:
-                    item = new OneHandWeapon(desc, meshName, physicsScene, cam);
+                    item = new OneHandWeapon(id, desc, meshName, world);
                     break;
                 case ItemType.IT_TWO_HAND_WEAPON:
                     break;
                 case ItemType.IT_POLEARM:
                     break;
                 case ItemType.IT_RIFLE:
-                    item = new Rifle(desc, meshName, physicsScene, cam);
+                    item = new Rifle(id, desc, meshName, world);
                     break;
                 case ItemType.IT_PISTOL:
-                    item = new Pistol(desc, meshName, physicsScene, cam);
+                    item = new Pistol(id, desc, meshName, world);
                     break;
                 case ItemType.IT_SUBMACHINE_GUN:
                     break;
