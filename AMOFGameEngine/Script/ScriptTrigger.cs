@@ -8,6 +8,8 @@ namespace AMOFGameEngine.Script
 {
     public class ScriptTrigger
     {
+        public static float TRIGGER_ONCE = -1;
+
         public float CurrentDelay { get; set; }
         public float CurrentFrozen { get; set; }
 

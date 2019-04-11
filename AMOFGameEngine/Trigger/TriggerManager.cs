@@ -74,6 +74,11 @@ namespace AMOFGameEngine.Trigger
 
             for (int i = triggerForzenQueue.Count - 1; i >= 0; i--)
             {
+                if (triggerForzenQueue[i].frozenTime == ScriptTrigger.TRIGGER_ONCE)
+                {
+                    continue;
+                }
+
                 if (triggerForzenQueue[i].frozenTime > 0)
                 {
                     triggerForzenQueue[i].CurrentFrozen--;
