@@ -14,7 +14,6 @@ namespace AMOFGameEngine.Map
         void Destroy();
         void Update(float timeSinceLastFrame);
         string GetName();
-        List<Character> GetAgents();
-        List<GameObject> GetStaticObjects();
+        List<GameObject> GetGameObjects();
     }
 }

@@ -12,7 +12,7 @@ namespace AMOFGameEngine.Script.Command
         {
             get
             {
-                throw new NotImplementedException();
+                return commandArgs;
             }
         }
 
@@ -49,7 +49,7 @@ namespace AMOFGameEngine.Script.Command
 
         public override void Execute(params object[] executeArgs)
         {
-            
+            Context.RegisterTrigger(commandArgs[0], float.Parse(commandArgs[1]), float.Parse(commandArgs[2]), SubCommands);
         }
     }
 }

@@ -12,6 +12,18 @@ namespace AMOFGameEngine.Script
     public class ScriptLoader
     {
         private ScriptFile currentFile = null;
+
+        public ScriptContext currentContext
+        {
+            get
+            {
+                if (currentFile == null)
+                {
+                    return null;
+                }
+                return currentFile.Context;
+            }
+        }
         public ScriptLoader()
         {
         }

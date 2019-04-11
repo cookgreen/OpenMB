@@ -10,6 +10,13 @@ function SpawnCharacters
 		spawn bot chara_archer 0 vect2
 	end
 end
-init_vector vect1
-call SpawnCharacters
-team 0 1 -1
+
+trigger gameTrigger 0 0
+	
+end
+
+function map_loaded
+	init_vector vect1
+	call SpawnCharacters
+	team 0 1 -1
+end

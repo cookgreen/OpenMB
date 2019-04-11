@@ -282,6 +282,7 @@
     <Compile Include="Script\ScriptLoader.cs" />
     <Compile Include="Script\Command\SpawnScriptCommand.cs" />
     <Compile Include="Script\Command\TeamScriptCommand.cs" />
+    <Compile Include="Script\ScriptTrigger.cs" />
     <Compile Include="Script\ScriptValueRegister.cs" />
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
@@ -307,9 +308,6 @@
     <Compile Include="States\MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Trigger\DummyTrigger.cs" />
-    <Compile Include="Trigger\GameTrigger.cs" />
-    <Compile Include="Trigger\ITrigger.cs" />
     <Compile Include="Trigger\TriggerManager.cs" />
     <Compile Include="Utilities\ActorNode.cs" />
     <Compile Include="Map\AIMeshEdge.cs" />

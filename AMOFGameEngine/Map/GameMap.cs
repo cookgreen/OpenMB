@@ -24,7 +24,6 @@ namespace AMOFGameEngine.Map
     public class GameMap : IMap
     {
         private string mapName;
-        private List<ITrigger> mapTriggers;
         private DotSceneLoader.DotSceneLoader mapLoader;
         private List<Character> agents;
         private List<GameObject> gameObjects;
@@ -96,7 +95,6 @@ namespace AMOFGameEngine.Map
         {
             mapName = name;
             scriptLoader = new ScriptLoader();
-            mapTriggers = new List<ITrigger>();
             actorNodeList = new List<ActorNode>();
             this.world = world;
             scm = world.SceneManager;
@@ -316,8 +314,11 @@ namespace AMOFGameEngine.Map
             {
                 agents = new List<Character>();
                 gameObjects = new List<GameObject>();
-                scriptLoader.Parse(System.IO.Path.GetFileNameWithoutExtension(mapName) + ".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+
+                scriptLoader.Parse(mapLoader.ScriptName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
                 scriptLoader.Execute(world);
+
+                TriggerManager.Instance.Init(scriptLoader.currentContext);
 
                 aimesh = mapLoader.AIMesh;
                 editor.Initization(aimesh);
@@ -382,7 +383,7 @@ namespace AMOFGameEngine.Map
 
         public Character GetAgentById(int agentId)
         {
-            return agents.ElementAt(agentId);
+            return (Character)gameObjects.ElementAt(agentId);
         }
 
         public List<Character> GetAgents()
@@ -390,7 +391,7 @@ namespace AMOFGameEngine.Map
             return agents;
         }
 
-        public List<GameObject> GetStaticObjects()
+        public List<GameObject> GetGameObjects()
         {
             return gameObjects;
         }

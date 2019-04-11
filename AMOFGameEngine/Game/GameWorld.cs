@@ -70,7 +70,7 @@ namespace AMOFGameEngine.Game
 
         public Character GetAgentById(int id)
         {
-            return GetCurrentMap().GetAgents().ElementAt(id);
+            return Map.GetAgentById(id);
         }
 
         public Item GetItemByXml(ModItemDfnXML itemXml)
@@ -118,8 +118,6 @@ namespace AMOFGameEngine.Game
             globalVarMap.Add("reg3", "0");
             globalVarMap.Add("reg4", "0");
             globalValueTable = ScriptValueRegister.Instance.GlobalValueTable;
-
-            TriggerManager.Instance.Triggers.Add(new GameTrigger(this));
 
             /*Physx Debugger*/
             if (physics.RemoteDebugger.IsConnected)
@@ -202,14 +200,20 @@ namespace AMOFGameEngine.Game
         #endregion
 
         #region API
-        public GameMap GetCurrentMap()
+        public GameMap Map
         {
-            return GameMapManager.Instance.GetCurrentMap();
+            get
+            {
+                return GameMapManager.Instance.GetCurrentMap();
+            }
         }
 
-        public string GetCurrentScene()
+        public string MapName
         {
-            return GameMapManager.Instance.GetCurrentMapName();
+            get
+            {
+                return Map.GetName();
+            }
         }
         #endregion
 

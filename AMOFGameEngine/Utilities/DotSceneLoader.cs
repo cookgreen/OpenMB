@@ -18,6 +18,7 @@ namespace DotSceneLoader
         public List<string> StaticObjects; //String
         public TerrainGroup TerrainGroup;
         public AIMesh AIMesh;
+        public string ScriptName;
         public event Action LoadSceneStarted;
         public event Action LoadSceneFinished;
 
@@ -712,6 +713,12 @@ namespace DotSceneLoader
             {
                 processAIMesh(pElement);
             }
+
+            pElement = (XmlElement)XMLRoot.SelectSingleNode("script");
+            if (pElement != null)
+            {
+                processScript(pElement);
+            }
         }
 
         protected void processUserDataReference(XmlElement XMLNode, SceneNode pNode)
@@ -747,6 +754,11 @@ namespace DotSceneLoader
                     AIMesh.AIMeshIndicsData.Add(idxData);
                 }
             }
+        }
+
+        public void processScript(XmlElement pElement)
+        {
+            ScriptName = pElement.InnerText;
         }
 
         public void Save(List<Entity> objectsData,

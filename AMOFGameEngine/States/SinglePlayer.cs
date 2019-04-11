@@ -44,7 +44,7 @@ namespace AMOFGameEngine.States
 
         public override void exit()
         {
-            modData = world.GetCurrentMap().ModData;
+            modData = world.Map.ModData;
             world.Destroy();
         }
     }

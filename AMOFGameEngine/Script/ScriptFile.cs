@@ -90,7 +90,11 @@ namespace AMOFGameEngine.Script
                     continue;
                 }
             }
-            //Execute(runArgs);
+            var callScriptCommand = new CallScriptCommand();
+            callScriptCommand.Context = Context;
+            callScriptCommand.ParentCommand = root;
+            callScriptCommand.PushArg("map_loaded", 0);
+            root.SubCommands.Add(callScriptCommand);
         }
     }
 }

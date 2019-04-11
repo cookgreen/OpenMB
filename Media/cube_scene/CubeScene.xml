@@ -20,4 +20,5 @@
 		</aimesh_index>
 	</aimesh_index_data>
   </aimesh>
+  <script>CubeScene.script</script>
 </scene>

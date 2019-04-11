@@ -10,10 +10,12 @@ namespace AMOFGameEngine.Script
     {
         private Dictionary<string, string> localValMap;
         private Dictionary<string, ScriptFunction> functions;
+        private Dictionary<string, ScriptTrigger> triggers;
         public ScriptContext()
         {
             localValMap = new Dictionary<string, string>();
             functions = new Dictionary<string, ScriptFunction>();
+            triggers = new Dictionary<string, ScriptTrigger>();
         }
 
         public string GetLocalValue(string varname)
@@ -52,6 +54,23 @@ namespace AMOFGameEngine.Script
             }
         }
 
+        public ScriptTrigger GetTrigger(string triggerName)
+        {
+            if (functions.ContainsKey(triggerName))
+            {
+                return triggers[triggerName];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Dictionary<string, ScriptTrigger> GetTriggers()
+        {
+            return triggers;
+        }
+
         public void RegisterFunction(string name, List<IScriptCommand> executeContent)
         {
             if(!functions.ContainsKey(name))
@@ -60,6 +79,23 @@ namespace AMOFGameEngine.Script
                 func.Name = name;
                 func.Content = executeContent;
                 functions.Add(name, func);
+            }
+        }
+
+        public void RegisterTrigger(
+            string name, 
+            float delayTime,
+            float frozenTime,
+            List<IScriptCommand> executeContent)
+        {
+            if (!functions.ContainsKey(name))
+            {
+                ScriptTrigger trigger = new ScriptTrigger();
+                trigger.Name = name;
+                trigger.delayTime = delayTime;
+                trigger.frozenTime = frozenTime;
+                trigger.Content = executeContent;
+                triggers.Add(name, trigger);
             }
         }
     }

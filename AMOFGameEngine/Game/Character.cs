@@ -171,7 +171,7 @@ namespace AMOFGameEngine.Game
 
         protected override void create()
         {
-            controller = new CharacterController(world.Camera, world.GetCurrentMap().NavmeshQuery, world.GetCurrentMap().PhysicsScene, meshName, skin, isBot, position);
+            controller = new CharacterController(world.Camera, world.Map.NavmeshQuery, world.Map.PhysicsScene, meshName, skin, isBot, position);
         }
 
         public bool GetControlled()
@@ -356,7 +356,7 @@ namespace AMOFGameEngine.Game
 
         public void SendMessage(MessageLevel level, MessageType type, int agentId)
         {
-            var agent = world.GetCurrentMap().GetAgentById(agentId);
+            var agent = world.Map.GetAgentById(agentId);
             if (agent != null)
             {
                 agent.ReceiveMessage(new CharacterMessage(level, type));

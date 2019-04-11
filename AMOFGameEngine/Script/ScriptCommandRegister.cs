@@ -43,7 +43,7 @@ namespace AMOFGameEngine.Script
             RegisteredCommand.Add("spawn", typeof(SpawnScriptCommand));
             RegisteredCommand.Add("store", typeof(StoreScriptCommand));
             RegisteredCommand.Add("team", typeof(TeamScriptCommand));
-            RegisteredCommand.Add("tigger", typeof(TriggerScriptCommand));
+            RegisteredCommand.Add("trigger", typeof(TriggerScriptCommand));
             RegisteredCommand.Add("vector_get_x", typeof(VectorGetXScriptCommand));
             RegisteredCommand.Add("vector_get_y", typeof(VectorGetYScriptCommand));
             RegisteredCommand.Add("vector_get_z", typeof(VectorGetZScriptCommand));
