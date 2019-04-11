@@ -15,6 +15,10 @@ trigger gameTrigger 0 0
 	
 end
 
+trigger gameTrigger2 0 0
+	
+end
+
 function map_loaded
 	init_vector vect1
 	call SpawnCharacters

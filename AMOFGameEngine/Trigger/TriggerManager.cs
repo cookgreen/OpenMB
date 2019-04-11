@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AMOFGameEngine.Script;
 using AMOFGameEngine.Script.Command;
+using System.ComponentModel;
 
 namespace AMOFGameEngine.Trigger
 {
@@ -68,8 +69,13 @@ namespace AMOFGameEngine.Trigger
 
             for (int i = triggerExecuteQueue.Count - 1; i >= 0; i--)
             {
-                triggerExecuteQueue[i].ExecuteCompleted += Trigger_ExecuteCompleted;
-                triggerExecuteQueue[i].Execute(null);
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.DoWork += (o, e) =>
+                {
+                    int index = int.Parse(e.Argument.ToString());
+                    triggerExecuteQueue[index].Execute(null);
+                };
+                worker.RunWorkerAsync(i);
             }
 
             for (int i = triggerForzenQueue.Count - 1; i >= 0; i--)
