@@ -142,6 +142,7 @@ namespace AMOFGameEngine.Map
 
             Character character = new Character(
                 world, agents.Count, teamId,
+                findTrooper.Name,
                 findTrooper.MeshName,
                 position, findSkin, isBot);
             if (!isBot)
@@ -232,6 +233,12 @@ namespace AMOFGameEngine.Map
             return true;
         }
 
+        public void RemoveGameObject(GameObject owner)
+        {
+            gameObjects.Remove(owner);
+            owner.Dispose();
+        }
+
         private bool Keyboard_KeyReleased(KeyEvent arg)
         {
             combineKey = false;
@@ -318,7 +325,7 @@ namespace AMOFGameEngine.Map
                 scriptLoader.Parse(mapLoader.ScriptName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
                 scriptLoader.Execute(world);
 
-                TriggerManager.Instance.Init(scriptLoader.currentContext);
+                TriggerManager.Instance.Init(world, scriptLoader.currentContext);
 
                 aimesh = mapLoader.AIMesh;
                 editor.Initization(aimesh);
@@ -347,7 +354,7 @@ namespace AMOFGameEngine.Map
             {
                 return;
             }
-            for (int i = 0; i < gameObjects.Count; i++)
+            for (int i = gameObjects.Count - 1; i >= 0; i--)
             {
                 gameObjects[i].Update((float)timeSinceLastFrame);
             }
@@ -379,6 +386,19 @@ namespace AMOFGameEngine.Map
         public string GetName()
         {
             return mapName;
+        }
+
+        public GameObject GetObjectById(int objectId)
+        {
+            if (gameObjects.Count == 0)
+            {
+                return null;
+            }
+            if (objectId < 0 || objectId > gameObjects.Count - 1)
+            {
+                return null;
+            }
+            return gameObjects.ElementAt(objectId);
         }
 
         public Character GetAgentById(int agentId)

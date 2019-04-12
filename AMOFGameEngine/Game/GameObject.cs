@@ -7,7 +7,7 @@ using Mogre.PhysX;
 
 namespace AMOFGameEngine.Game
 {
-    public class GameObject
+    public class GameObject : IUpdate
     {
         protected int id;
         protected MoveInfo moveInfo;
@@ -19,6 +19,7 @@ namespace AMOFGameEngine.Game
         protected GameWorld world;
         protected Physics physics;
         protected Scene physicsScene;
+        protected HealthInfo health;
         private Actor entityActor;
         public int ID
         {
@@ -88,6 +89,13 @@ namespace AMOFGameEngine.Game
                 entityActor = value;
             }
         }
+        public HealthInfo Health
+        {
+            get
+            {
+                return health;
+            }
+        }
 
         public GameObject(int id, GameWorld world)
         {
@@ -98,10 +106,13 @@ namespace AMOFGameEngine.Game
             physicsScene = world.PhysicsScene;
             physics = world.PhysicsScene.Physics;
             moveInfo = null;
+            health = new HealthInfo(this);
         }
 
 
         protected virtual void create(){ }
         public virtual void Update(float timeSinceLastFrame) { }
+
+        public virtual void Dispose() { }
     }
 }

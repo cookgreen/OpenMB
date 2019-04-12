@@ -5,6 +5,7 @@ using System.Text;
 using AMOFGameEngine.Script;
 using AMOFGameEngine.Script.Command;
 using System.ComponentModel;
+using AMOFGameEngine.Game;
 
 namespace AMOFGameEngine.Trigger
 {
@@ -15,6 +16,7 @@ namespace AMOFGameEngine.Trigger
         private List<ScriptTrigger> triggerExecuteQueue;
         private List<ScriptTrigger> triggerForzenQueue;
         private static TriggerManager instance;
+        private GameWorld world;
         public static TriggerManager Instance
         {
             get
@@ -34,8 +36,9 @@ namespace AMOFGameEngine.Trigger
             triggerForzenQueue = new List<ScriptTrigger>();
         }
 
-        public void Init(ScriptContext context)
+        public void Init(GameWorld world, ScriptContext context)
         {
+            this.world = world;
             Triggers = context.GetTriggers();
         }
         public void Update(float timeSinceLastFrame)
@@ -56,14 +59,14 @@ namespace AMOFGameEngine.Trigger
 
             for (int i = triggerDelayQueue.Count - 1; i >= 0; i--)
             {
-                if (triggerDelayQueue[i].delayTime > 0)
+                if (triggerDelayQueue[i].CurrentDelay > 0)
                 {
                     triggerDelayQueue[i].CurrentDelay--;
                 }
                 else
                 {
-                    triggerDelayQueue.Remove(triggerDelayQueue[i]);
                     triggerExecuteQueue.Add(triggerDelayQueue[i]);
+                    triggerDelayQueue.Remove(triggerDelayQueue[i]);
                 }
             }
 
@@ -73,7 +76,7 @@ namespace AMOFGameEngine.Trigger
                 worker.DoWork += (o, e) =>
                 {
                     int index = int.Parse(e.Argument.ToString());
-                    triggerExecuteQueue[index].Execute(null);
+                    triggerExecuteQueue[index].Execute(world);
                 };
                 worker.RunWorkerAsync(i);
             }

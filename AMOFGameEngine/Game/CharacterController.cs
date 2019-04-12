@@ -644,5 +644,15 @@ namespace AMOFGameEngine.Game
                 return null;
             }
         }
+
+        public void Dispose()
+        {
+            bodyNode.DetachAllObjects();
+            sceneMgr.RootSceneNode.RemoveChild(bodyNode);
+            if(controlled)
+            {
+                removeCamera();
+            }
+        }
     }
 }

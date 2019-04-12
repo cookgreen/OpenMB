@@ -27,6 +27,7 @@ namespace AMOFGameEngine.Game
     /// </summary>
     public class Character : GameObject
     {
+        private string displayName;
         private string meshName;
         private DecisionSystem brain;
         private WeaponSystem weaponSystem;
@@ -35,6 +36,8 @@ namespace AMOFGameEngine.Game
         private Activity currentActivity;
         private ModCharacterSkinDfnXML skin;
         private bool isBot;
+        private string teamId;
+        private CharacterController controller;
 
         public int Id
         {
@@ -42,13 +45,9 @@ namespace AMOFGameEngine.Game
             set { id = value; }
         }
 
-        //Name
-        private string name;
-
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get { return displayName; }
         }
 
         public string MeshName
@@ -59,21 +58,6 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        //Team, usually used to identity whether is enemy
-        private string teamId;
-
-        //Controller
-        private CharacterController controller;
-
-        //Hitpoint
-        private int hitpoint;
-
-        public int Hitpoint
-        {
-            get { return hitpoint; }
-            set { hitpoint = value; }
-        }
-
         public string TeamId
         {
             get
@@ -82,19 +66,11 @@ namespace AMOFGameEngine.Game
             }
         }
 
-        public void EquipWeapon(Item item)
-        {
-            if (equipmentSystem.EquipNewWeapon(item))
-            {
-                controller.AttachItem(item.ItemAttachOption, item);
-            }
-        }
-
         public bool IsDead
         {
             get
             {
-                return Hitpoint <= 0;
+                return Health.HP <= 0;
             }
         }
 
@@ -145,25 +121,26 @@ namespace AMOFGameEngine.Game
             GameWorld world,
             int id,
             string teamId,
+            string displayName,
             string meshName,
             Mogre.Vector3 initPosition,
             ModCharacterSkinDfnXML skin,
             bool isBot) : base(id, world)
         {
             this.world = world;
+            this.displayName = displayName;
             this.meshName = meshName;
             this.skin = skin;
             this.isBot = isBot;
             Id = id;
             position = initPosition;
-            Hitpoint = 100;
             brain = new DecisionSystem(this);
             weaponSystem = new WeaponSystem(this, new Fist(world, -1, id));
             equipmentSystem = new EquipmentSystem(this);
 
             currentActivity = new Idle();
             moveInfo = new MoveInfo(CharacterController.RUN_SPEED);
-
+            health = new HealthInfo(this);
             messageQueue = new List<CharacterMessage>();
 
             create();
@@ -246,6 +223,7 @@ namespace AMOFGameEngine.Game
             controller.update(timeSinceLastFrame);
             weaponSystem.Update(timeSinceLastFrame);
             equipmentSystem.Update(timeSinceLastFrame);
+            health.Update(timeSinceLastFrame);
             UpdateActivity(timeSinceLastFrame);
         }
 
@@ -318,6 +296,14 @@ namespace AMOFGameEngine.Game
                     tempActivity.Dequeue();
                 }
                 tempActivity = nextActivity;
+            }
+        }
+
+        public void EquipWeapon(Item item)
+        {
+            if (equipmentSystem.EquipNewWeapon(item))
+            {
+                controller.AttachItem(item.ItemAttachOption, item);
             }
         }
 
@@ -401,6 +387,11 @@ namespace AMOFGameEngine.Game
         public void UpdateCamera(float deltaTime)
         {
             controller.updateCamera(deltaTime);
+        }
+
+        public override void Dispose()
+        {
+            controller.Dispose();
         }
     }
 }

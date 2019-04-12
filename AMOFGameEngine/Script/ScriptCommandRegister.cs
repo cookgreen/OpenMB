@@ -34,6 +34,7 @@ namespace AMOFGameEngine.Script
             RegisteredCommand.Add("assign", typeof(AssignScriptCommand));
             RegisteredCommand.Add("agent_equip_item", typeof(AgentEquipItemScriptCommand));
             RegisteredCommand.Add("call", typeof(CallScriptCommand));
+            RegisteredCommand.Add("change_hitpoint", typeof(ChangeHitpointScriptCommand));
             RegisteredCommand.Add("condition", typeof(TriggerConditionScriptCommand));
             RegisteredCommand.Add("end", typeof(EndScriptCommand));
             RegisteredCommand.Add("execute", typeof(TriggerExecuteSrciptCommand));

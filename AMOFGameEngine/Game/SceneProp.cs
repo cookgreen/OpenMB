@@ -14,6 +14,9 @@ namespace AMOFGameEngine.Game
         {
             this.meshName = meshName;
             position = initPosition;
+
+            health = new HealthInfo(this, int.MaxValue, false);
+
             create();
         }
 

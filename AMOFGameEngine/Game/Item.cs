@@ -150,6 +150,9 @@ namespace AMOFGameEngine.Game
             this.itemType = itemType;
             this.itemAttachOptionWhenUse = itemAttachOptionWhenUse;
             this.itemAttachOptionWhenHave = itemAttachOptionWhenHave;
+
+            health = new HealthInfo(this, int.MaxValue, false);
+
             create();
         }
 

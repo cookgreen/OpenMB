@@ -11,12 +11,8 @@ function SpawnCharacters
 	end
 end
 
-trigger gameTrigger 0 0
-	
-end
-
-trigger gameTrigger2 0 0
-	
+trigger gameTrigger 1 0
+	change_hitpoint 0 0 -1
 end
 
 function map_loaded

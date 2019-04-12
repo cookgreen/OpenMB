@@ -68,6 +68,11 @@ namespace AMOFGameEngine.Game
             }
         }
 
+        public GameObject GetObjectById(int id)
+        {
+            return Map.GetObjectById(id);
+        }
+
         public Character GetAgentById(int id)
         {
             return Map.GetAgentById(id);
@@ -250,6 +255,11 @@ namespace AMOFGameEngine.Game
             GameManager.Instance.trayMgr.destroyAllWidgets();
             pbProgressBar = GameManager.Instance.trayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
             pbProgressBar.setComment(text);
+        }
+
+        public void RemoveGameObject(GameObject owner)
+        {
+            Map.RemoveGameObject(owner);
         }
 
         private bool FrameRenderingQueued(FrameEvent evt)

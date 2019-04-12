@@ -184,6 +184,7 @@
     <Compile Include="Game\CharacterMessage.cs" />
     <Compile Include="Game\DecisionSystem.cs" />
     <Compile Include="Game\EquipmentSystem.cs" />
+    <Compile Include="Game\HealthInfo.cs" />
     <Compile Include="Game\ItemAmmoFactory.cs" />
     <Compile Include="Game\ItemArmourFactory.cs" />
     <Compile Include="Game\ItemFactory.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="Script\Command\AgentEquipItemScriptCommand.cs" />
     <Compile Include="Script\Command\CallScriptCommand.cs" />
     <Compile Include="Script\Command\AssignScriptCommand.cs" />
+    <Compile Include="Script\Command\ChangeHitpointScriptCommand.cs" />
     <Compile Include="Script\Command\EndScriptCommand.cs" />
     <Compile Include="Script\Command\FunctionScriptCommand.cs" />
     <Compile Include="Script\Command\InitVectorScriptCommand.cs" />
