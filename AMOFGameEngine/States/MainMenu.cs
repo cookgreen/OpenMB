@@ -27,7 +27,7 @@ namespace AMOFGameEngine.States
         {
             modData = e;
             m_bQuit = false;
-
+            
             sceneMgr = GameManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
             sceneMgr.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f); ;
  
@@ -61,6 +61,7 @@ namespace AMOFGameEngine.States
         }
         public override void exit()
         {
+            sceneMgr.DestroyCamera(camera);
             GameManager.Instance.trayMgr.destroyAllWidgets();
             GameManager.Instance.root.DestroySceneManager(sceneMgr);
             ModManager.Instance.UnloadAllMods();

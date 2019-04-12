@@ -9,6 +9,8 @@ namespace AMOFGameEngine.Screen
 {
     public class Screen : IScreen
     {
+        protected bool isExiting;
+
         public virtual bool IsVisible
         {
             get
@@ -34,7 +36,14 @@ namespace AMOFGameEngine.Screen
 
         public virtual void Exit()
         {
-            if(OnScreenExit!=null)
+            if (isExiting)
+            {
+                return;
+            }
+
+            isExiting = true;
+
+            if (OnScreenExit!=null)
             {
                 OnScreenExit();
             }

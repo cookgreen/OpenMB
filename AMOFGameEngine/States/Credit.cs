@@ -64,9 +64,7 @@ namespace AMOFGameEngine.States
 
         public override void exit()
         {
-            sceneMgr.DestroyCamera(camera);
             GameManager.Instance.root.DestroySceneManager(sceneMgr);
-            ScreenManager.Instance.Dispose();
             GameManager.Instance.mouse.MousePressed -= MousePressed;
         }
     }

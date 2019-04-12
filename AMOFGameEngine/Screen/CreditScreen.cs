@@ -37,7 +37,7 @@ namespace AMOFGameEngine.Screen
             strCreditLst.Add(creditBuilder.ToString());
 
             creditBuilder.Clear();
-            creditBuilder.AppendLine("Deign: Cook Green");
+            creditBuilder.AppendLine("Design: Cook Green");
             creditBuilder.AppendLine("");
             creditBuilder.AppendLine("Programming: Cook Green");
             creditBuilder.AppendLine("");
@@ -102,7 +102,7 @@ namespace AMOFGameEngine.Screen
 
         public override void Update(float timeSinceLastFrame)
         {
-            if (time >= 0 && time <= 2000)
+            if (time >= 0 && time <= 50)
             {
                 if (!elementNames.Contains("lbCredit0"))
                 {
@@ -124,7 +124,7 @@ namespace AMOFGameEngine.Screen
                         float.Parse(alpha.ToString("0.00")));
                 }
             }
-            else if (time > 2000 && time <= 4000)
+            else if (time > 50 && time <= 100)
             {
                 if (elementNames.Contains("lbCredit0"))
                 {
@@ -152,7 +152,7 @@ namespace AMOFGameEngine.Screen
                         float.Parse(alpha.ToString("0.00")));
                 }
             }
-            else if (time > 4000 && time <= 12000)
+            else if (time > 100 && time <= 900)
             {
                 if (elementNames.Contains("lbCredit1"))
                 {
@@ -170,7 +170,7 @@ namespace AMOFGameEngine.Screen
                 }
                 if (elements[0].getOverlayElement().Top > -1.0f)
                 {
-                    elements[0].getOverlayElement().Top -= 0.00025f;
+                    elements[0].getOverlayElement().Top -= 0.0025f;
                 }
             }
             else
@@ -185,12 +185,17 @@ namespace AMOFGameEngine.Screen
 
         public override void Exit()
         {
-            GameManager.Instance.trayMgr.destroyAllWidgets();
-            time = 0;
-            elements.Clear();
-            if(OnScreenExit!=null)
+            if (!isExiting)
             {
-                OnScreenExit();
+                base.Exit();
+
+                GameManager.Instance.trayMgr.destroyAllWidgets();
+                time = 0;
+                elements.Clear();
+                if (OnScreenExit != null)
+                {
+                    OnScreenExit();
+                }
             }
         }
 
