@@ -26,6 +26,21 @@ namespace AMOFGameEngine.Game
             set { clothes = value; }
         }
 
+        private Item rideDrive;
+
+        public Item RideDrive
+        {
+            get
+            {
+                return rideDrive;
+            }
+
+            set
+            {
+                rideDrive = value;
+            }
+        }
+
         //Backpack
         private Inventory backpack;
 
@@ -119,6 +134,15 @@ namespace AMOFGameEngine.Game
             else
             {
                 AddItemToBackpack(item);
+            }
+        }
+
+        public void Mount(Item target)
+        {
+            if (target.ItemType == ItemType.IT_RIDEDRIVE)
+            {
+                rideDrive = target;
+                owner.AttchItem(target);
             }
         }
 

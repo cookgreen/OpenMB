@@ -37,6 +37,7 @@ namespace AMOFGameEngine.Game
         IT_BOLT,                //Bolt
         IT_RPG_MISSILE,         //Missile for RPG Launcher
         IT_BULLET,              //Bullet for Gun
+        IT_RIDEDRIVE,           //Anything that can ride or drive like horse or vehicle
 
         IT_WEAPON = IT_ONE_HAND_WEAPON | IT_TWO_HAND_WEAPON | IT_POLEARM | IT_BOW | IT_CROSSBOW | IT_THROWN | IT_RIFLE | IT_PISTOL | IT_SUBMACHINE_GUN | IT_LIGHT_MACHINE_GUN | IT_LAUNCHER,
         IT_ARMOUR = IT_HEAD_ARMOUR | IT_BODY_ARMOUR | IT_FOOT_ARMOUR | IT_HAND_ARMOUR
@@ -51,6 +52,7 @@ namespace AMOFGameEngine.Game
         IAO_RIGHT_HAND,//Attach to the right hand
         IAO_LEFT_FOOT,//Attach to the left foot
         IAO_RIGHT_FOOT,//Attach to the right foot
+        IAO_SPIN,//Attach to the spin bone
         IAO_BODY,//Use this for body amour
         IAO_HEAD,//Use this for head amour
     }
@@ -211,6 +213,16 @@ namespace AMOFGameEngine.Game
         /// Play animation when reload the item
         /// </summary>
         public virtual void OnItemReloadAnimation()
+        {
+
+        }
+
+        public virtual void injectKeyDown(object arg)
+        {
+
+        }
+
+        public virtual void injectKeyUp(MOIS.KeyEvent evt)
         {
 
         }

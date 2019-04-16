@@ -146,6 +146,11 @@ namespace AMOFGameEngine.Game
             create();
         }
 
+        public void AttchItem(Item target)
+        {
+            controller.AttachItem(ItemUseAttachOption.IAO_SPIN, target);
+        }
+
         protected override void create()
         {
             controller = new CharacterController(world.Camera, world.Map.NavmeshQuery, world.Map.PhysicsScene, meshName, skin, isBot, position);
@@ -356,12 +361,26 @@ namespace AMOFGameEngine.Game
 
         public void InjectKeyPressed(KeyEvent arg)
         {
-            controller.injectKeyDown(arg);
+            if (equipmentSystem.RideDrive != null)
+            {
+                equipmentSystem.RideDrive.injectKeyDown(arg);
+            }
+            else
+            {
+                controller.injectKeyDown(arg);
+            }
         }
 
         public void InjectKeyUp(KeyEvent evt)
         {
-            controller.injectKeyUp(evt);
+            if (equipmentSystem.RideDrive != null)
+            {
+                equipmentSystem.RideDrive.injectKeyUp(evt);
+            }
+            else
+            {
+                controller.injectKeyUp(evt);
+            }
         }
 
         public string GetIdleTopAnim()
