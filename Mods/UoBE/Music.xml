@@ -1,0 +1,8 @@
+<Tracks>
+  <Track>
+    <Id>game_title</Id>
+    <File>vivaldi_winter_allegro.ogg</File>
+    <Type>EngineTrack</Type>
+    <PlayType>MainMenu</PlayType>
+  </Track>
+</Tracks>

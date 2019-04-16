@@ -1,0 +1,28 @@
+<Module>
+  <Info>
+    <Name>Uprising of Brelan Empire</Name>
+    <Description>Uprising of Brelan Empire</Description>
+    <Version>1.0</Version>
+    <Thumb>Sample_Thumb.png</Thumb>
+  </Info>
+  <Data>
+    <Characters>Characters.xml</Characters>
+    <Music>Music.xml</Music>
+    <Sound>Sound.xml</Sound>
+    <Items>Items.xml</Items>
+    <Sides>Side.xml</Sides>
+    <Skin>Skin.xml</Skin>
+  </Data>
+  <Media>
+    <MediaSection Type="FileSystem">Media|Mods/UoBE/Materials</MediaSection>
+    <MediaSection Type="FileSystem">Media|Mods/UoBE/Models</MediaSection>
+    <MediaSection Type="FileSystem">Media|Mods/UoBE/Overlay</MediaSection>
+    <MediaSection Type="FileSystem">Media|Mods/UoBE/Textures</MediaSection>
+  </Media>
+  <Scripts>
+	<ScriptDir>Scripts</ScriptDir>
+  </Scripts>
+  <Maps>
+	<MapDir>Scenes</MapDir>
+  </Maps>
+</Module>

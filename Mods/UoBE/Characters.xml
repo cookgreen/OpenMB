@@ -1,0 +1,52 @@
+<Characters>
+  <Character>
+    <ID>chara_player</ID>
+    <Name>Player</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+    <side>side_player</side>
+	<SkinID>skn_sinbad</SkinID>
+    <Equips>
+      <Equip>itm_sword</Equip>
+    </Equips>
+  </Character>
+  <Character>
+    <ID>chara_warrior</ID>
+    <Name>Empire Warrior</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+	<SkinID>skn_sinbad</SkinID>
+	<side>side_empire</side>
+    <Equips />
+  </Character>
+  <Character>
+    <ID>chara_cavalry</ID>
+    <Name>Empire Cavalry</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+	<SkinID>skn_sinbad</SkinID>
+	<side>side_empire</side>
+    <Equips />
+  </Character>
+  <Character>
+    <ID>chara_dragon_knight</ID>
+    <Name>Empire Dragon Knight</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+	<SkinID>skn_sinbad</SkinID>
+	<side>side_empire</side>
+    <Equips />
+  </Character>
+  <Character>
+    <ID>chara_moon_rifleman</ID>
+    <Name>Moon Rifleman</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+	<SkinID>skn_sinbad</SkinID>
+	<side>side_moon</side>
+    <Equips />
+  </Character>
+  <Character>
+    <ID>chara_moon_robot</ID>
+    <Name>Moon Robot</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+	<SkinID>skn_sinbad</SkinID>
+	<side>side_moon</side>
+    <Equips />
+  </Character>
+</Characters>
