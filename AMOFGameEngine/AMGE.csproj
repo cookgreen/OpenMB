@@ -258,6 +258,7 @@
     <Compile Include="Script\Command\InitVectorScriptCommand.cs" />
     <Compile Include="Script\Command\IScriptCommand.cs" />
     <Compile Include="Script\Command\LoopScriptCommand.cs" />
+    <Compile Include="Script\Command\NamespaceScriptCommand.cs" />
     <Compile Include="Script\Command\RemoveLightScriptCommand.cs" />
     <Compile Include="Script\Command\RootScriptCommand.cs" />
     <Compile Include="Script\Command\ScriptCommand.cs" />
@@ -282,6 +283,7 @@
     <Compile Include="Script\ScriptLoader.cs" />
     <Compile Include="Script\Command\SpawnScriptCommand.cs" />
     <Compile Include="Script\Command\TeamScriptCommand.cs" />
+    <Compile Include="Script\ScriptPreprocessor.cs" />
     <Compile Include="Script\ScriptTrigger.cs" />
     <Compile Include="Script\ScriptValueRegister.cs" />
     <Compile Include="Sound\GameSound.cs" />

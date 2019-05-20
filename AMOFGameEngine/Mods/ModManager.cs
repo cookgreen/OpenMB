@@ -11,6 +11,8 @@ using AMOFGameEngine.Configure;
 
 namespace AMOFGameEngine.Mods
 {
+    using Mogre;
+    using Script;
     using Mods = Dictionary<string, ModManifest>;
 
     public class ModManager
@@ -172,14 +174,17 @@ namespace AMOFGameEngine.Mods
                         if (installedMods.ContainsKey(manifest.MetaData.Name))
                             continue;
                         installedMods.Add(manifest.MetaData.Name, manifest);
-                        Mogre.ResourceGroupManager.Singleton.AddResourceLocation(
-                            string.Format("{0}\\Media\\Textures\\", dir.FullName), "FileSystem", "General");
-                        Mogre.ResourceGroupManager.Singleton.AddResourceLocation(
-                            string.Format("{0}\\Media\\Models\\", dir.FullName), "FileSystem", "General");
-                        Mogre.ResourceGroupManager.Singleton.AddResourceLocation(
-                            string.Format("{0}\\Media\\Materials\\", dir.FullName), "FileSystem", "General");
-                        Mogre.ResourceGroupManager.Singleton.AddResourceLocation(
-                            string.Format("{0}\\Media\\Program\\", dir.FullName), "FileSystem", "General");
+                        ResourceGroupManager.Singleton.AddResourceLocation(
+                            string.Format("{0}\\Media\\Textures\\", dir.FullName), "FileSystem", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                        ResourceGroupManager.Singleton.AddResourceLocation(
+                            string.Format("{0}\\Media\\Models\\", dir.FullName), "FileSystem", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                        ResourceGroupManager.Singleton.AddResourceLocation(
+                            string.Format("{0}\\Media\\Materials\\", dir.FullName), "FileSystem", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                        ResourceGroupManager.Singleton.AddResourceLocation(
+                            string.Format("{0}\\Media\\Program\\", dir.FullName), "FileSystem", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+
+                        StringVector resources = ResourceGroupManager.Singleton.FindResourceNames(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, "*.script");
+                        ScriptPreprocessor.Instance.Process(resources.ToList());
                     }
                 }
             }

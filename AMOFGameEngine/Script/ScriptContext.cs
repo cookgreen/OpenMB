@@ -11,8 +11,17 @@ namespace AMOFGameEngine.Script
         private Dictionary<string, string> localValMap;
         private Dictionary<string, ScriptFunction> functions;
         private Dictionary<string, ScriptTrigger> triggers;
-        public ScriptContext()
+        private ScriptFile file;
+        public ScriptFile File
         {
+            get
+            {
+                return file;
+            }
+        }
+        public ScriptContext(ScriptFile file)
+        {
+            this.file = file;
             localValMap = new Dictionary<string, string>();
             functions = new Dictionary<string, ScriptFunction>();
             triggers = new Dictionary<string, ScriptTrigger>();

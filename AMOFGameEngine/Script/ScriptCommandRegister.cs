@@ -41,6 +41,7 @@ namespace AMOFGameEngine.Script
             RegisteredCommand.Add("function", typeof(FunctionScriptCommand));
             RegisteredCommand.Add("init_vector", typeof(InitVectorScriptCommand));
             RegisteredCommand.Add("loop", typeof(LoopScriptCommand));
+            RegisteredCommand.Add("namespace", typeof(NamespaceScriptCommand));
             RegisteredCommand.Add("spawn", typeof(SpawnScriptCommand));
             RegisteredCommand.Add("store", typeof(StoreScriptCommand));
             RegisteredCommand.Add("team", typeof(TeamScriptCommand));

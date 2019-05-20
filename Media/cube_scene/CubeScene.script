@@ -1,3 +1,5 @@
+namespace engine.core
+
 function SpawnCharacters
 	loop 0 30 10
 		init_vector vect1

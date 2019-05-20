@@ -36,6 +36,16 @@ namespace AMOFGameEngine.Script
             currentFile.Parse(groupName);
         }
 
+        public ScriptCommand ParseOneLine(string scriptFileName, out ScriptFile file, string groupName = null, int lineNo = 1)
+        {
+            currentFile = new ScriptFile();
+            currentFile.FileName = scriptFileName;
+            if (!string.IsNullOrEmpty(groupName))
+                groupName = ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME;
+            file = currentFile;
+            return (ScriptCommand)currentFile.ParseOneLine(groupName, lineNo);
+        }
+
         public void Execute(params object[] runArgs)
         {
             if (currentFile != null)
