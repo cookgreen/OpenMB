@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{70878EFC-AF3F-4792-AB2F-CE47EBCA487D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenMB</RootNamespace>
+    <AssemblyName>game</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>OgreHead.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>OpenMB.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>..\AMOFGameEngine.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>..\AMOFGameEngine.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AviFile">
+      <HintPath>..\Dependencies\AviFile.dll</HintPath>
+    </Reference>
+    <Reference Include="cai-nav">
+      <HintPath>..\Dependencies\cai-nav.dll</HintPath>
+    </Reference>
+    <Reference Include="cai-nav-rcn">
+      <HintPath>..\Dependencies\cai-nav-rcn.dll</HintPath>
+    </Reference>
+    <Reference Include="cai-nmbuild">
+      <HintPath>..\Dependencies\cai-nmbuild.dll</HintPath>
+    </Reference>
+    <Reference Include="cai-nmgen">
+      <HintPath>..\Dependencies\cai-nmgen.dll</HintPath>
+    </Reference>
+    <Reference Include="cai-nmgen-rcn">
+      <HintPath>..\Dependencies\cai-nmgen-rcn.dll</HintPath>
+    </Reference>
+    <Reference Include="cai-util">
+      <HintPath>..\Dependencies\cai-util.dll</HintPath>
+    </Reference>
+    <Reference Include="eyecm.PhysX, Version=0.1.3788.29655, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\eyecm.PhysX.dll</HintPath>
+    </Reference>
+    <Reference Include="Mogre">
+      <HintPath>..\Dependencies\Mogre.dll</HintPath>
+    </Reference>
+    <Reference Include="MogreFreeSL">
+      <HintPath>..\Dependencies\MogreFreeSL.dll</HintPath>
+    </Reference>
+    <Reference Include="Mogre_Procedural.MogreBites.Addons, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\Mogre_Procedural.MogreBites.Addons.dll</HintPath>
+    </Reference>
+    <Reference Include="MOIS">
+      <HintPath>..\Dependencies\MOIS.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio">
+      <HintPath>..\Dependencies\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.Vorbis">
+      <HintPath>..\Dependencies\NAudio.Vorbis.dll</HintPath>
+    </Reference>
+    <Reference Include="NVorbis">
+      <HintPath>..\Dependencies\NVorbis.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Game\CameraHandler.cs" />
+    <Compile Include="Game\Action\Activity.cs" />
+    <Compile Include="Configure\ConfigureSystem.cs" />
+    <Compile Include="Configure\IConfigFile.cs" />
+    <Compile Include="Configure\IConfigParser.cs" />
+    <Compile Include="Core\Argument.cs" />
+    <Compile Include="Core\Game.cs" />
+    <Compile Include="Core\GameVersion.cs" />
+    <Compile Include="Forms\Controller\frmConfigureController.cs" />
+    <Compile Include="Forms\Model\AudioConfigure.cs" />
+    <Compile Include="Forms\Model\Configure.cs" />
+    <Compile Include="Forms\Model\GameConfigure.cs" />
+    <Compile Include="Forms\Model\GraphicConfigure.cs" />
+    <Compile Include="Game\Action\Attack.cs" />
+    <Compile Include="Game\Action\Follow.cs" />
+    <Compile Include="Game\Action\Idle.cs" />
+    <Compile Include="Game\CharacterAnimation.cs" />
+    <Compile Include="Game\CharacterMessage.cs" />
+    <Compile Include="Game\DecisionSystem.cs" />
+    <Compile Include="Game\EquipmentSystem.cs" />
+    <Compile Include="Game\HealthInfo.cs" />
+    <Compile Include="Game\ItemAmmoFactory.cs" />
+    <Compile Include="Game\ItemArmourFactory.cs" />
+    <Compile Include="Game\ItemFactory.cs" />
+    <Compile Include="Game\Items\Armour.cs" />
+    <Compile Include="Game\Items\Arrow.cs" />
+    <Compile Include="Game\Items\Bolt.cs" />
+    <Compile Include="Game\Items\Bow.cs" />
+    <Compile Include="Game\Character.cs" />
+    <Compile Include="Game\CharacterController.cs" />
+    <Compile Include="Game\Items\Bullet.cs" />
+    <Compile Include="Game\Items\Cartridge.cs" />
+    <Compile Include="Game\Items\Crossbow.cs" />
+    <Compile Include="Game\Items\Fist.cs" />
+    <Compile Include="Game\GameObject.cs" />
+    <Compile Include="Game\GameWorld.cs" />
+    <Compile Include="Game\Inventory.cs" />
+    <Compile Include="Game\Item.cs" />
+    <Compile Include="Game\Items\Pistol.cs" />
+    <Compile Include="Game\Items\Rifle.cs" />
+    <Compile Include="Game\ItemWeaponFactory.cs" />
+    <Compile Include="Core\OutputManager.cs" />
+    <Compile Include="Game\IUpdate.cs" />
+    <Compile Include="Game\Action\Move.cs" />
+    <Compile Include="Game\Items\OneHandWeapon.cs" />
+    <Compile Include="Game\ScenePlane.cs" />
+    <Compile Include="Game\SceneProp.cs" />
+    <Compile Include="Game\WeaponSystem.cs" />
+    <Compile Include="LogMessage\EngineLog.cs" />
+    <Compile Include="LogMessage\EngineLogManager.cs" />
+    <Compile Include="Map\AIMeshVertex.cs" />
+    <Compile Include="Map\GameMapEditor.cs" />
+    <Compile Include="Game\MoveInfo.cs" />
+    <Compile Include="Mods\XML\ModSkinDfnXml.cs" />
+    <Compile Include="Screen\GameEditorScreen.cs" />
+    <Compile Include="Screen\Screen.cs" />
+    <Compile Include="Map\AIMesh.cs" />
+    <Compile Include="Map\GameMap.cs" />
+    <Compile Include="Map\GameMapManager.cs" />
+    <Compile Include="Map\IMap.cs" />
+    <Compile Include="Mods\XML\ModSoundsDfn.cs" />
+    <Compile Include="Network\NetworkManager.cs" />
+    <Compile Include="Mods\ModDataInfo.cs" />
+    <Compile Include="Mods\ModManager.cs" />
+    <Compile Include="Mods\ModManifest.cs" />
+    <Compile Include="Mods\ModXmlLoader.cs" />
+    <Compile Include="Mods\XML\ModCharacterDfnXML.cs" />
+    <Compile Include="Mods\XML\ModDataXML.cs" />
+    <Compile Include="Mods\XML\ModInfoXML.cs" />
+    <Compile Include="Mods\XML\ModItemsDfnXML.cs" />
+    <Compile Include="Mods\XML\ModMapDfnXML.cs" />
+    <Compile Include="Mods\XML\ModTracksDfnXML.cs" />
+    <Compile Include="Mods\XML\ModSideDfnXML.cs" />
+    <Compile Include="Mods\XML\ModXML.cs" />
+    <Compile Include="Network\GameClient.cs" />
+    <Compile Include="Network\GameServer.cs" />
+    <Compile Include="Network\Player.cs" />
+    <Compile Include="Network\ServerMetaData.cs" />
+    <Compile Include="Screen\CreditScreen.cs" />
+    <Compile Include="Screen\DummyScreen.cs" />
+    <Compile Include="Screen\GameConsoleScreen.cs" />
+    <Compile Include="Screen\InventoryScreen.cs" />
+    <Compile Include="Screen\IScreen.cs" />
+    <Compile Include="Screen\ScreenManager.cs" />
+    <Compile Include="Script\Command\AddLightScriptCommand.cs" />
+    <Compile Include="Script\Command\AgentEquipItemScriptCommand.cs" />
+    <Compile Include="Script\Command\CallScriptCommand.cs" />
+    <Compile Include="Script\Command\AssignScriptCommand.cs" />
+    <Compile Include="Script\Command\ChangeHitpointScriptCommand.cs" />
+    <Compile Include="Script\Command\EndScriptCommand.cs" />
+    <Compile Include="Script\Command\FunctionScriptCommand.cs" />
+    <Compile Include="Script\Command\InitVectorScriptCommand.cs" />
+    <Compile Include="Script\Command\IScriptCommand.cs" />
+    <Compile Include="Script\Command\LoopScriptCommand.cs" />
+    <Compile Include="Script\Command\NamespaceScriptCommand.cs" />
+    <Compile Include="Script\Command\RemoveLightScriptCommand.cs" />
+    <Compile Include="Script\Command\RootScriptCommand.cs" />
+    <Compile Include="Script\Command\ScriptCommand.cs" />
+    <Compile Include="Script\Command\SpawnPlaneScriptCommand.cs" />
+    <Compile Include="Script\Command\SpawnScenePropScriptCommand.cs" />
+    <Compile Include="Script\Command\StoreScriptCommand.cs" />
+    <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />
+    <Compile Include="Script\Command\TriggerExecuteSrciptCommand.cs" />
+    <Compile Include="Script\Command\TriggerScriptCommand.cs" />
+    <Compile Include="Script\Command\VectorGetXScriptCommand.cs" />
+    <Compile Include="Script\Command\VectorGetYScriptCommand.cs" />
+    <Compile Include="Script\Command\VectorGetZScriptCommand.cs" />
+    <Compile Include="Script\Command\VectorSetXScriptCommand.cs" />
+    <Compile Include="Script\Command\VectorSetYScriptCommand.cs" />
+    <Compile Include="Script\Command\VectorSetZScriptCommand.cs" />
+    <Compile Include="Script\ScriptCommandRegister.cs" />
+    <Compile Include="Script\ScriptContext.cs" />
+    <Compile Include="Script\ScriptFile.cs" />
+    <Compile Include="Script\ScriptFunction.cs" />
+    <Compile Include="Script\ScriptLinkTable.cs" />
+    <Compile Include="Script\ScriptLinkTableNode.cs" />
+    <Compile Include="Script\ScriptLoader.cs" />
+    <Compile Include="Script\Command\SpawnScriptCommand.cs" />
+    <Compile Include="Script\Command\TeamScriptCommand.cs" />
+    <Compile Include="Script\ScriptPreprocessor.cs" />
+    <Compile Include="Script\ScriptTrigger.cs" />
+    <Compile Include="Script\ScriptValueRegister.cs" />
+    <Compile Include="Sound\GameSound.cs" />
+    <Compile Include="Sound\SoundManager.cs" />
+    <Compile Include="Forms\frmConfigure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmConfigure.Designer.cs">
+      <DependentUpon>frmConfigure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Localization\LocateSystem.cs" />
+    <Compile Include="States\Credit.cs" />
+    <Compile Include="States\Loading.cs" />
+    <Compile Include="States\SinglePlayer.cs" />
+    <Compile Include="States\Multiplayer.cs" />
+    <Compile Include="Core\GameManager.cs" />
+    <Compile Include="Mods\ModData.cs" />
+    <Compile Include="Mods\ModBaseInfo.cs" />
+    <Compile Include="Network\SendData.cs" />
+    <Compile Include="States\AppState.cs" />
+    <Compile Include="States\AppStateManager.cs" />
+    <Compile Include="States\ModChooser.cs" />
+    <Compile Include="Core\GameApp.cs" />
+    <Compile Include="States\MainMenu.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Trigger\TriggerManager.cs" />
+    <Compile Include="Utilities\ActorNode.cs" />
+    <Compile Include="Map\AIMeshEdge.cs" />
+    <Compile Include="Map\AIMeshIndexData.cs" />
+    <Compile Include="Utilities\CollisionTools.cs" />
+    <Compile Include="Configure\IniConfigFile.cs" />
+    <Compile Include="Configure\IniConfigFileParser.cs" />
+    <Compile Include="Utilities\Helper.cs" />
+    <Compile Include="Utilities\MeshToNavmesh.cs" />
+    <Compile Include="Utilities\PhysxExpansion.cs" />
+    <Compile Include="Utilities\DotSceneLoader.cs" />
+    <Compile Include="Utilities\OgreConfigFileAdapter.cs" />
+    <Compile Include="Localization\LocateUCSFile.cs" />
+    <Compile Include="Utilities\OgreConfigNode.cs" />
+    <Compile Include="States\Pause.cs" />
+    <Compile Include="Utilities\StaticMesh.cs" />
+    <Compile Include="Video\VideoTexture.cs" />
+    <Compile Include="Video\VideoTextureManager.cs" />
+    <Compile Include="Widgets\Control.cs" />
+    <Compile Include="Widgets\InputBox.cs" />
+    <Compile Include="Widgets\GameTrayManager.cs" />
+    <Compile Include="Widgets\ListView.cs" />
+    <Compile Include="Widgets\Panel.cs" />
+    <Compile Include="Widgets\SdkTrayGUI.cs" />
+    <Compile Include="Widgets\StaticText.cs" />
+    <EmbeddedResource Include="Forms\frmConfigure.resx">
+      <DependentUpon>frmConfigure.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="OgreHead.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
