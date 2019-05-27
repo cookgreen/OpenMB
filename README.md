@@ -1,8 +1,8 @@
-# AMGE
+# OpenMB
 ![Build](https://travis-ci.org/cookgreen/AMGE.svg?branch=dev) ![License](https://img.shields.io/badge/License-GPL-blue.svg)
 
 ## Introduction:
-Open Source Role-Play Game engine based on MOGRE(Managed Ogre)
+Open Source Mount&Blade Series
 
 ## Feature:
 * Individual Script System
