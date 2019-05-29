@@ -360,7 +360,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="FileFormats\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="OgreHead.ico" />
   </ItemGroup>
