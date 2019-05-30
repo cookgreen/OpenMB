@@ -169,7 +169,7 @@
     <Compile Include="FileFormats\MBBrfMesh.cs" />
     <Compile Include="FileFormats\MBBrfShader.cs" />
     <Compile Include="FileFormats\MBBrfTexture.cs" />
-    <Compile Include="FileFormats\MBUtilcs.cs" />
+    <Compile Include="FileFormats\MBUtil.cs" />
     <Compile Include="FileFormats\Point3F.cs" />
     <Compile Include="Game\CameraHandler.cs" />
     <Compile Include="Game\Action\Activity.cs" />
