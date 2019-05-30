@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Mogre;
+using OpenMB.Connector;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -66,9 +68,23 @@ namespace OpenMB.FileFormats
             textures = new List<MBBrfTexture>();
             shaders = new List<MBBrfShader>();
             materials = new List<MBBrfMaterial>();
+
+            Load();
         }
 
-        public void Load()
+        public MBBrf(string name, DataStreamPtr stream)
+        {
+            this.name = name;
+            this.path = "OGRE_RESOURCE_PATH";
+            meshes = new List<MBBrfMesh>();
+            textures = new List<MBBrfTexture>();
+            shaders = new List<MBBrfShader>();
+            materials = new List<MBBrfMaterial>();
+
+            Load(stream);
+        }
+
+        private void Load()
         {
             using (BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open, FileAccess.Read)))
             {
@@ -125,6 +141,65 @@ namespace OpenMB.FileFormats
                             material.Load(reader);
                             materials.Add(material);
                         }
+                    }
+                }
+            }
+        }
+
+        private unsafe void Load(DataStreamPtr reader)
+        {
+            globalVersion = 0;
+            while (true)
+            {
+                string str = MBOgreUtil.LoadString(reader);
+                if (str == "end" || reader.Eof())
+                {
+                    break;
+                }
+                else if (str == "rfver ")
+                {
+                    version = MBOgreUtil.LoadInt32(reader);
+                    globalVersion = version;
+                }
+                else if (str == "mesh")
+                {
+                    meshNum = MBOgreUtil.LoadUInt32(reader);
+                    for (int i = 0; i < meshNum; i++)
+                    {
+                        MBBrfMesh brfMesh = new MBBrfMesh();
+                        brfMesh.globalVersion = globalVersion;
+                        brfMesh.Load(reader);
+                        meshes.Add(brfMesh);
+                    }
+                }
+                else if (str == "texture")
+                {
+                    textureNum = MBOgreUtil.LoadUInt32(reader);
+                    for (int i = 0; i < textureNum; i++)
+                    {
+                        MBBrfTexture texture = new MBBrfTexture();
+                        texture.Load(reader);
+                        textures.Add(texture);
+                    }
+                }
+                else if (str == "shader")
+                {
+                    shaderNum = MBOgreUtil.LoadUInt32(reader);
+                    for (int i = 0; i < shaderNum; i++)
+                    {
+                        MBBrfShader shader = new MBBrfShader();
+                        shader.Load(reader);
+                        shaders.Add(shader);
+                    }
+                }
+                else if (str == "material")
+                {
+                    materialNum = MBOgreUtil.LoadUInt32(reader);
+                    for (int i = 0; i < materialNum; i++)
+                    {
+                        MBBrfMaterial material = new MBBrfMaterial();
+                        material.Load(reader);
+                        materials.Add(material);
                     }
                 }
             }

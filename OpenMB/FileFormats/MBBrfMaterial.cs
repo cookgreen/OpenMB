@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Mogre;
+using OpenMB.Connector;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,6 +34,21 @@ namespace OpenMB.FileFormats
             r = MBUtil.LoadFloat(reader);
             g = MBUtil.LoadFloat(reader);
             b = MBUtil.LoadFloat(reader);
+        }
+        public void Load(DataStreamPtr reader)
+        {
+            name = MBOgreUtil.LoadString(reader);
+            flags = MBOgreUtil.LoadUInt32(reader);
+            shader = MBOgreUtil.LoadString(reader);
+            diffuseA = MBOgreUtil.LoadString(reader);
+            diffuseB = MBOgreUtil.LoadString(reader);
+            bump = MBOgreUtil.LoadString(reader);
+            enviro = MBOgreUtil.LoadString(reader);
+            spec = MBOgreUtil.LoadStringMaybe(reader, "none");
+            specular = MBOgreUtil.LoadFloat(reader);
+            r = MBOgreUtil.LoadFloat(reader);
+            g = MBOgreUtil.LoadFloat(reader);
+            b = MBOgreUtil.LoadFloat(reader);
         }
     }
 }

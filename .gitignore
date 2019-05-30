@@ -8,7 +8,6 @@ Debug/*
 *.manifest
 *.log
 *.suo
-*.config
 *.cache
 *.Cache
 *.FileListAbsolute.txt

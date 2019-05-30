@@ -164,6 +164,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connector\MBOgre.cs" />
+    <Compile Include="Connector\MBOgreBrf.cs" />
+    <Compile Include="Connector\MBOgreUtil.cs" />
     <Compile Include="FileFormats\MBBrf.cs" />
     <Compile Include="FileFormats\MBBrfMaterial.cs" />
     <Compile Include="FileFormats\MBBrfMesh.cs" />

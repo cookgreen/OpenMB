@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Mogre;
+using OpenMB.Connector;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +16,11 @@ namespace OpenMB.FileFormats
         {
             name = MBUtil.LoadString(reader);
             flags = MBUtil.LoadUInt32(reader);
+        }
+        public void Load(DataStreamPtr reader)
+        {
+            name = MBOgreUtil.LoadString(reader);
+            flags = MBOgreUtil.LoadUInt32(reader);
         }
     }
 }

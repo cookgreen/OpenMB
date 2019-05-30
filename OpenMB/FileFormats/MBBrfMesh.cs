@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Drawing;
+using Mogre;
+using OpenMB.Connector;
 
 namespace OpenMB.FileFormats
 {
@@ -53,6 +55,39 @@ namespace OpenMB.FileFormats
                 tb = ta;
             }
         }
+        public void Load(DataStreamPtr reader)
+        {
+            if (globalVersion == 0)
+            {
+                index = MBOgreUtil.LoadInt32(reader);
+                col = MBOgreUtil.LoadUInt32(reader); // color x vert! as 4 bytes AABBGGRR
+                __norm = MBOgreUtil.LoadPoint3F(reader);
+                ta = MBOgreUtil.LoadPoint2F(reader);
+                ta.Y = 1 - ta.Y;
+                tb = MBOgreUtil.LoadPoint2F(reader);
+                tb.Y = 1 - tb.Y;
+            }
+            else if (globalVersion == 1)
+            {
+                index = MBOgreUtil.LoadInt32(reader);
+                col = MBOgreUtil.LoadUInt32(reader); // color x vert! as 4 bytes AABBGGRR
+                __norm = MBOgreUtil.LoadPoint3F(reader);
+                tang = MBOgreUtil.LoadPoint3F(reader);
+                tangi = MBOgreUtil.LoadByte(reader);
+                ta = MBOgreUtil.LoadPoint2F(reader);
+                ta.Y = 1 - ta.Y;
+                tb = ta;
+            }
+            else if (globalVersion == 2)
+            {
+                index = MBOgreUtil.LoadInt32(reader);
+                col = MBOgreUtil.LoadUInt32(reader); // color x vert! as 4 bytes AABBGGRR
+                __norm = MBOgreUtil.LoadPoint3F(reader);
+                ta = MBOgreUtil.LoadPoint2F(reader);
+                ta.Y = 1 - ta.Y;
+                tb = ta;
+            }
+        }
     };
 
     public class MBBrfFace
@@ -74,6 +109,13 @@ namespace OpenMB.FileFormats
             index[2] = MBUtil.LoadInt32(reader);
             return true;
         }
+        public bool Load(DataStreamPtr reader)
+        {
+            index[0] = MBOgreUtil.LoadInt32(reader);
+            index[1] = MBOgreUtil.LoadInt32(reader);
+            index[2] = MBOgreUtil.LoadInt32(reader);
+            return true;
+        }
     }
 
     public class MBBrfFrame
@@ -87,6 +129,12 @@ namespace OpenMB.FileFormats
             time = MBUtil.LoadInt32(reader);
             MBUtil.LoadVector(reader, ref pos);
             MBUtil.LoadVector(reader, ref norm);
+        }
+        public void Load(DataStreamPtr reader)
+        {
+            time = MBOgreUtil.LoadInt32(reader);
+            MBOgreUtil.LoadVector(reader, ref pos);
+            MBOgreUtil.LoadVector(reader, ref norm);
         }
     }
 
@@ -157,6 +205,18 @@ namespace OpenMB.FileFormats
                 pairs.Add(pair);
             }
         }
+        public void Load(DataStreamPtr reader)
+        {
+            bindex = MBOgreUtil.LoadInt32(reader);
+            uint k = MBOgreUtil.LoadUInt32(reader);
+            pairs = new List<TmpRiggingPair>();
+            for (uint i = 0; i < k; i++)
+            {
+                TmpRiggingPair pair = new TmpRiggingPair();
+                pair.Load(reader);
+                pairs.Add(pair);
+            }
+        }
     }
 
     public class TmpRiggingPair
@@ -168,6 +228,11 @@ namespace OpenMB.FileFormats
         {
             vindex = MBUtil.LoadInt32(reader);
             weight = MBUtil.LoadFloat(reader);
+        }
+        public void Load(DataStreamPtr reader)
+        {
+            vindex = MBOgreUtil.LoadInt32(reader);
+            weight = MBOgreUtil.LoadFloat(reader);
         }
     }
     public class MBBrfMesh
@@ -193,6 +258,32 @@ namespace OpenMB.FileFormats
             get
             {
                 return materialName;
+            }
+        }
+
+        public List<MBBrfVert> Vertex
+        {
+            get
+            {
+                return vertex;
+            }
+
+            set
+            {
+                vertex = value;
+            }
+        }
+
+        public List<MBBrfFace> Faces
+        {
+            get
+            {
+                return faces;
+            }
+
+            set
+            {
+                faces = value;
             }
         }
 
@@ -257,7 +348,7 @@ namespace OpenMB.FileFormats
             }
 
             v = MBUtil.LoadUInt32(reader);
-            vertex = new List<MBBrfVert>();
+            Vertex = new List<MBBrfVert>();
             for (uint i = 0; i < v; i++)
             {
                 MBBrfVert vert = new MBBrfVert()
@@ -269,6 +360,100 @@ namespace OpenMB.FileFormats
             }
 
             v = MBUtil.LoadUInt32(reader);
+            faces = new List<MBBrfFace>();
+            for (uint i = 0; i < v; i++)
+            {
+                MBBrfFace face = new MBBrfFace()
+                {
+                    globalVersion = globalVersion
+                };
+                face.Load(reader);
+                faces.Add(face);
+            }
+
+            skinning = new List<MBBrfSkinning>();
+            for (int i = 0; i < oneFrame.pos.Count; i++)
+            {
+                skinning.Add(new MBBrfSkinning());
+            }
+            if (tmpRig.Count > 0)
+            {
+                MBUtil.TmpRigging2Rigging(ref tmpRig, ref skinning);
+            }
+            else
+            {
+                skinning.Clear();
+            }
+        }
+
+        public void Load(DataStreamPtr reader)
+        {
+            meshName = MBOgreUtil.LoadString(reader);
+
+            uint flags = MBOgreUtil.LoadUInt32(reader);
+
+            materialName = MBOgreUtil.LoadString(reader);
+
+            MBBrfFrame oneFrame = new MBBrfFrame();
+            frames = new List<MBBrfFrame>(1)
+            {
+                oneFrame
+            };
+
+            if (globalVersion != 0)
+            {
+                int offset = 1 << 16;
+                uint ret = (uint)(flags & offset);
+                if (ret == offset)
+                {
+                    globalVersion = 1;
+                }
+                else
+                {
+                    globalVersion = 2;
+                }
+            }
+
+            MBOgreUtil.LoadVector(reader, ref frames[0].pos);
+
+            uint v = MBOgreUtil.LoadUInt32(reader);
+            List<TmpSkinning> tmpRig = new List<TmpSkinning>();
+            for (int i = 0; i < v; i++)
+            {
+                TmpSkinning tmpR = new TmpSkinning();
+                tmpR.Load(reader);
+                tmpRig.Add(tmpR);
+            }
+
+            int k;
+            k = MBOgreUtil.LoadInt32(reader);
+            for (int i = 0; i < k; i++)
+            {
+                if (i == 0)
+                {
+                    frames[0].Load(reader);
+                }
+                else
+                {
+                    MBBrfFrame frame = new MBBrfFrame();
+                    frame.Load(reader);
+                    frames.Add(frame);
+                }
+            }
+
+            v = MBOgreUtil.LoadUInt32(reader);
+            vertex = new List<MBBrfVert>();
+            for (uint i = 0; i < v; i++)
+            {
+                MBBrfVert vert = new MBBrfVert()
+                {
+                    globalVersion = globalVersion
+                };
+                vert.Load(reader);
+                vertex.Add(vert);
+            }
+
+            v = MBOgreUtil.LoadUInt32(reader);
             faces = new List<MBBrfFace>();
             for (uint i = 0; i < v; i++)
             {
