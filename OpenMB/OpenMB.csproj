@@ -164,6 +164,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileFormats\MBBrf.cs" />
+    <Compile Include="FileFormats\MBBrfMaterial.cs" />
+    <Compile Include="FileFormats\MBBrfMesh.cs" />
+    <Compile Include="FileFormats\MBBrfShader.cs" />
+    <Compile Include="FileFormats\MBBrfTexture.cs" />
+    <Compile Include="FileFormats\MBUtilcs.cs" />
+    <Compile Include="FileFormats\Point3F.cs" />
     <Compile Include="Game\CameraHandler.cs" />
     <Compile Include="Game\Action\Activity.cs" />
     <Compile Include="Configure\ConfigureSystem.cs" />
@@ -360,9 +367,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FileFormats\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="OgreHead.ico" />
   </ItemGroup>
