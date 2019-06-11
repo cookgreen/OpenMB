@@ -287,6 +287,19 @@ namespace OpenMB.FileFormats
             }
         }
 
+        public List<MBBrfFrame> Frames
+        {
+            get
+            {
+                return frames;
+            }
+
+            set
+            {
+                frames = value;
+            }
+        }
+
         public MBBrfMesh()
         {
             globalVersion = -1;

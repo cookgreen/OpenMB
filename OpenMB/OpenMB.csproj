@@ -164,16 +164,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connector\IConnector.cs" />
     <Compile Include="Connector\MBOgre.cs" />
     <Compile Include="Connector\MBOgreBrf.cs" />
+    <Compile Include="Connector\MBOgreExpandsion.cs" />
+    <Compile Include="Connector\MBOgreManifest.cs" />
     <Compile Include="Connector\MBOgreUtil.cs" />
+    <Compile Include="FileFormats\Box3F.cs" />
+    <Compile Include="FileFormats\IFileFormat.cs" />
+    <Compile Include="FileFormats\MBBrfAnimation.cs" />
+    <Compile Include="FileFormats\MBBrfBody.cs" />
     <Compile Include="FileFormats\MBBrf.cs" />
     <Compile Include="FileFormats\MBBrfMaterial.cs" />
     <Compile Include="FileFormats\MBBrfMesh.cs" />
     <Compile Include="FileFormats\MBBrfShader.cs" />
+    <Compile Include="FileFormats\MBBrfSkeleton.cs" />
     <Compile Include="FileFormats\MBBrfTexture.cs" />
     <Compile Include="FileFormats\MBUtil.cs" />
     <Compile Include="FileFormats\Point3F.cs" />
+    <Compile Include="FileFormats\Point4F.cs" />
     <Compile Include="Game\CameraHandler.cs" />
     <Compile Include="Game\Action\Activity.cs" />
     <Compile Include="Configure\ConfigureSystem.cs" />

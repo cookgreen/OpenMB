@@ -8,7 +8,7 @@ using System.Text;
 
 namespace OpenMB.FileFormats
 {
-    public class MBBrf
+    public class MBBrf : IFileFormat
     {
         private string name;
         private int version;
@@ -20,6 +20,12 @@ namespace OpenMB.FileFormats
         private List<MBBrfShader> shaders;
         private uint materialNum;
         private List<MBBrfMaterial> materials;
+        private uint skeletonNum;
+        private List<MBBrfSkeleton> skeletons;
+        private uint skeletonAnimNum;
+        private List<MBBrfAnimation> skeletonAnims;
+        private uint bodyNum;
+        private List<MBBrfBody> bodies;
         private string path;
         private int globalVersion;
 
@@ -68,6 +74,9 @@ namespace OpenMB.FileFormats
             textures = new List<MBBrfTexture>();
             shaders = new List<MBBrfShader>();
             materials = new List<MBBrfMaterial>();
+            skeletons = new List<MBBrfSkeleton>();
+            skeletonAnims = new List<MBBrfAnimation>();
+            bodies = new List<MBBrfBody>();
 
             Load();
         }
@@ -84,7 +93,7 @@ namespace OpenMB.FileFormats
             Load(stream);
         }
 
-        private void Load()
+        public void Load()
         {
             using (BinaryReader reader = new BinaryReader(new FileStream(path, FileMode.Open, FileAccess.Read)))
             {
@@ -140,6 +149,36 @@ namespace OpenMB.FileFormats
                             MBBrfMaterial material = new MBBrfMaterial();
                             material.Load(reader);
                             materials.Add(material);
+                        }
+                    }
+                    else if (str == "skeleton")
+                    {
+                        skeletonNum = reader.ReadUInt32();
+                        for (int i = 0; i < skeletonNum; i++)
+                        {
+                            MBBrfSkeleton skeleton = new MBBrfSkeleton();
+                            skeleton.Load(reader);
+                            skeletons.Add(skeleton);
+                        }
+                    }
+                    else if (str == "skeleton_anim")
+                    {
+                        skeletonAnimNum = reader.ReadUInt32();
+                        for (int i = 0; i < skeletonAnimNum; i++)
+                        {
+                            MBBrfAnimation skeletonAnim = new MBBrfAnimation();
+                            skeletonAnim.Load(reader);
+                            skeletonAnims.Add(skeletonAnim);
+                        }
+                    }
+                    else if (str == "body")
+                    {
+                        bodyNum = reader.ReadUInt32();
+                        for (int i = 0; i < bodyNum; i++)
+                        {
+                            MBBrfBody body = new MBBrfBody();
+                            body.Load(reader);
+                            bodies.Add(body);
                         }
                     }
                 }
@@ -200,6 +239,36 @@ namespace OpenMB.FileFormats
                         MBBrfMaterial material = new MBBrfMaterial();
                         material.Load(reader);
                         materials.Add(material);
+                    }
+                }
+                else if (str == "skeleton")
+                {
+                    skeletonNum = MBOgreUtil.LoadUInt32(reader);
+                    for (int i = 0; i < skeletonNum; i++)
+                    {
+                        MBBrfSkeleton skeleton = new MBBrfSkeleton();
+                        skeleton.Load(reader);
+                        skeletons.Add(skeleton);
+                    }
+                }
+                else if (str == "skeleton_anim")
+                {
+                    skeletonAnimNum = MBOgreUtil.LoadUInt32(reader);
+                    for (int i = 0; i < skeletonAnimNum; i++)
+                    {
+                        MBBrfAnimation skeletonAnim = new MBBrfAnimation();
+                        skeletonAnim.Load(reader);
+                        skeletonAnims.Add(skeletonAnim);
+                    }
+                }
+                else if (str == "body")
+                {
+                    bodyNum = MBOgreUtil.LoadUInt32(reader);
+                    for (int i = 0; i < bodyNum; i++)
+                    {
+                        MBBrfBody body = new MBBrfBody();
+                        body.Load(reader);
+                        bodies.Add(body);
                     }
                 }
             }

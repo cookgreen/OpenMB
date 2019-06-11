@@ -5,20 +5,22 @@
 Open Source Mount&Blade Series
 
 ## Feature:
+* Custom Number world map  
+* Realistic Physics System  
 * Individual Script System
-* Mod System
-* Localization System
+* Mod System  
+* Localization System  
 * Inner Game Editor  
-* Physics System  
 * Script-driven GUI System  
 
-## Based on:
+## Credit:
 * Mogre  
 * NAudio  
 * NVorbis  
 * MogreBites  
 * Physx Candy Wrapper
 * Critter ai Navmesh path finder
+* OpenBRF
 
 ## Usage:
 * Shift+Space - Full Screen

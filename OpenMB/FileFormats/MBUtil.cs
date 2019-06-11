@@ -39,6 +39,16 @@ namespace OpenMB.FileFormats
             return vect;
         }
 
+        public static Point4F LoadPoint4F(BinaryReader reader)
+        {
+            Point4F vect = new Point4F();
+            vect.w = LoadFloat(reader);
+            vect.x = LoadFloat(reader);
+            vect.y = LoadFloat(reader);
+            vect.z = LoadFloat(reader);
+            return vect;
+        }
+
         public static PointF LoadPoint2F(BinaryReader reader)
         {
             PointF vect = new PointF();
@@ -124,6 +134,157 @@ namespace OpenMB.FileFormats
             }
 
             return max;
+        }
+
+        public static void TmpBone2BrfFrame(List<TmpBone4> tmpBone4v, List<TmpCas3F> tmpCas3f, out List<MBBrfAnimationFrame> frames)
+        {
+            frames = new List<MBBrfAnimationFrame>();
+
+            int MAXFRAMES = 0;
+
+            for (int i = 0; i < tmpBone4v.Count; i++)
+            {
+                for (int j = 0; j < tmpBone4v[i].casList.Count; j++)
+                {
+                    int fi = tmpBone4v[i].casList[j].findex + 1;
+                    if (fi > MAXFRAMES)
+                    {
+                        MAXFRAMES = fi;
+                    }
+                }
+            }
+            for (int i = 0; i < tmpCas3f.Count; i++)
+            {
+                int fi = tmpCas3f[i].findex + 1;
+                if (fi > MAXFRAMES)
+                {
+                    MAXFRAMES = fi;
+                }
+            }
+
+            List<int> present = new List<int>();
+            for (int i = 0; i < MAXFRAMES; i++)
+            {
+                present[i] = 0;
+            }
+
+            int nf = 0;
+            for (int i = 0; i < tmpBone4v.Count; i++)
+            {
+                int ndup = 1;
+
+                for (int j = 0; j < tmpBone4v[i].casList.Count; j++)
+                {
+                    int fi = tmpBone4v[i].casList[j].findex;
+                    if (j > 0)
+                    {
+                        if (fi == tmpBone4v[i].casList[j - 1].findex)
+                        {
+                            ndup++;
+                        }
+                        else
+                        {
+                            ndup = 1;
+                        }
+                    }
+                    if (present[fi] < ndup)
+                    {
+                        nf++;
+                        present[fi] = ndup;
+                    }
+                }
+            }
+            {
+                int ndup = 1;
+                for (int j = 0; j < tmpCas3f.Count; j++)
+                {
+                    int fi = tmpCas3f[j].findex;
+                    if (j > 0)
+                    {
+                        if (fi == tmpCas3f[j - 1].findex) ndup++; else ndup = 1;
+                    }
+                    if (present[fi] < ndup)
+                    {
+                        nf++;
+                        present[fi] = ndup;
+                    }
+                }
+            }
+            for (int i = 0; i < nf; i++)
+            {
+                MBBrfAnimationFrame frame = new MBBrfAnimationFrame();
+                frame.rot = new List<Point4F>();
+                for (int j = 0; j < tmpBone4v.Count; j++)
+                {
+                    frame.rot.Add(new Point4F());
+                }
+                frame.wasImplicit = new List<bool>();
+                for (int j = 0; j < tmpBone4v.Count + 1; j++)
+                {
+                    frame.wasImplicit.Add(false);
+                }
+                frames.Add(frame);
+            }
+
+            for (int bi = 0; bi < tmpBone4v.Count; bi++)
+            {
+                int j = 0, // pos in current vb
+                    m = 0; // pos in vf
+                for (int fi = 0; fi < MAXFRAMES; fi++)
+                { 
+                    for (int dupl = 0; dupl < present[fi]; dupl++) // often zero times
+                    {
+                        int fi2;
+
+                        while ((fi2 = tmpBone4v[bi].casList[j].findex) < fi) j++;
+                        if (dupl > 0) { if (fi2 == fi) { j++; fi2 = tmpBone4v[bi].casList[j].findex; } }
+
+                        frames[m].index = fi;
+                        if (fi2 == fi)
+                        {
+                            frames[m].rot[bi] = tmpBone4v[bi].casList[j].rot;
+                            frames[m].wasImplicit[bi] = false;
+                        }
+                        else
+                        {
+                            // copy from prev
+                            frames[m].rot[bi] = frames[m - 1].rot[bi];
+                            frames[m].wasImplicit[bi] = true;
+                        }
+                        m++;
+                    }
+                }
+            }
+
+            {
+                // last round for translation
+                int j = 0, // pos in current vb
+                    m = 0; // pos in vf
+                for (int fi = 0; fi < MAXFRAMES; fi++)
+                {
+                    for (int dupl = 0; dupl < present[fi]; dupl++) // often zero times
+                    {
+                        int fi2;
+                        while ((fi2 = tmpCas3f[j].findex) < fi) j++;
+                        if (dupl > 0) { if (fi2 == fi) { j++; fi2 = tmpCas3f[j].findex; } }
+
+                        frames[m].index = fi;
+                        if (fi2 == fi)
+                        {
+                            frames[m].tra = tmpCas3f[j].rot;
+                            frames[m].wasImplicit[tmpBone4v.Count] = false;
+                        }
+                        else
+                        {
+                            // copy from prev
+                            frames[m].tra = frames[m - 1].tra;
+                            frames[m].wasImplicit[tmpBone4v.Count] = true;
+                        }
+                        m++;
+                    }
+                }
+            }
+
         }
     }
 }

@@ -41,6 +41,7 @@ namespace OpenMB.Connector
             return BitConverter.ToUInt32(bytes, 0);
         }
 
+
         public static Point3F LoadPoint3F(DataStreamPtr reader)
         {
             Point3F vect = new Point3F();
@@ -55,6 +56,16 @@ namespace OpenMB.Connector
             PointF vect = new PointF();
             vect.X = LoadFloat(reader);
             vect.Y = LoadFloat(reader);
+            return vect;
+        }
+
+        public static Point4F LoadPoint4F(DataStreamPtr reader)
+        {
+            Point4F vect = new Point4F();
+            vect.w = LoadFloat(reader);
+            vect.x = LoadFloat(reader);
+            vect.y = LoadFloat(reader);
+            vect.z = LoadFloat(reader);
             return vect;
         }
 
