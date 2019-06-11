@@ -9,6 +9,7 @@ namespace OpenMB.Game
 {
     public class GameObject : IUpdate
     {
+        protected string kindID;
         protected int id;
         protected MoveInfo moveInfo;
         protected Vector3 position;

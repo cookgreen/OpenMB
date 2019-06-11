@@ -68,9 +68,9 @@ namespace OpenMB.Game
             }
         }
 
-        public GameObject GetObjectById(int id)
+        public GameObject GetObjectById(string objectID, int id)
         {
-            return Map.GetObjectById(id);
+            return Map.GetObjectById(objectID, id);
         }
 
         public Character GetAgentById(int id)
@@ -257,9 +257,14 @@ namespace OpenMB.Game
             pbProgressBar.setComment(text);
         }
 
-        public void RemoveGameObject(GameObject owner)
+        public void RemoveGameObject(string objectID, GameObject owner)
         {
-            Map.RemoveGameObject(owner);
+            Map.RemoveGameObject(objectID, owner);
+        }
+
+        public void RemoveAgent(GameObject owner)
+        {
+            Map.RemoveAgent(owner);
         }
 
         private bool FrameRenderingQueued(FrameEvent evt)

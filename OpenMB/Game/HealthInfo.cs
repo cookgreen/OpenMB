@@ -48,7 +48,7 @@ namespace OpenMB.Game
         {
             if (hp < 0)
             {
-                owner.World.RemoveGameObject(owner);
+                owner.World.RemoveAgent(owner);
                 if(displayMessage)
                 {
                     OutputManager.Instance.DisplayMessage(string.Format("Object with id {0} was killed by Object with id {1}",

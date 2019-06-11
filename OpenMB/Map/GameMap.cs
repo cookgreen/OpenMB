@@ -26,7 +26,7 @@ namespace OpenMB.Map
         private string mapName;
         private DotSceneLoader.DotSceneLoader mapLoader;
         private List<Character> agents;
-        private List<GameObject> gameObjects;
+        private Dictionary<string, List<GameObject>> gameObjects;
         private List<ActorNode> actorNodeList;
         private ScriptLoader scriptLoader;
         private SceneManager scm;
@@ -107,6 +107,7 @@ namespace OpenMB.Map
             aimeshVertexData = new List<Mogre.Vector3>();
             editor = new GameMapEditor(this);
             cameraHanlder = new CameraHandler(this);
+            gameObjects = new Dictionary<string, List<GameObject>>();
             combineKey = false;
 
             GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
@@ -116,7 +117,23 @@ namespace OpenMB.Map
             GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
         }
 
-        public Item Produce(string desc, string meshName, ItemType type, ItemUseAttachOption attachOptionWhenUse, ItemHaveAttachOption attachOptionWhenHave, double damage, int range, GameWorld world, int ammoCapcity, double amourNum)
+        public void CreateMesh(string meshName)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Item CreateItem(
+            string desc, 
+            string meshName, 
+            ItemType type, 
+            ItemUseAttachOption attachOptionWhenUse, 
+            ItemHaveAttachOption attachOptionWhenHave, 
+            double damage, 
+            int range, 
+            GameWorld world, 
+            int ammoCapcity, 
+            double amourNum)
         {
             return ItemFactory.Instance.Produce(gameObjects.Count, desc, meshName, type, attachOptionWhenUse,
                    attachOptionWhenHave, damage, range, world, ammoCapcity, amourNum);
@@ -155,20 +172,84 @@ namespace OpenMB.Map
                 playerAgent = character;
             }
 
-            gameObjects.Add(character);
+            agents.Add(character);
         }
 
-        public void CreateSceneProp(string meshName, Mogre.Vector3 position)
+        public void CreateSceneProp(string scenePropKind, Mogre.Vector3 position)
         {
-            SceneProp sceneProp = new SceneProp(gameObjects.Count, world, meshName, position);
-            gameObjects.Add(sceneProp);
+            SceneProp sceneProp = new SceneProp(gameObjects.Count, world, scenePropKind, position);
+            if (!gameObjects.ContainsKey(scenePropKind))
+            {
+                gameObjects.Add(scenePropKind, new List<GameObject>());
+            }
+            gameObjects[scenePropKind].Add(sceneProp);
         }
 
-        public void CreatePlane(string materialName, Mogre.Vector3 rkNormals, float consts, int width, int height, int xsegements, int ysegements, ushort numTexCoords, int uTile, int vTile, Mogre.Vector3 upVector, Mogre.Vector3 initPosition)
+        public SceneProp GetSceneProp(string scenePropKind, int scenePropInstanceId)
+        {
+            if (scenePropInstanceId < 0)
+            {
+                return null;
+            }
+            if (gameObjects.ContainsKey(scenePropKind))
+            {
+                if (gameObjects[scenePropKind].Count > scenePropInstanceId)
+                {
+                    return gameObjects[scenePropKind].ElementAt(scenePropInstanceId) as SceneProp;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public void RemoveSceneProp(string scenePropKind, int scenePropInstanceId)
+        {
+            if (scenePropInstanceId < 0)
+            {
+                return;
+            }
+            if (gameObjects.ContainsKey(scenePropKind))
+            {
+                if (gameObjects[scenePropKind].Count > scenePropInstanceId)
+                {
+                    gameObjects[scenePropKind].RemoveAt(scenePropInstanceId);
+                }
+            }
+        }
+
+        public void CreatePlane(
+            string materialName, 
+            Mogre.Vector3 rkNormals, 
+            float consts, 
+            int width, 
+            int height, 
+            int xsegements, 
+            int ysegements, 
+            ushort numTexCoords, 
+            int uTile, 
+            int vTile, 
+            Mogre.Vector3 upVector, 
+            Mogre.Vector3 initPosition)
         {
             ScenePlane plane = new ScenePlane(gameObjects.Count, world, rkNormals, consts, materialName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
                 width, height, xsegements, ysegements, true, numTexCoords, uTile, vTile, upVector, initPosition);
-            gameObjects.Add(plane);
+            if (!gameObjects.ContainsKey("PLANE"))
+            {
+                gameObjects.Add("PLANE", new List<GameObject>());
+            }
+            gameObjects["PLANE"].Add(plane);
+        }
+
+        public void RemoveAgent(GameObject owner)
+        {
+            agents.Remove((Character)owner);
+            owner.Dispose();
         }
 
         private bool Keyboard_KeyPressed(KeyEvent arg)
@@ -233,9 +314,12 @@ namespace OpenMB.Map
             return true;
         }
 
-        public void RemoveGameObject(GameObject owner)
+        public void RemoveGameObject(string objectID, GameObject owner)
         {
-            gameObjects.Remove(owner);
+            if (gameObjects.ContainsKey(objectID))
+            {
+                gameObjects[objectID].Remove(owner);
+            }
             owner.Dispose();
         }
 
@@ -320,7 +404,7 @@ namespace OpenMB.Map
             if(LoadMapFinished!=null)
             {
                 agents = new List<Character>();
-                gameObjects = new List<GameObject>();
+                gameObjects = new Dictionary<string, List<GameObject>>();
 
                 scriptLoader.Parse(mapLoader.ScriptName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
                 scriptLoader.Execute(world);
@@ -356,7 +440,10 @@ namespace OpenMB.Map
             }
             for (int i = gameObjects.Count - 1; i >= 0; i--)
             {
-                gameObjects[i].Update((float)timeSinceLastFrame);
+                for (int j = gameObjects.ElementAt(i).Value.Count - 1; j >= 0; j--)
+                {
+                    gameObjects.ElementAt(i).Value[j].Update((float)timeSinceLastFrame);
+                }
             }
         }
 
@@ -388,7 +475,7 @@ namespace OpenMB.Map
             return mapName;
         }
 
-        public GameObject GetObjectById(int objectId)
+        public GameObject GetObjectById(string objectID, int objectId)
         {
             if (gameObjects.Count == 0)
             {
@@ -398,12 +485,12 @@ namespace OpenMB.Map
             {
                 return null;
             }
-            return gameObjects.ElementAt(objectId);
+            return gameObjects[objectID].ElementAt(objectId);
         }
 
         public Character GetAgentById(int agentId)
         {
-            return (Character)gameObjects.ElementAt(agentId);
+            return (Character)agents.ElementAt(agentId);
         }
 
         public List<Character> GetAgents()
@@ -411,9 +498,16 @@ namespace OpenMB.Map
             return agents;
         }
 
-        public List<GameObject> GetGameObjects()
+        public List<GameObject> GetGameObjects(string objectID)
         {
-            return gameObjects;
+            if (gameObjects.ContainsKey(objectID))
+            {
+                return gameObjects[objectID];
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

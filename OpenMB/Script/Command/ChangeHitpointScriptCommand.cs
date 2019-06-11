@@ -46,7 +46,7 @@ namespace OpenMB.Script.Command
         public override void Execute(params object[] executeArgs)
         {
             GameWorld world = executeArgs[0] as GameWorld;
-            var gameObject = world.GetObjectById(int.Parse(getParamterValue(commandArgs[1])));
+            var gameObject = world.GetAgentById(int.Parse(getParamterValue(commandArgs[1])));
             if (gameObject == null)
             {
                 return;

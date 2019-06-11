@@ -14,6 +14,6 @@ namespace OpenMB.Map
         void Destroy();
         void Update(float timeSinceLastFrame);
         string GetName();
-        List<GameObject> GetGameObjects();
+        List<GameObject> GetGameObjects(string objectID);
     }
 }
