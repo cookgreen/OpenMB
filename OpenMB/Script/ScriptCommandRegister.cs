@@ -40,6 +40,7 @@ namespace OpenMB.Script
             RegisteredCommand.Add("execute", typeof(TriggerExecuteSrciptCommand));
             RegisteredCommand.Add("function", typeof(FunctionScriptCommand));
             RegisteredCommand.Add("init_vector", typeof(InitVectorScriptCommand));
+            RegisteredCommand.Add("load_map", typeof(LoadMapScriptCommand));
             RegisteredCommand.Add("loop", typeof(LoopScriptCommand));
             RegisteredCommand.Add("namespace", typeof(NamespaceScriptCommand));
             RegisteredCommand.Add("spawn", typeof(SpawnScriptCommand));

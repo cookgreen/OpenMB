@@ -115,13 +115,21 @@ namespace OpenMB.Game
 
         public void Update(float timeSinceLastFrame)
         {
+            if (map.GetAgents() == null || map.GetAgents().Count == 0)
+            {
+                cameraState = CameraState.Free;
+            }
             switch (cameraState)
             {
                 case CameraState.Free:
                     moveCamera();
                     break;
                 case CameraState.Follow:
-                    map.GetAgentById(currentAgentId).UpdateCamera(timeSinceLastFrame);
+                    var agent = map.GetAgentById(currentAgentId);
+                    if (agent != null)
+                    {
+                        agent.UpdateCamera(timeSinceLastFrame);
+                    }
                     break;
             }
             GameManager.Instance.trayMgr.refreshCursor();

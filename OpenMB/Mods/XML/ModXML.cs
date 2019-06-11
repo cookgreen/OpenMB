@@ -18,12 +18,11 @@ namespace OpenMB.Mods.XML
         [XmlElement("Data")]
         public ModDataXML Data { get; set; }
 
-        [XmlArray("Media")]
-        [XmlArrayItem("Mesh")]
-        public List<string> Media { get; set; }
+        [XmlElement("Media")]
+        public ModMediaXml Media { get; set; }
 
         [XmlArray("Scripts")]
-        [XmlArrayItem("Script")]
+        [XmlArrayItem("ScriptDir")]
         public List<string> Scripts { get; set; }
 
         [XmlArray("Maps")]

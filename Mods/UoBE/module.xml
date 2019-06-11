@@ -14,14 +14,12 @@
     <Skin>Skin.xml</Skin>
   </Data>
   <Media>
-    <MediaSection Type="FileSystem">Media|Mods/UoBE/Materials</MediaSection>
-    <MediaSection Type="FileSystem">Media|Mods/UoBE/Models</MediaSection>
-    <MediaSection Type="FileSystem">Media|Mods/UoBE/Overlay</MediaSection>
-    <MediaSection Type="FileSystem">Media|Mods/UoBE/Textures</MediaSection>
+    <MediaSection Type="FileSystem">Media/Materials</MediaSection>
+    <MediaSection Type="FileSystem">Media/Models</MediaSection>
+    <MediaSection Type="FileSystem">Media/Overlay</MediaSection>
+    <MediaSection Type="FileSystem">Media/Textures</MediaSection>
+    <MediaSection Type="FileSystem">Scripts</MediaSection>
   </Media>
-  <Scripts>
-	<ScriptDir>Scripts</ScriptDir>
-  </Scripts>
   <Maps>
 	<MapDir>Scenes</MapDir>
   </Maps>

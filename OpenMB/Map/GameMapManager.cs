@@ -85,6 +85,8 @@ namespace OpenMB.Map
 
         public void Update(float timeSinceLastFrame)
         {
+            if (currentMap == null)
+                return;
             currentMap.Update(timeSinceLastFrame);
         }
     }

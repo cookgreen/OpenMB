@@ -174,14 +174,13 @@ namespace OpenMB.Mods
                         if (installedMods.ContainsKey(manifest.MetaData.Name))
                             continue;
                         installedMods.Add(manifest.MetaData.Name, manifest);
-                        ResourceGroupManager.Singleton.AddResourceLocation(
-                            string.Format("{0}\\Media\\Textures\\", dir.FullName), "FileSystem", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-                        ResourceGroupManager.Singleton.AddResourceLocation(
-                            string.Format("{0}\\Media\\Models\\", dir.FullName), "FileSystem", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-                        ResourceGroupManager.Singleton.AddResourceLocation(
-                            string.Format("{0}\\Media\\Materials\\", dir.FullName), "FileSystem", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-                        ResourceGroupManager.Singleton.AddResourceLocation(
-                            string.Format("{0}\\Media\\Program\\", dir.FullName), "FileSystem", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+
+                        for (int i = 0; i < manifest.Media.MediaSections.Count; i++)
+                        {
+                            var mediaSection = manifest.Media.MediaSections[i];
+                            ResourceGroupManager.Singleton.AddResourceLocation(
+                                string.Format("{0}\\{1}", dir.FullName, mediaSection.Directory.Replace("/", "//")), mediaSection.Type, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                        }
 
                         StringVector resources = ResourceGroupManager.Singleton.FindResourceNames(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, "*.script");
                         ScriptPreprocessor.Instance.Process(resources.ToList());

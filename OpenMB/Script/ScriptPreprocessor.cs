@@ -35,10 +35,11 @@ namespace OpenMB.Script
             {
                 ScriptLoader loader = new ScriptLoader();
                 ScriptFile file;
-                var cmd = loader.ParseOneLine(res, out file, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, 1);
-                if (cmd != null && cmd.GetType().Equals(typeof(NamespaceScriptCommand)))
+                file = loader.Parse(res, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                ScriptCommand namespaceCmd = (ScriptCommand)file.Commands[0];
+                if (namespaceCmd != null && namespaceCmd.GetType().Equals(typeof(NamespaceScriptCommand)))
                 {
-                    cmd.Execute(this);
+                    namespaceCmd.Execute(this);
                 }
                 else
                 {
@@ -58,6 +59,25 @@ namespace OpenMB.Script
                         });
                     }
                 }
+            }
+        }
+
+        public void LoadSpecificFunction(string function, params object[] executeArgs)
+        {
+            foreach (var kpl in namespaceFileDic)
+            {
+                for (int i = 0; i < kpl.Value.Count; i++)
+                {
+                    var func = kpl.Value[i].FindFunction(function);
+                    if (func != null)
+                    {
+                        func.Execute(executeArgs);
+
+                        GameManager.Instance.log.LogMessage(
+                            string.Format("Execute Function at namespace `{0}` in file `{1}`", 
+                            kpl.Key, kpl.Value[i].FileName));
+                    }
+                }   
             }
         }
 

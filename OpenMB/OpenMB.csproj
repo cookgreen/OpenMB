@@ -236,6 +236,7 @@
     <Compile Include="Map\AIMeshVertex.cs" />
     <Compile Include="Map\GameMapEditor.cs" />
     <Compile Include="Game\MoveInfo.cs" />
+    <Compile Include="Mods\XML\ModMediaXml.cs" />
     <Compile Include="Mods\XML\ModSkinDfnXml.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
     <Compile Include="Screen\Screen.cs" />
@@ -283,6 +284,7 @@
     <Compile Include="Script\Command\ScriptCommand.cs" />
     <Compile Include="Script\Command\SpawnPlaneScriptCommand.cs" />
     <Compile Include="Script\Command\SpawnScenePropScriptCommand.cs" />
+    <Compile Include="Script\Command\LoadMapScriptCommand.cs" />
     <Compile Include="Script\Command\StoreScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerExecuteSrciptCommand.cs" />

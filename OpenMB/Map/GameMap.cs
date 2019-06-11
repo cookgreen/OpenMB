@@ -406,8 +406,8 @@ namespace OpenMB.Map
                 agents = new List<Character>();
                 gameObjects = new Dictionary<string, List<GameObject>>();
 
-                scriptLoader.Parse(mapLoader.ScriptName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-                scriptLoader.Execute(world);
+                var file = scriptLoader.Parse(mapLoader.ScriptName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                scriptLoader.ExecuteFunction(file, "map_loaded", world);
 
                 TriggerManager.Instance.Init(world, scriptLoader.currentContext);
 
@@ -490,6 +490,10 @@ namespace OpenMB.Map
 
         public Character GetAgentById(int agentId)
         {
+            if (agents.Count == 0)
+            {
+                return null;
+            }
             return (Character)agents.ElementAt(agentId);
         }
 

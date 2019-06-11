@@ -1,0 +1,5 @@
+#### MAIN ENTRY ####
+
+function GameStart
+	load_map CubeScene
+end

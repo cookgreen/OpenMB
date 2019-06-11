@@ -15,6 +15,14 @@ namespace OpenMB.Script
         public ScriptContext Context { get; set; }
         public string FileName { get; set; }
         private RootScriptCommand root;
+        public List<IScriptCommand> Commands
+        {
+            get
+            {
+                return root.SubCommands;
+            }
+        }
+
         public ScriptFile()
         {
             Context = new ScriptContext(this);
@@ -23,6 +31,11 @@ namespace OpenMB.Script
             tempCommandStack = new Stack<IScriptCommand>();
 
             registeredCommand = ScriptCommandRegister.Instance.RegisteredCommand;
+        }
+
+        public ScriptFunction FindFunction(string functionName)
+        {
+            return Context.GetFunction(functionName);
         }
         public void Execute(params object[] executeParams)
         {
@@ -42,6 +55,10 @@ namespace OpenMB.Script
             {
                 lines[i] = lines[i].Replace("\t", null);
                 if (string.IsNullOrEmpty(lines[i]))
+                {
+                    continue;
+                }
+                if (lines[i].StartsWith("#")) //skip comments
                 {
                     continue;
                 }
@@ -77,6 +94,12 @@ namespace OpenMB.Script
                             currentCommand = scriptCommand;
                             break;
                         case ScriptCommandType.End:
+                            switch (currentCommand.CommandName)
+                            {
+                                case "function":
+                                    Context.RegisterFunction(currentCommand.CommandArgs[0], currentCommand.SubCommands);
+                                    break;
+                            }
                             currentCommand = currentCommand.ParentCommand;
                             break;
                     }
@@ -88,11 +111,6 @@ namespace OpenMB.Script
                     continue;
                 }
             }
-            var callScriptCommand = new CallScriptCommand();
-            callScriptCommand.Context = Context;
-            callScriptCommand.ParentCommand = root;
-            callScriptCommand.PushArg("map_loaded", 0);
-            root.SubCommands.Add(callScriptCommand);
         }
         public IScriptCommand ParseOneLine(string groupName, int lineNo = 1)
         {

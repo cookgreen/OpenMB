@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenMB.Mods.XML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace OpenMB.Mods
         public readonly ModBaseInfo MetaData;
         public readonly string AssemblyName;
         public readonly ModDataInfo Data;
-        public readonly string[] Media;
+        public readonly ModMediaXml Media;
         public readonly string[] Scripts;
         public readonly string[] Maps;
         public readonly string InstalledPath;
@@ -36,7 +37,7 @@ namespace OpenMB.Mods
                                         xmldata.Data.itemXML,
                                         xmldata.Data.sideXML,
                                         xmldata.Data.skinXML);
-                Media = xmldata.Media.ToArray();
+                Media = xmldata.Media;
                 Scripts = xmldata.Scripts.ToArray();
                 Maps = xmldata.Maps.ToArray();
             }

@@ -137,6 +137,11 @@ namespace OpenMB.Game
         }
         #endregion
 
+        public void Start()
+        {
+            ScriptPreprocessor.Instance.LoadSpecificFunction("GameStart", this);
+        }
+
         #region Core Methods
         public void Init()
         {

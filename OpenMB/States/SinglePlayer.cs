@@ -19,7 +19,7 @@ namespace OpenMB.States
         {
             world = new GameWorld(data);
             world.Init();
-            world.ChangeScene("Cubescene.xml");
+            world.Start();
         }
 
         bool mRoot_FrameStarted(FrameEvent evt)

@@ -27,13 +27,14 @@ namespace OpenMB.Script
         public ScriptLoader()
         {
         }
-        public void Parse(string scriptFileName, string groupName = null)
+        public ScriptFile Parse(string scriptFileName, string groupName = null)
         {
             currentFile = new ScriptFile();
             currentFile.FileName = scriptFileName;
             if (!string.IsNullOrEmpty(groupName))
                 groupName = ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME;
             currentFile.Parse(groupName);
+            return currentFile;
         }
 
         public ScriptCommand ParseOneLine(string scriptFileName, out ScriptFile file, string groupName = null, int lineNo = 1)
@@ -51,6 +52,15 @@ namespace OpenMB.Script
             if (currentFile != null)
             {
                 currentFile.Execute(runArgs);
+            }
+        }
+
+        public void ExecuteFunction(ScriptFile scriptFile, string function, params object[] executeArgs)
+        {
+            var func = scriptFile.FindFunction(function);
+            if (func != null)
+            {
+                func.Execute(executeArgs);
             }
         }
     }
