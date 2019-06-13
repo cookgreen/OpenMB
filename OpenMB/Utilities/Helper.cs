@@ -130,5 +130,65 @@ namespace OpenMB.Utilities
             string str = sb.ToString();
             return str;
         }
+
+        public static Vector2 ConvertWorldCoordToScreenCoord(Vector3 worldCoord, Camera camera, RenderWindow window)
+        {
+            Vector2 screenPos = new Vector2();
+
+            Matrix4 viewMat = camera.ViewMatrix;
+            Matrix4 projMat = camera.ProjectionMatrix;
+
+
+            Vector4 inP = new Vector4(worldCoord.x, worldCoord.y, worldCoord.z, 1.0f);
+            Vector4 outP = viewMat * inP;
+            outP = projMat * outP;
+
+            outP.x /= outP.w;
+            outP.y /= outP.w;
+            outP.z /= outP.w;
+            
+            outP.x = (float)(outP.x * 0.5 + 0.5);
+            outP.y = (float)(outP.y * 0.5 + 0.5);
+            outP.z = (float)(outP.z * 0.5 + 0.5);
+
+            outP.x = outP.x * window.Width;
+            outP.y = (1 - outP.y) * window.Height;
+
+            screenPos.x = outP.x;
+            screenPos.y = outP.y;
+
+            return screenPos;
+        }
+
+        public static Vector3 ConvertScreenCoordToWorldCoord(Vector2 screenCoord, Camera camera, RenderWindow window)
+        {
+            Vector3 worldCoord = new Vector3();
+
+            Matrix4 viewMat = camera.ViewMatrix;
+            Matrix4 projMat = camera.ProjectionMatrix;
+
+            Vector4 outP = new Vector4();
+            outP.x = screenCoord.x;
+            outP.y = screenCoord.y;
+
+            outP.x = outP.x / window.Width;
+            outP.y = outP.y / window.Height;
+
+            outP.w = 1.0f;
+
+            outP.x = (outP.x - 0.5f) / 0.5f;
+            outP.y = (outP.y - 0.5f) / 0.5f;
+            outP.z = (outP.z - 0.5f) / 0.5f;
+
+            outP.x *= outP.w;
+            outP.y *= outP.w;
+            outP.z *= outP.w;
+
+            worldCoord.x = outP.x;
+            worldCoord.y = outP.y;
+            worldCoord.z = outP.z;
+
+            return worldCoord;
+        }
     }
 }

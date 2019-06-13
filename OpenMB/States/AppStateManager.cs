@@ -13,7 +13,7 @@ namespace OpenMB.States
     public class AppStateManager : AppStateListener, IDisposable
     {
         protected List<AppState> activeStateStack = new List<AppState>();
-        protected List<state_info> atates = new List<state_info>();
+        protected List<state_info> states = new List<state_info>();
         protected bool isShutdown;
         public event Action OnAppStateManagerStarted;
         private bool disposed;
@@ -48,13 +48,13 @@ namespace OpenMB.States
 		        state_info new_state_info;
 		        new_state_info.name = stateName;
 		        new_state_info.state = state;
-		        atates.Insert(atates.Count(),new_state_info);
+		        states.Insert(states.Count(),new_state_info);
          }
 
          public override AppState findByName(String stateName)
          {
 
-             foreach (state_info itr in atates)
+             foreach (state_info itr in states)
 	        {
 		        if(itr.name==stateName)
 			    return itr.state;
@@ -204,10 +204,10 @@ namespace OpenMB.States
                          this.activeStateStack.Last<AppState>().exit();
                          this.activeStateStack.RemoveAt(this.activeStateStack.Count<AppState>() - 1);
                      }
-                     while (this.atates.Count != 0)
+                     while (this.states.Count != 0)
                      {
-                         this.atates.Last<state_info>().state.destroy();
-                         this.atates.RemoveAt(this.atates.Count<state_info>() - 1);
+                         this.states.Last<state_info>().state.destroy();
+                         this.states.RemoveAt(this.states.Count<state_info>() - 1);
                      }
                  }
                  this.disposed = true;

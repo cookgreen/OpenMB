@@ -8,6 +8,7 @@ using OpenMB.Widgets;
 using Mogre_Procedural.MogreBites;
 using OpenMB.Map;
 using AdvancedMogreFramework.Widgets;
+using OpenMB.Utilities;
 
 namespace OpenMB.Screen
 {
@@ -28,6 +29,7 @@ namespace OpenMB.Screen
     public enum EditOperation
     {
         None,
+        ChangingObjCoordFllowMouse,
         ChangingObjCoord,
         ChangingObjHeight,
         ChangingObjSize,
@@ -86,9 +88,18 @@ namespace OpenMB.Screen
             editorPanel = null;
         }
 
+        public override void Init(params object[] param)
+        {
+            editor = param[0] as GameMapEditor;
+            currentSelectedEnt = null;
+            GameManager.Instance.trayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.showCursor();
+        }
+
         public override void Exit()
         {
             GameManager.Instance.trayMgr.hideCursor();
+            editor.Dispose();
             OverlayContainer.ChildIterator children = editorPanel.GetChildIterator();
             while (children.MoveNext())
             {
@@ -107,17 +118,9 @@ namespace OpenMB.Screen
             GameManager.Instance.trayMgr.destroyWidget(lsvObjects);
             Widget.nukeOverlayElement(horline);
             Widget.nukeOverlayElement(horline2);
-            
+
             GameManager.Instance.trayMgr.getTraysLayer().Remove2D(editorPanel);
             Widget.nukeOverlayElement(editorPanel);
-        }
-
-        public override void Init(params object[] param)
-        {
-            editor = param[0] as GameMapEditor;
-            currentSelectedEnt = null;
-            GameManager.Instance.trayMgr.destroyAllWidgets();
-            GameManager.Instance.trayMgr.showCursor();
         }
 
         public override void Run()
@@ -222,18 +225,21 @@ namespace OpenMB.Screen
 
         private void BtnAddObject_OnClick(object obj)
         {
+                            CancelLastOperation();
             state = EditState.Add;
             objType = EditObjectType.Scene_Prop;
         }
 
         private void BtnAIMeshCreateLine_OnClick(object obj)
         {
+            CancelLastOperation();
             state = EditState.Add;
             objType = EditObjectType.AIMesh_Line;
         }
 
         private void BtnAIMeshCreateVertex_OnClick(object obj)
         {
+            CancelLastOperation();
             state = EditState.Add;
             objType = EditObjectType.AIMesh_Vertex;
         }
@@ -252,6 +258,7 @@ namespace OpenMB.Screen
 
         public override void Update(float timeSinceLastFrame)
         {
+            editor.Map.CameraHanlder.MoveCamera();
         }
 
         public override void InjectMousePressed(MouseEvent arg, MouseButtonID id)
@@ -264,12 +271,15 @@ namespace OpenMB.Screen
                     editor.HidePivot();
                     return;
                 }
-                currentSelectedEnt.ParentSceneNode.ShowBoundingBox = false;
                 MaterialPtr material = currentSelectedEnt.GetSubEntity(0).GetMaterial();
                 material.GetTechnique(0).SetAmbient(0, 0, 0);
                 currentSelectedEnt.GetSubEntity(0).SetMaterial(material);
+
                 state = EditState.Free;
+                currentSelectedEnt.ParentSceneNode.ShowBoundingBox = false;
                 currentSelectedEnt = null;
+                editor.HidePivot();
+                operation = EditOperation.None;
             }
             else if (id == MouseButtonID.MB_Left)
             {
@@ -299,6 +309,16 @@ namespace OpenMB.Screen
             }
         }
 
+        private void CancelLastOperation()
+        {
+            if (currentSelectedEnt != null)
+            {
+                currentSelectedEnt.ParentSceneNode.ShowBoundingBox = false;
+            }
+            editor.HidePivot();
+            operation = EditOperation.None;
+        }
+
         public override void InjectMouseMove(MouseEvent arg)
         {
             base.InjectMouseMove(arg);
@@ -311,9 +331,13 @@ namespace OpenMB.Screen
                     switch(type)
                     {
                         case EditType.EditAIMeshMode:
-                            Mogre.Vector3 pos = ray.Origin + ray.Direction * distance;
+                            Mogre.Vector3 pos = Helper.ConvertScreenCoordToWorldCoord(
+                                lastMousePos, 
+                                editor.Map.Camera, 
+                                GameManager.Instance.renderWindow);
                             HandleObjectCreate(pos);
                             state = EditState.Edit;
+                            operation = EditOperation.ChangingObjCoordFllowMouse;
                             break;
                         case EditType.EditObjectMode:
                             break;
@@ -326,7 +350,7 @@ namespace OpenMB.Screen
                     {
                         case EditType.EditAIMeshMode:
                             Mogre.Vector3 pos = ray.Origin + ray.Direction * distance;
-                            HandleObjOperationNoResize(pos);
+                            HandleObjOperationNoResize(pos, cursorPos);
                             break;
                         case EditType.EditObjectMode:
                             break;
@@ -335,6 +359,11 @@ namespace OpenMB.Screen
                     }
                     break;
                 case EditState.Free:
+                    Degree deCameraYaw = new Degree(arg.state.X.rel * -0.1f);
+                    editor.Map.Camera.Yaw(deCameraYaw);
+                    Degree deCameraPitch = new Degree(arg.state.Y.rel * -0.1f);
+                    editor.Map.Camera.Pitch(deCameraPitch);
+
                     if (currentSelectedEnt != null)
                     {
                         currentSelectedEnt.ParentSceneNode.ShowBoundingBox = false;
@@ -367,16 +396,32 @@ namespace OpenMB.Screen
         public override void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
         {
             base.InjectMouseReleased(arg, id);
-            if (id == MouseButtonID.MB_Left)
-            {
-                state = EditState.Free;
-                currentSelectedEnt = null;
-            }
         }
 
         public override void InjectKeyPressed(KeyEvent arg)
         {
             base.InjectKeyPressed(arg);
+            switch(arg.key)
+            {
+                case KeyCode.KC_A:
+                    editor.Map.CameraHanlder.CameraMoveX(-10);
+                    break;
+                case KeyCode.KC_D:
+                    editor.Map.CameraHanlder.CameraMoveX(10);
+                    break;
+                case KeyCode.KC_W:
+                    editor.Map.CameraHanlder.CameraMoveZ(-10);
+                    break;
+                case KeyCode.KC_S:
+                    editor.Map.CameraHanlder.CameraMoveZ(10);
+                    break;
+                case KeyCode.KC_E:
+                    editor.Map.CameraHanlder.CameraMoveY(10);
+                    break;
+                case KeyCode.KC_Q:
+                    editor.Map.CameraHanlder.CameraMoveY(-10);
+                    break;
+            }
             switch(state)
             {
                 case EditState.Edit:
@@ -412,6 +457,7 @@ namespace OpenMB.Screen
             if(editorPanel.IsVisible)
             {
                 editorPanel.Hide();
+                editor.Dispose();
             }
         }
 
@@ -433,7 +479,7 @@ namespace OpenMB.Screen
             }
         }
 
-        private void HandleObjOperationNoResize(Mogre.Vector3 newPos)
+        private void HandleObjOperationNoResize(Mogre.Vector3 objNewPos, Mogre.Vector2 cursorPos)
         {
             if (currentSelectedEnt == null)
             {
@@ -442,12 +488,21 @@ namespace OpenMB.Screen
             Mogre.Vector3 currentPos = currentSelectedEnt.ParentNode.Position;
             switch (operation)
             {
+                case EditOperation.ChangingObjCoordFllowMouse:
+                    currentSelectedEnt.ParentNode.Position = objNewPos;
+                    break;
                 case EditOperation.ChangingObjCoord:
-                    Mogre.Vector3 newPosXZ = new Mogre.Vector3(newPos.x, currentPos.y, newPos.z);
+                    float offsetX = cursorPos.x - lastMousePos.x;
+                    float offsetZ = cursorPos.y - lastMousePos.y;
+
+                    Mogre.Vector3 newPosXZ = new Mogre.Vector3(
+                        currentPos.x - offsetX, 
+                        currentPos.y,
+                        currentPos.z - offsetZ);
                     currentSelectedEnt.ParentNode.Position = newPosXZ;
                     break;
                 case EditOperation.ChangingObjHeight:
-                    Mogre.Vector3 newPosY = new Mogre.Vector3(currentPos.x, newPos.y, currentPos.z);
+                    Mogre.Vector3 newPosY = new Mogre.Vector3(currentPos.x, objNewPos.y, currentPos.z);
                     currentSelectedEnt.ParentNode.Position = newPosY;
                     break;
             }

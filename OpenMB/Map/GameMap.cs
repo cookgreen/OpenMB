@@ -26,6 +26,7 @@ namespace OpenMB.Map
         private string mapName;
         private DotSceneLoader.DotSceneLoader mapLoader;
         private List<Character> agents;
+
         private Dictionary<string, List<GameObject>> gameObjects;
         private List<ActorNode> actorNodeList;
         private ScriptLoader scriptLoader;
@@ -38,12 +39,12 @@ namespace OpenMB.Map
         private ControllerManager controllerMgr;
         private Character playerAgent;
         private Camera cam;
+        private CameraHandler cameraHanlder;
         private GameWorld world;
         private AIMesh aimesh;
         private List<Mogre.Vector3> aimeshVertexData;
         private List<Mogre.Vector3> aimeshIndexData;
         private GameMapEditor editor;
-        private CameraHandler cameraHanlder;
         private bool combineKey;
         private KeyCode combineKeyCode;
 
@@ -88,6 +89,14 @@ namespace OpenMB.Map
             set { playerAgent = value; }
         }
 
+        public CameraHandler CameraHanlder
+        {
+            get
+            {
+                return cameraHanlder;
+            }
+        }
+
         public event MapLoadhandler LoadMapStarted;
         public event MapLoadhandler LoadMapFinished;
 
@@ -117,9 +126,17 @@ namespace OpenMB.Map
             GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
         }
 
-        public void CreateMesh(string meshName)
+        public Entity CreateEntityWithMaterial(string name, string entityMeshName, string materialName)
         {
-            throw new NotImplementedException();
+            Entity ent = scm.CreateEntity(name, entityMeshName);
+            ent.SetMaterialName(materialName);
+            uint subEntNum = ent.NumSubEntities;
+            for (uint i = 0; i < subEntNum; i++)
+            {
+                SubEntity subEnt = ent.GetSubEntity(i);
+                subEnt.SetMaterialName(materialName);
+            }
+            return ent;
         }
 
 
@@ -277,6 +294,7 @@ namespace OpenMB.Map
                     else
                     {
                         //EditMode
+                        cameraHanlder.ChangeMode(CameraMode.Manual);//Manually control
                         ScreenManager.Instance.ChangeScreen("InnerGameEditor", editor);
                     }
                     break;
@@ -348,6 +366,7 @@ namespace OpenMB.Map
             else if (playerAgent == null)
             {
                 cameraHanlder.InjectMouseMove(arg);
+                
             }
             else
             {

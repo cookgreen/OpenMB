@@ -26,8 +26,7 @@ namespace OpenMB.Map
         {
             this.map = map;
             scm = map.SceneManager;
-            objPivot = scm.CreateEntity("MARKER_PIVOT", "marker_pivot.mesh");
-            objPivot.SetMaterialName("marker_pivot");
+            objPivot = map.CreateEntityWithMaterial("MARKER_PIVOT", "marker_pivot.mesh", "marker_pivot");
             SceneNode objPivotSceneNode = scm.RootSceneNode.CreateChildSceneNode();
             objPivotSceneNode.AttachObject(objPivot);
             objPivot.Visible = false;
@@ -80,7 +79,11 @@ namespace OpenMB.Map
 
                             AIMeshEdge visualEdge = new AIMeshEdge();
                             visualEdge.Position = centralVertexData;
-                            Entity visualAIMeshLineEnt = scm.CreateEntity("AIMESH_LINE_ENT_" + index, "marker_line.mesh");
+                            Entity visualAIMeshLineEnt = map.CreateEntityWithMaterial(
+                                "AIMESH_LINE_ENT_" + Guid.NewGuid().ToString(), 
+                                "marker_line.mesh", 
+                                "marker_line"
+                            );
                             SceneNode visualAIMeshLineSceneNode = scm.RootSceneNode.CreateChildSceneNode("AIMESH_LINE_SCENENODE_" + index);
                             visualAIMeshLineSceneNode.AttachObject(visualAIMeshLineEnt);
                             visualAIMeshLineSceneNode.Position = centralVertexData;
@@ -128,8 +131,8 @@ namespace OpenMB.Map
             AIMeshVertex newVertex = new AIMeshVertex();
             newVertex.Position = newVertexPos;
             aimesh.AIMeshVertics.Add(newVertex);
-            Entity visualAIMeshVertexEnt = scm.CreateEntity("AIMESH_VERTEX_ENT_" + aimesh.AIMeshVertexData.Count, "marker_vertex.mesh");
-            SceneNode visualAIMeshVertexSceneNode = scm.RootSceneNode.CreateChildSceneNode("AIMESH_VERTEX_SCENENODE_" + aimesh.AIMeshVertexData.Count);
+            Entity visualAIMeshVertexEnt = scm.CreateEntity("AIMESH_VERTEX_ENT_" + Guid.NewGuid().ToString(), "marker_vertex.mesh");
+            SceneNode visualAIMeshVertexSceneNode = scm.RootSceneNode.CreateChildSceneNode("AIMESH_VERTEX_SCENENODE_" + Guid.NewGuid().ToString());
             visualAIMeshVertexSceneNode.AttachObject(visualAIMeshVertexEnt);
             visualAIMeshVertexSceneNode.Position = newVertexPos;
             visualAIMeshVertexEnt.QueryFlags = 1 << 0;
@@ -204,16 +207,18 @@ namespace OpenMB.Map
 
         public void Dispose()
         {
-            SceneManager.MovableObjectIterator entities = scm.GetMovableObjectIterator("Entity");
-            while (entities.MoveNext())
-            {
-                MovableObject mo = entities.Current;
-                if (mo.QueryFlags == 1 << 0)
-                {
-                    //Destroy this
-                    scm.DestroyEntity(mo.Name);
-                }
-            }
+            map.CameraHanlder.RestoreLastMode();
+            //SceneManager.MovableObjectIterator entities = scm.GetMovableObjectIterator("Entity");
+            //while (entities.MoveNext())
+            //{
+            //    MovableObject mo = entities.Current;
+            //    if (mo.Name.StartsWith("AIMESH"))
+            //    {
+            //        //Destroy this
+            //        scm.DestroyEntity(mo.Name);
+            //    }
+            //}
+            //scm.DestroyEntity("MARKER_PIVOT");
         }
 
         public void ShowPivotAtPosition(Vector3 entCenterPos)

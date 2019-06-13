@@ -6,31 +6,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Vector3 = Mogre.Vector3;
+using OpenMB.Screen;
 
 namespace OpenMB.Game
 {
-    public enum CameraState
+    public enum CameraMode
     {
         Free,//Free Movement
         Follow,//Follow a Character
+        Manual,//Manual control
     }
     public class CameraHandler
     {
         private GameMap map;
         private Camera camera;
         private Vector3 cameraMovement;
-        private CameraState cameraState;
+        private CameraMode cameraMode;
+        private CameraMode oldMode;
         private int currentAgentId;
-        public CameraHandler(GameMap map, CameraState cameraState = CameraState.Free)
+        public CameraHandler(GameMap map, CameraMode cameraMode = CameraMode.Free)
         {
             this.map = map;
             camera = map.Camera;
-            this.cameraState = cameraState;
+            this.cameraMode = cameraMode;
+            oldMode = cameraMode;
             currentAgentId = -1;
         }
 
         public void InjectMouseMove(MouseEvent arg)
         {
+            if (cameraMode == CameraMode.Manual)
+            {
+                ScreenManager.Instance.InjectMouseMove(arg);
+                return;
+            }
             Degree deCameraYaw = new Degree(arg.state.X.rel * -0.1f);
             camera.Yaw(deCameraYaw);
             Degree deCameraPitch = new Degree(arg.state.Y.rel * -0.1f);
@@ -41,7 +50,7 @@ namespace OpenMB.Game
         {
             if (id == MouseButtonID.MB_Left)
             {
-                cameraState = CameraState.Follow;
+                cameraMode = CameraMode.Follow;
                 //Choose a character to follow
                 if (currentAgentId != -1)
                 {
@@ -74,11 +83,18 @@ namespace OpenMB.Game
 
         public void InjectKeyPressed(KeyEvent arg)
         {
-            if (cameraState == CameraState.Follow &&
-               (arg.key == KeyCode.KC_W || arg.key == KeyCode.KC_A || arg.key == KeyCode.KC_S || arg.key == KeyCode.KC_D))
+            if (cameraMode == CameraMode.Manual)
+            {
+                ScreenManager.Instance.InjectKeyPressed(arg);
+            }
+            else if (cameraMode == CameraMode.Follow &&
+               (arg.key == KeyCode.KC_W ||
+               arg.key == KeyCode.KC_A ||
+               arg.key == KeyCode.KC_S ||
+               arg.key == KeyCode.KC_D))
             {
                 camera = map.GetAgentById(currentAgentId).DetachCamera();
-                cameraState = CameraState.Free;
+                cameraMode = CameraMode.Free;
                 currentAgentId = -1;
             }
             else
@@ -87,58 +103,90 @@ namespace OpenMB.Game
                 switch (arg.key)
                 {
                     case KeyCode.KC_A:
-                        cameraMovement.x = -10;
+                        CameraMoveX(-10);
                         break;
                     case KeyCode.KC_D:
-                        cameraMovement.x = 10;
+                        CameraMoveX(10);
                         break;
                     case KeyCode.KC_W:
-                        cameraMovement.z = -10;
+                        CameraMoveZ(-10);
                         break;
                     case KeyCode.KC_S:
-                        cameraMovement.z = 10;
+                        CameraMoveZ(10);
                         break;
                     case KeyCode.KC_Q:
-                        cameraMovement.y = -10;
+                        CameraMoveY(-10);
                         break;
                     case KeyCode.KC_E:
-                        cameraMovement.y = 10;
+                        CameraMoveY(10);
                         break;
                 }
             }
         }
 
+        public void CameraMoveX(float movement)
+        {
+            cameraMovement.x = movement;
+        }
+        public void CameraMoveY(float movement)
+        {
+            cameraMovement.y = movement;
+        }
+        public void CameraMoveZ(float movement)
+        {
+            cameraMovement.z = movement;
+        }
+
         public void InjectKeyReleased(KeyEvent arg)
         {
+            if (cameraMode == CameraMode.Manual)
+            {
+                ScreenManager.Instance.InjectKeyReleased(arg);
+            }
             cameraMovement = new Vector3(0, 0, 0);
         }
 
         public void Update(float timeSinceLastFrame)
         {
-            if (map.GetAgents() == null || map.GetAgents().Count == 0)
+            if ((map.GetAgents() == null ||
+                map.GetAgents().Count == 0) &&
+                cameraMode != CameraMode.Manual)
             {
-                cameraState = CameraState.Free;
+                cameraMode = CameraMode.Free;
             }
-            switch (cameraState)
+            switch (cameraMode)
             {
-                case CameraState.Free:
-                    moveCamera();
+                case CameraMode.Free:
+                    MoveCamera();
                     break;
-                case CameraState.Follow:
+                case CameraMode.Follow:
                     var agent = map.GetAgentById(currentAgentId);
                     if (agent != null)
                     {
                         agent.UpdateCamera(timeSinceLastFrame);
                     }
                     break;
+                case CameraMode.Manual:
+                    break;
             }
             GameManager.Instance.trayMgr.refreshCursor();
         }
-        private void moveCamera()
+        public void MoveCamera()
         {
             if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_LSHIFT))
                 camera.MoveRelative(cameraMovement);
             camera.MoveRelative(cameraMovement / 10);
+        }
+
+        public void ChangeMode(CameraMode newMode)
+        {
+            oldMode = cameraMode;
+            cameraMode = newMode;
+        }
+
+        public void RestoreLastMode()
+        {
+            cameraMode = oldMode;
         }
     }
 }
