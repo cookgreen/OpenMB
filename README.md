@@ -26,11 +26,11 @@ Open Source Mount&Blade Series
 * Shift+Space - Full Screen  
 * V - Screenshot  
 * LControl+E - Edit Mode  
-** W - Forward  
-** A - Left  
-** S - Backward  
-** D - Right  
-** Mouse Control Camera look at  
+  * W - Forward  
+  * A - Left  
+  * S - Backward  
+  * D - Right  
+  * Mouse Control Camera look at  
 
 ## License:
 GPLv3
