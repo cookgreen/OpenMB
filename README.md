@@ -23,9 +23,14 @@ Open Source Mount&Blade Series
 * OpenBRF
 
 ## Usage:
-* Shift+Space - Full Screen
-* V - Screenshot
-* LControl+E - Edit Mode
+* Shift+Space - Full Screen  
+* V - Screenshot  
+* LControl+E - Edit Mode  
+** W - Forward  
+** A - Left  
+** S - Backward  
+** D - Right  
+** Mouse Control Camera look at  
 
 ## License:
 GPLv3
