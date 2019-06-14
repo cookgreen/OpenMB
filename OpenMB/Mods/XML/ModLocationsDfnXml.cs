@@ -20,10 +20,20 @@ namespace OpenMB.Mods.XML
         [XmlElement]
         public string Name { get; set; }
         [XmlElement]
+        public ModLocationPositionDfnXml Position { get; set; }
+        [XmlElement]
         public string Mesh { get; set; }
         [XmlArray("Flags")]
         [XmlArrayItem("Flag")]
         public List<ModLocationFlagDfnXml> Flags { get; set; }
+    }
+
+    public class ModLocationPositionDfnXml
+    {
+        [XmlAttribute]
+        public float X { get; set; }
+        [XmlAttribute]
+        public float Y { get; set; }
     }
 
     public class ModLocationFlagDfnXml
