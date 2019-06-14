@@ -35,12 +35,13 @@ namespace OpenMB.Script
             RegisteredCommand.Add("agent_equip_item", typeof(AgentEquipItemScriptCommand));
             RegisteredCommand.Add("call", typeof(CallScriptCommand));
             RegisteredCommand.Add("change_hitpoint", typeof(ChangeHitpointScriptCommand));
+            RegisteredCommand.Add("change_map", typeof(ChangeMapScriptCommand));
+            RegisteredCommand.Add("change_world_map", typeof(ChangeWorldMapScriptCommand));
             RegisteredCommand.Add("condition", typeof(TriggerConditionScriptCommand));
             RegisteredCommand.Add("end", typeof(EndScriptCommand));
             RegisteredCommand.Add("execute", typeof(TriggerExecuteSrciptCommand));
             RegisteredCommand.Add("function", typeof(FunctionScriptCommand));
             RegisteredCommand.Add("init_vector", typeof(InitVectorScriptCommand));
-            RegisteredCommand.Add("load_map", typeof(LoadMapScriptCommand));
             RegisteredCommand.Add("loop", typeof(LoopScriptCommand));
             RegisteredCommand.Add("namespace", typeof(NamespaceScriptCommand));
             RegisteredCommand.Add("spawn", typeof(SpawnScriptCommand));

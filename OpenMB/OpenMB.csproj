@@ -279,6 +279,7 @@
     <Compile Include="Script\Command\FunctionScriptCommand.cs" />
     <Compile Include="Script\Command\InitVectorScriptCommand.cs" />
     <Compile Include="Script\Command\IScriptCommand.cs" />
+    <Compile Include="Script\Command\ChangeWorldMapScriptCommand.cs" />
     <Compile Include="Script\Command\LoopScriptCommand.cs" />
     <Compile Include="Script\Command\NamespaceScriptCommand.cs" />
     <Compile Include="Script\Command\RemoveLightScriptCommand.cs" />
@@ -286,7 +287,7 @@
     <Compile Include="Script\Command\ScriptCommand.cs" />
     <Compile Include="Script\Command\SpawnPlaneScriptCommand.cs" />
     <Compile Include="Script\Command\SpawnScenePropScriptCommand.cs" />
-    <Compile Include="Script\Command\LoadMapScriptCommand.cs" />
+    <Compile Include="Script\Command\ChangeMapScriptCommand.cs" />
     <Compile Include="Script\Command\StoreScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerExecuteSrciptCommand.cs" />

@@ -8,10 +8,10 @@ using System.Text;
 
 namespace OpenMB.Script.Command
 {
-    public class LoadMapScriptCommand : ScriptCommand
+    public class ChangeWorldMapScriptCommand : ScriptCommand
     {
         private string[] commandArgs;
-        public LoadMapScriptCommand()
+        public ChangeWorldMapScriptCommand()
         {
             commandArgs = new string[] {
                 "mapName"
@@ -29,7 +29,7 @@ namespace OpenMB.Script.Command
         {
             get
             {
-                return "spawn";
+                return "change_world_map";
             }
         }
 
