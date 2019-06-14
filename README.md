@@ -5,7 +5,7 @@
 Open Source Mount&Blade Series
 
 ## Feature:
-* Custom Number world map  
+* Customize world map  
 * Realistic Physics System  
 * Individual Script System
 * Mod System  
