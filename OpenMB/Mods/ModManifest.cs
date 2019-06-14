@@ -19,7 +19,7 @@ namespace OpenMB.Mods
         public ModManifest(string path)
         {
             InstalledPath = path;
-            path = path + "/Module.xml";
+            path = path + "/module.xml";
             ModXmlLoader loader = new ModXmlLoader(path);
             ModXML xmldata;
             if (loader.Load<XML.ModXML>(out xmldata))
