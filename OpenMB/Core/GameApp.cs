@@ -37,7 +37,7 @@ namespace OpenMB
 
         public RunState Run()
         {
-            if (!GameManager.Instance.Init("AMGE", gameOptions))
+            if (!GameManager.Instance.Init("OpenMB", gameOptions))
             {
                 EngineLogManager.Instance.LogMessage("Failed to initialize the game engine!", LogType.Error);
                 return RunState.Error;
