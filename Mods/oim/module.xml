@@ -15,6 +15,7 @@
     <Maps>Maps.xml</Maps>
     <WorldMaps>WorldMaps.xml</WorldMaps>
     <Locations>Locations.xml</Locations>
+    <Skeletons>Skeletons.xml</Skeletons>
   </Data>
   <Media>
     <MediaSection Type="FileSystem">Media/Resources</MediaSection>
@@ -25,4 +26,35 @@
     <MediaSection Type="FileSystem">Sound</MediaSection>
     <MediaSection Type="FileSystem">Scenes</MediaSection>
   </Media>
+  <Startup>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+	<Action Type="LoadModResource"></Action>
+  </Startup>
 </Module>

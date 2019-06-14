@@ -39,9 +39,9 @@ namespace OpenMB.Mods
                                         xmldata.Data.skinXML,
                                         xmldata.Data.mapsXml,
                                         xmldata.Data.worldMapsXML,
-                                        xmldata.Data.locationsXML);
+                                        xmldata.Data.locationsXML,
+                                        xmldata.Data.skeletonsXML);
                 Media = xmldata.Media;
-                Maps = xmldata.Maps.ToArray();
             }
         }
     }

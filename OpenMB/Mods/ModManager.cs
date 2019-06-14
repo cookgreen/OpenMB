@@ -146,6 +146,11 @@ namespace OpenMB.Mods
                 loader.Load<XML.ModLocationsDfnXml>(out locationsDfn);
                 currentMod.LocationInfos = locationsDfn.Locations;
 
+                loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Skeletons);
+                XML.ModSkeletonsDfnXML skeletonsDfn;
+                loader.Load<XML.ModSkeletonsDfnXML>(out skeletonsDfn);
+                currentMod.SkeletonInfos = skeletonsDfn.Skeletons;
+
                 worker.ReportProgress(100);
 
                 System.Threading.Thread.Sleep(1000);

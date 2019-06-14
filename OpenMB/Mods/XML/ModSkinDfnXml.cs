@@ -21,9 +21,41 @@ namespace OpenMB.Mods.XML
         public string skinID { get; set; }
         [XmlElement("Name")]
         public string skinName { get; set; }
+        [XmlElement("HasParts")]
+        public bool HasParts { get; set; }
+        [XmlElement("SkinParts")]
+        public List<CharacterSkinPartsDfnXML> SkinParts { get; set; }
         [XmlArray("Animations")]
         [XmlArrayItem("Animation")]
         public List<ModRaceAnimationDfnXml> RaceAnimations { get; set; }
+    }
+
+    [XmlRoot("SkinParts")]
+    public class CharacterSkinPartsDfnXML
+    {
+        [XmlElement("SkinPart")]
+        public List<CharacterSkinPartDfnXML> SkinParts { get; set; }
+    }
+
+    public enum CharacterSkinPartType
+    {
+        HEAD,
+        HALF_HEAD,
+        BODY,
+        LEFT_HAND,
+        RIGHT_HAND,
+        LEFT_CALF,
+        RIGHT_CALF
+    }
+
+    public class CharacterSkinPartDfnXML
+    {
+        [XmlAttribute]
+        public CharacterSkinPartType Type;
+        [XmlAttribute]
+        public string BindBone;
+        [XmlText]
+        public string Mesh;
     }
 
     public class ModRaceAnimationDfnXml

@@ -1,0 +1,12 @@
+<Skeletons>
+	<Skeleton>
+		<ID>skel_sinbad</ID>
+		<Name>Sinbad Skeleton</Name>
+		<MeshName>sinbad.skeleton</MeshName>
+	</Skeleton>
+	<Skeleton>
+		<ID>skel_human</ID>
+		<Name>Human Skeleton</Name>
+		<MeshName>skel_human</MeshName>
+	</Skeleton>
+</Skeletons>

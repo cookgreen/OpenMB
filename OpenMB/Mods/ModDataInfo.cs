@@ -16,6 +16,7 @@ namespace OpenMB.Mods
         public readonly string Maps;
         public readonly string WorldMaps;
         public readonly string Locations;
+        public readonly string Skeletons;
 
         public ModDataInfo(
             string characters,
@@ -26,7 +27,8 @@ namespace OpenMB.Mods
             string skin,
             string maps,
             string worldmaps,
-            string locations)
+            string locations,
+            string skeletons)
         {
             Characters = characters;
             Sound = sound;
@@ -37,6 +39,7 @@ namespace OpenMB.Mods
             Maps = maps;
             WorldMaps = worldmaps;
             Locations = locations;
+            Skeletons = skeletons;
         }
     }
 }

@@ -26,5 +26,7 @@ namespace OpenMB.Mods.XML
         public string worldMapsXML { get; set; }
         [XmlElement("Locations")]
         public string locationsXML { get; set; }
+        [XmlElement("Skeletons")]
+        public string skeletonsXML { get; set; }
     }
 }

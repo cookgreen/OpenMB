@@ -20,13 +20,5 @@ namespace OpenMB.Mods.XML
 
         [XmlElement("Media")]
         public ModMediaXml Media { get; set; }
-
-        [XmlArray("Scripts")]
-        [XmlArrayItem("ScriptDir")]
-        public List<string> Scripts { get; set; }
-
-        [XmlArray("Maps")]
-        [XmlArrayItem("Map")]
-        public List<string> Maps { get; set; }
     }
 }

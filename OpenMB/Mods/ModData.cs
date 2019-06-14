@@ -20,6 +20,7 @@ namespace OpenMB.Mods
         private List<ModMapDfnXml> mapInfos;
         private List<ModWorldMapDfnXml> worldMapInfos;
         private List<ModLocationDfnXml> locationInfos;
+        private List<ModSkeletonDfnXML> skeletonInfos;
 
         public ModBaseInfo BasicInfo
         {
@@ -77,6 +78,12 @@ namespace OpenMB.Mods
             set { locationInfos = value; }
         }
 
+        public List<ModSkeletonDfnXML> SkeletonInfos
+        {
+            get { return SkeletonInfos; }
+            set { SkeletonInfos = value; }
+        }
+
         public ModData()
         {
             characterInfos = new List<ModCharacterDfnXML>();
@@ -88,6 +95,7 @@ namespace OpenMB.Mods
             mapInfos = new List<ModMapDfnXml>();
             worldMapInfos = new List<ModWorldMapDfnXml>();
             locationInfos = new List<ModLocationDfnXml>();
+            SkeletonInfos = new List<ModSkeletonDfnXML>();
         }
     }
 }
