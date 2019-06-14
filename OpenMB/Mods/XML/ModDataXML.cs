@@ -28,5 +28,17 @@ namespace OpenMB.Mods.XML
         public string locationsXML { get; set; }
         [XmlElement("Skeletons")]
         public string skeletonsXML { get; set; }
+        [XmlElement]
+        public ModDataDirXML DataDir { get; set; }
+    }
+
+    public class ModDataDirXML
+    {
+        [XmlElement]
+        public string MapDir { get; set; }
+        [XmlElement]
+        public string MusicDir { get; set; }
+        [XmlElement]
+        public string ScriptDir { get; set; }
     }
 }

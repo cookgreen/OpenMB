@@ -254,7 +254,7 @@
     <Compile Include="Mods\ModManager.cs" />
     <Compile Include="Mods\ModManifest.cs" />
     <Compile Include="Mods\ModXmlLoader.cs" />
-    <Compile Include="Mods\XML\ModCharactersDfnXML.cs" />
+    <Compile Include="Mods\XML\ModCharacterDfnXML.cs" />
     <Compile Include="Mods\XML\ModDataXML.cs" />
     <Compile Include="Mods\XML\ModInfoXML.cs" />
     <Compile Include="Mods\XML\ModItemsDfnXML.cs" />

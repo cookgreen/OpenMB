@@ -22,6 +22,10 @@ namespace OpenMB.Mods
         private List<ModLocationDfnXml> locationInfos;
         private List<ModSkeletonDfnXML> skeletonInfos;
 
+        public string MusicDir { get; set; }
+        public string MapDir { get; set; }
+        public string ScriptDir { get; set; }
+
         public ModBaseInfo BasicInfo
         {
             get { return modBasicInfo; }
@@ -80,8 +84,8 @@ namespace OpenMB.Mods
 
         public List<ModSkeletonDfnXML> SkeletonInfos
         {
-            get { return SkeletonInfos; }
-            set { SkeletonInfos = value; }
+            get { return skeletonInfos; }
+            set { skeletonInfos = value; }
         }
 
         public ModData()

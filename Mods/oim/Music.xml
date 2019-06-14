@@ -1,8 +1,8 @@
 <Tracks>
   <Track>
     <Id>game_title</Id>
-    <File>vivaldi_winter_allegro.ogg</File>
-    <Type>EngineTrack</Type>
+    <File>oim_mount_and_blade_title_screen.ogg</File>
+    <Type>ModuleTrack</Type>
     <PlayType>MainMenu</PlayType>
   </Track>
 </Tracks>

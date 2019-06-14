@@ -151,6 +151,10 @@ namespace OpenMB.Mods
                 loader.Load<XML.ModSkeletonsDfnXML>(out skeletonsDfn);
                 currentMod.SkeletonInfos = skeletonsDfn.Skeletons;
 
+                currentMod.MapDir = manifest.Data.MapDir;
+                currentMod.MusicDir = manifest.Data.MusicDir;
+                currentMod.ScriptDir = manifest.Data.ScriptDir;
+
                 worker.ReportProgress(100);
 
                 System.Threading.Thread.Sleep(1000);

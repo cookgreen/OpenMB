@@ -225,11 +225,11 @@ namespace OpenMB.Sound
                 currentSound = new GameSound();
                 if (result.First().Type == Mods.XML.TrackType.EngineTrack)
                 {
-                    musicfile = string.Format("{0}//Music//{1}", Environment.CurrentDirectory, result.First().File);
+                    musicfile = string.Format("{0}//{1}//{2}", Environment.CurrentDirectory, modData.MusicDir, result.First().File);
                 }
                 else if (result.First().Type == Mods.XML.TrackType.ModuleTrack)
                 {
-                    musicfile = string.Format("{0}//Music//{1}", modData.BasicInfo.InstallPath, result.First().File);
+                    musicfile = string.Format("{0}//{1}//{2}", modData.BasicInfo.InstallPath, modData.MusicDir, result.First().File);
                 }
                 if (File.Exists(musicfile))
                 {

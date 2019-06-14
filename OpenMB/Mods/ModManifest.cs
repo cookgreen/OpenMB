@@ -12,8 +12,6 @@ namespace OpenMB.Mods
         public readonly string AssemblyName;
         public readonly ModDataInfo Data;
         public readonly ModMediaXml Media;
-        public readonly string[] Scripts;
-        public readonly string[] Maps;
         public readonly string InstalledPath;
 
         public ModManifest(string path)
@@ -40,7 +38,11 @@ namespace OpenMB.Mods
                                         xmldata.Data.mapsXml,
                                         xmldata.Data.worldMapsXML,
                                         xmldata.Data.locationsXML,
-                                        xmldata.Data.skeletonsXML);
+                                        xmldata.Data.skeletonsXML,
+                                        xmldata.Data.DataDir.MapDir,
+                                        xmldata.Data.DataDir.MusicDir,
+                                        xmldata.Data.DataDir.ScriptDir);
+
                 Media = xmldata.Media;
             }
         }
