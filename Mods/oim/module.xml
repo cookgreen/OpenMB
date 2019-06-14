@@ -1,8 +1,8 @@
 <Module>
   <Info>
-    <Name>Uprising of Brelan Empire</Name>
-    <Description>Uprising of Brelan Empire</Description>
-    <Version>1.0</Version>
+    <Name>Ogniem i Mieczem</Name>
+    <Description>Mount & Blade With Fire and Sword</Description>
+    <Version>1.143</Version>
     <Thumb>Sample_Thumb.png</Thumb>
   </Info>
   <Data>
@@ -17,13 +17,12 @@
     <Locations>Locations.xml</Locations>
   </Data>
   <Media>
-    <MediaSection Type="FileSystem">Media/Materials</MediaSection>
-    <MediaSection Type="FileSystem">Media/Models</MediaSection>
-    <MediaSection Type="FileSystem">Media/Overlay</MediaSection>
+    <MediaSection Type="FileSystem">Media/Resources</MediaSection>
     <MediaSection Type="FileSystem">Media/Textures</MediaSection>
+    <MediaSection Type="FileSystem">Media/Overlay</MediaSection>
     <MediaSection Type="FileSystem">Scripts</MediaSection>
+    <MediaSection Type="FileSystem">Music</MediaSection>
+    <MediaSection Type="FileSystem">Sound</MediaSection>
+    <MediaSection Type="FileSystem">Scenes</MediaSection>
   </Media>
-  <Maps>
-	<MapDir>Scenes</MapDir>
-  </Maps>
 </Module>
