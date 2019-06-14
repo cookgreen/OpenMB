@@ -13,8 +13,20 @@ namespace OpenMB.Mods
         public readonly string Items;
         public readonly string Sides;
         public readonly string Skin;
+        public readonly string Maps;
+        public readonly string WorldMaps;
+        public readonly string Locations;
 
-        public ModDataInfo(string characters,string sound,string music,string items,string sides, string skin)
+        public ModDataInfo(
+            string characters,
+            string sound,
+            string music,
+            string items,
+            string sides, 
+            string skin,
+            string maps,
+            string worldmaps,
+            string locations)
         {
             Characters = characters;
             Sound = sound;
@@ -22,6 +34,9 @@ namespace OpenMB.Mods
             Items = items;
             Sides = sides;
             Skin = skin;
+            Maps = maps;
+            WorldMaps = worldmaps;
+            Locations = locations;
         }
     }
 }

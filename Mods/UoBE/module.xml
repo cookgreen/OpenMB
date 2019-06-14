@@ -12,6 +12,9 @@
     <Items>Items.xml</Items>
     <Sides>Side.xml</Sides>
     <Skin>Skin.xml</Skin>
+    <Maps>Maps.xml</Maps>
+    <WorldMaps>WorldMaps.xml</WorldMaps>
+    <Locations>Locations.xml</Locations>
   </Data>
   <Media>
     <MediaSection Type="FileSystem">Media/Materials</MediaSection>

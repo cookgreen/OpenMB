@@ -131,6 +131,21 @@ namespace OpenMB.Mods
                 loader.Load<XML.ModSoundsDfnXML>(out soundDfn);
                 currentMod.SoundInfos = soundDfn.Sounds;
 
+                loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Maps);
+                XML.ModMapsDfnXml mapsDfn;
+                loader.Load<XML.ModMapsDfnXml>(out mapsDfn);
+                currentMod.MapInfos = mapsDfn.Maps;
+
+                loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.WorldMaps);
+                XML.ModWorldMapsDfnXml worldMapsDfn;
+                loader.Load<XML.ModWorldMapsDfnXml>(out worldMapsDfn);
+                currentMod.WorldMapInfos = worldMapsDfn.WorldMaps;
+
+                loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Locations);
+                XML.ModLocationsDfnXml locationsDfn;
+                loader.Load<XML.ModLocationsDfnXml>(out locationsDfn);
+                currentMod.LocationInfos = locationsDfn.Locations;
+
                 worker.ReportProgress(100);
 
                 System.Threading.Thread.Sleep(1000);

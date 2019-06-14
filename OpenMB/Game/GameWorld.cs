@@ -185,6 +185,29 @@ namespace OpenMB.Game
             GameMapManager.Instance.Load(sceneName);
         }
 
+        public void ChangeWorldMap(string worldMapID)
+        {
+            var findWorldMaps = modData.WorldMapInfos.Where(o => o.ID == worldMapID);
+            if (findWorldMaps.Count() > 0)
+            {
+                var findWorldMap = findWorldMaps.ElementAt(0);
+                var findMaps = modData.MapInfos.Where(o => o.ID == findWorldMap.Map);
+                if (findMaps.Count() > 0)
+                {
+                    var findMap = findMaps.ElementAt(0);
+                    ChangeScene(findMap.File);
+                }
+                else
+                {
+                    GameManager.Instance.log.LogMessage(string.Format("Couldn't find map with ID `{0}`", findWorldMap.Map), LogMessage.LogType.Error);
+                }
+            }
+            else
+            {
+                GameManager.Instance.log.LogMessage(string.Format("Couldn't find world map with ID `{0}`", worldMapID), LogMessage.LogType.Error);
+            }
+        }
+
         public void Destroy()
         {
             GameMapManager.Instance.Dispose();

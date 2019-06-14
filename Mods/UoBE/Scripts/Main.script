@@ -1,5 +1,5 @@
 #### MAIN ENTRY ####
 
 function GameStart
-	load_map CubeScene
+	load_map WMP_1
 end

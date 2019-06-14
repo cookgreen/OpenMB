@@ -16,18 +16,15 @@ namespace OpenMB.Mods
         private List<ModTrackDfnXML> musicInfos;
         private List<ModSoundDfnXML> soundInfos;
         private List<ModSideDfnXML> sideInfos;
-        private List<ModMapDfnXML> mapInfos;
         private List<ModCharacterSkinDfnXML> skinInfos;
+        private List<ModMapDfnXml> mapInfos;
+        private List<ModWorldMapDfnXml> worldMapInfos;
+        private List<ModLocationDfnXml> locationInfos;
 
         public ModBaseInfo BasicInfo
         {
             get { return modBasicInfo; }
             set { modBasicInfo = value; }
-        }
-        public List<ModMapDfnXML> MapInfos
-        {
-            get { return mapInfos; }
-            set { mapInfos = value; }
         }
         public List<ModSideDfnXML> SideInfos
         {
@@ -62,15 +59,35 @@ namespace OpenMB.Mods
             set { skinInfos = value; }
         }
 
+        public List<ModMapDfnXml> MapInfos
+        {
+            get{ return mapInfos; }
+            set{ mapInfos = value; }
+        }
+
+        public List<ModWorldMapDfnXml> WorldMapInfos
+        {
+            get { return worldMapInfos; }
+            set { worldMapInfos = value; }
+        }
+
+        internal List<ModLocationDfnXml> LocationInfos
+        {
+            get { return locationInfos; }
+            set { locationInfos = value; }
+        }
+
         public ModData()
         {
             characterInfos = new List<ModCharacterDfnXML>();
             itemInfos = new List<ModItemDfnXML>();
             musicInfos = new List<ModTrackDfnXML>();
             sideInfos = new List<ModSideDfnXML>();
-            mapInfos = new List<ModMapDfnXML>();
             soundInfos = new List<ModSoundDfnXML>();
             skinInfos = new List<ModCharacterSkinDfnXML>();
+            mapInfos = new List<ModMapDfnXml>();
+            worldMapInfos = new List<ModWorldMapDfnXml>();
+            locationInfos = new List<ModLocationDfnXml>();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace OpenMB.Mods
             InstalledPath = path;
             path = path + "/Module.xml";
             ModXmlLoader loader = new ModXmlLoader(path);
-            XML.ModXML xmldata;
+            ModXML xmldata;
             if (loader.Load<XML.ModXML>(out xmldata))
             {
                 MetaData = new ModBaseInfo(InstalledPath,
@@ -36,9 +36,11 @@ namespace OpenMB.Mods
                                         xmldata.Data.musicXML,
                                         xmldata.Data.itemXML,
                                         xmldata.Data.sideXML,
-                                        xmldata.Data.skinXML);
+                                        xmldata.Data.skinXML,
+                                        xmldata.Data.mapsXml,
+                                        xmldata.Data.worldMapsXML,
+                                        xmldata.Data.locationsXML);
                 Media = xmldata.Media;
-                Scripts = xmldata.Scripts.ToArray();
                 Maps = xmldata.Maps.ToArray();
             }
         }

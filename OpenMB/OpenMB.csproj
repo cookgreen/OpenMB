@@ -236,8 +236,11 @@
     <Compile Include="Map\AIMeshVertex.cs" />
     <Compile Include="Map\GameMapEditor.cs" />
     <Compile Include="Game\MoveInfo.cs" />
+    <Compile Include="Mods\XML\ModLocationsDfnXml.cs" />
+    <Compile Include="Mods\XML\ModMapsDfnXml.cs" />
     <Compile Include="Mods\XML\ModMediaXml.cs" />
     <Compile Include="Mods\XML\ModSkinDfnXml.cs" />
+    <Compile Include="Mods\XML\ModWorldMapsDfnXml.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
     <Compile Include="Screen\Screen.cs" />
     <Compile Include="Map\AIMesh.cs" />
@@ -254,7 +257,6 @@
     <Compile Include="Mods\XML\ModDataXML.cs" />
     <Compile Include="Mods\XML\ModInfoXML.cs" />
     <Compile Include="Mods\XML\ModItemsDfnXML.cs" />
-    <Compile Include="Mods\XML\ModMapDfnXML.cs" />
     <Compile Include="Mods\XML\ModTracksDfnXML.cs" />
     <Compile Include="Mods\XML\ModSideDfnXML.cs" />
     <Compile Include="Mods\XML\ModXML.cs" />

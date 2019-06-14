@@ -1,0 +1,9 @@
+<Maps>
+  <Map>
+    <ID>MAP_CubeScene</ID>
+    <Name>CubeScene</Name>
+    <File>CubeScene.xml</File>
+    <Flags>
+    </Flags>
+  </Map>
+</Maps>

@@ -20,5 +20,11 @@ namespace OpenMB.Mods.XML
         public string sideXML { get; set; }
         [XmlElement("Skin")]
         public string skinXML { get; set; }
+        [XmlElement("Maps")]
+        public string mapsXml { get; set; }
+        [XmlElement("WorldMaps")]
+        public string worldMapsXML { get; set; }
+        [XmlElement("Locations")]
+        public string locationsXML { get; set; }
     }
 }

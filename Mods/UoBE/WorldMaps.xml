@@ -1,0 +1,9 @@
+<WorldMaps>
+	<WorldMap>
+    <ID>WMP_1</ID>
+    <Name>World Map 1</Name>
+    <Map>MAP_CubeScene</Map>
+    <Flags>
+    </Flags>
+	</WorldMap>
+</WorldMaps>
