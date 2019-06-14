@@ -23,3 +23,13 @@ Debug/*
 *.obj
 *.resources
 *.ilk
+
+*.brf
+*.dds
+*.tga
+*.ogg
+*.wav
+*.mp3
+*.flac
+*.fxo
+*.pp
