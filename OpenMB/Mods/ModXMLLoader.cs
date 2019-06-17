@@ -42,6 +42,10 @@ namespace OpenMB.Mods
             try
             {
                 XmlSerializer xr = new XmlSerializer(typeof(T));
+                if (File.Exists(modPath))
+                {
+                    File.Delete(modPath);
+                }
                 FileStream stream = new FileStream(modPath, FileMode.OpenOrCreate, FileAccess.Write);
                 xr.Serialize(stream, xmlData);
                 stream.Close();

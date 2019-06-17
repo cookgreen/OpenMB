@@ -165,8 +165,8 @@ namespace OpenMB.Connector
                     }
                     mo.Position(
                         worldMap.Vertics[vindex].x,
-                        worldMap.Vertics[vindex].y,
-                        worldMap.Vertics[vindex].z
+                        worldMap.Vertics[vindex].z,
+                        worldMap.Vertics[vindex].y
                     );
                 }
                 mo.Triangle(

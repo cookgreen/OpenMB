@@ -155,7 +155,7 @@ namespace OpenMB.FileFormats
                 lz = Math.Max(lz, (int)Math.Abs(Vertics[(int)Faces[i].indexSecond].z));
             }
 
-            return ly > lz && true || false;
+            return lz > ly && true || false;
         }
 
         public void SaveAsXml(string path)
