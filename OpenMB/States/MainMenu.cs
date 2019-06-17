@@ -11,6 +11,7 @@ using OpenMB.Localization;
 using OpenMB.Sound;
 using OpenMB.Utilities;
 using OpenMB.Mods;
+using OpenMB.Map;
 
 namespace OpenMB.States
 {
@@ -41,9 +42,10 @@ namespace OpenMB.States
             GameManager.Instance.viewport.BackgroundColour = new ColourValue(0.5f, 0.5f, 0.5f);
             GameManager.Instance.viewport.Camera = camera;
             camera.AspectRatio=GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
-
+            
             SoundManager.Instance.InitSound(camera, modData);
             SoundManager.Instance.PlayMusicByID("game_title");
+            GameMapManager.Instance.Init(modData);
 
             buildMainMenu(e);
 

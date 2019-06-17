@@ -6,4 +6,11 @@
     <Flags>
     </Flags>
   </Map>
+  <Map>
+    <ID>MAP_WORLDMAP_OIM</ID>
+    <Name>World Map OIM</Name>
+    <File>WorldMapOIM.xml</File>
+    <Flags>
+    </Flags>
+  </Map>
 </Maps>

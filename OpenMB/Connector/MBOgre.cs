@@ -129,5 +129,42 @@ namespace OpenMB.Connector
 
             return mo.ConvertToMesh(brfMesh.Name + "-" + Guid.NewGuid().ToString());
         }
+
+        public MeshPtr LoadWorldMap(string worldMapID, SceneManager sceneManager, MBWorldMap worldMap)
+        {
+            //Convert Vertex and Faces to Ogre Mesh Format
+            if (worldMap == null)
+            {
+                return null;
+            }
+            if (meshes.ContainsKey(worldMapID))
+            {
+                return meshes[worldMapID];
+            }
+            ManualObject mo = sceneManager.CreateManualObject("WORLDMAP-MANUAL-OBJECT-" + worldMapID);
+            mo.Begin("");
+            
+            for (int i = 0; i < worldMap.Vertics.Count; i++)
+            {
+                mo.Position(
+                    worldMap.Vertics[i].x,
+                    worldMap.Vertics[i].y,
+                    worldMap.Vertics[i].z
+                );
+            }
+
+            for (int i = 0; i < worldMap.Faces.Count; i++)
+            {
+                mo.Triangle(
+                    (uint)(worldMap.Faces[i].indexFirst),
+                    (uint)(worldMap.Faces[i].indexSecond),
+                    (uint)(worldMap.Faces[i].indexThird)
+                );
+            }
+
+            mo.End();
+
+            return mo.ConvertToMesh("WORLDMAP-"+worldMapID);
+        }
     }
 }

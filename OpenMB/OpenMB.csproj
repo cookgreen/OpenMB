@@ -181,6 +181,7 @@
     <Compile Include="FileFormats\MBBrfSkeleton.cs" />
     <Compile Include="FileFormats\MBBrfTexture.cs" />
     <Compile Include="FileFormats\MBUtil.cs" />
+    <Compile Include="FileFormats\MBWorldMap.cs" />
     <Compile Include="FileFormats\Point3F.cs" />
     <Compile Include="FileFormats\Point4F.cs" />
     <Compile Include="Game\CameraHandler.cs" />

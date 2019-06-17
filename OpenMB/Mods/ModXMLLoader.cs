@@ -34,5 +34,20 @@ namespace OpenMB.Mods
                 return false;
             }
         }
+
+        public bool Save<T>(T xmlData)
+        {
+            try
+            {
+                XmlSerializer xr = new XmlSerializer(typeof(T));
+                xr.Serialize(new FileStream(modPath, FileMode.OpenOrCreate, FileAccess.Write), xmlData);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                GameManager.Instance.log.LogMessage(ex.ToString(), LogMessage.LogType.Error);
+                return false;
+            }
+        }
     }
 }

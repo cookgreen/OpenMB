@@ -4,6 +4,7 @@ Debug/*
 */obj/*
 *.pdb
 *.exe
+*.exe.config
 *.vshost.exe
 *.manifest
 *.log

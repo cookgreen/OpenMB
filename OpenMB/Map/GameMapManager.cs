@@ -1,4 +1,5 @@
 ﻿using OpenMB.Game;
+using OpenMB.Mods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace OpenMB.Map
 {
     public class GameMapManager
     {
+        private ModData modData;
         private static GameMapManager instance;
         public static GameMapManager Instance
         {
@@ -24,6 +26,11 @@ namespace OpenMB.Map
         public GameMapManager()
         {
             maps = new Queue<IMap>();
+        }
+
+        public void Init(ModData modData)
+        {
+            this.modData = modData;
         }
 
         private GameWorld world;
@@ -88,6 +95,11 @@ namespace OpenMB.Map
             if (currentMap == null)
                 return;
             currentMap.Update(timeSinceLastFrame);
+        }
+
+        public string FindPath(string file)
+        {
+            return modData.BasicInfo.InstallPath + "//" + modData.MapDir + "//" + file;
         }
     }
 }

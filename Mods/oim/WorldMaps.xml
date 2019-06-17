@@ -1,8 +1,8 @@
 <WorldMaps>
 	<WorldMap>
     <ID>WMP_1</ID>
-    <Name>World Map 1</Name>
-    <Map>MAP_CubeScene</Map>
+    <Name>World Map OIM</Name>
+    <Map>MAP_WORLDMAP_OIM</Map>
     <Flags>
     </Flags>
 	</WorldMap>

@@ -195,7 +195,12 @@ namespace OpenMB.Game
                 if (findMaps.Count() > 0)
                 {
                     var findMap = findMaps.ElementAt(0);
-                    ChangeScene(findMap.File);
+                    Connector.MBOgre.Instance.LoadWorldMap(
+                        worldMapID, scm, 
+                        FileFormats.MBWorldMap.ParseXml(
+                            GameMapManager.Instance.FindPath(findMap.File)
+                        )
+                    );
                 }
                 else
                 {
