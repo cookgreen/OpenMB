@@ -6,6 +6,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,7 +31,7 @@ namespace OpenMB.FileFormats
         rt_desert_forest = 13,
         rt_deep_water = 15,
     }
-
+    
     [XmlRoot("Vertex")]
     public class Pont3FSerializable
     {
@@ -62,13 +63,34 @@ namespace OpenMB.FileFormats
         public List<Point3F> Vertics;
         [XmlElement("Faces")]
         public List<MBWorldMapFace> Faces;
-        private int vertexNum;
-        private int faceNum;
+        [XmlAttribute]
+        public int VertexNum;
+        [XmlAttribute]
+        public int FaceNum;
+        [XmlIgnore]
+        public Dictionary<MBWorldMapTerrainType, Mogre.ColourValue> Color;
 
         public MBWorldMap()
         {
             Vertics = new List<Point3F>();
             Faces = new List<MBWorldMapFace>();
+            Color = new Dictionary<MBWorldMapTerrainType, Mogre.ColourValue>()
+            {
+                { MBWorldMapTerrainType.rt_bridge, new Mogre.ColourValue(1, 0, 0) },
+                { MBWorldMapTerrainType.rt_deep_water, new Mogre.ColourValue(0, 0, 0.2f) },
+                { MBWorldMapTerrainType.rt_desert, new Mogre.ColourValue(0.7f, 0.8f, 0.6f) },
+                { MBWorldMapTerrainType.rt_desert_forest, new Mogre.ColourValue(0.6f, 0.7f, 0.5f) },
+                { MBWorldMapTerrainType.rt_forest, new Mogre.ColourValue() },
+                { MBWorldMapTerrainType.rt_mountain, new Mogre.ColourValue(0.5f, 0.6f, 0.4f) },
+                { MBWorldMapTerrainType.rt_mountain_forest, new Mogre.ColourValue(0.4f, 0.7f, 0.3f) },
+                { MBWorldMapTerrainType.rt_plain, new Mogre.ColourValue(0, 1, 0.2f) },
+                { MBWorldMapTerrainType.rt_river, new Mogre.ColourValue(0, 0, 0.5f) },
+                { MBWorldMapTerrainType.rt_snow, new Mogre.ColourValue(1, 1, 1) } ,
+                { MBWorldMapTerrainType.rt_snow_forest, new Mogre.ColourValue() },
+                { MBWorldMapTerrainType.rt_steppe, new Mogre.ColourValue(0, 1, 0.5f) },
+                { MBWorldMapTerrainType.rt_steppe_forest, new Mogre.ColourValue(0.4f, 0.5f, 0.4f) },
+                { MBWorldMapTerrainType.rt_water, new Mogre.ColourValue(0, 0, 0.3f) },
+            };
         }
 
         public static MBWorldMap ParseXml(string mapXmlFile)
@@ -84,9 +106,9 @@ namespace OpenMB.FileFormats
             using (StreamReader reader = new StreamReader(new FileStream(mapTxt, FileMode.Open, FileAccess.Read)))
             {
                 string str = reader.ReadLine();
-                if (int.TryParse(str, out vertexNum))
+                if (int.TryParse(str, out VertexNum))
                 {
-                    for (int i = 0; i < vertexNum; i++)
+                    for (int i = 0; i < VertexNum; i++)
                     {
                         str = reader.ReadLine();
                         var tokens = str.Split(' ');
@@ -98,13 +120,12 @@ namespace OpenMB.FileFormats
                     }
 
                     str = reader.ReadLine();
-                    faceNum = int.Parse(str);
-                    for (int i = 0; i < faceNum; i++)
+                    FaceNum = int.Parse(str);
+                    for (int i = 0; i < FaceNum; i++)
                     {
                         str = reader.ReadLine();
                         var tokens = str.Split(' ');
                         MBWorldMapFace face = new MBWorldMapFace();
-                        Console.WriteLine(tokens[1]);
                         face.TerrainType = (MBWorldMapTerrainType)int.Parse(tokens[2]);
                         face.indexFirst = int.Parse(tokens[7]);
                         face.indexSecond = int.Parse(tokens[9]);
@@ -139,7 +160,6 @@ namespace OpenMB.FileFormats
 
         public void SaveAsXml(string path)
         {
-            MBWorldMap worldMap = new MBWorldMap();
             Mods.ModXmlLoader loader = new Mods.ModXmlLoader(path);
             loader.Save<MBWorldMap>(this);
         }

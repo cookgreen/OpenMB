@@ -24,7 +24,9 @@ namespace OpenMB.Mods
             try
             {
                 XmlSerializer xr = new XmlSerializer(typeof(T));
-                ModXMLData = (T)xr.Deserialize(new FileStream(modPath, FileMode.Open, FileAccess.Read));
+                FileStream stream = new FileStream(modPath, FileMode.Open, FileAccess.Read);
+                ModXMLData = (T)xr.Deserialize(stream);
+                stream.Close();
                 return true;
             }
             catch(Exception ex)
@@ -40,7 +42,9 @@ namespace OpenMB.Mods
             try
             {
                 XmlSerializer xr = new XmlSerializer(typeof(T));
-                xr.Serialize(new FileStream(modPath, FileMode.OpenOrCreate, FileAccess.Write), xmlData);
+                FileStream stream = new FileStream(modPath, FileMode.OpenOrCreate, FileAccess.Write);
+                xr.Serialize(stream, xmlData);
+                stream.Close();
                 return true;
             }
             catch (Exception ex)

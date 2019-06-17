@@ -50,6 +50,19 @@ namespace OpenMB.Map
             map.LoadAsync();
         }
 
+        public void LoadWorldMap(string worldMapID, string file)
+        {
+            if (maps.Count > 0)
+            {
+                maps.Dequeue().Destroy();
+            }
+            IMap map = new GameMap(worldMapID, file, world);
+            maps.Enqueue(map);
+            map.LoadMapStarted += Map_LoadMapStarted;
+            map.LoadMapFinished += Map_LoadMapFinished;
+            currentMap = map;
+        }
+
         private void Map_LoadMapFinished()
         {
         }
