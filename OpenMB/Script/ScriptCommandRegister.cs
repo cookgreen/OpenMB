@@ -42,7 +42,11 @@ namespace OpenMB.Script
             RegisteredCommand.Add("execute", typeof(TriggerExecuteSrciptCommand));
             RegisteredCommand.Add("function", typeof(FunctionScriptCommand));
             RegisteredCommand.Add("init_vector", typeof(InitVectorScriptCommand));
-            RegisteredCommand.Add("loop", typeof(LoopScriptCommand));
+            RegisteredCommand.Add("init_list", typeof(InitListScriptCommand));
+            RegisteredCommand.Add("list_get_num", typeof(ListGetValueNumScriptCommand));
+            RegisteredCommand.Add("list_get_value", typeof(ListGetValueScriptCommand));
+            RegisteredCommand.Add("list_remove_value", typeof(ListRemoveValueScriptCommand));
+            RegisteredCommand.Add("list_set_value", typeof(ListSetValueScriptCommand));
             RegisteredCommand.Add("namespace", typeof(NamespaceScriptCommand));
             RegisteredCommand.Add("spawn", typeof(SpawnScriptCommand));
             RegisteredCommand.Add("store", typeof(StoreScriptCommand));
