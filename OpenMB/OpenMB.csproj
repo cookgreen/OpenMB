@@ -237,6 +237,8 @@
     <Compile Include="Map\AIMeshVertex.cs" />
     <Compile Include="Map\GameMapEditor.cs" />
     <Compile Include="Game\MoveInfo.cs" />
+    <Compile Include="Mods\XML\ModCharacterSkinSlot.cs" />
+    <Compile Include="Mods\XML\ModItemTypeDfnXml.cs" />
     <Compile Include="Mods\XML\ModLocationsDfnXml.cs" />
     <Compile Include="Mods\XML\ModMapsDfnXml.cs" />
     <Compile Include="Mods\XML\ModMediaXml.cs" />

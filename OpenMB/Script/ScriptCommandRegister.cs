@@ -29,7 +29,6 @@ namespace OpenMB.Script
 
         public ScriptCommandRegister()
         {
-            
             registerCommand = new Dictionary<string, Type>();
             RegisteredCommand.Add("assign", typeof(AssignScriptCommand));
             RegisteredCommand.Add("agent_equip_item", typeof(AgentEquipItemScriptCommand));
@@ -47,6 +46,7 @@ namespace OpenMB.Script
             RegisteredCommand.Add("list_get_value", typeof(ListGetValueScriptCommand));
             RegisteredCommand.Add("list_remove_value", typeof(ListRemoveValueScriptCommand));
             RegisteredCommand.Add("list_set_value", typeof(ListSetValueScriptCommand));
+            RegisteredCommand.Add("loop", typeof(LoopScriptCommand));
             RegisteredCommand.Add("namespace", typeof(NamespaceScriptCommand));
             RegisteredCommand.Add("spawn", typeof(SpawnScriptCommand));
             RegisteredCommand.Add("store", typeof(StoreScriptCommand));
@@ -58,6 +58,25 @@ namespace OpenMB.Script
             RegisteredCommand.Add("vector_set_x", typeof(VectorSetXScriptCommand));
             RegisteredCommand.Add("vector_set_y", typeof(VectorSetYScriptCommand));
             RegisteredCommand.Add("vector_set_z", typeof(VectorSetZScriptCommand));
+        }
+
+        public void RegisterNewCommand(string commandName, Type type)
+        {
+            if (!RegisteredCommand.ContainsKey(commandName))
+            {
+                if(!RegisteredCommand.ContainsValue(type))
+                {
+                    registerCommand.Add(commandName, type);
+                }
+                else
+                {
+                    GameManager.Instance.log.LogMessage(string.Format("The type with name `{0}` has been already registered into the engine!", type.FullName), LogMessage.LogType.Warning);
+                }
+            }
+            else
+            {
+                GameManager.Instance.log.LogMessage(string.Format("The command with name `{0}` has been already registered into the engine!", commandName), LogMessage.LogType.Warning);
+            }
         }
     }
 }

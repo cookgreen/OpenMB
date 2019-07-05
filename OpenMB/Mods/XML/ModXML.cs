@@ -12,9 +12,6 @@ namespace OpenMB.Mods.XML
         [XmlElement("Info")]
         public ModInfoXML ModInfo{ get; set;}
 
-        [XmlElement("Assembly")]
-        public string Assembly { get; set; }
-
         [XmlElement("Data")]
         public ModDataXML Data { get; set; }
 

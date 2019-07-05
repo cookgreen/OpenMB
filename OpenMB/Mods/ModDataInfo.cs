@@ -11,6 +11,7 @@ namespace OpenMB.Mods
         public readonly string Sound;
         public readonly string Music;
         public readonly string Items;
+        public readonly string ItemTypes;
         public readonly string Sides;
         public readonly string Skin;
         public readonly string Maps;
@@ -26,6 +27,7 @@ namespace OpenMB.Mods
             string sound,
             string music,
             string items,
+            string itemTypes,
             string sides, 
             string skin,
             string maps,
@@ -40,6 +42,7 @@ namespace OpenMB.Mods
             Sound = sound;
             Music = music;
             Items = items;
+            ItemTypes = itemTypes;
             Sides = sides;
             Skin = skin;
             Maps = maps;

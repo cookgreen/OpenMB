@@ -27,7 +27,7 @@ namespace OpenMB.Mods.XML
         [XmlElement("MeshName")]
         public string MeshName { get; set; }
         [XmlElement("Type")]
-        public ItemType Type { get; set; }
+        public string Type { get; set; }
         [XmlArray("Animations")]
         public string[] Animation { get; set; }
         [XmlElement("AttachOptionWhenHave")]

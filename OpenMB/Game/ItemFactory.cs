@@ -81,7 +81,7 @@ namespace OpenMB.Game
 
         public Item Produce(Mods.XML.ModItemDfnXML itemXml, GameWorld world)
         {
-            return world.Map.CreateItem(itemXml.Desc, itemXml.MeshName, itemXml.Type, itemXml.AttachOptionWhenUse,
+            return world.Map.CreateItem(itemXml.Desc, itemXml.MeshName, (ItemType)Enum.Parse(typeof(ItemType), itemXml.Type), itemXml.AttachOptionWhenUse,
                 itemXml.AttachOptionWhenHave, double.Parse(itemXml.Damage), int.Parse(itemXml.Range), world, itemXml.AmmoCapcity, itemXml.AmourNum);
         }
     }

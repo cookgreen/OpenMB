@@ -27,12 +27,13 @@ namespace OpenMB.Mods
                                            xmldata.ModInfo.Description,
                                            xmldata.ModInfo.Version,
                                            xmldata.ModInfo.Thumb,
-                                           xmldata.ModInfo.Movie);
-                AssemblyName = xmldata.Assembly;
+                                           xmldata.ModInfo.Movie,
+                                           xmldata.ModInfo.Assembly);
                 Data = new ModDataInfo(xmldata.Data.characterXML,
                                         xmldata.Data.soundXML,
                                         xmldata.Data.musicXML,
                                         xmldata.Data.itemXML,
+                                        xmldata.Data.itemTypeXML,
                                         xmldata.Data.sideXML,
                                         xmldata.Data.skinXML,
                                         xmldata.Data.mapsXml,
@@ -42,7 +43,6 @@ namespace OpenMB.Mods
                                         xmldata.Data.DataDir.MapDir,
                                         xmldata.Data.DataDir.MusicDir,
                                         xmldata.Data.DataDir.ScriptDir);
-
                 Media = xmldata.Media;
             }
         }

@@ -52,5 +52,25 @@
       <Animation Type="CAT_JUMP_END">JumpEnd</Animation>
       <Animation Type="CAT_NONE"></Animation>
     </Animations>
+	<Slots>
+		<Slot>
+			<AcceptType>IT_HEAD_ARMOUR</AcceptType>
+		</Slot>
+		<Slot>
+			<AcceptType>IT_BODY_ARMOUR</AcceptType>
+		</Slot>
+		<Slot>
+			<AcceptType>IT_HAND_ARMOUR</AcceptType>
+		</Slot>
+		<Slot>
+			<AcceptType>IT_FOOT_ARMOUR</AcceptType>
+		</Slot>
+		<Slot>
+			<AcceptType>IT_WEAPON</AcceptType>
+		</Slot>
+		<Slot>
+			<AcceptType>IT_FOOD</AcceptType>
+		</Slot>
+	</Slots>
   </CharacterSkin>  
 </Skin>

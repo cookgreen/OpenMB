@@ -17,8 +17,16 @@ namespace OpenMB
         public readonly string Author;
         public readonly string Thumb;
         public readonly string Movie;
+        public readonly string Assembly;
 
-        public ModBaseInfo(string installPath,string name,string description,string author,string thumb,string movie) 
+        public ModBaseInfo(
+            string installPath,
+            string name,
+            string description,
+            string author,
+            string thumb,
+            string movie,
+            string assembly) 
         {
             InstallPath = installPath;
             Name = name;
@@ -26,6 +34,7 @@ namespace OpenMB
             Author = author;
             Thumb = thumb;
             Movie = movie;
+            Assembly = assembly;
         }
     }
 }

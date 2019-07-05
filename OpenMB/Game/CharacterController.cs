@@ -166,9 +166,9 @@ namespace OpenMB.Game
             bodyEnt.Skeleton.BlendMode = SkeletonAnimationBlendMode.ANIMBLEND_CUMULATIVE;
 
             // populate our animation list
-            for (int i = 0; i < skin.RaceAnimations.Count; i++)
+            for (int i = 0; i < skin.SkinAnimations.Count; i++)
             {
-                var raceAnimation = skin.RaceAnimations[i];
+                var raceAnimation = skin.SkinAnimations[i];
                 AnimationState animState = null;
                 if (!string.IsNullOrEmpty(raceAnimation.Name))
                 {

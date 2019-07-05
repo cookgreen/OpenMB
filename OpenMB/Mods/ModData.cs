@@ -88,6 +88,8 @@ namespace OpenMB.Mods
             set { skeletonInfos = value; }
         }
 
+        public List<ModItemTypeDfnXml> ItemTypeInfos { get; set; }
+
         public ModData()
         {
             characterInfos = new List<ModCharacterDfnXML>();
@@ -100,6 +102,7 @@ namespace OpenMB.Mods
             worldMapInfos = new List<ModWorldMapDfnXml>();
             locationInfos = new List<ModLocationDfnXml>();
             SkeletonInfos = new List<ModSkeletonDfnXML>();
+            ItemTypeInfos = new List<ModItemTypeDfnXml>();
         }
     }
 }

@@ -38,6 +38,7 @@ namespace OpenMB.Game
         IT_RPG_MISSILE,         //Missile for RPG Launcher
         IT_BULLET,              //Bullet for Gun
         IT_RIDEDRIVE,           //Anything that can ride or drive like horse or vehicle
+        IT_CUSTOME,             //Customized Item Class
 
         IT_WEAPON = IT_ONE_HAND_WEAPON | IT_TWO_HAND_WEAPON | IT_POLEARM | IT_BOW | IT_CROSSBOW | IT_THROWN | IT_RIFLE | IT_PISTOL | IT_SUBMACHINE_GUN | IT_LIGHT_MACHINE_GUN | IT_LAUNCHER,
         IT_ARMOUR = IT_HEAD_ARMOUR | IT_BODY_ARMOUR | IT_FOOT_ARMOUR | IT_HAND_ARMOUR

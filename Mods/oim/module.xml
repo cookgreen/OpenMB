@@ -4,12 +4,14 @@
     <Description>Mount Blade With Fire and Sword</Description>
     <Version>1.143</Version>
     <Thumb>Sample_Thumb.png</Thumb>
+	<Assembly>OpenMB.Mods.OIM</Assembly>
   </Info>
   <Data>
     <Characters>Characters.xml</Characters>
     <Music>Music.xml</Music>
     <Sound>Sound.xml</Sound>
     <Items>Items.xml</Items>
+    <ItemTypes>ItemTypes.xml</ItemTypes>
     <Sides>Side.xml</Sides>
     <Skin>Skin.xml</Skin>
     <Maps>Maps.xml</Maps>

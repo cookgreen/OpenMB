@@ -5,14 +5,14 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using System.ComponentModel;
-using OpenMB.Utilities;
-using OpenMB.Mods;
 using OpenMB.Configure;
 
 namespace OpenMB.Mods
 {
     using Mogre;
     using Script;
+    using Script.Command;
+    using XML;
     using Mods = Dictionary<string, ModManifest>;
 
     public class ModManager
@@ -103,12 +103,33 @@ namespace OpenMB.Mods
                 loader.Load<XML.ModCharactersDfnXML>(out characterDfn);
                 currentMod.CharacterInfos = characterDfn.CharacterDfns;
                 worker.ReportProgress(50);
-                
+
+                loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.ItemTypes);
+                XML.ModItemTypesDfnXml itemTypesDfn;
+                loader.Load<XML.ModItemTypesDfnXml>(out itemTypesDfn);
+                currentMod.ItemTypeInfos = itemTypesDfn != null ? itemTypesDfn.ItemTypes : null;
+                worker.ReportProgress(75);
+
                 loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Items);
                 XML.ModItemsDfnXML itemDfn;
                 loader.Load<XML.ModItemsDfnXML>(out itemDfn);
                 currentMod.ItemInfos = itemDfn != null ? itemDfn.Items : null;
                 worker.ReportProgress(75);
+
+                for (int j = itemDfn.Items.Count - 1; j >= 0; j--)
+                {
+                    if (!ValidItemType(currentMod, itemDfn.Items[j].Type))
+                    {
+                        string itemType = itemDfn.Items[j].Type;
+                        string itemID = itemDfn.Items[j].ID;
+                        itemDfn.Items.Remove(itemDfn.Items[j]);
+                        GameManager.Instance.log.LogMessage(
+                            string.Format("Unrecognized Item Type `{0}` in Item `{1}`", itemType, itemID),
+                            LogMessage.LogType.Error
+                        );
+                    }
+                }
+
                 
                 loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Sides);
                 XML.ModSidesDfnXML sideDfn;
@@ -151,6 +172,29 @@ namespace OpenMB.Mods
                 loader.Load<XML.ModSkeletonsDfnXML>(out skeletonsDfn);
                 currentMod.SkeletonInfos = skeletonsDfn.Skeletons;
 
+                //Load Customized type from the assembly
+                if (!string.IsNullOrEmpty(manifest.MetaData.Assembly) &&
+                    File.Exists(manifest.InstalledPath + "\\" + manifest.MetaData.Assembly))
+                {
+                    try
+                    {
+                        Assembly assembly = Assembly.LoadFile(manifest.InstalledPath + "\\" + manifest.MetaData.Assembly);
+                        Type[] types = assembly.GetTypes();
+                        foreach (var type in types)
+                        {
+                            if (type == typeof(ScriptCommand))//avaiable customized script command
+                            {
+                                var instance = assembly.CreateInstance(type.FullName) as ScriptCommand;
+                                ScriptCommandRegister.Instance.RegisterNewCommand(instance.CommandName, type); //register this command
+                            }
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        GameManager.Instance.log.LogMessage("Error Loading Assembly, Details: " + ex.ToString(), LogMessage.LogType.Error);
+                    }
+                }
+
                 currentMod.MapDir = manifest.Data.MapDir;
                 currentMod.MusicDir = manifest.Data.MusicDir;
                 currentMod.ScriptDir = manifest.Data.ScriptDir;
@@ -178,6 +222,38 @@ namespace OpenMB.Mods
                 }
             }
             return modInstallRootDir;
+        }
+
+        bool ValidItemType(ModData mod, string itemType)
+        {
+            foreach (var itemTypeDefine in mod.ItemTypeInfos)
+            {
+                if (itemTypeDefine.ID == itemType)
+                {
+                    return true;
+                }
+                else
+                {
+                    return ValidSubItemType(itemTypeDefine, itemType);
+                }
+            }
+            return false;
+        }
+
+        bool ValidSubItemType(ModItemTypeDfnXml itemDefineType, string itemType)
+        {
+            foreach (var subItemType in itemDefineType.SubTypes)
+            {
+                if (subItemType.ID == itemType)
+                {
+                    return true;
+                }
+                else
+                {
+                    return ValidSubItemType(subItemType, itemType);
+                }
+            }
+            return false;
         }
 
         public Mods GetInstalledMods()

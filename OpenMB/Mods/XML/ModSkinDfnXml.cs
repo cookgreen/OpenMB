@@ -27,7 +27,10 @@ namespace OpenMB.Mods.XML
         public List<CharacterSkinPartsDfnXML> SkinParts { get; set; }
         [XmlArray("Animations")]
         [XmlArrayItem("Animation")]
-        public List<ModRaceAnimationDfnXml> RaceAnimations { get; set; }
+        public List<ModSkinAnimationDfnXml> SkinAnimations { get; set; }
+        [XmlArray("Slots")]
+        [XmlArrayItem("Slot")]
+        public List<ModCharacterSkinSlot> Slots { get; set; }
     }
 
     [XmlRoot("SkinParts")]
@@ -58,7 +61,7 @@ namespace OpenMB.Mods.XML
         public string Mesh;
     }
 
-    public class ModRaceAnimationDfnXml
+    public class ModSkinAnimationDfnXml
     {
         [XmlAttribute("Type")]
         public CharacterAnimationType type { get; set; }

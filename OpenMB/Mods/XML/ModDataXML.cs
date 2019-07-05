@@ -16,6 +16,8 @@ namespace OpenMB.Mods.XML
         public string soundXML { get; set; }
         [XmlElement("Items")]
         public string itemXML { get; set; }
+        [XmlElement("ItemTypes")]
+        public string itemTypeXML { get; set; }
         [XmlElement("Sides")]
         public string sideXML { get; set; }
         [XmlElement("Skin")]
