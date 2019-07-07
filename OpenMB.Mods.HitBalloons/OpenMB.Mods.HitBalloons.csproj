@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5013E1F0-1AD9-4EE9-8161-25B93C3FEF7F}</ProjectGuid>
+    <ProjectGuid>{32F787A9-BE10-42ED-8036-864A1818823A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenMB.Mods.OIM</RootNamespace>
-    <AssemblyName>OpenMB.Mods.OIM</AssemblyName>
+    <RootNamespace>OpenMB.Mods.HitBalloons</RootNamespace>
+    <AssemblyName>OpenMB.Mods.HitBalloons</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\HasMultiplayerModSetting.cs" />
+    <Compile Include="Settings\HasSavedGameModSetting.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenMB\OpenMB.csproj">
@@ -49,12 +50,10 @@
       <Name>OpenMB</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ScriptCommands\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)$(TargetFileName) $(SolutionDir)Mods\oim\$(TargetFileName) /V /Y</PostBuildEvent>
+    <PostBuildEvent>copy $(SolutionDir)$(TargetFileName) $(SolutionDir)Mods\hitballoons\$(TargetFileName) /V /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

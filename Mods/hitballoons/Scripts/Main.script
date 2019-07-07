@@ -1,0 +1,5 @@
+#### MAIN ENTRY ####
+
+function GameStart
+	change_map MAP_MAINSCENE
+end

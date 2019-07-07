@@ -17,5 +17,8 @@ namespace OpenMB.Mods.XML
 
         [XmlElement("Media")]
         public ModMediaXml Media { get; set; }
+
+        [XmlElement("Settings")]
+        public ModSettingsDfnXml Settings { get; set; }
     }
 }

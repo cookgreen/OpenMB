@@ -12,6 +12,7 @@ namespace OpenMB.Mods
         public readonly string AssemblyName;
         public readonly ModDataInfo Data;
         public readonly ModMediaXml Media;
+        public readonly List<ModSettingDfnXml> Settings;
         public readonly string InstalledPath;
 
         public ModManifest(string path)
@@ -44,6 +45,8 @@ namespace OpenMB.Mods
                                         xmldata.Data.DataDir.MusicDir,
                                         xmldata.Data.DataDir.ScriptDir);
                 Media = xmldata.Media;
+
+                Settings = xmldata.Settings.Settings;
             }
         }
     }

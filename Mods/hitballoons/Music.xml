@@ -1,0 +1,8 @@
+<Tracks>
+  <Track>
+    <Id>game_title</Id>
+    <File>maintheme.ogg</File>
+    <Type>ModuleTrack</Type>
+    <PlayType>MainMenu</PlayType>
+  </Track>
+</Tracks>

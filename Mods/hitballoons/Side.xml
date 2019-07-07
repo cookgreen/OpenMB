@@ -1,0 +1,10 @@
+<Sides>
+  <Side>
+    <ID>side_balloons</ID>
+    <Name>Balloons</Name>
+  </Side>
+  <Side>
+    <ID>side_player</ID>
+    <Name>Players</Name>
+  </Side>
+</Sides>

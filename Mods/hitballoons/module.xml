@@ -1,10 +1,10 @@
 <Module>
   <Info>
-    <Name>Ogniem i Mieczem</Name>
-    <Description>Mount Blade With Fire and Sword</Description>
-    <Version>1.143</Version>
-    <Thumb>Sample_Thumb.png</Thumb>
-	<Assembly>OpenMB.Mods.OIM</Assembly>
+    <Name>Hit the balloons</Name>
+    <Description>Destroy the ballons as many as possible!</Description>
+    <Version>1.0</Version>
+    <Thumb>main.png</Thumb>
+	<Assembly>OpenMB.Mods.HitBalloons.dll</Assembly>
   </Info>
   <Data>
     <Characters>Characters.xml</Characters>
@@ -34,6 +34,8 @@
     <MediaSection Type="FileSystem">Scenes</MediaSection>
   </Media>
   <Settings>
+	<Setting Name="HasMultiplayer">False</Setting>
+	<Setting Name="HasSavedGame">False</Setting>
   </Settings>
   <Startup>
   </Startup>

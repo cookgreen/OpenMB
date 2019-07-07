@@ -182,10 +182,20 @@ namespace OpenMB.Mods
                         Type[] types = assembly.GetTypes();
                         foreach (var type in types)
                         {
-                            if (type == typeof(ScriptCommand))//avaiable customized script command
+                            if (type.GetInterface("IScriptCommand") != null)//avaiable customized script command
                             {
                                 var instance = assembly.CreateInstance(type.FullName) as ScriptCommand;
                                 ScriptCommandRegister.Instance.RegisterNewCommand(instance.CommandName, type); //register this command
+                            }
+                            else if (type.GetInterface("IModSetting")!=null)
+                            {
+                                var instance = assembly.CreateInstance(type.FullName) as IModSetting;
+                                var findedSettingInMod = manifest.Settings.Where(o => o.Name == instance.Name);
+                                if (findedSettingInMod.Count() > 0)
+                                {
+                                    instance.Value = findedSettingInMod.ElementAt(0).Value;
+                                    instance.Load(currentMod);
+                                }                        
                             }
                         }
                     }

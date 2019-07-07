@@ -22,6 +22,11 @@ namespace OpenMB.Mods
         private List<ModLocationDfnXml> locationInfos;
         private List<ModSkeletonDfnXML> skeletonInfos;
 
+        public bool HasSinglePlayer { get; set; }
+        public bool HasMultiplater { get; set; }
+        public bool HasCredit { get; set; }
+        public bool HasSavedGame { get; set; }
+
         public string MusicDir { get; set; }
         public string MapDir { get; set; }
         public string ScriptDir { get; set; }
@@ -103,6 +108,11 @@ namespace OpenMB.Mods
             locationInfos = new List<ModLocationDfnXml>();
             SkeletonInfos = new List<ModSkeletonDfnXML>();
             ItemTypeInfos = new List<ModItemTypeDfnXml>();
+
+            HasSinglePlayer = true;
+            HasMultiplater = true;
+            HasCredit = true;
+            HasSavedGame = true;
         }
     }
 }
