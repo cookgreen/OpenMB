@@ -18,6 +18,8 @@ namespace OpenMB.Mods
         public readonly string WorldMaps;
         public readonly string Locations;
         public readonly string Skeletons;
+        public readonly string SceneProps;
+        public readonly string Models;
         public readonly string MapDir;
         public readonly string MusicDir;
         public readonly string ScriptDir;
@@ -34,6 +36,8 @@ namespace OpenMB.Mods
             string worldmaps,
             string locations,
             string skeletons,
+            string models,
+            string sceneProps,
             string mapDir,
             string musicDir,
             string scriptDir)
@@ -49,6 +53,8 @@ namespace OpenMB.Mods
             WorldMaps = worldmaps;
             Locations = locations;
             Skeletons = skeletons;
+            SceneProps = sceneProps;
+            Models = models;
             MapDir = mapDir;
             MusicDir = musicDir;
             ScriptDir = scriptDir;

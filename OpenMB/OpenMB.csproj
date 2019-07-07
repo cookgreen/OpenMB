@@ -237,12 +237,16 @@
     <Compile Include="Map\AIMeshVertex.cs" />
     <Compile Include="Map\GameMapEditor.cs" />
     <Compile Include="Game\MoveInfo.cs" />
+    <Compile Include="Mods\IModModelType.cs" />
     <Compile Include="Mods\IModSetting.cs" />
+    <Compile Include="Mods\ModXmlDefineModelType.cs" />
     <Compile Include="Mods\XML\ModCharacterSkinSlot.cs" />
     <Compile Include="Mods\XML\ModItemTypeDfnXml.cs" />
     <Compile Include="Mods\XML\ModLocationsDfnXml.cs" />
     <Compile Include="Mods\XML\ModMapsDfnXml.cs" />
     <Compile Include="Mods\XML\ModMediaXml.cs" />
+    <Compile Include="Mods\XML\ModModelDfnXml.cs" />
+    <Compile Include="Mods\XML\ModScenePropDfnXml.cs" />
     <Compile Include="Mods\XML\ModSettingDfnXml.cs" />
     <Compile Include="Mods\XML\ModSkeletonsDfnXML.cs" />
     <Compile Include="Mods\XML\ModSkinDfnXml.cs" />

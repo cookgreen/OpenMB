@@ -41,6 +41,8 @@ namespace OpenMB.Mods
                                         xmldata.Data.worldMapsXML,
                                         xmldata.Data.locationsXML,
                                         xmldata.Data.skeletonsXML,
+                                        xmldata.Data.scenePropsXML,
+                                        xmldata.Data.modelsXml,
                                         xmldata.Data.DataDir.MapDir,
                                         xmldata.Data.DataDir.MusicDir,
                                         xmldata.Data.DataDir.ScriptDir);

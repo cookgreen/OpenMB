@@ -1,0 +1,22 @@
+material balloon
+{
+
+	technique
+
+	{
+
+		pass
+
+		{
+
+            		texture_unit
+            		{
+                		texture balloon.jpg
+            		}
+		}
+
+
+	}
+
+
+}

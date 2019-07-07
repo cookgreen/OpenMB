@@ -1,0 +1,7 @@
+<Models>
+  <Model>
+    <ID>Model_Balloon</ID>
+    <Material>balloon</Material>
+    <Mesh>balloon.mesh</Mesh>
+  </Model>
+</Models>

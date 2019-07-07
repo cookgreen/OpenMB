@@ -27,6 +27,9 @@ namespace OpenMB.Mods
         public bool HasCredit { get; set; }
         public bool HasSavedGame { get; set; }
 
+        public List<IModModelType> ModModelTypes { get; set; }
+        public List<IModSetting> ModSettings { get; set; }
+
         public string MusicDir { get; set; }
         public string MapDir { get; set; }
         public string ScriptDir { get; set; }
@@ -94,6 +97,8 @@ namespace OpenMB.Mods
         }
 
         public List<ModItemTypeDfnXml> ItemTypeInfos { get; set; }
+        public List<ModScenePropDfnXml> SceneProps { get; set; }
+        public List<ModModelDfnXml> Models { get; set; }
 
         public ModData()
         {
@@ -113,6 +118,9 @@ namespace OpenMB.Mods
             HasMultiplater = true;
             HasCredit = true;
             HasSavedGame = true;
+
+            ModModelTypes = new List<IModModelType>();
+            ModSettings = new List<IModSetting>();
         }
     }
 }

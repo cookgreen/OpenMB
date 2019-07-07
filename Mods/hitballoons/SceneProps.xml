@@ -1,0 +1,9 @@
+<SceneProps>
+  <SceneProp>
+    <ID>SceneProp_Balloon</ID>
+    <Model>Model_Ballon</Model>
+    <ModelType>XmlDefine</ModelType><!--Means Engine will find model in Models.xml-->
+    <Flags>
+    </Flags>
+  </SceneProp>
+</SceneProps>

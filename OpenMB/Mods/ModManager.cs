@@ -172,6 +172,41 @@ namespace OpenMB.Mods
                 loader.Load<XML.ModSkeletonsDfnXML>(out skeletonsDfn);
                 currentMod.SkeletonInfos = skeletonsDfn.Skeletons;
 
+
+                loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.SceneProps);
+                XML.ModScenePropsDfnXml scenePropsDfnXml;
+                loader.Load<XML.ModScenePropsDfnXml>(out scenePropsDfnXml);
+                currentMod.SceneProps = scenePropsDfnXml.SceneProps;
+
+                loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Models);
+                XML.ModModelsDfnXml modelsDfnXml;
+                loader.Load<XML.ModModelsDfnXml>(out modelsDfnXml);
+                currentMod.Models = modelsDfnXml.Models;
+
+                //--------------------------------Load Types-------------------------
+                //Load Internal types
+                Type[] internalTypes = this.GetType().Assembly.GetTypes();
+                Assembly thisAssembly = GetType().Assembly;
+                foreach (var internalType in internalTypes)
+                {
+                    if (internalType.GetInterface("IModSetting") != null)
+                    {
+                        var instance = thisAssembly.CreateInstance(internalType.FullName) as IModSetting;
+                        var findedSettingInMod = manifest.Settings.Where(o => o.Name == instance.Name);
+                        if (findedSettingInMod.Count() > 0)
+                        {
+                            instance.Value = findedSettingInMod.ElementAt(0).Value;
+                            instance.Load(currentMod);
+                        }
+                        currentMod.ModSettings.Add(instance);
+                    }
+                    else if (internalType.GetInterface("IModModelType") != null)
+                    {
+                        var instance = thisAssembly.CreateInstance(internalType.FullName) as IModModelType;
+                        currentMod.ModModelTypes.Add(instance);
+                    }
+                }
+
                 //Load Customized type from the assembly
                 if (!string.IsNullOrEmpty(manifest.MetaData.Assembly) &&
                     File.Exists(manifest.InstalledPath + "\\" + manifest.MetaData.Assembly))
@@ -195,7 +230,13 @@ namespace OpenMB.Mods
                                 {
                                     instance.Value = findedSettingInMod.ElementAt(0).Value;
                                     instance.Load(currentMod);
-                                }                        
+                                }
+                                currentMod.ModSettings.Add(instance);
+                            }
+                            else if (type.GetInterface("IModModelType") != null)
+                            {
+                                var instance = assembly.CreateInstance(type.FullName) as IModModelType;
+                                currentMod.ModModelTypes.Add(instance);
                             }
                         }
                     }
@@ -204,6 +245,7 @@ namespace OpenMB.Mods
                         GameManager.Instance.log.LogMessage("Error Loading Assembly, Details: " + ex.ToString(), LogMessage.LogType.Error);
                     }
                 }
+                //--------------------------------------------
 
                 currentMod.MapDir = manifest.Data.MapDir;
                 currentMod.MusicDir = manifest.Data.MusicDir;

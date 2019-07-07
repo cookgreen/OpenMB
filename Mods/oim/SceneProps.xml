@@ -1,0 +1,9 @@
+<SceneProps>
+  <SceneProp>
+    <ID>SceneProp_Sample</ID>
+    <Model>Sample</Model>
+    <ModelType>BrfPackage</ModelType><!--Means Engine will find model in brf file-->
+    <Flags>
+    </Flags>
+  </SceneProp>
+</SceneProps>
