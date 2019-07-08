@@ -10,6 +10,7 @@ namespace OpenMB.Game
     public class GameObject : IUpdate
     {
         protected string kindID;
+        protected string strID;
         protected int id;
         protected MoveInfo moveInfo;
         protected Vector3 position;
@@ -22,11 +23,11 @@ namespace OpenMB.Game
         protected Scene physicsScene;
         protected HealthInfo health;
         private Actor entityActor;
-        public int ID
+        public string ID
         {
             get
             {
-                return id;
+                return strID;
             }
         }
         public MoveInfo MoveInfo
@@ -110,10 +111,19 @@ namespace OpenMB.Game
             health = new HealthInfo(this);
         }
 
+        public void SetID(string id)
+        {
+            strID = id;
+        }
 
         protected virtual void create(){ }
         public virtual void Update(float timeSinceLastFrame) { }
 
         public virtual void Dispose() { }
+
+        public bool CheckCollide(GameObject gameObjInstance)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

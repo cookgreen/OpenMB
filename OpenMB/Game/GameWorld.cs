@@ -180,9 +180,14 @@ namespace OpenMB.Game
             ScreenManager.Instance.Camera = cam;
         }
 
-        public void ChangeScene(string sceneName)
+        public void ChangeScene(string mapID)
         {
-            GameMapManager.Instance.Load(sceneName);
+            var findMaps = modData.MapInfos.Where(o => o.ID == mapID);
+            if (findMaps.Count() > 0)
+            {
+                var findMap = findMaps.ElementAt(0);
+                GameMapManager.Instance.Load(findMap.File);
+            }
         }
 
         public void ChangeWorldMap(string worldMapID)
@@ -229,7 +234,7 @@ namespace OpenMB.Game
 
         public void Update(double timeSinceLastFrame)
         {
-            TriggerManager.Instance.Update((float)timeSinceLastFrame);
+            
         }
 
         #endregion
@@ -381,14 +386,47 @@ namespace OpenMB.Game
             GameMapManager.Instance.GetCurrentMap().CreateCharacter(characterID, position, teamId, isBot);
         }
 
-        public void CreateSceneProp(string meshName, Mogre.Vector3 position)
+        public string CreateSceneProp(string scenePropID, Mogre.Vector3 position)
         {
-            GameMapManager.Instance.GetCurrentMap().CreateSceneProp(meshName, position);
+            return GameMapManager.Instance.GetCurrentMap().CreateSceneProp(scenePropID, position);
+        }
+
+        public int GetScenePropNum(string scenePropID)
+        {
+            return GameMapManager.Instance.GetCurrentMap().GetScenePropNum(scenePropID);
+        }
+
+        public string GetSceneProp(string scenePropID, string scenePropInstanceNum)
+        {
+            return GameMapManager.Instance.GetCurrentMap().GetScenePropInstanceID(scenePropID, int.Parse(scenePropInstanceNum));
+        }
+
+        public void RemoveSceneProp(string propInstanceID)
+        {
+            GameMapManager.Instance.GetCurrentMap().RemoveSceneProp(propInstanceID);
+        }
+
+        public void MoveSceneProp(string propInstanceID, string axis, string movement)
+        {
+            GameMapManager.Instance.GetCurrentMap().MoveSceneProp(propInstanceID, int.Parse(axis), int.Parse(movement));
         }
 
         public void CreatePlane(string materialName, Mogre.Vector3 vector31, float v1, int v2, int v3, int v4, int v5, ushort v6, int v7, int v8, Mogre.Vector3 vector32, Mogre.Vector3 vector33)
         {
             GameMapManager.Instance.GetCurrentMap().CreatePlane(materialName, vector31, v1, v2, v3, v4, v5, v6, v7, v8, vector32, vector33);
+        }
+
+        public void ChangeCameraMode(string mode)
+        {
+            switch (mode)
+            {
+                case "0":
+                    GameMapManager.Instance.GetCurrentMap().CameraHanlder.ChangeMode(CameraMode.Free);
+                    break;
+                case "1":
+                    GameMapManager.Instance.GetCurrentMap().CameraHanlder.ChangeMode(CameraMode.Manual);
+                    break;
+            }
         }
         #endregion
 

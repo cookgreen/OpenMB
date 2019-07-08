@@ -25,7 +25,7 @@ namespace OpenMB.Game
         private float fConstanst;
         public ScenePlane(int id, GameWorld world, Vector3 rkNormal, float fConstanst, string materialName, string groupName, 
             float width, float height, int xsegments, int ysegments, bool normals, ushort numTexCoordSets, float uTile, 
-            float vTile, Vector3 upVector, Vector3 initPosition) : base(id, world, null, initPosition)
+            float vTile, Vector3 upVector, Vector3 initPosition) : base(id, world, null, null, initPosition)
         {
             this.materialName = materialName;
             this.groupName = groupName;

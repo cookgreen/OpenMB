@@ -1,8 +1,8 @@
 <Maps>
   <Map>
     <ID>MAP_MAINSCENE</ID>
-    <Name>CubeScene</Name>
-    <File>CubeScene.xml</File>
+    <Name>MainScene</Name>
+    <File>MainScene.xml</File>
     <Flags>
     </Flags>
   </Map>

@@ -244,6 +244,11 @@ namespace OpenMB.Mods
                         var instance = thisAssembly.CreateInstance(internalType.FullName) as IModModelType;
                         currentMod.ModModelTypes.Add(instance);
                     }
+                    else if (internalType.GetInterface("IModTriggerCondition") != null)
+                    {
+                        var instance = thisAssembly.CreateInstance(internalType.FullName) as IModTriggerCondition;
+                        currentMod.ModTriggerConditions.Add(instance);
+                    }
                 }
 
                 //Load Customized type from the assembly
@@ -276,6 +281,11 @@ namespace OpenMB.Mods
                             {
                                 var instance = assembly.CreateInstance(type.FullName) as IModModelType;
                                 currentMod.ModModelTypes.Add(instance);
+                            }
+                            else if (type.GetInterface("IModTriggerCondition") != null)
+                            {
+                                var instance = thisAssembly.CreateInstance(type.FullName) as IModTriggerCondition;
+                                currentMod.ModTriggerConditions.Add(instance);
                             }
                         }
                     }

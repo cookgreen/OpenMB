@@ -234,51 +234,103 @@ namespace OpenMB.Map
             agents.Add(character);
         }
 
-        public void CreateSceneProp(string scenePropKind, Mogre.Vector3 position)
+        public string CreateSceneProp(string scenePropID, Mogre.Vector3 position)
         {
-            SceneProp sceneProp = new SceneProp(gameObjects.Count, world, scenePropKind, position);
-            if (!gameObjects.ContainsKey(scenePropKind))
+            var findSceneProps = modData.SceneProps.Where(o => o.ID == scenePropID);
+            if (findSceneProps.Count() > 0)
             {
-                gameObjects.Add(scenePropKind, new List<GameObject>());
+                var findSceneProp = findSceneProps.ElementAt(0);
+                var findModelTypes = modData.ModModelTypes.Where(o => o.Name == findSceneProp.ModelType);
+                if (findModelTypes.Count() > 0)
+                {
+                    var findModelType = findModelTypes.ElementAt(0);
+                    object[] MeshMaterialArray = findModelType.Process(modData, findSceneProp.Model) as object[];
+
+                    SceneProp sceneProp = new SceneProp(
+                        gameObjects.Count, 
+                        world, 
+                        MeshMaterialArray[0].ToString(), 
+                        MeshMaterialArray[1].ToString(), 
+                        position
+                    );
+                    if (!gameObjects.ContainsKey(scenePropID))
+                    {
+                        gameObjects.Add(scenePropID, new List<GameObject>());
+                    }
+                    gameObjects[scenePropID].Add(sceneProp);
+                    string guidStr = Guid.NewGuid().ToString();
+                    sceneProp.SetID(guidStr);
+                    return guidStr;
+                }
             }
-            gameObjects[scenePropKind].Add(sceneProp);
+            return null;
         }
 
-        public SceneProp GetSceneProp(string scenePropKind, int scenePropInstanceId)
+        public SceneProp GetSceneProp(string propInstanceID)
         {
-            if (scenePropInstanceId < 0)
+            foreach (var gameObj in gameObjects)
             {
-                return null;
-            }
-            if (gameObjects.ContainsKey(scenePropKind))
-            {
-                if (gameObjects[scenePropKind].Count > scenePropInstanceId)
+                foreach (var gameObjInstance in gameObj.Value)
                 {
-                    return gameObjects[scenePropKind].ElementAt(scenePropInstanceId) as SceneProp;
-                }
-                else
-                {
-                    return null;
+                    if (gameObjInstance.ID == propInstanceID)
+                    {
+                        return gameObjInstance as SceneProp;
+                    }
                 }
             }
-            else
+            return null;
+        }
+
+        public int GetScenePropNum(string scenePropID)
+        {
+            return gameObjects.ContainsKey(scenePropID) ? gameObjects[scenePropID].Count : -1;
+        }
+
+        public void RemoveSceneProp(string propInstanceID)
+        {
+            SceneProp prop = GetSceneProp(propInstanceID);
+            if (prop != null)
             {
-                return null;
+                prop.Dispose();
+                for (int i = 0; i < gameObjects.Count; i++)
+                {
+                    for (int j = gameObjects.ElementAt(i).Value.Count - 1; j >= 0; j--)
+                    {
+                        if (gameObjects.ElementAt(i).Value[j].ID == propInstanceID)
+                        {
+                            gameObjects.ElementAt(i).Value.RemoveAt(j);
+                            return;
+                        }
+                    }
+                }
             }
         }
 
-        public void RemoveSceneProp(string scenePropKind, int scenePropInstanceId)
+        /// <summary>
+        /// Move the specific scene prop with movement
+        /// </summary>
+        /// <param name="propInstanceID">Scene Prop ID</param>
+        /// <param name="axis">Axis 0 - X, 1 - Y, 2 - Z</param>
+        /// <param name="movement">movement</param>
+        public void MoveSceneProp(string propInstanceID, int axis, int movement)
         {
-            if (scenePropInstanceId < 0)
+            Mogre.Vector3 mov = new Mogre.Vector3();
+            switch (axis)
             {
-                return;
+                case 0://X Axis
+                    mov.x = movement;
+                    break;
+                case 1://Y Axis
+                    mov.y = movement;
+                    break;
+                case 2://Z Axis
+                    mov.z = movement;
+                    break;
             }
-            if (gameObjects.ContainsKey(scenePropKind))
+            SceneProp prop = GetSceneProp(propInstanceID);
+            if (prop != null)
             {
-                if (gameObjects[scenePropKind].Count > scenePropInstanceId)
-                {
-                    gameObjects[scenePropKind].RemoveAt(scenePropInstanceId);
-                }
+                prop.Move(mov);
             }
         }
 
@@ -303,6 +355,29 @@ namespace OpenMB.Map
                 gameObjects.Add("PLANE", new List<GameObject>());
             }
             gameObjects["PLANE"].Add(plane);
+        }
+
+        public string GetScenePropInstanceID(string scenePropID, int scenePropInstanceNum)
+        {
+            if (scenePropInstanceNum < 0)
+            {
+                return null;
+            }
+            if (gameObjects.ContainsKey(scenePropID))
+            {
+                if (gameObjects[scenePropID].Count > scenePropInstanceNum)
+                {
+                    return (gameObjects[scenePropID].ElementAt(scenePropInstanceNum) as SceneProp).ID;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public void RemoveAgent(GameObject owner)
@@ -492,7 +567,30 @@ namespace OpenMB.Map
             updateGameObjects(timeSinceLastFrame);
             updateMapCamera(timeSinceLastFrame);
             updatePhysics(timeSinceLastFrame);
+            CheckCollide(timeSinceLastFrame);
+            TriggerManager.Instance.Update(timeSinceLastFrame);
         }
+
+        private void CheckCollide(float timeSinceLastFrame)
+        {
+            foreach(var gameObj in gameObjects)
+            {
+                foreach (var gameObjInstance in gameObj.Value)
+                {
+                    foreach (var gameObj2 in gameObjects)
+                    {
+                        foreach (var gameObjInstance2 in gameObj.Value)
+                        {
+                            if (gameObjInstance2.CheckCollide(gameObjInstance) && gameObjInstance.ID != gameObjInstance2.ID)
+                            {
+                                TriggerManager.Instance.ScenePropHit(gameObjInstance, gameObjInstance2);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private void updateGameObjects(double timeSinceLastFrame)
         {
             if (gameObjects == null)

@@ -1,0 +1,18 @@
+namespace mods.hitballoons
+
+function SpawnBalloon
+	spawn_scene_prop SceneProp_Balloon
+end
+
+trigger ballonTrigger 0 1 0
+	call SpawnBalloon
+	assign %instanceID $reg0
+	move_scene_prop %instanceID 1 10
+end
+
+trigger ballonHit ti_scene_prop_hit 1 0
+end
+
+function map_loaded
+
+end

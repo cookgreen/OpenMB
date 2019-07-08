@@ -40,6 +40,8 @@ namespace OpenMB.Script
             RegisteredCommand.Add("end", typeof(EndScriptCommand));
             RegisteredCommand.Add("execute", typeof(TriggerExecuteSrciptCommand));
             RegisteredCommand.Add("function", typeof(FunctionScriptCommand));
+            RegisteredCommand.Add("get_scene_prop_num", typeof(GetScenePropNumScriptCommand));
+            RegisteredCommand.Add("get_scene_prop", typeof(GetScenePropScriptCommand));
             RegisteredCommand.Add("init_vector", typeof(InitVectorScriptCommand));
             RegisteredCommand.Add("init_list", typeof(InitListScriptCommand));
             RegisteredCommand.Add("list_get_num", typeof(ListGetValueNumScriptCommand));
@@ -47,7 +49,9 @@ namespace OpenMB.Script
             RegisteredCommand.Add("list_remove_value", typeof(ListRemoveValueScriptCommand));
             RegisteredCommand.Add("list_set_value", typeof(ListSetValueScriptCommand));
             RegisteredCommand.Add("loop", typeof(LoopScriptCommand));
+            RegisteredCommand.Add("move_scene_prop", typeof(MoveScenePropScriptCommand));
             RegisteredCommand.Add("namespace", typeof(NamespaceScriptCommand));
+            RegisteredCommand.Add("remove_scene_prop", typeof(RemoveScenePropScriptCommand));
             RegisteredCommand.Add("spawn", typeof(SpawnScriptCommand));
             RegisteredCommand.Add("store", typeof(StoreScriptCommand));
             RegisteredCommand.Add("team", typeof(TeamScriptCommand));

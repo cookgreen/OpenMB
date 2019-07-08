@@ -109,5 +109,14 @@ namespace OpenMB.Trigger
             trigger.CurrentFrozen = trigger.frozenTime;
             triggerForzenQueue.Add(trigger);
         }
+
+        public void ScenePropHit(GameObject gameObjInstance, GameObject gameObjInstance2)
+        {
+            var triggers = triggerExecuteQueue.Where(o => o.TriggerCondition == "ti_on_scene_prop_hit");
+            foreach (var trigger in triggers)
+            {
+                trigger.Execute(world, gameObjInstance.ID, gameObjInstance2.ID);
+            }
+        }
     }
 }

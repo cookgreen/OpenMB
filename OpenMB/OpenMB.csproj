@@ -239,6 +239,8 @@
     <Compile Include="Game\MoveInfo.cs" />
     <Compile Include="Mods\IModModelType.cs" />
     <Compile Include="Mods\IModSetting.cs" />
+    <Compile Include="Mods\IModTriggerCondition.cs" />
+    <Compile Include="Mods\ModTriggerConditionOnScenePropHit.cs" />
     <Compile Include="Mods\ModXmlDefineModelType.cs" />
     <Compile Include="Mods\XML\ModCharacterSkinSlot.cs" />
     <Compile Include="Mods\XML\ModItemTypeDfnXml.cs" />
@@ -287,6 +289,8 @@
     <Compile Include="Script\Command\ChangeHitpointScriptCommand.cs" />
     <Compile Include="Script\Command\EndScriptCommand.cs" />
     <Compile Include="Script\Command\FunctionScriptCommand.cs" />
+    <Compile Include="Script\Command\GetScenePropNumScriptCommand.cs" />
+    <Compile Include="Script\Command\GetScenePropScriptCommand.cs" />
     <Compile Include="Script\Command\InitVectorScriptCommand.cs" />
     <Compile Include="Script\Command\IScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeWorldMapScriptCommand.cs" />
@@ -295,10 +299,13 @@
     <Compile Include="Script\Command\ListRemoveValueScriptCommand.cs" />
     <Compile Include="Script\Command\ListSetValueScriptCommand.cs" />
     <Compile Include="Script\Command\LoopScriptCommand.cs" />
+    <Compile Include="Script\Command\MoveScenePropScriptCommand.cs" />
     <Compile Include="Script\Command\NamespaceScriptCommand.cs" />
     <Compile Include="Script\Command\RemoveLightScriptCommand.cs" />
+    <Compile Include="Script\Command\RemoveScenePropScriptCommand.cs" />
     <Compile Include="Script\Command\RootScriptCommand.cs" />
     <Compile Include="Script\Command\ScriptCommand.cs" />
+    <Compile Include="Script\Command\SetCameraModeScriptCommand.cs" />
     <Compile Include="Script\Command\SpawnPlaneScriptCommand.cs" />
     <Compile Include="Script\Command\SpawnScenePropScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeMapScriptCommand.cs" />

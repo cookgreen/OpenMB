@@ -29,6 +29,7 @@ namespace OpenMB.Mods
 
         public List<IModModelType> ModModelTypes { get; set; }
         public List<IModSetting> ModSettings { get; set; }
+        public List<IModTriggerCondition> ModTriggerConditions { get; set; }
 
         public string MusicDir { get; set; }
         public string MapDir { get; set; }

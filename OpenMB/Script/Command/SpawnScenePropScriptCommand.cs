@@ -39,25 +39,28 @@ namespace OpenMB.Script.Command
         {
             commandArgs = new string[]
             {
-                "meshName",
+                "scenePropID",
                 "Position Vector",
             };
         }
 
         public override void Execute(params object[] executeArgs)
         {
-            string characterType = CommandArgs[0].StartsWith("%") ? Context.GetLocalValue(CommandArgs[0].Substring(1)) : CommandArgs[0];
-            string meshName = CommandArgs[3].StartsWith("%") ? Context.GetLocalValue(CommandArgs[3].Substring(1)) : CommandArgs[3];
-            string vectorName = CommandArgs[3].StartsWith("%") ? Context.GetLocalValue(CommandArgs[3].Substring(1)) : CommandArgs[3];
+            string scenePropID = getParamterValue(commandArgs[0]);
+            string vectorName = getParamterValue(commandArgs[1]);
             GameWorld world = executeArgs[0] as GameWorld;
             var vector = world.GlobalValueTable.GetRecord(vectorName);
 
-            world.CreateSceneProp(
-                meshName,
+            var propInstanceID = world.CreateSceneProp(
+                scenePropID,
                 new Vector3(
                     float.Parse(vector.NextNodes[0].Value),
                     float.Parse(vector.NextNodes[1].Value),
                     float.Parse(vector.NextNodes[2].Value)));
+            if (!string.IsNullOrEmpty(propInstanceID))
+            {
+                world.ChangeGobalValue("reg0", propInstanceID); //Store into the reg0
+            }
         }
     }
 }

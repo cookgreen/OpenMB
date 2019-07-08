@@ -41,6 +41,7 @@ namespace OpenMB.Script.Command
         {
             commandArgs = new string[] {
                 "TriggerName",
+                "triggerCondition",
                 "ExecuteTime",
                 "FreezeTime"
             };
@@ -49,7 +50,7 @@ namespace OpenMB.Script.Command
 
         public override void Execute(params object[] executeArgs)
         {
-            Context.RegisterTrigger(commandArgs[0], float.Parse(commandArgs[1]), float.Parse(commandArgs[2]), SubCommands);
+            Context.RegisterTrigger(commandArgs[0], commandArgs[1], float.Parse(commandArgs[2]), float.Parse(commandArgs[3]), SubCommands);
         }
     }
 }

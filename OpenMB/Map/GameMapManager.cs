@@ -1,5 +1,6 @@
 ﻿using OpenMB.Game;
 using OpenMB.Mods;
+using OpenMB.Trigger;
 using System;
 using System.Collections.Generic;
 using System.Linq;

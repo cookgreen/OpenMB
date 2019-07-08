@@ -104,6 +104,7 @@ namespace OpenMB.Script
 
         public void RegisterTrigger(
             string name, 
+            string triggerCondition,
             float delayTime,
             float frozenTime,
             List<IScriptCommand> executeContent)
