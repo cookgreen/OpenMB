@@ -24,6 +24,8 @@ Debug/*
 *.obj
 *.resources
 *.ilk
+OpenMB.Mods.*.dll
+Mods/*/OpenMB.Mods.*.dll
 
 *.brf
 *.dds
