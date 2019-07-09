@@ -312,16 +312,7 @@ namespace OpenMB.Mods
 
         string GetModInstallRootDir()
         {
-            modConfigData = (IniConfigFile)parser.Load("Game.cfg");
-            IniConfigFileSection section = modConfigData["Mods"];
-            if (section != null)
-            {
-                string modDir = section["ModDir"];
-                if (!string.IsNullOrEmpty(modDir))
-                {
-                    modInstallRootDir = modDir;
-                }
-            }
+            modInstallRootDir = GameManager.Instance.gameOptions.ModConfig.ModDir;
             return modInstallRootDir;
         }
 

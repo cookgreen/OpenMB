@@ -1149,8 +1149,6 @@ namespace Mogre_Procedural.MogreBites
 
         public string getSelectedItem() {
             if (mSelectionIndex == -1) {
-                string desc = "Menu \"" + getName() + "\" has no item selected.";
-                OGRE_EXCEPT("Mogre.Exception.ERR_ITEM_NOT_FOUND", desc, "SelectMenu::getSelectedItem");
                 return "";
             }
             else

@@ -39,11 +39,6 @@ namespace OpenMB.Forms.Controller
             AudioConfig = new AudioConfigure();
             GameConfig = new GameConfigure();
             GraphicConfig = new GraphicConfigure();
-
-            parser = new IniConfigFileParser();
-            gameCfg = (IniConfigFile)parser.Load("game.cfg");
-            ogreCfg = (IniConfigFile)parser.Load("ogre.cfg");
-
             gameXmlConfig = GameConfigXml.Load("game.xml");
 
             r = new Root();
@@ -151,6 +146,10 @@ namespace OpenMB.Forms.Controller
 
         public GameConfigXml SaveConfigure()
         {
+            if (string.IsNullOrEmpty(gameXmlConfig.ModConfig.ModDir))
+            {
+                gameXmlConfig.ModConfig.ModDir = "Mods/";
+            }
             gameXmlConfig.CoreConfig.IsEnableCheatMode = GameConfig.IsEnableCheatMode;
             gameXmlConfig.CoreConfig.IsEnableEditMode = GameConfig.IsEnableEditMode;
             gameXmlConfig.AudioConfig.EnableMusic = AudioConfig.IsEnableMusic;

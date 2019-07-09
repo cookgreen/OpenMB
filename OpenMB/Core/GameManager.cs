@@ -41,7 +41,7 @@ namespace OpenMB
         private SoundManager soundMgr;
         private ScreenManager uiMgr;
         private EngineState currentState;
-        private GameConfigXml gameOptions;
+        public GameConfigXml gameOptions;
         public Root root;
         public RenderWindow renderWindow;
         public Viewport viewport;
