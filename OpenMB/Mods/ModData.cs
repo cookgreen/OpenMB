@@ -122,6 +122,7 @@ namespace OpenMB.Mods
 
             ModModelTypes = new List<IModModelType>();
             ModSettings = new List<IModSetting>();
+            ModTriggerConditions = new List<IModTriggerCondition>();
         }
     }
 }

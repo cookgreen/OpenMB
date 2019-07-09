@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenMB.FileFormats;
+using System.IO;
 
 namespace OpenMB.Utilties.MapExporter
 {
@@ -19,6 +20,18 @@ namespace OpenMB.Utilties.MapExporter
             {
                 string mapTxt = args[0];
                 string mapXml = args[1];
+
+                if (!File.Exists(mapTxt))
+                {
+                    Console.WriteLine("Invalid map.txt path! Exiting....");
+                    return;
+                }
+
+                if (!File.Exists(mapXml))
+                {
+                    Console.WriteLine("Invalid save path! Exiting....");
+                    return;
+                }
 
                 MBWorldMap worldmap = new MBWorldMap();
                 worldmap.ParseTxt(mapTxt);
