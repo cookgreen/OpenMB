@@ -12,6 +12,7 @@ using Mogre;
 using OpenMB.Forms.Controller;
 using OpenMB.Localization;
 using OpenMB.Utilities;
+using OpenMB.Core;
 
 namespace OpenMB.Forms
 {
@@ -102,7 +103,7 @@ namespace OpenMB.Forms
         private void btnOK_Click(object sender, EventArgs e)
         {
             Hide();
-            Dictionary<string, string> gameOptions = controller.SaveConfigure();
+            GameConfigXml gameOptions = controller.SaveConfigure();
             GameApp app = new GameApp(gameOptions, mod);
             app.Run();
         }

@@ -50,6 +50,8 @@ namespace OpenMB.Forms.Model
             }
         }
 
+        public bool IsEnableCheatMode { get; internal set; }
+
         public GameConfigure()
         {
             avaliableLocates = new BindingList<string>();

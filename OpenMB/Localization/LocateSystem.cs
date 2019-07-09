@@ -300,6 +300,32 @@ namespace OpenMB.Localization
             }
         }
 
+        /// <summary>
+        /// Convert a readable string to short string
+        /// </summary>
+        /// <param name="locate">Readable String, i.e. English</param>
+        /// <returns>Short string, i.e. en</returns>
+        public LOCATE CovertReadableStringToLocate(string locate)
+        {
+            switch (locate)
+            {
+                case "English":
+                    return LOCATE.en;
+                case "Simple Chinese":
+                    return LOCATE.cns;
+                case "Traditional Chinese":
+                    return LOCATE.cnt;
+                case "German":
+                    return LOCATE.de;
+                case "French":
+                    return LOCATE.fr;
+                case "Japanese":
+                    return LOCATE.ja;
+                default:
+                    return LOCATE.en;
+            }
+        }
+
         public string ConvertLocateShortStringToReadableString(string locate)
         {
             switch (locate)

@@ -7,6 +7,7 @@ using OpenMB.Utilities;
 using Mogre;
 using OpenMB.LogMessage;
 using OpenMB.Mods;
+using OpenMB.Core;
 
 namespace OpenMB
 {
@@ -20,9 +21,9 @@ namespace OpenMB
     public class GameApp
     {
         private RunState state;
-        private Dictionary<string, string> gameOptions;
+        private GameConfigXml gameOptions;
         private string mod;
-        public GameApp(Dictionary<string,string> gameOptions = null, string mod = null)
+        public GameApp(GameConfigXml gameOptions = null, string mod = null)
         {
             this.state = RunState.Stopped;
             this.gameOptions = gameOptions;

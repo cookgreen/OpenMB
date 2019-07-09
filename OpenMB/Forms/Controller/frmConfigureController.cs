@@ -7,6 +7,7 @@ using Mogre;
 using OpenMB.Configure;
 using OpenMB.Forms.Model;
 using OpenMB.Localization;
+using OpenMB.Core;
 
 namespace OpenMB.Forms.Controller
 {
@@ -17,6 +18,7 @@ namespace OpenMB.Forms.Controller
         private IniConfigFile gameCfg;
         private IniConfigFile ogreCfg;
         private IniConfigFileParser parser;
+        private GameConfigXml gameXmlConfig;
         public frmConfigure form;
         public AudioConfigure AudioConfig;
         public GameConfigure GameConfig;
@@ -41,6 +43,9 @@ namespace OpenMB.Forms.Controller
             parser = new IniConfigFileParser();
             gameCfg = (IniConfigFile)parser.Load("game.cfg");
             ogreCfg = (IniConfigFile)parser.Load("ogre.cfg");
+
+            gameXmlConfig = GameConfigXml.Load("game.xml");
+
             r = new Root();
 
             form.Controller = this;
@@ -56,22 +61,34 @@ namespace OpenMB.Forms.Controller
 
         private void LoadGameConfigure()
         {
-            selectedlocate = LocateSystem.Singleton.ConvertLocateShortStringToLocateInfo(gameCfg["Localized"]["CurrentLocate"]);
+            selectedlocate = LocateSystem.Singleton.CovertReadableStringToLocate(gameXmlConfig.LocateConfig.CurrentLocate);
             GameConfig.CurrentSelectedLocate = LocateSystem.Singleton.ConvertLocateShortStringToReadableString(selectedlocate.ToString());
-            GameConfig.IsEnableEditMode = gameCfg["Game"]["EditMode"] == "1" ? true : false;
+            GameConfig.IsEnableEditMode = gameXmlConfig.CoreConfig.IsEnableEditMode;
         }
 
         private void LoadGraphicConfigure()
         {
-            for (int i = 0; i < ogreCfg.Sections.Count; i++)
+            if (!string.IsNullOrEmpty(gameXmlConfig.GraphicConfig.CurrentRenderSystem) && gameXmlConfig.GraphicConfig.Renderers.Count>0)
             {
-                if(!string.IsNullOrEmpty(ogreCfg.Sections[i].Name))
+                for (int i = 0; i < gameXmlConfig.GraphicConfig.Renderers.Count; i++)
                 {
-                    GraphicConfig.RenderSystemNames.Add(ogreCfg.Sections[i].Name);
+                    GraphicConfig.RenderSystemNames.Add(gameXmlConfig.GraphicConfig.Renderers[i].Name);
+                }
+                GraphicConfig.RenderSystem = gameXmlConfig.GraphicConfig.CurrentRenderSystem;
+                GetGraphicSettingsByName(GraphicConfig.RenderSystem);
+            }
+            else
+            {
+                var renderers = r.GetAvailableRenderers();
+                foreach(var renderer in renderers)
+                {
+                    GraphicConfig.RenderSystemNames.Add(renderer.Name);
+                }
+                if (GraphicConfig.RenderSystemNames.Count > 0)
+                {
+                    GetGraphicSettingsByName(GraphicConfig.RenderSystemNames[0]);
                 }
             }
-            GraphicConfig.RenderSystem = ogreCfg[""]["Render System"];
-            GetGraphicSettingsByName(GraphicConfig.RenderSystem);
         }
 
         internal void InitLocates()
@@ -85,35 +102,31 @@ namespace OpenMB.Forms.Controller
 
         private void LoadAudioConfigure()
         {
-            if (gameCfg["Audio"]["EnableSound"] == "1")
-            {
-                AudioConfig.IsEnableSound = true;
-            }
-            else
-            {
-                AudioConfig.IsEnableSound = false;
-            }
-            if (gameCfg["Audio"]["EnableMusic"] == "1")
-            {
-                AudioConfig.IsEnableMusic = true;
-            }
-            else
-            {
-                AudioConfig.IsEnableMusic = false;
-            }
+            AudioConfig.IsEnableSound = gameXmlConfig.AudioConfig.EnableSound;
+            AudioConfig.IsEnableMusic = gameXmlConfig.AudioConfig.EnableMusic;
         }
 
         public void GetGraphicSettingsByName(string renderSystemName)
         {
             GraphicConfig.RenderParams.Clear();
-            List<IniConfigFileKeyValuePair> dic = ogreCfg[renderSystemName].KeyValuePairs;
             ConfigOptionMap configOptionMap = r.GetRenderSystemByName(renderSystemName).GetConfigOptions();
-            List<string> graphicSettings = new List<string>();
-            if (dic != null)
+            if (gameXmlConfig.GraphicConfig.Renderers.Count > 0)
             {
-                for (int i = 0; i < dic.Count; i++)
+                List<GameGraphicParameterConfigXml> dic = gameXmlConfig.GraphicConfig[gameXmlConfig.GraphicConfig.CurrentRenderSystem];
+                List<string> graphicSettings = new List<string>();
+                if (dic != null)
                 {
-                    GraphicConfig.RenderParams.Add(dic[i].Key + ":" + (configOptionMap[dic[i].Key].possibleValues.Contains(dic[i].Value) ? dic[i].Value : configOptionMap[dic[i].Key].possibleValues[0]));
+                    for (int i = 0; i < configOptionMap.Count; i++)
+                    {
+                        GraphicConfig.RenderParams.Add(dic[i].Name + ":" + (configOptionMap[dic[i].Name].possibleValues.Contains(dic[i].Value) ? dic[i].Value : configOptionMap[dic[i].Name].possibleValues[0]));
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < configOptionMap.Count; i++)
+                {
+                    GraphicConfig.RenderParams.Add(configOptionMap.ElementAt(i).Key + ":" + configOptionMap[configOptionMap.ElementAt(i).Key].possibleValues[0]);
                 }
             }
         }
@@ -132,38 +145,44 @@ namespace OpenMB.Forms.Controller
 
         public void UpdateGraphicConfigByValue(string renderSystemName, string renderConfigKey, string renderConfigNewValue)
         {
-            ogreCfg[renderSystemName][renderConfigKey] = renderConfigNewValue;
+            gameXmlConfig.GraphicConfig[gameXmlConfig.GraphicConfig.CurrentRenderSystem].Where(o => o.Name == renderConfigKey).First().Value = renderConfigNewValue;
             GetGraphicSettingsByName(renderSystemName);
         }
 
-        public Dictionary<string,string> SaveConfigure()
+        public GameConfigXml SaveConfigure()
         {
-            Dictionary<string, string> gameOptions = new Dictionary<string, string>();
-
-            gameOptions.Add("EnableMusic", AudioConfig.IsEnableMusic.ToString());
-            gameOptions.Add("EnableSound", AudioConfig.IsEnableSound.ToString());
-            gameOptions.Add("CurrentLocate", GameConfig.CurrentSelectedLocate.ToString());
-            gameOptions.Add("EditMode", GameConfig.IsEnableEditMode.ToString());
-
-            gameOptions.Add("Render System", GraphicConfig.RenderSystem);
-            ogreCfg[""]["Render System"] = GraphicConfig.RenderSystem;
-            var kpls = ogreCfg[GraphicConfig.RenderSystem].KeyValuePairs;
-            int length = kpls.Count;
-            for (int i = 0; i < length; i++)
+            gameXmlConfig.CoreConfig.IsEnableCheatMode = GameConfig.IsEnableCheatMode;
+            gameXmlConfig.CoreConfig.IsEnableEditMode = GameConfig.IsEnableEditMode;
+            gameXmlConfig.AudioConfig.EnableMusic = AudioConfig.IsEnableMusic;
+            gameXmlConfig.AudioConfig.EnableSound = AudioConfig.IsEnableSound;
+            gameXmlConfig.LocateConfig.CurrentLocate = GameConfig.CurrentSelectedLocate.ToString();
+            gameXmlConfig.GraphicConfig.CurrentRenderSystem = GraphicConfig.RenderSystem;
+            gameXmlConfig.GraphicConfig.Renderers.Clear();
+            var renderers = r.GetAvailableRenderers();
+            foreach (var renderer in renderers)
             {
-                string[] renderParamsToken = GraphicConfig.RenderParams[i].Split(':');
-                kpls[i].Value = renderParamsToken[1];
-                gameOptions.Add("Render Params_" + kpls[i].Key, renderParamsToken[1]);
+                GameGraphicSectionConfigXml rendererConfig = new GameGraphicSectionConfigXml();
+                rendererConfig.Name = renderer.Name;
+                foreach (var configOption in r.GetRenderSystemByName(renderer.Name).GetConfigOptions())
+                {
+                    GameGraphicParameterConfigXml parameter = new GameGraphicParameterConfigXml();
+                    parameter.Name = configOption.Key;
+                    var findedInCurrentValues = GraphicConfig.RenderParams.Where(o => o.StartsWith(parameter.Name));
+                    if (findedInCurrentValues.Count() > 0)
+                    {
+                        parameter.Value = findedInCurrentValues.First().Split(':')[1];
+                    }
+                    else
+                    {
+                        parameter.Value = configOption.Value.currentValue;
+                    }
+                    rendererConfig.Parameters.Add(parameter);
+                }
+                gameXmlConfig.GraphicConfig.Renderers.Add(rendererConfig);
             }
-            gameCfg["Audio"]["EnableMusic"] = AudioConfig.IsEnableMusic ? "1" : "0";
-            gameCfg["Audio"]["EnableSound"] = AudioConfig.IsEnableSound ? "1" : "0";
-            gameCfg["Localized"]["CurrentLocate"] = LocateSystem.Singleton.CovertReadableStringToLocateShortString(GameConfig.CurrentSelectedLocate);
-            gameCfg["Game"]["EditMode"] = GameConfig.IsEnableEditMode ? "1" : "0";
+            gameXmlConfig.Save("game.xml");
 
-            parser.Save(gameCfg);
-            parser.Save(ogreCfg);
-
-            return gameOptions;
+            return gameXmlConfig;
         }
     }
 }

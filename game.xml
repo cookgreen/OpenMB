@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<GameConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Graphic>
+    <RenderSystem>OpenGL Rendering Subsystem</RenderSystem>
+    <Renderers>
+      <Renderer>
+        <Name>Direct3D9 Rendering Subsystem</Name>
+        <Parameters>
+          <Parameter Name="Allow NVPerfHUD">No</Parameter>
+          <Parameter Name="FSAA">0</Parameter>
+          <Parameter Name="Floating-point mode">Fastest</Parameter>
+          <Parameter Name="Full Screen">No</Parameter>
+          <Parameter Name="Rendering Device">Monitor-1-Intel(R) HD Graphics 4600</Parameter>
+          <Parameter Name="Resource Creation Policy">Create on all devices</Parameter>
+          <Parameter Name="VSync">No</Parameter>
+          <Parameter Name="VSync Interval">1</Parameter>
+          <Parameter Name="Video Mode">1024 x 768</Parameter>
+          <Parameter Name="sRGB Gamma Conversion">Yes</Parameter>
+        </Parameters>
+      </Renderer>
+      <Renderer>
+        <Name>OpenGL Rendering Subsystem</Name>
+        <Parameters>
+          <Parameter Name="Colour Depth">32</Parameter>
+          <Parameter Name="Display Frequency">60</Parameter>
+          <Parameter Name="FSAA">0</Parameter>
+          <Parameter Name="Full Screen">No</Parameter>
+          <Parameter Name="RTT Preferred Mode">FBO</Parameter>
+          <Parameter Name="VSync">No</Parameter>
+          <Parameter Name="VSync Interval">1</Parameter>
+          <Parameter Name="Video Mode">1024 x 768</Parameter>
+          <Parameter Name="sRGB Gamma Conversion">Yes</Parameter>
+        </Parameters>
+      </Renderer>
+    </Renderers>
+  </Graphic>
+  <Audio>
+    <EnableSound>false</EnableSound>
+    <EnableMusic>false</EnableMusic>
+  </Audio>
+  <Localized>
+    <CurrentLocate>English</CurrentLocate>
+  </Localized>
+  <Mod />
+  <Network />
+  <Game>
+    <IsEnableEditMode>true</IsEnableEditMode>
+    <IsEnableCheatMode>false</IsEnableCheatMode>
+  </Game>
+</GameConfig>

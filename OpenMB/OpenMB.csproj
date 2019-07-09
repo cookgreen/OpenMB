@@ -170,6 +170,7 @@
     <Compile Include="Connector\MBOgreExpandsion.cs" />
     <Compile Include="Connector\MBOgreManifest.cs" />
     <Compile Include="Connector\MBOgreUtil.cs" />
+    <Compile Include="Core\GameConfigXml.cs" />
     <Compile Include="FileFormats\Box3F.cs" />
     <Compile Include="FileFormats\IFileFormat.cs" />
     <Compile Include="FileFormats\MBBrfAnimation.cs" />

@@ -19,6 +19,7 @@ using OpenMB.Screen;
 using OpenMB.Sound;
 using OpenMB.States;
 using OpenMB.Widgets;
+using OpenMB.Core;
 
 namespace OpenMB
 {
@@ -40,7 +41,7 @@ namespace OpenMB
         private SoundManager soundMgr;
         private ScreenManager uiMgr;
         private EngineState currentState;
-        private Dictionary<string, string> gameOptions;
+        private GameConfigXml gameOptions;
         public Root root;
         public RenderWindow renderWindow;
         public Viewport viewport;
@@ -115,7 +116,7 @@ namespace OpenMB
             loadingData = new LoadingData(LoadingType.NONE, null, null, null);
          }
 
-        public bool Init(string windowTitle, Dictionary<string, string> gameOptions)
+        public bool Init(string windowTitle, GameConfigXml gameOptions)
         {
             if (!InitRender(windowTitle, ref gameOptions))
                 return false;
@@ -129,7 +130,7 @@ namespace OpenMB
             return true;
         }
 
-        private bool InitRender(string wndTitle, ref Dictionary<string, string> gameOptions)
+        private bool InitRender(string wndTitle, ref GameConfigXml gameOptions)
         {
             root = Root.Singleton == null ? new Root() : Root.Singleton;
             root.FrameStarted += new FrameListener.FrameStartedHandler(frameStarted);
@@ -140,48 +141,17 @@ namespace OpenMB
 
             RenderSystem rs = null;
             IniConfigFileParser parser = new IniConfigFileParser();
-            if (gameOptions == null)
+
+            if(gameOptions==null)
             {
-                gameOptions = new Dictionary<string, string>();
-
-                IniConfigFile cf = (IniConfigFile)parser.Load("Game.cfg");
-                var sections = cf.Sections;
-                foreach (var section in sections)
-                {
-                    foreach(var kpl in section.KeyValuePairs)
-                    {
-                        gameOptions.Add(kpl.Key, kpl.Value);
-                    }
-                }
-
-                cf = (IniConfigFile)parser.Load("ogre.cfg");
-                sections = cf.Sections;
-                string renderSystem = null;
-                foreach (var section in sections)
-                {
-                    if (section.Name == "")
-                    {
-                        foreach (var kpl in section.KeyValuePairs)
-                        {
-                            renderSystem = kpl.Value;
-                            gameOptions.Add(kpl.Key, kpl.Value);
-                        }
-                    }
-                    else if(section.Name == renderSystem)
-                    {
-                        foreach (var kpl in section.KeyValuePairs)
-                        {
-                            gameOptions.Add("Render Params_" + kpl.Key, kpl.Value);
-                        }
-                    }
-                }
+                gameOptions = GameConfigXml.Load("game.xml");
             }
 
-            defaultRenderSystemName = gameOptions.Where(o => o.Key == "Render System").First().Value;
-            var renderParams = gameOptions.Where(o => o.Key.StartsWith("Render Params"));
+            defaultRenderSystemName = gameOptions.GraphicConfig.CurrentRenderSystem;
+            var renderParams = gameOptions.GraphicConfig[gameOptions.GraphicConfig.CurrentRenderSystem];
             if (!string.IsNullOrEmpty(defaultRenderSystemName))
             {
-                var videModeRenderParam = renderParams.Where(o => o.Key == "Render Params_Video Mode").First();
+                var videModeRenderParam = renderParams.Where(o => o.Name == "Video Mode").First();
                 rs = root.GetRenderSystemByName(defaultRenderSystemName);
                 string strVideoMode =  Regex.Match(
                     videModeRenderParam.Value, 
@@ -196,7 +166,7 @@ namespace OpenMB
             {
                 foreach (var kpl in renderParams)
                 {
-                    string renderParamKey = kpl.Key.Split('_')[1];
+                    string renderParamKey = kpl.Name;
                     string renderParamValue = kpl.Value;
                     //Validate the render parameter
                     if (!ogreConfigMap[renderParamKey].possibleValues.Contains(renderParamValue))
@@ -251,7 +221,7 @@ namespace OpenMB
 
             if (!LocateSystem.Singleton.IsInit)
             {
-                LocateSystem.Singleton.InitLocateSystem(LocateSystem.Singleton.ConvertLocateShortStringToLocateInfo(gameOptions.Where(o => o.Key == "CurrentLocate").First().Value));
+                LocateSystem.Singleton.InitLocateSystem(LocateSystem.Singleton.CovertReadableStringToLocate(gameOptions.LocateConfig.CurrentLocate));
             }
 
             ResourceGroupManager.Singleton.AddResourceLocation(
@@ -285,7 +255,7 @@ namespace OpenMB
             );
         }
 
-        private bool InitSubSystem(Dictionary<string, string> gameOptions)
+        private bool InitSubSystem(GameConfigXml gameOptions)
         {
             appStateMgr = new AppStateManager();
             locateMgr = LocateSystem.Singleton;
@@ -295,7 +265,10 @@ namespace OpenMB
             soundMgr = new SoundManager();
             uiMgr = new ScreenManager();
 
-            SoundManager.Instance.InitSystem(gameOptions["EnableMusic"] == "True" ? true : false, gameOptions["EnableSound"] == "True" ? true : false);
+            SoundManager.Instance.InitSystem(
+                gameOptions.AudioConfig.EnableMusic, 
+                gameOptions.AudioConfig.EnableSound
+            );
             
             Update += modMgr.Update;
             Update += outputMgr.Update;
@@ -305,11 +278,11 @@ namespace OpenMB
             return true;
         }
 
-        private bool InitGame(Dictionary<string, string> gameOptions)
+        private bool InitGame(GameConfigXml gameOptions)
         {
             try
             {
-                isEditMode = gameOptions["EditMode"] == "True" ? true : false;
+                isEditMode = gameOptions.CoreConfig.IsEnableEditMode;
                 return true;
             }
             catch
