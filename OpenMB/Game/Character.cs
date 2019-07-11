@@ -33,6 +33,7 @@ namespace OpenMB.Game
         private WeaponSystem weaponSystem;
         private EquipmentSystem equipmentSystem;
         private List<CharacterMessage> messageQueue;
+
         private Activity currentActivity;
         private ModCharacterSkinDfnXML skin;
         private bool isBot;
@@ -354,9 +355,19 @@ namespace OpenMB.Game
             }
         }
 
-        public void InjectMouseMove(MouseEvent evt)
+        public void InjectMouseClick(MouseEvent arg, MouseButtonID id)
         {
-            controller.injectMouseMove(evt);
+            controller.injectMouseDown(arg, id);
+        }
+
+        public void InjectMouseMove(MouseEvent arg)
+        {
+            controller.injectMouseMove(arg);
+        }
+
+        public void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
+        {
+            controller.injectMouseReleased(arg, id);
         }
 
         public void InjectKeyPressed(KeyEvent arg)

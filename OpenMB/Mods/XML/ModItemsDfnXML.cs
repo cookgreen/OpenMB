@@ -24,7 +24,7 @@ namespace OpenMB.Mods.XML
         public string ID { get; set; }
         [XmlElement("Desc")]
         public string Desc { get; set; }
-        [XmlElement("MeshName")]
+        [XmlElement("Model")]
         public string MeshName { get; set; }
         [XmlElement("Type")]
         public string Type { get; set; }
@@ -38,6 +38,8 @@ namespace OpenMB.Mods.XML
         public int AmmoCapcity { get; set; }
         [XmlElement("AmourNum")]
         public double AmourNum { get; set; }
+        public string MaterialName { get; set; }
+        public string Name { get; internal set; }
 
         public ModItemDfnXML()
         {

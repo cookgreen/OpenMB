@@ -302,6 +302,16 @@ namespace OpenMB.Game
             Map.RemoveAgent(owner);
         }
 
+        public void CreatePlayer(string trooperID, Mogre.Vector3 position, string teamID)
+        {
+            GameMapManager.Instance.GetCurrentMap().CreatePlayer(trooperID, position, teamID);
+        }
+
+        public void CreatePlayerSceneProp(string scenePropID, Mogre.Vector3 position)
+        {
+            GameMapManager.Instance.GetCurrentMap().CreatePlayerSceneProp(scenePropID, position);
+        }
+
         private bool FrameRenderingQueued(FrameEvent evt)
         {
             GameMapManager.Instance.Update(evt.timeSinceLastFrame);

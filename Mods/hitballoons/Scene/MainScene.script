@@ -14,5 +14,5 @@ trigger ballonHit ti_scene_prop_hit 1 0
 end
 
 function map_loaded
-
+	spawn_player_scene_prop SceneProp_Rifle
 end

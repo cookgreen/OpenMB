@@ -8,13 +8,24 @@ namespace OpenMB.Game
 {
     public class SceneProp : GameObject
     {
+        private string name;
         private string meshName;
         private string materialName;
+        private Item attachedItem;
 
-        public SceneProp(int id, GameWorld world, string meshName, string materialName, Vector3 initPosition) : base(id, world)
+        public SceneProp(
+            int id, GameWorld world, 
+            string name,
+            string meshName, 
+            string materialName, 
+            Vector3 initPosition,
+            Item attachedItem
+        ) : base(id, world)
         {
+            this.name = name;
             this.meshName = meshName;
             this.materialName = materialName;
+            this.attachedItem = attachedItem;
             position = initPosition;
 
             health = new HealthInfo(this, int.MaxValue, false);

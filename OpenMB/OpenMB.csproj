@@ -203,9 +203,12 @@
     <Compile Include="Game\Action\Idle.cs" />
     <Compile Include="Game\CharacterAnimation.cs" />
     <Compile Include="Game\CharacterMessage.cs" />
+    <Compile Include="Game\ControlObjType\ControlObjectTypeCharacter.cs" />
+    <Compile Include="Game\ControlObjType\ControlObjectTypeSceneProp.cs" />
     <Compile Include="Game\DecisionSystem.cs" />
     <Compile Include="Game\EquipmentSystem.cs" />
     <Compile Include="Game\HealthInfo.cs" />
+    <Compile Include="Game\ControlObjType\IControlObjectType.cs" />
     <Compile Include="Game\ItemAmmoFactory.cs" />
     <Compile Include="Game\ItemArmourFactory.cs" />
     <Compile Include="Game\ItemFactory.cs" />
@@ -225,11 +228,14 @@
     <Compile Include="Game\Item.cs" />
     <Compile Include="Game\Items\Pistol.cs" />
     <Compile Include="Game\Items\Rifle.cs" />
+    <Compile Include="Game\ItemTypes\IItemType.cs" />
+    <Compile Include="Game\ItemTypes\ItemTypeArmour.cs" />
     <Compile Include="Game\ItemWeaponFactory.cs" />
     <Compile Include="Core\OutputManager.cs" />
     <Compile Include="Game\IUpdate.cs" />
     <Compile Include="Game\Action\Move.cs" />
     <Compile Include="Game\Items\OneHandWeapon.cs" />
+    <Compile Include="Game\Player.cs" />
     <Compile Include="Game\ScenePlane.cs" />
     <Compile Include="Game\SceneProp.cs" />
     <Compile Include="Game\WeaponSystem.cs" />
@@ -308,6 +314,7 @@
     <Compile Include="Script\Command\ScriptCommand.cs" />
     <Compile Include="Script\Command\SetCameraModeScriptCommand.cs" />
     <Compile Include="Script\Command\SpawnPlaneScriptCommand.cs" />
+    <Compile Include="Script\Command\SpawnPlayerCharacterScriptCommand.cs" />
     <Compile Include="Script\Command\SpawnScenePropScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeMapScriptCommand.cs" />
     <Compile Include="Script\Command\InitListScriptCommand.cs" />

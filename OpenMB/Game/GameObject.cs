@@ -111,12 +111,27 @@ namespace OpenMB.Game
             health = new HealthInfo(this);
         }
 
+        public GameObject(string id)
+        {
+            moveInfo = null;
+            health = new HealthInfo(this);
+        }
+
         public void SetID(string id)
         {
             strID = id;
         }
 
         protected virtual void create(){ }
+
+        protected virtual void create(GameWorld world)
+        {
+            this.world = world;
+            camera = world.Camera;
+            sceneManager = world.SceneManager;
+            physicsScene = world.PhysicsScene;
+            physics = world.PhysicsScene.Physics;
+        }
         public virtual void Update(float timeSinceLastFrame) { }
 
         public virtual void Dispose() { }

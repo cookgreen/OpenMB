@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OpenMB.Mods.XML;
+using OpenMB.Mods;
 
 namespace OpenMB.Game
 {
@@ -11,6 +13,7 @@ namespace OpenMB.Game
     {
         protected Camera cam;
         protected Scene physicsScene;
+        protected ModData mod;
         protected static ItemFactory instance;
         public static ItemFactory Instance
         {
@@ -24,10 +27,11 @@ namespace OpenMB.Game
             }
         }
 
-        public void Initization(Camera cam, Scene physicsScene)
+        public void Initization(Camera cam, Scene physicsScene, ModData mod)
         {
             this.cam = cam;
             this.physicsScene = physicsScene;
+            this.mod = mod;
         }
 
         public Item Produce(
@@ -77,6 +81,21 @@ namespace OpenMB.Game
             }
             
             return item;
+        }
+
+        public Item PreProduce(ModItemDfnXML findedItem)
+        {
+            var findedItemTypeXml = mod.FindItemType(findedItem.Type);
+            if (findedItemTypeXml != null)
+            {
+                var findedItemTypes = mod.ItemTypes.Where(o => o.Name == findedItemTypeXml.Name);
+                if (findedItemTypes.Count() > 0)
+                {
+                    Item itm = new Item(Guid.NewGuid().ToString(), findedItem.Name, findedItem.MaterialName, findedItemTypes.ElementAt(0), ItemHaveAttachOption.IHAO_NO_VALUE, ItemUseAttachOption.IAO_NO_VALUE);
+                    return itm;
+                }
+            }
+            return null;
         }
 
         public Item Produce(Mods.XML.ModItemDfnXML itemXml, GameWorld world)

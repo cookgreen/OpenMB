@@ -15,15 +15,11 @@ namespace OpenMB.Forms.Controller
     {
         private Root r;
         private LOCATE selectedlocate;
-        private IniConfigFile gameCfg;
-        private IniConfigFile ogreCfg;
-        private IniConfigFileParser parser;
         private GameConfigXml gameXmlConfig;
         public frmConfigure form;
         public AudioConfigure AudioConfig;
         public GameConfigure GameConfig;
         public GraphicConfigure GraphicConfig;
-        //public event Action GraphicRenderSystemChanged;
         public LOCATE CurrentLoacte
         {
             get

@@ -5,6 +5,7 @@ using System.Text;
 using Mogre;
 using Mogre.PhysX;
 using OpenMB.Utilities;
+using OpenMB.Game.ItemTypes;
 
 namespace OpenMB.Game
 {
@@ -77,6 +78,7 @@ namespace OpenMB.Game
         protected int ownerID;
         protected string itemName;
         protected string itemMeshName;
+        protected IItemType itemType2;
         protected ItemType itemType;
         protected ItemHaveAttachOption itemAttachOptionWhenHave;
         protected ItemUseAttachOption itemAttachOptionWhenUse;
@@ -159,6 +161,22 @@ namespace OpenMB.Game
             create();
         }
 
+        public Item(
+            string id,
+            string itemName, 
+            string itemMeshName, 
+            IItemType itemType,
+            ItemHaveAttachOption itemAttachOptionWhenHave,
+            ItemUseAttachOption itemAttachOptionWhenUse) : base(id)
+        {
+            SetID(id);
+            this.itemName = itemName;
+            this.itemMeshName = itemMeshName;
+            this.itemType2 = itemType;
+            this.itemAttachOptionWhenHave = itemAttachOptionWhenHave;
+            this.itemAttachOptionWhenUse = itemAttachOptionWhenUse;
+        }
+
         public void Attack(int victimId)
         {
             if (OnWeaponAttack != null)
@@ -170,6 +188,21 @@ namespace OpenMB.Game
         protected override void create()
         {
             itemEnt = camera.SceneManager.CreateEntity(itemName,itemMeshName);
+            itemNode = camera.SceneManager.RootSceneNode.CreateChildSceneNode();
+            itemNode.AttachObject(itemEnt);
+
+            ActorDesc actorDesc = new ActorDesc();
+            actorDesc.Density = 4;
+            actorDesc.Body = null;
+            actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
+                StaticMeshData(itemEnt.GetMesh())));
+            itemActor = physicsScene.CreateActor(actorDesc);
+        }
+
+        protected override void create(GameWorld world)
+        {
+            base.create(world);
+            itemEnt = camera.SceneManager.CreateEntity(itemName, itemMeshName);
             itemNode = camera.SceneManager.RootSceneNode.CreateChildSceneNode();
             itemNode.AttachObject(itemEnt);
 

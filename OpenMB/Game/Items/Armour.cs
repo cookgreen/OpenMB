@@ -9,8 +9,14 @@ namespace OpenMB.Game
 {
     public class Armour : Item
     {
-        public Armour(int id, string name, string meshName, GameWorld world)
-            : base(id, name, meshName, ItemType.IT_BODY_ARMOUR,
+        public Armour(
+            int id, 
+            string name, 
+            string meshName, 
+            GameWorld world
+        )
+            : base(id, name, meshName, 
+                  ItemType.IT_BODY_ARMOUR,
                   ItemHaveAttachOption.IHAO_NO_VALUE,
                   ItemUseAttachOption.IAO_BODY,
                   world)

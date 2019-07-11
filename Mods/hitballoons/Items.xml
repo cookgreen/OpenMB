@@ -2,7 +2,7 @@
   <Item damage="80" range="15">
     <ID>item_svt40</ID>
     <Desc>SVT40 Rifle</Desc>
-    <MeshName>svt40.mesh</MeshName>
+    <Model>Model_svt40</Model>
 	<Type>IT_Rifle</Type>
   </Item>
 </Items>

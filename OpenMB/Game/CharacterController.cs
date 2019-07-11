@@ -353,6 +353,11 @@ namespace OpenMB.Game
             }
         }
 
+        public void injectMouseReleased(object evt, MouseButtonID id)
+        {
+            throw new NotImplementedException();
+        }
+
         public void YawBody(Degree degree)
         {
             bodyNode.Yaw(degree);

@@ -76,6 +76,7 @@ namespace OpenMB.Forms
                 btnCancel.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_cancel");
 
                 chkEnableEditMode.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_is_enable_edit_mode");
+                chkEnableCheatMode.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_is_enable_cheat_mode");
             }
         }
 

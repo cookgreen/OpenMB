@@ -9,6 +9,7 @@ using OpenMB.Configure;
 
 namespace OpenMB.Mods
 {
+    using Game.ItemTypes;
     using Mogre;
     using Script;
     using Script.Command;
@@ -286,6 +287,11 @@ namespace OpenMB.Mods
                             {
                                 var instance = thisAssembly.CreateInstance(type.FullName) as IModTriggerCondition;
                                 currentMod.ModTriggerConditions.Add(instance);
+                            }
+                            else if (type.GetInterface("IItemType") != null)
+                            {
+                                var instance = thisAssembly.CreateInstance(type.FullName) as IItemType;
+                                currentMod.ItemTypes.Add(instance);
                             }
                         }
                     }

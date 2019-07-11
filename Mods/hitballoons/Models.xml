@@ -4,4 +4,9 @@
     <Material>balloon</Material>
     <Mesh>balloon.mesh</Mesh>
   </Model>
+  <Model>
+    <ID>Model_svt40</ID>
+    <Material>SVT40</Material>
+    <Mesh>svt40.mesh</Mesh>
+  </Model>
 </Models>

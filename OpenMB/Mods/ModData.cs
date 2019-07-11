@@ -5,6 +5,7 @@ using System.Text;
 using OpenMB.Game;
 using OpenMB.Mods.XML;
 using OpenMB.Sound;
+using OpenMB.Game.ItemTypes;
 
 namespace OpenMB.Mods
 {
@@ -98,8 +99,10 @@ namespace OpenMB.Mods
         }
 
         public List<ModItemTypeDfnXml> ItemTypeInfos { get; set; }
+
         public List<ModScenePropDfnXml> SceneProps { get; set; }
         public List<ModModelDfnXml> Models { get; set; }
+        public List<IItemType> ItemTypes { get; internal set; }
 
         public ModData()
         {
@@ -123,6 +126,39 @@ namespace OpenMB.Mods
             ModModelTypes = new List<IModModelType>();
             ModSettings = new List<IModSetting>();
             ModTriggerConditions = new List<IModTriggerCondition>();
+        }
+
+        public ModItemTypeDfnXml FindItemType(string itemType)
+        {
+            foreach (var itemTypeDefine in ItemTypeInfos)
+            {
+                if (itemTypeDefine.ID == itemType)
+                {
+                    return itemTypeDefine;
+                }
+                else
+                {
+                    return FindSubItemType(itemTypeDefine, itemType);
+                }
+            }
+            return null;
+        }
+
+
+        ModItemTypeDfnXml FindSubItemType(ModItemTypeDfnXml itemDefineType, string itemType)
+        {
+            foreach (var subItemType in itemDefineType.SubTypes)
+            {
+                if (subItemType.ID == itemType)
+                {
+                    return subItemType;
+                }
+                else
+                {
+                    return FindSubItemType(subItemType, itemType);
+                }
+            }
+            return null;
         }
     }
 }

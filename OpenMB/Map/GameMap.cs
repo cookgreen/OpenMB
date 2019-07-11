@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OpenMB.Game.ControlObjType;
 
 namespace OpenMB.Map
 {
@@ -37,6 +38,7 @@ namespace OpenMB.Map
         private ModData modData;
         private Physics physics;
         private ControllerManager controllerMgr;
+        private Player player;
         private Character playerAgent;
         private Camera cam;
         private CameraHandler cameraHanlder;
@@ -94,6 +96,14 @@ namespace OpenMB.Map
             get
             {
                 return cameraHanlder;
+            }
+        }
+
+        public Player Player
+        {
+            get
+            {
+                return player;
             }
         }
 
@@ -220,18 +230,40 @@ namespace OpenMB.Map
                 world, agents.Count, teamId,
                 findTrooper.Name,
                 findTrooper.MeshName,
-                position, findSkin, isBot);
-            if (!isBot)
-            {
-                if (playerAgent != null)
-                {
-                    GameManager.Instance.log.LogMessage("TRY TO ASSIGN TROOPER AS PLAYER FAILED: There is already a trooper assigned!", LogMessage.LogType.Warning);
-                    return;
-                }
-                playerAgent = character;
-            }
+                position, findSkin, true);
 
             agents.Add(character);
+        }
+        
+        public void CreatePlayer(string trooperID, Mogre.Vector3 position, string teamId)
+        {
+            var findTrooperList = ModData.CharacterInfos.Where(o => o.ID == trooperID);
+            if (findTrooperList.Count() == 0)
+            {
+                GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid trooper id!", LogMessage.LogType.Warning);
+                return;
+            }
+            var findTrooper = findTrooperList.First();
+
+            var findSkinList = ModData.SkinInfos.Where(o => o.skinID == findTrooper.SkinID);
+            if (findSkinList.Count() == 0)
+            {
+                GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid skin id!", LogMessage.LogType.Warning);
+                return;
+            }
+            var findSkin = findSkinList.First();
+
+            Character character = new Character(
+                world, agents.Count, teamId,
+                findTrooper.Name,
+                findTrooper.MeshName,
+                position, findSkin, false);
+            if (player != null)
+            {
+                GameManager.Instance.log.LogMessage("TRY TO ASSIGN TROOPER AS PLAYER FAILED: There is already a player assigned!", LogMessage.LogType.Warning);
+                return;
+            }
+            player = new Player(findTrooper.Name, character.ID, new ControlObjectTypeCharacter(character));
         }
 
         public string CreateSceneProp(string scenePropID, Mogre.Vector3 position)
@@ -245,13 +277,19 @@ namespace OpenMB.Map
                 {
                     var findModelType = findModelTypes.ElementAt(0);
                     object[] MeshMaterialArray = findModelType.Process(modData, findSceneProp.Model) as object[];
-
+                    Item attachedItem = null;
+                    if (MeshMaterialArray.Length == 3)
+                    {
+                        attachedItem = MeshMaterialArray[2] as Item;
+                    }
                     SceneProp sceneProp = new SceneProp(
-                        gameObjects.Count, 
-                        world, 
+                        gameObjects.Count,
+                        world,
+                        findSceneProp.Name,
                         MeshMaterialArray[0].ToString(), 
                         MeshMaterialArray[1].ToString(), 
-                        position
+                        position,
+                        null
                     );
                     if (!gameObjects.ContainsKey(scenePropID))
                     {
@@ -264,6 +302,43 @@ namespace OpenMB.Map
                 }
             }
             return null;
+        }
+
+        public void CreatePlayerSceneProp(string scenePropID, Mogre.Vector3 position)
+        {
+            var findSceneProps = modData.SceneProps.Where(o => o.ID == scenePropID);
+            if (findSceneProps.Count() > 0)
+            {
+                var findSceneProp = findSceneProps.ElementAt(0);
+                var findModelTypes = modData.ModModelTypes.Where(o => o.Name == findSceneProp.ModelType);
+                if (findModelTypes.Count() > 0)
+                {
+                    var findModelType = findModelTypes.ElementAt(0);
+                    object[] MeshMaterialArray = findModelType.Process(modData, findSceneProp.Model) as object[];
+                    Item attachedItem = null;
+                    if (MeshMaterialArray.Length == 3)
+                    {
+                        attachedItem = MeshMaterialArray[2] as Item;
+                    }
+                    SceneProp sceneProp = new SceneProp(
+                        gameObjects.Count,
+                        world,
+                        findSceneProp.Name,
+                        MeshMaterialArray[0].ToString(),
+                        MeshMaterialArray[1].ToString(),
+                        position,
+                        attachedItem
+                    );
+                    if (!gameObjects.ContainsKey(scenePropID))
+                    {
+                        gameObjects.Add(scenePropID, new List<GameObject>());
+                    }
+                    
+                    string guidStr = Guid.NewGuid().ToString();
+                    sceneProp.SetID(guidStr);
+                    player = new Player(findSceneProp.Name, guidStr, new ControlObjectTypeSceneProp(sceneProp));
+                }
+            }
         }
 
         public SceneProp GetSceneProp(string propInstanceID)
@@ -485,10 +560,6 @@ namespace OpenMB.Map
                 cameraHanlder.InjectMouseMove(arg);
                 
             }
-            else
-            {
-                playerAgent.InjectMouseMove(arg);
-            }
             return true;
         }
 
@@ -564,6 +635,10 @@ namespace OpenMB.Map
 
         public void Update(float timeSinceLastFrame)
         {
+            if (player != null)
+            {
+                player.Update(timeSinceLastFrame);
+            }
             updateGameObjects(timeSinceLastFrame);
             updateMapCamera(timeSinceLastFrame);
             updatePhysics(timeSinceLastFrame);

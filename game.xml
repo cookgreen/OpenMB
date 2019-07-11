@@ -10,7 +10,7 @@
           <Parameter Name="FSAA">0</Parameter>
           <Parameter Name="Floating-point mode">Fastest</Parameter>
           <Parameter Name="Full Screen">No</Parameter>
-          <Parameter Name="Rendering Device">Monitor-1-Intel(R) HD Graphics 4000</Parameter>
+          <Parameter Name="Rendering Device">Monitor-1-Intel(R) HD Graphics 4600</Parameter>
           <Parameter Name="Resource Creation Policy">Create on all devices</Parameter>
           <Parameter Name="VSync">No</Parameter>
           <Parameter Name="VSync Interval">1</Parameter>
@@ -39,7 +39,7 @@
     <EnableMusic>false</EnableMusic>
   </Audio>
   <Localized>
-    <CurrentLocate>English</CurrentLocate>
+    <CurrentLocate>Simple Chinese</CurrentLocate>
   </Localized>
   <Mod>
     <ModDir>Mods/</ModDir>

@@ -18,6 +18,8 @@ namespace OpenMB.Mods.XML
         [XmlElement]
         public string ID { get; set; }
         [XmlElement]
+        public string Name { get; set; }
+        [XmlElement]
         public string Model { get; set; }
         [XmlElement]
         public string ModelType { get; set; }

@@ -50,6 +50,7 @@
             this.gbLocalization = new System.Windows.Forms.GroupBox();
             this.cmbLanguageSelect = new System.Windows.Forms.ComboBox();
             this.lblLang = new System.Windows.Forms.Label();
+            this.chkEnableCheatMode = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbAMGELogo)).BeginInit();
             this.tbRenderOpt.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -237,6 +238,7 @@
             // 
             // gbAdvanced
             // 
+            this.gbAdvanced.Controls.Add(this.chkEnableCheatMode);
             this.gbAdvanced.Controls.Add(this.chkEnableEditMode);
             this.gbAdvanced.Location = new System.Drawing.Point(6, 66);
             this.gbAdvanced.Name = "gbAdvanced";
@@ -286,6 +288,16 @@
             this.lblLang.Size = new System.Drawing.Size(59, 12);
             this.lblLang.TabIndex = 0;
             this.lblLang.Text = "Language:";
+            // 
+            // chkEnableCheatMode
+            // 
+            this.chkEnableCheatMode.AutoSize = true;
+            this.chkEnableCheatMode.Location = new System.Drawing.Point(8, 53);
+            this.chkEnableCheatMode.Name = "chkEnableCheatMode";
+            this.chkEnableCheatMode.Size = new System.Drawing.Size(126, 16);
+            this.chkEnableCheatMode.TabIndex = 1;
+            this.chkEnableCheatMode.Text = "Enable Cheat Mode";
+            this.chkEnableCheatMode.UseVisualStyleBackColor = true;
             // 
             // frmConfigure
             // 
@@ -345,5 +357,6 @@
         private System.Windows.Forms.GroupBox gbAdvanced;
         private System.Windows.Forms.GroupBox gbLocalization;
         private System.Windows.Forms.CheckBox chkEnableEditMode;
+        private System.Windows.Forms.CheckBox chkEnableCheatMode;
     }
 }
