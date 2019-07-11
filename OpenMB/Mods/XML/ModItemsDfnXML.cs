@@ -38,8 +38,9 @@ namespace OpenMB.Mods.XML
         public int AmmoCapcity { get; set; }
         [XmlElement("AmourNum")]
         public double AmourNum { get; set; }
+        [XmlIgnore]
         public string MaterialName { get; set; }
-        public string Name { get; internal set; }
+        public string Name { get; set; }
 
         public ModItemDfnXML()
         {

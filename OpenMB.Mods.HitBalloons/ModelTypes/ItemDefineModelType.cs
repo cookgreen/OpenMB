@@ -24,17 +24,20 @@ namespace OpenMB.Mods.HitBalloons.ModelTypes
             if (findedItems.Count() > 0)
             {
                 var findedItem = findedItems.ElementAt(0);
-                string modelMesh = findedItem.MeshName;
-                string modelMaterial = findedItem.MaterialName;
+                string itemModel = findedItem.MeshName;
+                var findedModels = data.Models.Where(o => o.ID == itemModel);
+                if (findedModels.Count() > 0)
+                {
+                    var findedModel = findedModels.ElementAt(0);
+                    string modelMesh = findedModel.Mesh;
+                    string modelMaterial = findedModel.Material;
 
-                Item itm = ItemFactory.Instance.PreProduce(findedItem);
+                    Item itm = ItemFactory.Instance.PreProduce(findedItem);
 
-                return new object[] { modelMesh, modelMaterial, itm };
+                    return new object[] { modelMesh, modelMaterial, itm };
+                }
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
     }
 }
