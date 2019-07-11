@@ -8,7 +8,7 @@ namespace OpenMB.Core
     public class GameVersion
     {
         private static int main = 0;
-        private static int sub = 2;
+        private static int sub = 0;
         private static int modify = 0;
 
         public static string Current
