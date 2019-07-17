@@ -253,51 +253,68 @@ namespace OpenMB.Mods
                 }
 
                 //Load Customized type from the assembly
-                if (!string.IsNullOrEmpty(manifest.MetaData.Assembly) &&
-                    File.Exists(manifest.InstalledPath + "\\" + manifest.MetaData.Assembly))
+                for (int i = 0; i < manifest.MetaData.Assemblies.Count; i++)
                 {
-                    try
+                    string assemblyXml = manifest.MetaData.Assemblies[i];
+                    bool isCurrentMod;
+                    string assemblyPath = getAssemblyRealPath(assemblyXml, out isCurrentMod);
+                    if (string.IsNullOrEmpty(assemblyPath))
                     {
-                        Assembly assembly = Assembly.LoadFile(manifest.InstalledPath + "\\" + manifest.MetaData.Assembly);
-                        Type[] types = assembly.GetTypes();
-                        foreach (var type in types)
+                        continue;
+                    }
+                    if(isCurrentMod)
+                    {
+                        assemblyPath = manifest.InstalledPath + "\\" + assemblyPath;
+                    }
+                    if (File.Exists(assemblyPath))
+                    {
+                        try
                         {
-                            if (type.GetInterface("IScriptCommand") != null)//avaiable customized script command
+                            Assembly assemblyDll = Assembly.LoadFile(assemblyPath);
+                            Type[] types = assemblyDll.GetTypes();
+                            foreach (var type in types)
                             {
-                                var instance = assembly.CreateInstance(type.FullName) as ScriptCommand;
-                                ScriptCommandRegister.Instance.RegisterNewCommand(instance.CommandName, type); //register this command
-                            }
-                            else if (type.GetInterface("IModSetting")!=null)
-                            {
-                                var instance = assembly.CreateInstance(type.FullName) as IModSetting;
-                                var findedSettingInMod = manifest.Settings.Where(o => o.Name == instance.Name);
-                                if (findedSettingInMod.Count() > 0)
+                                if (type.GetInterface("IScriptCommand") != null)//avaiable customized script command
                                 {
-                                    instance.Value = findedSettingInMod.ElementAt(0).Value;
-                                    instance.Load(currentMod);
+                                    var instance = assemblyDll.CreateInstance(type.FullName) as ScriptCommand;
+                                    ScriptCommandRegister.Instance.RegisterNewCommand(instance.CommandName, type); //register this command
                                 }
-                                currentMod.ModSettings.Add(instance);
-                            }
-                            else if (type.GetInterface("IModModelType") != null)
-                            {
-                                var instance = assembly.CreateInstance(type.FullName) as IModModelType;
-                                currentMod.ModModelTypes.Add(instance);
-                            }
-                            else if (type.GetInterface("IModTriggerCondition") != null)
-                            {
-                                var instance = thisAssembly.CreateInstance(type.FullName) as IModTriggerCondition;
-                                currentMod.ModTriggerConditions.Add(instance);
-                            }
-                            else if (type.GetInterface("IItemType") != null)
-                            {
-                                var instance = thisAssembly.CreateInstance(type.FullName) as IItemType;
-                                currentMod.ItemTypes.Add(instance);
+                                else if (type.GetInterface("IModSetting") != null)
+                                {
+                                    var instance = assemblyDll.CreateInstance(type.FullName) as IModSetting;
+                                    var findedSettingInMod = manifest.Settings.Where(o => o.Name == instance.Name);
+                                    if (findedSettingInMod.Count() > 0)
+                                    {
+                                        instance.Value = findedSettingInMod.ElementAt(0).Value;
+                                        instance.Load(currentMod);
+                                    }
+                                    currentMod.ModSettings.Add(instance);
+                                }
+                                else if (type.GetInterface("IModModelType") != null)
+                                {
+                                    var instance = assemblyDll.CreateInstance(type.FullName) as IModModelType;
+                                    currentMod.ModModelTypes.Add(instance);
+                                }
+                                else if (type.GetInterface("IModTriggerCondition") != null)
+                                {
+                                    var instance = thisAssembly.CreateInstance(type.FullName) as IModTriggerCondition;
+                                    currentMod.ModTriggerConditions.Add(instance);
+                                }
+                                else if (type.GetInterface("IItemType") != null)
+                                {
+                                    var instance = thisAssembly.CreateInstance(type.FullName) as IItemType;
+                                    currentMod.ItemTypes.Add(instance);
+                                }
                             }
                         }
+                        catch (Exception ex)
+                        {
+                            GameManager.Instance.log.LogMessage("Error Loading Assembly, Details: " + ex.ToString(), LogMessage.LogType.Error);
+                        }
                     }
-                    catch(Exception ex)
+                    else
                     {
-                        GameManager.Instance.log.LogMessage("Error Loading Assembly, Details: " + ex.ToString(), LogMessage.LogType.Error);
+                        GameManager.Instance.log.LogMessage("Requested Assembly Path don't exist!", LogMessage.LogType.Error);
                     }
                 }
                 //--------------------------------------------
@@ -313,6 +330,30 @@ namespace OpenMB.Mods
             catch
             {
                 return;
+            }
+        }
+
+        string getAssemblyRealPath(string assemblyXml, out bool isCurrentMod)
+        {
+            isCurrentMod = false;
+            if (string.IsNullOrEmpty(assemblyXml))
+            {
+                return string.Empty;
+            } 
+            string[] tokens = assemblyXml.Split('|');
+            if (tokens[0] != "this")
+            {
+                if (installedMods.ContainsKey(tokens[0]))
+                {
+                    ModManifest mod = installedMods[tokens[0]];
+                    return mod.InstalledPath + "\\" + tokens[1] + ".dll";
+                }
+                return null;
+            }
+            else
+            {
+                isCurrentMod = true;
+                return tokens[1] + ".dll";
             }
         }
 
@@ -369,9 +410,9 @@ namespace OpenMB.Mods
                     if (File.Exists(string.Format("{0}/Module.xml", dir.FullName)))
                     {
                         ModManifest manifest = new ModManifest(dir.FullName);
-                        if (installedMods.ContainsKey(manifest.MetaData.Name))
+                        if (installedMods.ContainsKey(dir.Name))
                             continue;
-                        installedMods.Add(manifest.MetaData.Name, manifest);
+                        installedMods.Add(dir.Name, manifest);
 
                         for (int i = 0; i < manifest.Media.MediaSections.Count; i++)
                         {

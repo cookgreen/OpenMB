@@ -18,8 +18,10 @@ namespace OpenMB.Mods.XML
         public string Thumb { get; set; }
         [XmlElement("Movie")]
         public string Movie { get; set; }
-
-        [XmlElement("Assembly")]
-        public string Assembly { get; set; }
+        [XmlArray("Assemblies")]
+        [XmlArrayItem("Assembly")]
+        public List<string> Assemblies { get; set; }
+        [XmlElement]
+        public bool DisplayInChooser { get; set; }
     }
 }

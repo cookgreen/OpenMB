@@ -4,7 +4,11 @@
     <Description>Destroy the ballons as many as possible!</Description>
     <Version>1.0</Version>
     <Thumb>main.png</Thumb>
-	<Assembly>OpenMB.Mods.HitBalloons.dll</Assembly>
+	<Assemblies>
+		<Assembly>common|OpenMB.Mods.Common</Assembly>
+		<Assembly>this|OpenMB.Mods.HitBalloons</Assembly>
+	</Assemblies>
+	<DisplayInChooser>true</DisplayInChooser>
   </Info>
   <Data>
     <Characters>Characters.xml</Characters>

@@ -4,7 +4,11 @@
     <Description>Mount Blade With Fire and Sword</Description>
     <Version>1.143</Version>
     <Thumb>Sample_Thumb.png</Thumb>
-	<Assembly>OpenMB.Mods.OIM</Assembly>
+	<Assemblies>
+		<Assembly>common|OpenMB.Mods.MB</Assembly>
+		<Assembly>this|OpenMB.Mods.OIM</Assembly>
+	</Assemblies>
+	<DisplayInChooser>true</DisplayInChooser>
   </Info>
   <Data>
     <Characters>Characters.xml</Characters>

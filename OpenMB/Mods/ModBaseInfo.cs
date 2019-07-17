@@ -17,7 +17,8 @@ namespace OpenMB
         public readonly string Author;
         public readonly string Thumb;
         public readonly string Movie;
-        public readonly string Assembly;
+        public readonly List<string> Assemblies;
+        public readonly bool DisplayInChooser;
 
         public ModBaseInfo(
             string installPath,
@@ -26,7 +27,8 @@ namespace OpenMB
             string author,
             string thumb,
             string movie,
-            string assembly) 
+            List<string> assemblies,
+            bool displayInChooser) 
         {
             InstallPath = installPath;
             Name = name;
@@ -34,7 +36,8 @@ namespace OpenMB
             Author = author;
             Thumb = thumb;
             Movie = movie;
-            Assembly = assembly;
+            Assemblies = assemblies;
+            DisplayInChooser = displayInChooser;
         }
     }
 }

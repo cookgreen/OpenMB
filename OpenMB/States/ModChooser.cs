@@ -59,9 +59,12 @@ namespace OpenMB.States
             mods = ModManager.Instance.GetInstalledMods();
             foreach (var mod in mods)
             {
-                modNames.Add(mod.Key);
-                modDescs.Add(mod.Value.MetaData.Description);
-                modThumb.Add(mod.Value.MetaData.Thumb);
+                if (mod.Value.MetaData.DisplayInChooser)
+                {
+                    modNames.Add(mod.Key);
+                    modDescs.Add(mod.Value.MetaData.Description);
+                    modThumb.Add(mod.Value.MetaData.Thumb);
+                }
             }
 
             GameManager.Instance.trayMgr.destroyAllWidgets();

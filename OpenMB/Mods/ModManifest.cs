@@ -9,7 +9,6 @@ namespace OpenMB.Mods
     public class ModManifest
     {
         public readonly ModBaseInfo MetaData;
-        public readonly string AssemblyName;
         public readonly ModDataInfo Data;
         public readonly ModMediaXml Media;
         public readonly List<ModSettingDfnXml> Settings;
@@ -29,7 +28,8 @@ namespace OpenMB.Mods
                                            xmldata.ModInfo.Version,
                                            xmldata.ModInfo.Thumb,
                                            xmldata.ModInfo.Movie,
-                                           xmldata.ModInfo.Assembly);
+                                           xmldata.ModInfo.Assemblies,
+                                           xmldata.ModInfo.DisplayInChooser);
                 Data = new ModDataInfo(xmldata.Data.characterXML,
                                         xmldata.Data.soundXML,
                                         xmldata.Data.musicXML,
