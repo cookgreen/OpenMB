@@ -102,7 +102,7 @@ namespace OpenMB.Mods
 
         public List<ModScenePropDfnXml> SceneProps { get; set; }
         public List<ModModelDfnXml> Models { get; set; }
-        public List<IItemType> ItemTypes { get; internal set; }
+        public List<IItemType> ItemTypes { get; set; }
 
         public ModData()
         {
@@ -126,6 +126,7 @@ namespace OpenMB.Mods
             ModModelTypes = new List<IModModelType>();
             ModSettings = new List<IModSetting>();
             ModTriggerConditions = new List<IModTriggerCondition>();
+            ItemTypes = new List<IItemType>();
         }
 
         public ModItemTypeDfnXml FindItemType(string itemType)

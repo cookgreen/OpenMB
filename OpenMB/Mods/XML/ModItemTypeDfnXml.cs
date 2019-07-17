@@ -20,7 +20,8 @@ namespace OpenMB.Mods.XML
         public string ID { get; set; }
         [XmlElement]
         public string Name { get; set; }
-        [XmlElement]
+        [XmlArray("SubTypes")]
+        [XmlArrayItem("ItemType")]
         public List<ModItemTypeDfnXml> SubTypes { get; set; }
     }
 }

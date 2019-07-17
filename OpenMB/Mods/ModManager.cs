@@ -126,20 +126,6 @@ namespace OpenMB.Mods
                     loader.Load<XML.ModItemsDfnXML>(out itemDfn);
                     currentMod.ItemInfos = itemDfn != null ? itemDfn.Items : null;
                     worker.ReportProgress(75);
-
-                    for (int j = itemDfn.Items.Count - 1; j >= 0; j--)
-                    {
-                        if (!ValidItemType(currentMod, itemDfn.Items[j].Type))
-                        {
-                            string itemType = itemDfn.Items[j].Type;
-                            string itemID = itemDfn.Items[j].ID;
-                            itemDfn.Items.Remove(itemDfn.Items[j]);
-                            GameManager.Instance.log.LogMessage(
-                                string.Format("Unrecognized Item Type `{0}` in Item `{1}`", itemType, itemID),
-                                LogMessage.LogType.Error
-                            );
-                        }
-                    }
                 }
 
                 if (!string.IsNullOrEmpty(manifest.Data.Sides))
@@ -297,12 +283,12 @@ namespace OpenMB.Mods
                                 }
                                 else if (type.GetInterface("IModTriggerCondition") != null)
                                 {
-                                    var instance = thisAssembly.CreateInstance(type.FullName) as IModTriggerCondition;
+                                    var instance = assemblyDll.CreateInstance(type.FullName) as IModTriggerCondition;
                                     currentMod.ModTriggerConditions.Add(instance);
                                 }
                                 else if (type.GetInterface("IItemType") != null)
                                 {
-                                    var instance = thisAssembly.CreateInstance(type.FullName) as IItemType;
+                                    var instance = assemblyDll.CreateInstance(type.FullName) as IItemType;
                                     currentMod.ItemTypes.Add(instance);
                                 }
                             }
@@ -318,6 +304,21 @@ namespace OpenMB.Mods
                     }
                 }
                 //--------------------------------------------
+
+                //Valid Item Type
+                for (int j = currentMod.ItemInfos.Count - 1; j >= 0; j--)
+                {
+                    if (!ValidItemType(currentMod, currentMod.ItemInfos[j].Type))
+                    {
+                        string itemType = currentMod.ItemInfos[j].Type;
+                        string itemID = currentMod.ItemInfos[j].ID;
+                        currentMod.ItemInfos.Remove(currentMod.ItemInfos[j]);
+                        GameManager.Instance.log.LogMessage(
+                            string.Format("Unrecognized Item Type `{0}` in Item `{1}`", itemType, itemID),
+                            LogMessage.LogType.Error
+                        );
+                    }
+                }
 
                 currentMod.MapDir = manifest.Data.MapDir;
                 currentMod.MusicDir = manifest.Data.MusicDir;
@@ -365,6 +366,7 @@ namespace OpenMB.Mods
 
         bool ValidItemType(ModData mod, string itemType)
         {
+            bool ret = false;
             foreach (var itemTypeDefine in mod.ItemTypeInfos)
             {
                 if (itemTypeDefine.ID == itemType)
@@ -373,14 +375,19 @@ namespace OpenMB.Mods
                 }
                 else
                 {
-                    return ValidSubItemType(itemTypeDefine, itemType);
+                    ret = ValidSubItemType(itemTypeDefine, itemType);
+                    if(ret)
+                    {
+                        return true;
+                    }
                 }
             }
-            return false;
+            return ret;
         }
 
         bool ValidSubItemType(ModItemTypeDfnXml itemDefineType, string itemType)
         {
+            bool ret = false;
             foreach (var subItemType in itemDefineType.SubTypes)
             {
                 if (subItemType.ID == itemType)
@@ -389,10 +396,14 @@ namespace OpenMB.Mods
                 }
                 else
                 {
-                    return ValidSubItemType(subItemType, itemType);
+                    ret = ValidSubItemType(subItemType, itemType);
+                    if (ret)
+                    {
+                        return true;
+                    }
                 }
             }
-            return false;
+            return ret;
         }
 
         public Mods GetInstalledMods()

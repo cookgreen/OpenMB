@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpenMB.Mods.HitBalloons.Settings
+namespace OpenMB.Mods.Common.Settings
 {
-    public class HasMultiplayerModSetting : IModSetting
+    public class HasSavedGameModSetting : IModSetting
     {
-        public string Name {
+        public string Name
+        {
             get
             {
-                return "HasMultiplayer";
+                return "HasSavedGame";
             }
         }
 
@@ -18,7 +19,7 @@ namespace OpenMB.Mods.HitBalloons.Settings
 
         public void Load(ModData mod)
         {
-            mod.HasMultiplater = bool.Parse(Value);
+            mod.HasSavedGame = bool.Parse(Value);
         }
     }
 }
