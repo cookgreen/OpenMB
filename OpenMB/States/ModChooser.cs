@@ -84,8 +84,8 @@ namespace OpenMB.States
 
             GameManager.Instance.trayMgr.showLogo(TrayLocation.TL_RIGHT);
             GameManager.Instance.trayMgr.createSeparator(TrayLocation.TL_RIGHT, "LogoSep");
-            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "Play", LocateSystem.Singleton.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 140);
-            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "Quit", LocateSystem.Singleton.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 140);
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "Play", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 140);
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "Quit", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 140);
             
             setupModMenu();
 

@@ -50,7 +50,7 @@ namespace OpenMB.Localization
             }
         }
 
-        public static LocateSystem Singleton
+        public static LocateSystem Instance
         {
             get
             {
@@ -279,13 +279,13 @@ namespace OpenMB.Localization
         /// </summary>
         /// <param name="locate">Readable String, i.e. English</param>
         /// <returns>Short string, i.e. en</returns>
-        public string CovertReadableStringToLocateShortString(string locate)
+        public string ConvertReadableStringToLocateShortString(string locate)
         {
             switch (locate)
             {
                 case "English":
                     return "en";
-                case "Simple Chinese":
+                case "Simplified Chinese":
                     return "cns";
                 case "Traditional Chinese":
                     return "cnt";
@@ -305,13 +305,13 @@ namespace OpenMB.Localization
         /// </summary>
         /// <param name="locate">Readable String, i.e. English</param>
         /// <returns>Short string, i.e. en</returns>
-        public LOCATE CovertReadableStringToLocate(string locate)
+        public LOCATE ConvertReadableStringToLocate(string locate)
         {
             switch (locate)
             {
                 case "English":
                     return LOCATE.en;
-                case "Simple Chinese":
+                case "Simplified Chinese":
                     return LOCATE.cns;
                 case "Traditional Chinese":
                     return LOCATE.cnt;
@@ -333,7 +333,7 @@ namespace OpenMB.Localization
                 case "en":
                     return "English";
                 case "cns":
-                    return "Simple Chinese";
+                    return "Simplified Chinese";
                 case "cnt":
                     return "Traditional Chinese";
                 case "de":

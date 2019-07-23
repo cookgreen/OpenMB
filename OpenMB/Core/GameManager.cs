@@ -219,13 +219,13 @@ namespace OpenMB
                 }
             }
 
-            if (!LocateSystem.Singleton.IsInit)
+            if (!LocateSystem.Instance.IsInit)
             {
-                LocateSystem.Singleton.InitLocateSystem(LocateSystem.Singleton.CovertReadableStringToLocate(gameOptions.LocateConfig.CurrentLocate));
+                LocateSystem.Instance.InitLocateSystem(LocateSystem.Instance.ConvertReadableStringToLocate(gameOptions.LocateConfig.CurrentLocate));
             }
 
             ResourceGroupManager.Singleton.AddResourceLocation(
-                string.Format("./Media/Engine/Fonts/{0}/", LocateSystem.Singleton.Locate.ToString()), "FileSystem",
+                string.Format("./Media/Engine/Fonts/{0}/", LocateSystem.Instance.Locate.ToString()), "FileSystem",
                 "General");
 
             TextureManager.Singleton.DefaultNumMipmaps = 5;
@@ -258,7 +258,7 @@ namespace OpenMB
         private bool InitSubSystem(GameConfigXml gameOptions)
         {
             appStateMgr = new AppStateManager();
-            locateMgr = LocateSystem.Singleton;
+            locateMgr = LocateSystem.Instance;
             modMgr = new ModManager();
             networkMgr = new NetworkManager();
             outputMgr = new OutputManager();
@@ -303,7 +303,7 @@ namespace OpenMB
 
         public void Exit()
         {
-            LocateSystem.Singleton.SaveLocateFile();
+            LocateSystem.Instance.SaveLocateFile();
             log.LogMessage("Game Quit!");
             log.Dispose();
         }

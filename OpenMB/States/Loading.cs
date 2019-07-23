@@ -112,16 +112,16 @@ namespace OpenMB.States
             switch (progress)
             {
                 case 25:
-                    progressBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_processing_module_file"));
+                    progressBar.setComment(LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_processing_module_file"));
                     break;
                 case 50:
-                    progressBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_loading_resource"));
+                    progressBar.setComment(LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_loading_resource"));
                     break;
                 case 75:
-                    progressBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_loading_module_data"));
+                    progressBar.setComment(LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_loading_module_data"));
                     break;
                 case 100:
-                    progressBar.setComment(LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_finished"));
+                    progressBar.setComment(LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_finished"));
                     break;
             }
             progressBar.setProgress(progress / 100);

@@ -49,34 +49,34 @@ namespace OpenMB.Forms
         private void ConfigFrm_Load(object sender, EventArgs e)
         {
             controller.Init();
-            LocateSystem.Singleton.InitLocateSystem(controller.CurrentLoacte);// Init Locate System
+            LocateSystem.Instance.InitLocateSystem(controller.CurrentLoacte);// Init Locate System
             controller.InitLocates();
 
             if (controller.CurrentLoacte != LOCATE.invalid)
             {
-                cmbLanguageSelect.SelectedIndex = LocateSystem.Singleton.CovertLocateInfoToIndex(controller.CurrentLoacte);
+                cmbLanguageSelect.SelectedIndex = LocateSystem.Instance.CovertLocateInfoToIndex(controller.CurrentLoacte);
                 
-                tbRenderOpt.TabPages[0].Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_graphic");
-                tbRenderOpt.TabPages[1].Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_audio");
-                tbRenderOpt.TabPages[2].Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_game");
+                tbRenderOpt.TabPages[0].Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_graphic");
+                tbRenderOpt.TabPages[1].Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_audio");
+                tbRenderOpt.TabPages[2].Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_game");
             
-                lblRenderSys.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_rendersystem");
-                lblCOO.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_click_on_options");
-                lblLang.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_language");
+                lblRenderSys.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_rendersystem");
+                lblCOO.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_click_on_options");
+                lblLang.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_language");
 
-                chkEnableSound.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_enable_sound");
-                chkEnableMusic.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_enable_music");
+                chkEnableSound.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_enable_sound");
+                chkEnableMusic.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_enable_music");
 
-                gbLocalization.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_localization");
-                gbRenderOpt.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_render_options");
-                gbMusicSound.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_music_sound");
-                gbAdvanced.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_advanced_options");
+                gbLocalization.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_localization");
+                gbRenderOpt.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_render_options");
+                gbMusicSound.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_music_sound");
+                gbAdvanced.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_advanced_options");
             
-                btnOK.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_ok");
-                btnCancel.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_cancel");
+                btnOK.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_ok");
+                btnCancel.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_cancel");
 
-                chkEnableEditMode.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_is_enable_edit_mode");
-                chkEnableCheatMode.Text = LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameUI, "ui_is_enable_cheat_mode");
+                chkEnableEditMode.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_is_enable_edit_mode");
+                chkEnableCheatMode.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_is_enable_cheat_mode");
             }
         }
 

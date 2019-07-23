@@ -234,21 +234,21 @@ namespace OpenMB.States
             GameManager.Instance.trayMgr.destroyAllWidgets();
             GameManager.Instance.trayMgr.showCursor();
 
-            GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", data != null ? LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, data.BasicInfo.Name) : LocateSystem.Singleton.LOC(LocateFileType.GameQuickString, "MenuState"), 400);
+            GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", data != null ? LocateSystem.Instance.LOC(LocateFileType.GameQuickString, data.BasicInfo.Name) : LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "MenuState"), 400);
 
             if(modData.HasSinglePlayer)
-                GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnSingleplayer", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_single_player"), 200);
+                GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnSingleplayer", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_single_player"), 200);
             if(modData.HasSavedGame)
-                GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnLoadGame", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_load"), 200);
+                GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnLoadGame", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_load"), 200);
             if(modData.HasMultiplater)
-                GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnMultiplayer", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_multiplayer"), 200);
+                GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnMultiplayer", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_multiplayer"), 200);
 
-            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnConfigure", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_config"), 200);
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnConfigure", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_config"), 200);
 
             if (modData.HasCredit)
-                GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnCredit", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_credit"), 200);
+                GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnCredit", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_credit"), 200);
 
-            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnQuit", LocateSystem.Singleton.GetLocalizedString(LocateFileType.GameString, "str_quit"), 200);
+            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnQuit", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_quit"), 200);
         }
     }
 }

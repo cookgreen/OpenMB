@@ -52,8 +52,8 @@ namespace OpenMB.Forms.Controller
 
         private void LoadGameConfigure()
         {
-            selectedlocate = LocateSystem.Singleton.CovertReadableStringToLocate(gameXmlConfig.LocateConfig.CurrentLocate);
-            GameConfig.CurrentSelectedLocate = LocateSystem.Singleton.ConvertLocateShortStringToReadableString(selectedlocate.ToString());
+            selectedlocate = LocateSystem.Instance.ConvertReadableStringToLocate(gameXmlConfig.LocateConfig.CurrentLocate);
+            GameConfig.CurrentSelectedLocate = LocateSystem.Instance.ConvertLocateShortStringToReadableString(selectedlocate.ToString());
             GameConfig.IsEnableEditMode = gameXmlConfig.CoreConfig.IsEnableEditMode;
         }
 
@@ -85,9 +85,9 @@ namespace OpenMB.Forms.Controller
         internal void InitLocates()
         {
             GameConfig.AvaliableLocates.Clear();
-            foreach (var locateStr in LocateSystem.Singleton.AvaliableLocates)
+            foreach (var locateStr in LocateSystem.Instance.AvaliableLocates)
             {
-                GameConfig.AvaliableLocates.Add(LocateSystem.Singleton.ConvertLocateShortStringToReadableString(locateStr));
+                GameConfig.AvaliableLocates.Add(LocateSystem.Instance.ConvertLocateShortStringToReadableString(locateStr));
             }
         }
 
@@ -140,6 +140,16 @@ namespace OpenMB.Forms.Controller
             GetGraphicSettingsByName(renderSystemName);
         }
 
+        public bool CheckConfigure()
+        {
+            if (gameXmlConfig.LocateConfig.CurrentLocate != GameConfig.CurrentSelectedLocate.ToString())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public GameConfigXml SaveConfigure()
         {
             if (string.IsNullOrEmpty(gameXmlConfig.ModConfig.ModDir))
@@ -150,6 +160,10 @@ namespace OpenMB.Forms.Controller
             gameXmlConfig.CoreConfig.IsEnableEditMode = GameConfig.IsEnableEditMode;
             gameXmlConfig.AudioConfig.EnableMusic = AudioConfig.IsEnableMusic;
             gameXmlConfig.AudioConfig.EnableSound = AudioConfig.IsEnableSound;
+            if (gameXmlConfig.LocateConfig.CurrentLocate != GameConfig.CurrentSelectedLocate.ToString())
+            {
+                LocateSystem.Instance.InitLocateSystem(LocateSystem.Instance.ConvertReadableStringToLocate(GameConfig.CurrentSelectedLocate.ToString()));// Init Locate System
+            }
             gameXmlConfig.LocateConfig.CurrentLocate = GameConfig.CurrentSelectedLocate.ToString();
             gameXmlConfig.GraphicConfig.CurrentRenderSystem = GraphicConfig.RenderSystem;
             gameXmlConfig.GraphicConfig.Renderers.Clear();
