@@ -67,8 +67,30 @@ namespace OpenMB.FileFormats
         public int VertexNum;
         [XmlAttribute]
         public int FaceNum;
+
+        /// <summary>
+        /// Color
+        /// </summary>
         [XmlIgnore]
         public Dictionary<MBWorldMapTerrainType, Mogre.ColourValue> Color;
+
+        /// <summary>
+        /// Face Normal
+        /// </summary>
+        [XmlIgnore]
+        public List<float[]> fcn;
+
+        /// <summary>
+        /// Face Area
+        /// </summary>
+        [XmlIgnore]
+        public List<float> cfa;
+
+        /// <summary>
+        /// Vertex Normal
+        /// </summary>
+        [XmlIgnore]
+        public List<float[]> vtn;
 
         public MBWorldMap()
         {

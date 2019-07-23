@@ -126,6 +126,12 @@ namespace OpenMB.Map
             cameraHanlder = new CameraHandler(this);
             gameObjects = new Dictionary<string, List<GameObject>>();
             combineKey = false;
+
+            GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
+            GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
+            GameManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
+            GameManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
+            GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
         }
 
         public void LoadMap(string name)
@@ -151,12 +157,6 @@ namespace OpenMB.Map
             }
             var worldmapEnt = scm.CreateEntity("CURRENT_WORLDMAP", "WORLDMAP-" + name);
             scm.RootSceneNode.CreateChildSceneNode("CURRENT_WORLDMAP_SCENENODE").AttachObject(worldmapEnt);
-
-            GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
-            GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
-            GameManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
-            GameManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
-            GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
         }
 
         public Entity CreateEntityWithMaterial(string name, string entityMeshName, string materialName)
