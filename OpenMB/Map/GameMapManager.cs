@@ -43,7 +43,8 @@ namespace OpenMB.Map
             {
                 maps.Dequeue().Destroy();
             }
-            IMap map = new GameMap(name, world);
+            GameMap map = new GameMap(world);
+            map.LoadMap(name);
             maps.Enqueue(map);
             map.LoadMapStarted += Map_LoadMapStarted;
             map.LoadMapFinished += Map_LoadMapFinished;
@@ -57,7 +58,8 @@ namespace OpenMB.Map
             {
                 maps.Dequeue().Destroy();
             }
-            IMap map = new GameMap(worldMapID, file, world);
+            GameMap map = new GameMap(world);
+            map.LoadWorldMap(worldMapID, file);
             maps.Enqueue(map);
             map.LoadMapStarted += Map_LoadMapStarted;
             map.LoadMapFinished += Map_LoadMapFinished;

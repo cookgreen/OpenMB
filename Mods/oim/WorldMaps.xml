@@ -1,6 +1,6 @@
 <WorldMaps>
 	<WorldMap>
-    <ID>WMP_1</ID>
+    <ID>WMP_OIM</ID>
     <Name>World Map OIM</Name>
     <Map>MAP_WORLDMAP_OIM</Map>
     <Flags>

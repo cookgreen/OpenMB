@@ -14,7 +14,7 @@ namespace OpenMB.Script.Command
         public ChangeWorldMapScriptCommand()
         {
             commandArgs = new string[] {
-                "mapName"
+                "worldMapID"
             };
         }
         public override string[] CommandArgs

@@ -327,6 +327,9 @@ namespace OpenMB.Mods
                         string.Format("{0}\\{1}", manifest.InstalledPath, mediaSection.Directory.Replace("/", "//")), mediaSection.Type, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
                 }
 
+                StringVector resources = ResourceGroupManager.Singleton.FindResourceNames(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, "*.script");
+                ScriptPreprocessor.Instance.Process(resources.ToList());
+
                 currentMod.MapDir = manifest.Data.MapDir;
                 currentMod.MusicDir = manifest.Data.MusicDir;
                 currentMod.ScriptDir = manifest.Data.ScriptDir;
@@ -431,9 +434,6 @@ namespace OpenMB.Mods
                         if (installedMods.ContainsKey(dir.Name))
                             continue;
                         installedMods.Add(dir.Name, manifest);
-
-                        StringVector resources = ResourceGroupManager.Singleton.FindResourceNames(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, "*.script");
-                        ScriptPreprocessor.Instance.Process(resources.ToList());
                         
                         ResourceGroupManager.Singleton.AddResourceLocation(manifest.InstalledPath, "FileSystem", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
                     }

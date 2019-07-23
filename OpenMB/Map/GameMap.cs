@@ -109,10 +109,8 @@ namespace OpenMB.Map
 
         public event MapLoadhandler LoadMapStarted;
         public event MapLoadhandler LoadMapFinished;
-
-        public GameMap(string name, GameWorld world)
+        public GameMap(GameWorld world)
         {
-            mapName = name;
             scriptLoader = new ScriptLoader();
             actorNodeList = new List<ActorNode>();
             this.world = world;
@@ -128,32 +126,15 @@ namespace OpenMB.Map
             cameraHanlder = new CameraHandler(this);
             gameObjects = new Dictionary<string, List<GameObject>>();
             combineKey = false;
-
-            GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
-            GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
-            GameManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
-            GameManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
-            GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
         }
-        public GameMap(string name, string file, GameWorld world)
+
+        public void LoadMap(string name)
         {
             mapName = name;
-            scriptLoader = new ScriptLoader();
-            actorNodeList = new List<ActorNode>();
-            this.world = world;
-            scm = world.SceneManager;
-            modData = world.ModData;
-            cam = world.Camera;
-            physicsScene = world.PhysicsScene;
-            physics = world.PhysicsScene.Physics;
-            controllerMgr = physics.ControllerManager;
-            aimeshIndexData = new List<Mogre.Vector3>();
-            aimeshVertexData = new List<Mogre.Vector3>();
-            editor = new GameMapEditor(this);
-            cameraHanlder = new CameraHandler(this);
-            gameObjects = new Dictionary<string, List<GameObject>>();
-            combineKey = false;
+        }
 
+        public void LoadWorldMap(string name, string file)
+        {
             var mesh = Connector.MBOgre.Instance.LoadWorldMap(
                 name, scm,
                 FileFormats.MBWorldMap.ParseXml(
