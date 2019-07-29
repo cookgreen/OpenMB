@@ -1,0 +1,89 @@
+ui CreditScreen
+	assign %time 0
+	init_list elementNames
+	init_list elements
+	
+	setup
+	end
+	
+	update
+		if %time >= 0 && %time <= 1200 then
+			list_contains %ret elementNames lbCredit0
+			if %ret then
+				get_list_at %str strlist 0
+				create_static_text_widget reg0 lbCredit0 %str
+				set_widget_metric_mode reg0 Relative
+				set_widget_left reg0 0.5
+				set_widget_top reg0 0.5
+				add_list elementNames lbCredit0
+			end
+			get_widget_color %color reg0
+			get_color_alpha %alpha %color
+			if %alpha > 0 then
+				val_sub %alpha 0.005
+				float_format %alpha_formatted %alpha 0.00
+				set_color_alpha %color %alpha_formatted
+				set_widget_color reg0 %color
+			end
+		elif %time > 1200 && %time <= 2400 then
+			list_contains %ret elementNames lbCredit0
+			if %ret then
+				list_remove_element elementNames lbCredit0
+				list_find %ret elements foreach e
+					get_widget_name %w_name e
+					return %w_name == lbCredit0
+				end
+				if %ret != null then
+					list_remove_element elements %ret
+				end
+				destroy_widget %ret
+				list_contains %ret elementNames lbCredit1
+				if %ret then
+					get_list_at %str strlist 0
+					create_static_text_widget reg0 lbCredit1 %str
+					set_widget_metric_mode reg0 Relative
+					set_widget_left reg0 0.5
+					set_widget_top reg0 0.5
+					add_list elementNames lbCredit1
+				end
+				get_widget_color %color reg0
+				get_color_alpha %alpha %color
+				if %alpha > 0 then
+					val_sub %alpha 0.005
+					float_format %alpha_formatted %alpha 0.00
+					set_color_alpha %color %alpha_formatted
+					set_widget_color reg0 %color
+				end
+			end
+		elif %time > 2400 && %time <= 12000 then
+			list_contains %ret elementNames lbCredit1
+			if %ret then
+				list_remove_element elementNames lbCredit1
+				list_find %ret elements foreach e
+					get_widget_name %w_name e
+					return %w_name == lbCredit1
+				end
+				if %ret != null then
+					list_remove_element elements %ret
+				end
+				destroy_widget %ret
+				list_contains %ret elementNames lbCredit2
+				if %ret then
+					get_list_at %str strlist 0
+					create_static_text_widget reg0 lbCredit2 %str
+					set_widget_metric_mode reg0 Relative
+					set_widget_left reg0 0.5
+					set_widget_top reg0 0.5
+					add_list elementNames lbCredit2
+				end
+				list_element_at %w elements 0
+				get_widget_top %w_top %w 
+				if %w_top > -1.0 then
+					val_sub %w_top 0.00025
+					set_widget_top %w %w_top
+				end
+			end
+		end
+		val_add %time 1
+	end
+end
