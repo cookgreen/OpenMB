@@ -13,15 +13,6 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
 * Inner Game Editor  
 * Script-driven GUI System  
 
-## Credit:
-* Mogre  
-* NAudio  
-* NVorbis  
-* MogreBites  
-* Physx Candy Wrapper
-* Critter ai Navmesh path finder
-* OpenBRF
-
 ## Usage:
 * Shift+Space - Full Screen  
 * V - Screenshot  
@@ -31,6 +22,21 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
   * S - Backward  
   * D - Right  
   * Mouse Control Camera look at  
+  
+## Screenshots:
+
+![Configure Form](https://media.moddb.com/images/games/1/72/71205/1.PNG)  
+
+![Mod Chooser](https://media.moddb.com/images/games/1/72/71205/2.PNG)  
+
+## Credit:
+* Mogre  
+* NAudio  
+* NVorbis  
+* MogreBites  
+* Physx Candy Wrapper
+* Critter ai Navmesh path finder
+* OpenBRF
 
 ## License:
 GPLv3
