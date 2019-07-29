@@ -93,7 +93,6 @@ namespace OpenMB.States
                     GameManager.Instance.keyboard.Capture();
                     GameManager.Instance.mouse.Capture();
                     GameManager.Instance.UpdateRender(timeSinceLastFrame * 1.0 / 1000);
-                    //GameManager.Singleton.UpdateSubSystem(timeSinceLastFrame * 1.0 / 1000);
 
                     GameManager.Instance.root.RenderOneFrame();
 

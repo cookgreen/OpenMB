@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenMB.Configure;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -57,16 +58,24 @@ namespace OpenMB.Core
             return config;
         }
 
-        public void Save(string configXml)
+        public bool Save(string configXml)
         {
-            if(File.Exists(configXml))
+            try
             {
-                File.Delete(configXml);
+                if (File.Exists(configXml))
+                {
+                    File.Delete(configXml);
+                }
+                XmlSerializer serializer = new XmlSerializer(typeof(GameConfigXml));
+                FileStream stream = new FileStream(configXml, FileMode.OpenOrCreate, FileAccess.Write);
+                serializer.Serialize(stream, this);
+                stream.Close();
+                return true;
             }
-            XmlSerializer serializer = new XmlSerializer(typeof(GameConfigXml));
-            FileStream stream = new FileStream(configXml, FileMode.OpenOrCreate, FileAccess.Write);
-            serializer.Serialize(stream, this);
-            stream.Close();
+            catch
+            {
+                return false;
+            }
         }
     }
 

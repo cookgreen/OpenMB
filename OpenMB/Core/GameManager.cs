@@ -297,7 +297,6 @@ namespace OpenMB
             {
                 Update(evt.timeSinceLastFrame);
             }
-            UpdateRender(evt.timeSinceLastFrame);
             return true;
         }
 

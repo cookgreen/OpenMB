@@ -30,7 +30,7 @@ namespace OpenMB.Screen
             time = 0;
             strCreditLst = new StringVector();
             StringBuilder creditBuilder = new StringBuilder();
-            creditBuilder.AppendLine("AMGE");
+            creditBuilder.AppendLine("OpenMB");
             creditBuilder.AppendLine("");
             creditBuilder.AppendLine("CopyRight 2016-2020 Cook Green");
             creditBuilder.AppendLine("");
@@ -86,6 +86,11 @@ namespace OpenMB.Screen
             creditBuilder.AppendLine("ioctlLR");
             creditBuilder.AppendLine("");
             creditBuilder.AppendLine("");
+            creditBuilder.AppendLine("OpenBrf - Powerful tool for importing/exporting M&B models and animations");
+            creditBuilder.AppendLine("");
+            creditBuilder.AppendLine("mtarini");
+            creditBuilder.AppendLine("");
+            creditBuilder.AppendLine("");
             strCreditLst.Add(creditBuilder.ToString());
         }
         public override void Init(params object[] param)
@@ -102,7 +107,7 @@ namespace OpenMB.Screen
 
         public override void Update(float timeSinceLastFrame)
         {
-            if (time >= 0 && time <= 50)
+            if (time >= 0 && time <= 1200)
             {
                 if (!elementNames.Contains("lbCredit0"))
                 {
@@ -124,7 +129,7 @@ namespace OpenMB.Screen
                         float.Parse(alpha.ToString("0.00")));
                 }
             }
-            else if (time > 50 && time <= 100)
+            else if (time > 1200 && time <= 2400)
             {
                 if (elementNames.Contains("lbCredit0"))
                 {
@@ -152,7 +157,7 @@ namespace OpenMB.Screen
                         float.Parse(alpha.ToString("0.00")));
                 }
             }
-            else if (time > 100 && time <= 900)
+            else if (time > 2400 && time <= 12000)
             {
                 if (elementNames.Contains("lbCredit1"))
                 {
@@ -170,7 +175,7 @@ namespace OpenMB.Screen
                 }
                 if (elements[0].getOverlayElement().Top > -1.0f)
                 {
-                    elements[0].getOverlayElement().Top -= 0.0025f;
+                    elements[0].getOverlayElement().Top -= 0.00025f;
                 }
             }
             else
