@@ -68,6 +68,7 @@
     <Compile Include="ScriptCommands\SpawnPlayerSceneProp.cs" />
     <Compile Include="Settings\HasMultiplayerModSetting.cs" />
     <Compile Include="Settings\HasSavedGameModSetting.cs" />
+    <Compile Include="StartupActions\LoadBrfAction.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenMB\OpenMB.csproj">

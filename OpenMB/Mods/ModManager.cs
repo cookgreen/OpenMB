@@ -308,7 +308,7 @@ namespace OpenMB.Mods
                 //Valid Item Type
                 for (int j = currentMod.ItemInfos.Count - 1; j >= 0; j--)
                 {
-                    if (!ValidItemType(currentMod, currentMod.ItemInfos[j].Type))
+                    if (!validItemType(currentMod, currentMod.ItemInfos[j].Type))
                     {
                         string itemType = currentMod.ItemInfos[j].Type;
                         string itemID = currentMod.ItemInfos[j].ID;
@@ -320,6 +320,7 @@ namespace OpenMB.Mods
                     }
                 }
 
+                //load mod media
                 for (int i = 0; i < manifest.Media.MediaSections.Count; i++)
                 {
                     var mediaSection = manifest.Media.MediaSections[i];
@@ -344,7 +345,7 @@ namespace OpenMB.Mods
             }
         }
 
-        string getAssemblyRealPath(string assemblyXml, out bool isCurrentMod)
+        private string getAssemblyRealPath(string assemblyXml, out bool isCurrentMod)
         {
             isCurrentMod = false;
             if (string.IsNullOrEmpty(assemblyXml))
@@ -368,57 +369,9 @@ namespace OpenMB.Mods
             }
         }
 
-        string GetModInstallRootDir()
-        {
-            modInstallRootDir = GameManager.Instance.gameOptions.ModConfig.ModDir;
-            return modInstallRootDir;
-        }
-
-        bool ValidItemType(ModData mod, string itemType)
-        {
-            bool ret = false;
-            foreach (var itemTypeDefine in mod.ItemTypeInfos)
-            {
-                if (itemTypeDefine.ID == itemType)
-                {
-                    return true;
-                }
-                else
-                {
-                    ret = ValidSubItemType(itemTypeDefine, itemType);
-                    if(ret)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return ret;
-        }
-
-        bool ValidSubItemType(ModItemTypeDfnXml itemDefineType, string itemType)
-        {
-            bool ret = false;
-            foreach (var subItemType in itemDefineType.SubTypes)
-            {
-                if (subItemType.ID == itemType)
-                {
-                    return true;
-                }
-                else
-                {
-                    ret = ValidSubItemType(subItemType, itemType);
-                    if (ret)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return ret;
-        }
-
         public Mods GetInstalledMods()
         {
-            GetModInstallRootDir();
+            getModInstallRootDir();
 
             if (!string.IsNullOrEmpty(modInstallRootDir))
             {
@@ -461,6 +414,54 @@ namespace OpenMB.Mods
         public void Update(float timeSinceLastFrame)
         {
 
+        }
+
+        private string getModInstallRootDir()
+        {
+            modInstallRootDir = GameManager.Instance.gameOptions.ModConfig.ModDir;
+            return modInstallRootDir;
+        }
+
+        private bool validItemType(ModData mod, string itemType)
+        {
+            bool ret = false;
+            foreach (var itemTypeDefine in mod.ItemTypeInfos)
+            {
+                if (itemTypeDefine.ID == itemType)
+                {
+                    return true;
+                }
+                else
+                {
+                    ret = validSubItemType(itemTypeDefine, itemType);
+                    if (ret)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return ret;
+        }
+
+        private bool validSubItemType(ModItemTypeDfnXml itemDefineType, string itemType)
+        {
+            bool ret = false;
+            foreach (var subItemType in itemDefineType.SubTypes)
+            {
+                if (subItemType.ID == itemType)
+                {
+                    return true;
+                }
+                else
+                {
+                    ret = validSubItemType(subItemType, itemType);
+                    if (ret)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return ret;
         }
     }
 }
