@@ -36,7 +36,7 @@ namespace OpenMB.FileFormats
         private float radius;
         private Point3F dir;
         private uint flags;
-        private Box3F bbox;
+        //private Box3F bbox;
         private Type type;
 
         public void Load(BinaryReader reader, string str = null)

@@ -10,10 +10,10 @@ namespace OpenMB.FileFormats
 {
     public class MBBrfBone
     {
-        private string name;
+        //private string name;
         private Point3F x, y, z, t;
         private int attach, b;
-        private List<int> next;
+        //private List<int> next;
         public void Load(BinaryReader reader)
         {
             attach = MBUtil.LoadInt32(reader);
@@ -44,7 +44,7 @@ namespace OpenMB.FileFormats
     {
         private string name;
         private List<MBBrfBone> bones;
-        private int root;
+        //private int root;
 
         /// <summary>
         /// Build Skeleton

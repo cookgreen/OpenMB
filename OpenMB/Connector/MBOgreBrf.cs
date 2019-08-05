@@ -20,15 +20,22 @@ namespace OpenMB.Connector
             }
         }
 
+        public string FileName { get { return brfFile; } }
+
         public MBOgreBrf(string brfFile)
         {
             this.brfFile = brfFile;
         }
 
-        public void Read(string groupName)
+        public void ReadFromSpecificGroup(string groupName)
         {
             DataStreamPtr stream = ResourceGroupManager.Singleton.OpenResource(brfFile, groupName);
             brf = new MBBrf(brfFile, stream);
+        }
+
+        public void ReadFromFileSystem(string fullPath)
+        {
+            brf = new MBBrf(brfFile, fullPath);
         }
     }
 }

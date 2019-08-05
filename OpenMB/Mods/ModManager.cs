@@ -324,8 +324,17 @@ namespace OpenMB.Mods
                 for (int i = 0; i < manifest.Media.MediaSections.Count; i++)
                 {
                     var mediaSection = manifest.Media.MediaSections[i];
-                    ResourceGroupManager.Singleton.AddResourceLocation(
-                        string.Format("{0}\\{1}", manifest.InstalledPath, mediaSection.Directory.Replace("/", "//")), mediaSection.Type, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                    string fullMediaDir = string.Format("{0}\\{1}", manifest.InstalledPath, mediaSection.Directory.Replace("/", "//"));
+                    ResourceGroupManager.Singleton.AddResourceLocation(fullMediaDir, mediaSection.ResourceLoadType, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                    DirectoryInfo di = new DirectoryInfo(fullMediaDir);
+                    var fileSystemInfos = di.EnumerateFileSystemInfos();
+                    foreach(var fileSystemInfo in fileSystemInfos)
+                    {
+                        if (fileSystemInfo.Attributes != FileAttributes.Directory)
+                        {
+                            currentMod.ModMediaData.Add(new ModMediaData(fileSystemInfo.Name, fileSystemInfo.FullName, mediaSection.ResourceType));
+                        }
+                    }
                 }
 
                 StringVector resources = ResourceGroupManager.Singleton.FindResourceNames(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, "*.script");

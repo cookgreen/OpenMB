@@ -6,11 +6,26 @@ using System.Xml.Serialization;
 
 namespace OpenMB.Mods.XML
 {
+    public enum ResourceType
+    {
+        /// <summary>
+        /// Common resources managed by Ogre
+        /// </summary>
+        Common,
+        Models,
+        Textures,
+        Maps,
+        Music,
+        Sound,
+        Scripts,
+    }
     [XmlRoot("MediaSection")]
     public class ModMediaSectionXml
     {
         [XmlAttribute]
-        public string Type { get; set; }
+        public string ResourceLoadType { get; set; }
+        [XmlAttribute]
+        public ResourceType ResourceType { get; set; }
         [XmlText]
         public string Directory { get; set; }
     }

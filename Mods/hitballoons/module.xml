@@ -31,14 +31,14 @@
 	</DataDir>
   </Data>
   <Media>
-    <MediaSection Type="FileSystem">Media/Resources</MediaSection>
-    <MediaSection Type="FileSystem">Media/Materials</MediaSection>
-    <MediaSection Type="FileSystem">Media/Textures</MediaSection>
-    <MediaSection Type="FileSystem">Media/Overlay</MediaSection>
-    <MediaSection Type="FileSystem">Scripts</MediaSection>
-    <MediaSection Type="FileSystem">Music</MediaSection>
-    <MediaSection Type="FileSystem">Sound</MediaSection>
-    <MediaSection Type="FileSystem">Scenes</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Models">Media/Resources</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Common">Media/Materials</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Textures">Media/Textures</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Common">Media/Overlay</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Scripts">Scripts</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Music">Music</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Sound">Sound</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Maps">Scenes</MediaSection>
   </Media>
   <Settings>
 	<Setting Name="HasMultiplayer">False</Setting>

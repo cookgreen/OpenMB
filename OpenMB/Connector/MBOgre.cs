@@ -13,6 +13,7 @@ namespace OpenMB.Connector
         private Dictionary<string, MaterialPtr> materials;
         private Dictionary<string, TexturePtr> textures;
         private Dictionary<string, MeshPtr> meshes;
+        private Dictionary<string, MBOgreManifest> brfes;
         private static int cp, cv;
         private static MBOgre instance;
         public static MBOgre Instance
@@ -32,6 +33,7 @@ namespace OpenMB.Connector
             materials = new Dictionary<string, MaterialPtr>();
             textures = new Dictionary<string, TexturePtr>();
             meshes = new Dictionary<string, MeshPtr>();
+            brfes = new Dictionary<string, MBOgreManifest>();
         }
 
         public MBOgreManifest LoadBrfFile(MBOgreBrf mbBrfFile)
@@ -41,6 +43,17 @@ namespace OpenMB.Connector
             {
                 return null;
             }
+            if (brfes.ContainsKey(mbBrfFile.FileName))
+            {
+                return brfes[mbBrfFile.FileName];
+            }
+            manifest.MaterialNames = (from mbBrfMaterial in mbBrfFile.Brf.Materials
+                                      select mbBrfMaterial.name).ToList();
+            manifest.MeshNames = (from mbBrfMesh in mbBrfFile.Brf.Meshes
+                                  select mbBrfMesh.Name).ToList();
+            manifest.TextureNames = (from mbBrfTexture in mbBrfFile.Brf.Textures
+                                     select mbBrfTexture.name).ToList();
+            brfes.Add(mbBrfFile.FileName, manifest);
             return manifest;
         }
 

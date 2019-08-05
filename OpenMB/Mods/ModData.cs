@@ -22,6 +22,7 @@ namespace OpenMB.Mods
         private List<ModWorldMapDfnXml> worldMapInfos;
         private List<ModLocationDfnXml> locationInfos;
         private List<ModSkeletonDfnXML> skeletonInfos;
+        private List<ModMediaData> modMediaData;
 
         public bool HasSinglePlayer { get; set; }
         public bool HasMultiplater { get; set; }
@@ -104,6 +105,8 @@ namespace OpenMB.Mods
         public List<ModModelDfnXml> Models { get; set; }
         public List<IItemType> ItemTypes { get; set; }
 
+        public List<ModMediaData> ModMediaData { get { return modMediaData; } }
+
         public ModData()
         {
             characterInfos = new List<ModCharacterDfnXML>();
@@ -117,6 +120,7 @@ namespace OpenMB.Mods
             locationInfos = new List<ModLocationDfnXml>();
             SkeletonInfos = new List<ModSkeletonDfnXML>();
             ItemTypeInfos = new List<ModItemTypeDfnXml>();
+            modMediaData = new List<ModMediaData>();
 
             HasSinglePlayer = true;
             HasMultiplater = true;
@@ -160,6 +164,44 @@ namespace OpenMB.Mods
                 }
             }
             return null;
+        }
+    }
+
+    public class ModMediaData
+    {
+        private string mediaName;
+        private ResourceType mediaType;
+        private string fullMediaPath;
+
+        public ResourceType MediaType
+        {
+            get
+            {
+                return mediaType;
+            }
+        }
+
+        public string FullMediaPath
+        {
+            get
+            {
+                return fullMediaPath;
+            }
+        }
+
+        public string MediaName
+        {
+            get
+            {
+                return mediaName;
+            }
+        }
+
+        public ModMediaData(string mediaName, string fullMediaPath, ResourceType mediaType)
+        {
+            this.mediaName = mediaName;
+            this.fullMediaPath = fullMediaPath;
+            this.mediaType = mediaType;
         }
     }
 }
