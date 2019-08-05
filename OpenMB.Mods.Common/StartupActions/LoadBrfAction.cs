@@ -24,7 +24,10 @@ namespace OpenMB.Mods.Common.StartupActions
 
         public void Load(ModData currentMod)
         {
-            var findedMedia = currentMod.ModMediaData.Where(o => o.MediaName == Value && o.MediaType == XML.ResourceType.Models);
+            var findedMedia = currentMod.ModMediaData.Where(
+                o => o.MediaName == Value && 
+                o.MediaType == XML.ResourceType.Models
+            );
             if (findedMedia.Count() > 0)
             {
                 var media = findedMedia.ElementAt(0);
