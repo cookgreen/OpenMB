@@ -33,6 +33,7 @@ namespace OpenMB.Localization
         private LocateUCSFile ucsGameStr;
         private LocateUCSFile ucsGameUI;
         private LocateUCSFile ucsGameQuickStr;
+        private List<LocateUCSFile> modUCSFiles;
         private List<string> avaliableLocates;
         public bool IsInit
         {
@@ -75,6 +76,7 @@ namespace OpenMB.Localization
         public LocateSystem()
         {
             avaliableLocates = new List<string>();
+            modUCSFiles = new List<LocateUCSFile>();
         }
 
         public void Dispose()
@@ -109,9 +111,9 @@ namespace OpenMB.Localization
         public bool InitLocateSystem(LOCATE CurrentLocate)
         {
             locate = CurrentLocate;
-            ucsGameStr = new LocateUCSFile("GameStrings.ucs", locate);
-            ucsGameUI = new LocateUCSFile("GameUI.ucs", locate);
-            ucsGameQuickStr = new LocateUCSFile("GameQuickString.ucs", locate);
+            ucsGameStr = new LocateUCSFile("GameStrings.ucs", locate, LocateFileStorageType.Engine);
+            ucsGameUI = new LocateUCSFile("GameUI.ucs", locate, LocateFileStorageType.Engine);
+            ucsGameQuickStr = new LocateUCSFile("GameQuickString.ucs", locate, LocateFileStorageType.Engine);
             isInit = true;
 
             ucsGameStr.Prepare();
@@ -140,6 +142,12 @@ namespace OpenMB.Localization
             }
         }
 
+        public void AddModLocateFile(string fullPath)
+        {
+            LocateUCSFile ucsFile = new LocateUCSFile(fullPath, locate, LocateFileStorageType.Default);
+            modUCSFiles.Add(ucsFile);
+        }
+
         public string LOC(LocateFileType file, string str)
         {
             file = LocateFileType.GameQuickString;
@@ -153,6 +161,19 @@ namespace OpenMB.Localization
         {
             LocateUCSFile ucs = GetUCSInstanceByType(fileType);
             if (ucs != null)
+            {
+                string res = ucs.SeekValueByKey(ID);
+                if (!string.IsNullOrEmpty(res))
+                {
+                    return res;
+                }
+            }
+            return string.Format("$No Such Key '{0}'!", ID);
+        }
+
+        public string GetLocalizedStringMod(string ID)
+        {
+            foreach(var ucs in modUCSFiles)
             {
                 string res = ucs.SeekValueByKey(ID);
                 if (!string.IsNullOrEmpty(res))

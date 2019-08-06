@@ -10,6 +10,7 @@ using OpenMB.Configure;
 namespace OpenMB.Mods
 {
     using Game.ItemTypes;
+    using Localization;
     using Mogre;
     using Script;
     using Script.Command;
@@ -333,6 +334,27 @@ namespace OpenMB.Mods
                         if (fileSystemInfo.Attributes != FileAttributes.Directory)
                         {
                             currentMod.ModMediaData.Add(new ModMediaData(fileSystemInfo.Name, fileSystemInfo.FullName, mediaSection.ResourceType));
+                        }
+                    }
+                }
+
+                //load mod localization files
+                string localizationFolder = "Locate";
+                string localizationFullPath = manifest.InstalledPath + "//" + localizationFolder;
+                string currentLocateFullPath = localizationFullPath + "//" + LocateSystem.Instance.Locate.ToString();
+                DirectoryInfo directory = new DirectoryInfo(currentLocateFullPath);
+                if (!Directory.Exists(currentLocateFullPath))
+                {
+                    Directory.CreateDirectory(currentLocateFullPath);
+                }
+                else
+                {
+                    var fileSystemInfos = directory.EnumerateFileSystemInfos();
+                    foreach (var fileSystemInfo in fileSystemInfos)
+                    {
+                        if (fileSystemInfo.Attributes != FileAttributes.Directory && Path.GetExtension(fileSystemInfo.Name) == "ucs")
+                        {
+                            LocateSystem.Instance.AddModLocateFile(fileSystemInfo.FullName);
                         }
                     }
                 }

@@ -8,19 +8,30 @@ using Mogre;
 
 namespace OpenMB.Localization
 {
+    public enum LocateFileStorageType
+    {
+        Engine,
+        Default
+    }
     public class LocateUCSFile : IDisposable
     {
         private const string PATH = @"./Locate/";
         private Dictionary<string, string> UCSValueTmp;
-        private string fileName;
+        private string fullPath;
         private LOCATE currentLocate;
         private bool disposed;
+        private LocateFileStorageType storageType;
 
-        public LocateUCSFile(string fileName, LOCATE currentLocate)
+        public LocateUCSFile(string fullPath, LOCATE currentLocate, LocateFileStorageType storageType)
         {
-            this.fileName = fileName;
+            this.storageType = storageType;
+            this.fullPath = fullPath;
             this.currentLocate = currentLocate;
             UCSValueTmp = new Dictionary<string, string>();
+            if(storageType == LocateFileStorageType.Engine)
+            {
+                this.fullPath = string.Format("{0}{1}/{2}", PATH, currentLocate.ToString(), this.fullPath);
+            }
         }
 
         public void Dispose()
@@ -48,10 +59,9 @@ namespace OpenMB.Localization
 
         public bool Process()
         {
-            string filepath = string.Format("{0}{1}/{2}",PATH,currentLocate.ToString(),fileName);
-            if (File.Exists(filepath))
+            if (File.Exists(fullPath))
             {
-                using (StreamReader sr = new StreamReader(filepath))
+                using (StreamReader sr = new StreamReader(fullPath))
                 {
                     while (sr.Peek() >= 0 && !sr.EndOfStream)
                     {
@@ -132,7 +142,7 @@ namespace OpenMB.Localization
 
         public void Save()
         {
-            string filepath = string.Format("{0}{1}/{2}", PATH, currentLocate.ToString(), fileName);
+            string filepath = string.Format("{0}{1}/{2}", PATH, currentLocate.ToString(), fullPath);
             using (StreamWriter sw = new StreamWriter(filepath))
             {
                 foreach (KeyValuePair<string, string> kpl in UCSValueTmp)
