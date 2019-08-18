@@ -99,16 +99,21 @@ namespace OpenMB.Forms.Controller
 
         public void GetGraphicSettingsByName(string renderSystemName)
         {
+            gameXmlConfig.GraphicConfig.CurrentRenderSystem = renderSystemName;
             GraphicConfig.RenderParams.Clear();
             ConfigOptionMap configOptionMap = r.GetRenderSystemByName(renderSystemName).GetConfigOptions();
             if (gameXmlConfig.GraphicConfig.Renderers.Count > 0)
             {
-                List<GameGraphicParameterConfigXml> dic = gameXmlConfig.GraphicConfig[gameXmlConfig.GraphicConfig.CurrentRenderSystem];
+                List<GameGraphicParameterConfigXml> dic = gameXmlConfig.GraphicConfig[renderSystemName];
                 List<string> graphicSettings = new List<string>();
                 if (dic != null)
                 {
                     for (int i = 0; i < configOptionMap.Count; i++)
                     {
+                        if (configOptionMap[dic[i].Name].possibleValues.IsEmpty)
+                        {
+                            continue;
+                        }
                         GraphicConfig.RenderParams.Add(dic[i].Name + ":" + (configOptionMap[dic[i].Name].possibleValues.Contains(dic[i].Value) ? dic[i].Value : configOptionMap[dic[i].Name].possibleValues[0]));
                     }
                 }

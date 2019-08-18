@@ -142,8 +142,7 @@ namespace OpenMB.Localization
 
         public void Save()
         {
-            string filepath = string.Format("{0}{1}/{2}", PATH, currentLocate.ToString(), fullPath);
-            using (StreamWriter sw = new StreamWriter(filepath))
+            using (StreamWriter sw = new StreamWriter(fullPath))
             {
                 foreach (KeyValuePair<string, string> kpl in UCSValueTmp)
                 {
