@@ -63,7 +63,6 @@ namespace OpenMB.Video
                 videotex.PixelBuffer.BlitFromMemory(image.GetPixelBox());
                 image.Dispose();
                 ms.Close();
-                ms.Dispose();
                 videotex.FrameNum++;
             }
             catch (Exception ex)
