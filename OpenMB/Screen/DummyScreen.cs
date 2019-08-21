@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MOIS;
+using OpenMB.Script;
+using OpenMB.Script.Command;
 
 namespace OpenMB.Screen
 {
-    public class DummyScreen : Screen
+    public class ScriptedScreen : Screen
     {
+        private object[] args;
         public override event Action OnScreenExit;
         public event Action OnScreenRun;
+        public UIScriptFile uiScript;
         public override string Name
         {
             get
@@ -18,16 +22,15 @@ namespace OpenMB.Screen
             }
         }
 
-        public override void Exit()
+        public ScriptedScreen(UIScriptFile uiScript)
         {
-            if(OnScreenExit!=null)
-            {
-                OnScreenExit();
-            }
+            this.uiScript = uiScript;
         }
 
-        public override void Init(params object[] param)
+        public override void Init(params object[] args)
         {
+            this.args = args;
+            uiScript.ExecuteSetup(args);
         }
 
         public override void Run()
@@ -40,6 +43,15 @@ namespace OpenMB.Screen
 
         public override void Update(float timeSinceLastFrame)
         {
+            uiScript.ExecuteUpdate(args, timeSinceLastFrame);
+        }
+
+        public override void Exit()
+        {
+            if (OnScreenExit != null)
+            {
+                OnScreenExit();
+            }
         }
     }
 }

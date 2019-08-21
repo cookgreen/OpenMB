@@ -56,6 +56,9 @@ namespace OpenMB.Script
             RegisteredCommand.Add("store", typeof(StoreScriptCommand));
             RegisteredCommand.Add("team", typeof(TeamScriptCommand));
             RegisteredCommand.Add("trigger", typeof(TriggerScriptCommand));
+            RegisteredCommand.Add("ui", typeof(UIScriptCommand));
+            RegisteredCommand.Add("ui_setup", typeof(UISetupScriptCommand));
+            RegisteredCommand.Add("ui_update", typeof(UIUpdateScriptCommand));
             RegisteredCommand.Add("vector_get_x", typeof(VectorGetXScriptCommand));
             RegisteredCommand.Add("vector_get_y", typeof(VectorGetYScriptCommand));
             RegisteredCommand.Add("vector_get_z", typeof(VectorGetZScriptCommand));

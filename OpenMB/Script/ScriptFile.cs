@@ -12,9 +12,9 @@ namespace OpenMB.Script
     {
         private Stack<IScriptCommand> tempCommandStack;
         private Dictionary<string, Type> registeredCommand;
+        private RootScriptCommand root;
         public ScriptContext Context { get; set; }
         public string FileName { get; set; }
-        private RootScriptCommand root;
         public List<IScriptCommand> Commands
         {
             get

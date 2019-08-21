@@ -322,6 +322,7 @@
     <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerExecuteSrciptCommand.cs" />
     <Compile Include="Script\Command\TriggerScriptCommand.cs" />
+    <Compile Include="Script\Command\UIScriptCommand.cs" />
     <Compile Include="Script\Command\VectorGetXScriptCommand.cs" />
     <Compile Include="Script\Command\VectorGetYScriptCommand.cs" />
     <Compile Include="Script\Command\VectorGetZScriptCommand.cs" />
@@ -340,6 +341,9 @@
     <Compile Include="Script\ScriptPreprocessor.cs" />
     <Compile Include="Script\ScriptTrigger.cs" />
     <Compile Include="Script\ScriptValueRegister.cs" />
+    <Compile Include="Script\UIScriptFile.cs" />
+    <Compile Include="Script\Command\UIUpdateScriptCommand.cs" />
+    <Compile Include="Script\Command\UISetupScriptCommand.cs" />
     <Compile Include="Sound\GameSound.cs" />
     <Compile Include="Sound\SoundManager.cs" />
     <Compile Include="Forms\frmConfigure.cs">
