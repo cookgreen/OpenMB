@@ -155,7 +155,7 @@ namespace OpenMB.Connector
                 return meshes[worldMapID];
             }
             ManualObject worldMapTerrain = sceneManager.CreateManualObject("WORLDMAP-MANUAL-OBJECT-" + worldMapID);
-            worldMapTerrain.Begin("Examples/Rockwall", RenderOperation.OperationTypes.OT_TRIANGLE_LIST);
+            worldMapTerrain.Begin("Examples/BeachStones", RenderOperation.OperationTypes.OT_TRIANGLE_LIST);
 
             calculateNormal(worldMapTerrain, worldMap);
 

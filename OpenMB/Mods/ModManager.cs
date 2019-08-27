@@ -327,13 +327,16 @@ namespace OpenMB.Mods
                     var mediaSection = manifest.Media.MediaSections[i];
                     string fullMediaDir = string.Format("{0}\\{1}", manifest.InstalledPath, mediaSection.Directory.Replace("/", "//"));
                     ResourceGroupManager.Singleton.AddResourceLocation(fullMediaDir, mediaSection.ResourceLoadType, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-                    DirectoryInfo di = new DirectoryInfo(fullMediaDir);
-                    var fileSystemInfos = di.EnumerateFileSystemInfos();
-                    foreach(var fileSystemInfo in fileSystemInfos)
+                    if (Directory.Exists(fullMediaDir))
                     {
-                        if (fileSystemInfo.Attributes != FileAttributes.Directory)
+                        DirectoryInfo di = new DirectoryInfo(fullMediaDir);
+                        var fileSystemInfos = di.EnumerateFileSystemInfos();
+                        foreach (var fileSystemInfo in fileSystemInfos)
                         {
-                            currentMod.ModMediaData.Add(new ModMediaData(fileSystemInfo.Name, fileSystemInfo.FullName, mediaSection.ResourceType));
+                            if (fileSystemInfo.Attributes != FileAttributes.Directory)
+                            {
+                                currentMod.ModMediaData.Add(new ModMediaData(fileSystemInfo.Name, fileSystemInfo.FullName, mediaSection.ResourceType));
+                            }
                         }
                     }
                 }
