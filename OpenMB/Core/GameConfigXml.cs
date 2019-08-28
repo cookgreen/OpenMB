@@ -23,6 +23,10 @@ namespace OpenMB.Core
         public GameNetworkConfigXml NetworkConfig { get; set; }
         [XmlElement("Game")]
         public GameCoreConfigXml CoreConfig { get; set; }
+        [XmlElement("Resources")]
+        public GameResourcesConfigXml ResourcesConfig { get; set; }
+        [XmlElement("Plugins")]
+        public GamePluginsConfigXml PluginConfig { get; set; }
 
         public GameConfigXml()
         {
@@ -162,5 +166,36 @@ namespace OpenMB.Core
     {
         [XmlElement]
         public string Port { get; set; }
+    }
+
+    [XmlRoot("Resources")]
+    public class GameResourcesConfigXml
+    {
+        [XmlElement("ResourceRootDir")]
+        public string ResourceRootDir { get; set; }
+        [XmlElement("Resource")]
+        public List<GameResourceConfigXml> Resources { get; set; }
+        public GameResourcesConfigXml()
+        {
+            Resources = new List<GameResourceConfigXml>();
+        }
+    }
+
+    [XmlRoot("Resource")]
+    public class GameResourceConfigXml
+    {
+        [XmlAttribute]
+        public string Type { get; set; }
+        [XmlElement("ResourceLoc")]
+        public List<string> ResourceLocs;
+    }
+
+    [XmlRoot("Plugins")]
+    public class GamePluginsConfigXml
+    {
+        [XmlElement]
+        public string PluginRootDir { get; set; }
+        [XmlElement("Plugin")]
+        public List<string> Plugins { get; set; }
     }
 }

@@ -155,49 +155,48 @@ namespace OpenMB.Connector
                 return meshes[worldMapID];
             }
             ManualObject worldMapTerrain = sceneManager.CreateManualObject("WORLDMAP-MANUAL-OBJECT-" + worldMapID);
-            worldMapTerrain.Begin("Examples/BeachStones", RenderOperation.OperationTypes.OT_TRIANGLE_LIST);
+            worldMapTerrain.Begin("", RenderOperation.OperationTypes.OT_TRIANGLE_LIST);
 
             calculateNormal(worldMapTerrain, worldMap);
 
             for (int i = 0; i < worldMap.Faces.Count; i++)
             {
+                int vindex1 = worldMap.Faces[i].indexFirst;
+                int vindex2 = worldMap.Faces[i].indexSecond;
+                int vindex3 = worldMap.Faces[i].indexThird;
+
+                float[] vnindex1 = worldMap.fcn[i];
+                float[] vnindex2 = worldMap.fcn[i];
+                float[] vnindex3 = worldMap.fcn[i];
+
+                worldMapTerrain.Position(
+                    worldMap.Vertics[vindex1].x,
+                    worldMap.Vertics[vindex1].z,
+                    worldMap.Vertics[vindex1].y
+                );
+                worldMapTerrain.Normal(vnindex1[0], vnindex1[1], vnindex1[2]);
                 worldMapTerrain.Colour(worldMap.Color[worldMap.Faces[i].TerrainType]);
 
-                for (int j = 0; j < 3; j++)
-                {
-                    int vindex = -1;
-                    if (j == 0)
-                    {
-                        vindex = worldMap.Faces[i].indexFirst;
-                    }
-                    else if (j == 2)
-                    {
-                        vindex = worldMap.Faces[i].indexSecond;
-                    }
-                    else if (j == 1)
-                    {
-                        vindex = worldMap.Faces[i].indexThird;
-                    }
+                worldMapTerrain.Position(
+                    worldMap.Vertics[vindex2].x,
+                    worldMap.Vertics[vindex2].z,
+                    worldMap.Vertics[vindex2].y
+                );
+                worldMapTerrain.Normal(vnindex2[0], vnindex2[1], vnindex2[2]);
+                worldMapTerrain.Colour(worldMap.Color[worldMap.Faces[i].TerrainType]);
 
-                    if (faceted)
-                    {
-                        worldMapTerrain.Normal(worldMap.fcn[i][0], worldMap.fcn[i][1], worldMap.fcn[i][2]);
-                    }
-                    else
-                    {
-                        worldMapTerrain.Normal(worldMap.vtn[i][0], worldMap.vtn[i][1], worldMap.vtn[i][2]);
-                    }
+                worldMapTerrain.Position(
+                    worldMap.Vertics[vindex3].x,
+                    worldMap.Vertics[vindex3].z,
+                    worldMap.Vertics[vindex3].y
+                );
+                worldMapTerrain.Normal(vnindex3[0], vnindex3[1], vnindex3[2]);
+                worldMapTerrain.Colour(worldMap.Color[worldMap.Faces[i].TerrainType]);
 
-                    worldMapTerrain.Position(
-                        worldMap.Vertics[vindex].x,
-                        worldMap.Vertics[vindex].z,
-                        worldMap.Vertics[vindex].y
-                    );
-                }
                 worldMapTerrain.Triangle(
-                    (uint)(worldMap.Faces[i].indexFirst),
-                    (uint)(worldMap.Faces[i].indexSecond),
-                    (uint)(worldMap.Faces[i].indexThird)
+                    (uint)(vindex1),
+                    (uint)(vindex2),
+                    (uint)(vindex3)
                 );
             }
 

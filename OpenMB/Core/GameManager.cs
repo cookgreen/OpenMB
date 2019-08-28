@@ -57,6 +57,8 @@ namespace OpenMB
         public Dictionary<int, GameObject> AllGameObjects;
         public Dictionary<string, uint> GameHashMap;
         public LoadingData loadingData;
+        public static string DEFAULT_PLUGIN_DIR = "Plugins";
+        public static string DEFAULT_RESOURCE_DIR = "Media";
         public bool IS_ENABLE_EDIT_MODE
         {
             get
@@ -204,18 +206,11 @@ namespace OpenMB
                 mouseState.width = viewport.ActualWidth;
                 mouseState.height = viewport.ActualHeight;
 
-            string secName, typeName, archName;
-            IniConfigFile conf = new IniConfigFile();
-            
-            conf = (IniConfigFile)parser.Load("resources.cfg");
-            for (int i = 0; i < conf.Sections.Count; i++)
+            foreach (var resource in gameOptions.ResourcesConfig.Resources)
             {
-                secName = conf.Sections[i].Name;
-                for (int j = 0; j < conf.Sections[i].KeyValuePairs.Count; j++)
+                foreach (var resLoc in resource.ResourceLocs)
                 {
-                    typeName = conf.Sections[i].KeyValuePairs[j].Key;
-                    archName = conf.Sections[i].KeyValuePairs[j].Value;
-                    ResourceGroupManager.Singleton.AddResourceLocation(archName, typeName, secName);
+                    ResourceGroupManager.Singleton.AddResourceLocation(resLoc, resource.Type, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
                 }
             }
 

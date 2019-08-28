@@ -39,6 +39,8 @@ namespace OpenMB.Forms
                 cmbLanguageSelect.DataSource = controller.GameConfig.AvaliableLocates;
                 cmbLanguageSelect.DataBindings.Add("SelectedItem", controller.GameConfig, "CurrentSelectedLocate");
                 chkEnableEditMode.DataBindings.Add("checked", controller.GameConfig, "IsEnableEditMode");
+                resourceFileSystemList.DataSource = controller.ResourceConfig.FileSystemResources;
+                resourceZipList.DataSource = controller.ResourceConfig.ZipResources;
             }
         }
         public frmConfigure(string mod = null)
@@ -56,9 +58,10 @@ namespace OpenMB.Forms
             {
                 cmbLanguageSelect.SelectedIndex = LocateSystem.Instance.CovertLocateInfoToIndex(controller.CurrentLoacte);
                 
-                tbRenderOpt.TabPages[0].Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_graphic");
-                tbRenderOpt.TabPages[1].Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_audio");
-                tbRenderOpt.TabPages[2].Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_game");
+                tpGraphic.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_graphic");
+                tpResource.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_resource");
+                tpAudio.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_audio");
+                tpGame.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_game");
             
                 lblRenderSys.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_rendersystem");
                 lblCOO.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_click_on_options");
@@ -67,11 +70,19 @@ namespace OpenMB.Forms
                 chkEnableSound.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_enable_sound");
                 chkEnableMusic.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_enable_music");
 
+                groupFileSystem.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_filesystem");
+                groupZip.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_zip");
                 gbLocalization.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_localization");
                 gbRenderOpt.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_render_options");
                 gbMusicSound.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_music_sound");
                 gbAdvanced.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_advanced_options");
-            
+                
+                btnAddFileSystemResourceLoc.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_add");
+                btnModifyFileSystemResourceLoc.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_modify");
+                btnDeleteFileSystemResourceLoc.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_delete");
+                btnAddZipResourceLoc.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_add");
+                btnModifyZipResourceLoc.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_modify");
+                btnDeleteZipResourceLoc.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_delete");
                 btnOK.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_ok");
                 btnCancel.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_cancel");
 
@@ -121,6 +132,77 @@ namespace OpenMB.Forms
         private void frmConfigure_FormClosed(object sender, FormClosedEventArgs e)
         {
             Close();
+        }
+
+        private void rendererPluginList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void resourceFileSystemList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (resourceFileSystemList.SelectedItem != null)
+            {
+                btnModifyFileSystemResourceLoc.Enabled = true;
+                btnDeleteFileSystemResourceLoc.Enabled = true;
+            }
+            else
+            {
+                btnModifyFileSystemResourceLoc.Enabled = false;
+                btnDeleteFileSystemResourceLoc.Enabled = false;
+            }
+        }
+
+        private void resourceZipList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (resourceZipList.SelectedItem != null)
+            {
+                btnModifyZipResourceLoc.Enabled = true;
+                btnDeleteZipResourceLoc.Enabled = true;
+            }
+            else
+            {
+                btnModifyZipResourceLoc.Enabled = false;
+                btnDeleteZipResourceLoc.Enabled = false;
+            }
+        }
+
+        private void btnAddFileSystemResourceLoc_Click(object sender, EventArgs e)
+        {
+            frmResourceLocEditor resourceLocEditor = new frmResourceLocEditor(controller.ResourceConfig.ResourceRootDir, "FileSystem");
+            resourceLocEditor.ShowDialog();
+        }
+
+        private void btnModifyFileSystemResourceLoc_Click(object sender, EventArgs e)
+        {
+            frmResourceLocEditor resourceLocEditor = new frmResourceLocEditor(controller.ResourceConfig.ResourceRootDir, "FileSystem", resourceFileSystemList.SelectedItem.ToString());
+            resourceLocEditor.ShowDialog();
+        }
+
+        private void btnDeleteFileSystemResourceLoc_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAddZipResourceLoc_Click(object sender, EventArgs e)
+        {
+            frmResourceLocEditor resourceLocEditor = new frmResourceLocEditor(controller.ResourceConfig.ResourceRootDir, "Zip");
+            resourceLocEditor.ShowDialog();
+        }
+
+        private void btnModifyZipResourceLoc_Click(object sender, EventArgs e)
+        {
+            frmResourceLocEditor resourceLocEditor = new frmResourceLocEditor(controller.ResourceConfig.ResourceRootDir, "Zip", resourceZipList.SelectedItem.ToString());
+            resourceLocEditor.ShowDialog();
+        }
+
+        private void btnDeleteZipResourceLoc_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAutoDetectPlugins_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

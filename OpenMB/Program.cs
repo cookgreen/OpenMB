@@ -9,9 +9,10 @@ using OpenMB.Forms.Controller;
 using OpenMB.Forms;
 
 namespace OpenMB
-{
+{ 
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
             Core.Game game = new Core.Game(args);

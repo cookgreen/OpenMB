@@ -13,13 +13,14 @@ namespace OpenMB.Forms.Controller
 {
     public class frmConfigureController
     {
-        private Root r;
+        private Root root;
         private LOCATE selectedlocate;
         private GameConfigXml gameXmlConfig;
         public frmConfigure form;
         public AudioConfigure AudioConfig;
         public GameConfigure GameConfig;
         public GraphicConfigure GraphicConfig;
+        public ResourceConfigure ResourceConfig;
         public LOCATE CurrentLoacte
         {
             get
@@ -35,9 +36,10 @@ namespace OpenMB.Forms.Controller
             AudioConfig = new AudioConfigure();
             GameConfig = new GameConfigure();
             GraphicConfig = new GraphicConfigure();
+            ResourceConfig = new ResourceConfigure();
             gameXmlConfig = GameConfigXml.Load("game.xml");
 
-            r = new Root();
+            root = new Root();
 
             form.Controller = this;
         }
@@ -47,7 +49,36 @@ namespace OpenMB.Forms.Controller
             LoadGraphicConfigure();
             LoadAudioConfigure();
             LoadGameConfigure();
+            LoadResourceConfigure();
+        }
 
+        private void LoadPluginConfigure()
+        {
+
+        }
+
+        private void LoadResourceConfigure()
+        {
+            ResourceConfig.ResourceRootDir = gameXmlConfig.ResourcesConfig.ResourceRootDir;
+
+            var fileSystemResXmls = gameXmlConfig.ResourcesConfig.Resources.Where(o => o.Type == "FileSystem");
+            if (fileSystemResXmls.Count() > 0)
+            {
+                var fileSystemResXml = fileSystemResXmls.ElementAt(0);
+                foreach (var fileSystemResource in fileSystemResXml.ResourceLocs)
+                {
+                    ResourceConfig.FileSystemResources.Add(fileSystemResource);
+                }
+            }
+            var zipResXmls = gameXmlConfig.ResourcesConfig.Resources.Where(o => o.Type == "Zip");
+            if (zipResXmls.Count() > 0)
+            {
+                var zipResXml = zipResXmls.ElementAt(0);
+                foreach (var fileSystemResource in zipResXml.ResourceLocs)
+                {
+                    ResourceConfig.ZipResources.Add(fileSystemResource);
+                }
+            }
         }
 
         private void LoadGameConfigure()
@@ -70,7 +101,7 @@ namespace OpenMB.Forms.Controller
             }
             else
             {
-                var renderers = r.GetAvailableRenderers();
+                var renderers = root.GetAvailableRenderers();
                 foreach(var renderer in renderers)
                 {
                     GraphicConfig.RenderSystemNames.Add(renderer.Name);
@@ -101,12 +132,12 @@ namespace OpenMB.Forms.Controller
         {
             gameXmlConfig.GraphicConfig.CurrentRenderSystem = renderSystemName;
             GraphicConfig.RenderParams.Clear();
-            ConfigOptionMap configOptionMap = r.GetRenderSystemByName(renderSystemName).GetConfigOptions();
+            ConfigOptionMap configOptionMap = root.GetRenderSystemByName(renderSystemName).GetConfigOptions();
             if (gameXmlConfig.GraphicConfig.Renderers.Count > 0)
             {
                 List<GameGraphicParameterConfigXml> dic = gameXmlConfig.GraphicConfig[renderSystemName];
                 List<string> graphicSettings = new List<string>();
-                if (dic != null)
+                if (dic != null && dic.Count > 0)
                 {
                     for (int i = 0; i < configOptionMap.Count; i++)
                     {
@@ -115,6 +146,13 @@ namespace OpenMB.Forms.Controller
                             continue;
                         }
                         GraphicConfig.RenderParams.Add(dic[i].Name + ":" + (configOptionMap[dic[i].Name].possibleValues.Contains(dic[i].Value) ? dic[i].Value : configOptionMap[dic[i].Name].possibleValues[0]));
+                    }
+                }
+                else
+                {
+                    foreach (var pair in configOptionMap)
+                    {
+                        GraphicConfig.RenderParams.Add(pair.Key + ":" + pair.Value.possibleValues[0]);
                     }
                 }
             }
@@ -130,7 +168,7 @@ namespace OpenMB.Forms.Controller
         public void InsertPossibleValue(string renderSystemName, string renderConfigKey, string renderConfigValue)
         {
             GraphicConfig.PossibleValues.Clear();
-            ConfigOptionMap configOptionMap = r.GetRenderSystemByName(renderSystemName).GetConfigOptions();
+            ConfigOptionMap configOptionMap = root.GetRenderSystemByName(renderSystemName).GetConfigOptions();
 
             foreach (string psv in configOptionMap[renderConfigKey].possibleValues)
             {
@@ -172,12 +210,12 @@ namespace OpenMB.Forms.Controller
             gameXmlConfig.LocateConfig.CurrentLocate = GameConfig.CurrentSelectedLocate.ToString();
             gameXmlConfig.GraphicConfig.CurrentRenderSystem = GraphicConfig.RenderSystem;
             gameXmlConfig.GraphicConfig.Renderers.Clear();
-            var renderers = r.GetAvailableRenderers();
+            var renderers = root.GetAvailableRenderers();
             foreach (var renderer in renderers)
             {
                 GameGraphicSectionConfigXml rendererConfig = new GameGraphicSectionConfigXml();
                 rendererConfig.Name = renderer.Name;
-                foreach (var configOption in r.GetRenderSystemByName(renderer.Name).GetConfigOptions())
+                foreach (var configOption in root.GetRenderSystemByName(renderer.Name).GetConfigOptions())
                 {
                     GameGraphicParameterConfigXml parameter = new GameGraphicParameterConfigXml();
                     parameter.Name = configOption.Key;

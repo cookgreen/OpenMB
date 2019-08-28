@@ -35,36 +35,50 @@
             this.lblCOO = new System.Windows.Forms.Label();
             this.cmbValueChange = new System.Windows.Forms.ComboBox();
             this.tbRenderOpt = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tpGraphic = new System.Windows.Forms.TabPage();
             this.lblRenderSys = new System.Windows.Forms.Label();
             this.cmbSubRenderSys = new System.Windows.Forms.ComboBox();
             this.gbRenderOpt = new System.Windows.Forms.GroupBox();
             this.lstConfig = new System.Windows.Forms.ListBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tpResource = new System.Windows.Forms.TabPage();
+            this.groupZip = new System.Windows.Forms.GroupBox();
+            this.btnDeleteZipResourceLoc = new System.Windows.Forms.Button();
+            this.resourceZipList = new System.Windows.Forms.ListBox();
+            this.btnAddZipResourceLoc = new System.Windows.Forms.Button();
+            this.btnModifyZipResourceLoc = new System.Windows.Forms.Button();
+            this.groupFileSystem = new System.Windows.Forms.GroupBox();
+            this.resourceFileSystemList = new System.Windows.Forms.ListBox();
+            this.btnDeleteFileSystemResourceLoc = new System.Windows.Forms.Button();
+            this.btnAddFileSystemResourceLoc = new System.Windows.Forms.Button();
+            this.btnModifyFileSystemResourceLoc = new System.Windows.Forms.Button();
+            this.tpAudio = new System.Windows.Forms.TabPage();
             this.gbMusicSound = new System.Windows.Forms.GroupBox();
             this.chkEnableMusic = new System.Windows.Forms.CheckBox();
             this.chkEnableSound = new System.Windows.Forms.CheckBox();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tpGame = new System.Windows.Forms.TabPage();
             this.gbAdvanced = new System.Windows.Forms.GroupBox();
+            this.chkEnableCheatMode = new System.Windows.Forms.CheckBox();
             this.chkEnableEditMode = new System.Windows.Forms.CheckBox();
             this.gbLocalization = new System.Windows.Forms.GroupBox();
             this.cmbLanguageSelect = new System.Windows.Forms.ComboBox();
             this.lblLang = new System.Windows.Forms.Label();
-            this.chkEnableCheatMode = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbAMGELogo)).BeginInit();
             this.tbRenderOpt.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tpGraphic.SuspendLayout();
             this.gbRenderOpt.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tpResource.SuspendLayout();
+            this.groupZip.SuspendLayout();
+            this.groupFileSystem.SuspendLayout();
+            this.tpAudio.SuspendLayout();
             this.gbMusicSound.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.tpGame.SuspendLayout();
             this.gbAdvanced.SuspendLayout();
             this.gbLocalization.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(318, 417);
+            this.btnOK.Location = new System.Drawing.Point(322, 425);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 0;
@@ -74,7 +88,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(399, 417);
+            this.btnCancel.Location = new System.Drawing.Point(403, 425);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
@@ -95,7 +109,7 @@
             // lblCOO
             // 
             this.lblCOO.AutoSize = true;
-            this.lblCOO.Location = new System.Drawing.Point(74, 182);
+            this.lblCOO.Location = new System.Drawing.Point(98, 189);
             this.lblCOO.Name = "lblCOO";
             this.lblCOO.Size = new System.Drawing.Size(113, 12);
             this.lblCOO.TabIndex = 7;
@@ -106,7 +120,7 @@
             this.cmbValueChange.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbValueChange.Enabled = false;
             this.cmbValueChange.FormattingEnabled = true;
-            this.cmbValueChange.Location = new System.Drawing.Point(209, 179);
+            this.cmbValueChange.Location = new System.Drawing.Point(232, 186);
             this.cmbValueChange.Name = "cmbValueChange";
             this.cmbValueChange.Size = new System.Drawing.Size(234, 20);
             this.cmbValueChange.TabIndex = 8;
@@ -114,30 +128,31 @@
             // 
             // tbRenderOpt
             // 
-            this.tbRenderOpt.Controls.Add(this.tabPage1);
-            this.tbRenderOpt.Controls.Add(this.tabPage2);
-            this.tbRenderOpt.Controls.Add(this.tabPage3);
-            this.tbRenderOpt.Location = new System.Drawing.Point(12, 169);
+            this.tbRenderOpt.Controls.Add(this.tpGraphic);
+            this.tbRenderOpt.Controls.Add(this.tpGame);
+            this.tbRenderOpt.Controls.Add(this.tpAudio);
+            this.tbRenderOpt.Controls.Add(this.tpResource);
+            this.tbRenderOpt.Location = new System.Drawing.Point(1, 169);
             this.tbRenderOpt.Name = "tbRenderOpt";
             this.tbRenderOpt.SelectedIndex = 0;
-            this.tbRenderOpt.Size = new System.Drawing.Size(462, 237);
+            this.tbRenderOpt.Size = new System.Drawing.Size(481, 250);
             this.tbRenderOpt.TabIndex = 9;
             // 
-            // tabPage1
+            // tpGraphic
             // 
-            this.tabPage1.Controls.Add(this.lblRenderSys);
-            this.tabPage1.Controls.Add(this.cmbValueChange);
-            this.tabPage1.Controls.Add(this.cmbSubRenderSys);
-            this.tabPage1.Controls.Add(this.lblCOO);
-            this.tabPage1.Controls.Add(this.gbRenderOpt);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tabPage1.Size = new System.Drawing.Size(454, 211);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Graphic";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tpGraphic.Controls.Add(this.lblRenderSys);
+            this.tpGraphic.Controls.Add(this.cmbValueChange);
+            this.tpGraphic.Controls.Add(this.cmbSubRenderSys);
+            this.tpGraphic.Controls.Add(this.lblCOO);
+            this.tpGraphic.Controls.Add(this.gbRenderOpt);
+            this.tpGraphic.Location = new System.Drawing.Point(4, 22);
+            this.tpGraphic.Name = "tpGraphic";
+            this.tpGraphic.Padding = new System.Windows.Forms.Padding(3);
+            this.tpGraphic.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tpGraphic.Size = new System.Drawing.Size(473, 224);
+            this.tpGraphic.TabIndex = 0;
+            this.tpGraphic.Text = "Graphic";
+            this.tpGraphic.UseVisualStyleBackColor = true;
             // 
             // lblRenderSys
             // 
@@ -154,7 +169,7 @@
             this.cmbSubRenderSys.FormattingEnabled = true;
             this.cmbSubRenderSys.Location = new System.Drawing.Point(119, 14);
             this.cmbSubRenderSys.Name = "cmbSubRenderSys";
-            this.cmbSubRenderSys.Size = new System.Drawing.Size(294, 20);
+            this.cmbSubRenderSys.Size = new System.Drawing.Size(347, 20);
             this.cmbSubRenderSys.TabIndex = 5;
             this.cmbSubRenderSys.SelectedIndexChanged += new System.EventHandler(this.cmbSubRenderSys_SelectedIndexChanged);
             // 
@@ -163,7 +178,7 @@
             this.gbRenderOpt.Controls.Add(this.lstConfig);
             this.gbRenderOpt.Location = new System.Drawing.Point(8, 39);
             this.gbRenderOpt.Name = "gbRenderOpt";
-            this.gbRenderOpt.Size = new System.Drawing.Size(440, 134);
+            this.gbRenderOpt.Size = new System.Drawing.Size(458, 141);
             this.gbRenderOpt.TabIndex = 1;
             this.gbRenderOpt.TabStop = false;
             this.gbRenderOpt.Text = "Render System Options";
@@ -174,20 +189,142 @@
             this.lstConfig.ItemHeight = 12;
             this.lstConfig.Location = new System.Drawing.Point(6, 20);
             this.lstConfig.Name = "lstConfig";
-            this.lstConfig.Size = new System.Drawing.Size(428, 100);
+            this.lstConfig.Size = new System.Drawing.Size(446, 112);
             this.lstConfig.TabIndex = 0;
             this.lstConfig.SelectedIndexChanged += new System.EventHandler(this.lstConfig_SelectedIndexChanged);
             // 
-            // tabPage2
+            // tpResource
             // 
-            this.tabPage2.Controls.Add(this.gbMusicSound);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(454, 211);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Audio";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tpResource.Controls.Add(this.groupZip);
+            this.tpResource.Controls.Add(this.groupFileSystem);
+            this.tpResource.Location = new System.Drawing.Point(4, 22);
+            this.tpResource.Name = "tpResource";
+            this.tpResource.Padding = new System.Windows.Forms.Padding(3);
+            this.tpResource.Size = new System.Drawing.Size(473, 224);
+            this.tpResource.TabIndex = 3;
+            this.tpResource.Text = "Resources";
+            this.tpResource.UseVisualStyleBackColor = true;
+            // 
+            // groupZip
+            // 
+            this.groupZip.Controls.Add(this.btnDeleteZipResourceLoc);
+            this.groupZip.Controls.Add(this.resourceZipList);
+            this.groupZip.Controls.Add(this.btnAddZipResourceLoc);
+            this.groupZip.Controls.Add(this.btnModifyZipResourceLoc);
+            this.groupZip.Location = new System.Drawing.Point(238, 6);
+            this.groupZip.Name = "groupZip";
+            this.groupZip.Size = new System.Drawing.Size(228, 212);
+            this.groupZip.TabIndex = 7;
+            this.groupZip.TabStop = false;
+            this.groupZip.Text = "Zip";
+            // 
+            // btnDeleteZipResourceLoc
+            // 
+            this.btnDeleteZipResourceLoc.Enabled = false;
+            this.btnDeleteZipResourceLoc.Location = new System.Drawing.Point(130, 183);
+            this.btnDeleteZipResourceLoc.Name = "btnDeleteZipResourceLoc";
+            this.btnDeleteZipResourceLoc.Size = new System.Drawing.Size(56, 23);
+            this.btnDeleteZipResourceLoc.TabIndex = 6;
+            this.btnDeleteZipResourceLoc.Text = "Delete";
+            this.btnDeleteZipResourceLoc.UseVisualStyleBackColor = true;
+            this.btnDeleteZipResourceLoc.Click += new System.EventHandler(this.btnDeleteZipResourceLoc_Click);
+            // 
+            // resourceZipList
+            // 
+            this.resourceZipList.FormattingEnabled = true;
+            this.resourceZipList.ItemHeight = 12;
+            this.resourceZipList.Location = new System.Drawing.Point(6, 17);
+            this.resourceZipList.Name = "resourceZipList";
+            this.resourceZipList.Size = new System.Drawing.Size(216, 160);
+            this.resourceZipList.TabIndex = 1;
+            this.resourceZipList.SelectedIndexChanged += new System.EventHandler(this.resourceZipList_SelectedIndexChanged);
+            // 
+            // btnAddZipResourceLoc
+            // 
+            this.btnAddZipResourceLoc.Location = new System.Drawing.Point(6, 183);
+            this.btnAddZipResourceLoc.Name = "btnAddZipResourceLoc";
+            this.btnAddZipResourceLoc.Size = new System.Drawing.Size(56, 23);
+            this.btnAddZipResourceLoc.TabIndex = 4;
+            this.btnAddZipResourceLoc.Text = "Add";
+            this.btnAddZipResourceLoc.UseVisualStyleBackColor = true;
+            this.btnAddZipResourceLoc.Click += new System.EventHandler(this.btnAddZipResourceLoc_Click);
+            // 
+            // btnModifyZipResourceLoc
+            // 
+            this.btnModifyZipResourceLoc.Enabled = false;
+            this.btnModifyZipResourceLoc.Location = new System.Drawing.Point(68, 183);
+            this.btnModifyZipResourceLoc.Name = "btnModifyZipResourceLoc";
+            this.btnModifyZipResourceLoc.Size = new System.Drawing.Size(56, 23);
+            this.btnModifyZipResourceLoc.TabIndex = 5;
+            this.btnModifyZipResourceLoc.Text = "Modify";
+            this.btnModifyZipResourceLoc.UseVisualStyleBackColor = true;
+            this.btnModifyZipResourceLoc.Click += new System.EventHandler(this.btnModifyZipResourceLoc_Click);
+            // 
+            // groupFileSystem
+            // 
+            this.groupFileSystem.Controls.Add(this.resourceFileSystemList);
+            this.groupFileSystem.Controls.Add(this.btnDeleteFileSystemResourceLoc);
+            this.groupFileSystem.Controls.Add(this.btnAddFileSystemResourceLoc);
+            this.groupFileSystem.Controls.Add(this.btnModifyFileSystemResourceLoc);
+            this.groupFileSystem.Location = new System.Drawing.Point(7, 8);
+            this.groupFileSystem.Name = "groupFileSystem";
+            this.groupFileSystem.Size = new System.Drawing.Size(225, 210);
+            this.groupFileSystem.TabIndex = 6;
+            this.groupFileSystem.TabStop = false;
+            this.groupFileSystem.Text = "FileSystem";
+            // 
+            // resourceFileSystemList
+            // 
+            this.resourceFileSystemList.FormattingEnabled = true;
+            this.resourceFileSystemList.ItemHeight = 12;
+            this.resourceFileSystemList.Location = new System.Drawing.Point(6, 15);
+            this.resourceFileSystemList.Name = "resourceFileSystemList";
+            this.resourceFileSystemList.Size = new System.Drawing.Size(213, 160);
+            this.resourceFileSystemList.TabIndex = 0;
+            this.resourceFileSystemList.SelectedIndexChanged += new System.EventHandler(this.resourceFileSystemList_SelectedIndexChanged);
+            // 
+            // btnDeleteFileSystemResourceLoc
+            // 
+            this.btnDeleteFileSystemResourceLoc.Enabled = false;
+            this.btnDeleteFileSystemResourceLoc.Location = new System.Drawing.Point(130, 181);
+            this.btnDeleteFileSystemResourceLoc.Name = "btnDeleteFileSystemResourceLoc";
+            this.btnDeleteFileSystemResourceLoc.Size = new System.Drawing.Size(56, 23);
+            this.btnDeleteFileSystemResourceLoc.TabIndex = 3;
+            this.btnDeleteFileSystemResourceLoc.Text = "Delete";
+            this.btnDeleteFileSystemResourceLoc.UseVisualStyleBackColor = true;
+            this.btnDeleteFileSystemResourceLoc.Click += new System.EventHandler(this.btnDeleteFileSystemResourceLoc_Click);
+            // 
+            // btnAddFileSystemResourceLoc
+            // 
+            this.btnAddFileSystemResourceLoc.Location = new System.Drawing.Point(6, 181);
+            this.btnAddFileSystemResourceLoc.Name = "btnAddFileSystemResourceLoc";
+            this.btnAddFileSystemResourceLoc.Size = new System.Drawing.Size(56, 23);
+            this.btnAddFileSystemResourceLoc.TabIndex = 1;
+            this.btnAddFileSystemResourceLoc.Text = "Add";
+            this.btnAddFileSystemResourceLoc.UseVisualStyleBackColor = true;
+            this.btnAddFileSystemResourceLoc.Click += new System.EventHandler(this.btnAddFileSystemResourceLoc_Click);
+            // 
+            // btnModifyFileSystemResourceLoc
+            // 
+            this.btnModifyFileSystemResourceLoc.Enabled = false;
+            this.btnModifyFileSystemResourceLoc.Location = new System.Drawing.Point(68, 181);
+            this.btnModifyFileSystemResourceLoc.Name = "btnModifyFileSystemResourceLoc";
+            this.btnModifyFileSystemResourceLoc.Size = new System.Drawing.Size(56, 23);
+            this.btnModifyFileSystemResourceLoc.TabIndex = 2;
+            this.btnModifyFileSystemResourceLoc.Text = "Modify";
+            this.btnModifyFileSystemResourceLoc.UseVisualStyleBackColor = true;
+            this.btnModifyFileSystemResourceLoc.Click += new System.EventHandler(this.btnModifyFileSystemResourceLoc_Click);
+            // 
+            // tpAudio
+            // 
+            this.tpAudio.Controls.Add(this.gbMusicSound);
+            this.tpAudio.Location = new System.Drawing.Point(4, 22);
+            this.tpAudio.Name = "tpAudio";
+            this.tpAudio.Padding = new System.Windows.Forms.Padding(3);
+            this.tpAudio.Size = new System.Drawing.Size(473, 224);
+            this.tpAudio.TabIndex = 1;
+            this.tpAudio.Text = "Audio";
+            this.tpAudio.UseVisualStyleBackColor = true;
             // 
             // gbMusicSound
             // 
@@ -195,7 +332,7 @@
             this.gbMusicSound.Controls.Add(this.chkEnableSound);
             this.gbMusicSound.Location = new System.Drawing.Point(6, 6);
             this.gbMusicSound.Name = "gbMusicSound";
-            this.gbMusicSound.Size = new System.Drawing.Size(442, 199);
+            this.gbMusicSound.Size = new System.Drawing.Size(460, 212);
             this.gbMusicSound.TabIndex = 2;
             this.gbMusicSound.TabStop = false;
             this.gbMusicSound.Text = "Music&&Sound";
@@ -224,17 +361,17 @@
             this.chkEnableSound.Text = "Enable Sound";
             this.chkEnableSound.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
+            // tpGame
             // 
-            this.tabPage3.Controls.Add(this.gbAdvanced);
-            this.tabPage3.Controls.Add(this.gbLocalization);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(454, 211);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Game";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.tpGame.Controls.Add(this.gbAdvanced);
+            this.tpGame.Controls.Add(this.gbLocalization);
+            this.tpGame.Location = new System.Drawing.Point(4, 22);
+            this.tpGame.Name = "tpGame";
+            this.tpGame.Padding = new System.Windows.Forms.Padding(3);
+            this.tpGame.Size = new System.Drawing.Size(473, 224);
+            this.tpGame.TabIndex = 2;
+            this.tpGame.Text = "Game";
+            this.tpGame.UseVisualStyleBackColor = true;
             // 
             // gbAdvanced
             // 
@@ -242,10 +379,20 @@
             this.gbAdvanced.Controls.Add(this.chkEnableEditMode);
             this.gbAdvanced.Location = new System.Drawing.Point(6, 66);
             this.gbAdvanced.Name = "gbAdvanced";
-            this.gbAdvanced.Size = new System.Drawing.Size(442, 139);
+            this.gbAdvanced.Size = new System.Drawing.Size(460, 152);
             this.gbAdvanced.TabIndex = 3;
             this.gbAdvanced.TabStop = false;
             this.gbAdvanced.Text = "Advanced Options";
+            // 
+            // chkEnableCheatMode
+            // 
+            this.chkEnableCheatMode.AutoSize = true;
+            this.chkEnableCheatMode.Location = new System.Drawing.Point(8, 53);
+            this.chkEnableCheatMode.Name = "chkEnableCheatMode";
+            this.chkEnableCheatMode.Size = new System.Drawing.Size(126, 16);
+            this.chkEnableCheatMode.TabIndex = 1;
+            this.chkEnableCheatMode.Text = "Enable Cheat Mode";
+            this.chkEnableCheatMode.UseVisualStyleBackColor = true;
             // 
             // chkEnableEditMode
             // 
@@ -263,7 +410,7 @@
             this.gbLocalization.Controls.Add(this.lblLang);
             this.gbLocalization.Location = new System.Drawing.Point(6, 6);
             this.gbLocalization.Name = "gbLocalization";
-            this.gbLocalization.Size = new System.Drawing.Size(442, 54);
+            this.gbLocalization.Size = new System.Drawing.Size(460, 54);
             this.gbLocalization.TabIndex = 2;
             this.gbLocalization.TabStop = false;
             this.gbLocalization.Text = "Localization";
@@ -289,22 +436,12 @@
             this.lblLang.TabIndex = 0;
             this.lblLang.Text = "Language:";
             // 
-            // chkEnableCheatMode
-            // 
-            this.chkEnableCheatMode.AutoSize = true;
-            this.chkEnableCheatMode.Location = new System.Drawing.Point(8, 53);
-            this.chkEnableCheatMode.Name = "chkEnableCheatMode";
-            this.chkEnableCheatMode.Size = new System.Drawing.Size(126, 16);
-            this.chkEnableCheatMode.TabIndex = 1;
-            this.chkEnableCheatMode.Text = "Enable Cheat Mode";
-            this.chkEnableCheatMode.UseVisualStyleBackColor = true;
-            // 
             // frmConfigure
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(483, 452);
+            this.ClientSize = new System.Drawing.Size(483, 455);
             this.Controls.Add(this.tbRenderOpt);
             this.Controls.Add(this.pbAMGELogo);
             this.Controls.Add(this.btnCancel);
@@ -319,13 +456,16 @@
             this.Load += new System.EventHandler(this.ConfigFrm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbAMGELogo)).EndInit();
             this.tbRenderOpt.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tpGraphic.ResumeLayout(false);
+            this.tpGraphic.PerformLayout();
             this.gbRenderOpt.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
+            this.tpResource.ResumeLayout(false);
+            this.groupZip.ResumeLayout(false);
+            this.groupFileSystem.ResumeLayout(false);
+            this.tpAudio.ResumeLayout(false);
             this.gbMusicSound.ResumeLayout(false);
             this.gbMusicSound.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
+            this.tpGame.ResumeLayout(false);
             this.gbAdvanced.ResumeLayout(false);
             this.gbAdvanced.PerformLayout();
             this.gbLocalization.ResumeLayout(false);
@@ -342,12 +482,12 @@
         private System.Windows.Forms.Label lblCOO;
         private System.Windows.Forms.ComboBox cmbValueChange;
         private System.Windows.Forms.TabControl tbRenderOpt;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tpGraphic;
         private System.Windows.Forms.Label lblRenderSys;
         private System.Windows.Forms.ComboBox cmbSubRenderSys;
         private System.Windows.Forms.GroupBox gbRenderOpt;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tpAudio;
+        private System.Windows.Forms.TabPage tpGame;
         private System.Windows.Forms.ComboBox cmbLanguageSelect;
         private System.Windows.Forms.Label lblLang;
         private System.Windows.Forms.ListBox lstConfig;
@@ -358,5 +498,16 @@
         private System.Windows.Forms.GroupBox gbLocalization;
         private System.Windows.Forms.CheckBox chkEnableEditMode;
         private System.Windows.Forms.CheckBox chkEnableCheatMode;
+        private System.Windows.Forms.TabPage tpResource;
+        private System.Windows.Forms.Button btnDeleteFileSystemResourceLoc;
+        private System.Windows.Forms.Button btnModifyFileSystemResourceLoc;
+        private System.Windows.Forms.Button btnAddFileSystemResourceLoc;
+        private System.Windows.Forms.GroupBox groupZip;
+        private System.Windows.Forms.GroupBox groupFileSystem;
+        private System.Windows.Forms.ListBox resourceFileSystemList;
+        private System.Windows.Forms.ListBox resourceZipList;
+        private System.Windows.Forms.Button btnDeleteZipResourceLoc;
+        private System.Windows.Forms.Button btnAddZipResourceLoc;
+        private System.Windows.Forms.Button btnModifyZipResourceLoc;
     }
 }

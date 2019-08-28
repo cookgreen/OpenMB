@@ -49,4 +49,26 @@
     <IsEnableEditMode>true</IsEnableEditMode>
     <IsEnableCheatMode>false</IsEnableCheatMode>
   </Game>
+  <Resources>
+    <ResourceRootDir>./Media/</ResourceRootDir>
+    <Resource Type="FileSystem">
+      <ResourceLoc>./Media/Ogre/models</ResourceLoc>
+      <ResourceLoc>./Media/Ogre/cube_scene</ResourceLoc>
+      <ResourceLoc>./Media/Ogre/materials/programs</ResourceLoc>
+      <ResourceLoc>./Media/Ogre/materials/scripts</ResourceLoc>
+      <ResourceLoc>./Media/Ogre/materials/textures</ResourceLoc>
+      <ResourceLoc>./Media/Ogre/materials/textures/nvidia</ResourceLoc>
+      <ResourceLoc>./Media/Engine/Material</ResourceLoc>
+      <ResourceLoc>./Media/Engine/Overlay</ResourceLoc>
+      <ResourceLoc>./Media/Engine/Texture</ResourceLoc>
+    </Resource>
+    <Resource Type="Zip">
+      <ResourceLoc>./Media/Ogre/packs/OgreCore.zip</ResourceLoc>
+      <ResourceLoc>./Media/Ogre/packs/ogretestmap.zip</ResourceLoc>
+      <ResourceLoc>./Media/Ogre/packs/skybox.zip</ResourceLoc>
+      <ResourceLoc>./Media/Ogre/packs/Sinbad.zip</ResourceLoc>
+      <ResourceLoc>./media/Ogre/packs/SdkTrays.zip</ResourceLoc>
+      <ResourceLoc>./media/Ogre/packs/cubemapsJS.zip</ResourceLoc>
+    </Resource>
+  </Resources>
 </GameConfig>
