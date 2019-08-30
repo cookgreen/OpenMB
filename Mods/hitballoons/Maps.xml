@@ -1,5 +1,5 @@
 <Maps>
-  <Map>
+  <Map Loader="Xml">
     <ID>MAP_MAINSCENE</ID>
     <Name>MainScene</Name>
     <File>MainScene.xml</File>

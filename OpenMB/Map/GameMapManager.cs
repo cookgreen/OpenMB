@@ -37,13 +37,13 @@ namespace OpenMB.Map
         private GameWorld world;
         private IMap currentMap;
         private Queue<IMap> maps;
-        public void Load(string name)
+        public void Load(string name, IGameMapLoader loader)
         {
             if (maps.Count > 0)
             {
                 maps.Dequeue().Destroy();
             }
-            GameMap map = new GameMap(world);
+            GameMap map = new GameMap(world, loader);
             map.LoadMap(name);
             maps.Enqueue(map);
             map.LoadMapStarted += Map_LoadMapStarted;
@@ -52,13 +52,13 @@ namespace OpenMB.Map
             map.LoadAsync();
         }
 
-        public void LoadWorldMap(string worldMapID, string file)
+        public void LoadWorldMap(string worldMapID, string file, IGameMapLoader loader)
         {
             if (maps.Count > 0)
             {
                 maps.Dequeue().Destroy();
             }
-            GameMap map = new GameMap(world);
+            GameMap map = new GameMap(world, loader);
             map.LoadWorldMap(worldMapID, file);
             maps.Enqueue(map);
             map.LoadMapStarted += Map_LoadMapStarted;

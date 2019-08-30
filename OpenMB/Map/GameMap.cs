@@ -25,13 +25,13 @@ namespace OpenMB.Map
     public class GameMap : IMap
     {
         private string mapName;
-        private DotSceneLoader.DotSceneLoader mapLoader;
+        private IGameMapLoader loader;
         private List<Character> agents;
 
         private Dictionary<string, List<GameObject>> gameObjects;
         private List<ActorNode> actorNodeList;
         private ScriptLoader scriptLoader;
-        private SceneManager scm;
+        private SceneManager sceneManager;
         //private TerrainGroup terrianGroup;
         private Scene physicsScene;
         //private NavmeshQuery query;
@@ -40,7 +40,7 @@ namespace OpenMB.Map
         private ControllerManager controllerMgr;
         private Player player;
         private Character playerAgent;
-        private Camera cam;
+        private Camera camera;
         private CameraHandler cameraHanlder;
         private GameWorld world;
         private AIMesh aimesh;
@@ -109,14 +109,16 @@ namespace OpenMB.Map
 
         public event MapLoadhandler LoadMapStarted;
         public event MapLoadhandler LoadMapFinished;
-        public GameMap(GameWorld world)
+        public GameMap(GameWorld world, IGameMapLoader loader)
         {
             scriptLoader = new ScriptLoader();
             actorNodeList = new List<ActorNode>();
             this.world = world;
-            scm = world.SceneManager;
+            this.loader = loader;
+
+            sceneManager = world.SceneManager;
             modData = world.ModData;
-            cam = world.Camera;
+            camera = world.Camera;
             physicsScene = world.PhysicsScene;
             physics = world.PhysicsScene.Physics;
             controllerMgr = physics.ControllerManager;
@@ -142,26 +144,26 @@ namespace OpenMB.Map
         public void LoadWorldMap(string name, string file)
         {
             var mesh = Connector.MBOgre.Instance.LoadWorldMap(
-                name, scm,
+                name, sceneManager,
                 FileFormats.MBWorldMap.ParseXml(
                     GameMapManager.Instance.FindPath(file)
                 )
             );
-            if (scm.HasEntity("CURRENT_WORLDMAP"))
+            if (sceneManager.HasEntity("CURRENT_WORLDMAP"))
             {
-                scm.DestroyEntity("CURRENT_WORLDMAP");
+                sceneManager.DestroyEntity("CURRENT_WORLDMAP");
             }
-            if (scm.HasSceneNode("CURRENT_WORLDMAP_SCENENODE"))
+            if (sceneManager.HasSceneNode("CURRENT_WORLDMAP_SCENENODE"))
             {
-                scm.DestroySceneNode("CURRENT_WORLDMAP_SCENENODE");
+                sceneManager.DestroySceneNode("CURRENT_WORLDMAP_SCENENODE");
             }
-            var worldmapEnt = scm.CreateEntity("CURRENT_WORLDMAP", "WORLDMAP-" + name);
-            scm.RootSceneNode.CreateChildSceneNode("CURRENT_WORLDMAP_SCENENODE").AttachObject(worldmapEnt);
+            var worldmapEnt = sceneManager.CreateEntity("CURRENT_WORLDMAP", "WORLDMAP-" + name);
+            sceneManager.RootSceneNode.CreateChildSceneNode("CURRENT_WORLDMAP_SCENENODE").AttachObject(worldmapEnt);
         }
 
         public Entity CreateEntityWithMaterial(string name, string entityMeshName, string materialName)
         {
-            Entity ent = scm.CreateEntity(name, entityMeshName);
+            Entity ent = sceneManager.CreateEntity(name, entityMeshName);
             ent.SetMaterialName(materialName);
             uint subEntNum = ent.NumSubEntities;
             for (uint i = 0; i < subEntNum; i++)
@@ -581,30 +583,26 @@ namespace OpenMB.Map
 
         public void LoadAsync()
         {
-            mapLoader = new DotSceneLoader.DotSceneLoader();
-            mapLoader.LoadSceneStarted += mapLoader_LoadMapStarted;
-            mapLoader.LoadSceneFinished += mapLoader_LoadMapFinished;
-            mapLoader.ParseDotSceneAsync(mapName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, scm);
         }
 
-        private void mapLoader_LoadMapFinished()
-        {
-            if(LoadMapFinished!=null)
-            {
-                agents = new List<Character>();
-                gameObjects = new Dictionary<string, List<GameObject>>();
-
-                var file = scriptLoader.Parse(mapLoader.ScriptName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-                scriptLoader.ExecuteFunction(file, "map_loaded", world);
-
-                TriggerManager.Instance.Init(world, scriptLoader.currentContext);
-
-                aimesh = mapLoader.AIMesh;
-                editor.Initization(aimesh);
-
-                LoadMapFinished();
-            }
-        }
+        //private void mapLoader_LoadMapFinished()
+        //{
+        //    if(LoadMapFinished!=null)
+        //    {
+        //        agents = new List<Character>();
+        //        gameObjects = new Dictionary<string, List<GameObject>>();
+        //
+        //        var file = scriptLoader.Parse(mapLoader.ScriptName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+        //        scriptLoader.ExecuteFunction(file, "map_loaded", world);
+        //
+        //        TriggerManager.Instance.Init(world, scriptLoader.currentContext);
+        //
+        //        aimesh = mapLoader.AIMesh;
+        //        editor.Initization(aimesh);
+        //
+        //        LoadMapFinished();
+        //    }
+        //}
 
         private void mapLoader_LoadMapStarted()
         {

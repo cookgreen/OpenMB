@@ -32,6 +32,7 @@ namespace OpenMB.Mods
         public List<IModModelType> ModModelTypes { get; set; }
         public List<IModSetting> ModSettings { get; set; }
         public List<IModTriggerCondition> ModTriggerConditions { get; set; }
+        public List<IGameMapLoader> MapLoaders { get; set; }
 
         public string MusicDir { get; set; }
         public string MapDir { get; set; }
@@ -131,6 +132,7 @@ namespace OpenMB.Mods
             ModSettings = new List<IModSetting>();
             ModTriggerConditions = new List<IModTriggerCondition>();
             ItemTypes = new List<IItemType>();
+            MapLoaders = new List<IGameMapLoader>();
         }
 
         public ModItemTypeDfnXml FindItemType(string itemType)

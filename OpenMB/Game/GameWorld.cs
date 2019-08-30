@@ -186,7 +186,12 @@ namespace OpenMB.Game
             if (findMaps.Count() > 0)
             {
                 var findMap = findMaps.ElementAt(0);
-                GameMapManager.Instance.Load(findMap.File);
+                var findLoaders = modData.MapLoaders.Where(o => o.Name == findMap.Loader);
+                if (findLoaders.Count() > 0)
+                {
+                    var loader = findLoaders.ElementAt(0);
+                    GameMapManager.Instance.Load(findMap.File, loader);
+                }
             }
         }
 
@@ -201,8 +206,12 @@ namespace OpenMB.Game
                 {
                     var findMap = findMaps.ElementAt(0);
 
-
-                    GameMapManager.Instance.LoadWorldMap(worldMapID, findMap.File);
+                    var findLoaders = modData.MapLoaders.Where(o => o.Name == findMap.Loader);
+                    if (findLoaders.Count() > 0)
+                    {
+                        var loader = findLoaders.ElementAt(0);
+                        GameMapManager.Instance.LoadWorldMap(worldMapID, findMap.File, loader);
+                    }
                 }
                 else
                 {

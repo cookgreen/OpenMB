@@ -237,6 +237,11 @@ namespace OpenMB.Mods
                         var instance = thisAssembly.CreateInstance(internalType.FullName) as IModTriggerCondition;
                         currentMod.ModTriggerConditions.Add(instance);
                     }
+                    else if (internalType.GetInterface("IGameMapLoader") != null)
+                    {
+                        var instance = thisAssembly.CreateInstance(internalType.FullName) as IGameMapLoader;
+                        currentMod.MapLoaders.Add(instance);
+                    }
                 }
 
                 //Load Customized type from the assembly

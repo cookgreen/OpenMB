@@ -21,6 +21,8 @@ namespace OpenMB.Mods.XML
         public string Name { get; set; }
         [XmlElement]
         public string File { get; set; }
+        [XmlAttribute]
+        public string Loader { get; set; }
         [XmlArray("Flags")]
         [XmlArrayItem("Flag")]
         public List<ModMapFlagDfnXml> Flags { get; set; }
