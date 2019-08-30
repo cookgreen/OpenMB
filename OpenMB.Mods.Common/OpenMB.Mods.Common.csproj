@@ -67,8 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ItemTypes\ItemTypeRifle.cs" />
-    <Compile Include="Loaders\ModMapLoaderPk3.cs" />
-    <Compile Include="Loaders\ModMapLoaderXml.cs" />
+    <Compile Include="MapLoaders\MapLoaderPK3.cs" />
+    <Compile Include="MapLoaders\MapLoaderXml.cs" />
     <Compile Include="ModelTypes\ItemDefineModelType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptCommands\SpawnPlayerSceneProp.cs" />

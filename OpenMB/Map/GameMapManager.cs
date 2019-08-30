@@ -26,7 +26,7 @@ namespace OpenMB.Map
 
         public GameMapManager()
         {
-            maps = new Queue<IMap>();
+            maps = new Queue<IGameMap>();
         }
 
         public void Init(ModData modData)
@@ -35,8 +35,8 @@ namespace OpenMB.Map
         }
 
         private GameWorld world;
-        private IMap currentMap;
-        private Queue<IMap> maps;
+        private IGameMap currentMap;
+        private Queue<IGameMap> maps;
         public void Load(string name, IGameMapLoader loader)
         {
             if (maps.Count > 0)

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenMB.Game.ControlObjType;
+using System.IO;
 
 namespace OpenMB.Map
 {
@@ -22,7 +23,7 @@ namespace OpenMB.Map
     /// <summary>
     /// Define a map in the game
     /// </summary>
-    public class GameMap : IMap
+    public class GameMap : IGameMap
     {
         private string mapName;
         private IGameMapLoader loader;
@@ -115,6 +116,7 @@ namespace OpenMB.Map
             actorNodeList = new List<ActorNode>();
             this.world = world;
             this.loader = loader;
+            loader.LoadMapFinished += Loader_LoadMapFinished;
 
             sceneManager = world.SceneManager;
             modData = world.ModData;
@@ -126,6 +128,7 @@ namespace OpenMB.Map
             aimeshVertexData = new List<Mogre.Vector3>();
             editor = new GameMapEditor(this);
             cameraHanlder = new CameraHandler(this);
+            agents = new List<Character>();
             gameObjects = new Dictionary<string, List<GameObject>>();
             combineKey = false;
 
@@ -136,9 +139,26 @@ namespace OpenMB.Map
             GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
         }
 
+        private void Loader_LoadMapFinished()
+        {
+            agents = new List<Character>();
+            gameObjects = new Dictionary<string, List<GameObject>>();
+            
+            var file = scriptLoader.Parse(Path.GetFileNameWithoutExtension(loader.LoadedMapName)+".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+            scriptLoader.ExecuteFunction(file, "map_loaded", world);
+            
+            TriggerManager.Instance.Init(world, scriptLoader.currentContext);
+            
+            aimesh = loader.AIMesh;
+            editor.Initization(aimesh);
+            
+            LoadMapFinished?.Invoke();
+        }
+
         public void LoadMap(string name)
         {
             mapName = name;
+            loader.LoadAsync(mapName);
         }
 
         public void LoadWorldMap(string name, string file)
@@ -584,25 +604,6 @@ namespace OpenMB.Map
         public void LoadAsync()
         {
         }
-
-        //private void mapLoader_LoadMapFinished()
-        //{
-        //    if(LoadMapFinished!=null)
-        //    {
-        //        agents = new List<Character>();
-        //        gameObjects = new Dictionary<string, List<GameObject>>();
-        //
-        //        var file = scriptLoader.Parse(mapLoader.ScriptName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-        //        scriptLoader.ExecuteFunction(file, "map_loaded", world);
-        //
-        //        TriggerManager.Instance.Init(world, scriptLoader.currentContext);
-        //
-        //        aimesh = mapLoader.AIMesh;
-        //        editor.Initization(aimesh);
-        //
-        //        LoadMapFinished();
-        //    }
-        //}
 
         private void mapLoader_LoadMapStarted()
         {

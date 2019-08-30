@@ -37,7 +37,7 @@ namespace OpenMB.FileFormats
         private Point3F dir;
         private uint flags;
         //private Box3F bbox;
-        private Type type;
+        //private Type type;
 
         public void Load(BinaryReader reader, string str = null)
         {
@@ -52,7 +52,7 @@ namespace OpenMB.FileFormats
                 firstWord = str;
                 if (firstWord == "manifold")
                 {
-                    type = Type.MANIFOLD;
+                    //type = Type.MANIFOLD;
 
                     MBUtil.LoadVector(reader, ref pos);
 
@@ -72,7 +72,7 @@ namespace OpenMB.FileFormats
                 }
                 else if (firstWord == "capsule")
                 {
-                    type = Type.CAPSULE;
+                    //type = Type.CAPSULE;
                     radius = MBUtil.LoadFloat(reader);
                     center = MBUtil.LoadPoint3F(reader);
                     dir = MBUtil.LoadPoint3F(reader);
@@ -80,14 +80,14 @@ namespace OpenMB.FileFormats
                 }
                 else if (firstWord == "sphere")
                 {
-                    type = Type.SPHERE;
+                    //type = Type.SPHERE;
                     radius = MBUtil.LoadFloat(reader);
                     center = MBUtil.LoadPoint3F(reader);
                     flags = MBUtil.LoadUInt32(reader);
                 }
                 else if (firstWord == "face")
                 {
-                    type = Type.FACE;
+                    //type = Type.FACE;
                     MBUtil.LoadVector(reader, ref pos);
 
                     int k = pos.Count;
@@ -119,7 +119,7 @@ namespace OpenMB.FileFormats
                 firstWord = str;
                 if (firstWord == "manifold")
                 {
-                    type = Type.MANIFOLD;
+                    //type = Type.MANIFOLD;
 
                     MBOgreUtil.LoadVector(reader, ref pos);
 
@@ -139,7 +139,7 @@ namespace OpenMB.FileFormats
                 }
                 else if (firstWord == "capsule")
                 {
-                    type = Type.CAPSULE;
+                    //type = Type.CAPSULE;
                     radius = MBOgreUtil.LoadFloat(reader);
                     center = MBOgreUtil.LoadPoint3F(reader);
                     dir = MBOgreUtil.LoadPoint3F(reader);
@@ -147,14 +147,14 @@ namespace OpenMB.FileFormats
                 }
                 else if (firstWord == "sphere")
                 {
-                    type = Type.SPHERE;
+                    //type = Type.SPHERE;
                     radius = MBOgreUtil.LoadFloat(reader);
                     center = MBOgreUtil.LoadPoint3F(reader);
                     flags = MBOgreUtil.LoadUInt32(reader);
                 }
                 else if (firstWord == "face")
                 {
-                    type = Type.FACE;
+                    //type = Type.FACE;
                     MBOgreUtil.LoadVector(reader, ref pos);
 
                     int k = pos.Count;

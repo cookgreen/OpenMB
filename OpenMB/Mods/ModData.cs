@@ -6,6 +6,7 @@ using OpenMB.Game;
 using OpenMB.Mods.XML;
 using OpenMB.Sound;
 using OpenMB.Game.ItemTypes;
+using OpenMB.Map;
 
 namespace OpenMB.Mods
 {

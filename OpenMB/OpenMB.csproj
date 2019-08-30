@@ -255,7 +255,7 @@
     <Compile Include="Map\AIMeshVertex.cs" />
     <Compile Include="Map\GameMapEditor.cs" />
     <Compile Include="Game\MoveInfo.cs" />
-    <Compile Include="Mods\IGameMapLoader.cs" />
+    <Compile Include="Map\IGameMapLoader.cs" />
     <Compile Include="Mods\IModModelType.cs" />
     <Compile Include="Mods\IModSetting.cs" />
     <Compile Include="Mods\IModTriggerCondition.cs" />
@@ -277,7 +277,7 @@
     <Compile Include="Map\AIMesh.cs" />
     <Compile Include="Map\GameMap.cs" />
     <Compile Include="Map\GameMapManager.cs" />
-    <Compile Include="Map\IMap.cs" />
+    <Compile Include="Map\IGameMap.cs" />
     <Compile Include="Mods\XML\ModSoundsDfn.cs" />
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Mods\ModDataInfo.cs" />
@@ -390,7 +390,7 @@
     <Compile Include="Utilities\Helper.cs" />
     <Compile Include="Utilities\MeshToNavmesh.cs" />
     <Compile Include="Utilities\PhysxExpansion.cs" />
-    <Compile Include="Utilities\DotSceneLoader.cs" />
+    <Compile Include="FileFormats\DotSceneLoader.cs" />
     <Compile Include="Utilities\OgreConfigFileAdapter.cs" />
     <Compile Include="Localization\LocateUCSFile.cs" />
     <Compile Include="Utilities\OgreConfigNode.cs" />

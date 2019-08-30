@@ -6,10 +6,8 @@ using System.Text;
 
 namespace OpenMB.Map
 {
-    public interface IMap
+    public interface IGameMap
     {
-        event MapLoadhandler LoadMapStarted;
-        event MapLoadhandler LoadMapFinished;
         void LoadAsync();
         void Destroy();
         void Update(float timeSinceLastFrame);
