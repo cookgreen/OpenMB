@@ -40,7 +40,7 @@ namespace OpenMB.Mods.Common.Loaders
         public event Action LoadMapFinished;
         public event Action LoadMapStarted;
 
-        public MapLoaderXml(SceneManager sceneManager)
+        public MapLoaderXml()
         {
             fileLoader = new DotSceneLoader.DotSceneLoader();
             fileLoader.LoadSceneFinished += FileLoader_LoadSceneFinished;
@@ -52,7 +52,7 @@ namespace OpenMB.Mods.Common.Loaders
             LoadMapFinished?.Invoke();
         }
 
-        public void LoadAsync(string mapFile)
+        public void LoadAsync(SceneManager sceneManager,string mapFile)
         {
             LoadMapStarted?.Invoke();
             loadedMapName = mapFile;

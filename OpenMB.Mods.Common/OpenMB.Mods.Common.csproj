@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ItemTypes\ItemTypeRifle.cs" />
-    <Compile Include="MapLoaders\MapLoaderPK3.cs" />
+    <Compile Include="MapLoaders\MapLoaderBSP.cs" />
     <Compile Include="MapLoaders\MapLoaderXml.cs" />
     <Compile Include="ModelTypes\ItemDefineModelType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

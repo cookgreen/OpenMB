@@ -253,7 +253,7 @@ namespace OpenMB.Game
         {
             get
             {
-                return GameMapManager.Instance.GetCurrentMap();
+                return GameMapManager.Instance.CurrentMap;
             }
         }
 
@@ -270,11 +270,11 @@ namespace OpenMB.Game
 
         internal List<Character> GetAllCharacters()
         {
-            return GameMapManager.Instance.GetCurrentMap().GetAgents();
+            return GameMapManager.Instance.CurrentMap.Agents;
         }
         internal List<Character> GetCharactersByCondition(Func<Character, bool> condition)
         {
-            return GameMapManager.Instance.GetCurrentMap().GetAgents().Where(condition).ToList();
+            return GameMapManager.Instance.CurrentMap.Agents.Where(condition).ToList();
         }
 
         internal List<Tuple<string,string, int>> GetTeamRelationshipByCondition(Func<Tuple<string, string, int>, bool> func)
@@ -313,12 +313,12 @@ namespace OpenMB.Game
 
         public void CreatePlayer(string trooperID, Mogre.Vector3 position, string teamID)
         {
-            GameMapManager.Instance.GetCurrentMap().CreatePlayer(trooperID, position, teamID);
+            GameMapManager.Instance.CurrentMap.CreatePlayer(trooperID, position, teamID);
         }
 
         public void CreatePlayerSceneProp(string scenePropID, Mogre.Vector3 position)
         {
-            GameMapManager.Instance.GetCurrentMap().CreatePlayerSceneProp(scenePropID, position);
+            GameMapManager.Instance.CurrentMap.CreatePlayerSceneProp(scenePropID, position);
         }
 
         private bool FrameRenderingQueued(FrameEvent evt)
@@ -402,37 +402,37 @@ namespace OpenMB.Game
 
         public void CreateCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
         {
-            GameMapManager.Instance.GetCurrentMap().CreateCharacter(characterID, position, teamId, isBot);
+            GameMapManager.Instance.CurrentMap.CreateCharacter(characterID, position, teamId, isBot);
         }
 
         public string CreateSceneProp(string scenePropID, Mogre.Vector3 position)
         {
-            return GameMapManager.Instance.GetCurrentMap().CreateSceneProp(scenePropID, position);
+            return GameMapManager.Instance.CurrentMap.CreateSceneProp(scenePropID, position);
         }
 
         public int GetScenePropNum(string scenePropID)
         {
-            return GameMapManager.Instance.GetCurrentMap().GetScenePropNum(scenePropID);
+            return GameMapManager.Instance.CurrentMap.GetScenePropNum(scenePropID);
         }
 
         public string GetSceneProp(string scenePropID, string scenePropInstanceNum)
         {
-            return GameMapManager.Instance.GetCurrentMap().GetScenePropInstanceID(scenePropID, int.Parse(scenePropInstanceNum));
+            return GameMapManager.Instance.CurrentMap.GetScenePropInstanceID(scenePropID, int.Parse(scenePropInstanceNum));
         }
 
         public void RemoveSceneProp(string propInstanceID)
         {
-            GameMapManager.Instance.GetCurrentMap().RemoveSceneProp(propInstanceID);
+            GameMapManager.Instance.CurrentMap.RemoveSceneProp(propInstanceID);
         }
 
         public void MoveSceneProp(string propInstanceID, string axis, string movement)
         {
-            GameMapManager.Instance.GetCurrentMap().MoveSceneProp(propInstanceID, int.Parse(axis), int.Parse(movement));
+            GameMapManager.Instance.CurrentMap.MoveSceneProp(propInstanceID, int.Parse(axis), int.Parse(movement));
         }
 
         public void CreatePlane(string materialName, Mogre.Vector3 vector31, float v1, int v2, int v3, int v4, int v5, ushort v6, int v7, int v8, Mogre.Vector3 vector32, Mogre.Vector3 vector33)
         {
-            GameMapManager.Instance.GetCurrentMap().CreatePlane(materialName, vector31, v1, v2, v3, v4, v5, v6, v7, v8, vector32, vector33);
+            GameMapManager.Instance.CurrentMap.CreatePlane(materialName, vector31, v1, v2, v3, v4, v5, v6, v7, v8, vector32, vector33);
         }
 
         public void ChangeCameraMode(string mode)
@@ -440,10 +440,10 @@ namespace OpenMB.Game
             switch (mode)
             {
                 case "0":
-                    GameMapManager.Instance.GetCurrentMap().CameraHanlder.ChangeMode(CameraMode.Free);
+                    GameMapManager.Instance.CurrentMap.CameraHanlder.ChangeMode(CameraMode.Free);
                     break;
                 case "1":
-                    GameMapManager.Instance.GetCurrentMap().CameraHanlder.ChangeMode(CameraMode.Manual);
+                    GameMapManager.Instance.CurrentMap.CameraHanlder.ChangeMode(CameraMode.Manual);
                     break;
             }
         }

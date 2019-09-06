@@ -101,9 +101,12 @@ namespace OpenMB.Map
             }
         }
 
-        public GameMap GetCurrentMap()
+        public GameMap CurrentMap
         {
-            return (GameMap)currentMap;
+            get
+            {
+                return (GameMap)currentMap;
+            }
         }
 
         public void Update(float timeSinceLastFrame)

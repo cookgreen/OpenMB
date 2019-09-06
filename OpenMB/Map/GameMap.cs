@@ -27,8 +27,6 @@ namespace OpenMB.Map
     {
         private string mapName;
         private IGameMapLoader loader;
-        private List<Character> agents;
-
         private Dictionary<string, List<GameObject>> gameObjects;
         private List<ActorNode> actorNodeList;
         private ScriptLoader scriptLoader;
@@ -108,6 +106,30 @@ namespace OpenMB.Map
             }
         }
 
+        public AIMesh AIMesh
+        {
+            get
+            {
+                return aimesh;
+            }
+        }
+
+        public List<Character> Agents
+        {
+            get
+            {
+                List<Character> agents = new List<Character>();
+                if(gameObjects.ContainsKey("AGENTS"))
+                {
+                    foreach (var gameObject in gameObjects["AGENTS"])
+                    {
+                        agents.Add(gameObject as Character);
+                    }
+                }
+                return agents;
+            }
+        }
+
         public event MapLoadhandler LoadMapStarted;
         public event MapLoadhandler LoadMapFinished;
         public GameMap(GameWorld world, IGameMapLoader loader)
@@ -128,7 +150,6 @@ namespace OpenMB.Map
             aimeshVertexData = new List<Mogre.Vector3>();
             editor = new GameMapEditor(this);
             cameraHanlder = new CameraHandler(this);
-            agents = new List<Character>();
             gameObjects = new Dictionary<string, List<GameObject>>();
             combineKey = false;
 
@@ -141,16 +162,15 @@ namespace OpenMB.Map
 
         private void Loader_LoadMapFinished()
         {
-            agents = new List<Character>();
+            aimesh = new AIMesh();
             gameObjects = new Dictionary<string, List<GameObject>>();
-            
+
             var file = scriptLoader.Parse(Path.GetFileNameWithoutExtension(loader.LoadedMapName)+".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
             scriptLoader.ExecuteFunction(file, "map_loaded", world);
             
             TriggerManager.Instance.Init(world, scriptLoader.currentContext);
-            
-            aimesh = loader.AIMesh;
-            editor.Initization(aimesh);
+
+            editor.Initization();
             
             LoadMapFinished?.Invoke();
         }
@@ -158,7 +178,7 @@ namespace OpenMB.Map
         public void LoadMap(string name)
         {
             mapName = name;
-            loader.LoadAsync(mapName);
+            loader.LoadAsync(sceneManager, mapName);
         }
 
         public void LoadWorldMap(string name, string file)
@@ -211,9 +231,16 @@ namespace OpenMB.Map
                    attachOptionWhenHave, damage, range, world, ammoCapcity, amourNum);
         }
 
-        public void CreateCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
+        /// <summary>
+        /// Create a character that controlled by AI
+        /// </summary>
+        /// <param name="characterTypeID"></param>
+        /// <param name="position"></param>
+        /// <param name="teamId"></param>
+        /// <param name="isBot"></param>
+        public void CreateCharacter(string characterTypeID, Mogre.Vector3 position, string teamId, bool isBot = true)
         {
-            var findTrooperList = ModData.CharacterInfos.Where(o => o.ID == characterID);
+            var findTrooperList = ModData.CharacterInfos.Where(o => o.ID == characterTypeID);
             if (findTrooperList.Count() == 0)
             {
                 GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid trooper id!", LogMessage.LogType.Warning);
@@ -229,18 +256,34 @@ namespace OpenMB.Map
             }
             var findSkin = findSkinList.First();
 
+            int characterInstanceID = -1;
+            if (gameObjects.ContainsKey("AGENTS"))
+            {
+                characterInstanceID = gameObjects["AGENTS"].Count;
+            }
+            else
+            {
+                characterInstanceID = 0;
+                gameObjects.Add("AGENTS", new List<GameObject>());
+            }
+
             Character character = new Character(
-                world, agents.Count, teamId,
+                world, characterInstanceID, teamId,
                 findTrooper.Name,
                 findTrooper.MeshName,
                 position, findSkin, true);
-
-            agents.Add(character);
+            gameObjects["AGENTS"].Add(character);
         }
         
-        public void CreatePlayer(string trooperID, Mogre.Vector3 position, string teamId)
+        /// <summary>
+        /// Create a character that player can control
+        /// </summary>
+        /// <param name="characterTypeID"></param>
+        /// <param name="position"></param>
+        /// <param name="teamId"></param>
+        public void CreatePlayer(string characterTypeID, Mogre.Vector3 position, string teamId)
         {
-            var findTrooperList = ModData.CharacterInfos.Where(o => o.ID == trooperID);
+            var findTrooperList = ModData.CharacterInfos.Where(o => o.ID == characterTypeID);
             if (findTrooperList.Count() == 0)
             {
                 GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid trooper id!", LogMessage.LogType.Warning);
@@ -255,9 +298,20 @@ namespace OpenMB.Map
                 return;
             }
             var findSkin = findSkinList.First();
+            
+            int characterInstanceID = -1;
+            if (gameObjects.ContainsKey("AGENTS"))
+            {
+                characterInstanceID = gameObjects["AGENTS"].Count;
+            }
+            else
+            {
+                characterInstanceID = 0;
+                gameObjects.Add("AGENTS", new List<GameObject>());
+            }
 
             Character character = new Character(
-                world, agents.Count, teamId,
+                world, characterInstanceID, teamId,
                 findTrooper.Name,
                 findTrooper.MeshName,
                 position, findSkin, false);
@@ -267,8 +321,15 @@ namespace OpenMB.Map
                 return;
             }
             player = new Player(findTrooper.Name, character.ID, new ControlObjectTypeCharacter(character));
+            gameObjects[characterTypeID].Add(character);
         }
 
+        /// <summary>
+        /// Create a static scene prop
+        /// </summary>
+        /// <param name="scenePropID"></param>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public string CreateSceneProp(string scenePropID, Mogre.Vector3 position)
         {
             var findSceneProps = modData.SceneProps.Where(o => o.ID == scenePropID);
@@ -307,6 +368,11 @@ namespace OpenMB.Map
             return null;
         }
 
+        /// <summary>
+        /// Create a scene prop that player can control
+        /// </summary>
+        /// <param name="scenePropID"></param>
+        /// <param name="position"></param>
         public void CreatePlayerSceneProp(string scenePropID, Mogre.Vector3 position)
         {
             var findSceneProps = modData.SceneProps.Where(o => o.ID == scenePropID);
@@ -460,7 +526,7 @@ namespace OpenMB.Map
 
         public void RemoveAgent(GameObject owner)
         {
-            agents.Remove((Character)owner);
+            Agents.Remove((Character)owner);
             owner.Dispose();
         }
 
@@ -689,7 +755,7 @@ namespace OpenMB.Map
             return mapName;
         }
 
-        public GameObject GetObjectById(string objectID, int objectId)
+        public GameObject GetObjectById(string objectTypeID, int objectId)
         {
             if (gameObjects.Count == 0)
             {
@@ -699,21 +765,16 @@ namespace OpenMB.Map
             {
                 return null;
             }
-            return gameObjects[objectID].ElementAt(objectId);
+            return gameObjects[objectTypeID].ElementAt(objectId);
         }
 
         public Character GetAgentById(int agentId)
         {
-            if (agents.Count == 0)
+            if (Agents.Count == 0)
             {
                 return null;
             }
-            return (Character)agents.ElementAt(agentId);
-        }
-
-        public List<Character> GetAgents()
-        {
-            return agents;
+            return Agents.Where(o => o.Id == agentId).FirstOrDefault();
         }
 
         public List<GameObject> GetGameObjects(string objectID)

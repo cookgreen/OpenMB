@@ -25,6 +25,7 @@ namespace OpenMB.Map
         public GameMapEditor(GameMap map)
         {
             this.map = map;
+            aimesh = map.AIMesh;
             scm = map.SceneManager;
             objPivot = map.CreateEntityWithMaterial("MARKER_PIVOT", "marker_pivot.mesh", "marker_pivot");
             SceneNode objPivotSceneNode = scm.RootSceneNode.CreateChildSceneNode();
@@ -32,9 +33,8 @@ namespace OpenMB.Map
             objPivot.Visible = false;
         }
 
-        public void Initization(AIMesh aimesh)
+        public void Initization()
         {
-            this.aimesh = aimesh;
             GenerateVisualAIMesh();
         }
 

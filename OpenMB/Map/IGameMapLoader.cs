@@ -13,7 +13,6 @@ namespace OpenMB.Map
         event Action LoadMapFinished;
         string Name { get; }
         string LoadedMapName { get; }
-        AIMesh AIMesh { get;}
-        void LoadAsync(string mapFile);
+        void LoadAsync(SceneManager sceneManager, string mapFile);
     }
 }

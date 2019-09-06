@@ -9,11 +9,13 @@ using System.ComponentModel;
 
 namespace OpenMB.Mods.Common.Loaders
 {
-    public class MapLoaderPK3 : IGameMapLoader
+    public class MapLoaderBSP : IGameMapLoader
     {
+        private string mapFile;
+        private SceneManager sceneManager;
         private BackgroundWorker worker;
 
-        public MapLoaderPK3()
+        public MapLoaderBSP()
         {
             worker = new BackgroundWorker();
             worker.DoWork += Worker_DoWork;
@@ -27,21 +29,14 @@ namespace OpenMB.Mods.Common.Loaders
 
         private void Worker_DoWork(object sender, DoWorkEventArgs e)
         {
-        }
-
-        public AIMesh AIMesh
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            sceneManager.SetWorldGeometry(mapFile);
         }
 
         public string LoadedMapName
         {
             get
             {
-                throw new NotImplementedException();
+                return mapFile;
             }
         }
 
@@ -49,15 +44,17 @@ namespace OpenMB.Mods.Common.Loaders
         {
             get
             {
-                return "PK3";
+                return "BSP";
             }
         }
 
         public event Action LoadMapFinished;
         public event Action LoadMapStarted;
 
-        public void LoadAsync(string mapFile)
+        public void LoadAsync(SceneManager sceneManager, string mapFile)
         {
+            this.mapFile = mapFile;
+            this.sceneManager = sceneManager;
             LoadMapStarted?.Invoke();
         }
     }
