@@ -12,7 +12,6 @@ namespace OpenMB.Mods.Common.Loaders
     {
         private string loadedMapName;
         private DotSceneLoader.DotSceneLoader fileLoader;
-        private SceneManager sceneManager;
         public string Name
         {
             get
@@ -44,7 +43,6 @@ namespace OpenMB.Mods.Common.Loaders
         {
             fileLoader = new DotSceneLoader.DotSceneLoader();
             fileLoader.LoadSceneFinished += FileLoader_LoadSceneFinished;
-            this.sceneManager = sceneManager;
         }
 
         private void FileLoader_LoadSceneFinished()

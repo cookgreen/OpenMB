@@ -22,3 +22,10 @@ ui_zip	ZIP压缩文件
 ui_add	添加
 ui_modify	修改
 ui_delete	删除
+ui_file_browser_current_loc	当前路径
+ui_file_browser_up	向上
+ui_file_browser_title	浏览
+ui_file_browser_selected_file_name	选择的文件名称:
+ui_file_browser_selected_folder_name	选择的文件夹名称:
+ui_file_browser_err_must_select_valid_file	你必须选择一个有效的文件!
+ui_error	错误

@@ -168,14 +168,57 @@ namespace OpenMB.Forms
 
         private void btnAddFileSystemResourceLoc_Click(object sender, EventArgs e)
         {
-            frmResourceLocEditor resourceLocEditor = new frmResourceLocEditor(controller.ResourceConfig.ResourceRootDir, "FileSystem");
-            resourceLocEditor.ShowDialog();
+            frmRelativeFileFolderBrowser resourceLocEditor = new frmRelativeFileFolderBrowser();
+            string rootDir = null;
+            if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
+                !controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
+            {
+                rootDir = controller.ResourceConfig.ResourceRootDir.Substring(1);
+            }
+            else
+            {
+                if (controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
+                {
+                    rootDir = controller.ResourceConfig.ResourceRootDir.Substring(2);
+                }
+                else
+                {
+                    rootDir = controller.ResourceConfig.ResourceRootDir;
+                }
+            }
+            resourceLocEditor.InitFullPath = Environment.CurrentDirectory + "\\" + rootDir;
+            resourceLocEditor.ShowType = ShowType.ShowFolder;
+            if (resourceLocEditor.ShowDialog() == DialogResult.OK)
+            {
+                controller.ResourceConfig.FileSystemResources.Add(resourceLocEditor.RelativePath);
+            }
         }
 
         private void btnModifyFileSystemResourceLoc_Click(object sender, EventArgs e)
         {
-            frmResourceLocEditor resourceLocEditor = new frmResourceLocEditor(controller.ResourceConfig.ResourceRootDir, "FileSystem", resourceFileSystemList.SelectedItem.ToString());
-            resourceLocEditor.ShowDialog();
+            frmRelativeFileFolderBrowser resourceLocEditor = new frmRelativeFileFolderBrowser();
+            string rootDir = null;
+            if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
+                !controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
+            {
+                rootDir = controller.ResourceConfig.ResourceRootDir.Substring(1);
+            }
+            else
+            {
+                if (controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
+                {
+                    rootDir = controller.ResourceConfig.ResourceRootDir.Substring(2);
+                }
+                else
+                {
+                    rootDir = controller.ResourceConfig.ResourceRootDir;
+                }
+            }
+            resourceLocEditor.ShowType = ShowType.ShowFolder;
+            if (resourceLocEditor.ShowDialog() == DialogResult.OK)
+            {
+                controller.ResourceConfig.FileSystemResources.Add(resourceLocEditor.RelativePath);
+            }
         }
 
         private void btnDeleteFileSystemResourceLoc_Click(object sender, EventArgs e)
@@ -185,13 +228,51 @@ namespace OpenMB.Forms
 
         private void btnAddZipResourceLoc_Click(object sender, EventArgs e)
         {
-            frmResourceLocEditor resourceLocEditor = new frmResourceLocEditor(controller.ResourceConfig.ResourceRootDir, "Zip");
+            frmRelativeFileFolderBrowser resourceLocEditor = new frmRelativeFileFolderBrowser();
+            string rootDir = null;
+            if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
+                !controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
+            {
+                rootDir = controller.ResourceConfig.ResourceRootDir.Substring(1);
+            }
+            else
+            {
+                if (controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
+                {
+                    rootDir = controller.ResourceConfig.ResourceRootDir.Substring(2);
+                }
+                else
+                {
+                    rootDir = controller.ResourceConfig.ResourceRootDir;
+                }
+            }
+            resourceLocEditor.InitFullPath = Environment.CurrentDirectory + "\\" + rootDir;
+            resourceLocEditor.ShowType = ShowType.ShowFile;
             resourceLocEditor.ShowDialog();
         }
 
         private void btnModifyZipResourceLoc_Click(object sender, EventArgs e)
         {
-            frmResourceLocEditor resourceLocEditor = new frmResourceLocEditor(controller.ResourceConfig.ResourceRootDir, "Zip", resourceZipList.SelectedItem.ToString());
+            frmRelativeFileFolderBrowser resourceLocEditor = new frmRelativeFileFolderBrowser();
+            string rootDir = null;
+            if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
+                !controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
+            {
+                rootDir = controller.ResourceConfig.ResourceRootDir.Substring(1);
+            }
+            else
+            {
+                if (controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
+                {
+                    rootDir = controller.ResourceConfig.ResourceRootDir.Substring(2);
+                }
+                else
+                {
+                    rootDir = controller.ResourceConfig.ResourceRootDir;
+                }
+            }
+            resourceLocEditor.InitFullPath = Environment.CurrentDirectory + "\\" + rootDir;
+            resourceLocEditor.ShowType = ShowType.ShowFile;
             resourceLocEditor.ShowDialog();
         }
 

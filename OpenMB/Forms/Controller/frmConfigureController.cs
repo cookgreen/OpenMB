@@ -232,6 +232,17 @@ namespace OpenMB.Forms.Controller
                 }
                 gameXmlConfig.GraphicConfig.Renderers.Add(rendererConfig);
             }
+            gameXmlConfig.ResourcesConfig.Resources.Clear();
+            gameXmlConfig.ResourcesConfig.Resources.Add(new GameResourceConfigXml() { Type = "FileSystem", ResourceLocs = new List<string>() });
+            foreach (var resource in ResourceConfig.FileSystemResources)
+            {
+                gameXmlConfig.ResourcesConfig.Resources[0].ResourceLocs.Add(resource);
+            }
+            gameXmlConfig.ResourcesConfig.Resources.Add(new GameResourceConfigXml() { Type = "Zip", ResourceLocs = new List<string>() });
+            foreach (var resource in ResourceConfig.ZipResources)
+            {
+                gameXmlConfig.ResourcesConfig.Resources[1].ResourceLocs.Add(resource);
+            }
             gameXmlConfig.Save("game.xml");
 
             return gameXmlConfig;

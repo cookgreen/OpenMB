@@ -189,11 +189,11 @@
     <Compile Include="FileFormats\MBWorldMap.cs" />
     <Compile Include="FileFormats\Point3F.cs" />
     <Compile Include="FileFormats\Point4F.cs" />
-    <Compile Include="Forms\frmResourceLocEditor.cs">
+    <Compile Include="Forms\frmRelativeFileFolderBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmResourceLocEditor.Designer.cs">
-      <DependentUpon>frmResourceLocEditor.cs</DependentUpon>
+    <Compile Include="Forms\frmRelativeFileFolderBrowser.Designer.cs">
+      <DependentUpon>frmRelativeFileFolderBrowser.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Model\ResourceConfigure.cs" />
     <Compile Include="Game\CameraHandler.cs" />
@@ -409,8 +409,8 @@
       <DependentUpon>frmConfigure.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmResourceLocEditor.resx">
-      <DependentUpon>frmResourceLocEditor.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmRelativeFileFolderBrowser.resx">
+      <DependentUpon>frmRelativeFileFolderBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
