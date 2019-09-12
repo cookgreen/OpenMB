@@ -1,12 +1,12 @@
 <Maps>
-  <Map>
+  <Map Loader="Xml">
     <ID>MAP_CubeScene</ID>
     <Name>CubeScene</Name>
     <File>CubeScene.xml</File>
     <Flags>
     </Flags>
   </Map>
-  <Map>
+  <Map Loader="Xml">
     <ID>MAP_WORLDMAP_OIM</ID>
     <Name>World Map OIM</Name>
     <File>WorldMapOIM.xml</File>

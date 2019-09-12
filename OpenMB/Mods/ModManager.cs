@@ -290,6 +290,11 @@ namespace OpenMB.Mods
                                     var instance = assemblyDll.CreateInstance(type.FullName) as IItemType;
                                     currentMod.ItemTypes.Add(instance);
                                 }
+                                else if (type.GetInterface("IGameMapLoader") != null)
+                                {
+                                    var instance = assemblyDll.CreateInstance(type.FullName) as IGameMapLoader;
+                                    currentMod.MapLoaders.Add(instance);
+                                }
                             }
                         }
                         catch (Exception ex)

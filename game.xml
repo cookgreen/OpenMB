@@ -59,8 +59,10 @@
       <ResourceLoc>Media/Ogre/materials/textures</ResourceLoc>
       <ResourceLoc>Media/Ogre/materials/textures/nvidia</ResourceLoc>
       <ResourceLoc>Media/Engine/Material</ResourceLoc>
+      <ResourceLoc>Media/Engine/Meshes</ResourceLoc>
       <ResourceLoc>Media/Engine/Overlay</ResourceLoc>
       <ResourceLoc>Media/Engine/Texture</ResourceLoc>
+      <ResourceLoc>Media/Engine/UIScripts</ResourceLoc>
     </Resource>
     <Resource Type="Zip">
       <ResourceLoc>Media/Ogre/packs/OgreCore.zip</ResourceLoc>
