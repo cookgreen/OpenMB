@@ -44,14 +44,20 @@ namespace OpenMB.Game
         #endregion
 
         #region Properties
-        public Camera Camera
+        public GameMap CurrentMap
         {
             get
             {
-                return cam;
+                return GameMapManager.Instance.CurrentMap;
             }
         }
-
+        public string CurrentMapName
+        {
+            get
+            {
+                return GameMapManager.Instance.CurrentMapName;
+            }
+        }
         public ScriptLinkTable GlobalValueTable
         {
             get
@@ -59,30 +65,6 @@ namespace OpenMB.Game
                 return globalValueTable;
             }
         }
-
-        public SceneManager SceneManager
-        {
-            get
-            {
-                return scm;
-            }
-        }
-
-        public GameObject GetObjectById(string objectID, int id)
-        {
-            return Map.GetObjectById(objectID, id);
-        }
-
-        public Character GetAgentById(int id)
-        {
-            return Map.GetAgentById(id);
-        }
-
-        public Item GetItemByXml(ModItemDfnXML itemXml)
-        {
-            return ItemFactory.Instance.Produce(itemXml, this);
-        }
-
         public ModData ModData
         {
             get
@@ -90,7 +72,20 @@ namespace OpenMB.Game
                 return modData;
             }
         }
-
+        public Camera Camera
+        {
+            get
+            {
+                return cam;
+            }
+        }
+        public SceneManager SceneManager
+        {
+            get
+            {
+                return scm;
+            }
+        }
         public Scene PhysicsScene
         {
             get
@@ -137,17 +132,23 @@ namespace OpenMB.Game
         }
         #endregion
 
-        public void Start()
-        {
-            ScriptPreprocessor.Instance.LoadSpecificFunction("GameStart", this);
-        }
-
         #region Core Methods
+        /// <summary>
+        /// Init the game world
+        /// </summary>
         public void Init()
         {
-
             GameMapManager.Instance.Initization(this);
 
+            GameManager.Instance.mouse.MouseMoved += mMouse_MouseMoved;
+            GameManager.Instance.mouse.MousePressed += mMouse_MousePressed;
+            GameManager.Instance.mouse.MouseReleased += mMouse_MouseReleased;
+            GameManager.Instance.keyboard.KeyPressed += mKeyboard_KeyPressed;
+            GameManager.Instance.keyboard.KeyReleased += mKeyboard_KeyReleased;
+
+            GameManager.Instance.root.FrameRenderingQueued += FrameRenderingQueued;
+
+            /* Will implement them in the script or the map xml file */
             scm = GameManager.Instance.root.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE, "GameSceneManager");
             scm.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
 
@@ -167,21 +168,25 @@ namespace OpenMB.Game
             light.Position = new Mogre.Vector3(-10, 40, 20);
             light.SpecularColour = ColourValue.White;
 
-            GameManager.Instance.trayMgr.hideCursor();
-
-            GameManager.Instance.mouse.MouseMoved += mMouse_MouseMoved;
-            GameManager.Instance.mouse.MousePressed += mMouse_MousePressed;
-            GameManager.Instance.mouse.MouseReleased += mMouse_MouseReleased;
-            GameManager.Instance.keyboard.KeyPressed += mKeyboard_KeyPressed;
-            GameManager.Instance.keyboard.KeyReleased += mKeyboard_KeyReleased;
-
-            GameManager.Instance.root.FrameRenderingQueued += FrameRenderingQueued;
-
             ScreenManager.Instance.Camera = cam;
         }
 
+        /// <summary>
+        /// Start world
+        /// </summary>
+        public void Start()
+        {
+            ScriptPreprocessor.Instance.LoadSpecificFunction("GameStart", this);
+        }
+
+        /// <summary>
+        /// Change inner scene
+        /// </summary>
+        /// <param name="mapID"></param>
         public void ChangeScene(string mapID)
         {
+            GameManager.Instance.trayMgr.hideCursor();
+
             var findMaps = modData.MapInfos.Where(o => o.ID == mapID);
             if (findMaps.Count() > 0)
             {
@@ -195,8 +200,14 @@ namespace OpenMB.Game
             }
         }
 
+        /// <summary>
+        /// Change world map
+        /// </summary>
+        /// <param name="worldMapID"></param>
         public void ChangeWorldMap(string worldMapID)
         {
+            GameManager.Instance.trayMgr.showCursor();
+
             var findWorldMaps = modData.WorldMapInfos.Where(o => o.ID == worldMapID);
             if (findWorldMaps.Count() > 0)
             {
@@ -224,6 +235,9 @@ namespace OpenMB.Game
             }
         }
 
+        /// <summary>
+        /// Dispose method
+        /// </summary>
         public void Destroy()
         {
             GameMapManager.Instance.Dispose();
@@ -241,32 +255,18 @@ namespace OpenMB.Game
             GameManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
         }
 
-        public void Update(double timeSinceLastFrame)
-        {
-            
-        }
-
         #endregion
 
         #region API
-        public GameMap Map
+        public Character GetAgentById(int id)
         {
-            get
-            {
-                return GameMapManager.Instance.CurrentMap;
-            }
+            return CurrentMap.GetAgentById(id);
         }
 
-        public string MapName
+        public Item GetItemByXml(ModItemDfnXML itemXml)
         {
-            get
-            {
-                return Map.GetName();
-            }
+            return ItemFactory.Instance.Produce(itemXml, this);
         }
-        #endregion
-
-        #region Other Methods
 
         internal List<Character> GetAllCharacters()
         {
@@ -277,21 +277,9 @@ namespace OpenMB.Game
             return GameMapManager.Instance.CurrentMap.Agents.Where(condition).ToList();
         }
 
-        internal List<Tuple<string,string, int>> GetTeamRelationshipByCondition(Func<Tuple<string, string, int>, bool> func)
+        internal List<Tuple<string, string, int>> GetTeamRelationshipByCondition(Func<Tuple<string, string, int>, bool> func)
         {
             return teamRelationship.Where(func).ToList();
-        }
-
-
-        private void SceneLoader_LoadSceneFinished()
-        {
-            pbProgressBar.setComment("Finished");
-            GameManager.Instance.trayMgr.destroyAllWidgets();
-        }
-
-        private void SceneLoader_LoadSceneStarted()
-        {
-            CreateLoadingScreen("Loading Scene...");
         }
 
         private void CreateLoadingScreen(string text)
@@ -303,12 +291,12 @@ namespace OpenMB.Game
 
         public void RemoveGameObject(string objectID, GameObject owner)
         {
-            Map.RemoveGameObject(objectID, owner);
+            CurrentMap.RemoveGameObject(objectID, owner);
         }
 
         public void RemoveAgent(GameObject owner)
         {
-            Map.RemoveAgent(owner);
+            CurrentMap.RemoveAgent(owner);
         }
 
         public void CreatePlayer(string trooperID, Mogre.Vector3 position, string teamID)
@@ -320,15 +308,6 @@ namespace OpenMB.Game
         {
             GameMapManager.Instance.CurrentMap.CreatePlayerSceneProp(scenePropID, position);
         }
-
-        private bool FrameRenderingQueued(FrameEvent evt)
-        {
-            GameMapManager.Instance.Update(evt.timeSinceLastFrame);
-            return true;
-        }
-        #endregion
-
-        #region Handle Script
         public void CreateLight(string type, string name, Mogre.Vector3 pos, Mogre.Vector3 dir)
         {
             Light.LightTypes lt;
@@ -446,6 +425,14 @@ namespace OpenMB.Game
                     GameMapManager.Instance.CurrentMap.CameraHanlder.ChangeMode(CameraMode.Manual);
                     break;
             }
+        }
+        #endregion
+
+        #region Update Methods
+        private bool FrameRenderingQueued(FrameEvent evt)
+        {
+            GameMapManager.Instance.Update(evt.timeSinceLastFrame);
+            return true;
         }
         #endregion
 

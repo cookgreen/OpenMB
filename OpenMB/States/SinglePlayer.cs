@@ -38,13 +38,12 @@ namespace OpenMB.States
             {
                 return;
             }
-            world.Update((float)timeSinceLastFrame);
             frameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
         }
 
         public override void exit()
         {
-            modData = world.Map.ModData;
+            modData = world.CurrentMap.ModData;
             world.Destroy();
         }
     }

@@ -24,6 +24,21 @@ namespace OpenMB.Map
             }
         }
 
+        public string CurrentMapName
+        {
+            get
+            {
+                if (currentMap != null)
+                {
+                    return currentMap.Name;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+        }
+
         public GameMapManager()
         {
             maps = new Queue<IGameMap>();
@@ -87,18 +102,6 @@ namespace OpenMB.Map
                 currentMap.Destroy();
             }
             maps.Clear();
-        }
-
-        public string GetCurrentMapName()
-        {
-            if (currentMap != null)
-            {
-                return currentMap.GetName();
-            }
-            else
-            {
-                return string.Empty;
-            }
         }
 
         public GameMap CurrentMap

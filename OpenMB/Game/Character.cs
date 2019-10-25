@@ -154,7 +154,7 @@ namespace OpenMB.Game
 
         protected override void create()
         {
-            controller = new CharacterController(world.Camera, world.Map.NavmeshQuery, world.Map.PhysicsScene, meshName, skin, isBot, position);
+            controller = new CharacterController(world.Camera, world.CurrentMap.NavmeshQuery, world.CurrentMap.PhysicsScene, meshName, skin, isBot, position);
         }
 
         public bool GetControlled()
@@ -348,7 +348,7 @@ namespace OpenMB.Game
 
         public void SendMessage(MessageLevel level, MessageType type, int agentId)
         {
-            var agent = world.Map.GetAgentById(agentId);
+            var agent = world.CurrentMap.GetAgentById(agentId);
             if (agent != null)
             {
                 agent.ReceiveMessage(new CharacterMessage(level, type));

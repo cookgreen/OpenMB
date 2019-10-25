@@ -14,7 +14,7 @@ namespace OpenMB.Script.Command
         {
             get
             {
-                return "add_light";
+                return "namespace";
             }
         }
 
@@ -37,7 +37,7 @@ namespace OpenMB.Script.Command
         public NamespaceScriptCommand()
         {
             commandArgs = new string[] {
-                "namespace"
+                "namespace name"
             };
         }
 

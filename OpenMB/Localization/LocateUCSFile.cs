@@ -16,7 +16,7 @@ namespace OpenMB.Localization
     public class LocateUCSFile : IDisposable
     {
         private const string PATH = @"./Locate/";
-        private Dictionary<string, string> UCSValueTmp;
+        private Dictionary<string, string> ucsKeyValue;
         private string fullPath;
         private LOCATE currentLocate;
         private bool disposed;
@@ -27,7 +27,7 @@ namespace OpenMB.Localization
             this.storageType = storageType;
             this.fullPath = fullPath;
             this.currentLocate = currentLocate;
-            UCSValueTmp = new Dictionary<string, string>();
+            ucsKeyValue = new Dictionary<string, string>();
             if(storageType == LocateFileStorageType.Engine)
             {
                 this.fullPath = string.Format("{0}{1}/{2}", PATH, currentLocate.ToString(), this.fullPath);
@@ -54,7 +54,7 @@ namespace OpenMB.Localization
 
         public void Prepare()
         {
-            UCSValueTmp.Clear();
+            ucsKeyValue.Clear();
         }
 
         public bool Process()
@@ -69,9 +69,9 @@ namespace OpenMB.Localization
                         {
                             string line = sr.ReadLine();
                             string[] outputTmp = Regex.Split(line, "\t");
-                            if (!UCSValueTmp.ContainsKey(outputTmp[0]))
+                            if (!ucsKeyValue.ContainsKey(outputTmp[0]))
                             {
-                                UCSValueTmp.Add(outputTmp[0], outputTmp[1]);
+                                ucsKeyValue.Add(outputTmp[0], outputTmp[1]);
                             }
                         }
                         catch
@@ -90,15 +90,15 @@ namespace OpenMB.Localization
 
         public string SeekValueByKey(string ID)
         {
-            return UCSValueTmp.ContainsKey(ID) ? UCSValueTmp[ID] : string.Empty;
+            return ucsKeyValue.ContainsKey(ID) ? ucsKeyValue[ID] : string.Empty;
         }
 
         public string SeekKeyByValue(string value)
         {
             string key = string.Empty;
-            if (UCSValueTmp.ContainsValue(value))
+            if (ucsKeyValue.ContainsValue(value))
             {
-                foreach (KeyValuePair<string,string> kpl in UCSValueTmp)
+                foreach (KeyValuePair<string,string> kpl in ucsKeyValue)
                 {
                     if (kpl.Value == value)
                     {
@@ -113,7 +113,7 @@ namespace OpenMB.Localization
         private bool SeekLocalizedString(string str)
         {
             string localizedKey = null;
-            if (UCSValueTmp.ContainsKey(localizedKey))
+            if (ucsKeyValue.ContainsKey(localizedKey))
             {
                 return true;
             }
@@ -127,11 +127,11 @@ namespace OpenMB.Localization
         {
             if (!SeekLocalizedString(str))
             {
-                IEnumerable<string> keys = UCSValueTmp.Keys;
+                IEnumerable<string> keys = ucsKeyValue.Keys;
                 string lastKey = keys.ElementAt(keys.Count()-1);
                 int Index = int.Parse(lastKey);
                 Index = Index + 1;
-                UCSValueTmp.Add(Index.ToString(), str);
+                ucsKeyValue.Add(Index.ToString(), str);
                 return Index.ToString();
             }
             else
@@ -144,7 +144,7 @@ namespace OpenMB.Localization
         {
             using (StreamWriter sw = new StreamWriter(fullPath))
             {
-                foreach (KeyValuePair<string, string> kpl in UCSValueTmp)
+                foreach (KeyValuePair<string, string> kpl in ucsKeyValue)
                 {
                     string line=string.Format("{0}\t{1}",kpl.Key,kpl.Value);
                     sw.WriteLine(line);
@@ -155,18 +155,18 @@ namespace OpenMB.Localization
 
         public string GenerateQuickStrKeyIfNotExist(string str)
         {
-            if (!UCSValueTmp.ContainsValue(str))
+            if (!ucsKeyValue.ContainsValue(str))
             {
                 string prefix = null;
                 prefix = str.Replace(' ', '_').ToLower();
                 string key = "qstr_" + prefix;
-                if (!UCSValueTmp.ContainsKey(key))
+                if (!ucsKeyValue.ContainsKey(key))
                 {
-                    UCSValueTmp.Add(key, str);
+                    ucsKeyValue.Add(key, str);
                 }
                 else
                 {
-                    UCSValueTmp[key] = str;
+                    ucsKeyValue[key] = str;
                 }
 
                 return key;
@@ -174,7 +174,7 @@ namespace OpenMB.Localization
             else
             {
                 string key = null;
-                foreach (var kpl in UCSValueTmp)
+                foreach (var kpl in ucsKeyValue)
                 {
                     if (kpl.Value == str)
                     {

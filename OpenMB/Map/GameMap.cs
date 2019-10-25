@@ -49,6 +49,13 @@ namespace OpenMB.Map
         private bool combineKey;
         private KeyCode combineKeyCode;
 
+        public string Name
+        {
+            get
+            {
+                return mapName;
+            }
+        }
         public ModData ModData
         {
             get
@@ -748,11 +755,6 @@ namespace OpenMB.Map
 
             PhysicsScene.Simulate(timeSinceLastFrame);
             PhysicsScene.FlushStream();
-        }
-
-        public string GetName()
-        {
-            return mapName;
         }
 
         public GameObject GetObjectById(string objectTypeID, int objectId)
