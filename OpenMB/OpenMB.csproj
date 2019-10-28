@@ -175,6 +175,7 @@
     <Compile Include="Connector\MBOgreManifest.cs" />
     <Compile Include="Connector\MBOgreUtil.cs" />
     <Compile Include="Core\GameConfigXml.cs" />
+    <Compile Include="Core\TimerManager.cs" />
     <Compile Include="FileFormats\Box3F.cs" />
     <Compile Include="FileFormats\IFileFormat.cs" />
     <Compile Include="FileFormats\MBBrfAnimation.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Mods\XML\ModSkinDfnXml.cs" />
     <Compile Include="Mods\XML\ModWorldMapsDfnXml.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
+    <Compile Include="Screen\GameMainScreen.cs" />
     <Compile Include="Screen\Screen.cs" />
     <Compile Include="Map\AIMesh.cs" />
     <Compile Include="Map\GameMap.cs" />
@@ -330,6 +332,7 @@
     <Compile Include="Script\Command\SpawnScenePropScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeMapScriptCommand.cs" />
     <Compile Include="Script\Command\InitListScriptCommand.cs" />
+    <Compile Include="Script\Command\StartScreenScriptCommand.cs" />
     <Compile Include="Script\Command\StoreScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerExecuteSrciptCommand.cs" />

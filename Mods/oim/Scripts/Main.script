@@ -1,5 +1,5 @@
 #### MAIN ENTRY ####
 
 function GameStart
-	change_world_map WMP_OIM
+	start_screen GameMain
 end

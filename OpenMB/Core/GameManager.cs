@@ -278,6 +278,9 @@ namespace OpenMB
             try
             {
                 isEditMode = gameOptions.CoreConfig.IsEnableEditMode;
+
+				TimerManager.Instance.Init(1257, 3, 29, 9, 0, 0);
+
                 return true;
             }
             catch

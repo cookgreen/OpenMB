@@ -53,7 +53,8 @@ namespace OpenMB.Script
             RegisteredCommand.Add("namespace", typeof(NamespaceScriptCommand));
             RegisteredCommand.Add("remove_scene_prop", typeof(RemoveScenePropScriptCommand));
             RegisteredCommand.Add("spawn", typeof(SpawnScriptCommand));
-            RegisteredCommand.Add("store", typeof(StoreScriptCommand));
+			RegisteredCommand.Add("start_screen", typeof(StartScreenScriptCommand));
+			RegisteredCommand.Add("store", typeof(StoreScriptCommand));
             RegisteredCommand.Add("team", typeof(TeamScriptCommand));
             RegisteredCommand.Add("trigger", typeof(TriggerScriptCommand));
             RegisteredCommand.Add("ui", typeof(UIScriptCommand));

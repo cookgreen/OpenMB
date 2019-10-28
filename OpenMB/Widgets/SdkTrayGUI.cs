@@ -28,16 +28,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
+using System;
+using Mogre;
+using System.Collections.Generic;
+using Math = System.Math;
+using InputContext = MOIS.Mouse;
+using OpenMB.Widgets;
 
 namespace Mogre_Procedural.MogreBites
 {
-    using System;
-    using Mogre;
-    using System.Collections.Generic;
-    using Math = System.Math;
-    using InputContext = MOIS.Mouse;
-    using AdvancedMogreFramework.Widgets;
-    using OpenMB.Widgets;
 
     public enum TrayLocation : int // enumerator values for widget tray anchoring locations
     {
@@ -335,8 +334,52 @@ namespace Mogre_Procedural.MogreBites
     //	| Abstract base class for all widgets.
     //	=============================================================================
     public class Widget : IDisposable
-    {
-        public Widget() {
+	{
+		public float Width
+		{
+			get
+			{
+				return mElement.Width;
+			}
+			set
+			{
+				mElement.Width = value;
+			}
+		}
+		public float Height
+		{
+			get
+			{
+				return mElement.Height;
+			}
+			set
+			{
+				mElement.Height = value;
+			}
+		}
+		public float Left
+		{
+			get
+			{
+				return mElement.Left;
+			}
+			set
+			{
+				mElement.Left = value;
+			}
+		}
+		public float Top
+		{
+			get
+			{
+				return mElement.Top;
+			}
+			set
+			{
+				mElement.Top = value;
+			}
+		}
+		public Widget() {
             mTrayLoc = TrayLocation.TL_NONE;
             mElement = null;
             mListener = null;
@@ -379,14 +422,14 @@ namespace Mogre_Procedural.MogreBites
             }
         }
 
-        //        -----------------------------------------------------------------------------
-        //		| Static utility method to check if the cursor is over an overlay element.
-        //		-----------------------------------------------------------------------------
-        public static bool isCursorOver(Mogre.OverlayElement element, Mogre.Vector2 cursorPos) {
+		/// <summary>
+		/// Static utility method to check if the cursor is over an overlay element.
+		/// </summary>
+		/// <returns></returns>
+		public static bool isCursorOver(Mogre.OverlayElement element, Mogre.Vector2 cursorPos) {
             return isCursorOver(element, cursorPos, 0f);
         }
-        //C++ TO C# CONVERTER NOTE: Overloaded method(s) are created above to convert the following method having default parameters:
-        //ORIGINAL LINE: static bool isCursorOver(Ogre::OverlayElement* element, const Ogre::Vector2& cursorPos, Ogre::Real voidBorder = 0)
+
         public static bool isCursorOver(Mogre.OverlayElement element, Mogre.Vector2 cursorPos, float voidBorder) {
             Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
             float l = element._getDerivedLeft() * om.ViewportWidth;
@@ -412,23 +455,26 @@ namespace Mogre_Procedural.MogreBites
             return (cursorPos.x >= l + voidBorder && cursorPos.x <= r - voidBorder && cursorPos.y >= t + voidBorder && cursorPos.y <= b - voidBorder);
         }
 
-        //        -----------------------------------------------------------------------------
-        //		| Static utility method used to get the cursor's offset from the center
-        //		| of an overlay element in pixels.
-        //		-----------------------------------------------------------------------------
-        public static Mogre.Vector2 cursorOffset(Mogre.OverlayElement element, Mogre.Vector2 cursorPos) {
+		/// <summary>
+		/// Static utility method used to get the cursor's offset from the center of an overlay element in pixels.
+		/// </summary>
+		public static Mogre.Vector2 cursorOffset(Mogre.OverlayElement element, Mogre.Vector2 cursorPos) {
             Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
             return new Mogre.Vector2(cursorPos.x - (element._getDerivedLeft() * om.ViewportWidth + element.Width / 2), cursorPos.y - (element._getDerivedTop() * om.ViewportHeight + element.Height / 2f));
         }
-        //public static Vector2 cursorOffset(Mogre.OverlayContainer containerElement,Vector2 cursorPos)
-        //{
-        //    Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
-        //    return new Mogre.Vector2(cursorPos.x - (containerElement._getDerivedLeft() * om.ViewportWidth + containerElement.Width / 2), cursorPos.y - (containerElement._getDerivedTop() * om.ViewportHeight + containerElement.Height / 2f));
-        //}
-        //        -----------------------------------------------------------------------------
-        //		| Static utility method used to get the width of a caption in a text area.
-        //		-----------------------------------------------------------------------------
-        public static float getCaptionWidth(string caption, ref Mogre.TextAreaOverlayElement area) {
+
+
+		//public static Vector2 cursorOffset(Mogre.OverlayContainer containerElement,Vector2 cursorPos)
+		//{
+		//    Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
+		//    return new Mogre.Vector2(cursorPos.x - (containerElement._getDerivedLeft() * om.ViewportWidth + containerElement.Width / 2), cursorPos.y - (containerElement._getDerivedTop() * om.ViewportHeight + containerElement.Height / 2f));
+		//}
+
+
+		/// <summary>
+		/// Static utility method used to get the width of a caption in a text area.
+		/// </summary>
+		public static float getCaptionWidth(string caption, ref Mogre.TextAreaOverlayElement area) {
             Mogre.FontPtr font = null;
             if (Mogre.FontManager.Singleton.ResourceExists(area.FontName)) {
                 font = (Mogre.FontPtr)Mogre.FontManager.Singleton.GetByName(area.FontName);
@@ -476,10 +522,10 @@ namespace Mogre_Procedural.MogreBites
             return caption;
         }
 
-        //        -----------------------------------------------------------------------------
-        //		| Static utility method to cut off a string to fit in a text area.
-        //		-----------------------------------------------------------------------------
-        public static void fitCaptionToArea(string caption, ref Mogre.TextAreaOverlayElement area, float maxWidth) {
+		/// <summary>
+		/// Static utility method to cut off a string to fit in a text area.
+		/// </summary>
+		public static void fitCaptionToArea(string caption, ref Mogre.TextAreaOverlayElement area, float maxWidth) {
             Mogre.FontPtr font = null;
             if (Mogre.FontManager.Singleton.ResourceExists(area.FontName)) {
                 font = (Mogre.FontPtr)Mogre.FontManager.Singleton.GetByName(area.FontName);
@@ -563,7 +609,8 @@ namespace Mogre_Procedural.MogreBites
         protected TrayLocation mTrayLoc;
         protected SdkTrayListener mListener;
 
-
+		public int Row;
+		public int Col;
 
     }
 
@@ -2480,9 +2527,16 @@ namespace Mogre_Procedural.MogreBites
             moveWidgetToTray(b, trayLoc);
             b._assignListener(mListener);
             return b;
-        }
+		}
+		public Button createButton(string name, string caption, float width)
+		{
+			Button b = new Button(name, caption, width);
+			moveWidgetToTray(b, TrayLocation.TL_NONE);
+			b._assignListener(mListener);
+			return b;
+		}
 
-        public TextBox createTextBox(TrayLocation trayLoc, string name, string caption, float width, float height) {
+		public TextBox createTextBox(TrayLocation trayLoc, string name, string caption, float width, float height) {
             TextBox tb = new TextBox(name, caption, width, height);
             moveWidgetToTray(tb, trayLoc);
             tb._assignListener(mListener);
@@ -3512,7 +3566,7 @@ namespace Mogre_Procedural.MogreBites
             mTrays[(int)trayLoc].AddChild(element);
         }
 
-        protected string mName = ""; // name of this tray system
+		protected string mName = ""; // name of this tray system
         protected Mogre.RenderWindow mWindow; // render window
         protected InputContext mInputContext = null;
         protected Mogre.Overlay mBackdropLayer; // backdrop layer

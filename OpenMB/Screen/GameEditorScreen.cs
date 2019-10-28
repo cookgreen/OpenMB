@@ -1,18 +1,15 @@
 ﻿using Mogre;
+using Mogre_Procedural.MogreBites;
 using MOIS;
+using OpenMB.Map;
+using OpenMB.Utilities;
+using OpenMB.Widgets;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenMB.Widgets;
-using Mogre_Procedural.MogreBites;
-using OpenMB.Map;
-using AdvancedMogreFramework.Widgets;
-using OpenMB.Utilities;
 
 namespace OpenMB.Screen
 {
-    public enum EditType
+	public enum EditType
     {
         None,
         EditAIMeshMode,
