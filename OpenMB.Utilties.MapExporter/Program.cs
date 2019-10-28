@@ -10,8 +10,9 @@ using System.Windows.Forms;
 namespace OpenMB.Utilties.MapExporter
 {
     class Program
-    {
-        static void Main(string[] args)
+	{
+		[STAThread]
+		static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
