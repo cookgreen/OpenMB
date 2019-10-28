@@ -161,20 +161,53 @@ namespace OpenMB.Game
             GameManager.Instance.trayMgr.destroyAllWidgets();
             cam.FarClipDistance = 50000;
 
-            scm.SetSkyDome(true, "Examples/CloudySky", 5, 8);
-            
-            Light light = scm.CreateLight();
+			var time = TimerManager.Instance.CurrentTime;
+			scm.SetSkyBox(true, GetSkyboxMaterialByTime(time));
+
+			Light light = scm.CreateLight();
             light.Type = Light.LightTypes.LT_POINT;
             light.Position = new Mogre.Vector3(-10, 40, 20);
             light.SpecularColour = ColourValue.White;
 
             ScreenManager.Instance.Camera = cam;
+
+			TimerManager.Instance.TimeChanged += TimeChanged;
         }
 
-        /// <summary>
-        /// Start world
-        /// </summary>
-        public void Start()
+		private string GetSkyboxMaterialByTime(Time time)
+		{
+			string skyboxMaterialName = null;
+			switch (time)
+			{
+				case Time.Early_Moring:
+					skyboxMaterialName = "Examples/EarlyMorningSkyBox";
+					break;
+				case Time.Morning:
+					skyboxMaterialName = "Examples/MorningSkyBox";
+					break;
+				case Time.Noon:
+					skyboxMaterialName = "Examples/CloudyNoonSkyBox";
+					break;
+				case Time.Afternoon:
+					skyboxMaterialName = "Examples/StormySkyBox";
+					break;
+				case Time.Night:
+					skyboxMaterialName = "Examples/EveningSkyBox";
+					break;
+			}
+			return skyboxMaterialName;
+		}
+
+		private void TimeChanged()
+		{
+			var time = TimerManager.Instance.CurrentTime;
+			scm.SetSkyBox(true, GetSkyboxMaterialByTime(time));
+		}
+
+		/// <summary>
+		/// Start world
+		/// </summary>
+		public void Start()
         {
             ScriptPreprocessor.Instance.LoadSpecificFunction("GameStart", this);
         }
@@ -432,6 +465,7 @@ namespace OpenMB.Game
         private bool FrameRenderingQueued(FrameEvent evt)
         {
             GameMapManager.Instance.Update(evt.timeSinceLastFrame);
+			TimerManager.Instance.Update();
             return true;
         }
         #endregion

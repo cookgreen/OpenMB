@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpenMB.Game.Action
+namespace OpenMB.Game.AIAction
 {
     public enum ActionState { Queued, Done, Cancel,Processing}
     //An Action in world

@@ -175,7 +175,7 @@
     <Compile Include="Connector\MBOgreManifest.cs" />
     <Compile Include="Connector\MBOgreUtil.cs" />
     <Compile Include="Core\GameConfigXml.cs" />
-    <Compile Include="Core\TimerManager.cs" />
+    <Compile Include="Game\TimerManager.cs" />
     <Compile Include="FileFormats\Box3F.cs" />
     <Compile Include="FileFormats\IFileFormat.cs" />
     <Compile Include="FileFormats\MBBrfAnimation.cs" />
@@ -198,7 +198,7 @@
     </Compile>
     <Compile Include="Forms\Model\ResourceConfigure.cs" />
     <Compile Include="Game\CameraHandler.cs" />
-    <Compile Include="Game\Action\Activity.cs" />
+    <Compile Include="Game\AIAction\Activity.cs" />
     <Compile Include="Configure\ConfigureSystem.cs" />
     <Compile Include="Configure\IConfigFile.cs" />
     <Compile Include="Configure\IConfigParser.cs" />
@@ -210,9 +210,9 @@
     <Compile Include="Forms\Model\Configure.cs" />
     <Compile Include="Forms\Model\GameConfigure.cs" />
     <Compile Include="Forms\Model\GraphicConfigure.cs" />
-    <Compile Include="Game\Action\Attack.cs" />
-    <Compile Include="Game\Action\Follow.cs" />
-    <Compile Include="Game\Action\Idle.cs" />
+    <Compile Include="Game\AIAction\Attack.cs" />
+    <Compile Include="Game\AIAction\Follow.cs" />
+    <Compile Include="Game\AIAction\Idle.cs" />
     <Compile Include="Game\CharacterAnimation.cs" />
     <Compile Include="Game\CharacterMessage.cs" />
     <Compile Include="Game\ControlObjType\ControlObjectTypeCharacter.cs" />
@@ -245,7 +245,7 @@
     <Compile Include="Game\ItemWeaponFactory.cs" />
     <Compile Include="Core\OutputManager.cs" />
     <Compile Include="Game\IUpdate.cs" />
-    <Compile Include="Game\Action\Move.cs" />
+    <Compile Include="Game\AIAction\Move.cs" />
     <Compile Include="Game\Items\OneHandWeapon.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="Game\ScenePlane.cs" />

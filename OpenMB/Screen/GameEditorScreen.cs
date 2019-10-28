@@ -130,26 +130,26 @@ namespace OpenMB.Screen
             editorPanel = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanel", "BorderPanel", "editorArea") as OverlayContainer;
 
             lbGeneral = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbGeneral", "General", ColourValue.Black);
-            lbGeneral.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-            lbGeneral.getOverlayElement().Left = 0.06f;
-            lbGeneral.getOverlayElement().Top =  top;
-            top = lbGeneral.getOverlayElement().Top + lbGeneral.getOverlayElement().Height;
+            lbGeneral.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            lbGeneral.Left = 0.06f;
+            lbGeneral.Top =  top;
+            top = lbGeneral.Top + lbGeneral.Height;
             editorPanel.AddChild(lbGeneral.getOverlayElement());
 
             btnSave = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnSave", "Save", 150);
-            btnSave.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-            btnSave.getOverlayElement().Left = 0.06f;
-            btnSave.getOverlayElement().Top = 0.02f + top;
+            btnSave.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            btnSave.Left = 0.06f;
+            btnSave.Top = 0.02f + top;
             btnSave.OnClick += BtnSave_OnClick;
-            top = btnSave.getOverlayElement().Top + btnSave.getOverlayElement().Height;
+            top = btnSave.Top + btnSave.Height;
             editorPanel.AddChild(btnSave.getOverlayElement());
 
             btnClose = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnClose", "Close", 150);
-            btnClose.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-            btnClose.getOverlayElement().Left = 0.06f;
-            btnClose.getOverlayElement().Top = 0.02f +top;
+            btnClose.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            btnClose.Left = 0.06f;
+            btnClose.Top = 0.02f +top;
             btnClose.OnClick += BtnClose_OnClick;
-            top = btnClose.getOverlayElement().Top + btnClose.getOverlayElement().Height;
+            top = btnClose.Top + btnClose.Height;
             editorPanel.AddChild(btnClose.getOverlayElement());
 
             horline = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/HorizalLine", "Panel", "horline") as PanelOverlayElement;
@@ -161,26 +161,26 @@ namespace OpenMB.Screen
             editorPanel.AddChild(horline);
 
             lbAIMesh = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbAIMesh", "AIMesh", ColourValue.Black);
-            lbAIMesh.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-            lbAIMesh.getOverlayElement().Left = 0.06f;
-            lbAIMesh.getOverlayElement().Top = 0.02f + top;
-            top = lbAIMesh.getOverlayElement().Top + lbAIMesh.getOverlayElement().Height;
+            lbAIMesh.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            lbAIMesh.Left = 0.06f;
+            lbAIMesh.Top = 0.02f + top;
+            top = lbAIMesh.Top + lbAIMesh.Height;
             editorPanel.AddChild(lbAIMesh.getOverlayElement());
 
             btnAIMeshCreateVertex = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnCreateVertex", "Create Vertex", 150);
-            btnAIMeshCreateVertex.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-            btnAIMeshCreateVertex.getOverlayElement().Left = 0.06f;
-            btnAIMeshCreateVertex.getOverlayElement().Top = 0.02f + top;
+            btnAIMeshCreateVertex.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            btnAIMeshCreateVertex.Left = 0.06f;
+            btnAIMeshCreateVertex.Top = 0.02f + top;
             btnAIMeshCreateVertex.OnClick += BtnAIMeshCreateVertex_OnClick;
-            top = btnAIMeshCreateVertex.getOverlayElement().Top + btnAIMeshCreateVertex.getOverlayElement().Height;
+            top = btnAIMeshCreateVertex.Top + btnAIMeshCreateVertex.Height;
             editorPanel.AddChild(btnAIMeshCreateVertex.getOverlayElement());
 
             btnAIMeshCreateLine = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnCreateLine", "Create Line", 150);
-            btnAIMeshCreateLine.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-            btnAIMeshCreateLine.getOverlayElement().Left = 0.06f;
-            btnAIMeshCreateLine.getOverlayElement().Top = 0.02f + top;
+            btnAIMeshCreateLine.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            btnAIMeshCreateLine.Left = 0.06f;
+            btnAIMeshCreateLine.Top = 0.02f + top;
             btnAIMeshCreateLine.OnClick += BtnAIMeshCreateLine_OnClick;
-            top = btnAIMeshCreateLine.getOverlayElement().Top + btnAIMeshCreateLine.getOverlayElement().Height;
+            top = btnAIMeshCreateLine.Top + btnAIMeshCreateLine.Height;
             editorPanel.AddChild(btnAIMeshCreateLine.getOverlayElement());
 
             horline2 = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/HorizalLine", "Panel", "horline2") as PanelOverlayElement;
@@ -192,29 +192,29 @@ namespace OpenMB.Screen
             editorPanel.AddChild(horline2);
 
             lbObjects = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbObjects", "Objects", ColourValue.Black);
-            lbObjects.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-            lbObjects.getOverlayElement().Left = 0.06f;
-            lbObjects.getOverlayElement().Top = 0.02f + top;
-            top = lbObjects.getOverlayElement().Top + lbObjects.getOverlayElement().Height;
+            lbObjects.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            lbObjects.Left = 0.06f;
+            lbObjects.Top = 0.02f + top;
+            top = lbObjects.Top + lbObjects.Height;
             editorPanel.AddChild(lbObjects.getOverlayElement());
 
             lsvObjects = GameManager.Instance.trayMgr.createListView(TrayLocation.TL_NONE, "lsvObjects", 0.3f, 0.22f, new List<string>()
             {
                 "ObjectName"
             });
-            lsvObjects.getOverlayElement().Left = 0.03f;
-            lsvObjects.getOverlayElement().Width = 0.24f;
-            lsvObjects.getOverlayElement().Height = 0.3f;
-            lsvObjects.getOverlayElement().Top = 0.02f + top;
-            top = lsvObjects.getOverlayElement().Top + lsvObjects.getOverlayElement().Height;
+            lsvObjects.Left = 0.03f;
+            lsvObjects.Width = 0.24f;
+            lsvObjects.Height = 0.3f;
+            lsvObjects.Top = 0.02f + top;
+            top = lsvObjects.Top + lsvObjects.Height;
             editorPanel.AddChild(lsvObjects.getOverlayElement());
 
             btnAddObject = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnAddObject", "Add Object", 100);
-            btnAddObject.getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-            btnAddObject.getOverlayElement().Left = 0.14f;
-            btnAddObject.getOverlayElement().Top = 0.02f + top;
+            btnAddObject.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            btnAddObject.Left = 0.14f;
+            btnAddObject.Top = 0.02f + top;
             btnAddObject.OnClick += BtnAddObject_OnClick;
-            top = btnAddObject.getOverlayElement().Top + btnAddObject.getOverlayElement().Height;
+            top = btnAddObject.Top + btnAddObject.Height;
             editorPanel.AddChild(btnAddObject.getOverlayElement());
 
             GameManager.Instance.trayMgr.getTraysLayer().Add2D(editorPanel);

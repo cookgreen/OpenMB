@@ -8,7 +8,7 @@ using MOIS;
 using OpenMB.Sound;
 using Mogre.PhysX;
 using org.critterai.nav;
-using OpenMB.Game.Action;
+using OpenMB.Game.AIAction;
 using OpenMB.Mods.XML;
 
 namespace OpenMB.Game

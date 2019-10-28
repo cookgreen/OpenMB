@@ -37,8 +37,10 @@ using OpenMB.Widgets;
 
 namespace Mogre_Procedural.MogreBites
 {
-
-    public enum TrayLocation : int // enumerator values for widget tray anchoring locations
+	/// <summary>
+	/// Enumerator values for widget tray anchoring locations
+	/// </summary>
+	public enum TrayLocation : int
     {
         TL_TOPLEFT,
         TL_TOP,
@@ -52,19 +54,1887 @@ namespace Mogre_Procedural.MogreBites
         TL_NONE
     }
 
-    public enum ButtonState : int // enumerator values for button states
+	/// <summary>
+	/// Enumerator values for button states
+	/// </summary>
+	public enum ButtonState : int
     {
         BS_UP,
         BS_OVER,
         BS_DOWN
-    }
+	}
+
+	/// <summary>
+	/// Main class to manage a cursor, backdrop, trays and widgets
+	/// </summary>
+	public class SdkTrayManager : SdkTrayListener, IDisposable
+	{
+		#region resource load event
+		void _HookResourceGroupLoadEvent()
+		{
+			_UnHookResourceGroupLoadEvent();
+			if (_hasHookResLoad) return;
+			_hasHookResLoad = true;
+			ResourceGroupManager.Singleton.ResourceGroupScriptingStarted += _ResourceGroupScriptingStarted;
+			ResourceGroupManager.Singleton.ScriptParseStarted += _ScriptParseStarted;
+			ResourceGroupManager.Singleton.ScriptParseEnded += _ScriptParseEnded;
+			ResourceGroupManager.Singleton.ResourceGroupLoadStarted += _ResourceGroupLoadStarted;
+			ResourceGroupManager.Singleton.ResourceLoadStarted += _ResourceLoadStarted;
+			ResourceGroupManager.Singleton.WorldGeometryStageStarted += _WorldGeometryStageStarted;
+			ResourceGroupManager.Singleton.WorldGeometryStageEnded += _WorldGeometryStageEnded;
+
+		}
+		bool _hasHookResLoad = false;
+		void _UnHookResourceGroupLoadEvent()
+		{
+			if (!_hasHookResLoad) return;
+			_hasHookResLoad = false;
+			ResourceGroupManager.Singleton.WorldGeometryStageEnded -= _WorldGeometryStageEnded;
+			ResourceGroupManager.Singleton.WorldGeometryStageStarted -= _WorldGeometryStageStarted;
+			ResourceGroupManager.Singleton.ResourceLoadStarted -= _ResourceLoadStarted;
+			ResourceGroupManager.Singleton.ResourceGroupLoadStarted -= _ResourceGroupLoadStarted;
+			ResourceGroupManager.Singleton.ScriptParseEnded -= _ScriptParseEnded;
+			ResourceGroupManager.Singleton.ScriptParseStarted -= _ScriptParseStarted;
+			ResourceGroupManager.Singleton.ResourceGroupScriptingStarted -= _ResourceGroupScriptingStarted;
+
+		}
+
+		void _ResourceGroupScriptingStarted(string groupName, uint scriptCount)
+		{
+			//Debug.Assert(numGroupsInit > 0, "You stated you were not going to init any groups, but you did! Divide by zero would follow...");
+			//progressBarInc = progressBarMaxSize * initProportion / (float)scriptCount;
+			//progressBarInc /= numGroupsInit;
+			//loadingDescriptionElement.Caption = "Parsing scripts...";
+			//window.Update();
+			resourceGroupScriptingStarted(groupName, (int)scriptCount);
+		}
+
+		void _ScriptParseStarted(string scriptName, out bool skipThisScript)
+		{
+			//loadingCommentElement.Caption = scriptName;
+			//window.Update();
+			skipThisScript = false;
+			scriptParseStarted(scriptName, skipThisScript);
+		}
+
+		void _ScriptParseEnded(string scriptName, bool skipped)
+		{
+			//loadingBarElement.Width += progressBarInc;
+			//window.Update();
+			scriptParseEnded(scriptName, skipped);
+		}
+
+		void _ResourceGroupLoadStarted(string groupName, uint resourceCount)
+		{
+			//Debug.Assert(numGroupsLoad > 0, "You stated you were not going to load any groups, but you did! Divide by zero would follow...");
+			//progressBarInc = progressBarMaxSize * (1 - initProportion) / (float)resourceCount;
+			//progressBarInc /= numGroupsLoad;
+			//loadingDescriptionElement.Caption = "Loading resources...";
+			//window.Update();
+			resourceGroupLoadStarted(groupName, (int)resourceCount);
+		}
+
+		void _ResourceLoadStarted(ResourcePtr resource)
+		{
+			//loadingCommentElement.Caption = resource.Name;
+			//window.Update();
+			resourceLoadStarted(resource);
+		}
+
+		void _WorldGeometryStageStarted(string description)
+		{
+			//loadingCommentElement.Caption = description;
+			//window.Update();
+			worldGeometryStageStarted(description);
+		}
+
+		void _WorldGeometryStageEnded()
+		{
+			//loadingBarElement.Width += progressBarInc;
+			//window.Update();
+			worldGeometryStageEnded();
+		}
+
+
+		public void resourceGroupScriptingStarted(string groupName, int scriptCount)
+		{
+			mLoadInc = mGroupInitProportion / scriptCount;
+			mLoadBar.setCaption("Parsing...");
+			windowUpdate();
+		}
+
+		public void scriptParseStarted(string scriptName, bool skipThisScript)
+		{
+			mLoadBar.setComment(scriptName);
+			windowUpdate();
+		}
+
+		public void scriptParseEnded(string scriptName, bool skipped)
+		{
+			mLoadBar.setProgress(mLoadBar.getProgress() + mLoadInc);
+			windowUpdate();
+		}
+
+		public void resourceGroupScriptingEnded(string groupName)
+		{
+		}
+
+		public void resourceGroupLoadStarted(string groupName, int resourceCount)
+		{
+			mLoadInc = mGroupLoadProportion / resourceCount;
+			mLoadBar.setCaption("Loading...");
+			windowUpdate();
+		}
+
+		public void resourceLoadStarted(Mogre.ResourcePtr resource)
+		{
+			mLoadBar.setComment(resource.Name);
+			windowUpdate();
+		}
+
+		public void resourceLoadEnded()
+		{
+			mLoadBar.setProgress(mLoadBar.getProgress() + mLoadInc);
+			windowUpdate();
+		}
+
+		public void worldGeometryStageStarted(string description)
+		{
+			mLoadBar.setComment(description);
+			windowUpdate();
+		}
+
+		public void worldGeometryStageEnded()
+		{
+			mLoadBar.setProgress(mLoadBar.getProgress() + mLoadInc);
+			windowUpdate();
+		}
+
+		public void resourceGroupLoadEnded(string groupName)
+		{
+		}
+		public void windowUpdate()
+		{
+
+			//#if OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS && OGRE_PLATFORM != OGRE_PLATFORM_NACL
+			mWindow.Update();
+			//#endif
+		}
+		#endregion
+		#region mouse event
+		internal void _UnHookMouseEvent()
+		{
+			mInputContext.MousePressed -= (mInputContext_MousePressed);
+			mInputContext.MouseReleased -= (mInputContext_MouseReleased);
+			mInputContext.MouseMoved -= (mInputContext_MouseMoved);
+		}
+		internal void _HookMouseEvent()
+		{
+			_UnHookMouseEvent();
+			mInputContext.MousePressed += (mInputContext_MousePressed);
+			mInputContext.MouseReleased += (mInputContext_MouseReleased);
+			mInputContext.MouseMoved += (mInputContext_MouseMoved);
+		}
+
+		bool mInputContext_MouseMoved(MOIS.MouseEvent arg)
+		{
+			this.injectMouseMove(arg);
+			return true;
+		}
+
+		bool mInputContext_MouseReleased(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
+		{
+			this.injectMouseUp(arg, id);
+			return true;
+		}
+
+		bool mInputContext_MousePressed(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
+		{
+			this.injectMouseDown(arg, id);
+			return true;
+		}
+
+		#endregion
+		//        -----------------------------------------------------------------------------
+		//		| Creates backdrop, cursor, and trays.
+		//		-----------------------------------------------------------------------------
+		public SdkTrayManager(string name, Mogre.RenderWindow window, InputContext inputContext)
+			: this(name, window, inputContext, null)
+		{
+		}
+
+		public SdkTrayManager(string name, Mogre.RenderWindow window, InputContext inputContext, SdkTrayListener listener)
+			: base()
+		{
+			for (int i = 0; i < mWidgets.Length; i++)
+			{
+				mWidgets[i] = new List<Widget>();
+			}
+			mName = name;
+			mWindow = window;
+			mInputContext = inputContext;
+			mListener = listener;
+			mWidgetPadding = 8f;
+			mWidgetSpacing = 2f;
+			mTrayPadding = 0f;
+			mTrayDrag = false;
+			mExpandedMenu = null;
+			mDialog = null;
+			mOk = null;
+			mYes = null;
+			mNo = null;
+			mCursorWasVisible = false;
+			mFpsLabel = null;
+			mStatsPanel = null;
+			mLogo = null;
+			mLoadBar = null;
+			mGroupInitProportion = 0.0f;
+			mGroupLoadProportion = 0.0f;
+			mLoadInc = 0.0f;
+			mTimer = Mogre.Root.Singleton.Timer;
+			mLastStatUpdateTime = 0;
+
+			Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
+
+			string nameBase = mName + "/";
+			nameBase = nameBase.Replace(' ', '_');
+			mBackdropLayer = om.Create(nameBase + "BackdropLayer");
+			mTraysLayer = om.Create(nameBase + "WidgetsLayer");
+			mPriorityLayer = om.Create(nameBase + "PriorityLayer");
+			mCursorLayer = om.Create(nameBase + "CursorLayer");
+			mBackdropLayer.ZOrder = (100);
+			mTraysLayer.ZOrder = (200);
+			mPriorityLayer.ZOrder = (300);
+			mCursorLayer.ZOrder = (400);
+
+			// make backdrop and cursor overlay containers
+			mCursor = (Mogre.OverlayContainer)om.CreateOverlayElementFromTemplate("SdkTrays/Cursor", "Panel", nameBase + "Cursor");
+			mCursorLayer.Add2D(mCursor);
+			mBackdrop = (Mogre.OverlayContainer)om.CreateOverlayElement("Panel", nameBase + "Backdrop");
+			mBackdropLayer.Add2D(mBackdrop);
+			mDialogShade = (Mogre.OverlayContainer)om.CreateOverlayElement("Panel", nameBase + "DialogShade");
+			mDialogShade.MaterialName = ("SdkTrays/Shade");
+			mDialogShade.Hide();
+			mPriorityLayer.Add2D(mDialogShade);
+
+			string[] trayNames = { "TopLeft", "Top", "TopRight", "Left", "Center", "Right", "BottomLeft", "Bottom", "BottomRight", "None" };
+
+			for (uint i = 0; i < 9; i++) // make the real trays
+			{
+				mTrays[i] = (Mogre.OverlayContainer)om.CreateOverlayElementFromTemplate("SdkTrays/Tray", "BorderPanel", nameBase + trayNames[i] + "Tray");
+				mTraysLayer.Add2D(mTrays[i]);
+
+				mTrayWidgetAlign[i] = GuiHorizontalAlignment.GHA_CENTER;
+
+				// align trays based on location
+				if (i == (int)TrayLocation.TL_TOP || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_BOTTOM)
+					mTrays[i].HorizontalAlignment = (GuiHorizontalAlignment.GHA_CENTER);
+				if (i == (int)TrayLocation.TL_LEFT || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_RIGHT)
+					mTrays[i].VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
+				if (i == (int)TrayLocation.TL_TOPRIGHT || i == (int)TrayLocation.TL_RIGHT || i == (int)TrayLocation.TL_BOTTOMRIGHT)
+					mTrays[i].HorizontalAlignment = (GuiHorizontalAlignment.GHA_RIGHT);
+				if (i == (int)TrayLocation.TL_BOTTOMLEFT || i == (int)TrayLocation.TL_BOTTOM || i == (int)TrayLocation.TL_BOTTOMRIGHT)
+					mTrays[i].VerticalAlignment = (GuiVerticalAlignment.GVA_BOTTOM);
+			}
+
+			// create the null tray for free-floating widgets
+			mTrays[9] = (Mogre.OverlayContainer)om.CreateOverlayElement("Panel", nameBase + "NullTray");
+			mTrayWidgetAlign[9] = GuiHorizontalAlignment.GHA_LEFT;
+			mTraysLayer.Add2D(mTrays[9]);
+			adjustTrays();
+
+			showTrays();
+			showCursor();
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Destroys background, cursor, widgets, and trays.
+		//		-----------------------------------------------------------------------------
+		public override void Dispose()
+		{
+			Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
+
+			destroyAllWidgets();//clean up ok
+
+			for (int i = 0; i < mWidgetDeathRow.Count; i++) // delete widgets queued for destruction
+			{
+				//delete mWidgetDeathRow[i];
+				mWidgetDeathRow[i].Dispose();//?is there need?
+				mWidgetDeathRow[i] = null;
+			}
+			mWidgetDeathRow.Clear();
+
+			om.Destroy(mBackdropLayer);
+			om.Destroy(mTraysLayer);
+			om.Destroy(mPriorityLayer);
+			om.Destroy(mCursorLayer);
+
+			closeDialog();
+			hideLoadingBar();
+
+			Widget.nukeOverlayElement(mBackdrop);
+			Widget.nukeOverlayElement(mCursor);
+			Widget.nukeOverlayElement(mDialogShade);
+
+			for (int i = 0; i < 10; i++)
+			{
+				Widget.nukeOverlayElement(mTrays[i]);
+			}
+			base.Dispose();
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Converts a 2D screen coordinate (in pixels) to a 3D ray into the scene.
+		//		-----------------------------------------------------------------------------
+		public static Mogre.Ray screenToScene(Mogre.Camera cam, Mogre.Vector2 pt)
+		{
+			return cam.GetCameraToViewportRay(pt.x, pt.y);
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Converts a 3D scene position to a 2D screen position (in relative screen size, 0.0-1.0).
+		//		-----------------------------------------------------------------------------
+		public static Mogre.Vector2 sceneToScreen(Mogre.Camera cam, Mogre.Vector3 pt)
+		{
+			Mogre.Vector3 result = cam.ProjectionMatrix * cam.ViewMatrix * pt;
+			return new Mogre.Vector2((result.x + 1) / 2, (-result.y + 1) / 2);
+		}
+
+		// these methods get the underlying overlays and overlay elements
+
+		public Mogre.OverlayContainer getTrayContainer(TrayLocation trayLoc)
+		{
+			return mTrays[(int)trayLoc];
+		}
+		public Mogre.Overlay getBackdropLayer()
+		{
+			return mBackdropLayer;
+		}
+		public Mogre.Overlay getTraysLayer()
+		{
+			return mTraysLayer;
+		}
+		public Mogre.Overlay getCursorLayer()
+		{
+			return mCursorLayer;
+		}
+		public Mogre.OverlayContainer getBackdropContainer()
+		{
+			return mBackdrop;
+		}
+		public Mogre.OverlayContainer getCursorContainer()
+		{
+			return mCursor;
+		}
+		public Mogre.OverlayElement getCursorImage()
+		{
+			return mCursor.GetChild(mCursor.Name + "/CursorImage");
+		}
+
+		public void setListener(SdkTrayListener listener)
+		{
+			mListener = listener;
+		}
+
+		public SdkTrayListener getListener()
+		{
+			return mListener;
+		}
+
+		public void showAll()
+		{
+			showBackdrop();
+			showTrays();
+			showCursor();
+		}
+
+		public void hideAll()
+		{
+			hideBackdrop();
+			hideTrays();
+			hideCursor();
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Displays specified material on backdrop, or the last material used if
+		//		| none specified. Good for pause menus like in the browser.
+		//		-----------------------------------------------------------------------------
+		public void showBackdrop()
+		{
+			showBackdrop("");
+		}
+		public void showBackdrop(string materialName)
+		{
+			//if (materialName != Ogre::StringUtil::BLANK)
+			if (!string.IsNullOrEmpty(materialName))
+				mBackdrop.MaterialName = (materialName);
+			mBackdropLayer.Show();
+		}
+
+		public void hideBackdrop()
+		{
+			mBackdropLayer.Hide();
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Displays specified material on cursor, or the last material used if
+		//		| none specified. Used to change cursor type.
+		//		-----------------------------------------------------------------------------
+		public void showCursor()
+		{
+			showCursor("");
+		}
+
+		public void showCursor(string materialName)
+		{
+			if (!string.IsNullOrEmpty(materialName))
+				getCursorImage().MaterialName = (materialName);
+
+			if (!mCursorLayer.IsVisible)
+			{
+				mCursorLayer.Show();
+				refreshCursor();
+			}
+		}
+
+		public void hideCursor()
+		{
+			mCursorLayer.Hide();
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < mWidgets[i].Count; j++)
+				{
+					mWidgets[i][j]._focusLost();
+				}
+			}
+
+			setExpandedMenu(null);
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Updates cursor position based on unbuffered mouse state. This is necessary
+		//		| because if the tray manager has been cut off from mouse events for a time,
+		//		| the cursor position will be out of date.
+		//		-----------------------------------------------------------------------------
+		public void refreshCursor()
+		{
+			float x = 0f;
+			float y = 0f;
+			x = mInputContext.MouseState.X.abs;
+			y = mInputContext.MouseState.Y.abs;
+			mCursor.SetPosition(x, y);
+		}
+
+		public void showTrays()
+		{
+			mTraysLayer.Show();
+			mPriorityLayer.Show();
+		}
+
+		public void hideTrays()
+		{
+			mTraysLayer.Hide();
+			mPriorityLayer.Hide();
+
+			// give widgets a chance to reset in case they're in the middle of something
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < mWidgets[i].Count; j++)
+				{
+					mWidgets[i][j]._focusLost();
+				}
+			}
+
+			setExpandedMenu(null);
+		}
+
+		public bool isCursorVisible()
+		{
+			return mCursorLayer.IsVisible;
+		}
+		public bool isBackdropVisible()
+		{
+			return mBackdropLayer.IsVisible;
+		}
+		public bool areTraysVisible()
+		{
+			return mTraysLayer.IsVisible;
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Sets horizontal alignment of a tray's contents.
+		//		-----------------------------------------------------------------------------
+		public void setTrayWidgetAlignment(TrayLocation trayLoc, Mogre.GuiHorizontalAlignment gha)
+		{
+			mTrayWidgetAlign[(int)trayLoc] = gha;
+
+			for (int i = 0; i < mWidgets[(int)trayLoc].Count; i++)
+			{
+				mWidgets[(int)trayLoc][i].getOverlayElement().HorizontalAlignment = (gha);
+			}
+		}
+
+		// padding and spacing methods
+
+		public void setWidgetPadding(float padding)
+		{
+			mWidgetPadding = System.Math.Max((int)padding, 0);
+			adjustTrays();
+		}
+
+		public void setWidgetSpacing(float spacing)
+		{
+			mWidgetSpacing = System.Math.Max((int)spacing, 0);
+			adjustTrays();
+		}
+		public void setTrayPadding(float padding)
+		{
+			mTrayPadding = System.Math.Max((int)padding, 0);
+			adjustTrays();
+		}
+
+
+		//ORIGINAL LINE: virtual Ogre::Real getWidgetPadding() const
+		public virtual float getWidgetPadding()
+		{
+			return mWidgetPadding;
+		}
+
+		//ORIGINAL LINE: virtual Ogre::Real getWidgetSpacing() const
+		public virtual float getWidgetSpacing()
+		{
+			return mWidgetSpacing;
+		}
+
+		//ORIGINAL LINE: virtual Ogre::Real getTrayPadding() const
+		public virtual float getTrayPadding()
+		{
+			return mTrayPadding;
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Fits trays to their contents and snaps them to their anchor locations.
+		//		-----------------------------------------------------------------------------
+		public virtual void adjustTrays()
+		{
+			for (int i = 0; i < 9; i++) // resizes and hides trays if necessary
+			{
+				float trayWidth = 0;
+				float trayHeight = mWidgetPadding;
+				List<Mogre.OverlayElement> labelsAndSeps = new List<Mogre.OverlayElement>();
+
+				//if (mWidgets[i].empty()) // hide tray if empty
+				if (mWidgets[i].Count == 0)
+				{
+					mTrays[i].Hide();
+					continue;
+				}
+				else
+					mTrays[i].Show();
+
+				// arrange widgets and calculate final tray size and position
+				for (int j = 0; j < mWidgets[i].Count; j++)
+				{
+					Mogre.OverlayElement e = mWidgets[i][j].getOverlayElement();
+
+					if (j != 0) // don't space first widget
+						trayHeight += mWidgetSpacing;
+
+					e.VerticalAlignment = (GuiVerticalAlignment.GVA_TOP);
+					e.Top = (trayHeight);
+
+					switch (e.HorizontalAlignment)
+					{
+						case GuiHorizontalAlignment.GHA_LEFT:
+							e.Left = (mWidgetPadding);
+							break;
+						case GuiHorizontalAlignment.GHA_RIGHT:
+							e.Left = (-(e.Width + mWidgetPadding));
+							break;
+						default:
+							e.Left = (-(e.Width / 2f));
+							break;
+					}
+
+					// prevents some weird texture filtering problems (just some)
+					e.SetPosition((int)e.Left, (int)e.Top);
+					e.SetDimensions((int)e.Width, (int)e.Height);
+
+					trayHeight += e.Height;
+
+					Label l = mWidgets[i][j] as Label;
+					if (l != null && l._isFitToTray())
+					{
+						labelsAndSeps.Add(e);
+						continue;
+					}
+					Separator s = mWidgets[i][j] as Separator;
+					if (s != null && s._isFitToTray())
+					{
+						labelsAndSeps.Add(e);
+						continue;
+					}
+
+					if (e.Width > trayWidth)
+						trayWidth = e.Width;
+				}
+
+				// add paddings and resize trays
+				mTrays[i].Width = (trayWidth + 2 * mWidgetPadding);
+				mTrays[i].Height = (trayHeight + mWidgetPadding);
+
+				for (int j = 0; j < labelsAndSeps.Count; j++)
+				{
+					labelsAndSeps[j].Width = ((int)trayWidth);
+					labelsAndSeps[j].Left = (-(int)(trayWidth / 2));
+				}
+			}
+
+			for (uint i = 0; i < 9; i++) // snap trays to anchors
+			{
+				if (i == (int)TrayLocation.TL_TOPLEFT || i == (int)TrayLocation.TL_LEFT || i == (int)TrayLocation.TL_BOTTOMLEFT)
+					mTrays[i].Left = (mTrayPadding);
+				if (i == (int)TrayLocation.TL_TOP || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_BOTTOM)
+					mTrays[i].Left = (-mTrays[i].Width / 2);
+				if (i == (int)TrayLocation.TL_TOPRIGHT || i == (int)TrayLocation.TL_RIGHT || i == (int)TrayLocation.TL_BOTTOMRIGHT)
+					mTrays[i].Left = (-(mTrays[i].Width + mTrayPadding));
+
+				if (i == (int)TrayLocation.TL_TOPLEFT || i == (int)TrayLocation.TL_TOP || i == (int)TrayLocation.TL_TOPRIGHT)
+					mTrays[i].Top = (mTrayPadding);
+				if (i == (int)TrayLocation.TL_LEFT || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_RIGHT)
+					mTrays[i].Top = (-mTrays[i].Height / 2);
+				if (i == (int)TrayLocation.TL_BOTTOMLEFT || i == (int)TrayLocation.TL_BOTTOM || i == (int)TrayLocation.TL_BOTTOMRIGHT)
+					mTrays[i].Top = (-mTrays[i].Height - mTrayPadding);
+
+				// prevents some weird texture filtering problems (just some)
+				mTrays[i].SetPosition((int)mTrays[i].Left, (int)mTrays[i].Top);
+				mTrays[i].SetDimensions((int)mTrays[i].Width, (int)mTrays[i].Height);
+			}
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Returns a 3D ray into the scene that is directly underneath the cursor.
+		//		-----------------------------------------------------------------------------
+		public Mogre.Ray getCursorRay(Mogre.Camera cam)
+		{
+			return screenToScene(cam, new Mogre.Vector2(mCursor._getLeft(), mCursor._getTop()));
+		}
+
+		public Button createButton(TrayLocation trayLoc, string name, string caption)
+		{
+			return createButton(trayLoc, name, caption, 0f);
+		}
+
+		public Button createButton(TrayLocation trayLoc, string name, string caption, float width)
+		{
+			Button b = new Button(name, caption, width);
+			moveWidgetToTray(b, trayLoc);
+			b._assignListener(mListener);
+			return b;
+		}
+		public Button createButton(string name, string caption, float width)
+		{
+			Button b = new Button(name, caption, width);
+			moveWidgetToTray(b, TrayLocation.TL_NONE);
+			b._assignListener(mListener);
+			return b;
+		}
+
+		public TextBox createTextBox(TrayLocation trayLoc, string name, string caption, float width, float height)
+		{
+			TextBox tb = new TextBox(name, caption, width, height);
+			moveWidgetToTray(tb, trayLoc);
+			tb._assignListener(mListener);
+			return tb;
+		}
+
+		public SelectMenu createThickSelectMenu(TrayLocation trayLoc, string name, string caption, float width, uint maxItemsShown)
+		{
+			return createThickSelectMenu(trayLoc, name, caption, width, maxItemsShown, new StringVector());
+		}
+		public SelectMenu createThickSelectMenu(TrayLocation trayLoc, string name, string caption, float width, uint maxItemsShown, StringVector items)
+		{
+			SelectMenu sm = new SelectMenu(name, caption, width, 0f, maxItemsShown);
+			moveWidgetToTray(sm, trayLoc);
+			sm._assignListener(mListener);
+			//if (!items.empty())
+			if (!items.IsEmpty)
+				sm.setItems(items);
+			return sm;
+		}
+
+		public SelectMenu createLongSelectMenu(TrayLocation trayLoc, string name, string caption, float width, float boxWidth, uint maxItemsShown)
+		{
+			return createLongSelectMenu(trayLoc, name, caption, width, boxWidth, maxItemsShown, new StringVector());
+		}
+
+		public SelectMenu createLongSelectMenu(TrayLocation trayLoc, string name, string caption, float width, float boxWidth, uint maxItemsShown, StringVector items)
+		{
+			SelectMenu sm = new SelectMenu(name, caption, width, boxWidth, maxItemsShown);
+			moveWidgetToTray(sm, trayLoc);
+			sm._assignListener(mListener);
+			//if (!items.empty())
+			if (!items.IsEmpty)
+				sm.setItems(items);
+			return sm;
+		}
+
+		public SelectMenu createLongSelectMenu(TrayLocation trayLoc, string name, string caption, float boxWidth, uint maxItemsShown)
+		{
+			return createLongSelectMenu(trayLoc, name, caption, boxWidth, maxItemsShown, new StringVector());
+		}
+
+		public SelectMenu createLongSelectMenu(TrayLocation trayLoc, string name, string caption, float boxWidth, uint maxItemsShown, StringVector items)
+		{
+			return createLongSelectMenu(trayLoc, name, caption, 0, boxWidth, maxItemsShown, items);
+		}
+
+		public Label createLabel(TrayLocation trayLoc, string name, string caption)
+		{
+			return createLabel(trayLoc, name, caption, 0f);
+		}
+
+		public Label createLabel(TrayLocation trayLoc, string name, string caption, float width)
+		{
+			Label l = new Label(name, caption, width);
+			moveWidgetToTray(l, trayLoc);
+			l._assignListener(mListener);
+			return l;
+		}
+
+		public StaticText createStaticText(TrayLocation trayLoc, string name, string caption)
+		{
+			return createStaticText(trayLoc, name, caption, 0f, false, ColourValue.Black);
+		}
+
+		public StaticText createStaticText(TrayLocation trayLoc, string name, string caption, ColourValue color)
+		{
+			return createStaticText(trayLoc, name, caption, 0f, true, color);
+		}
+		public StaticText createStaticText(TrayLocation trayLoc, string name, string caption, float width, bool specificColor, ColourValue color)
+		{
+			StaticText st = new StaticText(name, caption, width, specificColor, ColourValue.Black);
+			moveWidgetToTray(st, trayLoc);
+			st._assignListener(mListener);
+			return st;
+		}
+
+		public Separator createSeparator(TrayLocation trayLoc, string name)
+		{
+			return createSeparator(trayLoc, name, 0f);
+		}
+
+		public Separator createSeparator(TrayLocation trayLoc, string name, float width)
+		{
+			Separator s = new Separator(name, width);
+			moveWidgetToTray(s, trayLoc);
+			return s;
+		}
+
+		public Slider createThickSlider(TrayLocation trayLoc, string name, string caption, float width, float valueBoxWidth, float minValue, float maxValue, uint snaps)
+		{
+			Slider s = new Slider(name, caption, width, 0, valueBoxWidth, minValue, maxValue, snaps);
+			moveWidgetToTray(s, trayLoc);
+			s._assignListener(mListener);
+			return s;
+		}
+
+		public Slider createLongSlider(TrayLocation trayLoc, string name, string caption, float width, float trackWidth, float valueBoxWidth, float minValue, float maxValue, uint snaps)
+		{
+			if (trackWidth <= 0)
+				trackWidth = 1;
+			Slider s = new Slider(name, caption, width, trackWidth, valueBoxWidth, minValue, maxValue, snaps);
+			moveWidgetToTray(s, trayLoc);
+			s._assignListener(mListener);
+			return s;
+		}
+
+		public Slider createLongSlider(TrayLocation trayLoc, string name, string caption, float trackWidth, float valueBoxWidth, float minValue, float maxValue, uint snaps)
+		{
+			return createLongSlider(trayLoc, name, caption, 0, trackWidth, valueBoxWidth, minValue, maxValue, snaps);
+		}
+
+		public ParamsPanel createParamsPanel(TrayLocation trayLoc, string name, float width, uint lines)
+		{
+			ParamsPanel pp = new ParamsPanel(name, width, lines);
+			moveWidgetToTray(pp, trayLoc);
+			return pp;
+		}
+
+		public ParamsPanel createParamsPanel(TrayLocation trayLoc, string name, float width, StringVector paramNames)
+		{
+			ParamsPanel pp = new ParamsPanel(name, width, (uint)paramNames.Count);
+			pp.setAllParamNames(paramNames);
+			moveWidgetToTray(pp, trayLoc);
+			return pp;
+		}
+		public ParamsPanel createParamsPanel(TrayLocation trayLoc, string name, float width, string[] paramNames)
+		{
+			StringVector sv = new StringVector();
+			foreach (var v in paramNames)
+			{
+				sv.Add(v);
+			}
+			return createParamsPanel(trayLoc, name, width, sv);
+		}
+		public CheckBox createCheckBox(TrayLocation trayLoc, string name, string caption)
+		{
+			return createCheckBox(trayLoc, name, caption, 0f);
+		}
+
+		public CheckBox createCheckBox(TrayLocation trayLoc, string name, string caption, float width)
+		{
+			CheckBox cb = new CheckBox(name, caption, width);
+			moveWidgetToTray(cb, trayLoc);
+			cb._assignListener(mListener);
+			return cb;
+		}
+
+		public DecorWidget createDecorWidget(TrayLocation trayLoc, string name, string templateName)
+		{
+			DecorWidget dw = new DecorWidget(name, templateName);
+			moveWidgetToTray(dw, trayLoc);
+			return dw;
+		}
+
+		public ProgressBar createProgressBar(TrayLocation trayLoc, string name, string caption, float width, float commentBoxWidth)
+		{
+			ProgressBar pb = new ProgressBar(name, caption, width, commentBoxWidth);
+			moveWidgetToTray(pb, trayLoc);
+			return pb;
+		}
+
+		public ListView createListView(TrayLocation trayLoc, string name, float height, float width, List<string> columnNames)
+		{
+			ListView lsv = new ListView(name, -1, -1, height, width, columnNames);
+			moveWidgetToTray(lsv, trayLoc);
+			lsv._assignListener(mListener);
+			return lsv;
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Shows frame statistics widget set in the specified location.
+		//		-----------------------------------------------------------------------------
+		public void showFrameStats(TrayLocation trayLoc)
+		{
+			showFrameStats(trayLoc, -1);
+		}
+		//ORIGINAL LINE: void showFrameStats(TrayLocation trayLoc, int place = -1)
+		public void showFrameStats(TrayLocation trayLoc, int place)
+		{
+			if (!areFrameStatsVisible())
+			{
+				StringVector stats = new StringVector();
+				stats.Add("Average FPS");
+				stats.Add("Best FPS");
+				stats.Add("Worst FPS");
+				stats.Add("Triangles");
+				stats.Add("Batches");
+
+				mFpsLabel = createLabel(TrayLocation.TL_NONE, mName + "/FpsLabel", "FPS:", 180);
+				mFpsLabel._assignListener(this);
+				mStatsPanel = createParamsPanel(TrayLocation.TL_NONE, mName + "/StatsPanel", 180, stats);
+			}
+
+			moveWidgetToTray(mFpsLabel, trayLoc, place);
+			moveWidgetToTray(mStatsPanel, trayLoc, locateWidgetInTray(mFpsLabel) + 1);
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Hides frame statistics widget set.
+		//		-----------------------------------------------------------------------------
+		public void hideFrameStats()
+		{
+			if (areFrameStatsVisible())
+			{
+				destroyWidget(mFpsLabel);
+				destroyWidget(mStatsPanel);
+				//delete mFpsLabel
+				//delete mStatsPanel
+				//mFpsLabel.Dispose();
+				//mStatsPanel.Dispose();
+				mFpsLabel = null;
+				mStatsPanel = null;
+			}
+		}
+
+		public bool areFrameStatsVisible()
+		{
+			return mFpsLabel != null;
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Toggles visibility of advanced statistics.
+		//		-----------------------------------------------------------------------------
+		public void toggleAdvancedFrameStats()
+		{
+			if (mFpsLabel != null)
+				labelHit(mFpsLabel);
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Shows logo in the specified location.
+		//		-----------------------------------------------------------------------------
+		public void showLogo(TrayLocation trayLoc)
+		{
+			showLogo(trayLoc, -1);
+		}
+		//ORIGINAL LINE: void showLogo(TrayLocation trayLoc, int place = -1)
+		public void showLogo(TrayLocation trayLoc, int place)
+		{
+			if (!isLogoVisible())
+				mLogo = createDecorWidget(TrayLocation.TL_NONE, mName + "/Logo", "SdkTrays/Logo");
+			moveWidgetToTray(mLogo, trayLoc, place);
+		}
+
+		public void hideLogo()
+		{
+			if (isLogoVisible())
+			{
+				destroyWidget(mLogo);
+				mLogo.Dispose();
+				mLogo = null;
+			}
+		}
+
+		public bool isLogoVisible()
+		{
+			return mLogo != null;
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Shows loading bar. Also takes job settings: the number of resource groups
+		//		| to be initialised, the number of resource groups to be loaded, and the
+		//		| proportion of the job that will be taken up by initialisation. Usually,
+		//		| script parsing takes up most time, so the default value is 0.7.
+		//		-----------------------------------------------------------------------------
+		public void showLoadingBar(uint numGroupsInit, uint numGroupsLoad)
+		{
+			showLoadingBar(numGroupsInit, numGroupsLoad, 0.7f);
+		}
+		public void showLoadingBar(uint numGroupsInit)
+		{
+			showLoadingBar(numGroupsInit, 1, 0.7f);
+		}
+		public void showLoadingBar()
+		{
+			showLoadingBar(1, 1, 0.7f);
+		}
+		//ORIGINAL LINE: void showLoadingBar(uint numGroupsInit = 1, uint numGroupsLoad = 1, Ogre::Real initProportion = 0.7)
+		public void showLoadingBar(uint numGroupsInit, uint numGroupsLoad, float initProportion)
+		{
+			if (mDialog != null)
+				closeDialog();
+			if (mLoadBar != null)
+				hideLoadingBar();
+
+			mLoadBar = new ProgressBar(mName + "/LoadingBar", "Loading...", 400, 308);
+			Mogre.OverlayElement e = mLoadBar.getOverlayElement();
+			mDialogShade.AddChild(e);
+			e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
+			e.Left = (-(e.Width / 2));
+			e.Top = (-(e.Height / 2));
+
+			//Mogre.ResourceGroupManager.Singleton.addResourceGroupListener(this);
+			this._HookResourceGroupLoadEvent();
+
+			mCursorWasVisible = isCursorVisible();
+			hideCursor();
+			mDialogShade.Show();
+
+			// calculate the proportion of job required to init/load one group
+
+			if (numGroupsInit == 0 && numGroupsLoad != 0)
+			{
+				mGroupInitProportion = 0;
+				mGroupLoadProportion = 1;
+			}
+			else if (numGroupsLoad == 0 && numGroupsInit != 0)
+			{
+				mGroupLoadProportion = 0;
+				if (numGroupsInit != 0)
+					mGroupInitProportion = 1;
+			}
+			else if (numGroupsInit == 0 && numGroupsLoad == 0)
+			{
+				mGroupInitProportion = 0;
+				mGroupLoadProportion = 0;
+			}
+			else
+			{
+				mGroupInitProportion = initProportion / numGroupsInit;
+				mGroupLoadProportion = (1 - initProportion) / numGroupsLoad;
+			}
+		}
+
+		public void hideLoadingBar()
+		{
+			if (mLoadBar != null)
+			{
+				mLoadBar.cleanup();
+				//delete mLoadBar;
+				mLoadBar.Dispose();
+				mLoadBar = null;
+
+				//Mogre.ResourceGroupManager.Singleton.removeResourceGroupListener(this);
+				this._UnHookResourceGroupLoadEvent();
+				if (mCursorWasVisible)
+					showCursor();
+				mDialogShade.Hide();
+			}
+		}
+
+		public bool isLoadingBarVisible()
+		{
+			return mLoadBar != null;
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Pops up a message dialog with an OK button.
+		//		-----------------------------------------------------------------------------
+		public void showOkDialog(string caption, string message)
+		{
+			if (mLoadBar != null)
+				hideLoadingBar();
+
+			Mogre.OverlayElement e;
+
+			if (mDialog != null)
+			{
+				mDialog.setCaption(caption);
+				mDialog.setText(message);
+
+				if (mOk != null)
+					return;
+				else
+				{
+					mYes.cleanup();
+					mNo.cleanup();
+					//delete mYes;
+					//delete mNo;
+					mYes.Dispose();
+					mNo.Dispose();
+					mYes = null;
+					mNo = null;
+				}
+			}
+			else
+			{
+				// give widgets a chance to reset in case they're in the middle of something
+				for (int i = 0; i < 10; i++)
+				{
+					for (int j = 0; j < mWidgets[i].Count; j++)
+					{
+						mWidgets[i][j]._focusLost();
+					}
+				}
+
+				mDialogShade.Show();
+
+				mDialog = new TextBox(mName + "/DialogBox", caption, 300f, 208f);
+				mDialog.setText(message);
+				e = mDialog.getOverlayElement();
+				mDialogShade.AddChild(e);
+				e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
+				e.Left = (-(e.Width / 2f));
+				e.Top = (-(e.Height / 2f));
+
+				mCursorWasVisible = isCursorVisible();
+				showCursor();
+			}
+
+			mOk = new Button(mName + "/OkButton", "OK", 60f);
+			mOk._assignListener(this);
+			e = mOk.getOverlayElement();
+			mDialogShade.AddChild(e);
+			e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
+			e.Left = (-(e.Width / 2f));
+			e.Top = (mDialog.getOverlayElement().Top + mDialog.getOverlayElement().Height + 5f);
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Pops up a question dialog with Yes and No buttons.
+		//		-----------------------------------------------------------------------------
+		public void showYesNoDialog(string caption, string question)
+		{
+			if (mLoadBar != null)
+				hideLoadingBar();
+
+			Mogre.OverlayElement e;
+
+			if (mDialog != null)
+			{
+				mDialog.setCaption(caption);
+				mDialog.setText(question);
+
+				if (mOk != null)
+				{
+					mOk.cleanup();
+					//delete mOk;
+					mOk.Dispose();
+					mOk = null;
+				}
+				else
+					return;
+			}
+			else
+			{
+				// give widgets a chance to reset in case they're in the middle of something
+				for (int i = 0; i < 10; i++)
+				{
+					for (int j = 0; j < mWidgets[i].Count; j++)
+					{
+						mWidgets[i][j]._focusLost();
+					}
+				}
+
+				mDialogShade.Show();
+
+				mDialog = new TextBox(mName + "/DialogBox", caption, 300f, 208f);
+				mDialog.setText(question);
+				e = mDialog.getOverlayElement();
+				mDialogShade.AddChild(e);
+				e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
+				e.Left = (-(e.Width / 2f));
+				e.Top = (-(e.Height / 2f));
+
+				mCursorWasVisible = isCursorVisible();
+				showCursor();
+			}
+
+			mYes = new Button(mName + "/YesButton", "Yes", 58f);
+			mYes._assignListener(this);
+			e = mYes.getOverlayElement();
+			mDialogShade.AddChild(e);
+			e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
+			e.Left = (-(e.Width + 2f));
+			e.Top = (mDialog.getOverlayElement().Top + mDialog.getOverlayElement().Height + 5f);
+
+			mNo = new Button(mName + "/NoButton", "No", 50f);
+			mNo._assignListener(this);
+			e = mNo.getOverlayElement();
+			mDialogShade.AddChild(e);
+			e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
+			e.Left = (3f);
+			e.Top = (mDialog.getOverlayElement().Top + mDialog.getOverlayElement().Height + 5f);
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Hides whatever dialog is currently showing.
+		//		-----------------------------------------------------------------------------
+		public void closeDialog()
+		{
+			if (mDialog != null)
+			{
+				if (mOk != null)
+				{
+					mOk.cleanup();
+					//delete mOk;
+					mOk.Dispose();
+					mOk = null;
+				}
+				else
+				{
+					mYes.cleanup();
+					mNo.cleanup();
+					//delete mYes;
+					//delete mNo;
+					mYes.Dispose();
+					mNo.Dispose();
+					mYes = null;
+					mNo = null;
+				}
+
+				mDialogShade.Hide();
+				mDialog.cleanup();
+				//delete mDialog;
+				mDialog.Dispose();
+				mDialog = null;
+
+				if (!mCursorWasVisible)
+					hideCursor();
+			}
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Determines if any dialog is currently visible.
+		//		-----------------------------------------------------------------------------
+		public bool isDialogVisible()
+		{
+			return mDialog != null;
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Gets a widget from a tray by place.
+		//		-----------------------------------------------------------------------------
+		public Widget getWidget(TrayLocation trayLoc, uint place)
+		{
+			if (place < mWidgets[(int)trayLoc].Count)
+				return mWidgets[(int)trayLoc][(int)place];
+			return null;
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Gets a widget from a tray by name.
+		//		-----------------------------------------------------------------------------
+		public Widget getWidget(TrayLocation trayLoc, string name)
+		{
+			for (int i = 0; i < mWidgets[(int)trayLoc].Count; i++)
+			{
+				if (mWidgets[(int)trayLoc][i].getName() == name)
+					return mWidgets[(int)trayLoc][i];
+			}
+			return null;
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Gets a widget by name.
+		//		-----------------------------------------------------------------------------
+		public Widget getWidget(string name)
+		{
+			for (int i = 0; i < 10; i++)
+			{
+				for (int j = 0; j < mWidgets[i].Count; j++)
+				{
+					if (mWidgets[i][j].getName() == name)
+						return mWidgets[i][j];
+				}
+			}
+			return null;
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Gets the number of widgets in total.
+		//		-----------------------------------------------------------------------------
+		public uint getNumWidgets()
+		{
+			uint total = 0;
+
+			for (int i = 0; i < 10; i++)
+			{
+				total += (uint)mWidgets[i].Count;
+			}
+
+			return total;
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Gets the number of widgets in a tray.
+		//		-----------------------------------------------------------------------------
+		public int getNumWidgets(TrayLocation trayLoc)
+		{
+			return mWidgets[(int)trayLoc].Count;
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Gets all the widgets of a specific tray.
+		//		-----------------------------------------------------------------------------
+		//public Mogre.VectorIterator<List<Widget*>> getWidgetIterator(TrayLocation trayLoc)
+		public List<Widget> getWidgetIterator(TrayLocation trayLoc)
+		{
+			return mWidgets[(int)trayLoc];
+			//return Mogre.VectorIterator<List<Widget*>>(mWidgets[(int)trayLoc].begin(), mWidgets[(int)trayLoc].end());
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Gets a widget's position in its tray.
+		//		-----------------------------------------------------------------------------
+		public int locateWidgetInTray(Widget widget)
+		{
+			for (int i = 0; i < mWidgets[(int)widget.getTrayLocation()].Count; i++)
+			{
+				if (mWidgets[(int)widget.getTrayLocation()][i] == widget)
+					return i;
+			}
+			return -1;
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Destroys a widget.
+		//		-----------------------------------------------------------------------------
+		public void destroyWidget(Widget widget)
+		{
+			if (widget == null)
+				OGRE_EXCEPT("Mogre.Exception.ERR_ITEM_NOT_FOUND", "Widget does not exist.", "TrayManager::destroyWidget");
+
+			// in case special widgets are destroyed manually, set them to 0
+			if (widget == mLogo)
+				mLogo = null;
+			else if (widget == mStatsPanel)
+				mStatsPanel = null;
+			else if (widget == mFpsLabel)
+				mFpsLabel = null;
+
+			mTrays[(int)widget.getTrayLocation()].RemoveChild(widget.getName());
+
+			List<Widget> wList = mWidgets[(int)widget.getTrayLocation()];
+			//C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'erase' method in C#:
+			//wList.erase(std.find(wList.GetEnumerator(), wList.end(), widget));
+			for (int j = wList.Count - 1; j >= 0; j--)
+			{
+				if (wList[j] == widget)
+				{
+					wList.RemoveAt(j);
+				}
+			}
+			if (widget == mExpandedMenu)
+				setExpandedMenu(null);
+
+			widget.cleanup();
+
+			mWidgetDeathRow.Add(widget);
+
+			adjustTrays();
+		}
+
+		private void OGRE_EXCEPT(string p, string p_2, string p_3)
+		{
+			throw new Exception(p + "_" + p_2 + "_" + p_3);
+		}
+
+		public void destroyWidget(TrayLocation trayLoc, uint place)
+		{
+			destroyWidget(getWidget(trayLoc, place));
+		}
+
+		public void destroyWidget(TrayLocation trayLoc, string name)
+		{
+			destroyWidget(getWidget(trayLoc, name));
+		}
+
+		public void destroyWidget(string name)
+		{
+			destroyWidget(getWidget(name));
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Destroys all widgets in a tray.
+		//		-----------------------------------------------------------------------------
+		public void destroyAllWidgetsInTray(TrayLocation trayLoc)
+		{
+			//while (!mWidgets[(int)trayLoc].empty())
+			while (mWidgets[(int)trayLoc].Count > 0)
+				destroyWidget(mWidgets[(int)trayLoc][0]);
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Destroys all widgets.
+		//		-----------------------------------------------------------------------------
+		public void destroyAllWidgets()
+		{
+			for (uint i = 0; i < 10; i++) // destroy every widget in every tray (including null tray)
+			{
+				destroyAllWidgetsInTray((TrayLocation)i);
+			}
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Adds a widget to a specified tray.
+		//		-----------------------------------------------------------------------------
+		public void moveWidgetToTray(Widget widget, TrayLocation trayLoc)
+		{
+			moveWidgetToTray(widget, trayLoc, -1);
+		}
+
+		public void moveWidgetToTray(Widget widget, TrayLocation trayLoc, int place)
+		{
+			if (widget == null)
+				OGRE_EXCEPT("Mogre.Exception.ERR_ITEM_NOT_FOUND", "Widget does not exist.", "TrayManager::moveWidgetToTray");
+
+			// remove widget from old tray
+			List<Widget> wList = mWidgets[(int)widget.getTrayLocation()];
+			for (int j = wList.Count - 1; j >= 0; j--)
+			{
+				if (wList[j] == widget)
+				{
+					wList.RemoveAt(j);
+					mTrays[(int)widget.getTrayLocation()].RemoveChild(widget.getName());
+				}
+			}
+
+
+			// insert widget into new tray at given position, or at the end if unspecified or invalid
+			if (place == -1 || place > (int)mWidgets[(int)trayLoc].Count)
+				place = (int)mWidgets[(int)trayLoc].Count;
+			mWidgets[(int)trayLoc].Insert(place, widget);
+			mTrays[(int)trayLoc].AddChild(widget.getOverlayElement());
+
+			widget.getOverlayElement().HorizontalAlignment = (mTrayWidgetAlign[(int)trayLoc]);
+
+			// adjust trays if necessary
+			if (widget.getTrayLocation() != TrayLocation.TL_NONE || trayLoc != TrayLocation.TL_NONE)
+				adjustTrays();
+
+			widget._assignToTray(trayLoc);
+		}
+
+		public void moveWidgetToTray(string name, TrayLocation trayLoc)
+		{
+			moveWidgetToTray(name, trayLoc, -1);
+		}
+
+		public void moveWidgetToTray(string name, TrayLocation trayLoc, int place)
+		{
+			moveWidgetToTray(getWidget(name), trayLoc, place);
+		}
+
+		public void moveWidgetToTray(TrayLocation currentTrayLoc, string name, TrayLocation targetTrayLoc)
+		{
+			moveWidgetToTray(currentTrayLoc, name, targetTrayLoc, -1);
+		}
+		//ORIGINAL LINE: void moveWidgetToTray(TrayLocation currentTrayLoc, const Ogre::String& name, TrayLocation targetTrayLoc, int place = -1)
+		public void moveWidgetToTray(TrayLocation currentTrayLoc, string name, TrayLocation targetTrayLoc, int place)
+		{
+			moveWidgetToTray(getWidget(currentTrayLoc, name), targetTrayLoc, place);
+		}
+
+		public void moveWidgetToTray(TrayLocation currentTrayLoc, uint currentPlace, TrayLocation targetTrayLoc)
+		{
+			moveWidgetToTray(currentTrayLoc, currentPlace, targetTrayLoc, -1);
+		}
+		//ORIGINAL LINE: void moveWidgetToTray(TrayLocation currentTrayLoc, uint currentPlace, TrayLocation targetTrayLoc, int targetPlace = -1)
+		public void moveWidgetToTray(TrayLocation currentTrayLoc, uint currentPlace, TrayLocation targetTrayLoc, int targetPlace)
+		{
+			moveWidgetToTray(getWidget(currentTrayLoc, currentPlace), targetTrayLoc, targetPlace);
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Removes a widget from its tray. Same as moving it to the null tray.
+		//		-----------------------------------------------------------------------------
+		public void removeWidgetFromTray(Widget widget)
+		{
+			moveWidgetToTray(widget, TrayLocation.TL_NONE);
+		}
+
+		public void removeWidgetFromTray(string name)
+		{
+			removeWidgetFromTray(getWidget(name));
+		}
+
+		public void removeWidgetFromTray(TrayLocation trayLoc, string name)
+		{
+			removeWidgetFromTray(getWidget(trayLoc, name));
+		}
+
+		public void removeWidgetFromTray(TrayLocation trayLoc, uint place)
+		{
+			removeWidgetFromTray(getWidget(trayLoc, place));
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Removes all widgets from a widget tray.
+		//		-----------------------------------------------------------------------------
+		public void clearTray(TrayLocation trayLoc)
+		{
+			if (trayLoc == TrayLocation.TL_NONE) // can't clear the null tray
+				return;
+
+			//while (!mWidgets[(int)trayLoc].empty()) // remove every widget from given tray
+			while (mWidgets[(int)trayLoc].Count > 0)
+			{
+				removeWidgetFromTray(mWidgets[(int)trayLoc][0]);
+			}
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Removes all widgets from all widget trays.
+		//		-----------------------------------------------------------------------------
+		public void clearAllTrays()
+		{
+			for (uint i = 0; i < 9; i++)
+			{
+				clearTray((TrayLocation)i);
+			}
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Process frame events. Updates frame statistics widget set and deletes
+		//		| all widgets queued for destruction.
+		//		-----------------------------------------------------------------------------
+		public bool frameRenderingQueued(Mogre.FrameEvent evt)
+		{
+			for (int i = 0; i < mWidgetDeathRow.Count; i++)
+			{
+				//delete mWidgetDeathRow[i];
+				mWidgetDeathRow[i] = null;
+			}
+			mWidgetDeathRow.Clear();
+
+
+			uint currentTime = mTimer.Milliseconds;
+			if (areFrameStatsVisible() && (currentTime - mLastStatUpdateTime > 250))
+			{
+				Mogre.RenderTarget.FrameStats stats = mWindow.GetStatistics();
+
+				mLastStatUpdateTime = currentTime;
+
+				string s = ("FPS: ");
+				s += ((int)stats.LastFPS).ToString();
+
+				mFpsLabel.setCaption(s);
+
+				if (mStatsPanel.getOverlayElement().IsVisible)
+				{
+					StringVector values = new StringVector();
+
+					//StringStream oss = new StringStream();
+
+					//oss.str("");
+					//oss << std.fixed << std.setprecision(1) << stats.avgFPS;
+					//string str = oss.str();
+					//values.push_back(str);
+
+					//oss.str("");
+					//oss << std.fixed << std.setprecision(1) << stats.bestFPS;
+					//str = oss.str();
+					//values.push_back(str);
+
+					//oss.str("");
+					//oss << std.fixed << std.setprecision(1) << stats.worstFPS;
+					//str = oss.str();
+					//values.push_back(str);
+
+					//str = stringConverter.toString(stats.triangleCount);
+					//values.push_back(str);
+
+					//str = stringConverter.toString(stats.batchCount);
+					//values.push_back(str);
+					values.Add(stats.AvgFPS.ToString("N", System.Globalization.CultureInfo.InvariantCulture));
+					values.Add(stats.BestFPS.ToString("N", System.Globalization.CultureInfo.InvariantCulture));
+					values.Add(stats.WorstFPS.ToString("N", System.Globalization.CultureInfo.InvariantCulture));
+					values.Add(stats.TriangleCount.ToString("N", System.Globalization.CultureInfo.InvariantCulture));
+					values.Add(stats.BatchCount.ToString("N", System.Globalization.CultureInfo.InvariantCulture));
+					mStatsPanel.setAllParamValues(values);
+				}
+			}
+
+			return true;
+		}
 
 
 
-    //    =============================================================================
-    //	| Listener class for responding to tray events.
-    //	=============================================================================
-    public class SdkTrayListener
+
+
+		//        -----------------------------------------------------------------------------
+		//		| Toggles visibility of advanced statistics.
+		//		-----------------------------------------------------------------------------
+		public new void labelHit(Label label)
+		{
+			if (mStatsPanel.getOverlayElement().IsVisible)
+			{
+				mStatsPanel.getOverlayElement().Hide();
+				mFpsLabel.getOverlayElement().Width = (150f);
+				removeWidgetFromTray(mStatsPanel);
+			}
+			else
+			{
+				mStatsPanel.getOverlayElement().Show();
+				mFpsLabel.getOverlayElement().Width = (180f);
+				moveWidgetToTray(mStatsPanel, mFpsLabel.getTrayLocation(), locateWidgetInTray(mFpsLabel) + 1);
+			}
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Destroys dialog widgets, notifies listener, and ends high priority session.
+		//		-----------------------------------------------------------------------------
+		public new void buttonHit(Button button)
+		{
+			if (mListener != null)
+			{
+				if (button == mOk)
+					mListener.okDialogClosed(mDialog.getText());
+				else
+					mListener.yesNoDialogClosed(mDialog.getText(), button == mYes);
+			}
+			closeDialog();
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Processes mouse button down events. Returns true if the event was
+		//		| consumed and should not be passed on to other handlers.
+		//		-----------------------------------------------------------------------------
+
+		//#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+		//		public bool injectMouseDown(OIS.MultiTouchEvent evt)
+		//#else
+		public bool injectMouseDown(MOIS.MouseEvent evt, MOIS.MouseButtonID id)
+		//#endif
+		{
+
+			//#if (OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS) && (OGRE_PLATFORM != OGRE_PLATFORM_ANDROID)
+			// only process left button when stuff is visible
+			if (!mCursorLayer.IsVisible || id != MOIS.MouseButtonID.MB_Left)
+				return false;
+			//#else
+			//            // only process touches when stuff is visible
+			//            if (!mCursorLayer.isVisible())
+			//                return false;
+			//#endif
+			Mogre.Vector2 cursorPos = new Mogre.Vector2(mCursor.Left, mCursor.Top);
+
+			mTrayDrag = false;
+
+			if (mExpandedMenu != null) // only check top priority widget until it passes on
+			{
+				mExpandedMenu._cursorPressed(cursorPos);
+				if (!mExpandedMenu.isExpanded())
+					setExpandedMenu(null);
+				return true;
+			}
+
+			if (mDialog != null) // only check top priority widget until it passes on
+			{
+				mDialog._cursorPressed(cursorPos);
+				if (mOk != null)
+					mOk._cursorPressed(cursorPos);
+				else
+				{
+					mYes._cursorPressed(cursorPos);
+					mNo._cursorPressed(cursorPos);
+				}
+				return true;
+			}
+
+			for (uint i = 0; i < 9; i++) // check if mouse is over a non-null tray
+			{
+				if (mTrays[i].IsVisible && Widget.isCursorOver(mTrays[i], cursorPos, 2f))
+				{
+					mTrayDrag = true; // initiate a drag that originates in a tray
+					break;
+				}
+			}
+
+			for (int i = 0; i < mWidgets[9].Count; i++) // check if mouse is over a non-null tray's widgets
+			{
+				if (mWidgets[9][i].getOverlayElement().IsVisible && Widget.isCursorOver(mWidgets[9][i].getOverlayElement(), cursorPos))
+				{
+					mTrayDrag = true; // initiate a drag that originates in a tray
+					break;
+				}
+			}
+
+			//if (!mTrayDrag) // don't process if mouse press is not in tray
+			//    return false;
+
+			for (int i = 0; i < 10; i++)
+			{
+				if (!mTrays[i].IsVisible)
+					continue;
+
+				for (int j = 0; j < mWidgets[i].Count; j++)
+				{
+					Widget w = mWidgets[i][j];
+					if (!w.getOverlayElement().IsVisible)
+						continue;
+					w._cursorPressed(cursorPos); // send event to widget
+
+					SelectMenu m = w as SelectMenu;
+					if (m != null && m.isExpanded()) // a menu has begun a top priority session
+					{
+						setExpandedMenu(m);
+						return true;
+					}
+				}
+			}
+
+			return true; // a tray click is not to be handled by another party
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Processes mouse button up events. Returns true if the event was
+		//		| consumed and should not be passed on to other handlers.
+		//		-----------------------------------------------------------------------------
+
+		//#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+		//        public bool injectMouseUp(OIS.MultiTouchEvent evt)
+		//#else
+		public bool injectMouseUp(MOIS.MouseEvent evt, MOIS.MouseButtonID id)
+		//#endif
+		{
+
+			//#if (OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS) && (OGRE_PLATFORM != OGRE_PLATFORM_ANDROID)
+			// only process left button when stuff is visible
+			if (!mCursorLayer.IsVisible || id != MOIS.MouseButtonID.MB_Left)
+				return false;
+			//#else
+			//            // only process touches when stuff is visible
+			//            if (!mCursorLayer.isVisible())
+			//                return false;
+			//#endif
+			Mogre.Vector2 cursorPos = new Mogre.Vector2(mCursor.Left, mCursor.Top);
+
+			if (mExpandedMenu != null) // only check top priority widget until it passes on
+			{
+				mExpandedMenu._cursorReleased(cursorPos);
+				return true;
+			}
+
+			if (mDialog != null) // only check top priority widget until it passes on
+			{
+				mDialog._cursorReleased(cursorPos);
+				if (mOk != null)
+					mOk._cursorReleased(cursorPos);
+				else
+				{
+					mYes._cursorReleased(cursorPos);
+					// very important to check if second button still exists, because first button could've closed the popup
+					if (mNo != null)
+						mNo._cursorReleased(cursorPos);
+				}
+				return true;
+			}
+
+			if (!mTrayDrag) // this click did not originate in a tray, so don't process
+				return false;
+
+			Widget w = null;
+
+			for (int i = 0; i < 10; i++)
+			{
+				if (!mTrays[i].IsVisible)
+					continue;
+
+				for (int j = 0; j < mWidgets[i].Count; j++)
+				{
+					w = mWidgets[i][j];
+					if (!w.getOverlayElement().IsVisible)
+						continue;
+					w._cursorReleased(cursorPos); // send event to widget
+				}
+			}
+
+			mTrayDrag = false; // stop this drag
+			return true; // this click did originate in this tray, so don't pass it on
+		}
+
+		//        -----------------------------------------------------------------------------
+		//		| Updates cursor position. Returns true if the event was
+		//		| consumed and should not be passed on to other handlers.
+		//		-----------------------------------------------------------------------------
+
+		//#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
+		//        public bool injectMouseMove(OIS.MultiTouchEvent evt)
+		//#else
+		public bool injectMouseMove(MOIS.MouseEvent evt)
+		//#endif
+		{
+			if (!mCursorLayer.IsVisible) // don't process if cursor layer is invisible
+				return false;
+
+			Mogre.Vector2 cursorPos = new Mogre.Vector2(evt.state.X.abs, evt.state.Y.abs);
+			mCursor.SetPosition(cursorPos.x, cursorPos.y);
+
+			if (mExpandedMenu != null) // only check top priority widget until it passes on
+			{
+				mExpandedMenu._cursorMoved(cursorPos);
+				return true;
+			}
+
+			if (mDialog != null) // only check top priority widget until it passes on
+			{
+				mDialog._cursorMoved(cursorPos);
+				if (mOk != null)
+					mOk._cursorMoved(cursorPos);
+				else
+				{
+					mYes._cursorMoved(cursorPos);
+					mNo._cursorMoved(cursorPos);
+				}
+				return true;
+			}
+
+			Widget w = null;
+
+			for (int i = 0; i < 10; i++)
+			{
+				if (!mTrays[i].IsVisible)
+					continue;
+
+				for (int j = 0; j < mWidgets[i].Count; j++)
+				{
+					w = mWidgets[i][j];
+					if (!w.getOverlayElement().IsVisible)
+						continue;
+					w._cursorMoved(cursorPos); // send event to widget
+				}
+			}
+
+			if (mTrayDrag) // don't pass this event on if we're in the middle of a drag
+				return true;
+			return false;
+		}
+
+
+		//        -----------------------------------------------------------------------------
+		//		| Internal method to prioritise / deprioritise expanded menus.
+		//		-----------------------------------------------------------------------------
+		protected void setExpandedMenu(SelectMenu m)
+		{
+			if (mExpandedMenu == null && m != null)
+			{
+				Mogre.OverlayContainer c = (Mogre.OverlayContainer)m.getOverlayElement();
+				Mogre.OverlayContainer eb = (Mogre.OverlayContainer)c.GetChild(m.getName() + "/MenuExpandedBox");
+				eb._update();
+				eb.SetPosition((uint)(eb._getDerivedLeft() * Mogre.OverlayManager.Singleton.ViewportWidth), (uint)(eb._getDerivedTop() * Mogre.OverlayManager.Singleton.ViewportHeight));
+				c.RemoveChild(eb.Name);
+				mPriorityLayer.Add2D(eb);
+			}
+			else if (mExpandedMenu != null && m == null)
+			{
+				Mogre.OverlayContainer eb = mPriorityLayer.GetChild(mExpandedMenu.getName() + "/MenuExpandedBox");
+				mPriorityLayer.Remove2D(eb);
+				((Mogre.OverlayContainer)mExpandedMenu.getOverlayElement()).AddChild(eb);
+			}
+
+			mExpandedMenu = m;
+		}
+
+		public void AddOverlayElementToTrayLocation(OverlayElement element, TrayLocation trayLoc)
+		{
+			mTrays[(int)trayLoc].AddChild(element);
+		}
+
+		protected string mName = ""; // name of this tray system
+		protected Mogre.RenderWindow mWindow; // render window
+		protected InputContext mInputContext = null;
+		protected Mogre.Overlay mBackdropLayer; // backdrop layer
+		protected Mogre.Overlay mTraysLayer; // widget layer
+		protected Mogre.Overlay mPriorityLayer; // top priority layer
+		protected Mogre.Overlay mCursorLayer; // cursor layer
+		protected Mogre.OverlayContainer mBackdrop; // backdrop
+		protected Mogre.OverlayContainer[] mTrays = new Mogre.OverlayContainer[10]; // widget trays
+		protected List<Widget>[] mWidgets = new List<Widget>[10]; // widgets
+		protected List<Widget> mWidgetDeathRow = new List<Widget>(); // widget queue for deletion
+		protected Mogre.OverlayContainer mCursor; // cursor
+		protected SdkTrayListener mListener; // tray listener
+		protected float mWidgetPadding = 0f; // widget padding
+		protected float mWidgetSpacing = 0f; // widget spacing
+		protected float mTrayPadding = 0f; // tray padding
+		protected bool mTrayDrag; // a mouse press was initiated on a tray
+		protected SelectMenu mExpandedMenu; // top priority expanded menu widget
+		protected TextBox mDialog; // top priority dialog widget
+		protected Mogre.OverlayContainer mDialogShade; // top priority dialog shade
+		protected Button mOk; // top priority OK button
+		protected Button mYes; // top priority Yes button
+		protected Button mNo; // top priority No button
+		protected bool mCursorWasVisible; // cursor state before showing dialog
+		protected Label mFpsLabel; // FPS label
+		protected ParamsPanel mStatsPanel; // frame stats panel
+		protected DecorWidget mLogo; // logo
+		protected ProgressBar mLoadBar; // loading bar
+		protected float mGroupInitProportion = 0f; // proportion of load job assigned to initialising one resource group
+		protected float mGroupLoadProportion = 0f; // proportion of load job assigned to loading one resource group
+		protected float mLoadInc = 0f; // loading increment
+		protected Mogre.GuiHorizontalAlignment[] mTrayWidgetAlign = new Mogre.GuiHorizontalAlignment[10]; // tray widget alignments
+		protected Mogre.Timer mTimer; // Root::getSingleton().getTimer()
+		protected uint mLastStatUpdateTime; // The last time the stat text were updated
+
+	}
+
+	/// <summary>
+	/// Listener class for responding to tray events
+	/// </summary>
+	public class SdkTrayListener
     {
 
         public virtual void Dispose() {
@@ -330,10 +2200,10 @@ namespace Mogre_Procedural.MogreBites
         }
     }
 
-    //    =============================================================================
-    //	| Abstract base class for all widgets.
-    //	=============================================================================
-    public class Widget : IDisposable
+	/// <summary>
+	/// Abstract base class for all widgets
+	/// </summary>
+	public class Widget : IDisposable
 	{
 		public float Width
 		{
@@ -377,6 +2247,17 @@ namespace Mogre_Procedural.MogreBites
 			set
 			{
 				mElement.Top = value;
+			}
+		}
+		public GuiMetricsMode WidgetMetricMode
+		{
+			get
+			{
+				return mElement.MetricsMode;
+			}
+			set
+			{
+				mElement.MetricsMode = value;
 			}
 		}
 		public Widget() {
@@ -614,10 +2495,9 @@ namespace Mogre_Procedural.MogreBites
 
     }
 
-
-    //    =============================================================================
-    //	| Basic button class.
-    //	=============================================================================
+	/// <summary>
+	/// Basic Button Class
+	/// </summary>
     public class Button : Widget
     {
         public event Action<object> OnClick;
@@ -719,10 +2599,10 @@ namespace Mogre_Procedural.MogreBites
         protected bool mFitToContents;
     }
 
-    //    =============================================================================
-    //	| Scrollable text box widget.
-    //	=============================================================================
-    public class TextBox : Widget
+	/// <summary>
+	/// Scrollable text box widget
+	/// </summary>
+	public class TextBox : Widget
     {
 
         // Do not instantiate any widgets directly. Use SdkTrayManager.
@@ -989,10 +2869,10 @@ namespace Mogre_Procedural.MogreBites
         protected uint mStartingLine;
     }
 
-    //    =============================================================================
-    //	| Basic selection menu widget.
-    //	=============================================================================
-    public class SelectMenu : Widget
+	/// <summary>
+	/// Basic selection menu widget
+	/// </summary>
+	public class SelectMenu : Widget
     {
 
         // Do not instantiate any widgets directly. Use SdkTrayManager.
@@ -1401,10 +3281,10 @@ namespace Mogre_Procedural.MogreBites
         protected float mDragOffset = 0f;
     }
 
-    //    =============================================================================
-    //	| Basic label widget.
-    //	=============================================================================
-    public class Label : Widget
+	/// <summary>
+	/// Basic label widget
+	/// </summary>
+	public class Label : Widget
     {
 
         // Do not instantiate any widgets directly. Use SdkTrayManager.
@@ -1446,10 +3326,10 @@ namespace Mogre_Procedural.MogreBites
         protected bool mFitToTray;
     }
 
-    //    =============================================================================
-    //	| Basic separator widget.
-    //	=============================================================================
-    public class Separator : Widget
+	/// <summary>
+	/// Basic separator widget
+	/// </summary>
+	public class Separator : Widget
     {
 
         // Do not instantiate any widgets directly. Use SdkTrayManager.
@@ -1471,10 +3351,10 @@ namespace Mogre_Procedural.MogreBites
         protected bool mFitToTray;
     }
 
-    //    =============================================================================
-    //	| Basic slider widget.
-    //	=============================================================================
-    public class Slider : Widget
+	/// <summary>
+	/// Basic slider widget
+	/// </summary>
+	public class Slider : Widget
     {
 
         // Do not instantiate any widgets directly. Use SdkTrayManager.
@@ -1660,10 +3540,10 @@ namespace Mogre_Procedural.MogreBites
         protected float mInterval = 0f;
     }
 
-    //    =============================================================================
-    //	| Basic parameters panel widget.
-    //	=============================================================================
-    public class ParamsPanel : Widget
+	/// <summary>
+	/// Basic parameters panel widget
+	/// </summary>
+	public class ParamsPanel : Widget
     {
 
         // Do not instantiate any widgets directly. Use SdkTrayManager.
@@ -1769,10 +3649,10 @@ namespace Mogre_Procedural.MogreBites
         protected StringVector mValues = new StringVector();
     }
 
-    //    =============================================================================
-    //	| Basic check box widget.
-    //	=============================================================================
-    public class CheckBox : Widget
+	/// <summary>
+	/// Basic check box widget
+	/// </summary>
+	public class CheckBox : Widget
     {
         // Do not instantiate any widgets directly. Use SdkTrayManager.
         public CheckBox(string name, string caption, float width) {
@@ -1863,10 +3743,10 @@ namespace Mogre_Procedural.MogreBites
         protected bool mCursorOver;
     }
 
-    //    =============================================================================
-    //	| Custom, decorative widget created from a template.
-    //	=============================================================================
-    public class DecorWidget : Widget
+	/// <summary>
+	/// Custom, decorative widget created from a template
+	/// </summary>
+	public class DecorWidget : Widget
     {
 
         // Do not instantiate any widgets directly. Use SdkTrayManager.
@@ -1875,10 +3755,10 @@ namespace Mogre_Procedural.MogreBites
         }
     }
 
-    //    =============================================================================
-    //	| Basic progress bar widget.
-    //	=============================================================================
-    public class ProgressBar : Widget
+	/// <summary>
+	/// Basic progress bar widget
+	/// </summary>
+	public class ProgressBar : Widget
     {
 
         // Do not instantiate any widgets directly. Use SdkTrayManager.
@@ -1937,1671 +3817,4 @@ namespace Mogre_Procedural.MogreBites
         protected Mogre.OverlayElement mFill;
         protected float mProgress = 0f;
     }
-
-    //    =============================================================================
-    //	| Main class to manage a cursor, backdrop, trays and widgets.
-    //	=============================================================================
-    public class SdkTrayManager : SdkTrayListener, IDisposable
-    {
-        #region resource load event
-        void _HookResourceGroupLoadEvent() {
-            _UnHookResourceGroupLoadEvent();
-            if (_hasHookResLoad) return;
-            _hasHookResLoad = true;
-            ResourceGroupManager.Singleton.ResourceGroupScriptingStarted += _ResourceGroupScriptingStarted;
-            ResourceGroupManager.Singleton.ScriptParseStarted += _ScriptParseStarted;
-            ResourceGroupManager.Singleton.ScriptParseEnded += _ScriptParseEnded;
-            ResourceGroupManager.Singleton.ResourceGroupLoadStarted += _ResourceGroupLoadStarted;
-            ResourceGroupManager.Singleton.ResourceLoadStarted += _ResourceLoadStarted;
-            ResourceGroupManager.Singleton.WorldGeometryStageStarted += _WorldGeometryStageStarted;
-            ResourceGroupManager.Singleton.WorldGeometryStageEnded += _WorldGeometryStageEnded;              
-
-        }
-        bool _hasHookResLoad = false;
-        void _UnHookResourceGroupLoadEvent() {
-            if (!_hasHookResLoad) return;
-            _hasHookResLoad = false;
-            ResourceGroupManager.Singleton.WorldGeometryStageEnded -= _WorldGeometryStageEnded;
-            ResourceGroupManager.Singleton.WorldGeometryStageStarted -= _WorldGeometryStageStarted;
-            ResourceGroupManager.Singleton.ResourceLoadStarted -= _ResourceLoadStarted;
-            ResourceGroupManager.Singleton.ResourceGroupLoadStarted -= _ResourceGroupLoadStarted;
-            ResourceGroupManager.Singleton.ScriptParseEnded -= _ScriptParseEnded;
-            ResourceGroupManager.Singleton.ScriptParseStarted -= _ScriptParseStarted;
-            ResourceGroupManager.Singleton.ResourceGroupScriptingStarted -= _ResourceGroupScriptingStarted;              
-            
-        }
-        
-        void _ResourceGroupScriptingStarted(string groupName, uint scriptCount) {
-            //Debug.Assert(numGroupsInit > 0, "You stated you were not going to init any groups, but you did! Divide by zero would follow...");
-            //progressBarInc = progressBarMaxSize * initProportion / (float)scriptCount;
-            //progressBarInc /= numGroupsInit;
-            //loadingDescriptionElement.Caption = "Parsing scripts...";
-            //window.Update();
-            resourceGroupScriptingStarted(groupName,(int)scriptCount);
-        }
-
-        void _ScriptParseStarted(string scriptName, out bool skipThisScript) {
-            //loadingCommentElement.Caption = scriptName;
-            //window.Update();
-            skipThisScript = false;
-            scriptParseStarted(scriptName, skipThisScript);           
-        }
-
-        void _ScriptParseEnded(string scriptName, bool skipped) {
-            //loadingBarElement.Width += progressBarInc;
-            //window.Update();
-            scriptParseEnded(scriptName, skipped);
-        }
-
-        void _ResourceGroupLoadStarted(string groupName, uint resourceCount) {
-            //Debug.Assert(numGroupsLoad > 0, "You stated you were not going to load any groups, but you did! Divide by zero would follow...");
-            //progressBarInc = progressBarMaxSize * (1 - initProportion) / (float)resourceCount;
-            //progressBarInc /= numGroupsLoad;
-            //loadingDescriptionElement.Caption = "Loading resources...";
-            //window.Update();
-            resourceGroupLoadStarted(groupName, (int)resourceCount);
-        }
-
-        void _ResourceLoadStarted(ResourcePtr resource) {
-            //loadingCommentElement.Caption = resource.Name;
-            //window.Update();
-            resourceLoadStarted(resource);
-        }
-
-        void _WorldGeometryStageStarted(string description) {
-            //loadingCommentElement.Caption = description;
-            //window.Update();
-            worldGeometryStageStarted(description);
-        }
-
-        void _WorldGeometryStageEnded() {
-            //loadingBarElement.Width += progressBarInc;
-            //window.Update();
-            worldGeometryStageEnded();
-        }
-
-
-        public void resourceGroupScriptingStarted(string groupName, int scriptCount) {
-            mLoadInc = mGroupInitProportion / scriptCount;
-            mLoadBar.setCaption("Parsing...");
-            windowUpdate();
-        }
-
-        public void scriptParseStarted(string scriptName,  bool skipThisScript) {
-            mLoadBar.setComment(scriptName);
-            windowUpdate();
-        }
-
-        public void scriptParseEnded(string scriptName, bool skipped) {
-            mLoadBar.setProgress(mLoadBar.getProgress() + mLoadInc);
-            windowUpdate();
-        }
-
-        public void resourceGroupScriptingEnded(string groupName) {
-        }
-
-        public void resourceGroupLoadStarted(string groupName, int resourceCount) {
-            mLoadInc = mGroupLoadProportion / resourceCount;
-            mLoadBar.setCaption("Loading...");
-            windowUpdate();
-        }
-
-        public void resourceLoadStarted(Mogre.ResourcePtr resource) {
-            mLoadBar.setComment(resource.Name);
-            windowUpdate();
-        }
-
-        public void resourceLoadEnded() {
-            mLoadBar.setProgress(mLoadBar.getProgress() + mLoadInc);
-            windowUpdate();
-        }
-
-        public void worldGeometryStageStarted(string description) {
-            mLoadBar.setComment(description);
-            windowUpdate();
-        }
-
-        public void worldGeometryStageEnded() {
-            mLoadBar.setProgress(mLoadBar.getProgress() + mLoadInc);
-            windowUpdate();
-        }
-
-        public void resourceGroupLoadEnded(string groupName) {
-        }
-        public void windowUpdate() {
-
-//#if OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS && OGRE_PLATFORM != OGRE_PLATFORM_NACL
-			mWindow.Update();
-//#endif
-        }
-        #endregion
-        #region mouse event
-        internal void _UnHookMouseEvent() {
-            mInputContext.MousePressed -= (mInputContext_MousePressed);
-            mInputContext.MouseReleased -= (mInputContext_MouseReleased);
-            mInputContext.MouseMoved -= (mInputContext_MouseMoved);
-        }
-        internal void _HookMouseEvent() {
-            _UnHookMouseEvent();
-            mInputContext.MousePressed += (mInputContext_MousePressed);
-            mInputContext.MouseReleased += (mInputContext_MouseReleased);
-            mInputContext.MouseMoved += (mInputContext_MouseMoved);
-        }
-
-        bool mInputContext_MouseMoved(MOIS.MouseEvent arg) {
-            this.injectMouseMove(arg);
-            return true;
-        }
-
-        bool mInputContext_MouseReleased(MOIS.MouseEvent arg, MOIS.MouseButtonID id) {
-            this.injectMouseUp(arg, id);
-            return true;
-        }
-
-        bool mInputContext_MousePressed(MOIS.MouseEvent arg, MOIS.MouseButtonID id) {
-            this.injectMouseDown(arg, id);
-            return true;
-        }
-
-        #endregion
-        //        -----------------------------------------------------------------------------
-        //		| Creates backdrop, cursor, and trays.
-        //		-----------------------------------------------------------------------------
-        public SdkTrayManager(string name, Mogre.RenderWindow window, InputContext inputContext)
-            : this(name, window, inputContext, null) {
-        }
-
-        public SdkTrayManager(string name, Mogre.RenderWindow window, InputContext inputContext, SdkTrayListener listener)
-            : base() {
-            for (int i = 0; i < mWidgets.Length; i++) {
-                mWidgets[i] = new List<Widget>();
-            }
-            mName = name;
-            mWindow = window;
-            mInputContext = inputContext;
-            mListener = listener;
-            mWidgetPadding = 8f;
-            mWidgetSpacing = 2f;
-            mTrayPadding = 0f;
-            mTrayDrag = false;
-            mExpandedMenu = null;
-            mDialog = null;
-            mOk = null;
-            mYes = null;
-            mNo = null;
-            mCursorWasVisible = false;
-            mFpsLabel = null;
-            mStatsPanel = null;
-            mLogo = null;
-            mLoadBar = null;
-            mGroupInitProportion = 0.0f;
-            mGroupLoadProportion = 0.0f;
-            mLoadInc = 0.0f;
-            mTimer = Mogre.Root.Singleton.Timer;
-            mLastStatUpdateTime = 0;
-
-            Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
-
-            string nameBase = mName + "/";
-            nameBase = nameBase.Replace(' ', '_');
-            mBackdropLayer = om.Create(nameBase + "BackdropLayer");
-            mTraysLayer = om.Create(nameBase + "WidgetsLayer");
-            mPriorityLayer = om.Create(nameBase + "PriorityLayer");
-            mCursorLayer = om.Create(nameBase + "CursorLayer");
-            mBackdropLayer.ZOrder = (100);
-            mTraysLayer.ZOrder = (200);
-            mPriorityLayer.ZOrder = (300);
-            mCursorLayer.ZOrder = (400);
-
-            // make backdrop and cursor overlay containers
-            mCursor = (Mogre.OverlayContainer)om.CreateOverlayElementFromTemplate("SdkTrays/Cursor", "Panel", nameBase + "Cursor");
-            mCursorLayer.Add2D(mCursor);
-            mBackdrop = (Mogre.OverlayContainer)om.CreateOverlayElement("Panel", nameBase + "Backdrop");
-            mBackdropLayer.Add2D(mBackdrop);
-            mDialogShade = (Mogre.OverlayContainer)om.CreateOverlayElement("Panel", nameBase + "DialogShade");
-            mDialogShade.MaterialName = ("SdkTrays/Shade");
-            mDialogShade.Hide();
-            mPriorityLayer.Add2D(mDialogShade);
-
-            string[] trayNames = { "TopLeft", "Top", "TopRight", "Left", "Center", "Right", "BottomLeft", "Bottom", "BottomRight", "None" };
-
-            for (uint i = 0; i < 9; i++) // make the real trays
-			{
-                mTrays[i] = (Mogre.OverlayContainer)om.CreateOverlayElementFromTemplate("SdkTrays/Tray", "BorderPanel", nameBase + trayNames[i] + "Tray");
-                mTraysLayer.Add2D(mTrays[i]);
-
-                mTrayWidgetAlign[i] = GuiHorizontalAlignment.GHA_CENTER;
-
-                // align trays based on location
-                if (i == (int)TrayLocation.TL_TOP || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_BOTTOM)
-                    mTrays[i].HorizontalAlignment = (GuiHorizontalAlignment.GHA_CENTER);
-                if (i == (int)TrayLocation.TL_LEFT || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_RIGHT)
-                    mTrays[i].VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-                if (i == (int)TrayLocation.TL_TOPRIGHT || i == (int)TrayLocation.TL_RIGHT || i == (int)TrayLocation.TL_BOTTOMRIGHT)
-                    mTrays[i].HorizontalAlignment = (GuiHorizontalAlignment.GHA_RIGHT);
-                if (i == (int)TrayLocation.TL_BOTTOMLEFT || i == (int)TrayLocation.TL_BOTTOM || i == (int)TrayLocation.TL_BOTTOMRIGHT)
-                    mTrays[i].VerticalAlignment = (GuiVerticalAlignment.GVA_BOTTOM);
-            }
-
-            // create the null tray for free-floating widgets
-            mTrays[9] = (Mogre.OverlayContainer)om.CreateOverlayElement("Panel", nameBase + "NullTray");
-            mTrayWidgetAlign[9] = GuiHorizontalAlignment.GHA_LEFT;
-            mTraysLayer.Add2D(mTrays[9]);
-            adjustTrays();
-
-            showTrays();
-            showCursor();
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Destroys background, cursor, widgets, and trays.
-        //		-----------------------------------------------------------------------------
-        public override void Dispose() {
-            Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
-
-            destroyAllWidgets();//clean up ok
-
-            for (int i = 0; i < mWidgetDeathRow.Count; i++) // delete widgets queued for destruction
-			{
-                //delete mWidgetDeathRow[i];
-                mWidgetDeathRow[i].Dispose();//?is there need?
-                mWidgetDeathRow[i] = null;
-            }
-            mWidgetDeathRow.Clear();
-
-            om.Destroy(mBackdropLayer);
-            om.Destroy(mTraysLayer);
-            om.Destroy(mPriorityLayer);
-            om.Destroy(mCursorLayer);
-
-            closeDialog();
-            hideLoadingBar();
-
-            Widget.nukeOverlayElement(mBackdrop);
-            Widget.nukeOverlayElement(mCursor);
-            Widget.nukeOverlayElement(mDialogShade);
-
-            for (int i = 0; i < 10; i++) {
-                Widget.nukeOverlayElement(mTrays[i]);
-            }
-            base.Dispose();
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Converts a 2D screen coordinate (in pixels) to a 3D ray into the scene.
-        //		-----------------------------------------------------------------------------
-        public static Mogre.Ray screenToScene(Mogre.Camera cam, Mogre.Vector2 pt) {
-            return cam.GetCameraToViewportRay(pt.x, pt.y);
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Converts a 3D scene position to a 2D screen position (in relative screen size, 0.0-1.0).
-        //		-----------------------------------------------------------------------------
-        public static Mogre.Vector2 sceneToScreen(Mogre.Camera cam, Mogre.Vector3 pt) {
-            Mogre.Vector3 result = cam.ProjectionMatrix * cam.ViewMatrix * pt;
-            return new Mogre.Vector2((result.x + 1) / 2, (-result.y + 1) / 2);
-        }
-
-        // these methods get the underlying overlays and overlay elements
-
-        public Mogre.OverlayContainer getTrayContainer(TrayLocation trayLoc) {
-            return mTrays[(int)trayLoc];
-        }
-        public Mogre.Overlay getBackdropLayer() {
-            return mBackdropLayer;
-        }
-        public Mogre.Overlay getTraysLayer() {
-            return mTraysLayer;
-        }
-        public Mogre.Overlay getCursorLayer() {
-            return mCursorLayer;
-        }
-        public Mogre.OverlayContainer getBackdropContainer() {
-            return mBackdrop;
-        }
-        public Mogre.OverlayContainer getCursorContainer() {
-            return mCursor;
-        }
-        public Mogre.OverlayElement getCursorImage() {
-            return mCursor.GetChild(mCursor.Name + "/CursorImage");
-        }
-
-        public void setListener(SdkTrayListener listener) {
-            mListener = listener;
-        }
-
-        public SdkTrayListener getListener() {
-            return mListener;
-        }
-
-        public void showAll() {
-            showBackdrop();
-            showTrays();
-            showCursor();
-        }
-
-        public void hideAll() {
-            hideBackdrop();
-            hideTrays();
-            hideCursor();
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Displays specified material on backdrop, or the last material used if
-        //		| none specified. Good for pause menus like in the browser.
-        //		-----------------------------------------------------------------------------
-        public void showBackdrop() {
-            showBackdrop("");
-        }
-        public void showBackdrop(string materialName) {
-            //if (materialName != Ogre::StringUtil::BLANK)
-            if (!string.IsNullOrEmpty(materialName))
-                mBackdrop.MaterialName = (materialName);
-            mBackdropLayer.Show();
-        }
-
-        public void hideBackdrop() {
-            mBackdropLayer.Hide();
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Displays specified material on cursor, or the last material used if
-        //		| none specified. Used to change cursor type.
-        //		-----------------------------------------------------------------------------
-        public void showCursor() {
-            showCursor("");
-        }
-
-        public void showCursor(string materialName) {
-            if (!string.IsNullOrEmpty(materialName))
-                getCursorImage().MaterialName = (materialName);
-
-            if (!mCursorLayer.IsVisible) {
-                mCursorLayer.Show();
-                refreshCursor();
-            }
-        }
-
-        public void hideCursor() {
-            mCursorLayer.Hide();
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < mWidgets[i].Count; j++) {
-                    mWidgets[i][j]._focusLost();
-                }
-            }
-
-            setExpandedMenu(null);
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Updates cursor position based on unbuffered mouse state. This is necessary
-        //		| because if the tray manager has been cut off from mouse events for a time,
-        //		| the cursor position will be out of date.
-        //		-----------------------------------------------------------------------------
-        public void refreshCursor() {
-            float x = 0f;
-            float y = 0f;
-            x = mInputContext.MouseState.X.abs;
-            y = mInputContext.MouseState.Y.abs;
-            mCursor.SetPosition(x, y);
-        }
-
-        public void showTrays() {
-            mTraysLayer.Show();
-            mPriorityLayer.Show();
-        }
-
-        public void hideTrays() {
-            mTraysLayer.Hide();
-            mPriorityLayer.Hide();
-
-            // give widgets a chance to reset in case they're in the middle of something
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < mWidgets[i].Count; j++) {
-                    mWidgets[i][j]._focusLost();
-                }
-            }
-
-            setExpandedMenu(null);
-        }
-
-        public bool isCursorVisible() {
-            return mCursorLayer.IsVisible;
-        }
-        public bool isBackdropVisible() {
-            return mBackdropLayer.IsVisible;
-        }
-        public bool areTraysVisible() {
-            return mTraysLayer.IsVisible;
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Sets horizontal alignment of a tray's contents.
-        //		-----------------------------------------------------------------------------
-        public void setTrayWidgetAlignment(TrayLocation trayLoc, Mogre.GuiHorizontalAlignment gha) {
-            mTrayWidgetAlign[(int)trayLoc] = gha;
-
-            for (int i = 0; i < mWidgets[(int)trayLoc].Count; i++) {
-                mWidgets[(int)trayLoc][i].getOverlayElement().HorizontalAlignment = (gha);
-            }
-        }
-
-        // padding and spacing methods
-
-        public void setWidgetPadding(float padding) {
-            mWidgetPadding = System.Math.Max((int)padding, 0);
-            adjustTrays();
-        }
-
-        public void setWidgetSpacing(float spacing) {
-            mWidgetSpacing = System.Math.Max((int)spacing, 0);
-            adjustTrays();
-        }
-        public void setTrayPadding(float padding) {
-            mTrayPadding = System.Math.Max((int)padding, 0);
-            adjustTrays();
-        }
-
-
-        //ORIGINAL LINE: virtual Ogre::Real getWidgetPadding() const
-        public virtual float getWidgetPadding() {
-            return mWidgetPadding;
-        }
-
-        //ORIGINAL LINE: virtual Ogre::Real getWidgetSpacing() const
-        public virtual float getWidgetSpacing() {
-            return mWidgetSpacing;
-        }
-
-        //ORIGINAL LINE: virtual Ogre::Real getTrayPadding() const
-        public virtual float getTrayPadding() {
-            return mTrayPadding;
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Fits trays to their contents and snaps them to their anchor locations.
-        //		-----------------------------------------------------------------------------
-        public virtual void adjustTrays() {
-            for (int i = 0; i < 9; i++) // resizes and hides trays if necessary
-			{
-                float trayWidth = 0;
-                float trayHeight = mWidgetPadding;
-                List<Mogre.OverlayElement> labelsAndSeps = new List<Mogre.OverlayElement>();
-
-                //if (mWidgets[i].empty()) // hide tray if empty
-                if (mWidgets[i].Count == 0) {
-                    mTrays[i].Hide();
-                    continue;
-                }
-                else
-                    mTrays[i].Show();
-
-                // arrange widgets and calculate final tray size and position
-                for (int j = 0; j < mWidgets[i].Count; j++) {
-                    Mogre.OverlayElement e = mWidgets[i][j].getOverlayElement();
-
-                    if (j != 0) // don't space first widget
-                        trayHeight += mWidgetSpacing;
-
-                    e.VerticalAlignment = (GuiVerticalAlignment.GVA_TOP);
-                    e.Top = (trayHeight);
-
-                    switch (e.HorizontalAlignment) {
-                        case GuiHorizontalAlignment.GHA_LEFT:
-                            e.Left = (mWidgetPadding);
-                            break;
-                        case GuiHorizontalAlignment.GHA_RIGHT:
-                            e.Left = (-(e.Width + mWidgetPadding));
-                            break;
-                        default:
-                            e.Left = (-(e.Width / 2f));
-                            break;
-                    }
-
-                    // prevents some weird texture filtering problems (just some)
-                    e.SetPosition((int)e.Left, (int)e.Top);
-                    e.SetDimensions((int)e.Width, (int)e.Height);
-
-                    trayHeight += e.Height;
-
-                    Label l = mWidgets[i][j] as Label;
-                    if (l != null && l._isFitToTray()) {
-                        labelsAndSeps.Add(e);
-                        continue;
-                    }
-                    Separator s = mWidgets[i][j] as Separator;
-                    if (s != null && s._isFitToTray()) {
-                        labelsAndSeps.Add(e);
-                        continue;
-                    }
-
-                    if (e.Width > trayWidth)
-                        trayWidth = e.Width;
-                }
-
-                // add paddings and resize trays
-                mTrays[i].Width = (trayWidth + 2 * mWidgetPadding);
-                mTrays[i].Height = (trayHeight + mWidgetPadding);
-
-                for (int j = 0; j < labelsAndSeps.Count; j++) {
-                    labelsAndSeps[j].Width = ((int)trayWidth);
-                    labelsAndSeps[j].Left = (-(int)(trayWidth / 2));
-                }
-            }
-
-            for (uint i = 0; i < 9; i++) // snap trays to anchors
-			{
-                if (i == (int)TrayLocation.TL_TOPLEFT || i == (int)TrayLocation.TL_LEFT || i == (int)TrayLocation.TL_BOTTOMLEFT)
-                    mTrays[i].Left = (mTrayPadding);
-                if (i == (int)TrayLocation.TL_TOP || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_BOTTOM)
-                    mTrays[i].Left = (-mTrays[i].Width / 2);
-                if (i == (int)TrayLocation.TL_TOPRIGHT || i == (int)TrayLocation.TL_RIGHT || i == (int)TrayLocation.TL_BOTTOMRIGHT)
-                    mTrays[i].Left = (-(mTrays[i].Width + mTrayPadding));
-
-                if (i == (int)TrayLocation.TL_TOPLEFT || i == (int)TrayLocation.TL_TOP || i == (int)TrayLocation.TL_TOPRIGHT)
-                    mTrays[i].Top = (mTrayPadding);
-                if (i == (int)TrayLocation.TL_LEFT || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_RIGHT)
-                    mTrays[i].Top = (-mTrays[i].Height / 2);
-                if (i == (int)TrayLocation.TL_BOTTOMLEFT || i == (int)TrayLocation.TL_BOTTOM || i == (int)TrayLocation.TL_BOTTOMRIGHT)
-                    mTrays[i].Top = (-mTrays[i].Height - mTrayPadding);
-
-                // prevents some weird texture filtering problems (just some)
-                mTrays[i].SetPosition((int)mTrays[i].Left, (int)mTrays[i].Top);
-                mTrays[i].SetDimensions((int)mTrays[i].Width, (int)mTrays[i].Height);
-            }
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Returns a 3D ray into the scene that is directly underneath the cursor.
-        //		-----------------------------------------------------------------------------
-        public Mogre.Ray getCursorRay(Mogre.Camera cam) {
-            return screenToScene(cam, new Mogre.Vector2(mCursor._getLeft(), mCursor._getTop()));
-        }
-
-        public Button createButton(TrayLocation trayLoc, string name, string caption) {
-            return createButton(trayLoc, name, caption, 0f);
-        }
-
-        public Button createButton(TrayLocation trayLoc, string name, string caption, float width) {
-            Button b = new Button(name, caption, width);
-            moveWidgetToTray(b, trayLoc);
-            b._assignListener(mListener);
-            return b;
-		}
-		public Button createButton(string name, string caption, float width)
-		{
-			Button b = new Button(name, caption, width);
-			moveWidgetToTray(b, TrayLocation.TL_NONE);
-			b._assignListener(mListener);
-			return b;
-		}
-
-		public TextBox createTextBox(TrayLocation trayLoc, string name, string caption, float width, float height) {
-            TextBox tb = new TextBox(name, caption, width, height);
-            moveWidgetToTray(tb, trayLoc);
-            tb._assignListener(mListener);
-            return tb;
-        }
-
-        public SelectMenu createThickSelectMenu(TrayLocation trayLoc, string name, string caption, float width, uint maxItemsShown) {
-            return createThickSelectMenu(trayLoc, name, caption, width, maxItemsShown, new StringVector());
-        }
-        public SelectMenu createThickSelectMenu(TrayLocation trayLoc, string name, string caption, float width, uint maxItemsShown, StringVector items) {
-            SelectMenu sm = new SelectMenu(name, caption, width, 0f, maxItemsShown);
-            moveWidgetToTray(sm, trayLoc);
-            sm._assignListener(mListener);
-            //if (!items.empty())
-            if (!items.IsEmpty)
-                sm.setItems(items);
-            return sm;
-        }
-
-        public SelectMenu createLongSelectMenu(TrayLocation trayLoc, string name, string caption, float width, float boxWidth, uint maxItemsShown) {
-            return createLongSelectMenu(trayLoc, name, caption, width, boxWidth, maxItemsShown, new StringVector());
-        }
-
-        public SelectMenu createLongSelectMenu(TrayLocation trayLoc, string name, string caption, float width, float boxWidth, uint maxItemsShown, StringVector items) {
-            SelectMenu sm = new SelectMenu(name, caption, width, boxWidth, maxItemsShown);
-            moveWidgetToTray(sm, trayLoc);
-            sm._assignListener(mListener);
-            //if (!items.empty())
-            if (!items.IsEmpty)
-                sm.setItems(items);
-            return sm;
-        }
-
-        public SelectMenu createLongSelectMenu(TrayLocation trayLoc, string name, string caption, float boxWidth, uint maxItemsShown) {
-            return createLongSelectMenu(trayLoc, name, caption, boxWidth, maxItemsShown, new StringVector());
-        }
-
-        public SelectMenu createLongSelectMenu(TrayLocation trayLoc, string name, string caption, float boxWidth, uint maxItemsShown, StringVector items) {
-            return createLongSelectMenu(trayLoc, name, caption, 0, boxWidth, maxItemsShown, items);
-        }
-
-        public Label createLabel(TrayLocation trayLoc, string name, string caption) {
-            return createLabel(trayLoc, name, caption, 0f);
-        }
-
-        public Label createLabel(TrayLocation trayLoc, string name, string caption, float width) {
-            Label l = new Label(name, caption, width);
-            moveWidgetToTray(l, trayLoc);
-            l._assignListener(mListener);
-            return l;
-        }
-
-        public StaticText createStaticText(TrayLocation trayLoc, string name, string caption)
-        {
-            return createStaticText(trayLoc, name, caption, 0f, false, ColourValue.Black);
-        }
-
-        public StaticText createStaticText(TrayLocation trayLoc, string name, string caption, ColourValue color)
-        {
-            return createStaticText(trayLoc, name, caption, 0f, true, color);
-        }
-        public StaticText createStaticText(TrayLocation trayLoc, string name, string caption, float width, bool specificColor, ColourValue color)
-        {
-            StaticText st = new StaticText(name, caption, width, specificColor, ColourValue.Black);
-            moveWidgetToTray(st, trayLoc);
-            st._assignListener(mListener);
-            return st;
-        }
-
-        public Separator createSeparator(TrayLocation trayLoc, string name) {
-            return createSeparator(trayLoc, name, 0f);
-        }
-
-        public Separator createSeparator(TrayLocation trayLoc, string name, float width) {
-            Separator s = new Separator(name, width);
-            moveWidgetToTray(s, trayLoc);
-            return s;
-        }
-
-        public Slider createThickSlider(TrayLocation trayLoc, string name, string caption, float width, float valueBoxWidth, float minValue, float maxValue, uint snaps) {
-            Slider s = new Slider(name, caption, width, 0, valueBoxWidth, minValue, maxValue, snaps);
-            moveWidgetToTray(s, trayLoc);
-            s._assignListener(mListener);
-            return s;
-        }
-
-        public Slider createLongSlider(TrayLocation trayLoc, string name, string caption, float width, float trackWidth, float valueBoxWidth, float minValue, float maxValue, uint snaps) {
-            if (trackWidth <= 0)
-                trackWidth = 1;
-            Slider s = new Slider(name, caption, width, trackWidth, valueBoxWidth, minValue, maxValue, snaps);
-            moveWidgetToTray(s, trayLoc);
-            s._assignListener(mListener);
-            return s;
-        }
-
-        public Slider createLongSlider(TrayLocation trayLoc, string name, string caption, float trackWidth, float valueBoxWidth, float minValue, float maxValue, uint snaps) {
-            return createLongSlider(trayLoc, name, caption, 0, trackWidth, valueBoxWidth, minValue, maxValue, snaps);
-        }
-
-        public ParamsPanel createParamsPanel(TrayLocation trayLoc, string name, float width, uint lines) {
-            ParamsPanel pp = new ParamsPanel(name, width, lines);
-            moveWidgetToTray(pp, trayLoc);
-            return pp;
-        }
-
-        public ParamsPanel createParamsPanel(TrayLocation trayLoc, string name, float width, StringVector paramNames) {
-            ParamsPanel pp = new ParamsPanel(name, width, (uint)paramNames.Count);
-            pp.setAllParamNames(paramNames);
-            moveWidgetToTray(pp, trayLoc);
-            return pp;
-        }
-        public ParamsPanel createParamsPanel(TrayLocation trayLoc, string name, float width, string[] paramNames) {
-            StringVector sv = new StringVector();
-            foreach (var v in paramNames) {
-                sv.Add(v);
-            }
-            return createParamsPanel(trayLoc, name, width, sv);
-        }
-        public CheckBox createCheckBox(TrayLocation trayLoc, string name, string caption) {
-            return createCheckBox(trayLoc, name, caption, 0f);
-        }
-
-        public CheckBox createCheckBox(TrayLocation trayLoc, string name, string caption, float width) {
-            CheckBox cb = new CheckBox(name, caption, width);
-            moveWidgetToTray(cb, trayLoc);
-            cb._assignListener(mListener);
-            return cb;
-        }
-
-        public DecorWidget createDecorWidget(TrayLocation trayLoc, string name, string templateName) {
-            DecorWidget dw = new DecorWidget(name, templateName);
-            moveWidgetToTray(dw, trayLoc);
-            return dw;
-        }
-
-        public ProgressBar createProgressBar(TrayLocation trayLoc, string name, string caption, float width, float commentBoxWidth) {
-            ProgressBar pb = new ProgressBar(name, caption, width, commentBoxWidth);
-            moveWidgetToTray(pb, trayLoc);
-            return pb;
-        }
-
-        public ListView createListView(TrayLocation trayLoc, string name, float height, float width, List<string> columnNames)
-        {
-            ListView lsv = new ListView(name, -1, -1, height, width, columnNames);
-            moveWidgetToTray(lsv, trayLoc);
-            lsv._assignListener(mListener);
-            return lsv;
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Shows frame statistics widget set in the specified location.
-        //		-----------------------------------------------------------------------------
-        public void showFrameStats(TrayLocation trayLoc) {
-            showFrameStats(trayLoc, -1);
-        }
-        //ORIGINAL LINE: void showFrameStats(TrayLocation trayLoc, int place = -1)
-        public void showFrameStats(TrayLocation trayLoc, int place) {
-            if (!areFrameStatsVisible()) {
-                StringVector stats = new StringVector();
-                stats.Add("Average FPS");
-                stats.Add("Best FPS");
-                stats.Add("Worst FPS");
-                stats.Add("Triangles");
-                stats.Add("Batches");
-
-                mFpsLabel = createLabel(TrayLocation.TL_NONE, mName + "/FpsLabel", "FPS:", 180);
-                mFpsLabel._assignListener(this);
-                mStatsPanel = createParamsPanel(TrayLocation.TL_NONE, mName + "/StatsPanel", 180, stats);
-            }
-
-            moveWidgetToTray(mFpsLabel, trayLoc, place);
-            moveWidgetToTray(mStatsPanel, trayLoc, locateWidgetInTray(mFpsLabel) + 1);
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Hides frame statistics widget set.
-        //		-----------------------------------------------------------------------------
-        public void hideFrameStats() {
-            if (areFrameStatsVisible()) {
-                destroyWidget(mFpsLabel);
-                destroyWidget(mStatsPanel);
-                //delete mFpsLabel
-                //delete mStatsPanel
-                //mFpsLabel.Dispose();
-                //mStatsPanel.Dispose();
-                mFpsLabel = null;
-                mStatsPanel = null;
-            }
-        }
-
-        public bool areFrameStatsVisible() {
-            return mFpsLabel != null;
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Toggles visibility of advanced statistics.
-        //		-----------------------------------------------------------------------------
-        public void toggleAdvancedFrameStats() {
-            if (mFpsLabel != null)
-                labelHit(mFpsLabel);
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Shows logo in the specified location.
-        //		-----------------------------------------------------------------------------
-        public void showLogo(TrayLocation trayLoc) {
-            showLogo(trayLoc, -1);
-        }
-        //ORIGINAL LINE: void showLogo(TrayLocation trayLoc, int place = -1)
-        public void showLogo(TrayLocation trayLoc, int place) {
-            if (!isLogoVisible())
-                mLogo = createDecorWidget(TrayLocation.TL_NONE, mName + "/Logo", "SdkTrays/Logo");
-            moveWidgetToTray(mLogo, trayLoc, place);
-        }
-
-        public void hideLogo() {
-            if (isLogoVisible()) {
-                destroyWidget(mLogo);
-                mLogo.Dispose();
-                mLogo = null;
-            }
-        }
-
-        public bool isLogoVisible() {
-            return mLogo != null;
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Shows loading bar. Also takes job settings: the number of resource groups
-        //		| to be initialised, the number of resource groups to be loaded, and the
-        //		| proportion of the job that will be taken up by initialisation. Usually,
-        //		| script parsing takes up most time, so the default value is 0.7.
-        //		-----------------------------------------------------------------------------
-        public void showLoadingBar(uint numGroupsInit, uint numGroupsLoad) {
-            showLoadingBar(numGroupsInit, numGroupsLoad, 0.7f);
-        }
-        public void showLoadingBar(uint numGroupsInit) {
-            showLoadingBar(numGroupsInit, 1, 0.7f);
-        }
-        public void showLoadingBar() {
-            showLoadingBar(1, 1, 0.7f);
-        }
-        //ORIGINAL LINE: void showLoadingBar(uint numGroupsInit = 1, uint numGroupsLoad = 1, Ogre::Real initProportion = 0.7)
-        public void showLoadingBar(uint numGroupsInit, uint numGroupsLoad, float initProportion) {
-            if (mDialog != null)
-                closeDialog();
-            if (mLoadBar != null)
-                hideLoadingBar();
-
-            mLoadBar = new ProgressBar(mName + "/LoadingBar", "Loading...", 400, 308);
-            Mogre.OverlayElement e = mLoadBar.getOverlayElement();
-            mDialogShade.AddChild(e);
-            e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-            e.Left = (-(e.Width / 2));
-            e.Top = (-(e.Height / 2));
-
-            //Mogre.ResourceGroupManager.Singleton.addResourceGroupListener(this);
-            this._HookResourceGroupLoadEvent();
-
-            mCursorWasVisible = isCursorVisible();
-            hideCursor();
-            mDialogShade.Show();
-
-            // calculate the proportion of job required to init/load one group
-
-            if (numGroupsInit == 0 && numGroupsLoad != 0) {
-                mGroupInitProportion = 0;
-                mGroupLoadProportion = 1;
-            }
-            else if (numGroupsLoad == 0 && numGroupsInit != 0) {
-                mGroupLoadProportion = 0;
-                if (numGroupsInit != 0)
-                    mGroupInitProportion = 1;
-            }
-            else if (numGroupsInit == 0 && numGroupsLoad == 0) {
-                mGroupInitProportion = 0;
-                mGroupLoadProportion = 0;
-            }
-            else {
-                mGroupInitProportion = initProportion / numGroupsInit;
-                mGroupLoadProportion = (1 - initProportion) / numGroupsLoad;
-            }
-        }
-
-        public void hideLoadingBar() {
-            if (mLoadBar != null) {
-                mLoadBar.cleanup();
-                //delete mLoadBar;
-                mLoadBar.Dispose();
-                mLoadBar = null;
-
-                //Mogre.ResourceGroupManager.Singleton.removeResourceGroupListener(this);
-                this._UnHookResourceGroupLoadEvent();
-                if (mCursorWasVisible)
-                    showCursor();
-                mDialogShade.Hide();
-            }
-        }
-
-        public bool isLoadingBarVisible() {
-            return mLoadBar != null;
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Pops up a message dialog with an OK button.
-        //		-----------------------------------------------------------------------------
-        public void showOkDialog(string caption, string message) {
-            if (mLoadBar != null)
-                hideLoadingBar();
-
-            Mogre.OverlayElement e;
-
-            if (mDialog != null) {
-                mDialog.setCaption(caption);
-                mDialog.setText(message);
-
-                if (mOk != null)
-                    return;
-                else {
-                    mYes.cleanup();
-                    mNo.cleanup();
-                    //delete mYes;
-                    //delete mNo;
-                    mYes.Dispose();
-                    mNo.Dispose();
-                    mYes = null;
-                    mNo = null;
-                }
-            }
-            else {
-                // give widgets a chance to reset in case they're in the middle of something
-                for (int i = 0; i < 10; i++) {
-                    for (int j = 0; j < mWidgets[i].Count; j++) {
-                        mWidgets[i][j]._focusLost();
-                    }
-                }
-
-                mDialogShade.Show();
-
-                mDialog = new TextBox(mName + "/DialogBox", caption, 300f, 208f);
-                mDialog.setText(message);
-                e = mDialog.getOverlayElement();
-                mDialogShade.AddChild(e);
-                e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-                e.Left = (-(e.Width / 2f));
-                e.Top = (-(e.Height / 2f));
-
-                mCursorWasVisible = isCursorVisible();
-                showCursor();
-            }
-
-            mOk = new Button(mName + "/OkButton", "OK", 60f);
-            mOk._assignListener(this);
-            e = mOk.getOverlayElement();
-            mDialogShade.AddChild(e);
-            e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-            e.Left = (-(e.Width / 2f));
-            e.Top = (mDialog.getOverlayElement().Top + mDialog.getOverlayElement().Height + 5f);
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Pops up a question dialog with Yes and No buttons.
-        //		-----------------------------------------------------------------------------
-        public void showYesNoDialog(string caption, string question) {
-            if (mLoadBar != null)
-                hideLoadingBar();
-
-            Mogre.OverlayElement e;
-
-            if (mDialog != null) {
-                mDialog.setCaption(caption);
-                mDialog.setText(question);
-
-                if (mOk != null) {
-                    mOk.cleanup();
-                    //delete mOk;
-                    mOk.Dispose();
-                    mOk = null;
-                }
-                else
-                    return;
-            }
-            else {
-                // give widgets a chance to reset in case they're in the middle of something
-                for (int i = 0; i < 10; i++) {
-                    for (int j = 0; j < mWidgets[i].Count; j++) {
-                        mWidgets[i][j]._focusLost();
-                    }
-                }
-
-                mDialogShade.Show();
-
-                mDialog = new TextBox(mName + "/DialogBox", caption, 300f, 208f);
-                mDialog.setText(question);
-                e = mDialog.getOverlayElement();
-                mDialogShade.AddChild(e);
-                e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-                e.Left = (-(e.Width / 2f));
-                e.Top = (-(e.Height / 2f));
-
-                mCursorWasVisible = isCursorVisible();
-                showCursor();
-            }
-
-            mYes = new Button(mName + "/YesButton", "Yes", 58f);
-            mYes._assignListener(this);
-            e = mYes.getOverlayElement();
-            mDialogShade.AddChild(e);
-            e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-            e.Left = (-(e.Width + 2f));
-            e.Top = (mDialog.getOverlayElement().Top + mDialog.getOverlayElement().Height + 5f);
-
-            mNo = new Button(mName + "/NoButton", "No", 50f);
-            mNo._assignListener(this);
-            e = mNo.getOverlayElement();
-            mDialogShade.AddChild(e);
-            e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-            e.Left = (3f);
-            e.Top = (mDialog.getOverlayElement().Top + mDialog.getOverlayElement().Height + 5f);
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Hides whatever dialog is currently showing.
-        //		-----------------------------------------------------------------------------
-        public void closeDialog() {
-            if (mDialog != null) {
-                if (mOk != null) {
-                    mOk.cleanup();
-                    //delete mOk;
-                    mOk.Dispose();
-                    mOk = null;
-                }
-                else {
-                    mYes.cleanup();
-                    mNo.cleanup();
-                    //delete mYes;
-                    //delete mNo;
-                    mYes.Dispose();
-                    mNo.Dispose();
-                    mYes = null;
-                    mNo = null;
-                }
-
-                mDialogShade.Hide();
-                mDialog.cleanup();
-                //delete mDialog;
-                mDialog.Dispose();
-                mDialog = null;
-
-                if (!mCursorWasVisible)
-                    hideCursor();
-            }
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Determines if any dialog is currently visible.
-        //		-----------------------------------------------------------------------------
-        public bool isDialogVisible() {
-            return mDialog != null;
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Gets a widget from a tray by place.
-        //		-----------------------------------------------------------------------------
-        public Widget getWidget(TrayLocation trayLoc, uint place) {
-            if (place < mWidgets[(int)trayLoc].Count)
-                return mWidgets[(int)trayLoc][(int)place];
-            return null;
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Gets a widget from a tray by name.
-        //		-----------------------------------------------------------------------------
-        public Widget getWidget(TrayLocation trayLoc, string name) {
-            for (int i = 0; i < mWidgets[(int)trayLoc].Count; i++) {
-                if (mWidgets[(int)trayLoc][i].getName() == name)
-                    return mWidgets[(int)trayLoc][i];
-            }
-            return null;
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Gets a widget by name.
-        //		-----------------------------------------------------------------------------
-        public Widget getWidget(string name) {
-            for (int i = 0; i < 10; i++) {
-                for (int j = 0; j < mWidgets[i].Count; j++) {
-                    if (mWidgets[i][j].getName() == name)
-                        return mWidgets[i][j];
-                }
-            }
-            return null;
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Gets the number of widgets in total.
-        //		-----------------------------------------------------------------------------
-        public uint getNumWidgets() {
-            uint total = 0;
-
-            for (int i = 0; i < 10; i++) {
-                total += (uint)mWidgets[i].Count;
-            }
-
-            return total;
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Gets the number of widgets in a tray.
-        //		-----------------------------------------------------------------------------
-        public int getNumWidgets(TrayLocation trayLoc) {
-            return mWidgets[(int)trayLoc].Count;
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Gets all the widgets of a specific tray.
-        //		-----------------------------------------------------------------------------
-        //public Mogre.VectorIterator<List<Widget*>> getWidgetIterator(TrayLocation trayLoc)
-        public List<Widget> getWidgetIterator(TrayLocation trayLoc) {
-            return mWidgets[(int)trayLoc];
-            //return Mogre.VectorIterator<List<Widget*>>(mWidgets[(int)trayLoc].begin(), mWidgets[(int)trayLoc].end());
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Gets a widget's position in its tray.
-        //		-----------------------------------------------------------------------------
-        public int locateWidgetInTray(Widget widget) {
-            for (int i = 0; i < mWidgets[(int)widget.getTrayLocation()].Count; i++) {
-                if (mWidgets[(int)widget.getTrayLocation()][i] == widget)
-                    return i;
-            }
-            return -1;
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Destroys a widget.
-        //		-----------------------------------------------------------------------------
-        public void destroyWidget(Widget widget) {
-            if (widget == null)
-                OGRE_EXCEPT("Mogre.Exception.ERR_ITEM_NOT_FOUND", "Widget does not exist.", "TrayManager::destroyWidget");
-
-            // in case special widgets are destroyed manually, set them to 0
-            if (widget == mLogo)
-                mLogo = null;
-            else if (widget == mStatsPanel)
-                mStatsPanel = null;
-            else if (widget == mFpsLabel)
-                mFpsLabel = null;
-
-            mTrays[(int)widget.getTrayLocation()].RemoveChild(widget.getName());
-
-            List<Widget> wList = mWidgets[(int)widget.getTrayLocation()];
-            //C++ TO C# CONVERTER TODO TASK: There is no direct equivalent to the STL vector 'erase' method in C#:
-            //wList.erase(std.find(wList.GetEnumerator(), wList.end(), widget));
-            for (int j = wList.Count - 1; j >= 0; j--) {
-                if (wList[j] == widget) {
-                    wList.RemoveAt(j);
-                }
-            }
-            if (widget == mExpandedMenu)
-                setExpandedMenu(null);
-
-            widget.cleanup();
-
-            mWidgetDeathRow.Add(widget);
-
-            adjustTrays();
-        }
-
-        private void OGRE_EXCEPT(string p, string p_2, string p_3) {
-            throw new Exception(p + "_" + p_2 + "_" + p_3);
-        }
-
-        public void destroyWidget(TrayLocation trayLoc, uint place) {
-            destroyWidget(getWidget(trayLoc, place));
-        }
-
-        public void destroyWidget(TrayLocation trayLoc, string name) {
-            destroyWidget(getWidget(trayLoc, name));
-        }
-
-        public void destroyWidget(string name) {
-            destroyWidget(getWidget(name));
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Destroys all widgets in a tray.
-        //		-----------------------------------------------------------------------------
-        public void destroyAllWidgetsInTray(TrayLocation trayLoc) {
-            //while (!mWidgets[(int)trayLoc].empty())
-            while (mWidgets[(int)trayLoc].Count > 0)
-                destroyWidget(mWidgets[(int)trayLoc][0]);
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Destroys all widgets.
-        //		-----------------------------------------------------------------------------
-        public void destroyAllWidgets() {
-            for (uint i = 0; i < 10; i++) // destroy every widget in every tray (including null tray)
-			{
-                destroyAllWidgetsInTray((TrayLocation)i);
-            }
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Adds a widget to a specified tray.
-        //		-----------------------------------------------------------------------------
-        public void moveWidgetToTray(Widget widget, TrayLocation trayLoc) {
-            moveWidgetToTray(widget, trayLoc, -1);
-        }
-
-        public void moveWidgetToTray(Widget widget, TrayLocation trayLoc, int place) {
-            if (widget == null)
-                OGRE_EXCEPT("Mogre.Exception.ERR_ITEM_NOT_FOUND", "Widget does not exist.", "TrayManager::moveWidgetToTray");
-
-            // remove widget from old tray
-            List<Widget> wList = mWidgets[(int)widget.getTrayLocation()];
-            for (int j = wList.Count-1; j >= 0; j--) {
-                if (wList[j] == widget) {
-                    wList.RemoveAt(j);
-                    mTrays[(int)widget.getTrayLocation()].RemoveChild(widget.getName());
-                }
-            }
-
-
-            // insert widget into new tray at given position, or at the end if unspecified or invalid
-            if (place == -1 || place > (int)mWidgets[(int)trayLoc].Count)
-                place = (int)mWidgets[(int)trayLoc].Count;
-            mWidgets[(int)trayLoc].Insert(place, widget);
-            mTrays[(int)trayLoc].AddChild(widget.getOverlayElement());
-
-            widget.getOverlayElement().HorizontalAlignment = (mTrayWidgetAlign[(int)trayLoc]);
-
-            // adjust trays if necessary
-            if (widget.getTrayLocation() != TrayLocation.TL_NONE || trayLoc != TrayLocation.TL_NONE)
-                adjustTrays();
-
-            widget._assignToTray(trayLoc);
-        }
-
-        public void moveWidgetToTray(string name, TrayLocation trayLoc) {
-            moveWidgetToTray(name, trayLoc, -1);
-        }
-
-        public void moveWidgetToTray(string name, TrayLocation trayLoc, int place) {
-            moveWidgetToTray(getWidget(name), trayLoc, place);
-        }
-
-        public void moveWidgetToTray(TrayLocation currentTrayLoc, string name, TrayLocation targetTrayLoc) {
-            moveWidgetToTray(currentTrayLoc, name, targetTrayLoc, -1);
-        }
-        //ORIGINAL LINE: void moveWidgetToTray(TrayLocation currentTrayLoc, const Ogre::String& name, TrayLocation targetTrayLoc, int place = -1)
-        public void moveWidgetToTray(TrayLocation currentTrayLoc, string name, TrayLocation targetTrayLoc, int place) {
-            moveWidgetToTray(getWidget(currentTrayLoc, name), targetTrayLoc, place);
-        }
-
-        public void moveWidgetToTray(TrayLocation currentTrayLoc, uint currentPlace, TrayLocation targetTrayLoc) {
-            moveWidgetToTray(currentTrayLoc, currentPlace, targetTrayLoc, -1);
-        }
-        //ORIGINAL LINE: void moveWidgetToTray(TrayLocation currentTrayLoc, uint currentPlace, TrayLocation targetTrayLoc, int targetPlace = -1)
-        public void moveWidgetToTray(TrayLocation currentTrayLoc, uint currentPlace, TrayLocation targetTrayLoc, int targetPlace) {
-            moveWidgetToTray(getWidget(currentTrayLoc, currentPlace), targetTrayLoc, targetPlace);
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Removes a widget from its tray. Same as moving it to the null tray.
-        //		-----------------------------------------------------------------------------
-        public void removeWidgetFromTray(Widget widget) {
-            moveWidgetToTray(widget, TrayLocation.TL_NONE);
-        }
-
-        public void removeWidgetFromTray(string name) {
-            removeWidgetFromTray(getWidget(name));
-        }
-
-        public void removeWidgetFromTray(TrayLocation trayLoc, string name) {
-            removeWidgetFromTray(getWidget(trayLoc, name));
-        }
-
-        public void removeWidgetFromTray(TrayLocation trayLoc, uint place) {
-            removeWidgetFromTray(getWidget(trayLoc, place));
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Removes all widgets from a widget tray.
-        //		-----------------------------------------------------------------------------
-        public void clearTray(TrayLocation trayLoc) {
-            if (trayLoc == TrayLocation.TL_NONE) // can't clear the null tray
-                return;
-
-            //while (!mWidgets[(int)trayLoc].empty()) // remove every widget from given tray
-            while (mWidgets[(int)trayLoc].Count > 0) {
-                removeWidgetFromTray(mWidgets[(int)trayLoc][0]);
-            }
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Removes all widgets from all widget trays.
-        //		-----------------------------------------------------------------------------
-        public void clearAllTrays() {
-            for (uint i = 0; i < 9; i++) {
-                clearTray((TrayLocation)i);
-            }
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Process frame events. Updates frame statistics widget set and deletes
-        //		| all widgets queued for destruction.
-        //		-----------------------------------------------------------------------------
-        public bool frameRenderingQueued(Mogre.FrameEvent evt) {
-            for (int i = 0; i < mWidgetDeathRow.Count; i++) {
-                //delete mWidgetDeathRow[i];
-                mWidgetDeathRow[i] = null;
-            }
-            mWidgetDeathRow.Clear();
-
-
-            uint currentTime = mTimer.Milliseconds;
-            if (areFrameStatsVisible() && (currentTime - mLastStatUpdateTime > 250)) {
-                Mogre.RenderTarget.FrameStats stats = mWindow.GetStatistics();
-
-                mLastStatUpdateTime = currentTime;
-
-                string s = ("FPS: ");
-                s += ((int)stats.LastFPS).ToString();
-
-                mFpsLabel.setCaption(s);
-
-                if (mStatsPanel.getOverlayElement().IsVisible) {
-                    StringVector values = new StringVector();
-
-                    //StringStream oss = new StringStream();
-
-                    //oss.str("");
-                    //oss << std.fixed << std.setprecision(1) << stats.avgFPS;
-                    //string str = oss.str();
-                    //values.push_back(str);
-
-                    //oss.str("");
-                    //oss << std.fixed << std.setprecision(1) << stats.bestFPS;
-                    //str = oss.str();
-                    //values.push_back(str);
-
-                    //oss.str("");
-                    //oss << std.fixed << std.setprecision(1) << stats.worstFPS;
-                    //str = oss.str();
-                    //values.push_back(str);
-
-                    //str = stringConverter.toString(stats.triangleCount);
-                    //values.push_back(str);
-
-                    //str = stringConverter.toString(stats.batchCount);
-                    //values.push_back(str);
-                    values.Add(stats.AvgFPS.ToString("N", System.Globalization.CultureInfo.InvariantCulture));
-                    values.Add(stats.BestFPS.ToString("N", System.Globalization.CultureInfo.InvariantCulture));
-                    values.Add(stats.WorstFPS.ToString("N", System.Globalization.CultureInfo.InvariantCulture));
-                    values.Add(stats.TriangleCount.ToString("N", System.Globalization.CultureInfo.InvariantCulture));
-                    values.Add(stats.BatchCount.ToString("N", System.Globalization.CultureInfo.InvariantCulture));
-                    mStatsPanel.setAllParamValues(values);
-                }
-            }
-
-            return true;
-        }
-
-
-
-
-
-        //        -----------------------------------------------------------------------------
-        //		| Toggles visibility of advanced statistics.
-        //		-----------------------------------------------------------------------------
-        public new void labelHit(Label label) {
-            if (mStatsPanel.getOverlayElement().IsVisible) {
-                mStatsPanel.getOverlayElement().Hide();
-                mFpsLabel.getOverlayElement().Width = (150f);
-                removeWidgetFromTray(mStatsPanel);
-            }
-            else {
-                mStatsPanel.getOverlayElement().Show();
-                mFpsLabel.getOverlayElement().Width = (180f);
-                moveWidgetToTray(mStatsPanel, mFpsLabel.getTrayLocation(), locateWidgetInTray(mFpsLabel) + 1);
-            }
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Destroys dialog widgets, notifies listener, and ends high priority session.
-        //		-----------------------------------------------------------------------------
-        public new void buttonHit(Button button) {
-            if (mListener != null) {
-                if (button == mOk)
-                    mListener.okDialogClosed(mDialog.getText());
-                else
-                    mListener.yesNoDialogClosed(mDialog.getText(), button == mYes);
-            }
-            closeDialog();
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Processes mouse button down events. Returns true if the event was
-        //		| consumed and should not be passed on to other handlers.
-        //		-----------------------------------------------------------------------------
-
-        //#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
-        //		public bool injectMouseDown(OIS.MultiTouchEvent evt)
-        //#else
-        public bool injectMouseDown(MOIS.MouseEvent evt, MOIS.MouseButtonID id)
-            //#endif
-        {
-
-            //#if (OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS) && (OGRE_PLATFORM != OGRE_PLATFORM_ANDROID)
-            // only process left button when stuff is visible
-            if (!mCursorLayer.IsVisible || id != MOIS.MouseButtonID.MB_Left)
-                return false;
-            //#else
-            //            // only process touches when stuff is visible
-            //            if (!mCursorLayer.isVisible())
-            //                return false;
-            //#endif
-            Mogre.Vector2 cursorPos = new Mogre.Vector2(mCursor.Left, mCursor.Top);
-
-            mTrayDrag = false;
-
-            if (mExpandedMenu != null) // only check top priority widget until it passes on
-			{
-                mExpandedMenu._cursorPressed(cursorPos);
-                if (!mExpandedMenu.isExpanded())
-                    setExpandedMenu(null);
-                return true;
-            }
-
-            if (mDialog != null) // only check top priority widget until it passes on
-			{
-                mDialog._cursorPressed(cursorPos);
-                if (mOk != null)
-                    mOk._cursorPressed(cursorPos);
-                else {
-                    mYes._cursorPressed(cursorPos);
-                    mNo._cursorPressed(cursorPos);
-                }
-                return true;
-            }
-
-            for (uint i = 0; i < 9; i++) // check if mouse is over a non-null tray
-			{
-                if (mTrays[i].IsVisible && Widget.isCursorOver(mTrays[i], cursorPos, 2f)) {
-                    mTrayDrag = true; // initiate a drag that originates in a tray
-                    break;
-                }
-            }
-
-            for (int i = 0; i < mWidgets[9].Count; i++) // check if mouse is over a non-null tray's widgets
-			{
-                if (mWidgets[9][i].getOverlayElement().IsVisible && Widget.isCursorOver(mWidgets[9][i].getOverlayElement(), cursorPos)) {
-                    mTrayDrag = true; // initiate a drag that originates in a tray
-                    break;
-                }
-            }
-
-            //if (!mTrayDrag) // don't process if mouse press is not in tray
-            //    return false;
-
-            for (int i = 0; i < 10; i++) {
-                if (!mTrays[i].IsVisible)
-                    continue;
-
-                for (int j = 0; j < mWidgets[i].Count; j++) {
-                    Widget w = mWidgets[i][j];
-                    if (!w.getOverlayElement().IsVisible)
-                        continue;
-                    w._cursorPressed(cursorPos); // send event to widget
-
-                    SelectMenu m = w as SelectMenu;
-                    if (m != null && m.isExpanded()) // a menu has begun a top priority session
-					{
-                        setExpandedMenu(m);
-                        return true;
-                    }
-                }
-            }
-
-            return true; // a tray click is not to be handled by another party
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Processes mouse button up events. Returns true if the event was
-        //		| consumed and should not be passed on to other handlers.
-        //		-----------------------------------------------------------------------------
-
-        //#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
-        //        public bool injectMouseUp(OIS.MultiTouchEvent evt)
-        //#else
-        public bool injectMouseUp(MOIS.MouseEvent evt, MOIS.MouseButtonID id)
-            //#endif
-        {
-
-            //#if (OGRE_PLATFORM != OGRE_PLATFORM_APPLE_IOS) && (OGRE_PLATFORM != OGRE_PLATFORM_ANDROID)
-            // only process left button when stuff is visible
-            if (!mCursorLayer.IsVisible || id != MOIS.MouseButtonID.MB_Left)
-                return false;
-            //#else
-            //            // only process touches when stuff is visible
-            //            if (!mCursorLayer.isVisible())
-            //                return false;
-            //#endif
-            Mogre.Vector2 cursorPos = new Mogre.Vector2(mCursor.Left, mCursor.Top);
-
-            if (mExpandedMenu != null) // only check top priority widget until it passes on
-			{
-                mExpandedMenu._cursorReleased(cursorPos);
-                return true;
-            }
-
-            if (mDialog != null) // only check top priority widget until it passes on
-			{
-                mDialog._cursorReleased(cursorPos);
-                if (mOk != null)
-                    mOk._cursorReleased(cursorPos);
-                else {
-                    mYes._cursorReleased(cursorPos);
-                    // very important to check if second button still exists, because first button could've closed the popup
-                    if (mNo != null)
-                        mNo._cursorReleased(cursorPos);
-                }
-                return true;
-            }
-
-            if (!mTrayDrag) // this click did not originate in a tray, so don't process
-                return false;
-
-            Widget w = null;
-
-            for (int i = 0; i < 10; i++) {
-                if (!mTrays[i].IsVisible)
-                    continue;
-
-                for (int j = 0; j < mWidgets[i].Count; j++) {
-                    w = mWidgets[i][j];
-                    if (!w.getOverlayElement().IsVisible)
-                        continue;
-                    w._cursorReleased(cursorPos); // send event to widget
-                }
-            }
-
-            mTrayDrag = false; // stop this drag
-            return true; // this click did originate in this tray, so don't pass it on
-        }
-
-        //        -----------------------------------------------------------------------------
-        //		| Updates cursor position. Returns true if the event was
-        //		| consumed and should not be passed on to other handlers.
-        //		-----------------------------------------------------------------------------
-
-        //#if (OGRE_PLATFORM == OGRE_PLATFORM_APPLE_IOS) || (OGRE_PLATFORM == OGRE_PLATFORM_ANDROID)
-        //        public bool injectMouseMove(OIS.MultiTouchEvent evt)
-        //#else
-        public bool injectMouseMove(MOIS.MouseEvent evt)
-            //#endif
-        {
-            if (!mCursorLayer.IsVisible) // don't process if cursor layer is invisible
-                return false;
-
-            Mogre.Vector2 cursorPos = new Mogre.Vector2(evt.state.X.abs, evt.state.Y.abs);
-            mCursor.SetPosition(cursorPos.x, cursorPos.y);
-
-            if (mExpandedMenu != null) // only check top priority widget until it passes on
-			{
-                mExpandedMenu._cursorMoved(cursorPos);
-                return true;
-            }
-
-            if (mDialog != null) // only check top priority widget until it passes on
-			{
-                mDialog._cursorMoved(cursorPos);
-                if (mOk != null)
-                    mOk._cursorMoved(cursorPos);
-                else {
-                    mYes._cursorMoved(cursorPos);
-                    mNo._cursorMoved(cursorPos);
-                }
-                return true;
-            }
-
-            Widget w = null;
-
-            for (int i = 0; i < 10; i++) {
-                if (!mTrays[i].IsVisible)
-                    continue;
-
-                for (int j = 0; j < mWidgets[i].Count; j++) {
-                    w = mWidgets[i][j];
-                    if (!w.getOverlayElement().IsVisible)
-                        continue;
-                    w._cursorMoved(cursorPos); // send event to widget
-                }
-            }
-
-            if (mTrayDrag) // don't pass this event on if we're in the middle of a drag
-                return true;
-            return false;
-        }
-
-
-        //        -----------------------------------------------------------------------------
-        //		| Internal method to prioritise / deprioritise expanded menus.
-        //		-----------------------------------------------------------------------------
-        protected void setExpandedMenu(SelectMenu m) {
-            if (mExpandedMenu == null && m != null) {
-                Mogre.OverlayContainer c = (Mogre.OverlayContainer)m.getOverlayElement();
-                Mogre.OverlayContainer eb = (Mogre.OverlayContainer)c.GetChild(m.getName() + "/MenuExpandedBox");
-                eb._update();
-                eb.SetPosition((uint)(eb._getDerivedLeft() * Mogre.OverlayManager.Singleton.ViewportWidth), (uint)(eb._getDerivedTop() * Mogre.OverlayManager.Singleton.ViewportHeight));
-                c.RemoveChild(eb.Name);
-                mPriorityLayer.Add2D(eb);
-            }
-            else if (mExpandedMenu != null && m == null) {
-                Mogre.OverlayContainer eb = mPriorityLayer.GetChild(mExpandedMenu.getName() + "/MenuExpandedBox");
-                mPriorityLayer.Remove2D(eb);
-                ((Mogre.OverlayContainer)mExpandedMenu.getOverlayElement()).AddChild(eb);
-            }
-
-            mExpandedMenu = m;
-        }
-
-        public void AddOverlayElementToTrayLocation(OverlayElement element, TrayLocation trayLoc)
-        {
-            mTrays[(int)trayLoc].AddChild(element);
-        }
-
-		protected string mName = ""; // name of this tray system
-        protected Mogre.RenderWindow mWindow; // render window
-        protected InputContext mInputContext = null;
-        protected Mogre.Overlay mBackdropLayer; // backdrop layer
-        protected Mogre.Overlay mTraysLayer; // widget layer
-        protected Mogre.Overlay mPriorityLayer; // top priority layer
-        protected Mogre.Overlay mCursorLayer; // cursor layer
-        protected Mogre.OverlayContainer mBackdrop; // backdrop
-        protected Mogre.OverlayContainer[] mTrays = new Mogre.OverlayContainer[10]; // widget trays
-        protected List<Widget>[] mWidgets = new List<Widget>[10]; // widgets
-        protected List<Widget> mWidgetDeathRow = new List<Widget>(); // widget queue for deletion
-        protected Mogre.OverlayContainer mCursor; // cursor
-        protected SdkTrayListener mListener; // tray listener
-        protected float mWidgetPadding = 0f; // widget padding
-        protected float mWidgetSpacing = 0f; // widget spacing
-        protected float mTrayPadding = 0f; // tray padding
-        protected bool mTrayDrag; // a mouse press was initiated on a tray
-        protected SelectMenu mExpandedMenu; // top priority expanded menu widget
-        protected TextBox mDialog; // top priority dialog widget
-        protected Mogre.OverlayContainer mDialogShade; // top priority dialog shade
-        protected Button mOk; // top priority OK button
-        protected Button mYes; // top priority Yes button
-        protected Button mNo; // top priority No button
-        protected bool mCursorWasVisible; // cursor state before showing dialog
-        protected Label mFpsLabel; // FPS label
-        protected ParamsPanel mStatsPanel; // frame stats panel
-        protected DecorWidget mLogo; // logo
-        protected ProgressBar mLoadBar; // loading bar
-        protected float mGroupInitProportion = 0f; // proportion of load job assigned to initialising one resource group
-        protected float mGroupLoadProportion = 0f; // proportion of load job assigned to loading one resource group
-        protected float mLoadInc = 0f; // loading increment
-        protected Mogre.GuiHorizontalAlignment[] mTrayWidgetAlign = new Mogre.GuiHorizontalAlignment[10]; // tray widget alignments
-        protected Mogre.Timer mTimer; // Root::getSingleton().getTimer()
-        protected uint mLastStatUpdateTime; // The last time the stat text were updated
-
-    }
 }
-
-//#endif

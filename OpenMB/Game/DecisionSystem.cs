@@ -1,4 +1,4 @@
-﻿using OpenMB.Game.Action;
+﻿using OpenMB.Game.AIAction;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenMB.Core
+namespace OpenMB.Game
 {
 	public enum Time
 	{
@@ -13,6 +13,12 @@ namespace OpenMB.Core
 		Noon,
 		Afternoon,
 		Night
+	}
+	public enum TimerState
+	{
+		Stop,
+		Running,
+		Paused
 	}
 
 	public class TimerManager
@@ -24,6 +30,9 @@ namespace OpenMB.Core
 		private int minute;
 		private int second;
 		private Time currentTime;
+		private Time lastTime;
+		private TimerState state;
+		public event Action TimeChanged;
 
 		private static TimerManager instance;
 		public static TimerManager Instance
@@ -74,6 +83,8 @@ namespace OpenMB.Core
 			this.hour = hour;
 			this.minute = minute;
 			this.second = second;
+			state = TimerState.Running;
+			lastTime = CurrentTime;
 		}
 
 		public string GetDate()
@@ -86,8 +97,12 @@ namespace OpenMB.Core
 			return currentTime.ToString();
 		}
 
-		public void Update ()
+		public void Update()
 		{
+			if (state != TimerState.Running)
+			{
+				return;
+			}
 			second++;
 			if (second == 59)
 			{
@@ -114,6 +129,13 @@ namespace OpenMB.Core
 				month = 1;
 				year++;
 			}
+
+			if (lastTime != CurrentTime)
+			{
+				TimeChanged?.Invoke();
+			}
+
+			lastTime = currentTime;
 		}
 	}
 }

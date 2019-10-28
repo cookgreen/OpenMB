@@ -153,11 +153,18 @@ namespace OpenMB.Widgets
 			if (rowNum != 1 || colNum != 1)
 			{
 				float totalLeft = 0;
+				float totalTop = 0;
 				for (int i = 0; i < colNum - 1; i++)
 				{
 					totalLeft += cols[i].AbosulteWidth;
 				}
-				widget.Left = totalLeft;
+				for (int i = 0; i < rowNum - 1; i++)
+				{
+					totalTop += rows[i].AbosulteHeight;
+				}
+
+				widget.Left += totalLeft;
+				widget.Top += totalTop;
 			}
 		}
 
