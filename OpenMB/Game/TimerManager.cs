@@ -8,11 +8,16 @@ namespace OpenMB.Game
 {
 	public enum Time
 	{
-		Early_Moring,
+		[Description("Early Morning")]
+		Early_Morning,
+		[Description("Morning")]
 		Morning,
+		[Description("Noon")]
 		Noon,
+		[Description("Afternoon")]
 		Afternoon,
-		Night
+		[Description("Night")]
+		Night,
 	}
 	public enum TimerState
 	{
@@ -52,7 +57,7 @@ namespace OpenMB.Game
 			{
 				if (hour >= 0 && hour < 7)
 				{
-					currentTime = Time.Early_Moring;
+					currentTime = Time.Early_Morning;
 				}
 				else if (hour >= 7 && hour < 12)
 				{

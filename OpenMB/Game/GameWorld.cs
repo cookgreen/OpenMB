@@ -179,7 +179,7 @@ namespace OpenMB.Game
 			string skyboxMaterialName = null;
 			switch (time)
 			{
-				case Time.Early_Moring:
+				case Time.Early_Morning:
 					skyboxMaterialName = "Examples/EarlyMorningSkyBox";
 					break;
 				case Time.Morning:
