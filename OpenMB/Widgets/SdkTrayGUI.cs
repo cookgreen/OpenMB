@@ -28,12 +28,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -----------------------------------------------------------------------------
 */
-using System;
-using Mogre;
-using System.Collections.Generic;
-using Math = System.Math;
 using InputContext = MOIS.Mouse;
+using Math = System.Math;
+using Mogre;
 using OpenMB.Widgets;
+using System;
+using System.Collections.Generic;
 
 namespace Mogre_Procedural.MogreBites
 {
@@ -1076,7 +1076,7 @@ namespace Mogre_Procedural.MogreBites
 		{
 			if (mLoadBar != null)
 			{
-				mLoadBar.cleanup();
+				mLoadBar.Cleanup();
 				//delete mLoadBar;
 				mLoadBar.Dispose();
 				mLoadBar = null;
@@ -1113,8 +1113,8 @@ namespace Mogre_Procedural.MogreBites
 					return;
 				else
 				{
-					mYes.cleanup();
-					mNo.cleanup();
+					mYes.Cleanup();
+					mNo.Cleanup();
 					//delete mYes;
 					//delete mNo;
 					mYes.Dispose();
@@ -1174,7 +1174,7 @@ namespace Mogre_Procedural.MogreBites
 
 				if (mOk != null)
 				{
-					mOk.cleanup();
+					mOk.Cleanup();
 					//delete mOk;
 					mOk.Dispose();
 					mOk = null;
@@ -1233,15 +1233,15 @@ namespace Mogre_Procedural.MogreBites
 			{
 				if (mOk != null)
 				{
-					mOk.cleanup();
+					mOk.Cleanup();
 					//delete mOk;
 					mOk.Dispose();
 					mOk = null;
 				}
 				else
 				{
-					mYes.cleanup();
-					mNo.cleanup();
+					mYes.Cleanup();
+					mNo.Cleanup();
 					//delete mYes;
 					//delete mNo;
 					mYes.Dispose();
@@ -1251,7 +1251,7 @@ namespace Mogre_Procedural.MogreBites
 				}
 
 				mDialogShade.Hide();
-				mDialog.cleanup();
+				mDialog.Cleanup();
 				//delete mDialog;
 				mDialog.Dispose();
 				mDialog = null;
@@ -1385,7 +1385,7 @@ namespace Mogre_Procedural.MogreBites
 			if (widget == mExpandedMenu)
 				setExpandedMenu(null);
 
-			widget.cleanup();
+			widget.Cleanup();
 
 			mWidgetDeathRow.Add(widget);
 
@@ -2276,7 +2276,7 @@ namespace Mogre_Procedural.MogreBites
         public virtual void Dispose() {
         }
 
-        public void cleanup() {
+        public void Cleanup() {
             if (mElement != null)
                 nukeOverlayElement(mElement);
             mElement = null;

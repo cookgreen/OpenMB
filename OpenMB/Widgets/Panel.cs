@@ -7,12 +7,18 @@ using System.Text;
 
 namespace OpenMB.Widgets
 {
+	/// <summary>
+	/// Value type
+	/// </summary>
 	public enum ValueType
 	{
 		Abosulte,
 		Percent
 	}
 
+	/// <summary>
+	/// Define a panel row
+	/// </summary>
 	public class PanelRow
 	{
 		public ValueType Type;
@@ -39,6 +45,9 @@ namespace OpenMB.Widgets
 		}
 	}
 
+	/// <summary>
+	/// Define a panel column
+	/// </summary>
 	public class PanelColumn
 	{
 		public ValueType Type;
@@ -65,6 +74,9 @@ namespace OpenMB.Widgets
 		}
 	}
 
+	/// <summary>
+	/// Panel Control
+	/// </summary>
     public class Panel : Widget
     {
 		private List<PanelRow> rows;
@@ -109,7 +121,7 @@ namespace OpenMB.Widgets
 			rows.Add(new PanelRow(this) { Type = ValueType.Percent, Height = 100});
         }
 
-		public void AddRow(ValueType type, float height)
+		public void AddRow(ValueType type, float height = 0)
 		{
 			rows.Add(new PanelRow(this) { Type = type, Height = height });
 			if (type == ValueType.Percent)
@@ -138,10 +150,7 @@ namespace OpenMB.Widgets
 				}
 			}
 		}
-		public void AddWidget(Widget widget)
-		{
-			AddWidget(1, 1, widget);
-		}
+
 		public void AddWidget(int rowNum, int colNum, Widget widget)
 		{
 			widget.Col = colNum;
@@ -175,12 +184,32 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public void RemoveWidget(Widget widget)
-        {
-            widgets.Remove(widget);
-            ((OverlayContainer)mElement).RemoveChild(widget.getOverlayElement().Name);
-            Control.nukeOverlayElement(widget.getOverlayElement());
-        }
+		public void AddWidget(Widget widget)
+		{
+			AddWidget(1, 1, widget);
+		}
+
+		public Widget GetWidget(int rowNum, int colNum)
+		{
+			var retWidgets = widgets.Where(o => o.Row == rowNum && o.Col == colNum);
+			return retWidgets.FirstOrDefault();
+		}
+
+		public int GetWidgetNum()
+		{
+			return widgets.Count;
+		}
+
+		public void RemoveWidget(int rowNum, int colNum)
+		{
+			var widget = GetWidget(rowNum, colNum);
+			if (widget != null)
+			{
+				widgets.Remove(widget);
+				((OverlayContainer)mElement).RemoveChild(widget.getOverlayElement().Name);
+				Control.nukeOverlayElement(widget.getOverlayElement());
+			}
+		}
 
         public void ClearWidget()
         {
@@ -190,23 +219,6 @@ namespace OpenMB.Widgets
                 Control.nukeOverlayElement(widget.getOverlayElement());
             }
             widgets.Clear();
-        }
-
-        public int GetWidgetNum()
-        {
-            return widgets.Count;
-        }
-
-        public Widget GetWidget(int index)
-        {
-            if (index >= widgets.Count)
-            {
-                return null;
-            }
-            else
-            {
-                return widgets[index];
-            }
         }
 
         public override void Dispose()
