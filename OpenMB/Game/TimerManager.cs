@@ -89,7 +89,7 @@ namespace OpenMB.Game
 
 		public string GetDate()
 		{
-			return string.Format("{0} {1}, {2}", month, day, year);
+			return string.Format("{0} {1}, {2}", getMonthStr(month), getDayStr(day), year);
 		}
 
 		public string GetTime()
@@ -136,6 +136,64 @@ namespace OpenMB.Game
 			}
 
 			lastTime = currentTime;
+		}
+
+		public void Pause()
+		{
+			state = TimerState.Paused;
+		}
+
+		private string getMonthStr(int month)
+		{
+			switch(month)
+			{
+				case 1:
+					return "January";
+				case 2:
+					return "February";
+				case 3:
+					return "March";
+				case 4:
+					return "April";
+				case 5:
+					return "May";
+				case 6:
+					return "June";
+				case 7:
+					return "July";
+				case 8:
+					return "August";
+				case 9:
+					return "Sepetember";
+				case 10:
+					return "October";
+				case 11:
+					return "November";
+				case 12:
+					return "December";
+				default:
+					return null;
+			}
+		}
+
+		private string getDayStr(int day)
+		{
+			if (day == 1)
+			{
+				return "1st";
+			}
+			else if (day == 2)
+			{
+				return "2nd";
+			}
+			else if (day == 3)
+			{
+				return "3rd";
+			}
+			else
+			{
+				return day.ToString() + "th";
+			}
 		}
 	}
 }

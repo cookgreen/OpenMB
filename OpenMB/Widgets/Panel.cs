@@ -148,12 +148,19 @@ namespace OpenMB.Widgets
 			widget.Row = rowNum;
 			widgets.Add(widget);
 
+			var c = cols[colNum - 1];
+			if (c.Type == ValueType.Percent)
+			{
+				widget.Width = cols[colNum - 1].AbosulteWidth;
+			}
+
 			((OverlayContainer)mElement).AddChild(widget.getOverlayElement());
 			
 			if (rowNum != 1 || colNum != 1)
 			{
 				float totalLeft = 0;
 				float totalTop = 0;
+
 				for (int i = 0; i < colNum - 1; i++)
 				{
 					totalLeft += cols[i].AbosulteWidth;

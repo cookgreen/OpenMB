@@ -802,6 +802,11 @@ namespace Mogre_Procedural.MogreBites
 			return l;
 		}
 
+		public StaticText createStaticText(string name, string text)
+		{
+			return createStaticText(TrayLocation.TL_NONE, name, text, 0f, false, ColourValue.Black);
+		}
+
 		public StaticText createStaticText(TrayLocation trayLoc, string name, string caption)
 		{
 			return createStaticText(trayLoc, name, caption, 0f, false, ColourValue.Black);

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mogre;
 using Mogre_Procedural.MogreBites;
+using OpenMB.Game;
 using OpenMB.Widgets;
 
 namespace OpenMB.Screen
@@ -48,8 +49,8 @@ namespace OpenMB.Screen
 			gameMainPanel.AddCol(Widgets.ValueType.Percent);
 			gameMainPanel.AddCol(Widgets.ValueType.Percent);
 			gameMainPanel.AddCol(Widgets.ValueType.Percent);
-			gameMainPanel.AddCol(Widgets.ValueType.Percent);
-			gameMainPanel.AddCol(Widgets.ValueType.Abosulte, 200);
+			gameMainPanel.AddCol(Widgets.ValueType.Abosulte, 0.1f);
+			gameMainPanel.AddCol(Widgets.ValueType.Abosulte, 180);
 
 			btnTerrain = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnTerrain", "Terrain", 150);
 			btnTerrain.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
@@ -92,6 +93,15 @@ namespace OpenMB.Screen
 			btnParty.Top = 0.025f;
 			btnParty.OnClick += BtnParty_OnClick;
 			gameMainPanel.AddWidget(1, 7, btnParty);
+
+			txtCurrentDate = GameManager.Instance.trayMgr.createStaticText("gameDate", TimerManager.Instance.GetDate());
+			txtCurrentTime = GameManager.Instance.trayMgr.createStaticText("gameTime", TimerManager.Instance.CurrentTime.ToString());
+			txtCurrentDate.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			txtCurrentTime.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			txtCurrentDate.Top = 0.015f;
+			txtCurrentTime.Top = 0.03f;
+			gameMainPanel.AddWidget(1, 9, txtCurrentDate);
+			gameMainPanel.AddWidget(1, 9, txtCurrentTime);
 		}
 
 		private void BtnParty_OnClick(object obj)
@@ -121,6 +131,12 @@ namespace OpenMB.Screen
 		private void BtnTerrain_OnClick(object obj)
 		{
 
+		}
+
+		public override void Update(float timeSinceLastFrame)
+		{
+			txtCurrentDate.SetText(TimerManager.Instance.GetDate());
+			txtCurrentTime.SetText(TimerManager.Instance.CurrentTime.ToString());
 		}
 	}
 }

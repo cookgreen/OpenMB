@@ -192,7 +192,7 @@ namespace OpenMB.Game
 					skyboxMaterialName = "Examples/StormySkyBox";
 					break;
 				case Time.Night:
-					skyboxMaterialName = "Examples/EveningSkyBox";
+					skyboxMaterialName = "Examples/SpaceSkyBox";
 					break;
 			}
 			return skyboxMaterialName;
@@ -218,6 +218,8 @@ namespace OpenMB.Game
         /// <param name="mapID"></param>
         public void ChangeScene(string mapID)
         {
+			TimerManager.Instance.Pause();
+
             GameManager.Instance.trayMgr.hideCursor();
 
             var findMaps = modData.MapInfos.Where(o => o.ID == mapID);
@@ -290,177 +292,6 @@ namespace OpenMB.Game
 
         #endregion
 
-        #region API
-        public Character GetAgentById(int id)
-        {
-            return CurrentMap.GetAgentById(id);
-        }
-
-        public Item GetItemByXml(ModItemDfnXML itemXml)
-        {
-            return ItemFactory.Instance.Produce(itemXml, this);
-        }
-
-        internal List<Character> GetAllCharacters()
-        {
-            return GameMapManager.Instance.CurrentMap.Agents;
-        }
-        internal List<Character> GetCharactersByCondition(Func<Character, bool> condition)
-        {
-            return GameMapManager.Instance.CurrentMap.Agents.Where(condition).ToList();
-        }
-
-        internal List<Tuple<string, string, int>> GetTeamRelationshipByCondition(Func<Tuple<string, string, int>, bool> func)
-        {
-            return teamRelationship.Where(func).ToList();
-        }
-
-        private void CreateLoadingScreen(string text)
-        {
-            GameManager.Instance.trayMgr.destroyAllWidgets();
-            pbProgressBar = GameManager.Instance.trayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
-            pbProgressBar.setComment(text);
-        }
-
-        public void RemoveGameObject(string objectID, GameObject owner)
-        {
-            CurrentMap.RemoveGameObject(objectID, owner);
-        }
-
-        public void RemoveAgent(GameObject owner)
-        {
-            CurrentMap.RemoveAgent(owner);
-        }
-
-        public void CreatePlayer(string trooperID, Mogre.Vector3 position, string teamID)
-        {
-            GameMapManager.Instance.CurrentMap.CreatePlayer(trooperID, position, teamID);
-        }
-
-        public void CreatePlayerSceneProp(string scenePropID, Mogre.Vector3 position)
-        {
-            GameMapManager.Instance.CurrentMap.CreatePlayerSceneProp(scenePropID, position);
-        }
-        public void CreateLight(string type, string name, Mogre.Vector3 pos, Mogre.Vector3 dir)
-        {
-            Light.LightTypes lt;
-            switch (type)
-            {
-                case "point":
-                    lt = Light.LightTypes.LT_POINT;
-                    break;
-                case "direction":
-                    lt = Light.LightTypes.LT_DIRECTIONAL;
-                    break;
-                case "spot_light":
-                    lt = Light.LightTypes.LT_SPOTLIGHT;
-                    break;
-                default:
-                    lt = Light.LightTypes.LT_POINT;
-                    break;
-            }
-            Light light = scm.CreateLight(name);
-            light.Type = lt;
-            light.Position = pos;
-            light.Direction = dir;
-        }
-
-        public void RemoveLight(string name)
-        {
-            scm.DestroyLight(name);
-        }
-
-        public void ChangeTeamRelationship(string team1Id, string team2Id, int relationship)
-        {
-            var ret = teamRelationship.Where(o =>
-            (o.Item1 == team1Id && o.Item2 == team2Id) ||
-            (o.Item1 == team2Id && o.Item2 == team1Id));
-            if (ret.Count() == 0)
-            {
-                teamRelationship.Add(new Tuple<string, string, int>(team1Id, team2Id, relationship));
-            }
-            else
-            {
-                Tuple<string, string, int> newTeamRelationship = new Tuple<string, string, int>(team1Id, team2Id, relationship);
-                int index = teamRelationship.IndexOf(ret.First());
-                teamRelationship.RemoveAt(index);
-                teamRelationship.Insert(index, newTeamRelationship);
-            }
-        }
-
-        public void ChangeGobalValue(string varname, string varvalue)
-        {
-            if (globalVarMap.ContainsKey(varname))
-            {
-                globalVarMap[varname] = varvalue;
-            }
-            else
-            {
-                globalVarMap.Add(varname, varvalue);
-            }
-        }
-
-        public string GetGlobalValue(string varname)
-        {
-            if (globalVarMap.ContainsKey(varname))
-            {
-                return globalVarMap[varname];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public void CreateCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
-        {
-            GameMapManager.Instance.CurrentMap.CreateCharacter(characterID, position, teamId, isBot);
-        }
-
-        public string CreateSceneProp(string scenePropID, Mogre.Vector3 position)
-        {
-            return GameMapManager.Instance.CurrentMap.CreateSceneProp(scenePropID, position);
-        }
-
-        public int GetScenePropNum(string scenePropID)
-        {
-            return GameMapManager.Instance.CurrentMap.GetScenePropNum(scenePropID);
-        }
-
-        public string GetSceneProp(string scenePropID, string scenePropInstanceNum)
-        {
-            return GameMapManager.Instance.CurrentMap.GetScenePropInstanceID(scenePropID, int.Parse(scenePropInstanceNum));
-        }
-
-        public void RemoveSceneProp(string propInstanceID)
-        {
-            GameMapManager.Instance.CurrentMap.RemoveSceneProp(propInstanceID);
-        }
-
-        public void MoveSceneProp(string propInstanceID, string axis, string movement)
-        {
-            GameMapManager.Instance.CurrentMap.MoveSceneProp(propInstanceID, int.Parse(axis), int.Parse(movement));
-        }
-
-        public void CreatePlane(string materialName, Mogre.Vector3 vector31, float v1, int v2, int v3, int v4, int v5, ushort v6, int v7, int v8, Mogre.Vector3 vector32, Mogre.Vector3 vector33)
-        {
-            GameMapManager.Instance.CurrentMap.CreatePlane(materialName, vector31, v1, v2, v3, v4, v5, v6, v7, v8, vector32, vector33);
-        }
-
-        public void ChangeCameraMode(string mode)
-        {
-            switch (mode)
-            {
-                case "0":
-                    GameMapManager.Instance.CurrentMap.CameraHanlder.ChangeMode(CameraMode.Free);
-                    break;
-                case "1":
-                    GameMapManager.Instance.CurrentMap.CameraHanlder.ChangeMode(CameraMode.Manual);
-                    break;
-            }
-        }
-        #endregion
-
         #region Update Methods
         private bool FrameRenderingQueued(FrameEvent evt)
         {
@@ -492,6 +323,177 @@ namespace OpenMB.Game
             return true;
         }
 
-        #endregion
-    }
+		#endregion
+
+		#region API
+		public Character GetAgentById(int id)
+		{
+			return CurrentMap.GetAgentById(id);
+		}
+
+		public Item GetItemByXml(ModItemDfnXML itemXml)
+		{
+			return ItemFactory.Instance.Produce(itemXml, this);
+		}
+
+		internal List<Character> GetAllCharacters()
+		{
+			return GameMapManager.Instance.CurrentMap.Agents;
+		}
+		internal List<Character> GetCharactersByCondition(Func<Character, bool> condition)
+		{
+			return GameMapManager.Instance.CurrentMap.Agents.Where(condition).ToList();
+		}
+
+		internal List<Tuple<string, string, int>> GetTeamRelationshipByCondition(Func<Tuple<string, string, int>, bool> func)
+		{
+			return teamRelationship.Where(func).ToList();
+		}
+
+		private void CreateLoadingScreen(string text)
+		{
+			GameManager.Instance.trayMgr.destroyAllWidgets();
+			pbProgressBar = GameManager.Instance.trayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
+			pbProgressBar.setComment(text);
+		}
+
+		public void RemoveGameObject(string objectID, GameObject owner)
+		{
+			CurrentMap.RemoveGameObject(objectID, owner);
+		}
+
+		public void RemoveAgent(GameObject owner)
+		{
+			CurrentMap.RemoveAgent(owner);
+		}
+
+		public void CreatePlayer(string trooperID, Mogre.Vector3 position, string teamID)
+		{
+			GameMapManager.Instance.CurrentMap.CreatePlayer(trooperID, position, teamID);
+		}
+
+		public void CreatePlayerSceneProp(string scenePropID, Mogre.Vector3 position)
+		{
+			GameMapManager.Instance.CurrentMap.CreatePlayerSceneProp(scenePropID, position);
+		}
+		public void CreateLight(string type, string name, Mogre.Vector3 pos, Mogre.Vector3 dir)
+		{
+			Light.LightTypes lt;
+			switch (type)
+			{
+				case "point":
+					lt = Light.LightTypes.LT_POINT;
+					break;
+				case "direction":
+					lt = Light.LightTypes.LT_DIRECTIONAL;
+					break;
+				case "spot_light":
+					lt = Light.LightTypes.LT_SPOTLIGHT;
+					break;
+				default:
+					lt = Light.LightTypes.LT_POINT;
+					break;
+			}
+			Light light = scm.CreateLight(name);
+			light.Type = lt;
+			light.Position = pos;
+			light.Direction = dir;
+		}
+
+		public void RemoveLight(string name)
+		{
+			scm.DestroyLight(name);
+		}
+
+		public void ChangeTeamRelationship(string team1Id, string team2Id, int relationship)
+		{
+			var ret = teamRelationship.Where(o =>
+			(o.Item1 == team1Id && o.Item2 == team2Id) ||
+			(o.Item1 == team2Id && o.Item2 == team1Id));
+			if (ret.Count() == 0)
+			{
+				teamRelationship.Add(new Tuple<string, string, int>(team1Id, team2Id, relationship));
+			}
+			else
+			{
+				Tuple<string, string, int> newTeamRelationship = new Tuple<string, string, int>(team1Id, team2Id, relationship);
+				int index = teamRelationship.IndexOf(ret.First());
+				teamRelationship.RemoveAt(index);
+				teamRelationship.Insert(index, newTeamRelationship);
+			}
+		}
+
+		public void ChangeGobalValue(string varname, string varvalue)
+		{
+			if (globalVarMap.ContainsKey(varname))
+			{
+				globalVarMap[varname] = varvalue;
+			}
+			else
+			{
+				globalVarMap.Add(varname, varvalue);
+			}
+		}
+
+		public string GetGlobalValue(string varname)
+		{
+			if (globalVarMap.ContainsKey(varname))
+			{
+				return globalVarMap[varname];
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		public void CreateCharacter(string characterID, Mogre.Vector3 position, string teamId, bool isBot = true)
+		{
+			GameMapManager.Instance.CurrentMap.CreateCharacter(characterID, position, teamId, isBot);
+		}
+
+		public string CreateSceneProp(string scenePropID, Mogre.Vector3 position)
+		{
+			return GameMapManager.Instance.CurrentMap.CreateSceneProp(scenePropID, position);
+		}
+
+		public int GetScenePropNum(string scenePropID)
+		{
+			return GameMapManager.Instance.CurrentMap.GetScenePropNum(scenePropID);
+		}
+
+		public string GetSceneProp(string scenePropID, string scenePropInstanceNum)
+		{
+			return GameMapManager.Instance.CurrentMap.GetScenePropInstanceID(scenePropID, int.Parse(scenePropInstanceNum));
+		}
+
+		public void RemoveSceneProp(string propInstanceID)
+		{
+			GameMapManager.Instance.CurrentMap.RemoveSceneProp(propInstanceID);
+		}
+
+		public void MoveSceneProp(string propInstanceID, string axis, string movement)
+		{
+			GameMapManager.Instance.CurrentMap.MoveSceneProp(propInstanceID, int.Parse(axis), int.Parse(movement));
+		}
+
+		public void CreatePlane(string materialName, Mogre.Vector3 vector31, float v1, int v2, int v3, int v4, int v5, ushort v6, int v7, int v8, Mogre.Vector3 vector32, Mogre.Vector3 vector33)
+		{
+			GameMapManager.Instance.CurrentMap.CreatePlane(materialName, vector31, v1, v2, v3, v4, v5, v6, v7, v8, vector32, vector33);
+		}
+
+		public void ChangeCameraMode(string mode)
+		{
+			switch (mode)
+			{
+				case "0":
+					GameMapManager.Instance.CurrentMap.CameraHanlder.ChangeMode(CameraMode.Free);
+					break;
+				case "1":
+					GameMapManager.Instance.CurrentMap.CameraHanlder.ChangeMode(CameraMode.Manual);
+					break;
+			}
+		}
+		#endregion
+	}
 }
