@@ -143,6 +143,11 @@ namespace OpenMB.Game
 			state = TimerState.Paused;
 		}
 
+		public void Stop()
+		{
+			state = TimerState.Stop;
+		}
+
 		private string getMonthStr(int month)
 		{
 			switch(month)

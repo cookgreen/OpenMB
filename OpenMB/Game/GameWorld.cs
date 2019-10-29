@@ -288,6 +288,8 @@ namespace OpenMB.Game
             GameManager.Instance.keyboard.KeyPressed -= mKeyboard_KeyPressed;
             GameManager.Instance.keyboard.KeyReleased -= mKeyboard_KeyReleased;
             GameManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
+
+			TimerManager.Instance.Stop();
         }
 
         #endregion
