@@ -77,12 +77,6 @@ namespace OpenMB.States
 
             return true;
         }
-        public bool keyReleased(KeyEvent keyEventRef)
-        {
-            GameManager.Instance.keyReleased(keyEventRef);
-
-            return true;
-        }
 
         public bool mouseMoved(MouseEvent evt)
         {

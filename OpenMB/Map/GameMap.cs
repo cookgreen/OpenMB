@@ -566,16 +566,6 @@ namespace OpenMB.Map
                         ScreenManager.Instance.ChangeScreen("InnerGameEditor", editor);
                     }
                     break;
-                case KeyCode.KC_SPACE:
-                    if (!combineKey && combineKeyCode != KeyCode.KC_LCONTROL)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        GameManager.Instance.SetFullScreen();
-                    }
-                    break;
                 case KeyCode.KC_I:
                     //Open Inventory Window
                     if (playerAgent == null)
@@ -634,7 +624,6 @@ namespace OpenMB.Map
             else if (playerAgent == null)
             {
                 cameraHanlder.InjectMouseMove(arg);
-                
             }
             return true;
         }

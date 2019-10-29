@@ -175,6 +175,8 @@
     <Compile Include="Connector\MBOgreManifest.cs" />
     <Compile Include="Connector\MBOgreUtil.cs" />
     <Compile Include="Core\GameConfigXml.cs" />
+    <Compile Include="Core\InputKeyMouseManager.cs" />
+    <Compile Include="Core\KeyMapperManager.cs" />
     <Compile Include="Game\DescriptionAttribute.cs" />
     <Compile Include="Game\TimerManager.cs" />
     <Compile Include="FileFormats\Box3F.cs" />

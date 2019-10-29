@@ -49,6 +49,18 @@
     <IsEnableEditMode>true</IsEnableEditMode>
     <IsEnableCheatMode>false</IsEnableCheatMode>
   </Game>
+  <Input>
+    <Mapper GameKeyCode="Screenshot" Combined="false">
+      <Key>KC_V</Key>
+    </Mapper>
+    <Mapper GameKeyCode="ShowOgreLogo" Combined="false">
+      <Key>KC_O</Key>
+    </Mapper>
+    <Mapper GameKeyCode="FullScreen" Combined="true">
+      <Key>KC_LCONTROL</Key>
+      <Key>KC_SPACE</Key>
+    </Mapper>
+  </Input>
   <Resources>
     <ResourceRootDir>Media</ResourceRootDir>
     <Resource Type="FileSystem">

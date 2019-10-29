@@ -1,4 +1,5 @@
-﻿using OpenMB.Configure;
+﻿using MOIS;
+using OpenMB.Configure;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,7 +24,9 @@ namespace OpenMB.Core
         public GameNetworkConfigXml NetworkConfig { get; set; }
         [XmlElement("Game")]
         public GameCoreConfigXml CoreConfig { get; set; }
-        [XmlElement("Resources")]
+		[XmlElement("Input")]
+		public GameInputConfigXml InputConfig { get; set; }
+		[XmlElement("Resources")]
         public GameResourcesConfigXml ResourcesConfig { get; set; }
         [XmlElement("Plugins")]
         public GamePluginsConfigXml PluginConfig { get; set; }
@@ -36,7 +39,8 @@ namespace OpenMB.Core
             ModConfig = new GameModConfigXml();
             NetworkConfig = new GameNetworkConfigXml();
             CoreConfig = new GameCoreConfigXml();
-        }
+			InputConfig = new GameInputConfigXml();
+		}
 
         public static GameConfigXml Load(string configXml)
         {
@@ -90,9 +94,49 @@ namespace OpenMB.Core
         public bool IsEnableEditMode { get; set; }
         [XmlElement]
         public bool IsEnableCheatMode { get; set; }
-    }
+	}
 
-    [XmlRoot("Graphic")]
+	[XmlRoot("Input")]
+	public class GameInputConfigXml
+	{
+		[XmlElement("Mapper")]
+		public List<GameInputMapperConfigXml> Mappers { get; set; }
+
+		public GameInputConfigXml()
+		{
+			Mappers = new List<GameInputMapperConfigXml>();
+		}
+	}
+
+	[XmlRoot("Mapper")]
+	public class GameInputMapperConfigXml
+	{
+		[XmlAttribute]
+		public GameKeyCode GameKeyCode { get; set; }
+		[XmlAttribute]
+		public bool Combined { get; set; }
+		[XmlElement("Key")]
+		public List<GameInputMapperKeyConfigXml> Keys { get; set; }
+
+		public KeyCollection GetKeyCollections()
+		{
+			KeyCollection kc = new KeyCollection();
+			foreach(var key in Keys)
+			{
+				kc.keyCodes.Add(key.KeyCode);
+			}
+			return kc;
+		}
+	}
+
+	[XmlRoot("Key")]
+	public class GameInputMapperKeyConfigXml
+	{
+		[XmlText]
+		public KeyCode KeyCode { get; set; }
+	}
+
+	[XmlRoot("Graphic")]
     public class GameGraphicConfigXml
     {
         [XmlElement("RenderSystem")]
