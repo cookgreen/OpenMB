@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using Mogre;
-using MOIS;
-using Mogre_Procedural;
+﻿using Mogre;
 using Mogre_Procedural.MogreBites;
-using NVorbis;
+using MOIS;
 using OpenMB.Configure;
+using OpenMB.Core;
+using OpenMB.Game;
 using OpenMB.Localization;
 using OpenMB.LogMessage;
 using OpenMB.Mods;
 using OpenMB.Network;
-using OpenMB.Output;
-using OpenMB.Game;
 using OpenMB.Screen;
 using OpenMB.Sound;
 using OpenMB.States;
-using OpenMB.Widgets;
-using OpenMB.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace OpenMB
 {
-    public enum EngineState
+	public enum EngineState
     {
         NORMAL,
         EDIT_MODE

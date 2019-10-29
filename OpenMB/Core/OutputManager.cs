@@ -5,8 +5,11 @@ using System.Text;
 using Mogre;
 using OpenMB.Widgets;
 
-namespace OpenMB.Output
+namespace OpenMB.Core
 {
+	/// <summary>
+	/// Output message
+	/// </summary>
     public class OutputManager
     {
         private OverlayContainer container;

@@ -1,4 +1,4 @@
-﻿using OpenMB.Output;
+﻿using OpenMB.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
