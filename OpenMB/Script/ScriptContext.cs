@@ -12,6 +12,7 @@ namespace OpenMB.Script
         private Dictionary<string, string> localValMap;
         private Dictionary<string, ScriptFunction> functions;
         private Dictionary<string, ScriptTrigger> triggers;
+		private Dictionary<string, string> returnValueTable;
         private ScriptFile file;
         public ScriptFile File
         {
@@ -36,7 +37,8 @@ namespace OpenMB.Script
             localValMap = new Dictionary<string, string>();
             functions = new Dictionary<string, ScriptFunction>();
             triggers = new Dictionary<string, ScriptTrigger>();
-        }
+			returnValueTable = new Dictionary<string, string>();
+		}
 
         public string GetLocalValue(string varname)
         {

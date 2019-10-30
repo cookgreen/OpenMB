@@ -36,8 +36,9 @@ namespace OpenMB.Game
         //Data
         private Dictionary<string, string> globalVarMap;
         private ScriptLinkTable globalValueTable;
+		private Dictionary<string, object> globalVariableTable;
 
-        private ProgressBar pbProgressBar;
+		private ProgressBar pbProgressBar;
         
         private Physics physics;
         private Scene physicsScene;
@@ -64,8 +65,15 @@ namespace OpenMB.Game
             {
                 return globalValueTable;
             }
-        }
-        public ModData ModData
+		}
+		public Dictionary<string, object> GlobalVariableTable
+		{
+			get
+			{
+				return globalVariableTable;
+			}
+		}
+		public ModData ModData
         {
             get
             {
@@ -140,11 +148,11 @@ namespace OpenMB.Game
         {
             GameMapManager.Instance.Initization(this);
 
-            GameManager.Instance.mouse.MouseMoved += mMouse_MouseMoved;
-            GameManager.Instance.mouse.MousePressed += mMouse_MousePressed;
-            GameManager.Instance.mouse.MouseReleased += mMouse_MouseReleased;
-            GameManager.Instance.keyboard.KeyPressed += mKeyboard_KeyPressed;
-            GameManager.Instance.keyboard.KeyReleased += mKeyboard_KeyReleased;
+            GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
+            GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
+            GameManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
+            GameManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
+            GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
 
             GameManager.Instance.root.FrameRenderingQueued += FrameRenderingQueued;
 
@@ -172,7 +180,10 @@ namespace OpenMB.Game
             ScreenManager.Instance.Camera = cam;
 
 			TimerManager.Instance.TimeChanged += TimeChanged;
-        }
+
+			globalVariableTable = new Dictionary<string, object>();
+
+		}
 
 		private string GetSkyboxMaterialByTime(Time time)
 		{
@@ -282,11 +293,11 @@ namespace OpenMB.Game
             physicsScene.Dispose();
             physics.Dispose();
 
-            GameManager.Instance.mouse.MouseMoved -= mMouse_MouseMoved;
-            GameManager.Instance.mouse.MousePressed -= mMouse_MousePressed;
-            GameManager.Instance.mouse.MouseReleased -= mMouse_MouseReleased;
-            GameManager.Instance.keyboard.KeyPressed -= mKeyboard_KeyPressed;
-            GameManager.Instance.keyboard.KeyReleased -= mKeyboard_KeyReleased;
+            GameManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
+            GameManager.Instance.mouse.MousePressed -= Mouse_MousePressed;
+            GameManager.Instance.mouse.MouseReleased -= Mouse_MouseReleased;
+            GameManager.Instance.keyboard.KeyPressed -= Keyboard_KeyPressed;
+            GameManager.Instance.keyboard.KeyReleased -= Keyboard_KeyReleased;
             GameManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
 
 			TimerManager.Instance.Stop();
@@ -304,25 +315,27 @@ namespace OpenMB.Game
         #endregion
 
         #region Handle Input
-        bool mKeyboard_KeyReleased(MOIS.KeyEvent arg)
+        bool Keyboard_KeyReleased(MOIS.KeyEvent arg)
         {
             return true;
         }
-        bool mKeyboard_KeyPressed(MOIS.KeyEvent arg)
+        bool Keyboard_KeyPressed(MOIS.KeyEvent arg)
         {
             return true;
         }
-        bool mMouse_MouseReleased(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
+        bool Mouse_MouseReleased(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
         {
             return true;
         }
-        bool mMouse_MousePressed(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
-        {
-            return true;
+        bool Mouse_MousePressed(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
+		{
+			if (GameManager.Instance.trayMgr.injectMouseDown(arg, id)) return true;
+			return true;
         }
-        bool mMouse_MouseMoved(MOIS.MouseEvent arg)
-        {
-            return true;
+        bool Mouse_MouseMoved(MOIS.MouseEvent arg)
+		{
+			if (GameManager.Instance.trayMgr.injectMouseMove(arg)) return true;
+			return true;
         }
 
 		#endregion

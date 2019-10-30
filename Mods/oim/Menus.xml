@@ -1,0 +1,18 @@
+<Menus>
+	<Menu id="mnu_reports">
+		<Title>{s0}</Title>
+		<Logic>report.script</Logic>
+		<Children>
+			<MenuItem id="mni_view_character_reports">View Character Reports</MenuItem>
+			<MenuItem id="mni_return">Return</MenuItem>
+		</Children>
+	</Menu>
+	<Menu id="mnu_camp">
+		<Title>Camp is ready, what do you want to do?</Title>
+		<Logic>camp.script</Logic>
+		<Children>
+			<MenuItem id="mni_view_character_reports">View Character Reports</MenuItem>
+			<MenuItem id="mni_return">Return</MenuItem>
+		</Children>
+	</Menu>
+</Menus>

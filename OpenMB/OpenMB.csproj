@@ -270,6 +270,7 @@
     <Compile Include="Mods\XML\ModLocationsDfnXml.cs" />
     <Compile Include="Mods\XML\ModMapsDfnXml.cs" />
     <Compile Include="Mods\XML\ModMediaXml.cs" />
+    <Compile Include="Mods\XML\ModMenusDfnXml.cs" />
     <Compile Include="Mods\XML\ModModelDfnXml.cs" />
     <Compile Include="Mods\XML\ModScenePropDfnXml.cs" />
     <Compile Include="Mods\XML\ModSettingDfnXml.cs" />
@@ -278,6 +279,7 @@
     <Compile Include="Mods\XML\ModWorldMapsDfnXml.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
     <Compile Include="Screen\GameMainScreen.cs" />
+    <Compile Include="Screen\GameMenuScreen.cs" />
     <Compile Include="Screen\Screen.cs" />
     <Compile Include="Map\AIMesh.cs" />
     <Compile Include="Map\GameMap.cs" />
@@ -301,7 +303,7 @@
     <Compile Include="Network\Player.cs" />
     <Compile Include="Network\ServerMetaData.cs" />
     <Compile Include="Screen\CreditScreen.cs" />
-    <Compile Include="Screen\DummyScreen.cs" />
+    <Compile Include="Screen\ScriptedScreen.cs" />
     <Compile Include="Screen\GameConsoleScreen.cs" />
     <Compile Include="Screen\InventoryScreen.cs" />
     <Compile Include="Screen\IScreen.cs" />
@@ -310,7 +312,10 @@
     <Compile Include="Script\Command\AgentEquipItemScriptCommand.cs" />
     <Compile Include="Script\Command\CallScriptCommand.cs" />
     <Compile Include="Script\Command\AssignScriptCommand.cs" />
+    <Compile Include="Script\Command\CaseScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeHitpointScriptCommand.cs" />
+    <Compile Include="Script\Command\ChangeScreenReturnScriptCommand.cs" />
+    <Compile Include="Script\Command\ChangeSystemVariableValue.cs" />
     <Compile Include="Script\Command\EndScriptCommand.cs" />
     <Compile Include="Script\Command\FunctionScriptCommand.cs" />
     <Compile Include="Script\Command\GetScenePropNumScriptCommand.cs" />
@@ -336,7 +341,10 @@
     <Compile Include="Script\Command\ChangeMapScriptCommand.cs" />
     <Compile Include="Script\Command\InitListScriptCommand.cs" />
     <Compile Include="Script\Command\StartScreenScriptCommand.cs" />
+    <Compile Include="Script\Command\StoreFunctionInputParameterScriptCommand.cs" />
     <Compile Include="Script\Command\StoreScriptCommand.cs" />
+    <Compile Include="Script\Command\StoreStringScriptCommand.cs" />
+    <Compile Include="Script\Command\SwitchScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerExecuteSrciptCommand.cs" />
     <Compile Include="Script\Command\TriggerScriptCommand.cs" />

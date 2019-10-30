@@ -24,6 +24,7 @@
     <Sides>Side.xml</Sides>
     <Sound>Sound.xml</Sound>
     <WorldMaps>WorldMaps.xml</WorldMaps>
+    <Menus>Menus.xml</Menus>
 	<DataDir>
 		<MapDir>Scenes</MapDir>
 		<MusicDir>Music</MusicDir>

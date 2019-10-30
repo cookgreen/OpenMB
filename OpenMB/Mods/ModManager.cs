@@ -12,6 +12,7 @@ using OpenMB.Map;
 using OpenMB.Mods.XML;
 using OpenMB.Script;
 using OpenMB.Script.Command;
+using OpenMB.Screen;
 
 namespace OpenMB.Mods
 {
@@ -201,11 +202,19 @@ namespace OpenMB.Mods
                     ModModelsDfnXml modelsDfnXml;
                     loader.Load(out modelsDfnXml);
                     currentMod.Models = modelsDfnXml.Models;
-                }
+				}
 
-                //--------------------------------Load Types-------------------------
-                //Load Internal types
-                Assembly thisAssembly = GetType().Assembly;
+				if (!string.IsNullOrEmpty(manifest.Data.Menus))
+				{
+					loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Menus);
+					ModMenusDfnXml menusDfnXml;
+					loader.Load(out menusDfnXml);
+					currentMod.MenuInfos = menusDfnXml.Menus;
+				}
+
+				//--------------------------------Load Types-------------------------
+				//Load Internal types
+				Assembly thisAssembly = GetType().Assembly;
                 Type[] internalTypes = thisAssembly.GetTypes();
                 foreach (var internalType in internalTypes)
                 {
@@ -365,7 +374,9 @@ namespace OpenMB.Mods
                     }
                 }
 
-                StringVector resources = ResourceGroupManager.Singleton.FindResourceNames(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, "*.script");
+				ScreenManager.Instance.ModData = currentMod;
+
+				StringVector resources = ResourceGroupManager.Singleton.FindResourceNames(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, "*.script");
                 ScriptPreprocessor.Instance.Process(resources.ToList());
 
                 currentMod.MapDir = manifest.Data.MapDir;

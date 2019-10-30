@@ -1,0 +1,13 @@
+function menuInit
+	store_string %str @[Character_Reown:_{0}^Honor_Rating:_{1}^Party_Morale:_{2}^Party_Size_Limit:_{3}]
+	change_variable_value menuData Title %str
+end
+
+function menuButtonClicked
+	store_input_param %menuItemID 1
+	switch %menuItemID
+		case mni_return
+			change_screen_return
+			end
+	end
+end

@@ -15,6 +15,7 @@ namespace OpenMB.Game
         Free,//Free Movement
         Follow,//Follow a Character
         Manual,//Manual control
+		WorldMap,//World map movement
     }
     public class CameraHandler
     {

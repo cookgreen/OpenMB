@@ -19,7 +19,7 @@ namespace OpenMB.Widgets
 			return ib;
 		}
 
-		public static Panel createPanel(this SdkTrayManager trayMgr, string name, float width, float height, float left, float top)
+		public static Panel createPanel(this SdkTrayManager trayMgr, string name, float width = 0, float height = 0, float left = 0, float top = 0)
 		{
 			Panel panel = new Panel(name, width, height, left, top);
 			trayMgr.moveWidgetToTray(panel, TrayLocation.TL_NONE);

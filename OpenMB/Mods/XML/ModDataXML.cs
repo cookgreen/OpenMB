@@ -34,7 +34,9 @@ namespace OpenMB.Mods.XML
         public string scenePropsXML { get; set; }
         [XmlElement("Models")]
         public string modelsXml { get; set; }
-        [XmlElement]
+		[XmlElement("Menus")]
+		public string menusXml { get; set; }
+		[XmlElement]
         public ModDataDirXML DataDir { get; set; }
     }
 

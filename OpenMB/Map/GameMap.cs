@@ -563,7 +563,7 @@ namespace OpenMB.Map
                     {
                         //EditMode
                         cameraHanlder.ChangeMode(CameraMode.Manual);//Manually control
-                        ScreenManager.Instance.ChangeScreen("InnerGameEditor", editor);
+                        ScreenManager.Instance.ChangeScreen("InnerGameEditor", false, editor);
                     }
                     break;
                 case KeyCode.KC_I:
@@ -572,7 +572,7 @@ namespace OpenMB.Map
                     {
                         break;
                     }
-                    ScreenManager.Instance.ChangeScreen("Inventory", playerAgent.MeshName, new string[]{
+                    ScreenManager.Instance.ChangeScreen("Inventory", false, playerAgent.MeshName, new string[]{
                         playerAgent.GetIdleTopAnim(), playerAgent.GetIdleBaseAnim()
                     });
                     break;

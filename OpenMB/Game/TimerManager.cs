@@ -143,6 +143,14 @@ namespace OpenMB.Game
 			lastTime = currentTime;
 		}
 
+		public void Resume()
+		{
+			if(state== TimerState.Paused)
+			{
+				state = TimerState.Running;
+			}
+		}
+
 		public void Pause()
 		{
 			state = TimerState.Paused;

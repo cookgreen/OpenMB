@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mogre;
+using OpenMB.Mods;
 
 namespace OpenMB.Screen
 {
@@ -32,7 +33,9 @@ namespace OpenMB.Screen
             }
         }
 
-        public ScreenManager()
+		public ModData ModData { get; set; }
+
+		public ScreenManager()
         {
             innerScreens = new Dictionary<string, IScreen>();
             IScreen screenCredit = new CreditScreen();
@@ -40,11 +43,13 @@ namespace OpenMB.Screen
             IScreen screenInventory = new InventoryScreen();
             IScreen screenEditor = new GameEditorScreen();
 			IScreen screenMain = new GameMainScreen();
+			IScreen screenMenu = new GameMenuScreen();
 			innerScreens.Add(screenCredit.Name, screenCredit);
             innerScreens.Add(screenConsole.Name, screenConsole);
             innerScreens.Add(screenInventory.Name, screenInventory);
             innerScreens.Add(screenEditor.Name, screenEditor);
 			innerScreens.Add(screenMain.Name, screenMain);
+			innerScreens.Add(screenMenu.Name, screenMenu);
 			//TODO: Load all screen script files
 			instance = this;
             runningScreenStack = new Stack<IScreen>();
@@ -86,19 +91,31 @@ namespace OpenMB.Screen
             }
         }
 
-        public void ChangeScreen(string screenName,params object[] param)
+		public void ChangeScreen(string screenName, bool exitCurrent = false, params object[] param)
         {
             if (runningScreenStack.Count > 0)
             {
                 if (runningScreenStack.Peek().Name == screenName)
                 {
                     runningScreenStack.Pop().Exit();
-                }
+					if (runningScreenStack.Count > 0)
+					{
+						runningScreenStack.Peek().Run();
+					}
+				}
                 else
                 {
                     if (innerScreens.ContainsKey(screenName))
-                    {
-                        IScreen runScreen = innerScreens[screenName];
+					{
+						if (!exitCurrent)
+						{
+							runningScreenStack.Peek().Exit();
+						}
+						else
+						{
+							runningScreenStack.Pop().Exit();
+						}
+						IScreen runScreen = innerScreens[screenName];
                         runScreen.OnScreenExit += CurrentScreen_OnScreenExit;
                         runScreen.Init(param);
                         runScreen.Run();
@@ -117,9 +134,18 @@ namespace OpenMB.Screen
                     runningScreenStack.Push(runScreen);
                 }
             }
-        }
+		}
 
-        public void ReturnLastScreen(params object[] param)
+		public void ExitCurrentScreenReturn()
+		{
+			runningScreenStack.Pop().Exit();
+			if (runningScreenStack.Count > 0)
+			{
+				runningScreenStack.Peek().Run();
+			}
+		}
+
+		public void ReturnLastScreen(params object[] param)
         {
             if (runningScreenStack.Count > 0)
             {
@@ -137,7 +163,7 @@ namespace OpenMB.Screen
             {
                 OnCurrentScreenExit();
             }
-            ReturnLastScreen();
+            //ReturnLastScreen();
         }
 
         public void Dispose()

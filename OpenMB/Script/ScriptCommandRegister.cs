@@ -33,9 +33,12 @@ namespace OpenMB.Script
             RegisteredCommand.Add("assign", typeof(AssignScriptCommand));
             RegisteredCommand.Add("agent_equip_item", typeof(AgentEquipItemScriptCommand));
             RegisteredCommand.Add("call", typeof(CallScriptCommand));
-            RegisteredCommand.Add("change_hitpoint", typeof(ChangeHitpointScriptCommand));
+			RegisteredCommand.Add("case", typeof(CaseScriptCommand));
+			RegisteredCommand.Add("change_hitpoint", typeof(ChangeHitpointScriptCommand));
             RegisteredCommand.Add("change_map", typeof(ChangeMapScriptCommand));
-            RegisteredCommand.Add("change_world_map", typeof(ChangeWorldMapScriptCommand));
+			RegisteredCommand.Add("change_screen_return", typeof(ChangeScreenReturnScriptCommand));
+			RegisteredCommand.Add("change_variable_value", typeof(ChangeSystemVariableValue));
+			RegisteredCommand.Add("change_world_map", typeof(ChangeWorldMapScriptCommand));
             RegisteredCommand.Add("condition", typeof(TriggerConditionScriptCommand));
             RegisteredCommand.Add("end", typeof(EndScriptCommand));
             RegisteredCommand.Add("execute", typeof(TriggerExecuteSrciptCommand));
@@ -55,7 +58,10 @@ namespace OpenMB.Script
             RegisteredCommand.Add("spawn", typeof(SpawnScriptCommand));
 			RegisteredCommand.Add("start_screen", typeof(StartScreenScriptCommand));
 			RegisteredCommand.Add("store", typeof(StoreScriptCommand));
-            RegisteredCommand.Add("team", typeof(TeamScriptCommand));
+			RegisteredCommand.Add("store_input_param", typeof(StoreFunctionInputParameterScriptCommand));
+			RegisteredCommand.Add("store_string", typeof(StoreStringScriptCommand));
+			RegisteredCommand.Add("switch", typeof(SwitchScriptCommand));
+			RegisteredCommand.Add("team", typeof(TeamScriptCommand));
             RegisteredCommand.Add("trigger", typeof(TriggerScriptCommand));
             RegisteredCommand.Add("ui", typeof(UIScriptCommand));
             RegisteredCommand.Add("ui_setup", typeof(UISetupScriptCommand));

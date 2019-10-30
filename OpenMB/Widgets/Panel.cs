@@ -7,6 +7,21 @@ using System.Text;
 
 namespace OpenMB.Widgets
 {
+	public enum DockMode
+	{
+		Fill,
+		FillWidth,
+		FillHeight,
+		None,
+	}
+
+	public enum AlignMode
+	{
+		Center,
+		Left,
+		Right
+	}
+
 	/// <summary>
 	/// Value type
 	/// </summary>
@@ -63,6 +78,10 @@ namespace OpenMB.Widgets
 				}
 				else if (Type == ValueType.Percent)
 				{
+					if (Width == 100)
+					{
+						return panel.Width;
+					}
 					return ((float)100 / (float)panel.Cols.Count) / (float)100;//Relative
 				}
 				return -1;
@@ -103,7 +122,9 @@ namespace OpenMB.Widgets
             widgets = new List<Widget>();
             OverlayManager overlayMgr = OverlayManager.Singleton;
 			mElement = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanel", "BorderPanel", name);
-            if (width == 0 || height == 0)
+			mElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
+
+			if (width == 0 || height == 0)
             {
 				mElement.Width = 1.0f;
 				mElement.Height = 1.0f;
@@ -151,36 +172,61 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public void AddWidget(int rowNum, int colNum, Widget widget)
+		public void AddWidget(
+			int rowNum, 
+			int colNum, 
+			Widget widget,
+			AlignMode align = AlignMode.Left,
+			DockMode dock = DockMode.None)
 		{
 			widget.Col = colNum;
 			widget.Row = rowNum;
+			widget.Top += Top;
+			widget.Left += Left;
 			widgets.Add(widget);
 
 			var c = cols[colNum - 1];
-			if (c.Type == ValueType.Percent)
+			var r = rows[rowNum - 1];
+
+			switch(align)
 			{
-				widget.Width = cols[colNum - 1].AbosulteWidth;
+				case AlignMode.Center:
+					widget.Left = (c.AbosulteWidth - widget.Width) / 2;
+					break;
+				case AlignMode.Right:
+					break;
 			}
 
-			((OverlayContainer)mElement).AddChild(widget.getOverlayElement());
+			switch(dock)
+			{
+				case DockMode.Fill:
+					widget.Height = r.AbosulteHeight;
+					widget.Width = c.AbosulteWidth;
+					break;
+				case DockMode.FillHeight:
+					widget.Height = r.AbosulteHeight;
+					break;
+				case DockMode.FillWidth:
+					widget.Width = c.AbosulteWidth;
+					break;
+			}
 			
 			if (rowNum != 1 || colNum != 1)
 			{
-				float totalLeft = 0;
-				float totalTop = 0;
+				float relativeLeft = 0;
+				float relativeTop = 0;
 
 				for (int i = 0; i < colNum - 1; i++)
 				{
-					totalLeft += cols[i].AbosulteWidth;
+					relativeLeft += cols[i].AbosulteWidth;
 				}
 				for (int i = 0; i < rowNum - 1; i++)
 				{
-					totalTop += rows[i].AbosulteHeight;
+					relativeTop += rows[i].AbosulteHeight;
 				}
 
-				widget.Left += totalLeft;
-				widget.Top += totalTop;
+				widget.Left += relativeLeft;
+				widget.Top += relativeTop;
 			}
 		}
 

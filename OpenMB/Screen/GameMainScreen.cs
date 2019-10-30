@@ -22,6 +22,7 @@ namespace OpenMB.Screen
 		private Button btnParty;
 		private StaticText txtCurrentDate;
 		private StaticText txtCurrentTime;
+		private object[] param;
 
 		public override string Name
 		{
@@ -37,12 +38,13 @@ namespace OpenMB.Screen
 
 		public override void Init(params object[] param)
 		{
-			base.Init(param);
+			this.param = param;
+			TimerManager.Instance.Resume();
 		}
 
 		public override void Run()
 		{
-			gameMainPanel = GameManager.Instance.trayMgr.createPanel("gameMainPanel", 1.0f, 0.0f, 0.0f, 0.92f);
+			gameMainPanel = GameManager.Instance.trayMgr.createPanel("gameMainPanel", 1.0f, 0.2f, 0.0f, 0.92f);
 			gameMainPanel.AddCol(Widgets.ValueType.Percent);
 			gameMainPanel.AddCol(Widgets.ValueType.Percent);
 			gameMainPanel.AddCol(Widgets.ValueType.Percent);
@@ -106,31 +108,44 @@ namespace OpenMB.Screen
 
 		private void BtnParty_OnClick(object obj)
 		{
+			ScreenManager.Instance.ChangeScreen("GameParty");
 		}
 
 		private void BtnNotes_OnClick(object obj)
 		{
+			ScreenManager.Instance.ChangeScreen("GameNotes");
 		}
 
 		private void BtnInventory_OnClick(object obj)
 		{
+			ScreenManager.Instance.ChangeScreen("Inventory", false, param[0], "cha_sinbad");
 		}
 
 		private void BtnCharacter_OnClick(object obj)
 		{
+			ScreenManager.Instance.ChangeScreen("Character", false, param[0], "cha_sinbad");
 		}
 
 		private void BtnReports_OnClick(object obj)
 		{
+			ScreenManager.Instance.ChangeScreen("GameMenu", false, param[0], "mnu_reports");
 		}
 
 		private void BtnCamp_OnClick(object obj)
 		{
+			ScreenManager.Instance.ChangeScreen("GameMenu", false, param[0], "mnu_camp");
 		}
 
 		private void BtnTerrain_OnClick(object obj)
 		{
+			ScreenManager.Instance.ChangeScreen("TerrainEditor", false, param[0]);
+		}
 
+		public override void Exit()
+		{
+			TimerManager.Instance.Pause();
+
+			GameManager.Instance.trayMgr.destroyAllWidgets();
 		}
 
 		public override void Update(float timeSinceLastFrame)

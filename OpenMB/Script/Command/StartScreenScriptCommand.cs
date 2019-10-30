@@ -51,7 +51,7 @@ namespace OpenMB.Script.Command
 				return;
 			}
 
-			ScreenManager.Instance.ChangeScreen(getParamterValue(commandArgs[0]));
+			ScreenManager.Instance.ChangeScreen(getParamterValue(commandArgs[0]), true, executeArgs[0] as GameWorld);
 		}
 	}
 }

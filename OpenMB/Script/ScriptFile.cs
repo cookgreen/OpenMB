@@ -31,9 +31,22 @@ namespace OpenMB.Script
             tempCommandStack = new Stack<IScriptCommand>();
 
             registeredCommand = ScriptCommandRegister.Instance.RegisteredCommand;
-        }
+		}
 
-        public ScriptFunction FindFunction(string functionName)
+		public ScriptFile(string scriptFileName)
+		{
+			Context = new ScriptContext(this);
+			root = new RootScriptCommand();
+
+			tempCommandStack = new Stack<IScriptCommand>();
+
+			registeredCommand = ScriptCommandRegister.Instance.RegisteredCommand;
+
+			FileName = scriptFileName;
+			Parse(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+		}
+
+		public ScriptFunction FindFunction(string functionName)
         {
             return Context.GetFunction(functionName);
         }

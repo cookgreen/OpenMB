@@ -51,6 +51,7 @@ namespace OpenMB
         public static string LastStateName;
         public event Action<float> Update;
         public LoadingData loadingData;
+		public Dictionary<string, object> GlobalValueTable;
         public bool IS_ENABLE_EDIT_MODE
         {
             get
@@ -106,6 +107,7 @@ namespace OpenMB
             isEditMode = false;
             isCheatMode = false;
             loadingData = new LoadingData(LoadingType.NONE, null, null, null);
+			GlobalValueTable = new Dictionary<string, object>();
 		 }
 
         public bool Init(string windowTitle, GameConfigXml gameOptions)
