@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Utilties.MapExporter
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Mods.OIM", "OpenMB.Mods.OIM\OpenMB.Mods.OIM.csproj", "{5013E1F0-1AD9-4EE9-8161-25B93C3FEF7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Mods.HitBalloons", "OpenMB.Mods.HitBalloons\OpenMB.Mods.HitBalloons.csproj", "{32F787A9-BE10-42ED-8036-864A1818823A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Mods.Common", "OpenMB.Mods.Common\OpenMB.Mods.Common.csproj", "{F58B2DAE-4DA4-40FA-95E1-F518AA140901}"
 EndProject
 Global
@@ -37,10 +35,6 @@ Global
 		{5013E1F0-1AD9-4EE9-8161-25B93C3FEF7F}.Debug|x86.Build.0 = Debug|x86
 		{5013E1F0-1AD9-4EE9-8161-25B93C3FEF7F}.Release|x86.ActiveCfg = Release|x86
 		{5013E1F0-1AD9-4EE9-8161-25B93C3FEF7F}.Release|x86.Build.0 = Release|x86
-		{32F787A9-BE10-42ED-8036-864A1818823A}.Debug|x86.ActiveCfg = Debug|x86
-		{32F787A9-BE10-42ED-8036-864A1818823A}.Debug|x86.Build.0 = Debug|x86
-		{32F787A9-BE10-42ED-8036-864A1818823A}.Release|x86.ActiveCfg = Release|x86
-		{32F787A9-BE10-42ED-8036-864A1818823A}.Release|x86.Build.0 = Release|x86
 		{F58B2DAE-4DA4-40FA-95E1-F518AA140901}.Debug|x86.ActiveCfg = Debug|x86
 		{F58B2DAE-4DA4-40FA-95E1-F518AA140901}.Debug|x86.Build.0 = Debug|x86
 		{F58B2DAE-4DA4-40FA-95E1-F518AA140901}.Release|x86.ActiveCfg = Release|x86
