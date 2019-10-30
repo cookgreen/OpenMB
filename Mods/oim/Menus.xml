@@ -11,7 +11,8 @@
 		<Title>Camp is ready, what do you want to do?</Title>
 		<Logic>camp.script</Logic>
 		<Children>
-			<MenuItem id="mni_view_character_reports">View Character Reports</MenuItem>
+			<MenuItem id="mni_do_something">Do Something</MenuItem>
+			<MenuItem id="mni_wait_here">Wait here</MenuItem>
 			<MenuItem id="mni_return">Return</MenuItem>
 		</Children>
 	</Menu>
