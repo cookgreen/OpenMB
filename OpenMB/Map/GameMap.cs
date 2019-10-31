@@ -253,15 +253,15 @@ namespace OpenMB.Map
                 GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid trooper id!", LogMessage.LogType.Warning);
                 return;
             }
-            var findTrooper = findTrooperList.First();
+            var chaData = findTrooperList.First();
 
-            var findSkinList = ModData.SkinInfos.Where(o => o.skinID == findTrooper.SkinID);
+            var findSkinList = ModData.SkinInfos.Where(o => o.skinID == chaData.SkinID);
             if (findSkinList.Count() == 0)
             {
                 GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid skin id!", LogMessage.LogType.Warning);
                 return;
             }
-            var findSkin = findSkinList.First();
+            var chaSkin = findSkinList.First();
 
             int characterInstanceID = -1;
             if (gameObjects.ContainsKey("AGENTS"))
@@ -274,12 +274,10 @@ namespace OpenMB.Map
                 gameObjects.Add("AGENTS", new List<GameObject>());
             }
 
-            Character character = new Character(
-                world, characterInstanceID, teamId,
-                findTrooper.Name,
-                findTrooper.MeshName,
-                position, findSkin, true);
-            gameObjects["AGENTS"].Add(character);
+            Character character = new Character(world, chaData, chaSkin, position, isBot);
+			character.ID = characterInstanceID.ToString();
+			character.TeamId = teamId;
+			gameObjects["AGENTS"].Add(character);
         }
         
         /// <summary>
@@ -296,15 +294,15 @@ namespace OpenMB.Map
                 GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid trooper id!", LogMessage.LogType.Warning);
                 return;
             }
-            var findTrooper = findTrooperList.First();
+            var chaData = findTrooperList.First();
 
-            var findSkinList = ModData.SkinInfos.Where(o => o.skinID == findTrooper.SkinID);
+            var findSkinList = ModData.SkinInfos.Where(o => o.skinID == chaData.SkinID);
             if (findSkinList.Count() == 0)
             {
                 GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid skin id!", LogMessage.LogType.Warning);
                 return;
             }
-            var findSkin = findSkinList.First();
+            var chaSkin = findSkinList.First();
             
             int characterInstanceID = -1;
             if (gameObjects.ContainsKey("AGENTS"))
@@ -317,17 +315,15 @@ namespace OpenMB.Map
                 gameObjects.Add("AGENTS", new List<GameObject>());
             }
 
-            Character character = new Character(
-                world, characterInstanceID, teamId,
-                findTrooper.Name,
-                findTrooper.MeshName,
-                position, findSkin, false);
+            Character character = new Character(world ,chaData ,chaSkin, position, false);
+			character.ID = characterInstanceID.ToString();
+			character.TeamId = teamId;
             if (player != null)
             {
                 GameManager.Instance.log.LogMessage("TRY TO ASSIGN TROOPER AS PLAYER FAILED: There is already a player assigned!", LogMessage.LogType.Warning);
                 return;
             }
-            player = new Player(findTrooper.Name, character.ID, new ControlObjectTypeCharacter(character));
+            player = new Player(chaData.Name, character.ID, new ControlObjectTypeCharacter(character));
             gameObjects[characterTypeID].Add(character);
         }
 

@@ -40,7 +40,7 @@ namespace OpenMB.Mods.XML
 		public List<ModSubAnimationDfnXml> SubAnimations { get; set; }
 
 		[XmlIgnore]
-		public ModSubAnimationDfnXml this[CharacterAnimationPlayType playType]
+		public ModSubAnimationDfnXml this[AnimPlayType playType]
 		{
 			get
 			{
@@ -63,7 +63,7 @@ namespace OpenMB.Mods.XML
 	public class ModSubAnimationDfnXml
 	{
 		[XmlAttribute("Type")]
-		public CharacterAnimationPlayType PlayType { get; set; }
+		public AnimPlayType PlayType { get; set; }
 		[XmlText]
 		public string Name { get; set; }
 	}

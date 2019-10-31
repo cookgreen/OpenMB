@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace OpenMB.Utilities
 {
-    public class Helper
+    public static class Helper
     {
         public static float Clamp(float val, float minval, float maxval)
         {
@@ -190,5 +190,16 @@ namespace OpenMB.Utilities
 
             return worldCoord;
         }
-    }
+
+		public static T Random<T>(this IEnumerable<T> list)
+		{
+			if (list.Count() == 0)
+			{
+				return default(T);
+			}
+			Random random = new Random(list.Count());
+			int rIndex = random.Next(0, list.Count());
+			return list.ElementAt(rIndex);
+		}
+	}
 }

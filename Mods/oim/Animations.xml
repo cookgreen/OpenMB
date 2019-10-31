@@ -32,8 +32,20 @@
 	<Flags>
 		<Flag>ANF_SKELETON_ANIM</Flag>
 	</Flags>
-	<SubAnimation Type="FULL">JumpStart</SubAnimation>
+	<SubAnimation Type="START">JumpStart</SubAnimation>
 	<SubAnimation Type="LOOP">JumpLoop</SubAnimation>
-	<SubAnimation Type="FULL">JumpEnd</SubAnimation>
+	<SubAnimation Type="END">JumpEnd</SubAnimation>
   </Animation>
-</Animations>
+  <Animation ID="anim_sinbad_double_sword_draw" Resource="skel_sinbad">
+	<Flags>
+		<Flag>ANF_SKELETON_ANIM</Flag>
+	</Flags>
+	<SubAnimation Type="FULL">DrawSwords</SubAnimation>
+  </Animation>
+  <Animation ID="anim_sinbad_double_sword_use" Resource="skel_sinbad">
+	<Flags>
+		<Flag>ANF_SKELETON_ANIM</Flag>
+	</Flags>
+	<SubAnimation Type="FULL">SliceVertical</SubAnimation>
+	<SubAnimation Type="FULL">SliceHorizontal</SubAnimation>
+  </Animation>

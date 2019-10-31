@@ -51,6 +51,7 @@ namespace OpenMB.Game
         private ModCharacterSkinDfnXML skin;
         private CapsuleController physicsController;
         private Mogre.Vector3 lastPosition;
+		private GameWorld world;
 
         public SceneNode BodyNode
         {
@@ -77,61 +78,42 @@ namespace OpenMB.Game
             }
         }
 
-        public enum AnimID
-        {
-            ANIM_IDLE_BASE,
-            ANIM_IDLE_TOP,
-            ANIM_RUN_BASE,
-            ANIM_RUN_TOP,
-            ANIM_HANDS_CLOSED,
-            ANIM_HANDS_RELAXED,
-            ANIM_DRAW_SWORDS,
-            ANIM_SLICE_VERTICAL,
-            ANIM_SLICE_HORIZONTAL,
-            ANIM_DANCE,
-            ANIM_JUMP_START,
-            ANIM_JUMP_LOOP,
-            ANIM_JUMP_END,
-            ANIM_NONE
-        };
-
         List<Entity> itemAttached;//Item that attached to character
 
-        public CharacterController(
-            Camera cam,
-            NavmeshQuery query,
-            Scene physicsScene,
-            string meshName, 
-            ModCharacterSkinDfnXML skin,
-            bool isBot,
-            Mogre.Vector3 initPosition)
-        {
-            camera = cam;
-            this.controlled = !isBot;
-            itemAttached = new List<Entity>();
-            this.sceneMgr = cam.SceneManager;
-            charaMeshName = meshName;
-            this.physicsScene = physicsScene;
-            physics = physicsScene.Physics;
-            cotrollerManager = physics.ControllerManager;
-            this.query = query;
-            setupBody(initPosition);
-            if (controlled)
-            {
-                setupCamera(cam);
-            }
+		public CharacterController(
+			GameWorld world,
+			ModCharacterDfnXML chaData,
+			ModCharacterSkinDfnXML chaSkin,
+			Mogre.Vector3 initPosition,
+			bool isBot = true)
+		{
+			this.world = world;
+			camera = world.Camera;
+			controlled = !isBot;
+			itemAttached = new List<Entity>();
+			sceneMgr = world.SceneManager;
+			charaMeshName = chaData.MeshName;
+			physicsScene = world.PhysicsScene;
+			physics = physicsScene.Physics;
+			cotrollerManager = physics.ControllerManager;
+			query = query;
+			setupBody(initPosition);
+			if (controlled)
+			{
+				setupCamera(camera);
+			}
 
-            this.skin = skin;
+			this.skin = chaSkin;
 
-            setupAnimations();
-            setupPhysics();
-        }
+			setupAnimations();
+			setupPhysics();
+		}
 
-        /// <summary>
-        /// Create character body
-        /// </summary>
-        /// <returns>success return True, fail return False</returns>
-        private bool setupBody(Mogre.Vector3 initPosition)
+		/// <summary>
+		/// Create character body
+		/// </summary>
+		/// <returns>success return True, fail return False</returns>
+		private bool setupBody(Mogre.Vector3 initPosition)
         {
             try
             {
@@ -168,15 +150,22 @@ namespace OpenMB.Game
             // populate our animation list
             for (int i = 0; i < skin.SkinAnimations.Count; i++)
             {
-                var raceAnimation = skin.SkinAnimations[i];
-                AnimationState animState = null;
-                if (!string.IsNullOrEmpty(raceAnimation.AnimID))
+                var skinAnim = skin.SkinAnimations[i];
+
+				var anim = world.ModData.AnimationInfos.Where(o => o.ID == skinAnim.AnimID).FirstOrDefault();
+				if (anim == null)
+				{
+					continue;
+				}
+
+				AnimationState animState = null;
+                if (!string.IsNullOrEmpty(skinAnim.AnimID))
                 {
-                    animState = bodyEnt.GetAnimationState(raceAnimation.AnimID);
+                    animState = bodyEnt.GetAnimationState(skinAnim.AnimID);
                     animState.Loop = true;
                 }
-                CharacterAnimation characterAnim = new CharacterAnimation(raceAnimation.AnimID, animState, raceAnimation.Type);
-                anims.Add(characterAnim);
+                CharacterAnimation chaAnim = new CharacterAnimation(skinAnim.AnimID, animState, skinAnim.Type);
+                anims.Add(chaAnim);
                 bool fadingIn = false;
                 this.fadingIn.Add(fadingIn);
                 bool fadingOut = false;
@@ -184,11 +173,11 @@ namespace OpenMB.Game
             }
 
             // start off in the idle state (top and bottom together)
-            SetBaseAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_IDLE_BASE).First());
-            SetTopAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_IDLE_TOP).First());
+            SetBaseAnimation(anims.Where(o => o.Type == ChaAnimType.CAT_IDLE_BASE).First());
+            SetTopAnimation(anims.Where(o => o.Type == ChaAnimType.CAT_IDLE_TOP).First());
 
             // relax the hands since we're not holding anything
-            anims.Where(o => o.Type == CharacterAnimationType.CAT_HANDS_RELAXED).First().AnimationState.Enabled = true;
+            anims.Where(o => o.Type == ChaAnimType.CAT_HANDS_RELAXED).First().AnimationState.Enabled = true;
 
             //swordsDrawn = false;
         }
@@ -302,27 +291,21 @@ namespace OpenMB.Game
             else if (evt.key == KeyCode.KC_S) keyDirection.z = 1;
             else if (evt.key == KeyCode.KC_D) keyDirection.x = 1;
 
-            else if (evt.key == KeyCode.KC_SPACE && (topAnim.Type == CharacterAnimationType.CAT_IDLE_TOP || topAnim.Type == CharacterAnimationType.CAT_RUN_TOP))
+            else if (evt.key == KeyCode.KC_SPACE && (topAnim.Type == ChaAnimType.CAT_IDLE_TOP || topAnim.Type == ChaAnimType.CAT_RUN_TOP))
             {
                 // jump if on ground
-                SetBaseAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_JUMP_START).First(), true);
-                SetTopAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_NONE).First());
+                SetBaseAnimation(anims.Where(o => o.Type == ChaAnimType.CAT_JUMP_START).First(), true);
+                SetTopAnimation(anims.Where(o => o.Type == ChaAnimType.CAT_NONE).First());
                 timer = 0;
             }
 
-            else if(evt.key == KeyCode.KC_C)
-            {
-                //Battle Cry
-                SoundManager.Instance.PlaySoundAtNode(bodyNode,"battle_cry_1");
-            }
-
-            if (!keyDirection.IsZeroLength && baseAnim.Type == CharacterAnimationType.CAT_IDLE_BASE)
+            if (!keyDirection.IsZeroLength && baseAnim.Type == ChaAnimType.CAT_IDLE_BASE)
             {
                 // start running if not already moving and the player wants to move
-                SetBaseAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_RUN_BASE).First(), true);
-                if (topAnim.Type == CharacterAnimationType.CAT_IDLE_TOP)
+                SetBaseAnimation(anims.Where(o => o.Type == ChaAnimType.CAT_RUN_BASE).First(), true);
+                if (topAnim.Type == ChaAnimType.CAT_IDLE_TOP)
                 {
-                    SetTopAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_RUN_TOP).First(), true);
+                    SetTopAnimation(anims.Where(o => o.Type == ChaAnimType.CAT_RUN_TOP).First(), true);
                 }
             }
         }
@@ -334,13 +317,13 @@ namespace OpenMB.Game
             else if (evt.key == KeyCode.KC_S && keyDirection.z == 1) keyDirection.z = 0;
             else if (evt.key == KeyCode.KC_D && keyDirection.x == 1) keyDirection.x = 0;
 
-            if (keyDirection.IsZeroLength && baseAnim.Type == CharacterAnimationType.CAT_RUN_BASE)
+            if (keyDirection.IsZeroLength && baseAnim.Type == ChaAnimType.CAT_RUN_BASE)
             {
                 // stop running if already moving and the player doesn't want to move
-                SetBaseAnimation(anims.Where(o=>o.Type== CharacterAnimationType.CAT_IDLE_BASE).First());
-                if (topAnim.Type == CharacterAnimationType.CAT_RUN_TOP)
+                SetBaseAnimation(anims.Where(o=>o.Type== ChaAnimType.CAT_IDLE_BASE).First());
+                if (topAnim.Type == ChaAnimType.CAT_RUN_TOP)
                 {
-                    SetTopAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_IDLE_TOP).First());
+                    SetTopAnimation(anims.Where(o => o.Type == ChaAnimType.CAT_IDLE_TOP).First());
                 }
             }
         }
@@ -398,7 +381,7 @@ namespace OpenMB.Game
         {
             goalDirection = Mogre.Vector3.ZERO;   // we will calculate this
 
-            if (keyDirection != Mogre.Vector3.ZERO && baseAnim.Type != CharacterAnimationType.CAT_CUSTOME_BLOCK)
+            if (keyDirection != Mogre.Vector3.ZERO && baseAnim.Type != ChaAnimType.CAT_CUSTOME_BLOCK)
             {
                 // calculate actually goal direction in world based on player's key directions
                 goalDirection += keyDirection.z * cameraNode.Orientation.ZAxis;
@@ -413,7 +396,7 @@ namespace OpenMB.Game
                 // this is how much the character CAN turn this frame
                 float yawAtSpeed = yawToGoal / Mogre.Math.Abs(yawToGoal) * deltaTime * TURN_SPEED;
                 // reduce "turnability" if we're in midair
-                if (baseAnim.Type == CharacterAnimationType.CAT_JUMP_LOOP) yawAtSpeed *= 0.2f;
+                if (baseAnim.Type == ChaAnimType.CAT_JUMP_LOOP) yawAtSpeed *= 0.2f;
 
                 // turn as much as we can, but not more than we need to
                 if (yawToGoal < 0) yawToGoal = System.Math.Min(0, System.Math.Max(yawToGoal, yawAtSpeed)); //yawToGoal = Math::Clamp<Real>(yawToGoal, yawAtSpeed, 0);
@@ -438,7 +421,7 @@ namespace OpenMB.Game
                     physicsController.Actor.GlobalPosition.z);
             }
 
-            if (baseAnim.Type == CharacterAnimationType.CAT_JUMP_LOOP)
+            if (baseAnim.Type == ChaAnimType.CAT_JUMP_LOOP)
             {
                 // if we're jumping, add a vertical offset too, and apply gravity
                 bodyNode.Translate(0, verticalVelocity * deltaTime, 0, Node.TransformSpace.TS_LOCAL);
@@ -453,7 +436,7 @@ namespace OpenMB.Game
                     ControllerFlags flag;
                     physicsController.Move(pos, 1 << 3, 0.01f, out flag);
                     bodyNode.Position = physicsController.Actor.GlobalPosition;
-                    SetBaseAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_JUMP_END).First(), true);
+                    SetBaseAnimation(anims.Where(o => o.Type == ChaAnimType.CAT_JUMP_END).First(), true);
                     timer = 0;
                 }
             }
@@ -470,42 +453,42 @@ namespace OpenMB.Game
             //float topAnimSpeed = 1;
 
             timer += deltaTime;
-            if (baseAnim.Type == CharacterAnimationType.CAT_JUMP_START)
+            if (baseAnim.Type == ChaAnimType.CAT_JUMP_START)
             {
                 if (timer >= baseAnim.AnimationState.Length)
                 {
                     // takeoff animation finished, so time to leave the ground!
-                    SetBaseAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_JUMP_LOOP).First(), true);
+                    SetBaseAnimation(anims.Where(o => o.Type == ChaAnimType.CAT_JUMP_LOOP).First(), true);
                     // apply a jump acceleration to the character
                     verticalVelocity = JUMP_ACCEL;
                 }
             }
-            else if (baseAnim.Type == CharacterAnimationType.CAT_JUMP_END)
+            else if (baseAnim.Type == ChaAnimType.CAT_JUMP_END)
             {
                 if (timer >= baseAnim.AnimationState.Length)
                 {
                     // safely landed, so go back to running or idling
                     if (keyDirection == Mogre.Vector3.ZERO)
                     {
-                        SetBaseAnimation(anims.Where(o=>o.Type== CharacterAnimationType.CAT_IDLE_BASE).First());
-                        SetTopAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_IDLE_TOP).First());
+                        SetBaseAnimation(anims.Where(o=>o.Type== ChaAnimType.CAT_IDLE_BASE).First());
+                        SetTopAnimation(anims.Where(o => o.Type == ChaAnimType.CAT_IDLE_TOP).First());
                     }
                     else
                     {
-                        SetBaseAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_RUN_BASE).First(), true);
-                        SetTopAnimation(anims.Where(o => o.Type == CharacterAnimationType.CAT_RUN_TOP).First(), true);
+                        SetBaseAnimation(anims.Where(o => o.Type == ChaAnimType.CAT_RUN_BASE).First(), true);
+                        SetTopAnimation(anims.Where(o => o.Type == ChaAnimType.CAT_RUN_TOP).First(), true);
                     }
                 }
             }
 
             // increment the current base and top animation times
-            if (baseAnim.Type != CharacterAnimationType.CAT_NONE)
+            if (baseAnim.Type != ChaAnimType.CAT_NONE)
             {
-                baseAnim.AnimationState.AddTime(deltaTime * baseAnimSpeed);
+                baseAnim.Update(deltaTime * baseAnimSpeed);
             }
-            if (topAnim.Type != CharacterAnimationType.CAT_NONE)
+            if (topAnim.Type != ChaAnimType.CAT_NONE)
             {
-                topAnim.AnimationState.AddTime(deltaTime * baseAnimSpeed);
+                topAnim.Update(deltaTime * baseAnimSpeed);
             }
 
             // apply smooth transitioning between our animations
@@ -588,7 +571,7 @@ namespace OpenMB.Game
 
             baseAnim = animation;
 
-            if (animation.Type != CharacterAnimationType.CAT_NONE)
+            if (animation.Type != ChaAnimType.CAT_NONE)
             {
                 // if we have a new animation, enable it and fade it in
                 anims[index].AnimationState.Enabled = true;
@@ -612,7 +595,7 @@ namespace OpenMB.Game
 
             topAnim = animation;
 
-            if (animation.Type != CharacterAnimationType.CAT_NONE)
+            if (animation.Type != ChaAnimType.CAT_NONE)
             {
                 // if we have a new animation, enable it and fade it in
                 anims[index].AnimationState.Enabled = true;
@@ -637,7 +620,7 @@ namespace OpenMB.Game
             return anims.Where(o => o.Name == animName).First();
         }
 
-        public string GetAnimationNameByType(CharacterAnimationType characterAnimationType)
+        public string GetAnimationNameByType(ChaAnimType characterAnimationType)
         {
             var findAnims = anims.Where(o=>o.Type == characterAnimationType);
             if(findAnims.Count() > 0)

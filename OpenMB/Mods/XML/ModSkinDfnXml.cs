@@ -34,7 +34,7 @@ namespace OpenMB.Mods.XML
         [XmlArrayItem("Slot")]
         public List<ModCharacterSkinSlot> Slots { get; set; }
 
-		public ModSkinAnimationDfnXml this[CharacterAnimationType characterAnimationType]
+		public ModSkinAnimationDfnXml this[ChaAnimType characterAnimationType]
 		{
 			get
 			{
@@ -74,7 +74,7 @@ namespace OpenMB.Mods.XML
     public class ModSkinAnimationDfnXml
     {
         [XmlAttribute("Type")]
-        public CharacterAnimationType Type { get; set; }
+        public ChaAnimType Type { get; set; }
 
 		[XmlText]
 		public string AnimID { get; set; }
@@ -82,7 +82,7 @@ namespace OpenMB.Mods.XML
 
 	public class ModSkinSubAnimationDfnXml
 	{
-		public CharacterAnimationPlayType Type { get; set; }
+		public AnimPlayType Type { get; set; }
 
 		[XmlText]
 		public string Name { get; set; }

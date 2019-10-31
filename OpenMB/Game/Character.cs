@@ -65,6 +65,10 @@ namespace OpenMB.Game
             {
                 return teamId;
             }
+			set
+			{
+				teamId = value;
+			}
         }
 
         public bool IsDead
@@ -107,54 +111,35 @@ namespace OpenMB.Game
             }
         }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="world">Environment</param>
-        /// <param name="cam">Camera</param>
-        /// <param name="id">Unique Id</param>
-        /// <param name="teamId">Team Id</param>
-        /// <param name="name">Name</param>
-        /// <param name="meshName">Mesh Name</param>
-        /// <param name="initPosition">Init Position</param>
-        /// <param name="isBot">Is Bot or not</param>
-        public Character(
-            GameWorld world,
-            int id,
-            string teamId,
-            string displayName,
-            string meshName,
-            Mogre.Vector3 initPosition,
-            ModCharacterSkinDfnXML skin,
-            bool isBot) : base(id, world)
-        {
-            this.world = world;
-            this.displayName = displayName;
-            this.meshName = meshName;
-            this.skin = skin;
-            this.isBot = isBot;
-            Id = id;
-            position = initPosition;
-            brain = new DecisionSystem(this);
-            weaponSystem = new WeaponSystem(this, new Fist(world, -1, id));
-            equipmentSystem = new EquipmentSystem(this);
+		public Character(
+			GameWorld world,
+			ModCharacterDfnXML chaData,
+			ModCharacterSkinDfnXML chaSkin,
+			Mogre.Vector3 initPosition,
+			bool isBot) : base(-1, world)
+		{
+			this.world = world;
+			this.displayName = displayName;
+			this.meshName = meshName;
+			this.skin = chaSkin;
+			this.isBot = isBot;
+			Id = id;
+			position = initPosition;
+			brain = new DecisionSystem(this);
+			weaponSystem = new WeaponSystem(this, new Fist(world, -1, id));
+			equipmentSystem = new EquipmentSystem(this);
 
-            currentActivity = new Idle();
-            moveInfo = new MoveInfo(CharacterController.RUN_SPEED);
-            health = new HealthInfo(this);
-            messageQueue = new List<CharacterMessage>();
+			currentActivity = new Idle();
+			moveInfo = new MoveInfo(CharacterController.RUN_SPEED);
+			health = new HealthInfo(this);
+			messageQueue = new List<CharacterMessage>();
 
-            create();
-        }
+			controller = new CharacterController(world, chaData, chaSkin, position, isBot);
+		}
 
-        public void AttchItem(Item target)
+		public void AttchItem(Item target)
         {
             controller.AttachItem(ItemUseAttachOption.IAO_SPIN, target);
-        }
-
-        protected override void create()
-        {
-            controller = new CharacterController(world.Camera, world.CurrentMap.NavmeshQuery, world.CurrentMap.PhysicsScene, meshName, skin, isBot, position);
         }
 
         public bool GetControlled()
@@ -396,12 +381,12 @@ namespace OpenMB.Game
 
         public string GetIdleTopAnim()
         {
-            return controller.GetAnimationNameByType(CharacterAnimationType.CAT_IDLE_TOP);
+            return controller.GetAnimationNameByType(ChaAnimType.CAT_IDLE_TOP);
         }
 
         public string GetIdleBaseAnim()
         {
-            return controller.GetAnimationNameByType(CharacterAnimationType.CAT_IDLE_BASE);
+            return controller.GetAnimationNameByType(ChaAnimType.CAT_IDLE_BASE);
         }
 
         public void AttachCamera(Camera camera)

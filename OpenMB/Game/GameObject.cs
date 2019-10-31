@@ -29,6 +29,10 @@ namespace OpenMB.Game
             {
                 return strID;
             }
+			set
+			{
+				strID = value;
+			}
         }
         public MoveInfo MoveInfo
         {
