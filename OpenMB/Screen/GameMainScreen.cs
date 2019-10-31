@@ -118,12 +118,12 @@ namespace OpenMB.Screen
 
 		private void BtnInventory_OnClick(object obj)
 		{
-			ScreenManager.Instance.ChangeScreen("Inventory", false, param[0], "cha_sinbad");
+			ScreenManager.Instance.ChangeScreen("Inventory", false, param[0], "cha_player");
 		}
 
 		private void BtnCharacter_OnClick(object obj)
 		{
-			ScreenManager.Instance.ChangeScreen("Character", false, param[0], "cha_sinbad");
+			ScreenManager.Instance.ChangeScreen("Character", false, param[0], "cha_player");
 		}
 
 		private void BtnReports_OnClick(object obj)

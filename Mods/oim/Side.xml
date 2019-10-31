@@ -1,138 +1,18 @@
 <Sides>
   <Side>
     <ID>side_no_side</ID>
-    <Name>No Side</Name>
+    <Name>!{No Side}</Name>
   </Side>
   <Side>
-    <ID>side_commoners</ID>
-    <Name>Commoners</Name>
+    <ID>side_player</ID>
+    <Name>!{Player Side}</Name>
   </Side>
   <Side>
-    <ID>side_outlaws</ID>
-    <Name>Outlaws</Name>
+    <ID>side_empire</ID>
+    <Name>The Empire</Name>
   </Side>
   <Side>
-    <ID>side_neutral</ID>
-    <Name>Neutral</Name>
-  </Side>
-  <Side>
-    <ID>side_innocents</ID>
-    <Name>Innocents</Name>
-  </Side>
-  <Side>
-    <ID>side_merchants</ID>
-    <Name>Merchants</Name>
-  </Side>
-  <Side>
-    <ID>side_dark_knights</ID>
-    <Name>Dark Knights</Name>
-  </Side>
-  <Side>
-    <ID>side_culture_1</ID>
-    <Name>Merchants</Name>
-  </Side>
-  <Side>
-    <ID>side_culture_2</ID>
-    <Name>culture_2</Name>
-  </Side>
-  <Side>
-    <ID>side_culture_3</ID>
-    <Name>culture_3</Name>
-  </Side>
-  <Side>
-    <ID>side_culture_4</ID>
-    <Name>culture_4</Name>
-  </Side>
-  <Side>
-    <ID>side_culture_5</ID>
-    <Name>culture_5</Name>
-  </Side>
-  <Side>
-    <ID>side_culture_6</ID>
-    <Name>culture_6</Name>
-  </Side>
-  <Side>
-    <ID>side_player_faction</ID>
-    <Name>Player_Nation</Name>
-  </Side>
-  <Side>
-    <ID>side_player_supporters_faction</ID>
-    <Name>Player_Nation</Name>
-  </Side>
-  <Side>
-    <ID>side_kingdom_1</ID>
-    <Name>Polish-Lithuanian_Commonwealth</Name>
-  </Side>
-  <Side>
-    <ID>side_kingdom_2</ID>
-    <Name>Muscovite_Tsardom</Name>
-  </Side>
-  <Side>
-    <ID>side_kingdom_3</ID>
-    <Name>Crimean_Khanatee</Name>
-  </Side>
-  <Side>
-    <ID>side_kingdom_4</ID>
-    <Name>Kingdom_of_Sweden</Name>
-  </Side>
-  <Side>
-    <ID>side_kingdom_5</ID>
-    <Name>Cossack_Hetmanate</Name>
-  </Side>
-  <Side>
-    <ID>side_kingdoms_end</ID>
-    <Name>{!}kingdoms_end</Name>
-  </Side>
-  <Side>
-    <ID>side_oim_rebel_faction</ID>
-    <Name>Nation_1</Name>
-  </Side>
-  <Side>
-    <ID>side_robber_knights</ID>
-    <Name>{!}robber_knights</Name>
-  </Side>
-  <Side>
-    <ID>side_khergits</ID>
-    <Name>{!}Black_Khergits</Name>
-  </Side>
-  <Side>
-    <ID>side_black_khergits</ID>
-    <Name>{!}kingdoms_end</Name>
-  </Side>
-  <Side>
-    <ID>side_manhunters</ID>
-    <Name>Marksmen_of_the_Secret_Department</Name>
-  </Side>
-  <Side>
-    <ID>side_deserters</ID>
-    <Name>Deserters</Name>
-  </Side>
-  <Side>
-    <ID>side_mountain_bandits</ID>
-    <Name>Mountain_Bandits</Name>
-  </Side>
-  <Side>
-    <ID>side_forest_bandits</ID>
-    <Name>Forest_Bandits</Name>
-  </Side>
-  <Side>
-    <ID>side_undeads</ID>
-    <Name>{!}Undeads</Name>
-  </Side>
-  <Side>
-    <ID>side_slavers</ID>
-    <Name>{!}Slavers</Name>
-  </Side>
-  <Side>
-    <ID>side_peasant_rebels</ID>
-    <Name>{!}Peasant_Rebels</Name>
-  </Side>
-  <Side>
-    <ID>side_noble_refugees</ID>
-    <Name>{!}Noble_Refugees</Name>
-  </Side>
-  <Side>
-    <ID>side_oim_outlaws</ID>
-    <Name>Outlaws</Name>
+    <ID>side_order</ID>
+    <Name>The Order</Name>
   </Side>
 </Sides>

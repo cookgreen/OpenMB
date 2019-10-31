@@ -1,6 +1,6 @@
 <Characters>
   <Character>
-    <ID>chara_player</ID>
+    <ID>cha_player</ID>
     <Name>Player</Name>
     <MeshName>Sinbad.mesh</MeshName>
     <side>side_player</side>
@@ -10,15 +10,39 @@
     </Equips>
   </Character>
   <Character>
-    <ID>chara_warrior</ID>
-    <Name>Empire Warrior</Name>
+    <ID>cha_empire_swordsman</ID>
+    <Name>Empire Swordsman</Name>
     <MeshName>Sinbad.mesh</MeshName>
 	<SkinID>skn_sinbad</SkinID>
 	<side>side_empire</side>
     <Equips />
   </Character>
   <Character>
-    <ID>chara_cavalry</ID>
+    <ID>cha_empire_poleaxeman</ID>
+    <Name>Empire Poleaxeman</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+	<SkinID>skn_sinbad</SkinID>
+	<side>side_empire</side>
+    <Equips />
+  </Character>
+  <Character>
+    <ID>cha_empire_axeman</ID>
+    <Name>Empire Axeman</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+	<SkinID>skn_sinbad</SkinID>
+	<side>side_empire</side>
+    <Equips />
+  </Character>
+  <Character>
+    <ID>cha_empire_royal_guard</ID>
+    <Name>Empire Royal Guard</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+	<SkinID>skn_sinbad</SkinID>
+	<side>side_empire</side>
+    <Equips />
+  </Character>
+  <Character>
+    <ID>cha_empire_cavalry</ID>
     <Name>Empire Cavalry</Name>
     <MeshName>Sinbad.mesh</MeshName>
 	<SkinID>skn_sinbad</SkinID>
@@ -26,7 +50,7 @@
     <Equips />
   </Character>
   <Character>
-    <ID>chara_dragon_knight</ID>
+    <ID>cha_empire_dragon_knight</ID>
     <Name>Empire Dragon Knight</Name>
     <MeshName>Sinbad.mesh</MeshName>
 	<SkinID>skn_sinbad</SkinID>
@@ -34,19 +58,47 @@
     <Equips />
   </Character>
   <Character>
-    <ID>chara_moon_rifleman</ID>
-    <Name>Moon Rifleman</Name>
+    <ID>cha_empire_musketeer</ID>
+    <Name>Empire Musketeer</Name>
     <MeshName>Sinbad.mesh</MeshName>
 	<SkinID>skn_sinbad</SkinID>
-	<side>side_moon</side>
+	<side>side_empire</side>
     <Equips />
   </Character>
   <Character>
-    <ID>chara_moon_robot</ID>
-    <Name>Moon Robot</Name>
+    <ID>cha_order_knight</ID>
+    <Name>Order Knight</Name>
     <MeshName>Sinbad.mesh</MeshName>
 	<SkinID>skn_sinbad</SkinID>
-	<side>side_moon</side>
+	<side>side_order</side>
+    <Equips />
+  <Character>
+    <ID>cha_order_heavy_knight</ID>
+    <Name>Order Heavy Knight</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+	<SkinID>skn_sinbad</SkinID>
+	<side>side_order</side>
+    <Equips />
+  <Character>
+    <ID>cha_order_lancer_knight</ID>
+    <Name>Order Lancer Knight</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+	<SkinID>skn_sinbad</SkinID>
+	<side>side_order</side>
+    <Equips />
+  <Character>
+    <ID>cha_order_pikeman</ID>
+    <Name>Order Pikeman</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+	<SkinID>skn_sinbad</SkinID>
+	<side>side_order</side>
+    <Equips />
+  <Character>
+    <ID>cha_order_crossbowman</ID>
+    <Name>Order Heavy Crossbowman</Name>
+    <MeshName>Sinbad.mesh</MeshName>
+	<SkinID>skn_sinbad</SkinID>
+	<side>side_order</side>
     <Equips />
   </Character>
 </Characters>
