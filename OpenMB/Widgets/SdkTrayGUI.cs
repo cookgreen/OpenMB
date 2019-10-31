@@ -2265,6 +2265,13 @@ namespace Mogre_Procedural.MogreBites
 				mElement.MetricsMode = value;
 			}
 		}
+		public ushort ZOrder
+		{
+			get
+			{
+				return mElement.ZOrder;
+			}
+		}
 		public Widget() {
             mTrayLoc = TrayLocation.TL_NONE;
             mElement = null;

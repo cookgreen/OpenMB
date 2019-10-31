@@ -41,7 +41,7 @@ namespace OpenMB.Script.Command
 
 		public override void Execute(params object[] executeArgs)
 		{
-			ScreenManager.Instance.ExitCurrentScreenReturn();
+			ScreenManager.Instance.ChangeScreenReturn();
 		}
 	}
 }

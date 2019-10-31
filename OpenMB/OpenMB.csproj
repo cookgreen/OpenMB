@@ -417,6 +417,7 @@
     <Compile Include="Widgets\InputBox.cs" />
     <Compile Include="Widgets\GameTrayManager.cs" />
     <Compile Include="Widgets\ListView.cs" />
+    <Compile Include="Widgets\PanelTemplate.cs" />
     <Compile Include="Widgets\Panel.cs" />
     <Compile Include="Widgets\SdkTrayGUI.cs" />
     <Compile Include="Widgets\StaticText.cs" />

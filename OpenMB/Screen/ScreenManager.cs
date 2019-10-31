@@ -136,7 +136,7 @@ namespace OpenMB.Screen
             }
 		}
 
-		public void ExitCurrentScreenReturn()
+		public void ChangeScreenReturn()
 		{
 			runningScreenStack.Pop().Exit();
 			if (runningScreenStack.Count > 0)

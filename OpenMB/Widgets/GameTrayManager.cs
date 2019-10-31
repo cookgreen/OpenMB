@@ -19,11 +19,18 @@ namespace OpenMB.Widgets
 			return ib;
 		}
 
-		public static Panel createPanel(this SdkTrayManager trayMgr, string name, float width = 0, float height = 0, float left = 0, float top = 0)
+		public static Panel createPanel(this SdkTrayManager trayMgr, string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1)
 		{
-			Panel panel = new Panel(name, width, height, left, top);
+			Panel panel = new Panel(name, width, height, left, top, row, col);
 			trayMgr.moveWidgetToTray(panel, TrayLocation.TL_NONE);
 			return panel;
 		}
-    }
+
+		public static PanelTemplate createTemplatePanel(this SdkTrayManager trayMgr, string name, string template, int width = 0, int height = 0, int top = 0, int left = 0)
+		{
+			PanelTemplate tmpPanel = new PanelTemplate(name, template, width, height, left, top);
+			trayMgr.moveWidgetToTray(tmpPanel, TrayLocation.TL_NONE);
+			return tmpPanel;
+		}
+	}
 }

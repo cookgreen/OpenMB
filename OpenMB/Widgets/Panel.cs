@@ -49,11 +49,25 @@ namespace OpenMB.Widgets
 				}
 				else if (Type == ValueType.Percent)
 				{
-					return ((float)100 / (float)panel.Rows.Count) / (float)100;//Relative
+					return ((float)(panel.Height - calculateAllAbsoluteHeights()) / (float)panel.Rows.Where(o => o.Type == ValueType.Percent).Count());//Relative
 				}
 				return -1;
 			}
 		}
+
+		private float calculateAllAbsoluteHeights()
+		{
+			float heights = 0;
+			foreach(var row in panel.Rows)
+			{
+				if (row.Type == ValueType.Abosulte)
+				{
+					heights += row.AbosulteHeight;
+				}
+			}
+			return heights;
+		}
+
 		public PanelRow(Panel panel)
 		{
 			this.panel = panel;
@@ -74,15 +88,11 @@ namespace OpenMB.Widgets
 			{
 				if (Type == ValueType.Abosulte)
 				{
-					return Width;
+					return Width * panel.Width;
 				}
 				else if (Type == ValueType.Percent)
 				{
-					if (Width == 100)
-					{
-						return panel.Width;
-					}
-					return ((float)100 / (float)panel.Cols.Count) / (float)100;//Relative
+					return ((float)(panel.Width) / (float)panel.Cols.Count);//Relative
 				}
 				return -1;
 			}
@@ -90,6 +100,19 @@ namespace OpenMB.Widgets
 		public PanelColumn(Panel panel)
 		{
 			this.panel = panel;
+		}
+
+		private float calculateAllAbsoluteWidths()
+		{
+			float widths = 0;
+			foreach (var col in panel.Cols)
+			{
+				if (col.Type == ValueType.Abosulte)
+				{
+					widths += col.AbosulteWidth;
+				}
+			}
+			return widths;
 		}
 	}
 
@@ -117,7 +140,7 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public Panel(string name, float width = 0, float height = 0, float left = 0, float top = 0)
+		public Panel(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1)
         {
             widgets = new List<Widget>();
             OverlayManager overlayMgr = OverlayManager.Singleton;
@@ -138,14 +161,21 @@ namespace OpenMB.Widgets
 			mElement.Left = left;
 			cols = new List<PanelColumn>();
 			rows = new List<PanelRow>();
-			cols.Add(new PanelColumn(this) { Type = ValueType.Percent, Width = 100 });
-			rows.Add(new PanelRow(this) { Type = ValueType.Percent, Height = 100});
+			for (int i = 0; i < row; i++)
+			{
+				rows.Add(new PanelRow(this) { Type = ValueType.Percent, Height = 100 });
+			}
+			for (int i = 0; i < col; i++)
+			{
+				cols.Add(new PanelColumn(this) { Type = ValueType.Percent, Width = 100 });
+			}
         }
 
 		public void AddRow(ValueType type, float height = 0)
 		{
-			rows.Add(new PanelRow(this) { Type = type, Height = height });
-			if (type == ValueType.Percent)
+			var row = new PanelRow(this) { Type = type, Height = height };
+			rows.Add(row);
+			if (type == ValueType.Percent && height == 0)
 			{
 				for (int i = 0; i < rows.Count; i++)
 				{
@@ -155,6 +185,17 @@ namespace OpenMB.Widgets
 					}
 				}
 			}
+			else
+			{
+				row.Height = height;
+			}
+		}
+
+		public void ChangeRow(ValueType valueType, float value, int rowNum = 1)
+		{
+			var row = rows[rowNum - 1];
+			row.Type = valueType;
+			row.Height = value;
 		}
 
 		public void AddCol(ValueType type, float width = 0)
@@ -172,6 +213,13 @@ namespace OpenMB.Widgets
 			}
 		}
 
+		public void ChangeCol(ValueType valueType, float value, int colNum = 1)
+		{
+			var col = cols[colNum - 1];
+			col.Type = valueType;
+			col.Width = value;
+		}
+
 		public void AddWidget(
 			int rowNum, 
 			int colNum, 
@@ -187,15 +235,6 @@ namespace OpenMB.Widgets
 
 			var c = cols[colNum - 1];
 			var r = rows[rowNum - 1];
-
-			switch(align)
-			{
-				case AlignMode.Center:
-					widget.Left = (c.AbosulteWidth - widget.Width) / 2;
-					break;
-				case AlignMode.Right:
-					break;
-			}
 
 			switch(dock)
 			{
@@ -228,6 +267,73 @@ namespace OpenMB.Widgets
 				widget.Left += relativeLeft;
 				widget.Top += relativeTop;
 			}
+
+			switch (align)
+			{
+				case AlignMode.Center:
+					widget.Left += (c.AbosulteWidth - widget.Width) / 2;
+					break;
+				case AlignMode.Right:
+					break;
+			}
+		}
+
+		public void AddWidgetRelative(
+			int rowNum,
+			int colNum,
+			Widget widget,
+			AlignMode align = AlignMode.Left,
+			DockMode dock = DockMode.None)
+		{
+			widget.Col = colNum;
+			widget.Row = rowNum;
+			widgets.Add(widget);
+
+			var c = cols[colNum - 1];
+			var r = rows[rowNum - 1];
+
+			switch (dock)
+			{
+				case DockMode.Fill:
+					widget.Height = r.AbosulteHeight;
+					widget.Width = c.AbosulteWidth;
+					break;
+				case DockMode.FillHeight:
+					widget.Height = r.AbosulteHeight;
+					break;
+				case DockMode.FillWidth:
+					widget.Width = c.AbosulteWidth;
+					break;
+			}
+
+			if (rowNum != 1 || colNum != 1)
+			{
+				float relativeLeft = 0;
+				float relativeTop = 0;
+
+				for (int i = 0; i < colNum - 1; i++)
+				{
+					relativeLeft += cols[i].AbosulteWidth;
+				}
+				for (int i = 0; i < rowNum - 1; i++)
+				{
+					relativeTop += rows[i].AbosulteHeight;
+				}
+
+				widget.Left += relativeLeft;
+				widget.Top += relativeTop;
+			}
+
+			switch (align)
+			{
+				case AlignMode.Center:
+					widget.Left += (c.AbosulteWidth - widget.Width) / 2;
+					break;
+				case AlignMode.Right:
+					break;
+			}
+
+			((OverlayContainer)mElement).AddChild(widget.getOverlayElement());
 		}
 
 		public void AddWidget(Widget widget)
