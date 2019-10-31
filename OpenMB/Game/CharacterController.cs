@@ -170,12 +170,12 @@ namespace OpenMB.Game
             {
                 var raceAnimation = skin.SkinAnimations[i];
                 AnimationState animState = null;
-                if (!string.IsNullOrEmpty(raceAnimation.Name))
+                if (!string.IsNullOrEmpty(raceAnimation.AnimID))
                 {
-                    animState = bodyEnt.GetAnimationState(raceAnimation.Name);
+                    animState = bodyEnt.GetAnimationState(raceAnimation.AnimID);
                     animState.Loop = true;
                 }
-                CharacterAnimation characterAnim = new CharacterAnimation(raceAnimation.Name, animState, raceAnimation.type);
+                CharacterAnimation characterAnim = new CharacterAnimation(raceAnimation.AnimID, animState, raceAnimation.Type);
                 anims.Add(characterAnim);
                 bool fadingIn = false;
                 this.fadingIn.Add(fadingIn);

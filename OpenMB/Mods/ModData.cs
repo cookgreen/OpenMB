@@ -13,7 +13,8 @@ namespace OpenMB.Mods
     public class ModData
     {
         private ModBaseInfo modBasicInfo;
-        private List<ModCharacterDfnXML> characterInfos;
+		private List<ModAnimationDfnXml> animationInfos;
+		private List<ModCharacterDfnXML> characterInfos;
         private List<ModItemDfnXML> itemInfos;
         private List<ModTrackDfnXML> musicInfos;
         private List<ModSoundDfnXML> soundInfos;
@@ -44,8 +45,13 @@ namespace OpenMB.Mods
         {
             get { return modBasicInfo; }
             set { modBasicInfo = value; }
-        }
-        public List<ModSideDfnXML> SideInfos
+		}
+		public List<ModAnimationDfnXml> AnimationInfos
+		{
+			get { return animationInfos; }
+			set { animationInfos = value; }
+		}
+		public List<ModSideDfnXML> SideInfos
         {
             get { return sideInfos; }
             set { sideInfos = value; }
@@ -114,7 +120,7 @@ namespace OpenMB.Mods
 
         public List<ModMediaData> ModMediaData { get { return modMediaData; } }
 
-        public ModData()
+		public ModData()
         {
             characterInfos = new List<ModCharacterDfnXML>();
             itemInfos = new List<ModItemDfnXML>();

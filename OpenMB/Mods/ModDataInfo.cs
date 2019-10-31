@@ -6,8 +6,9 @@ using System.Text;
 namespace OpenMB.Mods
 {
     public class ModDataInfo
-    {
-        public readonly string Characters;
+	{
+		public readonly string Animations;
+		public readonly string Characters;
         public readonly string Sound;
         public readonly string Music;
         public readonly string Items;
@@ -26,6 +27,7 @@ namespace OpenMB.Mods
 		public readonly string Menus;
 
         public ModDataInfo(
+			string animations,
             string characters,
             string sound,
             string music,
@@ -44,6 +46,7 @@ namespace OpenMB.Mods
             string musicDir,
             string scriptDir)
         {
+			Animations = animations;
             Characters = characters;
             Sound = sound;
             Music = music;

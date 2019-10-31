@@ -96,7 +96,16 @@ namespace OpenMB.Mods
 
                 ModXmlLoader loader = null;
 
-                if (!string.IsNullOrEmpty(manifest.Data.Characters))
+				if (!string.IsNullOrEmpty(manifest.Data.Animations))
+				{
+					loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Animations);
+					ModAnimationsDfnXml animationDfn;
+					loader.Load(out animationDfn);
+					currentMod.AnimationInfos = animationDfn.Animations;
+					worker.ReportProgress(20);
+				}
+
+				if (!string.IsNullOrEmpty(manifest.Data.Characters))
                 {
                     loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Characters);
                     ModCharactersDfnXML characterDfn;

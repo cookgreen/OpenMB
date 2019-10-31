@@ -6,20 +6,34 @@ using System.Text;
 
 namespace OpenMB.Game
 {
-    public enum CharacterAnimationType
+	public enum CharacterAnimationPlayType
+	{
+		BASE,
+		TOP,
+		FULL,
+		TIME,
+		LOOP,
+	}
+
+
+	public enum CharacterAnimationType
     {
         CAT_NONE,
-        CAT_IDLE_TOP,
+		CAT_IDLE,
+		CAT_RUN,
+		CAT_JUMP,
+		CAT_HANDS_RELAXED,
+		CAT_HANDS_CLOSED,
+		CAT_CUSTOME,
+		CAT_CUSTOME_BLOCK,//This animation can block the character's action
+
+		CAT_IDLE_TOP,
         CAT_IDLE_BASE,
-        CAT_RUN_TOP,
+		CAT_RUN_TOP,
         CAT_RUN_BASE,
         CAT_JUMP_START,
         CAT_JUMP_LOOP,
         CAT_JUMP_END,
-        CAT_HANDS_RELAXED,
-        CAT_HANDS_CLOSED,
-        CAT_CUSTOME,
-        CAT_CUSTOME_BLOCK //This animation can block the character's action
     }
     public class CharacterAnimation
     {

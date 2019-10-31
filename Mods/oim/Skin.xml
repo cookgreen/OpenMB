@@ -5,22 +5,34 @@
     <Desc>Ogre3d Sample Sinbad Character</Desc>
 	<Skeleton>skel_sinbad</Skeleton>
 	<HasParts>false</HasParts>
-    <Animations>
-      <Animation Type="CAT_IDLE_BASE">IdleBase</Animation>
-      <Animation Type="CAT_IDLE_TOP">IdleTop</Animation>
-      <Animation Type="CAT_RUN_BASE">RunBase</Animation>
-      <Animation Type="CAT_RUN_TOP">RunTop</Animation>
-      <Animation Type="CAT_HANDS_CLOSED">HandsClosed</Animation>
-      <Animation Type="CAT_HANDS_RELAXED">HandsRelaxed</Animation>
-      <Animation Type="CAT_CUSTOME">DrawSwords</Animation>
-      <Animation Type="CAT_CUSTOME">SliceVertical</Animation>
-      <Animation Type="CAT_CUSTOME">SliceHorizontal</Animation>
-      <Animation Type="CAT_CUSTOME_BLOCK">Dance</Animation>
-      <Animation Type="CAT_JUMP_START">JumpStart</Animation>
-      <Animation Type="CAT_JUMP_LOOP">JumpLoop</Animation>
-      <Animation Type="CAT_JUMP_END">JumpEnd</Animation>
-      <Animation Type="CAT_NONE"></Animation>
-    </Animations>
+    <Anims>
+	  <Anim Type="CAT_IDLE" HasTopBase="true">anim_sinbad_idle</Anim>
+	  <Anim Type="CAT_RUN" HasTopBase="true">anim_sinbad_run</Anim>
+	  <Anim Type="CAT_HANDS_CLOSED" HasTopBase="false">anim_sinbad_handsclosed</Anim>
+	  <Anim Type="CAT_HANDS_RELAXED" HasTopBase="false">anim_sinbad_handsrelaxed</Anim>
+	  <Anim Type="CAT_JUMP" HasTopBase="false">anim_sinbad_jump</Anim>
+	  <Anim Type="CAT_NONE" HasTopBase="false" />
+    </Anims>
+	<Slots>
+		<Slot>
+			<AcceptType>IT_HEAD_ARMOUR</AcceptType>
+		</Slot>
+		<Slot>
+			<AcceptType>IT_BODY_ARMOUR</AcceptType>
+		</Slot>
+		<Slot>
+			<AcceptType>IT_HAND_ARMOUR</AcceptType>
+		</Slot>
+		<Slot>
+			<AcceptType>IT_FOOT_ARMOUR</AcceptType>
+		</Slot>
+		<Slot>
+			<AcceptType>IT_WEAPON</AcceptType>
+		</Slot>
+		<Slot>
+			<AcceptType>IT_FOOD</AcceptType>
+		</Slot>
+	</Slots>
   </CharacterSkin>  
   <CharacterSkin>
     <ID>skn_male</ID>

@@ -24,5 +24,18 @@ namespace OpenMB.Mods.XML
         public string MeshName { get; set; }
         [XmlElement("SkinID")]
         public string SkinID { get; set; }
-    }
+		[XmlElement("Equips")]
+		public ModCharacterEquipmentsDfnXml Equipments { get; set; }
+	}
+
+	[XmlRoot("Equips")]
+	public class ModCharacterEquipmentsDfnXml
+	{
+		[XmlElement("EquipItem")]
+		public List<string> EquipmentItems { get; set; }
+		public ModCharacterEquipmentsDfnXml()
+		{
+			EquipmentItems = new List<string>();
+		}
+	}
 }

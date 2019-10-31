@@ -30,7 +30,8 @@ namespace OpenMB.Mods
                                            xmldata.ModInfo.Movie,
                                            xmldata.ModInfo.Assemblies,
                                            xmldata.ModInfo.DisplayInChooser);
-                Data = new ModDataInfo(xmldata.Data.characterXML,
+                Data = new ModDataInfo( xmldata.Data.animationXml,
+										xmldata.Data.characterXML,
                                         xmldata.Data.soundXML,
                                         xmldata.Data.musicXML,
                                         xmldata.Data.itemXML,

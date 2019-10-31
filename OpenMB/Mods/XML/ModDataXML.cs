@@ -7,8 +7,10 @@ using System.Xml.Serialization;
 namespace OpenMB.Mods.XML
 {
     public class ModDataXML
-    {
-        [XmlElement("Characters")]
+	{
+		[XmlElement("Animations")]
+		public string animationXml { get; set; }
+		[XmlElement("Characters")]
         public string characterXML { get; set; }
         [XmlElement("Music")]
         public string musicXML { get; set; }

@@ -11,11 +11,13 @@
 	<DisplayInChooser>true</DisplayInChooser>
   </Info>
   <Data>
+    <Animations>Animations.xml</Animations>
     <Characters>Characters.xml</Characters>
     <Items>Items.xml</Items>
     <ItemTypes>ItemTypes.xml</ItemTypes>
     <Locations>Locations.xml</Locations>
     <Maps>Maps.xml</Maps>
+    <Menus>Menus.xml</Menus>
     <Models></Models>
     <Music>Music.xml</Music>
     <SceneProps>SceneProps.xml</SceneProps>
@@ -24,7 +26,6 @@
     <Sides>Side.xml</Sides>
     <Sound>Sound.xml</Sound>
     <WorldMaps>WorldMaps.xml</WorldMaps>
-    <Menus>Menus.xml</Menus>
 	<DataDir>
 		<MapDir>Scenes</MapDir>
 		<MusicDir>Music</MusicDir>

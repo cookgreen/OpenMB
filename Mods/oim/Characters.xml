@@ -4,101 +4,145 @@
     <Name>Player</Name>
     <MeshName>Sinbad.mesh</MeshName>
     <side>side_player</side>
-	<SkinID>skn_sinbad</SkinID>
+	  <SkinID>skn_sinbad</SkinID>
     <Equips>
-      <Equip>itm_sword</Equip>
     </Equips>
   </Character>
   <Character>
     <ID>cha_empire_swordsman</ID>
     <Name>Empire Swordsman</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<SkinID>skn_sinbad</SkinID>
-	<side>side_empire</side>
-    <Equips />
+	  <SkinID>skn_sinbad</SkinID>
+	  <side>side_empire</side>
+    <Equips>
+      <EquipItem>itm_sword_1</EquipItem>
+    </Equips>
   </Character>
   <Character>
     <ID>cha_empire_poleaxeman</ID>
     <Name>Empire Poleaxeman</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<SkinID>skn_sinbad</SkinID>
-	<side>side_empire</side>
-    <Equips />
+	  <SkinID>skn_sinbad</SkinID>
+	  <side>side_empire</side>
+    <Equips>
+      <EquipItem>itm_poleaxe</EquipItem>
+    </Equips>
   </Character>
   <Character>
     <ID>cha_empire_axeman</ID>
     <Name>Empire Axeman</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<SkinID>skn_sinbad</SkinID>
-	<side>side_empire</side>
-    <Equips />
+	  <SkinID>skn_sinbad</SkinID>
+	  <side>side_empire</side>
+    <Equips>
+      <EquipItem>itm_axe</EquipItem>
+    </Equips>
   </Character>
   <Character>
     <ID>cha_empire_royal_guard</ID>
     <Name>Empire Royal Guard</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<SkinID>skn_sinbad</SkinID>
-	<side>side_empire</side>
-    <Equips />
+	  <SkinID>skn_sinbad</SkinID>
+	  <side>side_empire</side>
+    <Equips>
+      <EquipItem>itm_swords_1</EquipItem>
+      <EquipItem>itm_rectangle_shield</EquipItem>
+    </Equips>
   </Character>
   <Character>
     <ID>cha_empire_cavalry</ID>
     <Name>Empire Cavalry</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<SkinID>skn_sinbad</SkinID>
-	<side>side_empire</side>
-    <Equips />
+	  <SkinID>skn_sinbad</SkinID>
+	  <side>side_empire</side>
+    <Equips>
+      <EquipItem>itm_horse</EquipItem>
+      <EquipItem>itm_swords_1</EquipItem>
+      <EquipItem>itm_shield</EquipItem>
+    </Equips>
   </Character>
   <Character>
     <ID>cha_empire_dragon_knight</ID>
     <Name>Empire Dragon Knight</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<SkinID>skn_sinbad</SkinID>
-	<side>side_empire</side>
-    <Equips />
+	  <SkinID>skn_sinbad</SkinID>
+	  <side>side_empire</side>
+    <Equips>
+      <EquipItem>itm_dragon</EquipItem>
+      <EquipItem>itm_swords_1</EquipItem>
+      <EquipItem>itm_shield</EquipItem>
+    </Equips>
   </Character>
   <Character>
     <ID>cha_empire_musketeer</ID>
     <Name>Empire Musketeer</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<SkinID>skn_sinbad</SkinID>
-	<side>side_empire</side>
-    <Equips />
+	  <SkinID>skn_sinbad</SkinID>
+	  <side>side_empire</side>
+    <Equips>
+      <EquipItem>itm_musket</EquipItem>
+      <EquipItem>itm_swords_1</EquipItem>
+      <EquipItem>itm_shield</EquipItem>
+    </Equips>
   </Character>
   <Character>
     <ID>cha_order_knight</ID>
     <Name>Order Knight</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<SkinID>skn_sinbad</SkinID>
-	<side>side_order</side>
-    <Equips />
+	  <SkinID>skn_sinbad</SkinID>
+	  <side>side_order</side>
+    <Equips>
+      <EquipItem>itm_horse</EquipItem>
+      <EquipItem>itm_swords_1</EquipItem>
+      <EquipItem>itm_shield</EquipItem>
+    </Equips>
+  </Character>
   <Character>
     <ID>cha_order_heavy_knight</ID>
     <Name>Order Heavy Knight</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<SkinID>skn_sinbad</SkinID>
-	<side>side_order</side>
-    <Equips />
+	  <SkinID>skn_sinbad</SkinID>
+	  <side>side_order</side>
+    <Equips>
+      <EquipItem>itm_horse</EquipItem>
+      <EquipItem>itm_swords_1</EquipItem>
+      <EquipItem>itm_shield</EquipItem>
+    </Equips>
+  </Character>
   <Character>
     <ID>cha_order_lancer_knight</ID>
     <Name>Order Lancer Knight</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<SkinID>skn_sinbad</SkinID>
-	<side>side_order</side>
-    <Equips />
+	  <SkinID>skn_sinbad</SkinID>
+	  <side>side_order</side>
+    <Equips>
+      <EquipItem>itm_horse</EquipItem>
+      <EquipItem>itm_lance</EquipItem>
+      <EquipItem>itm_shield</EquipItem>
+    </Equips>
+  </Character>
   <Character>
     <ID>cha_order_pikeman</ID>
     <Name>Order Pikeman</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<SkinID>skn_sinbad</SkinID>
-	<side>side_order</side>
-    <Equips />
+	  <SkinID>skn_sinbad</SkinID>
+	  <side>side_order</side>
+    <Equips>
+      <EquipItem>itm_pike</EquipItem>
+      <EquipItem>itm_swords_1</EquipItem>
+      <EquipItem>itm_shield</EquipItem>
+    </Equips>
+  </Character>
   <Character>
     <ID>cha_order_crossbowman</ID>
     <Name>Order Heavy Crossbowman</Name>
     <MeshName>Sinbad.mesh</MeshName>
-	<SkinID>skn_sinbad</SkinID>
-	<side>side_order</side>
-    <Equips />
+	  <SkinID>skn_sinbad</SkinID>
+	  <side>side_order</side>
+    <Equips>
+      <EquipItem>itm_crossbow</EquipItem>
+      <EquipItem>itm_swords_1</EquipItem>
+      <EquipItem>itm_rectangle_shield</EquipItem>
+    </Equips>
   </Character>
 </Characters>

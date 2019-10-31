@@ -23,14 +23,24 @@ namespace OpenMB.Mods.XML
         public string skinName { get; set; }
         [XmlElement("HasParts")]
         public bool HasParts { get; set; }
-        [XmlElement("SkinParts")]
+		[XmlElement("Skeleton")]
+		public string Skeleton { get; set; }
+		[XmlElement("SkinParts")]
         public List<CharacterSkinPartsDfnXML> SkinParts { get; set; }
-        [XmlArray("Animations")]
-        [XmlArrayItem("Animation")]
+        [XmlArray("Anims")]
+        [XmlArrayItem("Anim")]
         public List<ModSkinAnimationDfnXml> SkinAnimations { get; set; }
         [XmlArray("Slots")]
         [XmlArrayItem("Slot")]
         public List<ModCharacterSkinSlot> Slots { get; set; }
+
+		public ModSkinAnimationDfnXml this[CharacterAnimationType characterAnimationType]
+		{
+			get
+			{
+				return SkinAnimations.Where(o => o.Type == characterAnimationType).FirstOrDefault();
+			}
+		}
     }
 
     [XmlRoot("SkinParts")]
@@ -64,9 +74,17 @@ namespace OpenMB.Mods.XML
     public class ModSkinAnimationDfnXml
     {
         [XmlAttribute("Type")]
-        public CharacterAnimationType type { get; set; }
+        public CharacterAnimationType Type { get; set; }
 
-        [XmlText()]
-        public string Name { get; set; }
-    }
+		[XmlText]
+		public string AnimID { get; set; }
+	}
+
+	public class ModSkinSubAnimationDfnXml
+	{
+		public CharacterAnimationPlayType Type { get; set; }
+
+		[XmlText]
+		public string Name { get; set; }
+	}
 }
