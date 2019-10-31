@@ -44,12 +44,14 @@ namespace OpenMB.Screen
             IScreen screenEditor = new GameEditorScreen();
 			IScreen screenMain = new GameMainScreen();
 			IScreen screenMenu = new GameMenuScreen();
+			IScreen screenCha = new CharacterScreen();
 			innerScreens.Add(screenCredit.Name, screenCredit);
             innerScreens.Add(screenConsole.Name, screenConsole);
             innerScreens.Add(screenInventory.Name, screenInventory);
             innerScreens.Add(screenEditor.Name, screenEditor);
 			innerScreens.Add(screenMain.Name, screenMain);
 			innerScreens.Add(screenMenu.Name, screenMenu);
+			innerScreens.Add(screenCha.Name, screenCha);
 			//TODO: Load all screen script files
 			instance = this;
             runningScreenStack = new Stack<IScreen>();

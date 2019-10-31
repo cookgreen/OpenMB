@@ -278,6 +278,7 @@
     <Compile Include="Mods\XML\ModSkeletonsDfnXML.cs" />
     <Compile Include="Mods\XML\ModSkinDfnXml.cs" />
     <Compile Include="Mods\XML\ModWorldMapsDfnXml.cs" />
+    <Compile Include="Screen\CharacterScreen.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
     <Compile Include="Screen\GameMainScreen.cs" />
     <Compile Include="Screen\GameMenuScreen.cs" />

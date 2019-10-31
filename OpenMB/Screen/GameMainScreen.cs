@@ -59,6 +59,10 @@ namespace OpenMB.Screen
 			btnTerrain.Top = 0.025f;
 			btnTerrain.OnClick += BtnTerrain_OnClick;
 			gameMainPanel.AddWidget(1, 1, btnTerrain, AlignMode.Left, DockMode.FillWidth);
+			if (!GameManager.Instance.IS_ENABLE_EDIT_MODE)
+			{
+				btnTerrain.hide();
+			}
 
 			btnCamp = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnCamp", "Camp", 150);
 			btnCamp.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
@@ -108,12 +112,12 @@ namespace OpenMB.Screen
 
 		private void BtnParty_OnClick(object obj)
 		{
-			ScreenManager.Instance.ChangeScreen("GameParty");
+			ScreenManager.Instance.ChangeScreen("GameParty", false, param[0], "pt_player");
 		}
 
 		private void BtnNotes_OnClick(object obj)
 		{
-			ScreenManager.Instance.ChangeScreen("GameNotes");
+			ScreenManager.Instance.ChangeScreen("GameNotes", false, param[0]);
 		}
 
 		private void BtnInventory_OnClick(object obj)
