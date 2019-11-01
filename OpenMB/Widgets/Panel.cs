@@ -89,7 +89,7 @@ namespace OpenMB.Widgets
 			{
 				if (Type == ValueType.Abosulte)
 				{
-					return Width * panel.Width;
+					return Width * panel.Width - (panel.Padding.PaddingLeft + panel.Padding.PaddingRight);
 				}
 				else if (Type == ValueType.Percent)
 				{

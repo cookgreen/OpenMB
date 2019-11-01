@@ -137,7 +137,7 @@ namespace OpenMB.Screen
 			txtDiscord.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
 			discordInventoryPanel = GameManager.Instance.trayMgr.createPanel("discordInventoryPanel", 0.3f, 1, 0, 0, 9, 3);
 			discordPanel.AddWidget(1, 1, txtDiscord, AlignMode.Center);
-			discordPanel.AddWidget(2, 1, discordInventoryPanel);
+			discordPanel.AddWidget(2, 1, discordInventoryPanel, AlignMode.Center, DockMode.Fill);
 
 			int currRow = 1;
 			int currCol = 1;
@@ -165,7 +165,8 @@ namespace OpenMB.Screen
 			playerEquipPanel.Padding.PaddingLeft = 0.01f;
 			playerEquipPanel.Padding.PaddingRight = 0.01f;
 			playerPreviewPanel = GameManager.Instance.trayMgr.createPanel("playerPreviewPanel", 1, 1);
-
+			playerPreviewPanel.Padding.PaddingLeft = 0.01f;
+			playerPreviewPanel.Padding.PaddingRight = 0.01f;
 			playerPreviewPanel.ChangeCol(Widgets.ValueType.Abosulte, 0.6f);
 			playerPreviewPanel.AddCol(Widgets.ValueType.Abosulte, 0.4f);
 			playerPreviewPanel.AddRow(Widgets.ValueType.Abosulte, 0.05f);
@@ -191,7 +192,7 @@ namespace OpenMB.Screen
 			txtArms.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
 			playerEquipPanel.AddWidget(1, 2, txtOutfit, AlignMode.Center);
 			playerEquipPanel.AddWidget(1, 3, txtArms, AlignMode.Center);
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 9; i++)
 			{
 				var equipSlot = new PanelTemplate("EquipSlot_" + (i + 1).ToString(), "InventorySlot");
 				switch (i)
@@ -220,6 +221,9 @@ namespace OpenMB.Screen
 					case 7:
 						playerEquipPanel.AddWidgetRelative(3, 1, equipSlot, AlignMode.Center, DockMode.Fill);
 						break;
+					case 8:
+						playerEquipPanel.AddWidgetRelative(5, 3, equipSlot, AlignMode.Center, DockMode.Fill);
+						break;
 				}
 			}
 
@@ -238,10 +242,10 @@ namespace OpenMB.Screen
 			{
 				ScreenManager.Instance.ChangeScreenReturn();
 			};
-			playerPreviewPanel.AddWidget(2, 2, txtPreviewHeadArmourTotal, AlignMode.Center);
-			playerPreviewPanel.AddWidget(3, 2, txtPreviewBodyArmourTotal, AlignMode.Center);
-			playerPreviewPanel.AddWidget(4, 2, txtPreviewLegArmourTotal, AlignMode.Center);
-			playerPreviewPanel.AddWidget(5, 2, txtPreviewEncumbrance, AlignMode.Center);
+			playerPreviewPanel.AddWidget(2, 2, txtPreviewHeadArmourTotal, AlignMode.Center, DockMode.FillWidth);
+			playerPreviewPanel.AddWidget(3, 2, txtPreviewBodyArmourTotal, AlignMode.Center, DockMode.FillWidth);
+			playerPreviewPanel.AddWidget(4, 2, txtPreviewLegArmourTotal, AlignMode.Center, DockMode.FillWidth);
+			playerPreviewPanel.AddWidget(5, 2, txtPreviewEncumbrance, AlignMode.Center, DockMode.FillWidth);
 			playerPreviewPanel.AddWidget(6, 2, btnReturn, AlignMode.Center, DockMode.FillWidth);
 
 			backpackPanel = GameManager.Instance.trayMgr.createPanel("backpackPanel", 0.3f, 1, 0.7f, 0);
