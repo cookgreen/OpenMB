@@ -26,7 +26,7 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
 ## Screenshots:
 
 ![](https://media.moddb.com/images/games/1/72/71205/image.png)  
-![](https://media.moddb.com/images/games/1/72/71205/inventory.png)  
+![](https://media.moddb.com/images/games/1/72/71205/inventory.1.png)  
 
 ## Credit:
 * Mogre  
