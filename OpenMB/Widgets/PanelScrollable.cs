@@ -22,8 +22,14 @@ namespace OpenMB.Widgets
 		private BorderPanelOverlayElement scroll;
 		private OverlayElement drag;
 		private float initDragTop;
-
 		public event Action Scrolled;
+		public float EachRowHeight
+		{
+			get
+			{
+				return rows[0].AbosulteHeight;
+			}
+		}
 
 		public PanelScrollable(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1) : base(name, width, height, left, top, row, col)
 		{
@@ -158,27 +164,23 @@ namespace OpenMB.Widgets
 		private void setDisplayWidgets(ScrollOritentation oritentation)
 		{
 			float dragTopPos = drag.Top - initDragTop;
-			float passedRowNum = dragTopPos / scroll.Height * rows.Count;
 			foreach (var widget in visualWidgets)
 			{
 				widget.hide();
 			}
-			int passedRowNumInt = (int)(System.Math.Round(passedRowNum, MidpointRounding.AwayFromZero));
-			int skipNum = passedRowNumInt * cols.Count;
+			int passedRowNum = (int)(System.Math.Round(dragTopPos / scroll.Height * rows.Count, MidpointRounding.AwayFromZero));
+			int skipNum = passedRowNum * cols.Count;
 			visualWidgets = widgets.Skip(skipNum).Take(visualWidgets.Count).ToList();
 
+			int curIndex = 0;
 			for (int i = 0; i < visualWidgets.Count; i++)
 			{
-				visualWidgets[i].show();
-				switch (oritentation)
+				visualWidgets[i].Top = curIndex * visualWidgets[i].Height;
+				if ((i + 1) % cols.Count == 0)
 				{
-					case ScrollOritentation.Up:
-						visualWidgets[i].Top += passedRowNumInt * visualWidgets[i].Height;
-						break;
-					case ScrollOritentation.Down:
-						visualWidgets[i].Top -= passedRowNumInt * visualWidgets[i].Height;
-						break;
+					curIndex++;
 				}
+				visualWidgets[i].show();
 			}
 		}
 
