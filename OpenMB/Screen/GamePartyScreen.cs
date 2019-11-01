@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Screen
 {
-	public class CharacterScreen : Screen
+	public class GamePartyScreen : Screen
 	{
 		public override string Name
 		{
 			get
 			{
-				return "Character";
+				return "GameParty";
 			}
 		}
 

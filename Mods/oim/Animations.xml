@@ -49,3 +49,4 @@
 	<SubAnimation Type="FULL">SliceVertical</SubAnimation>
 	<SubAnimation Type="FULL">SliceHorizontal</SubAnimation>
   </Animation>
+ </Animations>

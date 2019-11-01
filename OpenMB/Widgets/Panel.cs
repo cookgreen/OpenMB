@@ -1,5 +1,6 @@
 ﻿using Mogre;
 using Mogre_Procedural.MogreBites;
+using MOIS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,7 +93,7 @@ namespace OpenMB.Widgets
 				}
 				else if (Type == ValueType.Percent)
 				{
-					return ((float)(panel.Width) / (float)panel.Cols.Count);//Relative
+					return ((float)(panel.Width - (panel.Padding.PaddingLeft + panel.Padding.PaddingRight)) / (float)panel.Cols.Count);//Relative
 				}
 				return -1;
 			}
@@ -121,9 +122,9 @@ namespace OpenMB.Widgets
 	/// </summary>
     public class Panel : Widget
     {
-		private List<PanelRow> rows;
-		private List<PanelColumn> cols;
-        private List<Widget> widgets;
+		protected List<PanelRow> rows;
+		protected List<PanelColumn> cols;
+		protected List<Widget> widgets;
 
 		public List<PanelRow> Rows
 		{
@@ -230,7 +231,7 @@ namespace OpenMB.Widgets
 			widget.Col = colNum;
 			widget.Row = rowNum;
 			widget.Top += Top;
-			widget.Left += Left;
+			widget.Left += Left + Padding.PaddingLeft;
 			widgets.Add(widget);
 
 			var c = cols[colNum - 1];
@@ -276,6 +277,7 @@ namespace OpenMB.Widgets
 				case AlignMode.Right:
 					break;
 			}
+			widget.AddedToAnotherWidgetFinished();
 		}
 
 		public void AddWidgetRelative(
@@ -287,6 +289,7 @@ namespace OpenMB.Widgets
 		{
 			widget.Col = colNum;
 			widget.Row = rowNum;
+			widget.Left += Padding.PaddingLeft;
 			widgets.Add(widget);
 
 			var c = cols[colNum - 1];
@@ -378,5 +381,13 @@ namespace OpenMB.Widgets
             mElement.Dispose();
             Control.nukeOverlayElement(mElement);
         }
-    }
+
+		public override void _mouseMoved(MouseEvent evt)
+		{
+			foreach (var w in widgets)
+			{
+				w._mouseMoved(evt);
+			}
+		}
+	}
 }

@@ -1,0 +1,27 @@
+template container BorderPanel(ScrollComponet)
+{
+	metrics_mode relative
+	material SdkTrays/ScrollTrack
+	width 0.01
+	horz_align right
+	left -0.018
+	top 0.01
+	height 0.38
+	uv_coords 0.0 0.31 1.0 0.69
+	
+	border_material SdkTrays/ScrollTrack
+	border_size 0 0 0.01 0.01
+	border_top_uv    0.0 0.0 1.0 0.31
+	border_bottom_uv 0.0 0.69 1.0 1.0
+	
+	element Panel(Drag)
+	{            
+		metrics_mode relative
+		material SdkTrays/Handle
+		horz_align center
+		top 0.01
+		left -0.005
+		width 0.01
+		height 0.02
+	}            
+}

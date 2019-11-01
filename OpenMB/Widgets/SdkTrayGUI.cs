@@ -34,6 +34,7 @@ using Mogre;
 using OpenMB.Widgets;
 using System;
 using System.Collections.Generic;
+using MOIS;
 
 namespace Mogre_Procedural.MogreBites
 {
@@ -1861,6 +1862,7 @@ namespace Mogre_Procedural.MogreBites
 					if (!w.getOverlayElement().IsVisible)
 						continue;
 					w._cursorMoved(cursorPos); // send event to widget
+					w._mouseMoved(evt); // send event to widget
 				}
 			}
 
@@ -2205,11 +2207,20 @@ namespace Mogre_Procedural.MogreBites
         }
     }
 
+	public class Padding
+	{
+		public float PaddingTop = 0;
+		public float PaddingLeft = 0;
+		public float PaddingDown = 0;
+		public float PaddingRight = 0;
+	}
+
 	/// <summary>
 	/// Abstract base class for all widgets
 	/// </summary>
 	public class Widget : IDisposable
 	{
+		private Padding padding;
 		public float Width
 		{
 			get
@@ -2272,11 +2283,23 @@ namespace Mogre_Procedural.MogreBites
 				return mElement.ZOrder;
 			}
 		}
+
+		public Padding Padding
+		{
+			get
+			{
+				return padding;
+			}
+		}
+
+		public bool Adjusted { get; set; }
+
 		public Widget() {
             mTrayLoc = TrayLocation.TL_NONE;
             mElement = null;
             mListener = null;
-        }
+			padding = new Padding();
+		}
         /// <summary>
         /// dispose this widget
         /// </summary>
@@ -2288,6 +2311,11 @@ namespace Mogre_Procedural.MogreBites
                 nukeOverlayElement(mElement);
             mElement = null;
         }
+
+		protected void AddChildOverlayElement(OverlayElement overlayElement)
+		{
+			(mElement as OverlayContainer).AddChild(overlayElement);
+		}
 
         //        -----------------------------------------------------------------------------
         //		| Static utility method to recursively delete an overlay element plus
@@ -2497,8 +2525,18 @@ namespace Mogre_Procedural.MogreBites
             mListener = listener;
         }
 
+		/// <summary>
+		/// Triggered when added this widget to another finished
+		/// </summary>
+		public virtual void AddedToAnotherWidgetFinished()
+		{
+		}
 
-        protected Mogre.OverlayElement mElement;
+		public virtual void _mouseMoved(MouseEvent evt)
+		{
+		}
+
+		protected Mogre.OverlayElement mElement;
         protected TrayLocation mTrayLoc;
         protected SdkTrayListener mListener;
 

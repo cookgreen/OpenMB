@@ -28,7 +28,7 @@ namespace OpenMB.Screen
 		private Panel playerEquipPanel;
 		private Panel playerPreviewPanel;
 		private Panel backpackPanel;
-		private Panel backpackInventoryPanel;
+		private PanelScrollable backpackInventoryPanel;
 
 		public override event Action OnScreenExit;
 
@@ -128,8 +128,11 @@ namespace OpenMB.Screen
 			meshLayer.Add3D(sceneNode);
 			meshLayer.Show();
 
-			discordPanel = GameManager.Instance.trayMgr.createPanel("discordPanel", 0.3f, 1, 0, 0, 3, 1);
+			discordPanel = GameManager.Instance.trayMgr.createPanel("discordPanel", 0.3f, 1);
+			discordPanel.Padding.PaddingLeft = 0.01f;
+			discordPanel.Padding.PaddingRight = 0.01f;
 			discordPanel.ChangeRow(Widgets.ValueType.Abosulte, 0.05f);
+			discordPanel.AddRow(Widgets.ValueType.Percent);
 			var txtDiscord = GameManager.Instance.trayMgr.createStaticText("txtDiscord", "Discord");
 			txtDiscord.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
 			discordInventoryPanel = GameManager.Instance.trayMgr.createPanel("discordInventoryPanel", 0.3f, 1, 0, 0, 9, 3);
@@ -159,6 +162,8 @@ namespace OpenMB.Screen
 			playerPanel.AddRow(Widgets.ValueType.Abosulte, 0.4f);
 
 			playerEquipPanel = GameManager.Instance.trayMgr.createPanel("playerEquipPanel", 1, 1);
+			playerEquipPanel.Padding.PaddingLeft = 0.01f;
+			playerEquipPanel.Padding.PaddingRight = 0.01f;
 			playerPreviewPanel = GameManager.Instance.trayMgr.createPanel("playerPreviewPanel", 1, 1);
 
 			playerPreviewPanel.ChangeCol(Widgets.ValueType.Abosulte, 0.6f);
@@ -189,7 +194,6 @@ namespace OpenMB.Screen
 			for (int i = 0; i < 8; i++)
 			{
 				var equipSlot = new PanelTemplate("EquipSlot_" + (i + 1).ToString(), "InventorySlot");
-
 				switch (i)
 				{
 					case 0:
@@ -241,22 +245,26 @@ namespace OpenMB.Screen
 			playerPreviewPanel.AddWidget(6, 2, btnReturn, AlignMode.Center, DockMode.FillWidth);
 
 			backpackPanel = GameManager.Instance.trayMgr.createPanel("backpackPanel", 0.3f, 1, 0.7f, 0);
+			backpackPanel.Padding.PaddingRight = 0.01f;
+			backpackPanel.Padding.PaddingLeft = 0.01f;
 			backpackPanel.ChangeRow(Widgets.ValueType.Abosulte, 0.05f);
 			backpackPanel.AddRow(Widgets.ValueType.Percent);
 			backpackPanel.AddRow(Widgets.ValueType.Abosulte, 0.03f);
 
 			var txtInvTitle = GameManager.Instance.trayMgr.createStaticText("txtInvTitle", "Inventory");
 			txtInvTitle.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-			backpackInventoryPanel = GameManager.Instance.trayMgr.createPanel("backpackInventoryPanel", 1, 1, 0, 0, 10, 3);
+			backpackInventoryPanel = GameManager.Instance.trayMgr.createScrollablePanel("backpackInventoryPanel", 1, 1, 0, 0, 20, 3);
 			backpackPanel.AddWidget(1, 1, txtInvTitle, AlignMode.Center, DockMode.Fill);
 			backpackPanel.AddWidget(2, 1, backpackInventoryPanel, AlignMode.Center, DockMode.Fill);
 				
 			int curRow = 1;
 			int curCol = 1;
-			for (int i = 0; i < 30; i++)
+			for (int i = 0; i < 60; i++)
 			{
 				var invSlot = new PanelTemplate("InvSlot_" + (i + 1).ToString(), "InventorySlot");
-				backpackInventoryPanel.AddWidgetRelative(curRow, curCol, invSlot, AlignMode.Center, DockMode.Fill);
+				invSlot.Height = 0.1f;
+				backpackInventoryPanel.ChangeRow(Widgets.ValueType.Abosulte, invSlot.Height, curRow);
+				backpackInventoryPanel.AddWidget(curRow, curCol, invSlot, AlignMode.Center, DockMode.Fill);
 				if ((i + 1) % 3 == 0)
 				{
 					curRow++;
