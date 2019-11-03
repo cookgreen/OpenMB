@@ -44,6 +44,9 @@
     <Name>Empire Cavalry</Name>
 	<SkinID>skn_sinbad</SkinID>
 	<Side>side_empire</Side>
+	<Flags>
+		<Flag>CF_Mounted</Flag>
+	</Flags>
     <Equips>
       <EquipItem>itm_horse</EquipItem>
       <EquipItem>itm_swords_1</EquipItem>
@@ -54,6 +57,9 @@
     <Name>Empire Dragon Knight</Name>
 	<SkinID>skn_sinbad</SkinID>
 	<Side>side_empire</Side>
+	<Flags>
+		<Flag>CF_Mounted</Flag>
+	</Flags>
     <Equips>
       <EquipItem>itm_dragon</EquipItem>
       <EquipItem>itm_swords_1</EquipItem>
@@ -74,6 +80,9 @@
     <Name>Order Knight</Name>
 	<SkinID>skn_sinbad</SkinID>
 	<Side>side_order</Side>
+	<Flags>
+		<Flag>CF_Mounted</Flag>
+	</Flags>
     <Equips>
       <EquipItem>itm_horse</EquipItem>
       <EquipItem>itm_swords_1</EquipItem>
@@ -84,6 +93,9 @@
     <Name>Order Heavy Knight</Name>
 	<SkinID>skn_sinbad</SkinID>
 	<Side>side_order</Side>
+	<Flags>
+		<Flag>CF_Mounted</Flag>
+	</Flags>
     <Equips>
       <EquipItem>itm_horse</EquipItem>
       <EquipItem>itm_swords_1</EquipItem>
@@ -95,6 +107,9 @@
     <Name>Order Lancer Knight</Name>
 	<SkinID>skn_sinbad</SkinID>
 	<Side>side_order</Side>
+	<Flags>
+		<Flag>CF_Mounted</Flag>
+	</Flags>
     <Equips>
       <EquipItem>itm_horse</EquipItem>
       <EquipItem>itm_lance</EquipItem>

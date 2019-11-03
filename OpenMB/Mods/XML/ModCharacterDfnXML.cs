@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenMB.Game;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,9 +25,18 @@ namespace OpenMB.Mods.XML
         public string Skin { get; set; }
         [XmlElement("Side")]
         public string Side { get; set; }
-        [XmlElement("Equips")]
-		public ModCharacterEquipmentsDfnXml Equipments { get; set; }
-	}
+        [XmlArray("Equips")]
+        [XmlArrayItem("EquipItem")]
+        public List<string> Equipments { get; set; }
+        [XmlArray("Flags")]
+        [XmlArrayItem("Flag")]
+        public List<CharacterFlag> Flags { get; set; }
+        public ModCharacterDfnXML()
+        {
+            Equipments = new List<string>();
+            Flags = new List<CharacterFlag>();
+        }
+    }
 
 	[XmlRoot("Equips")]
 	public class ModCharacterEquipmentsDfnXml

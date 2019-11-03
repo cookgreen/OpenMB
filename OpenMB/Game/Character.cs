@@ -22,6 +22,12 @@ namespace OpenMB.Game
         Attack,
         Flee
     }
+
+    public enum CharacterFlag
+    {
+        CF_Mounted,
+    }
+
     /// <summary>
     /// Specific Characer in Game
     /// </summary>
@@ -110,6 +116,14 @@ namespace OpenMB.Game
             }
         }
 
+        public bool IsRider
+        {
+            get
+            {
+                return equipmentSystem.RideDrive != null;
+            }
+        }
+
         public Character(
 			GameWorld world,
 			ModCharacterDfnXML chaData,
@@ -124,7 +138,7 @@ namespace OpenMB.Game
             Id = id;
 			position = initPosition;
 			brain = new DecisionSystem(this);
-			weaponSystem = new WeaponSystem(this, new Fist(world, -1, id));
+			weaponSystem = new WeaponSystem(this, null);
 			equipmentSystem = new EquipmentSystem(this);
 
 			currentActivity = new Idle();
@@ -132,10 +146,49 @@ namespace OpenMB.Game
 			health = new HealthInfo(this);
 			messageQueue = new List<CharacterMessage>();
 
+            initEquipments();
+
 			controller = new CharacterController(world, chaData, chaSkin, position, isBot);
 		}
 
-		public void AttchItem(Item target)
+        private void initEquipments()
+        {
+            foreach (var item in chaData.Equipments)
+            {
+                var itemInfo = world.ModData.ItemInfos.Where(o => o.ID == item).FirstOrDefault();
+                if (itemInfo != null)
+                {
+                    var itemType = world.ModData.ItemTypes.Where(o => o.Name == itemInfo.Type).FirstOrDefault();
+                    if (itemInfo != null && itemType != null)
+                    {
+                        var itm = new Item(world, itemType, itemInfo, false);
+                        switch (itemType.Name)
+                        {
+                            case "IT_RIDEDRIVE":
+                                equipmentSystem.EquipRideDrive(itm);
+                                break;
+                            case "IT_HEAD_ARMOUR":
+                                equipmentSystem.EquipHeadArmour(itm);
+                                break;
+                            case "IT_BODY_ARMOUR":
+                                equipmentSystem.EquipBodyArmour(itm);
+                                break;
+                            case "IT_FOOT_ARMOUR":
+                                equipmentSystem.EquipFootArmour(itm);
+                                break;
+                            case "IT_HAND_ARMOUR":
+                                equipmentSystem.EquipHandArmour(itm);
+                                break;
+                            default:
+                                equipmentSystem.AddItemToBackpack(itm);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void AttchItem(Item target)
         {
             controller.AttachItem(ItemUseAttachOption.IAO_SPIN, target);
         }
@@ -143,24 +196,6 @@ namespace OpenMB.Game
         public bool GetControlled()
         {
             return controller.GetControlled();
-        }
-
-        public void WearHat(Item item)
-        {
-            if (item != null && item.ItemType == ItemType.IT_HEAD_ARMOUR)
-            {
-                equipmentSystem.EquipClothes(item, 0);
-                controller.AttachEntityToChara("head", item.ItemEnt);
-            }
-        }
-
-        public void WearClothes(Item item)
-        {
-            if (item != null && item.ItemType == ItemType.IT_BODY_ARMOUR)
-            {
-                equipmentSystem.EquipClothes(item, 1);
-                controller.AttachEntityToChara("back", item.ItemEnt);
-            }
         }
 
         /// <summary>

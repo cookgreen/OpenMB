@@ -9,6 +9,8 @@ namespace OpenMB.Game.ItemTypes
     {
         string Name { get; }
 
+        string AttachBoneName { get; }
+
         void Use(params object[] param);
     }
 }

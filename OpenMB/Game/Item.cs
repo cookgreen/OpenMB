@@ -6,6 +6,7 @@ using Mogre;
 using Mogre.PhysX;
 using OpenMB.Utilities;
 using OpenMB.Game.ItemTypes;
+using OpenMB.Mods.XML;
 
 namespace OpenMB.Game
 {
@@ -82,7 +83,6 @@ namespace OpenMB.Game
         protected ItemType itemType;
         protected ItemHaveAttachOption itemAttachOptionWhenHave;
         protected ItemUseAttachOption itemAttachOptionWhenUse;
-        protected List<Cartridge> cartridges;
         private Character user;
         public event Action<int, int> OnWeaponAttack;
 
@@ -90,12 +90,8 @@ namespace OpenMB.Game
         private Entity itemEnt;
         private SceneNode itemNode;
         private Actor itemActor;
+        private ModItemDfnXML itemData;
         #endregion
-
-        public int ItemID
-        {
-            get { return itemID; }
-        }
         public virtual ItemType ItemType
         {
             get { return itemType; }
@@ -114,6 +110,17 @@ namespace OpenMB.Game
         public Entity ItemEnt
         {
             get { return itemEnt; }
+        }
+        public SceneNode ItemNode
+        {
+            get { return itemNode; }
+        }
+        public string ItemTypeID
+        {
+            get
+            {
+                return itemData.ID;
+            }
         }
         public ItemUseAttachOption ItemAttachOption
         {
@@ -134,47 +141,14 @@ namespace OpenMB.Game
         public virtual int AmmoCapcity { get; set; }
         public virtual string[] Animations { get; set; }
 
-        public Item(GameWorld world, int id, int ownerID = -1) : base(id, world)
+        public Item(GameWorld world, IItemType itemType, ModItemDfnXML itemData, bool createNow = false) : base(-1, world)
         {
-            this.itemID = id;
-            this.itemName = "";
-            this.itemMeshName = "";
-            this.itemType = ItemType.IT_INVALID;
-            this.ownerID = ownerID;
-        }
-
-        public Item(
-            int id,
-            string itemName, string itemMeshName, ItemType itemType, 
-            ItemHaveAttachOption itemAttachOptionWhenHave,
-            ItemUseAttachOption itemAttachOptionWhenUse,
-            GameWorld world) : base(id, world)
-        {
-            this.itemName = itemName;
-            this.itemMeshName = itemMeshName;
-            this.itemType = itemType;
-            this.itemAttachOptionWhenUse = itemAttachOptionWhenUse;
-            this.itemAttachOptionWhenHave = itemAttachOptionWhenHave;
-
-            health = new HealthInfo(this, int.MaxValue, false);
-
-            create();
-        }
-
-        public Item(
-            string id,
-            string itemName, 
-            string itemMeshName, 
-            IItemType itemType,
-            ItemHaveAttachOption itemAttachOptionWhenHave,
-            ItemUseAttachOption itemAttachOptionWhenUse) : base(id)
-        {
-            SetID(id);
-            this.itemName = itemName;
-            this.itemMeshName = itemMeshName;
             this.itemType2 = itemType;
-            this.itemAttachOptionWhenHave = itemAttachOptionWhenHave;
-            this.itemAttachOptionWhenUse = itemAttachOptionWhenUse;
+            this.itemData = itemData;
+            if (createNow)
+            {
+                create();
+            }
         }
 
         public void Attack(int victimId)
@@ -185,9 +159,14 @@ namespace OpenMB.Game
             }
         }
 
+        public void Spawn()
+        {
+            create();
+        }
+
         protected override void create()
         {
-            itemEnt = camera.SceneManager.CreateEntity(itemName,itemMeshName);
+            itemEnt = camera.SceneManager.CreateEntity(Guid.NewGuid().ToString(),itemData.MeshName);
             itemNode = camera.SceneManager.RootSceneNode.CreateChildSceneNode();
             itemNode.AttachObject(itemEnt);
 
