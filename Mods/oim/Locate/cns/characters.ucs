@@ -1,4 +1,4 @@
-cha_player	玩家
+﻿cha_player	玩家
 cha_empire_swordsman	帝国剑士
 cha_empire_poleaxeman	帝国长斧兵
 cha_empire_axeman	帝国战斧兵
@@ -11,3 +11,4 @@ cha_order_heavy_knight	骑士团重骑兵
 cha_order_lancer_knight	骑士团枪骑士
 cha_order_pikeman	骑士团长枪兵
 cha_order_crossbowman	骑士重装弩手
+cha_robot_bandit	外星掠夺者

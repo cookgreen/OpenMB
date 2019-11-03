@@ -92,7 +92,7 @@ namespace OpenMB.Game
 			controlled = !isBot;
 			itemAttached = new List<Entity>();
 			sceneMgr = world.SceneManager;
-			charaMeshName = chaData.MeshName;
+			charaMeshName = chaSkin.Mesh;
 			physicsScene = world.PhysicsScene;
 			physics = physicsScene.Physics;
 			cotrollerManager = physics.ControllerManager;
@@ -126,6 +126,11 @@ namespace OpenMB.Game
                     keyDirection = Mogre.Vector3.ZERO;
                     verticalVelocity = 0;
                     lastPosition = initPosition;
+
+                    bodyNode.Pitch(new Radian(new Degree(skin.OritentionOffset.x)));
+                    bodyNode.Yaw(new Radian(new Degree(skin.OritentionOffset.y)));
+                    bodyNode.Roll(new Radian(new Degree(skin.OritentionOffset.z)));
+
                     return true;
                 }
                 else

@@ -16,15 +16,15 @@ namespace OpenMB.Mods.XML
     [XmlRoot("Character")]
     public class ModCharacterDfnXML
     {
-        [XmlElement("ID")]
+        [XmlAttribute("ID")]
         public string ID { get; set; }
         [XmlElement("Name")]
         public string Name { get; set; }
-        [XmlElement("MeshName")]
-        public string MeshName { get; set; }
-        [XmlElement("SkinID")]
-        public string SkinID { get; set; }
-		[XmlElement("Equips")]
+        [XmlElement("Skin")]
+        public string Skin { get; set; }
+        [XmlElement("Side")]
+        public string Side { get; set; }
+        [XmlElement("Equips")]
 		public ModCharacterEquipmentsDfnXml Equipments { get; set; }
 	}
 

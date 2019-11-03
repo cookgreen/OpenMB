@@ -27,8 +27,6 @@ namespace OpenMB.Game
     /// </summary>
     public class Character : GameObject
     {
-        private string displayName;
-        private string meshName;
         private DecisionSystem brain;
         private WeaponSystem weaponSystem;
         private EquipmentSystem equipmentSystem;
@@ -37,6 +35,7 @@ namespace OpenMB.Game
         private Activity currentActivity;
         private ModCharacterSkinDfnXML skin;
         private bool isBot;
+        private ModCharacterDfnXML chaData;
         private string teamId;
         private CharacterController controller;
 
@@ -48,15 +47,7 @@ namespace OpenMB.Game
 
         public string Name
         {
-            get { return displayName; }
-        }
-
-        public string MeshName
-        {
-            get
-            {
-                return meshName;
-            }
+            get { return chaData.Name; }
         }
 
         public string TeamId
@@ -111,7 +102,15 @@ namespace OpenMB.Game
             }
         }
 
-		public Character(
+        public string TypeID
+        {
+            get
+            {
+                return chaData.ID;
+            }
+        }
+
+        public Character(
 			GameWorld world,
 			ModCharacterDfnXML chaData,
 			ModCharacterSkinDfnXML chaSkin,
@@ -120,8 +119,7 @@ namespace OpenMB.Game
 		{
 			this.world = world;
 			this.isBot = isBot;
-            displayName = chaData.Name;
-            meshName = chaData.MeshName;
+            this.chaData = chaData;
             skin = chaSkin;
             Id = id;
 			position = initPosition;

@@ -255,7 +255,7 @@ namespace OpenMB.Map
             }
             var chaData = findTrooperList.First();
 
-            var findSkinList = ModData.SkinInfos.Where(o => o.skinID == chaData.SkinID);
+            var findSkinList = ModData.SkinInfos.Where(o => o.ID == chaData.Skin);
             if (findSkinList.Count() == 0)
             {
                 GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid skin id!", LogMessage.LogType.Warning);
@@ -296,7 +296,7 @@ namespace OpenMB.Map
             }
             var chaData = findTrooperList.First();
 
-            var findSkinList = ModData.SkinInfos.Where(o => o.skinID == chaData.SkinID);
+            var findSkinList = ModData.SkinInfos.Where(o => o.ID == chaData.Skin);
             if (findSkinList.Count() == 0)
             {
                 GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid skin id!", LogMessage.LogType.Warning);
@@ -568,9 +568,7 @@ namespace OpenMB.Map
                     {
                         break;
                     }
-                    ScreenManager.Instance.ChangeScreen("Inventory", false, playerAgent.MeshName, new string[]{
-                        playerAgent.GetIdleTopAnim(), playerAgent.GetIdleBaseAnim()
-                    });
+                    ScreenManager.Instance.ChangeScreen("Inventory", false, world, playerAgent.TypeID);
                     break;
                 default:
                     if (playerAgent != null)

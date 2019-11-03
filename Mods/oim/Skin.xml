@@ -1,8 +1,8 @@
 <Skin>
-  <CharacterSkin>
-    <ID>skn_sinbad</ID>
+  <CharacterSkin ID="skn_sinbad" OritentionOffset="0,0,0">
     <Name>Sinbad</Name>
     <Desc>Ogre3d Sample Sinbad Character</Desc>
+	<Mesh>Sinbad.mesh</Mesh>
 	<Skeleton>skel_sinbad</Skeleton>
 	<HasParts>false</HasParts>
     <Anims>
@@ -13,76 +13,17 @@
 	  <Anim Type="CAT_JUMP" HasTopBase="false">anim_sinbad_jump</Anim>
 	  <Anim Type="CAT_NONE" HasTopBase="false" />
     </Anims>
-	<Slots>
-		<Slot>
-			<AcceptType>IT_HEAD_ARMOUR</AcceptType>
-		</Slot>
-		<Slot>
-			<AcceptType>IT_BODY_ARMOUR</AcceptType>
-		</Slot>
-		<Slot>
-			<AcceptType>IT_HAND_ARMOUR</AcceptType>
-		</Slot>
-		<Slot>
-			<AcceptType>IT_FOOT_ARMOUR</AcceptType>
-		</Slot>
-		<Slot>
-			<AcceptType>IT_WEAPON</AcceptType>
-		</Slot>
-		<Slot>
-			<AcceptType>IT_FOOD</AcceptType>
-		</Slot>
-	</Slots>
-  </CharacterSkin>  
-  <CharacterSkin>
-    <ID>skn_male</ID>
-    <Name>Male</Name>
-    <Desc>Mount Blade Male Character</Desc>
-	<HasParts>true</HasParts>
-	<Skeleton>skel_human</Skeleton>
-	<SkinParts>
-		<SkinPart Type="HALF_HEAD" BindBone="head">male_head</SkinPart>
-		<SkinPart Type="BODY">man_body</SkinPart>
-		<SkinPart Type="LEFT_HAND" BindBone="hand.L">m_handL</SkinPart>
-		<SkinPart Type="RIGHT_HAND" BindBone="hand.R">m_handR</SkinPart>
-		<SkinPart Type="LEFT_CALF" BindBone="calf.L">man_calf_l</SkinPart>
-		<SkinPart Type="RIGHT_CALF" BindBone="calf.R">man_calf_r</SkinPart>
-	</SkinParts>
-    <Animations>
-      <Animation Type="CAT_IDLE_BASE">IdleBase</Animation>
-      <Animation Type="CAT_IDLE_TOP">IdleTop</Animation>
-      <Animation Type="CAT_RUN_BASE">RunBase</Animation>
-      <Animation Type="CAT_RUN_TOP">RunTop</Animation>
-      <Animation Type="CAT_HANDS_CLOSED">HandsClosed</Animation>
-      <Animation Type="CAT_HANDS_RELAXED">HandsRelaxed</Animation>
-      <Animation Type="CAT_CUSTOME">DrawSwords</Animation>
-      <Animation Type="CAT_CUSTOME">SliceVertical</Animation>
-      <Animation Type="CAT_CUSTOME">SliceHorizontal</Animation>
-      <Animation Type="CAT_CUSTOME_BLOCK">Dance</Animation>
-      <Animation Type="CAT_JUMP_START">JumpStart</Animation>
-      <Animation Type="CAT_JUMP_LOOP">JumpLoop</Animation>
-      <Animation Type="CAT_JUMP_END">JumpEnd</Animation>
-      <Animation Type="CAT_NONE"></Animation>
-    </Animations>
-	<Slots>
-		<Slot>
-			<AcceptType>IT_HEAD_ARMOUR</AcceptType>
-		</Slot>
-		<Slot>
-			<AcceptType>IT_BODY_ARMOUR</AcceptType>
-		</Slot>
-		<Slot>
-			<AcceptType>IT_HAND_ARMOUR</AcceptType>
-		</Slot>
-		<Slot>
-			<AcceptType>IT_FOOT_ARMOUR</AcceptType>
-		</Slot>
-		<Slot>
-			<AcceptType>IT_WEAPON</AcceptType>
-		</Slot>
-		<Slot>
-			<AcceptType>IT_FOOD</AcceptType>
-		</Slot>
-	</Slots>
-  </CharacterSkin>  
+  </CharacterSkin> 
+  <CharacterSkin ID="skn_robot" OritentionOffset="0,90,0">
+    <Name>Robot</Name>
+    <Desc>Ogre3d Sample Robot Character</Desc>
+	<Mesh>robot.mesh</Mesh>
+	<Skeleton>skel_robot</Skeleton>
+	<HasParts>false</HasParts>
+    <Anims>
+	  <Anim Type="CAT_IDLE" HasTopBase="true">anim_robot_idle</Anim>
+	  <Anim Type="CAT_RUN" HasTopBase="true">anim_robot_walk</Anim>
+	  <Anim Type="CAT_NONE" HasTopBase="false" />
+    </Anims>
+  </CharacterSkin> 
 </Skin>
