@@ -119,11 +119,11 @@ namespace OpenMB.Game
 			bool isBot) : base(-1, world)
 		{
 			this.world = world;
-			this.displayName = displayName;
-			this.meshName = meshName;
-			this.skin = chaSkin;
 			this.isBot = isBot;
-			Id = id;
+            displayName = chaData.Name;
+            meshName = chaData.MeshName;
+            skin = chaSkin;
+            Id = id;
 			position = initPosition;
 			brain = new DecisionSystem(this);
 			weaponSystem = new WeaponSystem(this, new Fist(world, -1, id));

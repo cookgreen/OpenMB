@@ -43,7 +43,7 @@ namespace OpenMB.Game
         private float timer;                // general timer to see how long animations have been playing
         private string charaMeshName;
         private bool controlled;
-        private NavmeshQuery query;
+        //private NavmeshQuery query;
         private Physics physics;
         private ControllerManager cotrollerManager;
         private Scene physicsScene;
@@ -96,7 +96,7 @@ namespace OpenMB.Game
 			physicsScene = world.PhysicsScene;
 			physics = physicsScene.Physics;
 			cotrollerManager = physics.ControllerManager;
-			query = query;
+			//query = query;
 			setupBody(initPosition);
 			if (controlled)
 			{
