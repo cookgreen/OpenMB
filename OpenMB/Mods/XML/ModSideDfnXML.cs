@@ -15,12 +15,14 @@ namespace OpenMB.Mods.XML
 
     public class ModSideDfnXML
     {
-        [XmlElement("ID")]
+        [XmlAttribute("ID")]
         public string ID { get; set; }
         [XmlElement("Name")]
         public string Name { get; set; }
-        //public ModSideRelationshipDfnXML relations { get; set; }
-    }
+		[XmlElement("COA")]
+		public string COA { get; set; }
+		//public ModSideRelationshipDfnXML relations { get; set; }
+	}
     public class ModSideRelationshipDfnXML
     {
         public string SideName { get; set; }

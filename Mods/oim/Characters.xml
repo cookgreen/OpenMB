@@ -2,14 +2,29 @@
   <Character ID="cha_player">
     <Name>Player</Name>
     <Side>side_player</Side>
-	<SkinID>skn_sinbad</SkinID>
+	<Skin>skn_sinbad</Skin>
     <Equips>
     </Equips>
   </Character>
+  <Character ID="cha_side_empire_leader">
+    <Name>Empress Helna</Name>
+	<Skin>skn_sinbad</Skin>
+	<Side>side_empire</Side>
+    <Equips>
+      <EquipItem>itm_sword_1</EquipItem>
+    </Equips>
+  </Character>
+  <Character ID="cha_side_order_leader">
+    <Name>Grand Master Mason</Name>
+	<Skin>skn_sinbad</Skin>
+	<Side>side_order</Side>
+    <Equips>
+      <EquipItem>itm_sword_1</EquipItem>
+    </Equips>
+  </Character>
   <Character ID="cha_empire_swordsman">
-    <ID>cha_empire_swordsman</ID>
     <Name>Empire Swordsman</Name>
-	<SkinID>skn_sinbad</SkinID>
+	<Skin>skn_sinbad</Skin>
 	<Side>side_empire</Side>
     <Equips>
       <EquipItem>itm_sword_1</EquipItem>
@@ -17,7 +32,7 @@
   </Character>
   <Character ID="cha_empire_poleaxeman">
     <Name>Empire Poleaxeman</Name>
-	<SkinID>skn_sinbad</SkinID>
+	<Skin>skn_sinbad</Skin>
 	<Side>side_empire</Side>
     <Equips>
       <EquipItem>itm_poleaxe</EquipItem>
@@ -25,7 +40,7 @@
   </Character>
   <Character ID="cha_empire_axeman">
     <Name>Empire Axeman</Name>
-	  <SkinID>skn_sinbad</SkinID>
+	  <Skin>skn_sinbad</Skin>
 	  <Side>side_empire</Side>
     <Equips>
       <EquipItem>itm_axe</EquipItem>
@@ -33,7 +48,7 @@
   </Character>
   <Character ID="cha_empire_royal_guard">
     <Name>Empire Royal Guard</Name>
-	<SkinID>skn_sinbad</SkinID>
+	<Skin>skn_sinbad</Skin>
 	<Side>side_empire</Side>
     <Equips>
       <EquipItem>itm_swords_1</EquipItem>
@@ -42,7 +57,7 @@
   </Character>
   <Character ID="cha_empire_cavalry">
     <Name>Empire Cavalry</Name>
-	<SkinID>skn_sinbad</SkinID>
+	<Skin>skn_sinbad</Skin>
 	<Side>side_empire</Side>
 	<Flags>
 		<Flag>CF_Mounted</Flag>
@@ -55,7 +70,7 @@
   </Character>
   <Character ID="cha_empire_dragon_knight">
     <Name>Empire Dragon Knight</Name>
-	<SkinID>skn_sinbad</SkinID>
+	<Skin>skn_sinbad</Skin>
 	<Side>side_empire</Side>
 	<Flags>
 		<Flag>CF_Mounted</Flag>
@@ -68,7 +83,7 @@
   </Character>
   <Character ID="cha_empire_musketeer">
     <Name>Empire Musketeer</Name>
-	<SkinID>skn_sinbad</SkinID>
+	<Skin>skn_sinbad</Skin>
 	<Side>side_empire</Side>
     <Equips>
       <EquipItem>itm_musket</EquipItem>
@@ -78,7 +93,7 @@
   </Character>
   <Character ID="cha_order_knight">
     <Name>Order Knight</Name>
-	<SkinID>skn_sinbad</SkinID>
+	<Skin>skn_sinbad</Skin>
 	<Side>side_order</Side>
 	<Flags>
 		<Flag>CF_Mounted</Flag>
@@ -91,7 +106,7 @@
   </Character>
   <Character ID="cha_order_heavy_knight">
     <Name>Order Heavy Knight</Name>
-	<SkinID>skn_sinbad</SkinID>
+	<Skin>skn_sinbad</Skin>
 	<Side>side_order</Side>
 	<Flags>
 		<Flag>CF_Mounted</Flag>
@@ -105,7 +120,7 @@
   <Character ID="cha_order_lancer_knight">
     <ID></ID>
     <Name>Order Lancer Knight</Name>
-	<SkinID>skn_sinbad</SkinID>
+	<Skin>skn_sinbad</Skin>
 	<Side>side_order</Side>
 	<Flags>
 		<Flag>CF_Mounted</Flag>
@@ -119,7 +134,7 @@
   <Character ID="cha_order_pikeman">
     <ID></ID>
     <Name>Order Pikeman</Name>
-	<SkinID>skn_sinbad</SkinID>
+	<Skin>skn_sinbad</Skin>
 	<Side>side_order</Side>
     <Equips>
       <EquipItem>itm_pike</EquipItem>
@@ -130,7 +145,7 @@
   <Character ID="cha_order_crossbowman">
     <ID></ID>
     <Name>Order Heavy Crossbowman</Name>
-	<SkinID>skn_sinbad</SkinID>
+	<Skin>skn_sinbad</Skin>
 	<Side>side_order</Side>
     <Equips>
       <EquipItem>itm_crossbow</EquipItem>
@@ -141,7 +156,7 @@
   <Character ID="cha_alien_marauder">
     <ID></ID>
     <Name>Alien Marauder</Name>
-	<SkinID>skn_robot</SkinID>
+	<Skin>skn_robot</Skin>
 	<Side>side_outlaws</Side>
     <Equips>
       <EquipItem>itm_gattling</EquipItem>

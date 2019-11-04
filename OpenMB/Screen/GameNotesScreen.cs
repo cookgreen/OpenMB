@@ -2,6 +2,7 @@
 using Mogre_Procedural.MogreBites;
 using OpenMB.Core;
 using OpenMB.Game;
+using OpenMB.Mods.XML;
 using OpenMB.Widgets;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace OpenMB.Screen
 {
 	public class GameNotesScreen : Screen
 	{
+		private ModSideDfnXML currentSideInfo;
 		private GameWorld world;
 		private List<Widget> widgets;
 		public override string Name
@@ -76,7 +78,6 @@ namespace OpenMB.Screen
 		private void BtnFactions_OnClick(object sender)
 		{
 			ClearWidgets();
-			PanelScrollable panelFactionDetails = GameManager.Instance.trayMgr.createScrollablePanel("panelFactionDetails", 0.7f, 0.92f);
 
 			Panel panelFactionList = GameManager.Instance.trayMgr.createPanel("panelFactionList", 0.3f, 0.92f, 0.7f, 0);
 			panelFactionList.ChangeRow(Widgets.ValueType.Abosulte, 0.05f);
@@ -97,12 +98,63 @@ namespace OpenMB.Screen
 			{
 				if(!GameSlotManager.Instance.SlotEqual(sideInfo.ID, "slot_faction_state", "inactive"))
 				{
-					var txtFaction = new StaticText("txtFaction_" + sideInfo.Name, sideInfo.Name, 100f, false, ColourValue.Black);
-					txtFaction.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-					panelFactions.AddWidgetRelative(curRow, 1, txtFaction);
-					curRow++;
+					if (!GameSlotManager.Instance.SlotEqual(sideInfo.ID, "slot_faction_visibility", "hidden"))
+					{
+						if (currentSideInfo == null)
+						{
+							currentSideInfo = sideInfo;
+						}
+						var txtFaction = new StaticText("txtFaction_" + sideInfo.Name, sideInfo.Name, 100f, false, ColourValue.Black);
+						txtFaction.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+						panelFactions.AddWidgetRelative(curRow, 1, txtFaction);
+						curRow++;
+					}
 				}
 			}
+			
+			PanelScrollable panelFactionDetails = GameManager.Instance.trayMgr.createScrollablePanel("panelFactionDetails", 0.7f, 0.92f);
+			panelFactionDetails.ChangeRow(Widgets.ValueType.Abosulte, 0.03f);//next/prev
+			panelFactionDetails.AddRow(Widgets.ValueType.Abosulte, 0.05f);//faction name
+			panelFactionDetails.AddRow(Widgets.ValueType.Auto);//faction mesh
+			panelFactionDetails.AddRow(Widgets.ValueType.Abosulte, 0.03f);//ruler
+			panelFactionDetails.AddRow(Widgets.ValueType.Auto);//faction occupy lands
+			panelFactionDetails.AddRow(Widgets.ValueType.Auto);//faction vassals
+			panelFactionDetails.AddRow(Widgets.ValueType.Abosulte, 0.03f);//empty row
+			panelFactionDetails.AddRow(Widgets.ValueType.Abosulte, 0.03f);//foreign relations
+			panelFactionDetails.Padding.PaddingLeft = 0.01f;
+
+			StaticTextRelative txtFactionName = new StaticTextRelative("txtFactionName", currentSideInfo.Name, 0, false, ColourValue.Black);
+			txtFactionName.Width = txtFactionName.TextWidth;
+			txtFactionName.Height = txtFactionName.TextHeight;
+			panelFactionDetails.AddWidgetRelative(2, 1, txtFactionName, AlignMode.Center);
+
+			PanelMaterial coatOfArmsPanel = new PanelMaterial("coatOfArmsPanel", currentSideInfo.COA);
+			coatOfArmsPanel.Width = 0.3f;
+			coatOfArmsPanel.Height = 0.3f;
+			panelFactionDetails.AddWidgetRelative(3, 1, coatOfArmsPanel, AlignMode.Center, DockMode.Center);
+
+			string chaID = GameSlotManager.Instance.GetSlot(currentSideInfo.ID, "slot_faction_leader");
+			var chaData = world.ModData.CharacterInfos.Where(o => o.ID == chaID).FirstOrDefault();
+			StaticTextRelative txtFactionRulerInfo = new StaticTextRelative("txtFactionRulerInfo", string.Format("{0} is ruled by {1}", currentSideInfo.Name,
+				chaData == null ? "None" : chaData.Name), 0, false, ColourValue.Black);
+			txtFactionRulerInfo.Width = txtFactionName.TextWidth;
+			txtFactionRulerInfo.Height = txtFactionName.TextHeight;
+			panelFactionDetails.AddWidgetRelative(4, 1, txtFactionRulerInfo);
+
+			StaticTextRelative txtOccupiedLands = new StaticTextRelative("txtOccupiedLands", "It occupies none", 0, false, ColourValue.Black);
+			txtOccupiedLands.Width = txtFactionName.TextWidth;
+			txtOccupiedLands.Height = txtFactionName.TextHeight;
+			panelFactionDetails.AddWidgetRelative(5, 1, txtOccupiedLands);
+
+			StaticTextRelative txtVassalInfos = new StaticTextRelative("txtVassalInfos", "Its vassals are none", 0, false, ColourValue.Black);
+			txtVassalInfos.Width = txtFactionName.TextWidth;
+			txtVassalInfos.Height = txtFactionName.TextHeight;
+			panelFactionDetails.AddWidgetRelative(6, 1, txtVassalInfos);
+
+			StaticTextRelative txtForeignRelationship = new StaticTextRelative("txtForeignRelationship", "Foreign relations: ", 0, false, ColourValue.Black);
+			txtForeignRelationship.Width = txtFactionName.TextWidth;
+			txtForeignRelationship.Height = txtFactionName.TextHeight;
+			panelFactionDetails.AddWidgetRelative(8, 1, txtForeignRelationship);
 
 			widgets.Add(txtFactionsTitle);
 			widgets.Add(panelFactionDetails);
@@ -112,27 +164,32 @@ namespace OpenMB.Screen
 
 		private void BtnLocations_OnClick(object sender)
 		{
+			ClearWidgets();
 		}
 
 		private void BtnCharacters_OnClick(object sender)
 		{
-
+			ClearWidgets();
 		}
 
 		private void BtnGameConcepts_OnClick(object sender)
 		{
+			ClearWidgets();
 		}
 
 		private void BtnNotes_OnClick(object sender)
 		{
+			ClearWidgets();
 		}
 
 		private void BtnRecentMessage_OnClick(object sender)
 		{
+			ClearWidgets();
 		}
 
 		private void BtnGameLog_OnClick(object sender)
 		{
+			ClearWidgets();
 		}
 
 		private void ClearWidgets()

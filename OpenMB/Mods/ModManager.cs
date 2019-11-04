@@ -342,28 +342,36 @@ namespace OpenMB.Mods
                     }
                 }
 
+				
+
                 //load mod media
                 for (int i = 0; i < manifest.Media.MediaSections.Count; i++)
                 {
                     var mediaSection = manifest.Media.MediaSections[i];
                     string fullMediaDir = string.Format("{0}\\{1}", manifest.InstalledPath, mediaSection.Directory.Replace("/", "//"));
-                    ResourceGroupManager.Singleton.AddResourceLocation(fullMediaDir, mediaSection.ResourceLoadType, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
                     if (Directory.Exists(fullMediaDir))
-                    {
-                        DirectoryInfo di = new DirectoryInfo(fullMediaDir);
+					{
+						ResourceGroupManager.Singleton.AddResourceLocation(fullMediaDir, mediaSection.ResourceLoadType, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+						DirectoryInfo di = new DirectoryInfo(fullMediaDir);
                         var fileSystemInfos = di.EnumerateFileSystemInfos();
                         foreach (var fileSystemInfo in fileSystemInfos)
                         {
                             if (fileSystemInfo.Attributes != FileAttributes.Directory)
                             {
-                                currentMod.ModMediaData.Add(new ModMediaData(fileSystemInfo.Name, fileSystemInfo.FullName, mediaSection.ResourceType));
+								if (mediaSection.ResourceType != ResourceType.Other)
+								{
+									ResourceGroupManager.Singleton.DeclareResource(fileSystemInfo.Name, mediaSection.ResourceType.ToString(), ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+								}
+								currentMod.ModMediaData.Add(new ModMediaData(fileSystemInfo.Name, fileSystemInfo.FullName, mediaSection.ResourceType));
                             }
                         }
                     }
-                }
+				}
 
-                //load mod localization files
-                string localizationFolder = "Locate";
+				ResourceGroupManager.Singleton.InitialiseResourceGroup(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+
+				//load mod localization files
+				string localizationFolder = "Locate";
                 string localizationFullPath = manifest.InstalledPath + "//" + localizationFolder;
                 string currentLocateFullPath = localizationFullPath + "//" + LocateSystem.Instance.Locate.ToString();
                 DirectoryInfo directory = new DirectoryInfo(currentLocateFullPath);

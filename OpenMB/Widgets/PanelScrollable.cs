@@ -86,6 +86,7 @@ namespace OpenMB.Widgets
 
 		public new void AddRow(ValueType type = ValueType.Abosulte, float height = 0)
 		{
+			base.AddRow(type, height);
 		}
 
 		public new void AddWidget(
@@ -188,7 +189,12 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public override void AddedToAnotherWidgetFinished()
+		public override void AddedToAnotherWidgetFinished(
+			AlignMode alignMode,
+			float parentWidgetLeft,
+			float parentWidgetWidth,
+			float parentWidgetTop,
+			float parentWidgetHeight)
 		{
 			scroll.Height = Height - 0.016f;
 		}

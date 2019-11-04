@@ -8,17 +8,14 @@ namespace OpenMB.Mods.XML
 {
     public enum ResourceType
     {
-        /// <summary>
-        /// Common resources managed by Ogre
-        /// </summary>
-        Common,
-        Models,
-        Textures,
-        Maps,
-        Music,
-        Sound,
-        Scripts,
+		Font,
+		GpuProgram,
+		HighLevelGpuProgram,
 		Material,
+		Mesh,
+		Skeleton,
+        Texture,
+		Other,
     }
     [XmlRoot("MediaSection")]
     public class ModMediaSectionXml

@@ -25,3 +25,14 @@ template container BorderPanel(ScrollComponet)
 		height 0.02
 	}            
 }
+
+template container BorderPanel(MeshPanel)
+{
+	material SdkTrays/MiniDarkTray
+	uv_coords 0 0 1 1
+	width 0.3
+	height 0.5
+	left 0.025
+	top 0.05
+	border_material NoMaterial
+}

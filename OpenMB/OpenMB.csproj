@@ -378,11 +378,13 @@
     <Compile Include="Widgets\GameTrayManager.cs" />
     <Compile Include="Widgets\IScrollable.cs" />
     <Compile Include="Widgets\ListView.cs" />
+    <Compile Include="Widgets\PanelMaterial.cs" />
     <Compile Include="Widgets\PanelScrollable.cs" />
     <Compile Include="Widgets\PanelTemplate.cs" />
     <Compile Include="Widgets\Panel.cs" />
     <Compile Include="Widgets\SdkTrayGUI.cs" />
     <Compile Include="Widgets\StaticText.cs" />
+    <Compile Include="Widgets\StaticTextRelative.cs" />
     <EmbeddedResource Include="Forms\frmConfigure.resx">
       <DependentUpon>frmConfigure.cs</DependentUpon>
       <SubType>Designer</SubType>

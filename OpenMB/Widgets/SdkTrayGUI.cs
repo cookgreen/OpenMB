@@ -2394,7 +2394,7 @@ namespace Mogre_Procedural.MogreBites
 		/// <summary>
 		/// Static utility method used to get the width of a caption in a text area.
 		/// </summary>
-		public static float getCaptionWidth(string caption, ref Mogre.TextAreaOverlayElement area) {
+		protected static float getCaptionWidth(string caption, ref TextAreaOverlayElement area) {
             Mogre.FontPtr font = null;
             if (Mogre.FontManager.Singleton.ResourceExists(area.FontName)) {
                 font = (Mogre.FontPtr)Mogre.FontManager.Singleton.GetByName(area.FontName);
@@ -2424,10 +2424,52 @@ namespace Mogre_Procedural.MogreBites
                     lineWidth += font.GetGlyphAspectRatio(current[i]) * area.CharHeight;
             }
 
-            return (uint)lineWidth;
-        }
+            return lineWidth;
+		}
 
-        protected static void OGRE_EXCEPT(string p, string p_2, string p_3) {
+		protected static float getCaptionHeight(string caption, ref TextAreaOverlayElement area)
+		{
+			Mogre.FontPtr font = null;
+			if (Mogre.FontManager.Singleton.ResourceExists(area.FontName))
+			{
+				font = (Mogre.FontPtr)Mogre.FontManager.Singleton.GetByName(area.FontName);
+				if (!font.IsLoaded)
+				{
+					font.Load();
+				}
+			}
+			else
+			{
+				OGRE_EXCEPT("this font:", area.FontName, "is not exist");
+			}
+			//Font font = new Font(ft.Creator, ft.Name, ft.Handle, ft.Group, ft.IsManuallyLoaded);
+			string current = DISPLAY_STRING_TO_STRING(caption);
+			float lineHeight = 0f;
+
+			for (int i = 0; i < current.Length; i++)
+			{
+				if (current[i] == '\n')
+				{
+					var aspectRatio = font.GetGlyphAspectRatio(current[i]);
+					if (aspectRatio <= 0)
+					{
+						lineHeight += aspectRatio * area.CharHeight;
+					}
+					else
+					{
+						lineHeight += area.CharHeight;
+					}
+				}
+				else if (i == current.Length - 1)
+				{
+					lineHeight += area.CharHeight;
+				}
+			}
+
+			return lineHeight;
+		}
+
+		protected static void OGRE_EXCEPT(string p, string p_2, string p_3) {
             throw new Exception(p + "_" + p_2 + "_" + p_3);
         }
 
@@ -2527,7 +2569,12 @@ namespace Mogre_Procedural.MogreBites
 		/// <summary>
 		/// Triggered when added this widget to another finished
 		/// </summary>
-		public virtual void AddedToAnotherWidgetFinished()
+		public virtual void AddedToAnotherWidgetFinished(
+			AlignMode alignMode,
+			float parentWidgetLeft,
+			float parentWidgetWidth,
+			float parentWidgetTop,
+			float parentWidgetHeight)
 		{
 		}
 

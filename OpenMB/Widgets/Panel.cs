@@ -14,6 +14,7 @@ namespace OpenMB.Widgets
 		FillWidth,
 		FillHeight,
 		None,
+		Center,
 	}
 
 	public enum AlignMode
@@ -29,7 +30,8 @@ namespace OpenMB.Widgets
 	public enum ValueType
 	{
 		Abosulte,
-		Percent
+		Percent,
+		Auto,
 	}
 
 	/// <summary>
@@ -51,6 +53,10 @@ namespace OpenMB.Widgets
 				else if (Type == ValueType.Percent)
 				{
 					return ((float)(panel.Height - calculateAllAbsoluteHeights()) / (float)panel.Rows.Where(o => o.Type == ValueType.Percent).Count());//Relative
+				}
+				else if (Type == ValueType.Auto)
+				{
+					return Height;
 				}
 				return -1;
 			}
@@ -94,6 +100,10 @@ namespace OpenMB.Widgets
 				else if (Type == ValueType.Percent)
 				{
 					return ((float)(panel.Width - (panel.Padding.PaddingLeft + panel.Padding.PaddingRight)) / (float)panel.Cols.Count);//Relative
+				}
+				else if (Type == ValueType.Auto)
+				{
+					return Width;
 				}
 				return -1;
 			}
@@ -265,12 +275,11 @@ namespace OpenMB.Widgets
 					widget.Width = c.AbosulteWidth;
 					break;
 			}
-			
+
+			float relativeLeft = 0;
+			float relativeTop = 0;
 			if (rowNum != 1 || colNum != 1)
 			{
-				float relativeLeft = 0;
-				float relativeTop = 0;
-
 				for (int i = 0; i < colNum - 1; i++)
 				{
 					relativeLeft += cols[i].AbosulteWidth;
@@ -293,7 +302,7 @@ namespace OpenMB.Widgets
 				case AlignMode.Right:
 					break;
 			}
-			widget.AddedToAnotherWidgetFinished();
+			widget.AddedToAnotherWidgetFinished(align, relativeLeft, c.AbosulteWidth, relativeTop, r.AbosulteHeight);
 		}
 
 		public void AddWidgetRelative(
@@ -323,13 +332,25 @@ namespace OpenMB.Widgets
 				case DockMode.FillWidth:
 					widget.Width = c.AbosulteWidth;
 					break;
+				case DockMode.Center:
+					widget.Width = widget.Width * c.AbosulteWidth;
+					//widget.Height = widget.Height * r.AbosulteHeight;
+					break;
 			}
 
+			if (c.Type == ValueType.Auto)
+			{
+				c.Width = widget.Width;
+			}
+			if (r.Type == ValueType.Auto)
+			{
+				r.Height = widget.Height;
+			}
+
+			float relativeLeft = 0;
+			float relativeTop = 0;
 			if (rowNum != 1 || colNum != 1)
 			{
-				float relativeLeft = 0;
-				float relativeTop = 0;
-
 				for (int i = 0; i < colNum - 1; i++)
 				{
 					relativeLeft += cols[i].AbosulteWidth;
@@ -357,6 +378,7 @@ namespace OpenMB.Widgets
 			}
 
 			((OverlayContainer)mElement).AddChild(widget.getOverlayElement());
+			widget.AddedToAnotherWidgetFinished(align, relativeLeft, c.AbosulteWidth, relativeTop, r.AbosulteHeight);
 		}
 
 		public void AddWidget(Widget widget)

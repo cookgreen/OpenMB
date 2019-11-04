@@ -33,14 +33,14 @@
 	</DataDir>
   </Data>
   <Media>
-    <MediaSection ResourceLoadType="FileSystem" ResourceType="Models">Media/Resources</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Mesh">Media/Resources</MediaSection>
     <MediaSection ResourceLoadType="FileSystem" ResourceType="Material">Media/Material</MediaSection>
-    <MediaSection ResourceLoadType="FileSystem" ResourceType="Textures">Media/Textures</MediaSection>
-    <MediaSection ResourceLoadType="FileSystem" ResourceType="Common">Media/Overlay</MediaSection>
-    <MediaSection ResourceLoadType="FileSystem" ResourceType="Scripts">Scripts</MediaSection>
-    <MediaSection ResourceLoadType="FileSystem" ResourceType="Music">Music</MediaSection>
-    <MediaSection ResourceLoadType="FileSystem" ResourceType="Sound">Sound</MediaSection>
-    <MediaSection ResourceLoadType="FileSystem" ResourceType="Maps">Scenes</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Texture">Media/Textures</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Media/Overlay</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Scripts</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Music</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Sound</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Scenes</MediaSection>
   </Media>
   <Settings>
   </Settings>
