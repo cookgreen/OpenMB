@@ -34,11 +34,6 @@ namespace OpenMB.Game
             {
                 return rideDrive;
             }
-
-            set
-            {
-                rideDrive = value;
-            }
         }
 
         //Backpack
@@ -55,7 +50,7 @@ namespace OpenMB.Game
             this.owner = owner;
             weapons = new Item[4];
             clothes = new Item[4];
-            Backpack = new Inventory(21, owner);
+            Backpack = new Inventory(30, owner);
         }
 
         public bool EquipNewWeapon(Item newWeapon)
@@ -106,13 +101,25 @@ namespace OpenMB.Game
             weapons[index] = newWeapon;
         }
 
-        public void EquipClothes(Item newClothes, int index)
+        public void EquipHeadArmour(Item newClothes)
         {
-            if (index < 0 || index >= clothes.Length)
-            {
-                return;
-            }
-            clothes[index] = newClothes;
+            clothes[0] = newClothes;
+        }
+        public void EquipBodyArmour(Item newClothes)
+        {
+            clothes[1] = newClothes;
+        }
+        public void EquipFootArmour(Item newClothes)
+        {
+            clothes[2] = newClothes;
+        }
+        public void EquipHandArmour(Item newClothes)
+        {
+            clothes[3] = newClothes;
+        }
+        public void EquipRideDrive(Item rideDrive)
+        {
+            this.rideDrive = rideDrive;
         }
 
         public void EquipNewItem(Item item)
@@ -134,15 +141,6 @@ namespace OpenMB.Game
             else
             {
                 AddItemToBackpack(item);
-            }
-        }
-
-        public void Mount(Item target)
-        {
-            if (target.ItemType == ItemType.IT_RIDEDRIVE)
-            {
-                rideDrive = target;
-                owner.AttchItem(target);
             }
         }
 

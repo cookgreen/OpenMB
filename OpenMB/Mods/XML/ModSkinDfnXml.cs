@@ -1,4 +1,5 @@
-﻿using OpenMB.Game;
+﻿using Mogre;
+using OpenMB.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,17 @@ namespace OpenMB.Mods.XML
     [XmlRoot("CharacterSkin")]
     public class ModCharacterSkinDfnXML
     {
-        [XmlElement("ID")]
-        public string skinID { get; set; }
+        [XmlAttribute("ID")]
+        public string ID { get; set; }
+        [XmlAttribute("OritentionOffset")]
+        public string OritentionOffst { get; set; }
         [XmlElement("Name")]
-        public string skinName { get; set; }
+        public string Name { get; set; }
         [XmlElement("HasParts")]
         public bool HasParts { get; set; }
-		[XmlElement("Skeleton")]
+        [XmlElement("Mesh")]
+        public string Mesh { get; set; }
+        [XmlElement("Skeleton")]
 		public string Skeleton { get; set; }
 		[XmlElement("SkinParts")]
         public List<CharacterSkinPartsDfnXML> SkinParts { get; set; }
@@ -34,13 +39,26 @@ namespace OpenMB.Mods.XML
         [XmlArrayItem("Slot")]
         public List<ModCharacterSkinSlot> Slots { get; set; }
 
-		public ModSkinAnimationDfnXml this[ChaAnimType characterAnimationType]
+        public ModSkinAnimationDfnXml this[ChaAnimType chaAnimType]
 		{
 			get
 			{
-				return SkinAnimations.Where(o => o.Type == characterAnimationType).FirstOrDefault();
+				return SkinAnimations.Where(o => o.Type == chaAnimType).FirstOrDefault();
 			}
 		}
+
+        public Vector3 OritentionOffset
+        {
+            get
+            {
+                string[] tokens = OritentionOffst.Split(',');
+                return new Vector3(
+                    float.Parse(tokens[0]),
+                    float.Parse(tokens[1]),
+                    float.Parse(tokens[2])
+                );
+            }
+        }
     }
 
     [XmlRoot("SkinParts")]

@@ -43,12 +43,13 @@ namespace OpenMB.Game
         private float timer;                // general timer to see how long animations have been playing
         private string charaMeshName;
         private bool controlled;
-        private NavmeshQuery query;
+        //private NavmeshQuery query;
         private Physics physics;
         private ControllerManager cotrollerManager;
         private Scene physicsScene;
         private Mogre.Vector3 direction;
-        private ModCharacterSkinDfnXML skin;
+        private ModCharacterDfnXML chaData;
+        private ModCharacterSkinDfnXML chaSkin;
         private CapsuleController physicsController;
         private Mogre.Vector3 lastPosition;
 		private GameWorld world;
@@ -92,18 +93,19 @@ namespace OpenMB.Game
 			controlled = !isBot;
 			itemAttached = new List<Entity>();
 			sceneMgr = world.SceneManager;
-			charaMeshName = chaData.MeshName;
+			charaMeshName = chaSkin.Mesh;
 			physicsScene = world.PhysicsScene;
 			physics = physicsScene.Physics;
 			cotrollerManager = physics.ControllerManager;
-			query = query;
+			//query = query;
 			setupBody(initPosition);
 			if (controlled)
 			{
 				setupCamera(camera);
 			}
 
-			this.skin = chaSkin;
+            this.chaData = chaData;
+			this.chaSkin = chaSkin;
 
 			setupAnimations();
 			setupPhysics();
@@ -126,6 +128,11 @@ namespace OpenMB.Game
                     keyDirection = Mogre.Vector3.ZERO;
                     verticalVelocity = 0;
                     lastPosition = initPosition;
+
+                    bodyNode.Pitch(new Radian(new Degree(chaSkin.OritentionOffset.x)));
+                    bodyNode.Yaw(new Radian(new Degree(chaSkin.OritentionOffset.y)));
+                    bodyNode.Roll(new Radian(new Degree(chaSkin.OritentionOffset.z)));
+
                     return true;
                 }
                 else
@@ -148,9 +155,9 @@ namespace OpenMB.Game
             bodyEnt.Skeleton.BlendMode = SkeletonAnimationBlendMode.ANIMBLEND_CUMULATIVE;
 
             // populate our animation list
-            for (int i = 0; i < skin.SkinAnimations.Count; i++)
+            for (int i = 0; i < chaSkin.SkinAnimations.Count; i++)
             {
-                var skinAnim = skin.SkinAnimations[i];
+                var skinAnim = chaSkin.SkinAnimations[i];
 
 				var anim = world.ModData.AnimationInfos.Where(o => o.ID == skinAnim.AnimID).FirstOrDefault();
 				if (anim == null)

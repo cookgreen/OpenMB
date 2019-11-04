@@ -14,9 +14,8 @@ namespace OpenMB.Screen
 {
     public class InventoryScreen : Screen
     {
-		private GameWorld world;
-		private string characterID;
-		private ModCharacterDfnXML characterData;
+		private string chaID;
+		private ModCharacterDfnXML chaData;
         private Entity ent;
         private SceneNode sceneNode;
         private Overlay meshLayer;
@@ -53,8 +52,7 @@ namespace OpenMB.Screen
         {
             if (param.Length > 0)
             {
-				world = param[0] as GameWorld;
-				characterID = param[1].ToString();
+				chaID = param[1].ToString();
             }
             GameManager.Instance.trayMgr.destroyAllWidgets();
         }
@@ -62,13 +60,13 @@ namespace OpenMB.Screen
         public override void Run()
 		{
 			var moddata = ScreenManager.Instance.ModData;
-			characterData = moddata.CharacterInfos.Where(o => o.ID == characterID).FirstOrDefault();
-			if (characterData == null)
+			chaData = moddata.CharacterInfos.Where(o => o.ID == chaID).FirstOrDefault();
+			if (chaData == null)
 			{
 				throw new Exception("Character Data can't be null!");
 			}
 
-			var skinData = moddata.SkinInfos.Where(o => o.skinID == characterData.SkinID).FirstOrDefault();
+			var skinData = moddata.SkinInfos.Where(o => o.ID == chaData.Skin).FirstOrDefault();
 			if (skinData == null)
 			{
 				throw new Exception("Character Skin Data can't be null!");
@@ -107,7 +105,7 @@ namespace OpenMB.Screen
 			meshLayer.ZOrder = (ushort)(GameManager.Instance.trayMgr.getCursorContainer().ZOrder - 1);
 
 			SceneManager scm = ScreenManager.Instance.Camera.SceneManager;
-			ent = scm.CreateEntity(Guid.NewGuid().ToString(), characterData.MeshName);
+			ent = scm.CreateEntity(Guid.NewGuid().ToString(), skinData.Mesh);
 			sceneNode = scm.CreateSceneNode();
 			sceneNode.Translate(new Mogre.Vector3(0, 0, 0));
 			sceneNode.Rotate(Quaternion.IDENTITY);

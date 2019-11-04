@@ -18,6 +18,14 @@ namespace OpenMB.Game.ItemTypes
             }
         }
 
+        public string AttachBoneName
+        {
+            get
+            {
+                return "Spin";
+            }
+        }
+
         public void Use(params object[] param)
         {
             GameWorld world = param[0] as GameWorld;

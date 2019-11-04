@@ -49,4 +49,22 @@
 	<SubAnimation Type="FULL">SliceVertical</SubAnimation>
 	<SubAnimation Type="FULL">SliceHorizontal</SubAnimation>
   </Animation>
+  <Animation ID="anim_robot_idle" Resource="skel_robot">
+	<Flags>
+		<Flag>ANF_SKELETON_ANIM</Flag>
+	</Flags>
+	<SubAnimation Type="FULL">Idle</SubAnimation>
+  </Animation>
+  <Animation ID="anim_robot_walk" Resource="skel_robot">
+	<Flags>
+		<Flag>ANF_SKELETON_ANIM</Flag>
+	</Flags>
+	<SubAnimation Type="FULL">Walk</SubAnimation>
+  </Animation>
+  <Animation ID="anim_robot_fire" Resource="skel_robot">
+	<Flags>
+		<Flag>ANF_SKELETON_ANIM</Flag>
+	</Flags>
+	<SubAnimation Type="FULL">Fire</SubAnimation>
+  </Animation>
  </Animations>

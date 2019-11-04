@@ -1,18 +1,17 @@
-﻿using OpenMB.Game.ItemTypes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace OpenMB.Mods.Common.ItemTypes
+namespace OpenMB.Game.ItemTypes
 {
-    public class ItemTypeRifle : IItemType
+    public class ItemTypeRideDrive : IItemType
     {
-        public string Name
-        {
+        public string Name {
             get
             {
-                return "IT_Rifle";
+                return "IT_RIDEDRIVE";
             }
         }
 
@@ -20,13 +19,12 @@ namespace OpenMB.Mods.Common.ItemTypes
         {
             get
             {
-                return "LeftHand";
+                return "Spin";
             }
         }
 
         public void Use(params object[] param)
         {
-
         }
     }
 }

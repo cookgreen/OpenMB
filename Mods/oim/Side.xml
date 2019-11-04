@@ -15,4 +15,8 @@
     <ID>side_order</ID>
     <Name>The Order</Name>
   </Side>
+  <Side>
+    <ID>side_outlaws</ID>
+    <Name>The Outlaws</Name>
+  </Side>
 </Sides>
