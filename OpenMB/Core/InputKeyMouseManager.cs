@@ -13,7 +13,7 @@ namespace OpenMB.Core
 		private bool combineKey;
 
 		public event Action<MouseEvent> MouseHasMoved;
-		public event Action<KeyCode> SomeKeyPressd;
+		public event Action<KeyCollection> SomeKeyPressd;
 
 		public InputKeyMouseManager()
 		{
@@ -64,14 +64,18 @@ namespace OpenMB.Core
 			}
 			else
 			{
+				KeyCollection keyCollection = new KeyCollection();
 				if (combineKey)
 				{
-					SomeKeyPressd?.Invoke(COMBINED_KEY_CODE | keyCode);
+					keyCollection.keyCodes.Add(COMBINED_KEY_CODE);
+					keyCollection.keyCodes.Add(keyCode);
+					SomeKeyPressd?.Invoke(keyCollection);
 					combineKey = false;
 				}
 				else
 				{
-					SomeKeyPressd?.Invoke(keyCode);
+					keyCollection.keyCodes.Add(keyCode);
+					SomeKeyPressd?.Invoke(keyCollection);
 					combineKey = false;
 				}
 			}

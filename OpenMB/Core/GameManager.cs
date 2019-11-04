@@ -233,7 +233,7 @@ namespace OpenMB
             return true;
         }
 
-		public void SetFullScreen()
+		public void SwitchFullScreen()
         {
             renderWindow.SetFullscreen(
                 !renderWindow.IsFullScreen,
@@ -318,18 +318,18 @@ namespace OpenMB
             return true;
         }
 
-		private void KeyMouseManager_SomeKeyPressd(KeyCode keyCode)
+		private void KeyMouseManager_SomeKeyPressd(KeyCollection keyCollection)
 		{
-			if (keyCode == KeyMapperManager.Instance.GetKey(GameKeyCode.FullScreen))
+			if (keyCollection == KeyMapperManager.Instance.GetKeyCollection(GameKeyCode.FullScreen))
 			{
-				SetFullScreen();
+				SwitchFullScreen();
 			}
-			else if(keyCode == KeyMapperManager.Instance.GetKey(GameKeyCode.Screenshot))
+			else if(keyCollection == KeyMapperManager.Instance.GetKeyCollection(GameKeyCode.Screenshot))
 			{
 				renderWindow.WriteContentsToTimestampedFile("ScreenShot_", ".jpg");
 				outputMgr.DisplayMessage(string.Format(locateMgr.GetLocalizedString(LocateFileType.GameString, "str_screenshots_saved_to_{0}"), Environment.CurrentDirectory));
 			}
-			else if (keyCode == KeyMapperManager.Instance.GetKey(GameKeyCode.ShowOgreLogo))
+			else if (keyCollection == KeyMapperManager.Instance.GetKeyCollection(GameKeyCode.ShowOgreLogo))
 			{
 				if (trayMgr.isLogoVisible())
 				{

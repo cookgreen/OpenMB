@@ -69,6 +69,39 @@ namespace OpenMB.Core
 				return null;
 			}
 		}
+
+		public static bool operator == (KeyCollection left, KeyCollection right)
+		{
+			if ((object)left == null || (object)right == null)
+			{
+				return false;
+			}
+			else
+			{
+				if (left.keyCodes.Count == right.keyCodes.Count)
+				{
+					for (int i = 0; i < left.keyCodes.Count;i++)
+					{
+						var k1 = left.keyCodes[i];
+						var k2 = right.keyCodes[i];
+						if (k1 != k2)
+						{
+							return false;
+						}
+					}
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+
+		public static bool operator !=(KeyCollection left, KeyCollection right)
+		{
+			return !(left == right);
+		}
 	}
 
 	public class KeyMapperManager
@@ -124,19 +157,12 @@ namespace OpenMB.Core
 			gameKeyMapper.Remove(gkCode);
 		}
 
-		public KeyCode? GetKey(GameKeyCode gkCode)
+		public KeyCollection GetKeyCollection(GameKeyCode gkCode)
 		{
 			if (gameKeyMapper.ContainsKey(gkCode))
 			{
 				var kc = gameKeyMapper[gkCode];
-				if (kc != null)
-				{
-					return kc.ToKeyCode();
-				}
-				else
-				{
-					return null;
-				}
+				return kc;
 			}
 			else
 			{
