@@ -18,7 +18,7 @@
     <Locations>Locations.xml</Locations>
     <Maps>Maps.xml</Maps>
     <Menus>Menus.xml</Menus>
-    <Models></Models>
+    <Models>Models.xml</Models>
     <Music>Music.xml</Music>
     <SceneProps>SceneProps.xml</SceneProps>
     <Skeletons>Skeletons.xml</Skeletons>
@@ -34,6 +34,7 @@
   </Data>
   <Media>
     <MediaSection ResourceLoadType="FileSystem" ResourceType="Models">Media/Resources</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Material">Media/Material</MediaSection>
     <MediaSection ResourceLoadType="FileSystem" ResourceType="Textures">Media/Textures</MediaSection>
     <MediaSection ResourceLoadType="FileSystem" ResourceType="Common">Media/Overlay</MediaSection>
     <MediaSection ResourceLoadType="FileSystem" ResourceType="Scripts">Scripts</MediaSection>

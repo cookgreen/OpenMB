@@ -15,7 +15,7 @@ namespace OpenMB.Mods.XML
     [XmlRoot("Map")]
     public class ModMapDfnXml
     {
-        [XmlElement]
+        [XmlAttribute]
         public string ID { get; set; }
         [XmlElement]
         public string Name { get; set; }

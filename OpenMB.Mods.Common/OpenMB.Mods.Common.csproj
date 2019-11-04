@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="ItemTypes\ItemTypeRifle.cs" />
     <Compile Include="MapLoaders\MapLoaderBSP.cs" />
+    <Compile Include="MapLoaders\MapLoaderWorldMapXml.cs" />
     <Compile Include="MapLoaders\MapLoaderXml.cs" />
     <Compile Include="ModelTypes\ItemDefineModelType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

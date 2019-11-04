@@ -51,10 +51,9 @@ namespace OpenMB.Mods.Common.Loaders
         public event Action LoadMapFinished;
         public event Action LoadMapStarted;
 
-        public void LoadAsync(SceneManager sceneManager, string mapFile)
+        public void LoadAsync(IGameMap map, string mapFile)
         {
             this.mapFile = mapFile;
-            this.sceneManager = sceneManager;
             LoadMapStarted?.Invoke();
         }
     }

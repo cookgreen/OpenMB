@@ -10,8 +10,8 @@ using OpenMB.Map;
 namespace DotSceneLoader
 {
 
-    public class DotSceneLoader
-    {
+    public class DotWorldMapLoader
+	{
         #region Fields
 
         public List<string> DynamicObjects; //String
@@ -29,19 +29,19 @@ namespace DotSceneLoader
         protected TerrainGlobalOptions mTerrainOptions;
 
         private BackgroundWorker worker;
-		private GameMap map;
+		private GameWorldMap worldMap;
 
         #endregion Fields
 
         #region Constructors
 
-        public DotSceneLoader(GameMap map)
+        public DotWorldMapLoader(GameWorldMap worldMap)
         {
             mTerrainOptions = new TerrainGlobalOptions();
             worker = new BackgroundWorker();
             worker.DoWork += LoadSceneAsync;
             worker.RunWorkerCompleted += LoadSceneCompleted;
-			this.map = map;
+			this.worldMap = worldMap;
         }
 
         private void LoadSceneCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -56,10 +56,6 @@ namespace DotSceneLoader
         {
             object[] arguments = e.Argument as object[];
             ParseDotScene((string)arguments[0], (string)arguments[1], (SceneManager)arguments[2]);
-        }
-
-        ~DotSceneLoader()
-        {
         }
 
         #endregion Constructors
@@ -511,7 +507,7 @@ namespace DotSceneLoader
             pLight.SetSpotlightRange(new Radian((Degree)inner), new Radian((Degree)outer), falloff);
 		}
 
-		protected void processSceneProp(XmlElement XMLNode, SceneNode pParent)
+		protected void processLocation(XmlElement XMLNode, SceneNode pParent)
 		{
 			// Construct the node's name
 			string id = m_sPrependNode + getAttrib(XMLNode, "ID");
@@ -519,7 +515,7 @@ namespace DotSceneLoader
 			XmlElement pElement;
 			pElement = (XmlElement)XMLNode.SelectSingleNode("position");
 			Vector3 position = parseVector3(pElement);
-			map.CreateSceneProp(id, position);
+			worldMap.CreateLocation(id, position);
 		}
 
 		protected void processNode(XmlElement XMLNode, SceneNode pParent)
@@ -709,9 +705,9 @@ namespace DotSceneLoader
             XmlElement pElement;
 
 			// Process nodes (?)
-			pElement = (XmlElement)XMLRoot.SelectSingleNode("scene_props");
+			pElement = (XmlElement)XMLRoot.SelectSingleNode("locations");
 			if (pElement != null)
-				processSceneProps(pElement);
+				processLocations(pElement);
 
 			// Process nodes (?)
 			pElement = (XmlElement)XMLRoot.SelectSingleNode("nodes");
@@ -746,15 +742,15 @@ namespace DotSceneLoader
             }
         }
 
-		private void processSceneProps(XmlElement XMLNode)
+		private void processLocations(XmlElement XMLNode)
 		{
 			XmlElement pElement;
 
 			// Process node (*)
-			pElement = (XmlElement)XMLNode.SelectSingleNode("scene_prop");
+			pElement = (XmlElement)XMLNode.SelectSingleNode("location");
 			while (pElement != null)
 			{
-				processSceneProp(pElement, null);
+				processLocation(pElement, null);
 				XmlNode nextNode = pElement.NextSibling;
 				pElement = nextNode as XmlElement;
 				while (pElement == null && nextNode != null)

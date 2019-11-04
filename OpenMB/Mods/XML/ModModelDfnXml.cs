@@ -16,11 +16,13 @@ namespace OpenMB.Mods.XML
     [XmlRoot("Model")]
     public class ModModelDfnXml
     {
-        [XmlElement]
+        [XmlAttribute]
         public string ID { get; set; }
         [XmlElement]
         public string Material { get; set; }
         [XmlElement]
         public string Mesh { get; set; }
-    }
+		[XmlIgnore]
+		public IModModelType ModelType { get; set; }
+	}
 }

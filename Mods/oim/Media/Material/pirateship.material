@@ -1,0 +1,238 @@
+material "pirateship_Material__25"
+{
+	technique priateshipMaterial__25_technique
+	{
+		pass priateshipMaterial__25_standard
+		{
+			shading phong
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0.752941 0.752941 0.752941 1 51
+			emissive 0 0 0 1
+
+			texture_unit priateshipMaterial__25_Diffuse#0
+			{
+				texture priateshipASHSEN_2.bmp
+				tex_coord_set 0
+				colour_op modulate
+			}
+		}
+	}
+}
+material "pirateship_Material7"
+{
+	technique priateshipMaterial7_technique
+	{
+		pass priateshipMaterial7_standard
+		{
+			shading phong
+			ambient 0.117647 0.117647 0.117647 1
+			diffuse 0.752941 0.752941 0.752941 1
+			specular 0.752941 0.752941 0.752941 1 51
+			emissive 0 0 0 1
+		}
+	}
+}
+material "pirateship_Material0"
+{
+	technique priateshipMaterial0_technique
+	{
+		pass priateshipMaterial0_standard
+		{
+			shading phong
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0.752941 0.752941 0.752941 1 51
+			emissive 0 0 0 1
+
+			texture_unit priateshipMaterial0_Diffuse#0
+			{
+				texture priateshipCONSCUBI.bmp
+				tex_coord_set 0
+				colour_op modulate
+			}
+		}
+	}
+}
+material "pirateship_Material1"
+{
+	technique priateshipMaterial1_technique
+	{
+		pass priateshipMaterial1_standard
+		{
+			shading phong
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0.752941 0.752941 0.752941 1 51
+			emissive 0 0 0 1
+
+			texture_unit priateshipMaterial1_Diffuse#0
+			{
+				texture priateshipSplitFlag.bmp
+				tex_coord_set 0
+				colour_op modulate
+			}
+		}
+	}
+}
+material "pirateship_Material4"
+{
+	technique priateshipMaterial4_technique
+	{
+		pass priateshipMaterial4_standard
+		{
+			shading phong
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0.752941 0.752941 0.752941 1 51
+			emissive 0 0 0 1
+
+			texture_unit priateshipMaterial4_Diffuse#0
+			{
+				texture priateshipSpejl.bmp
+				tex_coord_set 0
+				colour_op modulate
+			}
+		}
+	}
+}
+material "pirateship_Material3"
+{
+	technique priateshipMaterial3_technique
+	{
+		pass priateshipMaterial3_standard
+		{
+			shading phong
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0.752941 0.752941 0.752941 1 51
+			emissive 0 0 0 1
+
+			texture_unit priateshipMaterial3_Diffuse#0
+			{
+				texture priateshipChemney.bmp
+				tex_coord_set 0
+				colour_op modulate
+			}
+		}
+	}
+}
+material "pirateship_Material6"
+{
+	technique priateshipMaterial6_technique
+	{
+		pass priateshipMaterial6_standard
+		{
+			shading phong
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0.752941 0.752941 0.752941 1 51
+			emissive 0 0 0 1
+
+			texture_unit priateshipMaterial6_Diffuse#0
+			{
+				texture priateshipBlack.bmp
+				tex_coord_set 0
+				colour_op modulate
+			}
+		}
+	}
+}
+material "pirateship_Material"
+{
+	technique priateshipMaterial_technique
+	{
+		pass priateshipMaterial_standard
+		{
+			shading phong
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0.752941 0.752941 0.752941 1 51
+			emissive 0 0 0 1
+
+			texture_unit priateshipMaterial_Diffuse#0
+			{
+				texture priateshipBRONZE.bmp
+				tex_coord_set 0
+				colour_op modulate
+			}
+		}
+	}
+}
+material "pirateship_Material8"
+{
+	technique priateshipMaterial8_technique
+	{
+		pass priateshipMaterial8_standard
+		{
+			shading phong
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0.752941 0.752941 0.752941 1 51
+			emissive 0 0 0 1
+
+			texture_unit priateshipMaterial8_Diffuse#0
+			{
+				texture priateshipFregatteBody.bmp
+				tex_coord_set 0
+				colour_op modulate
+			}
+		}
+	}
+}
+material "pirateship_Material9"
+{
+	technique priateshipMaterial9_technique
+	{
+		pass priateshipMaterial9_standard
+		{
+			shading phong
+			ambient 0.117647 0.117647 0.117647 1
+			diffuse 0.752941 0.752941 0.752941 1
+			specular 0.752941 0.752941 0.752941 1 51
+			emissive 0 0 0 1
+		}
+	}
+}
+material "pirateship_Material5"
+{
+	technique priateshipMaterial5_technique
+	{
+		pass priateshipMaterial5_standard
+		{
+			shading phong
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0.752941 0.752941 0.752941 1 51
+			emissive 0 0 0 1
+
+			texture_unit priateshipMaterial5_Diffuse#0
+			{
+				texture priateshipOLDWOOD.bmp
+				tex_coord_set 0
+				colour_op modulate
+			}
+		}
+	}
+}
+material "pirateship_Material2"
+{
+	technique priateshipMaterial2_technique
+	{
+		pass priateshipMaterial2_standard
+		{
+			shading phong
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+			specular 0.752941 0.752941 0.752941 1 51
+			emissive 0 0 0 1
+
+			texture_unit priateshipMaterial2_Diffuse#0
+			{
+				texture priateshipCONCWHIT.bmp
+				tex_coord_set 0
+				colour_op modulate
+			}
+		}
+	}
+}

@@ -21,5 +21,5 @@ namespace OpenMB.Mods
         /// <param name="param"></param>
         /// <returns></returns>
         object Process(ModData mod, params object[] param);
-    }
+	}
 }

@@ -15,13 +15,23 @@ namespace OpenMB.Mods.XML
     [XmlRoot("SceneProp")]
     public class ModScenePropDfnXml
     {
-        [XmlElement]
+        [XmlAttribute]
         public string ID { get; set; }
+		[XmlAttribute]
+		public bool Combined { get; set; }
         [XmlElement]
         public string Name { get; set; }
-        [XmlElement]
-        public string Model { get; set; }
-        [XmlElement]
-        public string ModelType { get; set; }
+        [XmlArray("Models")]
+		[XmlArrayItem("Model")]
+		public List<ModScenePropModsDfnXml> Models { get; set; }
     }
+
+	[XmlRoot("Model")]
+	public class ModScenePropModsDfnXml
+	{
+		[XmlAttribute("Type")]
+		public string ModelType { get; set; }
+		[XmlText]
+		public string ModelID { get; set; }
+	}
 }

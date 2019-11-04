@@ -1,4 +1,5 @@
 ﻿using Mogre;
+using OpenMB.Mods.XML;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,11 @@ namespace OpenMB.Game
 {
     public class SceneProp : GameObject
     {
-        private string name;
-        private string meshName;
-        private string materialName;
-        private Item attachedItem;
+		private ModScenePropDfnXml scenePropData;
+		private List<ModModelDfnXml> childModelData;
+		private List<Entity> entities;
 
-        public SceneProp(
+		public SceneProp(
             int id, GameWorld world, 
             string name,
             string meshName, 
@@ -22,34 +22,51 @@ namespace OpenMB.Game
             Item attachedItem
         ) : base(id, world)
         {
-            this.name = name;
-            this.meshName = meshName;
-            this.materialName = materialName;
-            this.attachedItem = attachedItem;
             position = initPosition;
 
             health = new HealthInfo(this, int.MaxValue, false);
 
             create();
-        }
+		}
+		public SceneProp(
+			GameWorld world,
+			ModScenePropDfnXml scenePropData,
+			Vector3 initPosition
+		) : base(-1, world)
+		{
+			position = initPosition;
+			entities = new List<Entity>();
+			childModelData = new List<ModModelDfnXml>();
+			health = new HealthInfo(this, int.MaxValue, false);
+			this.scenePropData = scenePropData;
+		}
 
-        protected override void create()
-        {
-            entity = sceneManager.CreateEntity(Guid.NewGuid().ToString(), meshName);
-            entity.SetMaterialName(materialName);
-            entNode = sceneManager.RootSceneNode.CreateChildSceneNode();
-            entNode.AttachObject(entity);
-            entNode.Position = position;
-            for (int i = 0; i < entity.NumSubEntities; i++)
-            {
-                SubEntity subEnt = entity.GetSubEntity((uint)i);
-                subEnt.SetMaterialName(materialName);
-            }
-        }
+		public void AppendChildModelData(ModModelDfnXml modelData)
+		{
+			childModelData.Add(modelData);
+		}
+
+		public void Spawn()
+		{
+			foreach (var childModel in childModelData)
+			{
+				entity = sceneManager.CreateEntity(Guid.NewGuid().ToString(), childModel.Mesh);
+				entity.SetMaterialName(childModel.Material);
+				entNode = sceneManager.RootSceneNode.CreateChildSceneNode();
+				entNode.AttachObject(entity);
+				entNode.Position = position;
+				for (int i = 0; i < entity.NumSubEntities; i++)
+				{
+					SubEntity subEnt = entity.GetSubEntity((uint)i);
+					subEnt.SetMaterialName(childModel.Material);
+				}
+				entities.Add(entity);
+			}
+		}
 
         public bool CheckCollide(SceneProp missileSceneProp)
         {
-            throw new NotImplementedException();
+			return true;
         }
 
         public override void Dispose()
@@ -62,5 +79,5 @@ namespace OpenMB.Game
         {
             entNode.Position += mov;
         }
-    }
+	}
 }

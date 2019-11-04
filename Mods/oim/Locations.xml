@@ -1,10 +1,9 @@
 <Locations>
-	<Location>
-		<ID>LOT_Zender</ID>
-		<Name>Zender</Name>
-		<Mesh>icon_castle</Mesh>
-		<Position X="0" Y="0" />
+	<Location ID="lot_ship">
 		<Flags>
 		</Flags>
+		<Name>Ship</Name>
+		<Model Type="Xml">model_ship</Mesh>
+		<Position X="0" Y="0" />
 	</Location>
 </Locations>

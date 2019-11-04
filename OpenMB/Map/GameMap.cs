@@ -185,7 +185,7 @@ namespace OpenMB.Map
         public void LoadMap(string name)
         {
             mapName = name;
-            loader.LoadAsync(sceneManager, mapName);
+            loader.LoadAsync(this, mapName);
         }
 
         public void LoadWorldMap(string name, string file)
@@ -335,39 +335,50 @@ namespace OpenMB.Map
         /// <returns></returns>
         public string CreateSceneProp(string scenePropID, Mogre.Vector3 position)
         {
-            var findSceneProps = modData.SceneProps.Where(o => o.ID == scenePropID);
-            if (findSceneProps.Count() > 0)
-            {
-                var findSceneProp = findSceneProps.ElementAt(0);
-                var findModelTypes = modData.ModModelTypes.Where(o => o.Name == findSceneProp.ModelType);
-                if (findModelTypes.Count() > 0)
-                {
-                    var findModelType = findModelTypes.ElementAt(0);
-                    object[] MeshMaterialArray = findModelType.Process(modData, findSceneProp.Model) as object[];
-                    Item attachedItem = null;
-                    if (MeshMaterialArray.Length == 3)
-                    {
-                        attachedItem = MeshMaterialArray[2] as Item;
-                    }
-                    SceneProp sceneProp = new SceneProp(
-                        gameObjects.Count,
-                        world,
-                        findSceneProp.Name,
-                        MeshMaterialArray[0].ToString(), 
-                        MeshMaterialArray[1].ToString(), 
-                        position,
-                        null
-                    );
-                    if (!gameObjects.ContainsKey(scenePropID))
-                    {
-                        gameObjects.Add(scenePropID, new List<GameObject>());
-                    }
-                    gameObjects[scenePropID].Add(sceneProp);
-                    string guidStr = Guid.NewGuid().ToString();
-                    sceneProp.SetID(guidStr);
-                    return guidStr;
-                }
-            }
+            var findSceneProp = modData.SceneProps.Where(o => o.ID == scenePropID).FirstOrDefault();
+			if (findSceneProp != null)
+			{
+				SceneProp sceneProp = new SceneProp(world, findSceneProp, position);
+				if (findSceneProp.Combined)
+				{
+					foreach (var modelData in findSceneProp.Models)
+					{
+						var findModelType = modData.ModModelTypes.Where(o => o.Name == modelData.ModelType).FirstOrDefault();
+						if (findModelType != null)
+						{
+							var findedModel = modData.Models.Where(o => o.ID == modelData.ModelID).FirstOrDefault();
+							if (findedModel != null)
+							{
+								findedModel.ModelType = findModelType;
+								sceneProp.AppendChildModelData(findedModel);
+							}
+						}
+					}
+				}
+				else
+				{
+					var findModelType = modData.ModModelTypes.Where(o => o.Name == findSceneProp.Models[0].ModelType).FirstOrDefault();
+					if (findModelType != null)
+					{
+						var findedModel = modData.Models.Where(o => o.ID == findSceneProp.Models[0].ModelID).FirstOrDefault();
+						if (findedModel != null)
+						{
+							findedModel.ModelType = findModelType;
+							sceneProp.AppendChildModelData(findedModel);
+						}
+					}
+				}
+				sceneProp.ID = scenePropID;
+				sceneProp.Spawn();
+				if (!gameObjects.ContainsKey(scenePropID))
+				{
+					gameObjects.Add(scenePropID, new List<GameObject>());
+				}
+				gameObjects[scenePropID].Add(sceneProp);
+				string guidStr = Guid.NewGuid().ToString();
+				sceneProp.SetID(guidStr);
+				return guidStr;
+			}
             return null;
         }
 
@@ -378,39 +389,6 @@ namespace OpenMB.Map
         /// <param name="position"></param>
         public void CreatePlayerSceneProp(string scenePropID, Mogre.Vector3 position)
         {
-            var findSceneProps = modData.SceneProps.Where(o => o.ID == scenePropID);
-            if (findSceneProps.Count() > 0)
-            {
-                var findSceneProp = findSceneProps.ElementAt(0);
-                var findModelTypes = modData.ModModelTypes.Where(o => o.Name == findSceneProp.ModelType);
-                if (findModelTypes.Count() > 0)
-                {
-                    var findModelType = findModelTypes.ElementAt(0);
-                    object[] MeshMaterialArray = findModelType.Process(modData, findSceneProp.Model) as object[];
-                    Item attachedItem = null;
-                    if (MeshMaterialArray.Length == 3)
-                    {
-                        attachedItem = MeshMaterialArray[2] as Item;
-                    }
-                    SceneProp sceneProp = new SceneProp(
-                        gameObjects.Count,
-                        world,
-                        findSceneProp.Name,
-                        MeshMaterialArray[0].ToString(),
-                        MeshMaterialArray[1].ToString(),
-                        position,
-                        attachedItem
-                    );
-                    if (!gameObjects.ContainsKey(scenePropID))
-                    {
-                        gameObjects.Add(scenePropID, new List<GameObject>());
-                    }
-                    
-                    string guidStr = Guid.NewGuid().ToString();
-                    sceneProp.SetID(guidStr);
-                    player = new Player(findSceneProp.Name, guidStr, new ControlObjectTypeSceneProp(sceneProp));
-                }
-            }
         }
 
         public SceneProp GetSceneProp(string propInstanceID)

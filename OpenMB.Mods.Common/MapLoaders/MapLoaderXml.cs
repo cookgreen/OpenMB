@@ -41,8 +41,6 @@ namespace OpenMB.Mods.Common.Loaders
 
         public MapLoaderXml()
         {
-            fileLoader = new DotSceneLoader.DotSceneLoader();
-            fileLoader.LoadSceneFinished += FileLoader_LoadSceneFinished;
         }
 
         private void FileLoader_LoadSceneFinished()
@@ -50,11 +48,13 @@ namespace OpenMB.Mods.Common.Loaders
             LoadMapFinished?.Invoke();
         }
 
-        public void LoadAsync(SceneManager sceneManager,string mapFile)
-        {
-            LoadMapStarted?.Invoke();
+        public void LoadAsync(IGameMap map,string mapFile)
+		{
+			fileLoader = new DotSceneLoader.DotSceneLoader((GameMap)map);
+			fileLoader.LoadSceneFinished += FileLoader_LoadSceneFinished;
+			LoadMapStarted?.Invoke();
             loadedMapName = mapFile;
-            fileLoader.ParseDotSceneAsync(mapFile, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, sceneManager);
+            fileLoader.ParseDotSceneAsync(mapFile, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, ((GameMap)map).SceneManager);
         }
 
         public void SaveAsync()
