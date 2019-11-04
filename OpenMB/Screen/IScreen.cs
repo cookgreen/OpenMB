@@ -11,6 +11,7 @@ namespace OpenMB.Screen
     {
         bool IsVisible { get; }
         event Action OnScreenExit;
+		event Action<string, string> OnScreenEventChanged;
         string Name { get; }
         void Init(params object[] param);
         void Run();

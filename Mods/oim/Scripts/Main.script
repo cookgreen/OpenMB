@@ -1,5 +1,7 @@
 #### MAIN ENTRY ####
 
 function GameStart
+	set_slot side_player slot_faction_state inactive
+	set_slot side_no_side slot_faction_state inactive
 	start_screen GameMain
 end

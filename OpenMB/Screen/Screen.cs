@@ -28,8 +28,9 @@ namespace OpenMB.Screen
         }
 
         public virtual event Action OnScreenExit;
+		public virtual event Action<string, string> OnScreenEventChanged;
 
-        public virtual bool CheckEnterScreen(Vector2 mousePos)
+		public virtual bool CheckEnterScreen(Vector2 mousePos)
         {
             return false;
         }

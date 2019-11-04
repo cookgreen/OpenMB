@@ -145,6 +145,6 @@
 	<Side>side_outlaws</Side>
     <Equips>
       <EquipItem>itm_gattling</EquipItem>
-	<Equips>
+	</Equips>
   </Character>
 </Characters>

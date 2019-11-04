@@ -2291,7 +2291,6 @@ namespace Mogre_Procedural.MogreBites
 				return padding;
 			}
 		}
-
 		public bool Adjusted { get; set; }
 
 		public Widget() {

@@ -39,3 +39,10 @@ material AMGE/Engine/Listview/over
 		}
 	}
 }
+
+material NoMaterial
+{
+	technique
+	{
+	}
+}

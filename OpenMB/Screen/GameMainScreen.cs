@@ -44,7 +44,7 @@ namespace OpenMB.Screen
 
 		public override void Run()
 		{
-			gameMainPanel = GameManager.Instance.trayMgr.createPanel("gameMainPanel", 1.0f, 0.2f, 0.0f, 0.92f);
+			gameMainPanel = GameManager.Instance.trayMgr.createPanel("gameMainPanel", 1.0f, 0.08f, 0.0f, 0.92f);
 			gameMainPanel.AddCol(Widgets.ValueType.Percent);
 			gameMainPanel.AddCol(Widgets.ValueType.Percent);
 			gameMainPanel.AddCol(Widgets.ValueType.Percent);

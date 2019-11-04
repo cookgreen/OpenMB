@@ -26,9 +26,9 @@ namespace OpenMB.Widgets
 			return panel;
 		}
 
-		public static PanelScrollable createScrollablePanel(this SdkTrayManager trayMgr, string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1)
+		public static PanelScrollable createScrollablePanel(this SdkTrayManager trayMgr, string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1, bool hasBorder = true)
 		{
-			PanelScrollable scrollablePanel = new PanelScrollable(name, width, height, left, top, row, col);
+			PanelScrollable scrollablePanel = new PanelScrollable(name, width, height, left, top, row, col, hasBorder);
 			trayMgr.moveWidgetToTray(scrollablePanel, TrayLocation.TL_NONE);
 			return scrollablePanel;
 		}

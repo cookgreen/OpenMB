@@ -18,6 +18,7 @@ namespace OpenMB.Mods.XML
         Music,
         Sound,
         Scripts,
+		Material,
     }
     [XmlRoot("MediaSection")]
     public class ModMediaSectionXml

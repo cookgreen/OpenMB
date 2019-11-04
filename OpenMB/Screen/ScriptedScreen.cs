@@ -11,6 +11,7 @@ namespace OpenMB.Screen
     public class ScriptedScreen : Screen
     {
         private object[] args;
+		private string scrnID;
         public override event Action OnScreenExit;
         public event Action OnScreenRun;
         public UIScriptFile uiScript;
@@ -22,15 +23,10 @@ namespace OpenMB.Screen
             }
         }
 
-        public ScriptedScreen(UIScriptFile uiScript)
-        {
-            this.uiScript = uiScript;
-        }
-
         public override void Init(params object[] args)
         {
             this.args = args;
-            uiScript.ExecuteSetup(args);
+			scrnID = args[1].ToString();
         }
 
         public override void Run()

@@ -31,7 +31,7 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public PanelScrollable(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1) : base(name, width, height, left, top, row, col)
+		public PanelScrollable(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1, bool hasBorder = true) : base(name, width, height, left, top, row, col, hasBorder)
 		{
 			visualWidgets = new List<Widget>();
 			string scrollName = name + "_Scroll";
@@ -47,6 +47,9 @@ namespace OpenMB.Widgets
 			scroll.Top = 0;
 			AddChildOverlayElement(scroll);
 			initDragTop = drag.Top;
+
+			scroll.Hide();
+			drag.Hide();
 		}
 
 		public override void _mouseMoved(MouseEvent mouseEvent)
@@ -146,6 +149,7 @@ namespace OpenMB.Widgets
 			if (widget.Top + widget.Height > Height)
 			{
 				scroll.Show();
+				drag.Show();
 				widget.hide();
 			}
 			else

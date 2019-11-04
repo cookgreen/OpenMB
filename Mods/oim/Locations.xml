@@ -3,7 +3,7 @@
 		<Flags>
 		</Flags>
 		<Name>Ship</Name>
-		<Model Type="Xml">model_ship</Mesh>
+		<Model Type="Xml">model_ship</Model>
 		<Position X="0" Y="0" />
 	</Location>
 </Locations>

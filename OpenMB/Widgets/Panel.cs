@@ -141,11 +141,18 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public Panel(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1)
+		public Panel(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1, bool hasBorder = true)
         {
             widgets = new List<Widget>();
             OverlayManager overlayMgr = OverlayManager.Singleton;
-			mElement = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanel", "BorderPanel", name);
+			if(hasBorder)
+			{
+				mElement = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanel", "BorderPanel", name);
+			}
+			else
+			{
+				mElement = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanelNoBorder", "BorderPanel", name);
+			}
 			mElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
 
 			if (width == 0 || height == 0)
@@ -189,6 +196,14 @@ namespace OpenMB.Widgets
 			else
 			{
 				row.Height = height;
+			}
+		}
+
+		public void AddRows(int number, ValueType type, float height = 0)
+		{
+			for (int i = 0; i < number; i++)
+			{
+				AddRow(type, height);
 			}
 		}
 
@@ -273,6 +288,7 @@ namespace OpenMB.Widgets
 			{
 				case AlignMode.Center:
 					widget.Left += (c.AbosulteWidth - widget.Width) / 2;
+					widget.Top += (r.AbosulteHeight - widget.Height) / 2;
 					break;
 				case AlignMode.Right:
 					break;
@@ -325,6 +341,10 @@ namespace OpenMB.Widgets
 
 				widget.Left += relativeLeft;
 				widget.Top += relativeTop;
+			}
+			else
+			{
+				widget.Left = Padding.PaddingLeft;
 			}
 
 			switch (align)

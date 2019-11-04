@@ -139,6 +139,7 @@
     <Compile Include="Connector\MBOgreManifest.cs" />
     <Compile Include="Connector\MBOgreUtil.cs" />
     <Compile Include="Core\GameConfigXml.cs" />
+    <Compile Include="Core\GameSlotManager.cs" />
     <Compile Include="Core\InputKeyMouseManager.cs" />
     <Compile Include="Core\KeyMapperManager.cs" />
     <Compile Include="FileFormats\DotWorldMapLoader.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Screen\GameMenuScreen.cs" />
     <Compile Include="Screen\GameNotesScreen.cs" />
     <Compile Include="Screen\GamePartyScreen.cs" />
+    <Compile Include="Screen\GameTerrainEditorScreen.cs" />
     <Compile Include="Screen\Screen.cs" />
     <Compile Include="Map\AIMesh.cs" />
     <Compile Include="Map\GameMap.cs" />
@@ -293,6 +295,7 @@
     <Compile Include="Script\Command\RootScriptCommand.cs" />
     <Compile Include="Script\Command\ScriptCommand.cs" />
     <Compile Include="Script\Command\SetCameraModeScriptCommand.cs" />
+    <Compile Include="Script\Command\SlotSetScriptCommand.cs" />
     <Compile Include="Script\Command\SpawnPlaneScriptCommand.cs" />
     <Compile Include="Script\Command\SpawnPlayerCharacterScriptCommand.cs" />
     <Compile Include="Script\Command\SpawnScenePropScriptCommand.cs" />

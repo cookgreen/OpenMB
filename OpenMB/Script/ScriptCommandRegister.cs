@@ -55,7 +55,8 @@ namespace OpenMB.Script
             RegisteredCommand.Add("move_scene_prop", typeof(MoveScenePropScriptCommand));
             RegisteredCommand.Add("namespace", typeof(NamespaceScriptCommand));
             RegisteredCommand.Add("remove_scene_prop", typeof(RemoveScenePropScriptCommand));
-            RegisteredCommand.Add("spawn", typeof(SpawnScriptCommand));
+			RegisteredCommand.Add("set_slot", typeof(SlotSetScriptCommand));
+			RegisteredCommand.Add("spawn", typeof(SpawnScriptCommand));
 			RegisteredCommand.Add("start_screen", typeof(StartScreenScriptCommand));
 			RegisteredCommand.Add("store", typeof(StoreScriptCommand));
 			RegisteredCommand.Add("store_input_param", typeof(StoreFunctionInputParameterScriptCommand));
