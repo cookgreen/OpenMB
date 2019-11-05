@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Widgets
 {
+	/// <summary>
+	/// No border button
+	/// </summary>
 	public class StaticTextButton : Widget
 	{
 		private ColourValue normalStateColor;
@@ -76,6 +79,7 @@ namespace OpenMB.Widgets
 			_assignListener(GameManager.Instance.trayMgr.Listener);
 			this.normalStateColor = normalStateColor;
 			this.activeStateColor = activeStateColor;
+			mState = ButtonState.BS_UP;
 		}
 
 		public ButtonState getState()
@@ -85,8 +89,7 @@ namespace OpenMB.Widgets
 
 		public override void _cursorPressed(Mogre.Vector2 cursorPos)
 		{
-			return;
-			if (isCursorOver(mElement, cursorPos, 4))
+			if (isCursorOver(cursorPos))
 			{
 				setState(ButtonState.BS_DOWN);
 				if (OnClick != null)
@@ -106,8 +109,7 @@ namespace OpenMB.Widgets
 
 		public override void _cursorMoved(Mogre.Vector2 cursorPos)
 		{
-			return;
-			if (isCursorOver(mElement, cursorPos, 0f))
+			if (isCursorOver(cursorPos))
 			{
 				if (mState == ButtonState.BS_UP)
 					setState(ButtonState.BS_OVER);
@@ -126,7 +128,6 @@ namespace OpenMB.Widgets
 
 		protected void setState(ButtonState bs)
 		{
-			return;
 			if (bs == ButtonState.BS_OVER)
 			{
 				mTextArea.Colour = activeStateColor;

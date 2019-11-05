@@ -132,7 +132,7 @@ namespace OpenMB.Screen
 			discordPanel.ChangeRow(Widgets.ValueType.Abosulte, 0.05f);
 			discordPanel.AddRow(Widgets.ValueType.Percent);
 			var txtDiscord = GameManager.Instance.trayMgr.createStaticText("txtDiscord", "Discord");
-			txtDiscord.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			txtDiscord.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			discordInventoryPanel = GameManager.Instance.trayMgr.createPanel("discordInventoryPanel", 0.3f, 1, 0, 0, 9, 3);
 			discordPanel.AddWidget(1, 1, txtDiscord, AlignMode.Center);
 			discordPanel.AddWidget(2, 1, discordInventoryPanel, AlignMode.Center, DockMode.Fill);
@@ -186,8 +186,8 @@ namespace OpenMB.Screen
 
 			var txtOutfit = GameManager.Instance.trayMgr.createStaticText("txtOutfit", "Outfit");
 			var txtArms = GameManager.Instance.trayMgr.createStaticText("txtArms", "Arms");
-			txtOutfit.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-			txtArms.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			txtOutfit.MetricMode = GuiMetricsMode.GMM_RELATIVE;
+			txtArms.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			playerEquipPanel.AddWidget(1, 2, txtOutfit, AlignMode.Center);
 			playerEquipPanel.AddWidget(1, 3, txtArms, AlignMode.Center);
 			for (int i = 0; i < 9; i++)
@@ -230,12 +230,12 @@ namespace OpenMB.Screen
 			var txtPreviewBodyArmourTotal = GameManager.Instance.trayMgr.createStaticText("txtPreviewBodyArmourTotal", "Body Armour Total: 0");
 			var txtPreviewLegArmourTotal = GameManager.Instance.trayMgr.createStaticText("txtPreviewLegArmourTotal", "Leg Armour Total: 0");
 			var txtPreviewEncumbrance = GameManager.Instance.trayMgr.createStaticText("txtPreviewEncumbrance", "Encumbrance: 0");
-			txtPreviewHeadArmourTotal.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-			txtPreviewBodyArmourTotal.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-			txtPreviewLegArmourTotal.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-			txtPreviewEncumbrance.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			txtPreviewHeadArmourTotal.MetricMode = GuiMetricsMode.GMM_RELATIVE;
+			txtPreviewBodyArmourTotal.MetricMode = GuiMetricsMode.GMM_RELATIVE;
+			txtPreviewLegArmourTotal.MetricMode = GuiMetricsMode.GMM_RELATIVE;
+			txtPreviewEncumbrance.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			var btnReturn = GameManager.Instance.trayMgr.createButton("btnInventoryReturn", "Return", 200);
-			btnReturn.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnReturn.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnReturn.OnClick += (sender) =>
 			{
 				ScreenManager.Instance.ChangeScreenReturn();
@@ -254,7 +254,7 @@ namespace OpenMB.Screen
 			backpackPanel.AddRow(Widgets.ValueType.Abosulte, 0.03f);
 
 			var txtInvTitle = GameManager.Instance.trayMgr.createStaticText("txtInvTitle", "Inventory");
-			txtInvTitle.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			txtInvTitle.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			backpackInventoryPanel = GameManager.Instance.trayMgr.createScrollablePanel("backpackInventoryPanel", 1, 1, 0, 0, 20, 3);
 			backpackPanel.AddWidget(1, 1, txtInvTitle, AlignMode.Center, DockMode.Fill);
 			backpackPanel.AddWidget(2, 1, backpackInventoryPanel, AlignMode.Center, DockMode.Fill);

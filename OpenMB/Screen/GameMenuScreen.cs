@@ -67,7 +67,7 @@ namespace OpenMB.Screen
 				menuMainPanel.AddCol(Widgets.ValueType.Percent);
 
 				menuTitle = GameManager.Instance.trayMgr.createStaticText("menuStaticText", menuData.Title);
-				menuTitle.WidgetMetricMode = Mogre.GuiMetricsMode.GMM_RELATIVE;
+				menuTitle.MetricMode = Mogre.GuiMetricsMode.GMM_RELATIVE;
 				menuTitle.Top = 0.05f;
 				menuMainPanel.AddWidget(1, 1, menuTitle, AlignMode.Center);
 
@@ -83,7 +83,7 @@ namespace OpenMB.Screen
 				foreach (var menu in menuData.Children)
 				{
 					var button = GameManager.Instance.trayMgr.createButton(menu.id, menu.Text, 200);
-					button.WidgetMetricMode = Mogre.GuiMetricsMode.GMM_RELATIVE;
+					button.MetricMode = Mogre.GuiMetricsMode.GMM_RELATIVE;
 					menuItemsPanel.AddWidget(row, 1, button, AlignMode.Center);
 					menuButtons.Add(button);
 					button.OnClick += Button_OnClick;

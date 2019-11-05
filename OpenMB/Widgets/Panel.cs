@@ -408,21 +408,9 @@ namespace OpenMB.Widgets
 			}
 		}
 
-        public void ClearWidget()
-        {
-            foreach (Widget widget in widgets)
-            {
-                ((OverlayContainer)mElement).RemoveChild(widget.getOverlayElement().Name);
-                Control.nukeOverlayElement(widget.getOverlayElement());
-            }
-            widgets.Clear();
-        }
-
         public override void Dispose()
         {
-            mElement.Dispose();
-            Control.nukeOverlayElement(mElement);
-        }
+		}
 
 		public override void _mouseMoved(MouseEvent evt)
 		{

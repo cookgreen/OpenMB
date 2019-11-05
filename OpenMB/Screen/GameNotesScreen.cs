@@ -45,14 +45,14 @@ namespace OpenMB.Screen
 			Button btnLocations = GameManager.Instance.trayMgr.createButton("btnLocations", "Locations", 100);
 			Button btnFactions = GameManager.Instance.trayMgr.createButton("btnFactions", "Factions", 100);
 			Button btnReturn = GameManager.Instance.trayMgr.createButton("btnReturn", "Return", 100);
-			btnGameLog.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-			btnRecentMessage.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-			btnNotes.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-			btnGameConcepts.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-			btnCharacters.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-			btnLocations.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-			btnFactions.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-			btnReturn.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnGameLog.MetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnRecentMessage.MetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnNotes.MetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnGameConcepts.MetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnCharacters.MetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnLocations.MetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnFactions.MetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnReturn.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			panel.AddWidget(1, 1, btnGameLog, AlignMode.Center, DockMode.FillWidth);
 			panel.AddWidget(1, 2, btnRecentMessage, AlignMode.Center, DockMode.FillWidth);
 			panel.AddWidget(1, 3, btnNotes, AlignMode.Center, DockMode.FillWidth);
@@ -89,7 +89,7 @@ namespace OpenMB.Screen
 			panelFactionList.Padding.PaddingRight = 0.01f;
 
 			StaticText txtFactionsTitle = GameManager.Instance.trayMgr.createStaticText("txtFactionsTitle", "Factions");
-			txtFactionsTitle.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			txtFactionsTitle.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			panelFactionList.AddWidget(1, 1, txtFactionsTitle, AlignMode.Center);
 			PanelScrollable panelFactions = GameManager.Instance.trayMgr.createScrollablePanel("panelFactions", 1, 1, 0, 0, 1, 1, false);
 			panelFactionList.AddWidget(2, 1, panelFactions, AlignMode.Center, DockMode.Fill);
@@ -153,7 +153,7 @@ namespace OpenMB.Screen
 			string chaID = GameSlotManager.Instance.GetSlot(sideInfo.ID, "slot_faction_leader");
 			var chaData = world.ModData.CharacterInfos.Where(o => o.ID == chaID).FirstOrDefault();
 			StaticTextRelative txtFactionRulerInfo = new StaticTextRelative("txtFactionRulerInfo", string.Format("{0} is ruled by {1}", sideInfo.Name,
-				chaData == null ? "None" : chaData.Name), 0, false, ColourValue.Black);
+				chaData == null ? "Nobody" : chaData.Name), 0, false, ColourValue.Black);
 			txtFactionRulerInfo.Width = txtFactionName.TextWidth;
 			txtFactionRulerInfo.Height = txtFactionName.TextHeight;
 			panelFactionDetails.AddWidgetRelative(4, 1, txtFactionRulerInfo);

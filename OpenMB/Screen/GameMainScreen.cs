@@ -55,7 +55,7 @@ namespace OpenMB.Screen
 			gameMainPanel.AddCol(Widgets.ValueType.Abosulte, 180);
 
 			btnTerrain = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnTerrain", "Terrain", 150);
-			btnTerrain.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnTerrain.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnTerrain.Top = 0.025f;
 			btnTerrain.OnClick += BtnTerrain_OnClick;
 			gameMainPanel.AddWidget(1, 1, btnTerrain, AlignMode.Left, DockMode.FillWidth);
@@ -65,45 +65,45 @@ namespace OpenMB.Screen
 			}
 
 			btnCamp = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnCamp", "Camp", 150);
-			btnCamp.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnCamp.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnCamp.Top = 0.025f;
 			btnCamp.OnClick += BtnCamp_OnClick;
 			gameMainPanel.AddWidget(1, 2, btnCamp);
 
 			btnReports = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnReports", "Reports", 150);
-			btnReports.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnReports.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnReports.OnClick += BtnReports_OnClick;
 			btnReports.Top = 0.025f;
 			gameMainPanel.AddWidget(1, 3, btnReports, AlignMode.Left, DockMode.FillWidth);
 
 			btnNotes = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnNotes", "Notes", 150);
-			btnNotes.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnNotes.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnNotes.Top = 0.025f;
 			btnNotes.OnClick += BtnNotes_OnClick;
 			gameMainPanel.AddWidget(1, 4, btnNotes);
 
 			btnInventory = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnInventory", "Inventory", 150);
-			btnInventory.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnInventory.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnInventory.Top = 0.025f;
 			btnInventory.OnClick += BtnInventory_OnClick;
 			gameMainPanel.AddWidget(1, 5, btnInventory, AlignMode.Left, DockMode.FillWidth);
 
 			btnCharacter = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnCharacter", "Characters", 150);
-			btnCharacter.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnCharacter.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnCharacter.Top = 0.025f;
 			btnCharacter.OnClick += BtnCharacter_OnClick;
 			gameMainPanel.AddWidget(1, 6, btnCharacter);
 
 			btnParty = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnParty", "Party", 150);
-			btnParty.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			btnParty.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnParty.Top = 0.025f;
 			btnParty.OnClick += BtnParty_OnClick;
 			gameMainPanel.AddWidget(1, 7, btnParty, AlignMode.Left, DockMode.FillWidth);
 
 			txtCurrentDate = GameManager.Instance.trayMgr.createStaticText("gameDate", TimerManager.Instance.GetDate());
 			txtCurrentTime = GameManager.Instance.trayMgr.createStaticText("gameTime", TimerManager.Instance.CurrentTime.ToString());
-			txtCurrentDate.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-			txtCurrentTime.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+			txtCurrentDate.MetricMode = GuiMetricsMode.GMM_RELATIVE;
+			txtCurrentTime.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			txtCurrentDate.Top = 0.015f;
 			txtCurrentTime.Top = 0.03f;
 			gameMainPanel.AddWidget(1, 9, txtCurrentDate);

@@ -130,14 +130,14 @@ namespace OpenMB.Screen
             editorPanel = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanel", "BorderPanel", "editorArea") as OverlayContainer;
 
             lbGeneral = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbGeneral", "General", ColourValue.Black);
-            lbGeneral.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            lbGeneral.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             lbGeneral.Left = 0.06f;
             lbGeneral.Top =  top;
             top = lbGeneral.Top + lbGeneral.Height;
             editorPanel.AddChild(lbGeneral.getOverlayElement());
 
             btnSave = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnSave", "Save", 150);
-            btnSave.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            btnSave.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnSave.Left = 0.06f;
             btnSave.Top = 0.02f + top;
             btnSave.OnClick += BtnSave_OnClick;
@@ -145,7 +145,7 @@ namespace OpenMB.Screen
             editorPanel.AddChild(btnSave.getOverlayElement());
 
             btnClose = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnClose", "Close", 150);
-            btnClose.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            btnClose.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnClose.Left = 0.06f;
             btnClose.Top = 0.02f +top;
             btnClose.OnClick += BtnClose_OnClick;
@@ -161,14 +161,14 @@ namespace OpenMB.Screen
             editorPanel.AddChild(horline);
 
             lbAIMesh = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbAIMesh", "AIMesh", ColourValue.Black);
-            lbAIMesh.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            lbAIMesh.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             lbAIMesh.Left = 0.06f;
             lbAIMesh.Top = 0.02f + top;
             top = lbAIMesh.Top + lbAIMesh.Height;
             editorPanel.AddChild(lbAIMesh.getOverlayElement());
 
             btnAIMeshCreateVertex = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnCreateVertex", "Create Vertex", 150);
-            btnAIMeshCreateVertex.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            btnAIMeshCreateVertex.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnAIMeshCreateVertex.Left = 0.06f;
             btnAIMeshCreateVertex.Top = 0.02f + top;
             btnAIMeshCreateVertex.OnClick += BtnAIMeshCreateVertex_OnClick;
@@ -176,7 +176,7 @@ namespace OpenMB.Screen
             editorPanel.AddChild(btnAIMeshCreateVertex.getOverlayElement());
 
             btnAIMeshCreateLine = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnCreateLine", "Create Line", 150);
-            btnAIMeshCreateLine.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            btnAIMeshCreateLine.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnAIMeshCreateLine.Left = 0.06f;
             btnAIMeshCreateLine.Top = 0.02f + top;
             btnAIMeshCreateLine.OnClick += BtnAIMeshCreateLine_OnClick;
@@ -192,7 +192,7 @@ namespace OpenMB.Screen
             editorPanel.AddChild(horline2);
 
             lbObjects = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbObjects", "Objects", ColourValue.Black);
-            lbObjects.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            lbObjects.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             lbObjects.Left = 0.06f;
             lbObjects.Top = 0.02f + top;
             top = lbObjects.Top + lbObjects.Height;
@@ -210,7 +210,7 @@ namespace OpenMB.Screen
             editorPanel.AddChild(lsvObjects.getOverlayElement());
 
             btnAddObject = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnAddObject", "Add Object", 100);
-            btnAddObject.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
+            btnAddObject.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnAddObject.Left = 0.14f;
             btnAddObject.Top = 0.02f + top;
             btnAddObject.OnClick += BtnAddObject_OnClick;

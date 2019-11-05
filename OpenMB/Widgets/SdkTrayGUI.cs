@@ -2287,7 +2287,7 @@ namespace Mogre_Procedural.MogreBites
 				mElement.Top = value;
 			}
 		}
-		public GuiMetricsMode WidgetMetricMode
+		public GuiMetricsMode MetricMode
 		{
 			get
 			{
@@ -2328,10 +2328,14 @@ namespace Mogre_Procedural.MogreBites
         public virtual void Dispose() {
         }
 
-        public void Cleanup() {
-            if (mElement != null)
-                nukeOverlayElement(mElement);
-            mElement = null;
+        public void Cleanup()
+		{
+			if (mElement != null)
+			{
+				nukeOverlayElement(mElement);
+				Dispose();
+			}
+			mElement = null;
         }
 
 		protected void AddChildOverlayElement(OverlayElement overlayElement)
@@ -2379,8 +2383,10 @@ namespace Mogre_Procedural.MogreBites
 				return false;
 			}
 			Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
-            float l = element._getDerivedLeft() * om.ViewportWidth;
-            float t = element._getDerivedTop() * om.ViewportHeight;
+			float detrivedLeft = element._getDerivedLeft();
+			float detrivedTop = element._getDerivedTop();
+			float l = detrivedLeft * om.ViewportWidth;
+            float t = detrivedTop * om.ViewportHeight;
             float r = 0;
             float b = 0;
             if (element.MetricsMode == GuiMetricsMode.GMM_RELATIVE)
@@ -2400,7 +2406,35 @@ namespace Mogre_Procedural.MogreBites
             bool b4 = cursorPos.y <= b - voidBorder;
 
             return (b1 && b2 && b3 && b4);
-        }
+		}
+
+		public bool isCursorOver(Vector2 cursorPos, float voidBorder = 0)
+		{
+			Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
+			float detrivedLeft = DerivedLeft;
+			float detrivedTop = DerivedTop;
+			float l = detrivedLeft * om.ViewportWidth;
+			float t = detrivedTop * om.ViewportHeight;
+			float r = 0;
+			float b = 0;
+			if (MetricMode == GuiMetricsMode.GMM_RELATIVE)
+			{
+				r = l + Width * om.ViewportWidth;
+				b = t + Height * om.ViewportHeight;
+			}
+			else if (MetricMode == GuiMetricsMode.GMM_PIXELS)
+			{
+				r = l + Width;
+				b = t + Height;
+			}
+
+			bool b1 = cursorPos.x >= l + voidBorder;
+			bool b2 = cursorPos.x <= r - voidBorder;
+			bool b3 = cursorPos.y >= t + voidBorder;
+			bool b4 = cursorPos.y <= b - voidBorder;
+
+			return (b1 && b2 && b3 && b4);
+		}
 
 		/// <summary>
 		/// Static utility method used to get the cursor's offset from the center of an overlay element in pixels.

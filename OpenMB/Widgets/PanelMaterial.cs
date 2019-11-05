@@ -22,6 +22,7 @@ namespace OpenMB.Widgets
 
 		public override void Dispose()
 		{
+			MaterialManager.Singleton.Remove(materialPtr.Name);
 			materialPtr.Dispose();
 		}
 	}

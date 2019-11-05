@@ -16,6 +16,9 @@ namespace OpenMB.Widgets
 		Down,
 	}
 
+	/// <summary>
+	/// Scrollable Panel
+	/// </summary>
 	public class PanelScrollable : Panel, IScrollable
 	{
 		private List<Widget> visualWidgets;
@@ -84,11 +87,15 @@ namespace OpenMB.Widgets
 		{
 			foreach (var v in visualWidgets)
 			{
-				if (isCursorOver(v.getOverlayElement(), cursorPos))
-				{
-					v._cursorMoved(cursorPos);
-					break;
-				}
+				v._cursorMoved(cursorPos);
+			}
+		}
+
+		public override void _cursorPressed(Vector2 cursorPos)
+		{
+			foreach (var v in visualWidgets)
+			{
+				v._cursorPressed(cursorPos);
 			}
 		}
 
