@@ -15,7 +15,7 @@
     </Equips>
   </Character>
   <Character ID="cha_side_order_leader">
-    <Name>Grand Master Mason</Name>
+    <Name>Grand Master Meson</Name>
 	<Skin>skn_sinbad</Skin>
 	<Side>side_order</Side>
     <Equips>
