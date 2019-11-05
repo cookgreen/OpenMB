@@ -8,10 +8,16 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Widgets
 {
-	public class StaticTextRelative : Widget
+	public class StaticTextButton : Widget
 	{
+		private ColourValue normalStateColor;
+		private ColourValue activeStateColor;
+		protected ButtonState mState;
 		protected TextAreaOverlayElement mTextArea;
 		protected bool mFitToTray;
+		public event Action<object> OnClick;
+		public override float Width { get { return TextWidth; } }
+		public override float Height { get { return TextHeight; } }
 		public float TextWidth
 		{
 			get
@@ -45,8 +51,7 @@ namespace OpenMB.Widgets
 				return mTextArea;
 			}
 		}
-
-		public StaticTextRelative(string name, string caption, float width, bool specificColor, ColourValue color, float fontSize = 100)
+		public StaticTextButton(string name, string caption, ColourValue normalStateColor, ColourValue activeStateColor, bool specificColor = false)
 		{
 			OverlayManager overlayMgr = OverlayManager.Singleton;
 			mElement = overlayMgr.CreateOverlayElement("BorderPanel", name);
@@ -59,27 +64,82 @@ namespace OpenMB.Widgets
 			mTextArea.SetAlignment(TextAreaOverlayElement.Alignment.Left);
 			mTextArea.Top = 0.01f;
 			mTextArea.FontName = "EngineFont";
-			mTextArea.CharHeight = 0.025f * (fontSize / (float)100);
+			mTextArea.CharHeight = 0.025f;
 			mTextArea.SpaceWidth = 0.02f;
 			if (!specificColor)
 			{
-				mTextArea.Colour = new ColourValue(0.9f, 1f, 0.7f);
+				normalStateColor = new ColourValue(0.9f, 1f, 0.7f);
 			}
-			else
-			{
-				mTextArea.Colour = color;
-			}
+			mTextArea.Colour = normalStateColor;
 			((OverlayContainer)mElement).AddChild(mTextArea);
 			Text = caption;
+			_assignListener(GameManager.Instance.trayMgr.Listener);
+			this.normalStateColor = normalStateColor;
+			this.activeStateColor = activeStateColor;
+		}
+
+		public ButtonState getState()
+		{
+			return mState;
 		}
 
 		public override void _cursorPressed(Mogre.Vector2 cursorPos)
 		{
+			return;
+			if (isCursorOver(mElement, cursorPos, 4))
+			{
+				setState(ButtonState.BS_DOWN);
+				if (OnClick != null)
+				{
+					OnClick(this);
+				}
+			}
 		}
 
-		public bool _isFitToTray()
+		public override void _cursorReleased(Mogre.Vector2 cursorPos)
 		{
-			return mFitToTray;
+			if (mState == ButtonState.BS_DOWN)
+			{
+				setState(ButtonState.BS_OVER);
+			}
+		}
+
+		public override void _cursorMoved(Mogre.Vector2 cursorPos)
+		{
+			return;
+			if (isCursorOver(mElement, cursorPos, 0f))
+			{
+				if (mState == ButtonState.BS_UP)
+					setState(ButtonState.BS_OVER);
+			}
+			else
+			{
+				if (mState != ButtonState.BS_UP)
+					setState(ButtonState.BS_UP);
+			}
+		}
+
+		public override void _focusLost()
+		{
+			setState(ButtonState.BS_UP); // reset button if cursor was lost
+		}
+
+		protected void setState(ButtonState bs)
+		{
+			return;
+			if (bs == ButtonState.BS_OVER)
+			{
+				mTextArea.Colour = activeStateColor;
+			}
+			else if (bs == ButtonState.BS_UP)
+			{
+				mTextArea.Colour = normalStateColor;
+			}
+			else
+			{
+				mTextArea.Colour = activeStateColor;
+			}
+			mState = bs;
 		}
 
 		public override void AddedToAnotherWidgetFinished(
@@ -90,13 +150,13 @@ namespace OpenMB.Widgets
 			float parentWidgetHeight
 		)
 		{
-			switch(alignMode)
+			switch (alignMode)
 			{
 				case AlignMode.Center:
 					//mElement.Left = (parentWidgetWidth - TextWidth) / 2;
 					mTextArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
 					mTextArea.SetAlignment(TextAreaOverlayElement.Alignment.Center);
-					mElement.Left += mElement.Left + TextWidth - parentWidgetWidth / 1.9f;
+					mElement.Left += mElement.Left + TextWidth - parentWidgetWidth / 2;
 					break;
 			}
 		}

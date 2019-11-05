@@ -431,5 +431,37 @@ namespace OpenMB.Widgets
 				w._mouseMoved(evt);
 			}
 		}
+
+		public override void _cursorPressed(Vector2 cursorPos)
+		{
+			foreach (var w in widgets)
+			{
+				if (isCursorOver(w.getOverlayElement(), cursorPos))
+				{
+					w._cursorPressed(cursorPos);
+					break;
+				}
+			}
+		}
+		
+		public override void _cursorReleased(Vector2 cursorPos)
+		{
+			foreach (var w in widgets)
+			{
+				if (isCursorOver(w.getOverlayElement(), cursorPos))
+				{
+					w._cursorReleased(cursorPos);
+					break;
+				}
+			}
+		}
+
+		public override void _focusLost()
+		{
+			foreach (var w in widgets)
+			{
+				w._focusLost();
+			}
+		}
 	}
 }

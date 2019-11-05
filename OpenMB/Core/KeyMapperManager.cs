@@ -102,6 +102,16 @@ namespace OpenMB.Core
 		{
 			return !(left == right);
 		}
+
+		public override bool Equals(object obj)
+		{
+			return this == (KeyCollection)obj;
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
 	}
 
 	public class KeyMapperManager

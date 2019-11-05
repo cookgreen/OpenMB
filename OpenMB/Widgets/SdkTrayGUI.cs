@@ -35,6 +35,7 @@ using OpenMB.Widgets;
 using System;
 using System.Collections.Generic;
 using MOIS;
+using OpenMB.Mods.XML;
 
 namespace Mogre_Procedural.MogreBites
 {
@@ -1935,6 +1936,13 @@ namespace Mogre_Procedural.MogreBites
 		protected Mogre.GuiHorizontalAlignment[] mTrayWidgetAlign = new Mogre.GuiHorizontalAlignment[10]; // tray widget alignments
 		protected Mogre.Timer mTimer; // Root::getSingleton().getTimer()
 		protected uint mLastStatUpdateTime; // The last time the stat text were updated
+		public SdkTrayListener Listener
+		{
+			get
+			{
+				return mListener;
+			}
+		}
 
 	}
 
@@ -2221,7 +2229,21 @@ namespace Mogre_Procedural.MogreBites
 	public class Widget : IDisposable
 	{
 		private Padding padding;
-		public float Width
+		public virtual float DerivedTop
+		{
+			get
+			{
+				return mElement._getDerivedTop();
+			}
+		}
+		public virtual float DerivedLeft
+		{
+			get
+			{
+				return mElement._getDerivedLeft();
+			}
+		}
+		public virtual float Width
 		{
 			get
 			{
@@ -2232,7 +2254,7 @@ namespace Mogre_Procedural.MogreBites
 				mElement.Width = value;
 			}
 		}
-		public float Height
+		public virtual float Height
 		{
 			get
 			{
@@ -2292,6 +2314,7 @@ namespace Mogre_Procedural.MogreBites
 			}
 		}
 		public bool Adjusted { get; set; }
+		public object UserData { get; set; }
 
 		public Widget() {
             mTrayLoc = TrayLocation.TL_NONE;
@@ -2351,19 +2374,23 @@ namespace Mogre_Procedural.MogreBites
         }
 
         public static bool isCursorOver(Mogre.OverlayElement element, Mogre.Vector2 cursorPos, float voidBorder) {
-            Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
+			if (element == null)
+			{
+				return false;
+			}
+			Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
             float l = element._getDerivedLeft() * om.ViewportWidth;
             float t = element._getDerivedTop() * om.ViewportHeight;
             float r = 0;
             float b = 0;
             if (element.MetricsMode == GuiMetricsMode.GMM_RELATIVE)
-            {
-                r = l + element.Width * om.ViewportWidth;
+			{
+				r = l + element.Width * om.ViewportWidth;
                 b = t + element.Height * om.ViewportHeight;
             }
             else if (element.MetricsMode == GuiMetricsMode.GMM_PIXELS)
-            {
-                r = l + element.Width;
+			{
+				r = l + element.Width;
                 b = t + element.Height;
             }
 
@@ -2372,7 +2399,7 @@ namespace Mogre_Procedural.MogreBites
             bool b3 = cursorPos.y >= t + voidBorder;
             bool b4 = cursorPos.y <= b - voidBorder;
 
-            return (cursorPos.x >= l + voidBorder && cursorPos.x <= r - voidBorder && cursorPos.y >= t + voidBorder && cursorPos.y <= b - voidBorder);
+            return (b1 && b2 && b3 && b4);
         }
 
 		/// <summary>

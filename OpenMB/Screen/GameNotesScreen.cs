@@ -3,9 +3,11 @@ using Mogre_Procedural.MogreBites;
 using OpenMB.Core;
 using OpenMB.Game;
 using OpenMB.Mods.XML;
+using OpenMB.Utilities;
 using OpenMB.Widgets;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +16,9 @@ namespace OpenMB.Screen
 {
 	public class GameNotesScreen : Screen
 	{
-		private ModSideDfnXML currentSideInfo;
 		private GameWorld world;
 		private List<Widget> widgets;
+		private List<Widget> subWidgets;
 		public override string Name
 		{
 			get
@@ -29,6 +31,7 @@ namespace OpenMB.Screen
 		{
 			world = param[0] as GameWorld;
 			widgets = new List<Widget>();
+			subWidgets = new List<Widget>();
 		}
 
 		public override void Run()
@@ -77,7 +80,7 @@ namespace OpenMB.Screen
 
 		private void BtnFactions_OnClick(object sender)
 		{
-			ClearWidgets();
+			ClearAllWidgets();
 
 			Panel panelFactionList = GameManager.Instance.trayMgr.createPanel("panelFactionList", 0.3f, 0.92f, 0.7f, 0);
 			panelFactionList.ChangeRow(Widgets.ValueType.Abosulte, 0.05f);
@@ -94,24 +97,38 @@ namespace OpenMB.Screen
 			panelFactions.ChangeRow(Widgets.ValueType.Abosulte, 0.03f);
 			panelFactions.AddRows(world.ModData.SideInfos.Count - 1, Widgets.ValueType.Abosulte, 0.03f);
 			int curRow = 1;
+
+			widgets.Add(txtFactionsTitle);
+			widgets.Add(panelFactionList);
+			widgets.Add(panelFactions);
+
 			foreach (var sideInfo in world.ModData.SideInfos)
 			{
-				if(!GameSlotManager.Instance.SlotEqual(sideInfo.ID, "slot_faction_state", "inactive"))
+				if(!GameSlotManager.Instance.SlotEqual(sideInfo.ID, "slot_faction_state", "inactive") &&
+				   !GameSlotManager.Instance.SlotEqual(sideInfo.ID, "slot_faction_visibility", "hidden"))
 				{
-					if (!GameSlotManager.Instance.SlotEqual(sideInfo.ID, "slot_faction_visibility", "hidden"))
+					if (curRow == 1)
 					{
-						if (currentSideInfo == null)
-						{
-							currentSideInfo = sideInfo;
-						}
-						var txtFaction = new StaticText("txtFaction_" + sideInfo.Name, sideInfo.Name, 100f, false, ColourValue.Black);
-						txtFaction.WidgetMetricMode = GuiMetricsMode.GMM_RELATIVE;
-						panelFactions.AddWidgetRelative(curRow, 1, txtFaction);
-						curRow++;
+						BuildFactionDetails(sideInfo);
 					}
+					var btnFaction = new StaticTextButton("txtFaction_" + sideInfo.Name, sideInfo.Name, 
+						(Color.FromArgb(36, 35, 191).ToColourValue()), 
+						ColourValue.Black, true);
+					panelFactions.AddWidgetRelative(curRow, 1, btnFaction);
+					btnFaction.UserData = sideInfo;
+					btnFaction.OnClick += (evtObj) =>
+					{
+						BuildFactionDetails((evtObj as Widget).UserData as ModSideDfnXML);
+					};
+					curRow++;
 				}
 			}
-			
+		}
+
+		private void BuildFactionDetails(ModSideDfnXML sideInfo)
+		{
+			ClearSubWidgets();
+
 			PanelScrollable panelFactionDetails = GameManager.Instance.trayMgr.createScrollablePanel("panelFactionDetails", 0.7f, 0.92f);
 			panelFactionDetails.ChangeRow(Widgets.ValueType.Abosulte, 0.03f);//next/prev
 			panelFactionDetails.AddRow(Widgets.ValueType.Abosulte, 0.05f);//faction name
@@ -123,19 +140,19 @@ namespace OpenMB.Screen
 			panelFactionDetails.AddRow(Widgets.ValueType.Abosulte, 0.03f);//foreign relations
 			panelFactionDetails.Padding.PaddingLeft = 0.01f;
 
-			StaticTextRelative txtFactionName = new StaticTextRelative("txtFactionName", currentSideInfo.Name, 0, false, ColourValue.Black);
+			StaticTextRelative txtFactionName = new StaticTextRelative("txtFactionName", sideInfo.Name, 0, false, ColourValue.Black, 150);
 			txtFactionName.Width = txtFactionName.TextWidth;
 			txtFactionName.Height = txtFactionName.TextHeight;
 			panelFactionDetails.AddWidgetRelative(2, 1, txtFactionName, AlignMode.Center);
 
-			PanelMaterial coatOfArmsPanel = new PanelMaterial("coatOfArmsPanel", currentSideInfo.COA);
+			PanelMaterial coatOfArmsPanel = new PanelMaterial("coatOfArmsPanel", sideInfo.COA);
 			coatOfArmsPanel.Width = 0.3f;
 			coatOfArmsPanel.Height = 0.3f;
 			panelFactionDetails.AddWidgetRelative(3, 1, coatOfArmsPanel, AlignMode.Center, DockMode.Center);
 
-			string chaID = GameSlotManager.Instance.GetSlot(currentSideInfo.ID, "slot_faction_leader");
+			string chaID = GameSlotManager.Instance.GetSlot(sideInfo.ID, "slot_faction_leader");
 			var chaData = world.ModData.CharacterInfos.Where(o => o.ID == chaID).FirstOrDefault();
-			StaticTextRelative txtFactionRulerInfo = new StaticTextRelative("txtFactionRulerInfo", string.Format("{0} is ruled by {1}", currentSideInfo.Name,
+			StaticTextRelative txtFactionRulerInfo = new StaticTextRelative("txtFactionRulerInfo", string.Format("{0} is ruled by {1}", sideInfo.Name,
 				chaData == null ? "None" : chaData.Name), 0, false, ColourValue.Black);
 			txtFactionRulerInfo.Width = txtFactionName.TextWidth;
 			txtFactionRulerInfo.Height = txtFactionName.TextHeight;
@@ -156,40 +173,37 @@ namespace OpenMB.Screen
 			txtForeignRelationship.Height = txtFactionName.TextHeight;
 			panelFactionDetails.AddWidgetRelative(8, 1, txtForeignRelationship);
 
-			widgets.Add(txtFactionsTitle);
-			widgets.Add(panelFactionDetails);
-			widgets.Add(panelFactionList);
-			widgets.Add(panelFactions);
+			subWidgets.Add(panelFactionDetails);
 		}
 
 		private void BtnLocations_OnClick(object sender)
 		{
-			ClearWidgets();
+			ClearAllWidgets();
 		}
 
 		private void BtnCharacters_OnClick(object sender)
 		{
-			ClearWidgets();
+			ClearAllWidgets();
 		}
 
 		private void BtnGameConcepts_OnClick(object sender)
 		{
-			ClearWidgets();
+			ClearAllWidgets();
 		}
 
 		private void BtnNotes_OnClick(object sender)
 		{
-			ClearWidgets();
+			ClearAllWidgets();
 		}
 
 		private void BtnRecentMessage_OnClick(object sender)
 		{
-			ClearWidgets();
+			ClearAllWidgets();
 		}
 
 		private void BtnGameLog_OnClick(object sender)
 		{
-			ClearWidgets();
+			ClearAllWidgets();
 		}
 
 		private void ClearWidgets()
@@ -199,6 +213,21 @@ namespace OpenMB.Screen
 				GameManager.Instance.trayMgr.destroyWidget(widgets[i]);
 			}
 			widgets.Clear();
+		}
+
+		private void ClearSubWidgets()
+		{
+			for (int i = 0; i < subWidgets.Count; i++)
+			{
+				GameManager.Instance.trayMgr.destroyWidget(subWidgets[i]);
+			}
+			subWidgets.Clear();
+		}
+
+		private void ClearAllWidgets()
+		{
+			ClearWidgets();
+			ClearSubWidgets();
 		}
 
 		public override void Exit()

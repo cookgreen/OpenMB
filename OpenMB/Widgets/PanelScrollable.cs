@@ -82,6 +82,22 @@ namespace OpenMB.Widgets
 
 		public override void _cursorMoved(Vector2 cursorPos)
 		{
+			foreach (var v in visualWidgets)
+			{
+				if (isCursorOver(v.getOverlayElement(), cursorPos))
+				{
+					v._cursorMoved(cursorPos);
+					break;
+				}
+			}
+		}
+
+		public override void _focusLost()
+		{
+			foreach (var v in visualWidgets)
+			{
+				v._focusLost();
+			}
 		}
 
 		public new void AddRow(ValueType type = ValueType.Abosulte, float height = 0)
@@ -146,6 +162,29 @@ namespace OpenMB.Widgets
 			}
 
 			AddChildOverlayElement(widget.getOverlayElement());
+
+			if (widget.Top + widget.Height > Height)
+			{
+				scroll.Show();
+				drag.Show();
+				widget.hide();
+			}
+			else
+			{
+				visualWidgets.Add(widget);
+			}
+
+			calculateScrollBar();
+		}
+
+		public new void AddWidgetRelative(
+			int rowNum,
+			int colNum,
+			Widget widget,
+			AlignMode align = AlignMode.Left,
+			DockMode dock = DockMode.None)
+		{
+			base.AddWidgetRelative(rowNum, colNum, widget, align, dock);
 
 			if (widget.Top + widget.Height > Height)
 			{

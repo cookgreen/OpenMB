@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mogre;
+using OpenMB.Utilities;
 using OpenMB.Widgets;
 
 namespace OpenMB.Core
@@ -65,7 +66,7 @@ namespace OpenMB.Core
                 textArea.SetParameter("char_height", "0.03");
                 textArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
                 container.AddChild(textArea);
-                textArea.Colour = Utilities.Helper.HexToRgb(color.ToString());
+                textArea.Colour = color.HexToRgb();
                 textArea.Caption = message;
                 buffer.Add(message);
                 textElements.Add(textArea);

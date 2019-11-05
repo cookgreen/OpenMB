@@ -384,6 +384,7 @@
     <Compile Include="Widgets\Panel.cs" />
     <Compile Include="Widgets\SdkTrayGUI.cs" />
     <Compile Include="Widgets\StaticText.cs" />
+    <Compile Include="Widgets\StaticTextButton.cs" />
     <Compile Include="Widgets\StaticTextRelative.cs" />
     <EmbeddedResource Include="Forms\frmConfigure.resx">
       <DependentUpon>frmConfigure.cs</DependentUpon>

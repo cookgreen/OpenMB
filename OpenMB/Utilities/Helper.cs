@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using Mogre;
 using System.Runtime.InteropServices;
+using System.Drawing;
 
 namespace OpenMB.Utilities
 {
@@ -103,7 +104,7 @@ namespace OpenMB.Utilities
             return null;
         }
 
-        public static ColourValue HexToRgb(string hexstr)
+        public static ColourValue HexToRgb(this string hexstr)
         {
             ColourValue cv = new ColourValue();
             if (hexstr.StartsWith("0x") && hexstr.Length == 8)
@@ -200,6 +201,16 @@ namespace OpenMB.Utilities
 			Random random = new Random(list.Count());
 			int rIndex = random.Next(0, list.Count());
 			return list.ElementAt(rIndex);
+		}
+
+		public static ColourValue ToColourValue(this Color color)
+		{
+			return new ColourValue(
+				(float)color.R / (float)255, 
+				(float)color.G / (float)255, 
+				(float)color.B / (float)255, 
+				(float)color.A / (float)255
+			);
 		}
 	}
 }
