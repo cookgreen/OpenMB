@@ -230,7 +230,7 @@
     <Compile Include="Mods\XML\ModModelDfnXml.cs" />
     <Compile Include="Mods\XML\ModScenePropDfnXml.cs" />
     <Compile Include="Mods\XML\ModSettingDfnXml.cs" />
-    <Compile Include="Mods\XML\ModSkeletonsDfnXML.cs" />
+    <Compile Include="Mods\XML\ModSkeletonsDfnXml.cs" />
     <Compile Include="Mods\XML\ModSkinDfnXml.cs" />
     <Compile Include="Mods\XML\ModWorldMapsDfnXml.cs" />
     <Compile Include="Screen\CharacterScreen.cs" />
