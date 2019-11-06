@@ -410,6 +410,11 @@ namespace OpenMB.Widgets
 
         public override void Dispose()
         {
+			foreach(var w in widgets)
+			{
+				w.Dispose();
+			}
+			widgets.Clear();
 		}
 
 		public override void _mouseMoved(MouseEvent evt)

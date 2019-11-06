@@ -2333,10 +2333,10 @@ namespace Mogre_Procedural.MogreBites
 			if (mElement != null)
 			{
 				nukeOverlayElement(mElement);
-				Dispose();
 			}
 			mElement = null;
-        }
+			Dispose();
+		}
 
 		protected void AddChildOverlayElement(OverlayElement overlayElement)
 		{

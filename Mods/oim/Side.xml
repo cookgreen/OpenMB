@@ -9,11 +9,11 @@
   </Side>
   <Side ID="side_empire">
     <Name>The Empire</Name>
-	<COA>coat_or_arms_the_empire.png</COA>
+	<COA>coat_of_arms_the_empire.png</COA>
   </Side>
   <Side ID="side_order">
     <Name>The Order</Name>
-	<COA>coat_or_arms_the_order.png</COA>
+	<COA>coat_of_arms_the_order.png</COA>
   </Side>
   <Side ID="side_outlaws">
     <Name>The Outlaws</Name>
