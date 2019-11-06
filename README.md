@@ -24,9 +24,12 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
   * Mouse Control Camera look at  
   
 ## Screenshots:
-
-![](https://media.moddb.com/images/games/1/72/71205/image.png)  
-![](https://media.moddb.com/images/games/1/72/71205/inventory.1.png)  
+<details>
+ <summary>spoiler</summary>
+ <img src="https://media.moddb.com/images/games/1/72/71205/image.png" />  
+ <img src="https://media.moddb.com/images/games/1/72/71205/inventory.1.png" />  
+ <img src="https://media.moddb.com/images/games/1/72/71205/game-notes-faction.PNG" />  
+</details>
 
 ## Credit:
 * Mogre  
