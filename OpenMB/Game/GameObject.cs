@@ -23,15 +23,15 @@ namespace OpenMB.Game
         protected Scene physicsScene;
         protected HealthInfo health;
         private Actor entityActor;
-        public string ID
+        public int ID
         {
             get
             {
-                return strID;
+                return id;
             }
 			set
 			{
-				strID = value;
+				id = value;
 			}
         }
         public MoveInfo MoveInfo

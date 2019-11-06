@@ -19,22 +19,22 @@ namespace OpenMB.Mods
 
         public bool CheckCondition(params object[] param)
         {
-            string missileScenePropInstanceID = param[0].ToString();
-            string scenePropInstanceID = param[1].ToString();
-            GameMap map = param[2] as GameMap;
-            SceneProp sceneProp = map.GetSceneProp(scenePropInstanceID);
-            if (sceneProp == null)
-            {
-                return false;
-            }
-
-            SceneProp missileSceneProp = map.GetSceneProp(missileScenePropInstanceID);
-            if (missileSceneProp == null)
-            {
-                return false;
-            }
-
-            return sceneProp.CheckCollide(missileSceneProp);
-        }
+			//string missileScenePropInstanceID = param[0].ToString();
+			//string scenePropInstanceID = param[1].ToString();
+			//GameMap map = param[2] as GameMap;
+			//SceneProp sceneProp = map.GetSceneProp(scenePropInstanceID);
+			//if (sceneProp == null)
+			//{
+			//    return false;
+			//}
+			//
+			//SceneProp missileSceneProp = map.GetSceneProp(missileScenePropInstanceID);
+			//if (missileSceneProp == null)
+			//{
+			//    return false;
+			//}
+			//return sceneProp.CheckCollide(missileSceneProp);
+			return false;
+		}
     }
 }

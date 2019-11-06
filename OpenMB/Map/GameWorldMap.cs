@@ -9,6 +9,7 @@ namespace OpenMB.Map
 {
 	public class GameWorldMap : IGameMap
 	{
+		private GameWorld world;
 		private ModData modData;
 		private SceneManager sceneManager;
 		private List<GameObject> locations;
@@ -26,6 +27,7 @@ namespace OpenMB.Map
 		public GameWorldMap(GameWorld world)
 		{
 			locations = new List<GameObject>();
+			this.world = world;
 			sceneManager = world.SceneManager;
 			modData = world.ModData;
 		}
@@ -59,7 +61,10 @@ namespace OpenMB.Map
 					var model = modData.Models.Where(o => o.ID == locationInfo.Model.Resource).FirstOrDefault();
 					model.ModelType = modelTypeInfo;
 
-
+					GameLocation location = new GameLocation(world, locationInfo);
+					location.Spawn();
+					location.ID = locations.Count;
+					locations.Add(location);
 				}
 			}
 		}

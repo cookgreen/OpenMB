@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mogre;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +43,14 @@ namespace OpenMB.Mods.XML
         public float X { get; set; }
         [XmlAttribute]
         public float Y { get; set; }
-    }
+		[XmlAttribute]
+		public float Z { get; set; }
+
+		public Vector3 ToPositionVector()
+		{
+			return new Vector3(X, Y, Z);
+		}
+	}
 
     public class ModLocationFlagDfnXml
     {

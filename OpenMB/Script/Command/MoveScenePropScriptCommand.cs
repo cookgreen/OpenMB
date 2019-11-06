@@ -49,9 +49,10 @@ namespace OpenMB.Script.Command
             GameWorld world = executeArgs[0] as GameWorld;
             world.MoveSceneProp(
                 getParamterValue(commandArgs[0]),
-                getParamterValue(commandArgs[1]), 
-                getParamterValue(commandArgs[2])
-            );
+                int.Parse(getParamterValue(commandArgs[1])), 
+                getParamterValue(commandArgs[2]),
+				getParamterValue(commandArgs[3])
+			);
         }
     }
 }

@@ -43,7 +43,10 @@ namespace OpenMB.Script.Command
         public override void Execute(params object[] executeArgs)
         {
             GameWorld world = executeArgs[0] as GameWorld;
-            world.RemoveSceneProp(getParamterValue(commandArgs[0]));
+            world.RemoveSceneProp(
+				getParamterValue(commandArgs[0]), 
+				int.Parse(getParamterValue(commandArgs[1]))
+			);
         }
     }
 }

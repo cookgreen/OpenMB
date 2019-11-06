@@ -482,14 +482,14 @@ namespace OpenMB.Game
 			return GameMapManager.Instance.CurrentMap.GetScenePropInstanceID(scenePropID, int.Parse(scenePropInstanceNum));
 		}
 
-		public void RemoveSceneProp(string propInstanceID)
+		public void RemoveSceneProp(string scenePropID, int propInstanceID)
 		{
-			GameMapManager.Instance.CurrentMap.RemoveSceneProp(propInstanceID);
+			GameMapManager.Instance.CurrentMap.RemoveSceneProp(scenePropID, propInstanceID);
 		}
 
-		public void MoveSceneProp(string propInstanceID, string axis, string movement)
+		public void MoveSceneProp(string sceneTypeID, int propInstanceID, string axis, string movement)
 		{
-			GameMapManager.Instance.CurrentMap.MoveSceneProp(propInstanceID, int.Parse(axis), int.Parse(movement));
+			GameMapManager.Instance.CurrentMap.MoveSceneProp(sceneTypeID, propInstanceID, int.Parse(axis), int.Parse(movement));
 		}
 
 		public void CreatePlane(string materialName, Mogre.Vector3 vector31, float v1, int v2, int v3, int v4, int v5, ushort v6, int v7, int v8, Mogre.Vector3 vector32, Mogre.Vector3 vector33)
