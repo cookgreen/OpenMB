@@ -2228,7 +2228,7 @@ namespace Mogre_Procedural.MogreBites
 	/// </summary>
 	public class Widget : IDisposable
 	{
-		private Padding padding;
+		private readonly Padding padding;
 		public virtual float DerivedTop
 		{
 			get
@@ -2287,6 +2287,21 @@ namespace Mogre_Procedural.MogreBites
 				mElement.Top = value;
 			}
 		}
+		public int Row { get; set; }
+		public int Col { get; set; }
+		public int RowSpan { get; set; }
+		public int ColSpan { get; set; }
+		public AlignMode HorizontalAlignMode { get; set; }
+		public AlignMode VerticalAlignMode { get; set; }
+		public DockMode Dock { get; set; }
+		public Padding Padding
+		{
+			get
+			{
+				return padding;
+			}
+		}
+		public object UserData { get; set; }
 		public GuiMetricsMode MetricMode
 		{
 			get
@@ -2305,16 +2320,6 @@ namespace Mogre_Procedural.MogreBites
 				return mElement.ZOrder;
 			}
 		}
-
-		public Padding Padding
-		{
-			get
-			{
-				return padding;
-			}
-		}
-		public bool Adjusted { get; set; }
-		public object UserData { get; set; }
 
 		public Widget() {
             mTrayLoc = TrayLocation.TL_NONE;
@@ -2646,9 +2651,6 @@ namespace Mogre_Procedural.MogreBites
 		protected Mogre.OverlayElement mElement;
         protected TrayLocation mTrayLoc;
         protected SdkTrayListener mListener;
-
-		public int Row;
-		public int Col;
 
     }
 

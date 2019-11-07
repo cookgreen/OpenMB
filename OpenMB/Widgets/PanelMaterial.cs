@@ -19,6 +19,12 @@ namespace OpenMB.Widgets
 
 			mElement.MaterialName = matName;
 		}
+		public PanelMaterial(string name, MaterialPtr material, float width = 0, float height = 0, float left = 0, float top = 0) : base(name, "MeshPanel", width, height, left, top)
+		{
+			materialPtr = material;
+
+			mElement.MaterialName = material.Name;
+		}
 
 		public override void Dispose()
 		{

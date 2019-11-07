@@ -22,14 +22,14 @@ namespace OpenMB.Game
 			var model = world.ModData.Models.Where(o => o.ID == lotData.Model.Resource).FirstOrDefault();
 			if (model != null)
 			{
-				entity = sceneManager.CreateEntity(Guid.NewGuid().ToString(), model.Mesh);
-				entity.SetMaterialName(model.Material);
-				entNode = sceneManager.RootSceneNode.CreateChildSceneNode();
-				entNode.AttachObject(entity);
-				entNode.Position = position;
-				for (int i = 0; i < entity.NumSubEntities; i++)
+				mesh.Entity = mesh.SceneManager.CreateEntity(Guid.NewGuid().ToString(), model.Mesh);
+				mesh.Entity.SetMaterialName(model.Material);
+				mesh.EntityNode = mesh.SceneManager.RootSceneNode.CreateChildSceneNode();
+				mesh.EntityNode.AttachObject(mesh.Entity);
+				mesh.EntityNode.Position = position;
+				for (int i = 0; i < mesh.Entity.NumSubEntities; i++)
 				{
-					SubEntity subEnt = entity.GetSubEntity((uint)i);
+					SubEntity subEnt = mesh.Entity.GetSubEntity((uint)i);
 					subEnt.SetMaterialName(model.Material);
 				}
 			}

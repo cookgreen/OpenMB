@@ -136,7 +136,6 @@ namespace OpenMB.Game
             this.chaData = chaData;
             skin = chaSkin;
             Id = id;
-			position = initPosition;
 			brain = new DecisionSystem(this);
 			weaponSystem = new WeaponSystem(this, null);
 			equipmentSystem = new EquipmentSystem(this);
@@ -148,7 +147,8 @@ namespace OpenMB.Game
 
             initEquipments();
 
-			controller = new CharacterController(world, chaData, chaSkin, position, isBot);
+			mesh = new CharacterController(world, chaData, chaSkin, initPosition, isBot);
+			controller = (CharacterController)mesh;
 		}
 
         private void initEquipments()
@@ -242,7 +242,6 @@ namespace OpenMB.Game
 
         public override void Update(float timeSinceLastFrame)
         {
-            position = controller.Position;
             brain.Update(timeSinceLastFrame);
             controller.update(timeSinceLastFrame);
             weaponSystem.Update(timeSinceLastFrame);
@@ -441,5 +440,16 @@ namespace OpenMB.Game
         {
             controller.Dispose();
         }
-    }
+
+		public override MaterialPtr RenderPreview()
+		{
+			return controller.RenderPreview();
+		}
+
+		public override void Destroy()
+		{
+			controller.EntityNode.RemoveAndDestroyAllChildren();
+			controller.SceneManager.DestroySceneNode(controller.EntityNode);
+		}
+	}
 }

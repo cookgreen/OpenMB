@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mogre;
 
 namespace OpenMB.Game.ItemTypes
 {
@@ -26,7 +27,7 @@ namespace OpenMB.Game.ItemTypes
             }
         }
 
-        public void Use(params object[] param)
+		public void Use(params object[] param)
         {
             GameWorld world = param[0] as GameWorld;
             int userID = int.Parse(param[1].ToString());
@@ -41,7 +42,12 @@ namespace OpenMB.Game.ItemTypes
             {
                 character = world.GetAgentById(userID);
             }
-            
-        }
-    }
+
+		}
+
+		public MaterialPtr RenderPreview(Entity ent)
+		{
+			return null;
+		}
+	}
 }

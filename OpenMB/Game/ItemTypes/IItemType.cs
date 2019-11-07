@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mogre;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,7 @@ namespace OpenMB.Game.ItemTypes
         string AttachBoneName { get; }
 
         void Use(params object[] param);
+
+		MaterialPtr RenderPreview(Entity ent);
     }
 }

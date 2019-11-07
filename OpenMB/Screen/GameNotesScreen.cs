@@ -141,8 +141,6 @@ namespace OpenMB.Screen
 			panelFactionDetails.Padding.PaddingLeft = 0.01f;
 
 			StaticTextRelative txtFactionName = new StaticTextRelative("txtFactionName", sideInfo.Name, 0, false, ColourValue.Black, 150);
-			txtFactionName.Width = txtFactionName.TextWidth;
-			txtFactionName.Height = txtFactionName.TextHeight;
 			panelFactionDetails.AddWidgetRelative(2, 1, txtFactionName, AlignMode.Center);
 
 			PanelMaterial coatOfArmsPanel = new PanelMaterial("coatOfArmsPanel", sideInfo.COA);
@@ -159,18 +157,12 @@ namespace OpenMB.Screen
 			panelFactionDetails.AddWidgetRelative(4, 1, txtFactionRulerInfo);
 
 			StaticTextRelative txtOccupiedLands = new StaticTextRelative("txtOccupiedLands", "It occupies none", 0, false, ColourValue.Black);
-			txtOccupiedLands.Width = txtFactionName.TextWidth;
-			txtOccupiedLands.Height = txtFactionName.TextHeight;
 			panelFactionDetails.AddWidgetRelative(5, 1, txtOccupiedLands);
 
 			StaticTextRelative txtVassalInfos = new StaticTextRelative("txtVassalInfos", "Its vassals are none", 0, false, ColourValue.Black);
-			txtVassalInfos.Width = txtFactionName.TextWidth;
-			txtVassalInfos.Height = txtFactionName.TextHeight;
 			panelFactionDetails.AddWidgetRelative(6, 1, txtVassalInfos);
 
 			StaticTextRelative txtForeignRelationship = new StaticTextRelative("txtForeignRelationship", "Foreign relations: ", 0, false, ColourValue.Black);
-			txtForeignRelationship.Width = txtFactionName.TextWidth;
-			txtForeignRelationship.Height = txtFactionName.TextHeight;
 			panelFactionDetails.AddWidgetRelative(8, 1, txtForeignRelationship);
 
 			subWidgets.Add(panelFactionDetails);

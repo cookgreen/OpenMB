@@ -15,7 +15,7 @@ namespace OpenMB.Game
     /// <summary>
     /// Controller used by Character
     /// </summary>
-    public class CharacterController
+    public class CharacterController : GameMesh
     {
         private const int CHAR_HEIGHT = 5;      // height of character's center of mass above ground
         private const int CAM_HEIGHT = 2;          // height of camera above character's center of mass
@@ -24,14 +24,10 @@ namespace OpenMB.Game
         private const float ANIM_FADE_SPEED = 7.5f;   // animation crossfade speed in % of full weight per second
         private const float JUMP_ACCEL = 30.0f;       // character jump acceleration in upward units per squared second
         private const float GRAVITY = 90.0f;          // gravity in downward units per squared second
-        private SceneManager sceneMgr;
-        private Camera camera;
-        private SceneNode bodyNode;
         private SceneNode cameraPivot;
         private SceneNode cameraGoal;
         private SceneNode cameraNode;
         private float pivotPitch;
-        private Entity bodyEnt;
         private List<CharacterAnimation> anims = new List<CharacterAnimation>();    // master animation list
         private CharacterAnimation baseAnim;                   // current base (full- or lower-body) animation
         private CharacterAnimation topAnim;                    // current top (upper-body) animation
@@ -57,14 +53,14 @@ namespace OpenMB.Game
         public SceneNode BodyNode
         {
             get { 
-                return bodyNode; 
+                return entityNode; 
             }
         }
         public Mogre.Vector3 Position
         {
             get
             {
-                return bodyNode.Position;
+                return entityNode.Position;
             }
         }
         public Mogre.Vector3 Direction
@@ -86,28 +82,24 @@ namespace OpenMB.Game
 			ModCharacterDfnXML chaData,
 			ModCharacterSkinDfnXML chaSkin,
 			Mogre.Vector3 initPosition,
-			bool isBot = true)
+			bool isBot = true) : base(world.Camera)
 		{
 			this.world = world;
-			camera = world.Camera;
 			controlled = !isBot;
 			itemAttached = new List<Entity>();
-			sceneMgr = world.SceneManager;
 			charaMeshName = chaSkin.Mesh;
 			physicsScene = world.PhysicsScene;
 			physics = physicsScene.Physics;
 			cotrollerManager = physics.ControllerManager;
-			//query = query;
+			this.chaData = chaData;
+			this.chaSkin = chaSkin;
+
 			setupBody(initPosition);
 			if (controlled)
 			{
 				setupCamera(camera);
 			}
-
-            this.chaData = chaData;
-			this.chaSkin = chaSkin;
-
-			setupAnimations();
+			//setupAnimations();
 			setupPhysics();
 		}
 
@@ -121,17 +113,18 @@ namespace OpenMB.Game
             {
                 if (!string.IsNullOrEmpty(charaMeshName))
                 {
-                    bodyNode = sceneMgr.RootSceneNode.CreateChildSceneNode(Mogre.Vector3.UNIT_Y * CHAR_HEIGHT * initPosition.y);
-                    bodyEnt = sceneMgr.CreateEntity(Guid.NewGuid().ToString(), charaMeshName);
-                    bodyNode.AttachObject(bodyEnt);
-                    bodyNode.SetPosition(initPosition.x, bodyNode.Position.y, initPosition.z);
+                    entityNode = sceneManager.CreateSceneNode();
+					entityNode.Translate(Mogre.Vector3.UNIT_Y * CHAR_HEIGHT * initPosition.y);
+                    entity = sceneManager.CreateEntity(Guid.NewGuid().ToString(), charaMeshName);
+                    entityNode.AttachObject(entity);
+                    entityNode.SetPosition(initPosition.x, entityNode.Position.y, initPosition.z);
                     keyDirection = Mogre.Vector3.ZERO;
                     verticalVelocity = 0;
                     lastPosition = initPosition;
 
-                    bodyNode.Pitch(new Radian(new Degree(chaSkin.OritentionOffset.x)));
-                    bodyNode.Yaw(new Radian(new Degree(chaSkin.OritentionOffset.y)));
-                    bodyNode.Roll(new Radian(new Degree(chaSkin.OritentionOffset.z)));
+                    entityNode.Pitch(new Radian(new Degree(chaSkin.OritentionOffset.x)));
+                    entityNode.Yaw(new Radian(new Degree(chaSkin.OritentionOffset.y)));
+                    entityNode.Roll(new Radian(new Degree(chaSkin.OritentionOffset.z)));
 
                     return true;
                 }
@@ -152,7 +145,7 @@ namespace OpenMB.Game
         /// </summary>
         private void setupAnimations()
         {
-            bodyEnt.Skeleton.BlendMode = SkeletonAnimationBlendMode.ANIMBLEND_CUMULATIVE;
+            entity.Skeleton.BlendMode = SkeletonAnimationBlendMode.ANIMBLEND_CUMULATIVE;
 
             // populate our animation list
             for (int i = 0; i < chaSkin.SkinAnimations.Count; i++)
@@ -168,7 +161,7 @@ namespace OpenMB.Game
 				AnimationState animState = null;
                 if (!string.IsNullOrEmpty(skinAnim.AnimID))
                 {
-                    animState = bodyEnt.GetAnimationState(skinAnim.AnimID);
+                    animState = entity.GetAnimationState(skinAnim.AnimID);
                     animState.Loop = true;
                 }
                 CharacterAnimation chaAnim = new CharacterAnimation(skinAnim.AnimID, animState, skinAnim.Type);
@@ -218,9 +211,9 @@ namespace OpenMB.Game
         {
             Camera cam = (Camera)cameraNode.GetAttachedObjectIterator().ElementAt(0);
             cameraNode.DetachAllObjects();
-            sceneMgr.DestroySceneNode(cameraNode);
-            sceneMgr.DestroySceneNode(cameraGoal);
-            sceneMgr.DestroySceneNode(cameraPivot);
+            sceneManager.DestroySceneNode(cameraNode);
+            sceneManager.DestroySceneNode(cameraGoal);
+            sceneManager.DestroySceneNode(cameraPivot);
             cameraNode = null;
             cameraGoal = null;
             cameraPivot = null;
@@ -230,14 +223,14 @@ namespace OpenMB.Game
         private void setupPhysics()
         {
             CapsuleControllerDesc desc = new CapsuleControllerDesc();
-            desc.Position = bodyNode.Position;
+            desc.Position = entityNode.Position;
             desc.StepOffset = 0.01f;
             desc.SlopeLimit = 0.5f; // max slope the character can walk
             desc.Radius = 2.5f; //radius of the capsule
             desc.Height = CHAR_HEIGHT; //height of the controller
             desc.ClimbingMode = CapsuleClimbingModes.Easy;
             desc.UpDirection = HeightFieldAxes.Y; // Specifies the 'up' direction
-            desc.Position = bodyNode.Position;
+            desc.Position = entityNode.Position;
             physicsController = cotrollerManager.CreateController(physicsScene, desc);
             physicsController.Actor.Group = 3;
         }
@@ -251,9 +244,9 @@ namespace OpenMB.Game
         {
             if (itemEnt.IsAttached)
             {
-                bodyEnt.DetachObjectFromBone(itemEnt);
+                entity.DetachObjectFromBone(itemEnt);
             }
-            bodyEnt.AttachObjectToBone(boneName, itemEnt);
+            entity.AttachObjectToBone(boneName, itemEnt);
             itemAttached.Add(itemEnt);
         }
 
@@ -265,7 +258,7 @@ namespace OpenMB.Game
         {
             if (!itemEnt.IsAttached)
             {
-                bodyEnt.DetachObjectFromBone(itemEnt);
+                entity.DetachObjectFromBone(itemEnt);
                 itemAttached.Remove(itemEnt);
             }
         }
@@ -335,7 +328,36 @@ namespace OpenMB.Game
             }
         }
 
-        public void injectMouseMove(MouseEvent evt)
+		public MaterialPtr RenderPreview()
+		{
+			string textureName = "RttTex_Character_" + Guid.NewGuid().ToString();
+			string materialName = "RttMat_Character_" + Guid.NewGuid().ToString();
+
+			TexturePtr rttTexture =
+			 TextureManager.Singleton.CreateManual(
+			   textureName,
+			   ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
+			   TextureType.TEX_TYPE_2D,
+			   GameManager.Instance.renderWindow.Width,
+			   GameManager.Instance.renderWindow.Height,
+			   0,
+			   PixelFormat.PF_R8G8B8,
+			   (int)TextureUsage.TU_RENDERTARGET);
+
+			RenderTexture renderTexture = rttTexture.GetBuffer().GetRenderTarget();
+			renderTexture.AddViewport(camera);
+			renderTexture.GetViewport(0).SetClearEveryFrame(false);
+			renderTexture.GetViewport(0).BackgroundColour = new ColourValue(0, 0, 0, 0);
+			renderTexture.Update();
+
+			MaterialPtr materialPtr = MaterialManager.Singleton.Create(materialName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+			materialPtr.GetTechnique(0).GetPass(0).SetSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
+			materialPtr.GetTechnique(0).GetPass(0).CreateTextureUnitState().SetTextureName(textureName);
+
+			return materialPtr;
+		}
+
+		public void injectMouseMove(MouseEvent evt)
         {
             if (controlled)
             {
@@ -350,27 +372,27 @@ namespace OpenMB.Game
 
         public void YawBody(Degree degree)
         {
-            bodyNode.Yaw(degree);
+            entityNode.Yaw(degree);
         }
 
         public Quaternion GetBodyOrientation()
         {
-            return bodyNode.Orientation;
+            return entityNode.Orientation;
         }
 
         public void RotateBody(Quaternion quat)
         {
-            bodyNode.Rotate(quat);
+            entityNode.Rotate(quat);
         }
 
         public void TranslateBody(Mogre.Vector3 vector3)
         {
-            bodyNode.Translate(vector3);
+            entityNode.Translate(vector3);
         }
 
         public void SetBodyPos(float x, float y, float z)
         {
-            bodyNode.SetPosition(x, y, z);
+            entityNode.SetPosition(x, y, z);
         }
 
         public void injectMouseDown(MouseEvent evt, MouseButtonID id)
@@ -396,7 +418,7 @@ namespace OpenMB.Game
                 goalDirection.y = 0;
                 goalDirection.Normalise();
 
-                Quaternion toGoal = bodyNode.Orientation.ZAxis.GetRotationTo(goalDirection);
+                Quaternion toGoal = entityNode.Orientation.ZAxis.GetRotationTo(goalDirection);
 
                 // calculate how much the character has to turn to face goal direction
                 float yawToGoal = toGoal.Yaw.ValueDegrees;
@@ -409,40 +431,40 @@ namespace OpenMB.Game
                 if (yawToGoal < 0) yawToGoal = System.Math.Min(0, System.Math.Max(yawToGoal, yawAtSpeed)); //yawToGoal = Math::Clamp<Real>(yawToGoal, yawAtSpeed, 0);
                 else if (yawToGoal > 0) yawToGoal = System.Math.Max(0, System.Math.Min(yawToGoal, yawAtSpeed)); //yawToGoal = Math::Clamp<Real>(yawToGoal, 0, yawAtSpeed);
 
-                bodyNode.Yaw(new Degree(yawToGoal));
+                entityNode.Yaw(new Degree(yawToGoal));
 
                 // move in current body direction (not the goal direction)
                 var dist = deltaTime * RUN_SPEED/* * baseAnim.AnimationState.Weight*/;
                 Mogre.Vector3 displacement = new Mogre.Vector3(0, 0, dist);
-                bodyNode.Translate(displacement.x, displacement.y, displacement.z,
+                entityNode.Translate(displacement.x, displacement.y, displacement.z,
                     Node.TransformSpace.TS_LOCAL);
 
                 /*Get world movement*/
-                displacement = bodyNode.Orientation * displacement;
+                displacement = entityNode.Orientation * displacement;
 
                 ControllerFlags flag;
                 physicsController.Move(displacement, 0, 0.01f, out flag);
-                bodyNode.Position = new Mogre.Vector3(
+                entityNode.Position = new Mogre.Vector3(
                     physicsController.Actor.GlobalPosition.x,
-                    bodyNode.Position.y, 
+                    entityNode.Position.y, 
                     physicsController.Actor.GlobalPosition.z);
             }
 
             if (baseAnim.Type == ChaAnimType.CAT_JUMP_LOOP)
             {
                 // if we're jumping, add a vertical offset too, and apply gravity
-                bodyNode.Translate(0, verticalVelocity * deltaTime, 0, Node.TransformSpace.TS_LOCAL);
+                entityNode.Translate(0, verticalVelocity * deltaTime, 0, Node.TransformSpace.TS_LOCAL);
                 verticalVelocity -= GRAVITY * deltaTime;
 
-                Mogre.Vector3 pos = bodyNode.Position;
+                Mogre.Vector3 pos = entityNode.Position;
                 if (pos.y <= CHAR_HEIGHT * lastPosition.y)
                 {
                     // if we've hit the ground, change to landing state
                     pos.y = CHAR_HEIGHT * lastPosition.y;
-                    bodyNode.Position = pos;
+                    entityNode.Position = pos;
                     ControllerFlags flag;
                     physicsController.Move(pos, 1 << 3, 0.01f, out flag);
-                    bodyNode.Position = physicsController.Actor.GlobalPosition;
+                    entityNode.Position = physicsController.Actor.GlobalPosition;
                     SetBaseAnimation(anims.Where(o => o.Type == ChaAnimType.CAT_JUMP_END).First(), true);
                     timer = 0;
                 }
@@ -534,7 +556,7 @@ namespace OpenMB.Game
         public void updateCamera(float deltaTime)
         {
             // place the camera pivot roughly at the character's shoulder
-            cameraPivot.Position = bodyNode.Position + Mogre.Vector3.UNIT_Y * CAM_HEIGHT;
+            cameraPivot.Position = entityNode.Position + Mogre.Vector3.UNIT_Y * CAM_HEIGHT;
             // move the camera smoothly to the goal
             Mogre.Vector3 goalOffset = cameraGoal._getDerivedPosition() - cameraNode.Position;
             cameraNode.Translate(goalOffset * deltaTime * 9.0f);
@@ -642,8 +664,8 @@ namespace OpenMB.Game
 
         public void Dispose()
         {
-            bodyNode.DetachAllObjects();
-            sceneMgr.RootSceneNode.RemoveChild(bodyNode);
+            entityNode.DetachAllObjects();
+            sceneManager.RootSceneNode.RemoveChild(entityNode);
             if(controlled)
             {
                 removeCamera();

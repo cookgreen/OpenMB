@@ -12,6 +12,8 @@ namespace OpenMB.Widgets
 	{
 		protected TextAreaOverlayElement mTextArea;
 		protected bool mFitToTray;
+		public override float Width { get { return TextWidth; } }
+		public override float Height { get { return TextHeight; } }
 		public float TextWidth
 		{
 			get

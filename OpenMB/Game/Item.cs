@@ -87,8 +87,6 @@ namespace OpenMB.Game
         public event Action<int, int> OnWeaponAttack;
 
         #region Render
-        private Entity itemEnt;
-        private SceneNode itemNode;
         private Actor itemActor;
         private ModItemDfnXML itemData;
         #endregion
@@ -109,11 +107,7 @@ namespace OpenMB.Game
         }
         public Entity ItemEnt
         {
-            get { return itemEnt; }
-        }
-        public SceneNode ItemNode
-        {
-            get { return itemNode; }
+            get { return mesh.Entity; }
         }
         public string ItemTypeID
         {
@@ -166,36 +160,36 @@ namespace OpenMB.Game
 
         protected override void create()
         {
-            itemEnt = camera.SceneManager.CreateEntity(Guid.NewGuid().ToString(),itemData.MeshName);
-            itemNode = camera.SceneManager.RootSceneNode.CreateChildSceneNode();
-            itemNode.AttachObject(itemEnt);
+            mesh.Entity = mesh.SceneManager.CreateEntity(Guid.NewGuid().ToString(),itemData.MeshName);
+			mesh.EntityNode = mesh.SceneManager.RootSceneNode.CreateChildSceneNode();
+			mesh.EntityNode.AttachObject(mesh.Entity);
 
             ActorDesc actorDesc = new ActorDesc();
             actorDesc.Density = 4;
             actorDesc.Body = null;
             actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
-                StaticMeshData(itemEnt.GetMesh())));
+                StaticMeshData(mesh.Entity.GetMesh())));
             itemActor = physicsScene.CreateActor(actorDesc);
         }
 
         protected override void create(GameWorld world)
         {
             base.create(world);
-            itemEnt = camera.SceneManager.CreateEntity(itemName, itemMeshName);
-            itemNode = camera.SceneManager.RootSceneNode.CreateChildSceneNode();
-            itemNode.AttachObject(itemEnt);
+			mesh.Entity = mesh.SceneManager.CreateEntity(itemName, itemMeshName);
+			mesh.EntityNode = mesh.SceneManager.RootSceneNode.CreateChildSceneNode();
+			mesh.EntityNode.AttachObject(mesh.Entity);
 
             ActorDesc actorDesc = new ActorDesc();
             actorDesc.Density = 4;
             actorDesc.Body = null;
             actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
-                StaticMeshData(itemEnt.GetMesh())));
+                StaticMeshData(mesh.Entity.GetMesh())));
             itemActor = physicsScene.CreateActor(actorDesc);
         }
 
         public void Drop()
         {
-            itemNode.DetachObject(ItemEnt);
+            mesh.EntityNode.DetachObject(ItemEnt);
         }
 
         /// <summary>
@@ -239,5 +233,10 @@ namespace OpenMB.Game
         {
 
         }
-    }
+
+		public override MaterialPtr RenderPreview()
+		{
+			return itemType2.RenderPreview(mesh.Entity);
+		}
+	}
 }

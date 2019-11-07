@@ -117,7 +117,9 @@ namespace OpenMB.Widgets
 			int colNum,
 			Widget widget,
 			AlignMode align = AlignMode.Left,
-			DockMode dock = DockMode.None)
+			DockMode dock = DockMode.None,
+			int rowSpan = 1,
+			int colSpan = 1)
 		{
 			widget.Col = colNum;
 			widget.Row = rowNum;
@@ -189,9 +191,11 @@ namespace OpenMB.Widgets
 			int colNum,
 			Widget widget,
 			AlignMode align = AlignMode.Left,
-			DockMode dock = DockMode.None)
+			DockMode dock = DockMode.None,
+			int rowSpan = 1,
+			int colSpan = 1)
 		{
-			base.AddWidgetRelative(rowNum, colNum, widget, align, dock);
+			base.AddWidgetRelative(rowNum, colNum, widget, align, dock, rowSpan, colSpan);
 
 			if (widget.Top + widget.Height > Height)
 			{

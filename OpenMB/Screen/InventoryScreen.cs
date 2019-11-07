@@ -14,13 +14,10 @@ namespace OpenMB.Screen
 {
     public class InventoryScreen : Screen
     {
+		private GameWorld world;
+		private GameObject gameObject;
 		private string chaID;
 		private ModCharacterDfnXML chaData;
-        private Entity ent;
-        private SceneNode sceneNode;
-        private Overlay meshLayer;
-        private AnimationState baseAnim;
-        private AnimationState topAnim;
 		private Panel discordPanel;
 		private Panel discordInventoryPanel;
 		private Panel playerPanel;
@@ -28,6 +25,7 @@ namespace OpenMB.Screen
 		private Panel playerPreviewPanel;
 		private Panel backpackPanel;
 		private PanelScrollable backpackInventoryPanel;
+		private Overlay meshLayer;
 
 		public override event Action OnScreenExit;
 
@@ -52,6 +50,7 @@ namespace OpenMB.Screen
         {
             if (param.Length > 0)
             {
+				world = param[0] as GameWorld;
 				chaID = param[1].ToString();
             }
             GameManager.Instance.trayMgr.destroyAllWidgets();
@@ -84,47 +83,47 @@ namespace OpenMB.Screen
 				throw new Exception("Idle Anim Data can't be null!");
 			}
 
-			ModSubAnimationDfnXml baseIdleAnim = null;
-			ModSubAnimationDfnXml topIdleAnim = null;
-			if (idleAnim.HasFlags(AnimationFlag.ANF_HAS_TOPBASE))
-			{
-				baseIdleAnim = idleAnim[AnimPlayType.BASE];
-				topIdleAnim = idleAnim[AnimPlayType.TOP];
-			}
-			else
-			{
-				baseIdleAnim = idleAnim.SubAnimations.Where(o => o.PlayType == AnimPlayType.FULL).Random();
-				topIdleAnim = idleAnim.SubAnimations.Where(o => o.PlayType == AnimPlayType.FULL).Random();
-			}
-			if (baseIdleAnim == null || topIdleAnim == null)
-			{
-				throw new Exception("Base Anim or Top Anim can't be null!");
-			}
+			//ModSubAnimationDfnXml baseIdleAnim = null;
+			//ModSubAnimationDfnXml topIdleAnim = null;
+			//if (idleAnim.HasFlags(AnimationFlag.ANF_HAS_TOPBASE))
+			//{
+			//	baseIdleAnim = idleAnim[AnimPlayType.BASE];
+			//	topIdleAnim = idleAnim[AnimPlayType.TOP];
+			//}
+			//else
+			//{
+			//	baseIdleAnim = idleAnim.SubAnimations.Where(o => o.PlayType == AnimPlayType.FULL).Random();
+			//	topIdleAnim = idleAnim.SubAnimations.Where(o => o.PlayType == AnimPlayType.FULL).Random();
+			//}
+			//if (baseIdleAnim == null || topIdleAnim == null)
+			//{
+			//	throw new Exception("Base Anim or Top Anim can't be null!");
+			//}
+			//
+			//meshLayer = OverlayManager.Singleton.Create("CharacterPreview");
+			//meshLayer.ZOrder = (ushort)(GameManager.Instance.trayMgr.getCursorContainer().ZOrder - 1);
 
-			meshLayer = OverlayManager.Singleton.Create("CharacterPreview");
-			meshLayer.ZOrder = (ushort)(GameManager.Instance.trayMgr.getCursorContainer().ZOrder - 1);
+			//SceneManager scm = ScreenManager.Instance.Camera.SceneManager;
+			//ent = scm.CreateEntity(Guid.NewGuid().ToString(), skinData.Mesh);
+			//sceneNode = scm.CreateSceneNode();
+			//sceneNode.Translate(new Mogre.Vector3(0, 0, 0));
+			//sceneNode.Rotate(Quaternion.IDENTITY);
+			//float length = ent.BoundingBox.Size.Length * 2;
+			//sceneNode.Translate(new Mogre.Vector3(-2f, -6.3f, -1.0f * length));
+			//sceneNode.Scale(0.7f, 0.8f, 0.8f);
+			//ent.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_MAX;
+			//ent.Skeleton.BlendMode = SkeletonAnimationBlendMode.ANIMBLEND_CUMULATIVE;
+			//
+			//baseAnim = ent.GetAnimationState(baseIdleAnim.Name);
+			//topAnim = ent.GetAnimationState(topIdleAnim.Name);
+			//baseAnim.Enabled = true;
+			//topAnim.Enabled = true;
+			//baseAnim.Loop = true;
+			//topAnim.Loop = true;
 
-			SceneManager scm = ScreenManager.Instance.Camera.SceneManager;
-			ent = scm.CreateEntity(Guid.NewGuid().ToString(), skinData.Mesh);
-			sceneNode = scm.CreateSceneNode();
-			sceneNode.Translate(new Mogre.Vector3(0, 0, 0));
-			sceneNode.Rotate(Quaternion.IDENTITY);
-			float length = ent.BoundingBox.Size.Length * 2;
-			sceneNode.Translate(new Mogre.Vector3(-2f, -6.3f, -1.0f * length));
-			sceneNode.Scale(0.7f, 0.8f, 0.8f);
-			ent.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_MAX;
-			ent.Skeleton.BlendMode = SkeletonAnimationBlendMode.ANIMBLEND_CUMULATIVE;
-
-			baseAnim = ent.GetAnimationState(baseIdleAnim.Name);
-			topAnim = ent.GetAnimationState(topIdleAnim.Name);
-			baseAnim.Enabled = true;
-			topAnim.Enabled = true;
-			baseAnim.Loop = true;
-			topAnim.Loop = true;
-
-			sceneNode.AttachObject(ent);
-			meshLayer.Add3D(sceneNode);
-			meshLayer.Show();
+			//sceneNode.AttachObject(ent);
+			//meshLayer.Add3D(sceneNode);
+			//meshLayer.Show();
 
 			discordPanel = GameManager.Instance.trayMgr.createPanel("discordPanel", 0.3f, 1);
 			discordPanel.Padding.PaddingLeft = 0.01f;
@@ -225,6 +224,15 @@ namespace OpenMB.Screen
 				}
 			}
 
+			meshLayer = OverlayManager.Singleton.Create("CharacterPreview");
+			meshLayer.ZOrder = (ushort)(GameManager.Instance.trayMgr.getCursorContainer().ZOrder - 1);
+			gameObject = new Character(world, chaData, skinData, new Mogre.Vector3(), true);
+			float length = gameObject.Mesh.Entity.BoundingBox.Size.Length * 2;
+			gameObject.Mesh.Entity.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_MAX;
+			gameObject.Mesh.EntityNode.Translate(new Mogre.Vector3(-2f, -6.3f, -1.0f * length));
+			gameObject.Mesh.EntityNode.Scale(0.7f, 0.8f, 0.8f);
+			meshLayer.Add3D(gameObject.MeshNode);
+			meshLayer.Show();
 
 			var txtPreviewHeadArmourTotal = GameManager.Instance.trayMgr.createStaticText("txtPreviewHeadArmourTotal", "Head Armour Total: 0");
 			var txtPreviewBodyArmourTotal = GameManager.Instance.trayMgr.createStaticText("txtPreviewBodyArmourTotal", "Body Armour Total: 0");
@@ -281,14 +289,6 @@ namespace OpenMB.Screen
 
         public override void Update(float timeSinceLastFrame)
         {
-			if (baseAnim != null)
-			{
-				baseAnim.AddTime(timeSinceLastFrame);
-			}
-			if (topAnim != null)
-			{
-				topAnim.AddTime(timeSinceLastFrame);
-			}
         }
 
         public override void InjectKeyPressed(KeyEvent arg)
@@ -310,16 +310,9 @@ namespace OpenMB.Screen
         }
 
         public override void Exit()
-        {
-            OverlayManager.Singleton.Destroy(meshLayer);
-
-            SceneManager scm = ScreenManager.Instance.Camera.SceneManager;
-            scm.DestroySceneNode(sceneNode);
-            scm.DestroyEntity(ent);
-
-            baseAnim.Dispose();
-            topAnim.Dispose();
-
+		{
+			gameObject.Destroy();
+			OverlayManager.Singleton.Destroy(meshLayer);
 			GameManager.Instance.trayMgr.destroyAllWidgets();
             if (OnScreenExit != null)
             {

@@ -8,21 +8,17 @@ using Mogre.PhysX;
 namespace OpenMB.Game
 {
     public class GameObject : IUpdate
-    {
+	{
+		protected GameMesh mesh;
         protected string kindID;
-        protected string strID;
         protected int id;
         protected MoveInfo moveInfo;
-        protected Vector3 position;
-        protected Camera camera;
-        protected SceneManager sceneManager;
-        protected SceneNode entNode;
-        protected Entity entity;
         protected GameWorld world;
         protected Physics physics;
         protected Scene physicsScene;
         protected HealthInfo health;
-        private Actor entityActor;
+		protected Vector3 position;
+		private Actor entityActor;
         public int ID
         {
             get
@@ -62,25 +58,18 @@ namespace OpenMB.Game
                 return world;
             }
         }
-        public SceneManager SceneManager
-        {
-            get
-            {
-                return sceneManager;
-            }
-        }
         public SceneNode MeshNode
         {
             get
             {
-                return entNode;
+                return mesh.EntityNode;
             }
         }
-        public Entity Mesh
+        public GameMesh Mesh
         {
             get
             {
-                return entity;
+                return mesh;
             }
         }
         public Actor PhysicsActor
@@ -107,34 +96,15 @@ namespace OpenMB.Game
         {
             this.id = id;
             this.world = world;
-            camera = world.Camera;
-            sceneManager = world.SceneManager;
             physicsScene = world.PhysicsScene;
             physics = world.PhysicsScene.Physics;
-            moveInfo = null;
-            health = new HealthInfo(this);
-        }
-
-        public GameObject(string id)
-        {
-            moveInfo = null;
-            health = new HealthInfo(this);
-        }
-
-        public void SetID(string id)
-        {
-            strID = id;
+			mesh = new GameMesh(world.Camera);
         }
 
         protected virtual void create(){ }
 
         protected virtual void create(GameWorld world)
         {
-            this.world = world;
-            camera = world.Camera;
-            sceneManager = world.SceneManager;
-            physicsScene = world.PhysicsScene;
-            physics = world.PhysicsScene.Physics;
         }
         public virtual void Update(float timeSinceLastFrame) { }
 
@@ -142,7 +112,20 @@ namespace OpenMB.Game
 
         public bool CheckCollide(GameObject gameObjInstance)
         {
-            throw new NotImplementedException();
+			return false;
         }
-    }
+
+		/// <summary>
+		/// Use RTT to render a preview image
+		/// </summary>
+		/// <returns>preview image material name</returns>
+		public virtual MaterialPtr RenderPreview()
+		{
+			return null;
+		}
+
+		public virtual void Destroy()
+		{
+		}
+	}
 }

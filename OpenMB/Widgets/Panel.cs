@@ -251,7 +251,9 @@ namespace OpenMB.Widgets
 			int colNum, 
 			Widget widget,
 			AlignMode align = AlignMode.Left,
-			DockMode dock = DockMode.None)
+			DockMode dock = DockMode.None,
+			int rowSpan = 1,
+			int colSpan = 1)
 		{
 			widget.Col = colNum;
 			widget.Row = rowNum;
@@ -310,7 +312,9 @@ namespace OpenMB.Widgets
 			int colNum,
 			Widget widget,
 			AlignMode align = AlignMode.Left,
-			DockMode dock = DockMode.None)
+			DockMode dock = DockMode.None,
+			int rowSpan = 1,
+			int colSpan = 1)
 		{
 			widget.Col = colNum;
 			widget.Row = rowNum;
@@ -349,24 +353,32 @@ namespace OpenMB.Widgets
 
 			float relativeLeft = 0;
 			float relativeTop = 0;
-			if (rowNum != 1 || colNum != 1)
+			for (int i = 0; i < rowNum - 1; i++)
 			{
-				for (int i = 0; i < colNum - 1; i++)
-				{
-					relativeLeft += cols[i].AbosulteWidth;
-				}
-				for (int i = 0; i < rowNum - 1; i++)
-				{
-					relativeTop += rows[i].AbosulteHeight;
-				}
+				relativeTop += rows[i].AbosulteHeight;
+			}
+			for (int i = 0; i < colNum - 1; i++)
+			{
+				relativeLeft += cols[i].AbosulteWidth;
+			}
 
-				widget.Left += relativeLeft;
-				widget.Top += relativeTop;
-			}
-			else
+			if (rowSpan > 1)
 			{
-				widget.Left = Padding.PaddingLeft;
+				for (int i = 0; i < rowSpan - 1; i++)
+				{
+					widget.Height += rows[i].AbosulteHeight;
+				}
 			}
+			if (colSpan > 1)
+			{
+				for (int i = 0; i < colSpan - 1; i++)
+				{
+					widget.Width += cols[i].AbosulteWidth;
+				}
+			}
+
+			widget.Left += relativeLeft;
+			widget.Top += relativeTop;
 
 			switch (align)
 			{

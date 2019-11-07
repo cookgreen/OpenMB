@@ -1,4 +1,5 @@
-﻿using OpenMB.Game.ItemTypes;
+﻿using Mogre;
+using OpenMB.Game.ItemTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,12 @@ namespace OpenMB.Mods.Common.ItemTypes
             }
         }
 
-        public void Use(params object[] param)
+		public MaterialPtr RenderPreview(Entity ent)
+		{
+			return null;
+		}
+
+		public void Use(params object[] param)
         {
 
         }

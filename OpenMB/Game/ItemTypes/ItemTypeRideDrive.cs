@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mogre;
 
 namespace OpenMB.Game.ItemTypes
 {
@@ -23,8 +24,13 @@ namespace OpenMB.Game.ItemTypes
             }
         }
 
-        public void Use(params object[] param)
+		public void Use(params object[] param)
         {
-        }
-    }
+		}
+
+		public MaterialPtr RenderPreview(Entity ent)
+		{
+			return null;
+		}
+	}
 }
