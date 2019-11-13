@@ -1,5 +1,5 @@
 # OpenMB
-![Build](https://api.travis-ci.org/cookgreen/OpenMB.svg?branch=dev) ![License](https://img.shields.io/badge/License-GPL-blue.svg)  
+![Build](https://api.travis-ci.org/cookgreen/OpenMB.svg?branch=dev) [![Build status](https://ci.appveyor.com/api/projects/status/0yrneeoom5jk8de2/branch/dev?svg=true)](https://ci.appveyor.com/project/cookgreen/openmb/branch/dev)  
 
 ## Introduction:
 Open Source role-playing game engine for Taleworlds' Mount&Blade Series written in C# using Ogre3d Engine
