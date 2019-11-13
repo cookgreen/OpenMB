@@ -9,12 +9,19 @@ namespace OpenMB.Map
 {
 	public class GameWorldMap : IGameMap
 	{
+		private string name;
 		private GameWorld world;
 		private ModData modData;
 		private SceneManager sceneManager;
 		private List<GameObject> locations;
 
-		public string Name => throw new System.NotImplementedException();
+		public string Name
+		{
+			get
+			{
+				return name;
+			}
+		}
 
 		public SceneManager SceneManager
 		{
