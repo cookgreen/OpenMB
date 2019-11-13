@@ -384,7 +384,7 @@ namespace OpenMB.Mods
                     var fileSystemInfos = directory.EnumerateFileSystemInfos();
                     foreach (var fileSystemInfo in fileSystemInfos)
                     {
-                        if (fileSystemInfo.Attributes != FileAttributes.Directory && Path.GetExtension(fileSystemInfo.Name) == "ucs")
+                        if (fileSystemInfo.Attributes != FileAttributes.Directory && Path.GetExtension(fileSystemInfo.Name) == ".ucs")
                         {
                             LocateSystem.Instance.AddModLocateFile(fileSystemInfo.FullName);
                         }

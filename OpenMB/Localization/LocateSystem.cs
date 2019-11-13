@@ -145,7 +145,8 @@ namespace OpenMB.Localization
         public void AddModLocateFile(string fullPath)
         {
             LocateUCSFile ucsFile = new LocateUCSFile(fullPath, locate, LocateFileStorageType.Default);
-            modUCSFiles.Add(ucsFile);
+			ucsFile.Process();
+			modUCSFiles.Add(ucsFile);
         }
 
         public string LOC(LocateFileType file, string str)
@@ -171,8 +172,15 @@ namespace OpenMB.Localization
             return string.Format("$No Such Key '{0}'!", ID);
         }
 
-        public string GetLocalizedStringMod(string ID)
+        public string GetLocalizedStringMod(string ID, string originalString)
         {
+			if (ID.StartsWith("@")) //means it is a quick string
+			{
+				string content = ID.Substring(1, ID.Length - 1);
+				string id = "qstr_" + ID.Replace(" ", "_").Substring(1, ID.Length - 1);
+				ID = id;
+				originalString = content;
+			}
             foreach(var ucs in modUCSFiles)
             {
                 string res = ucs.SeekValueByKey(ID);
@@ -181,7 +189,7 @@ namespace OpenMB.Localization
                     return res;
                 }
             }
-            return string.Format("$No Such Key '{0}'!", ID);
+            return originalString;
         }
 
         [Obsolete("No need to read locate setting from language.txt")]

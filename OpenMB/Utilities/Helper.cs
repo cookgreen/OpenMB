@@ -212,5 +212,10 @@ namespace OpenMB.Utilities
 				(float)color.A / (float)255
 			);
 		}
+
+		public static string ToLocalizedString(this string strID, string originalString = null)
+		{
+			return Localization.LocateSystem.Instance.GetLocalizedStringMod(strID, originalString);
+		}
 	}
 }
