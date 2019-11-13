@@ -58,36 +58,36 @@ namespace OpenMB.Forms
             {
                 cmbLanguageSelect.SelectedIndex = LocateSystem.Instance.CovertLocateInfoToIndex(controller.CurrentLoacte);
                 
-                tpGraphic.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_graphic");
-                tpResource.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_resource");
-                tpAudio.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_audio");
-                tpGame.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_game");
+                tpGraphic.Text = "ui_graphic".ToUILocalizedString();
+                tpResource.Text = "ui_resource".ToUILocalizedString();
+                tpAudio.Text = "ui_audio".ToUILocalizedString();
+                tpGame.Text = "ui_game".ToUILocalizedString();
             
-                lblRenderSys.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_rendersystem");
-                lblCOO.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_click_on_options");
-                lblLang.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_language");
+                lblRenderSys.Text = "ui_rendersystem".ToUILocalizedString();
+                lblCOO.Text = "ui_click_on_options".ToUILocalizedString();
+                lblLang.Text = "ui_language".ToUILocalizedString();
 
-                chkEnableSound.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_enable_sound");
-                chkEnableMusic.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_enable_music");
+                chkEnableSound.Text = "ui_enable_sound".ToUILocalizedString();
+                chkEnableMusic.Text = "ui_enable_music".ToUILocalizedString();
 
-                groupFileSystem.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_filesystem");
-                groupZip.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_zip");
-                gbLocalization.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_localization");
-                gbRenderOpt.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_render_options");
-                gbMusicSound.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_music_sound");
-                gbAdvanced.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_advanced_options");
+                groupFileSystem.Text = "ui_filesystem".ToUILocalizedString();
+                groupZip.Text = "ui_zip".ToUILocalizedString();
+                gbLocalization.Text = "ui_localization".ToUILocalizedString();
+                gbRenderOpt.Text = "ui_render_options".ToUILocalizedString();
+                gbMusicSound.Text = "ui_music_sound".ToUILocalizedString();
+                gbAdvanced.Text = "ui_advanced_options".ToUILocalizedString();
                 
-                btnAddFileSystemResourceLoc.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_add");
-                btnModifyFileSystemResourceLoc.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_modify");
-                btnDeleteFileSystemResourceLoc.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_delete");
-                btnAddZipResourceLoc.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_add");
-                btnModifyZipResourceLoc.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_modify");
-                btnDeleteZipResourceLoc.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_delete");
-                btnOK.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_ok");
-                btnCancel.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_cancel");
+                btnAddFileSystemResourceLoc.Text = "ui_add".ToUILocalizedString();
+                btnModifyFileSystemResourceLoc.Text = "ui_modify".ToUILocalizedString();
+                btnDeleteFileSystemResourceLoc.Text = "ui_delete".ToUILocalizedString();
+                btnAddZipResourceLoc.Text = "ui_add".ToUILocalizedString();
+                btnModifyZipResourceLoc.Text = "ui_modify".ToUILocalizedString();
+                btnDeleteZipResourceLoc.Text = "ui_delete".ToUILocalizedString();
+                btnOK.Text = "ui_ok".ToUILocalizedString();
+                btnCancel.Text = "ui_cancel".ToUILocalizedString();
 
-                chkEnableEditMode.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_is_enable_edit_mode");
-                chkEnableCheatMode.Text = LocateSystem.Instance.GetLocalizedString(LocateFileType.GameUI, "ui_is_enable_cheat_mode");
+                chkEnableEditMode.Text = "ui_is_enable_edit_mode".ToUILocalizedString();
+                chkEnableCheatMode.Text = "ui_is_enable_cheat_mode".ToUILocalizedString();
             }
         }
 
