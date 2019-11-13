@@ -10,6 +10,9 @@
     <Name>Empress Helna</Name>
 	<Skin>skn_sinbad</Skin>
 	<Side>side_empire</Side>
+	<Flags>
+		<Flag>CF_NPC</Flag>
+	</Flags>
     <Equips>
       <EquipItem>itm_sword_1</EquipItem>
     </Equips>
@@ -18,6 +21,9 @@
     <Name>Grand Master Meson</Name>
 	<Skin>skn_sinbad</Skin>
 	<Side>side_order</Side>
+	<Flags>
+		<Flag>CF_NPC</Flag>
+	</Flags>
     <Equips>
       <EquipItem>itm_sword_1</EquipItem>
     </Equips>
@@ -118,7 +124,6 @@
     </Equips>
   </Character>
   <Character ID="cha_order_lancer_knight">
-    <ID></ID>
     <Name>Order Lancer Knight</Name>
 	<Skin>skn_sinbad</Skin>
 	<Side>side_order</Side>
@@ -132,7 +137,6 @@
     </Equips>
   </Character>
   <Character ID="cha_order_pikeman">
-    <ID></ID>
     <Name>Order Pikeman</Name>
 	<Skin>skn_sinbad</Skin>
 	<Side>side_order</Side>
@@ -143,7 +147,6 @@
     </Equips>
   </Character>
   <Character ID="cha_order_crossbowman">
-    <ID></ID>
     <Name>Order Heavy Crossbowman</Name>
 	<Skin>skn_sinbad</Skin>
 	<Side>side_order</Side>
@@ -154,12 +157,55 @@
     </Equips>
   </Character>
   <Character ID="cha_alien_marauder">
-    <ID></ID>
     <Name>Alien Marauder</Name>
 	<Skin>skn_robot</Skin>
 	<Side>side_outlaws</Side>
     <Equips>
       <EquipItem>itm_gattling</EquipItem>
 	</Equips>
+  </Character>
+  <Character ID="cha_paladin_1">
+    <Name>Tiger Paladin Sparst</Name>
+	<Skin>skn_sinbad</Skin>
+	<Side>side_order</Side>
+	<Flags>
+		<Flag>CF_NPC</Flag>
+	</Flags>
+    <Equips>
+      <EquipItem>itm_sword</EquipItem>
+    </Equips>
+  </Character>
+  <Character ID="cha_paladin_2">
+    <Name>Suzaku Paladin Vermonter</Name>
+	<Skin>skn_sinbad</Skin>
+	<Side>side_order</Side>
+	<Flags>
+		<Flag>CF_NPC</Flag>
+	</Flags>
+    <Equips>
+      <EquipItem>itm_poleaxe</EquipItem>
+    </Equips>
+  </Character>
+  <Character ID="cha_paladin_3">
+    <Name>Krilin Paladin Wilster</Name>
+	<Skin>skn_sinbad</Skin>
+	<Side>side_order</Side>
+	<Flags>
+		<Flag>CF_NPC</Flag>
+	</Flags>
+    <Equips>
+      <EquipItem>itm_steel_stick</EquipItem>
+    </Equips>
+  </Character>
+  <Character ID="cha_paladin_4">
+    <Name>Dragon Paladin Baldos</Name>
+	<Skin>skn_sinbad</Skin>
+	<Side>side_order</Side>
+	<Flags>
+		<Flag>CF_NPC</Flag>
+	</Flags>
+    <Equips>
+      <EquipItem>itm_long_sabre</EquipItem>
+    </Equips>
   </Character>
 </Characters>

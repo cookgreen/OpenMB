@@ -26,6 +26,7 @@ namespace OpenMB.Game
     public enum CharacterFlag
     {
         CF_Mounted,
+		CF_NPC,
     }
 
     /// <summary>
