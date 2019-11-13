@@ -14,6 +14,7 @@ namespace OpenMB.Screen
         private Dictionary<string, IScreen> innerScreens;
         private static ScreenManager instance;
         private Camera camera;
+		public event Action<string, string> OnExternalEvent;
 
         public Camera Camera
         {
@@ -42,10 +43,12 @@ namespace OpenMB.Screen
             IScreen screenConsole = new GameConsoleScreen();
             IScreen screenInventory = new InventoryScreen();
             IScreen screenEditor = new GameEditorScreen();
+			IScreen screenMainMenu = new GameMainMenuScreen();
 			IScreen screenMain = new GameMainScreen();
 			IScreen screenMenu = new GameMenuScreen();
 			IScreen screenCha = new CharacterScreen();
 			IScreen screenNotes = new GameNotesScreen();
+			innerScreens.Add(screenMainMenu.Name, screenMainMenu);
 			innerScreens.Add(screenCredit.Name, screenCredit);
             innerScreens.Add(screenConsole.Name, screenConsole);
             innerScreens.Add(screenInventory.Name, screenInventory);
@@ -121,7 +124,8 @@ namespace OpenMB.Screen
 						}
 						IScreen runScreen = innerScreens[screenName];
                         runScreen.OnScreenExit += CurrentScreen_OnScreenExit;
-                        runScreen.Init(param);
+						runScreen.OnScreenEventChanged += CurrentScreen_OnScreenEventChanged;
+						runScreen.Init(param);
                         runScreen.Run();
                         runningScreenStack.Push(runScreen);
                     }
@@ -133,11 +137,17 @@ namespace OpenMB.Screen
                 {
                     IScreen runScreen = innerScreens[screenName];
                     runScreen.OnScreenExit += CurrentScreen_OnScreenExit;
-                    runScreen.Init(param);
+					runScreen.OnScreenEventChanged += CurrentScreen_OnScreenEventChanged;
+					runScreen.Init(param);
                     runScreen.Run();
                     runningScreenStack.Push(runScreen);
                 }
             }
+		}
+
+		private void CurrentScreen_OnScreenEventChanged(string widgetName, string value)
+		{
+			OnExternalEvent?.Invoke(widgetName, value);
 		}
 
 		public void ChangeScreenReturn()

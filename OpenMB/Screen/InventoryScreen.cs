@@ -27,8 +27,6 @@ namespace OpenMB.Screen
 		private PanelScrollable backpackInventoryPanel;
 		private Overlay meshLayer;
 
-		public override event Action OnScreenExit;
-
         public override string Name
         {
             get
@@ -82,48 +80,6 @@ namespace OpenMB.Screen
 			{
 				throw new Exception("Idle Anim Data can't be null!");
 			}
-
-			//ModSubAnimationDfnXml baseIdleAnim = null;
-			//ModSubAnimationDfnXml topIdleAnim = null;
-			//if (idleAnim.HasFlags(AnimationFlag.ANF_HAS_TOPBASE))
-			//{
-			//	baseIdleAnim = idleAnim[AnimPlayType.BASE];
-			//	topIdleAnim = idleAnim[AnimPlayType.TOP];
-			//}
-			//else
-			//{
-			//	baseIdleAnim = idleAnim.SubAnimations.Where(o => o.PlayType == AnimPlayType.FULL).Random();
-			//	topIdleAnim = idleAnim.SubAnimations.Where(o => o.PlayType == AnimPlayType.FULL).Random();
-			//}
-			//if (baseIdleAnim == null || topIdleAnim == null)
-			//{
-			//	throw new Exception("Base Anim or Top Anim can't be null!");
-			//}
-			//
-			//meshLayer = OverlayManager.Singleton.Create("CharacterPreview");
-			//meshLayer.ZOrder = (ushort)(GameManager.Instance.trayMgr.getCursorContainer().ZOrder - 1);
-
-			//SceneManager scm = ScreenManager.Instance.Camera.SceneManager;
-			//ent = scm.CreateEntity(Guid.NewGuid().ToString(), skinData.Mesh);
-			//sceneNode = scm.CreateSceneNode();
-			//sceneNode.Translate(new Mogre.Vector3(0, 0, 0));
-			//sceneNode.Rotate(Quaternion.IDENTITY);
-			//float length = ent.BoundingBox.Size.Length * 2;
-			//sceneNode.Translate(new Mogre.Vector3(-2f, -6.3f, -1.0f * length));
-			//sceneNode.Scale(0.7f, 0.8f, 0.8f);
-			//ent.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_MAX;
-			//ent.Skeleton.BlendMode = SkeletonAnimationBlendMode.ANIMBLEND_CUMULATIVE;
-			//
-			//baseAnim = ent.GetAnimationState(baseIdleAnim.Name);
-			//topAnim = ent.GetAnimationState(topIdleAnim.Name);
-			//baseAnim.Enabled = true;
-			//topAnim.Enabled = true;
-			//baseAnim.Loop = true;
-			//topAnim.Loop = true;
-
-			//sceneNode.AttachObject(ent);
-			//meshLayer.Add3D(sceneNode);
-			//meshLayer.Show();
 
 			discordPanel = GameManager.Instance.trayMgr.createPanel("discordPanel", 0.3f, 1);
 			discordPanel.Padding.PaddingLeft = 0.01f;
@@ -314,10 +270,6 @@ namespace OpenMB.Screen
 			gameObject.Destroy();
 			OverlayManager.Singleton.Destroy(meshLayer);
 			GameManager.Instance.trayMgr.destroyAllWidgets();
-            if (OnScreenExit != null)
-            {
-                OnScreenExit();
-            }
         }
     }
 }

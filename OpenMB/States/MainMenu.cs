@@ -12,6 +12,7 @@ using OpenMB.Sound;
 using OpenMB.Utilities;
 using OpenMB.Mods;
 using OpenMB.Map;
+using OpenMB.Screen;
 
 namespace OpenMB.States
 {
@@ -47,7 +48,8 @@ namespace OpenMB.States
             SoundManager.Instance.PlayMusicByID("game_title");
             GameMapManager.Instance.Init(modData);
 
-            buildMainMenu(e);
+			ScreenManager.Instance.OnExternalEvent += OnExternalEvent;
+			ScreenManager.Instance.ChangeScreen("MainMenu", true , modData);
 
             GameManager.Instance.mouse.MouseMoved += mouseMoved;
             GameManager.Instance.mouse.MousePressed += mousePressed;
@@ -57,10 +59,36 @@ namespace OpenMB.States
             
         }
 
-        bool mRoot_FrameStarted(FrameEvent evt)
-        {
-            return true;
-        }
+		private void OnExternalEvent(string widgetName, string value)
+		{
+			switch (widgetName)
+			{
+				case "btnQuit":
+					m_bQuit = true;
+					break;
+				case "btnLoadGame":
+					changeAppState(findByName("SinglePlayer"), modData);
+					break;
+				case "btnMultiplayer":
+					//changeAppState(findByName("Multiplayer"), m_Data);
+					break;
+				case "btnSingleplayer":
+					changeAppState(findByName("SinglePlayer"), modData);
+					break;
+				case "btnModChooser":
+					changeAppState(findByName("ModChooser"));
+					break;
+				case "btnConfigre":
+					Configure();
+					break;
+				case "btnCredit":
+					changeAppState(findByName("Credit"), modData);
+					break;
+				case "btnApply":
+					CheckConfigure();
+					break;
+			}
+		}
         public override void exit()
         {
             sceneMgr.DestroyCamera(camera);
@@ -104,40 +132,6 @@ namespace OpenMB.States
         {
             if (GameManager.Instance.trayMgr.injectMouseUp(evt, id)) return true;
             return true;
-        }
-
-        public override void buttonHit(Button button)
-        {
-            switch(button.getName())
-            {
-                case "btnQuit":
-                    m_bQuit = true;
-                    break;
-                case "btnLoadGame":
-                    changeAppState(findByName("SinglePlayer"), modData);
-                    break;
-                case "btnMultiplayer":
-                    //changeAppState(findByName("Multiplayer"), m_Data);
-                    break;
-                case "btnSingleplayer":
-                    changeAppState(findByName("SinglePlayer"), modData);
-                    break;
-                case "btnModChooser":
-                    changeAppState(findByName("ModChooser"));
-                    break;
-                case "btnConfigre":
-                    Configure();
-                    break;
-                case "btnCredit":
-                    changeAppState(findByName("Credit"), modData);
-                    break;
-                case "btnBack":
-                    buildMainMenu(modData);
-                    break;
-                case "btnApply":
-                    CheckConfigure();
-                    break;
-            }
         }
 
         private void CheckConfigure()

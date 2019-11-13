@@ -218,6 +218,11 @@ namespace OpenMB.Utilities
 			return Localization.LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameUI, strID);
 		}
 
+		public static string ToStrLocalizedString(this string strID)
+		{
+			return Localization.LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, strID);
+		}
+
 		public static string ToLocalizedString(this string strID, string originalString = null)
 		{
 			return Localization.LocateSystem.Instance.GetLocalizedStringMod(strID, originalString);
