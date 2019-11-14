@@ -139,7 +139,9 @@
     <Compile Include="Connector\MBOgreManifest.cs" />
     <Compile Include="Connector\MBOgreUtil.cs" />
     <Compile Include="Core\GameConfigXml.cs" />
+    <Compile Include="Core\GameRegisterManager.cs" />
     <Compile Include="Core\GameSlotManager.cs" />
+    <Compile Include="Core\GameString.cs" />
     <Compile Include="Core\InputKeyMouseManager.cs" />
     <Compile Include="Core\KeyMapperManager.cs" />
     <Compile Include="FileFormats\DotWorldMapLoader.cs" />

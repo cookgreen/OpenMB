@@ -129,13 +129,19 @@ namespace OpenMB.Localization
                 {
                     //valid locate directory
                     RegisterLocate(dir.Name);
-                }
+				}
             }
 
-            if (ucsGameStr.Process() && ucsGameUI.Process() && ucsGameQuickStr.Process())
-            {
-                return true;
-            }
+            if (ucsGameUI.Process() && 
+				ucsGameStr.Process() &&
+				ucsGameQuickStr.Process())
+			{
+				modUCSFiles.Add(ucsGameUI);
+				modUCSFiles.Add(ucsGameStr);
+				modUCSFiles.Add(ucsGameQuickStr);
+
+				return true;
+			}
             else
             {
                 return false;
@@ -172,7 +178,7 @@ namespace OpenMB.Localization
             return string.Format("$No Such Key '{0}'!", ID);
         }
 
-        public string GetLocalizedStringMod(string ID, string originalString)
+        public string GetLocalizedStringMod(string ID, string originalString = null)
         {
 			if (ID.StartsWith("@")) //means it is a quick string
 			{

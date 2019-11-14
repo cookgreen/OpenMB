@@ -1,5 +1,5 @@
 qstr_Nobody	无人
-qstr_{0}_is_ruled_by_{1}	{0}被{1}所统治着
+qstr_{reg0}_is_ruled_by_{reg1}	{reg0}被{reg1}所统治着
 qstr_It_occupies_none	它占据着无
 qstr_Its_vassals_are_none	它的封臣是无
 qstr_Foreign_relations:	外交关系:

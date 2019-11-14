@@ -1,4 +1,5 @@
 ﻿using Mogre_Procedural.MogreBites;
+using OpenMB.Core;
 using OpenMB.Mods;
 using OpenMB.Utilities;
 using System;
@@ -34,36 +35,36 @@ namespace OpenMB.Screen
 			GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", str.ToLocalizedString(), 400);
 			if (modData.HasSinglePlayer)
 			{
-				var btnSingleplayer = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnSingleplayer", "str_single_player".ToStrLocalizedString(), 200);
+				var btnSingleplayer = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnSingleplayer", GameString.FromString("str_single_player").ToString(), 200);
 				btnSingleplayer.OnClick += (sender) => 
 				{
 					OnScreenEventChanged?.Invoke("btnSingleplayer", null);
 				};
-				var btnLoadGame = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnLoadGame", "str_load".ToStrLocalizedString(), 200);
+				var btnLoadGame = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnLoadGame", GameString.FromString("str_load").ToString(), 200);
 				btnLoadGame.OnClick += (sender) =>
 				{
 					OnScreenEventChanged?.Invoke("btnLoadGame", null);
 				};
 			}
-			var btnMultiplayer = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnMultiplayer", "str_multiplayer".ToStrLocalizedString(), 200);
+			var btnMultiplayer = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnMultiplayer", GameString.FromString("str_multiplayer").ToString(), 200);
 			btnMultiplayer.OnClick += (sender) =>
 			{
 				OnScreenEventChanged?.Invoke("btnMultiplayer", null);
 			};
-			var btnConfigure = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnConfigure", "str_config".ToStrLocalizedString(), 200);
+			var btnConfigure = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnConfigure", GameString.FromString("str_config").ToString(), 200);
 			btnConfigure.OnClick += (sender) =>
 			{
 				OnScreenEventChanged?.Invoke("btnConfigure", null);
 			};
 			if (modData.HasCredit)
 			{
-				var btnCredit = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnCredit", "str_credit".ToStrLocalizedString(), 200);
+				var btnCredit = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnCredit", GameString.FromString("str_credit").ToString(), 200);
 				btnCredit.OnClick += (sender) =>
 				{
 					OnScreenEventChanged?.Invoke("btnCredit", null);
 				};
 			}
-			var btnQuit = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnQuit", "str_quit".ToStrLocalizedString(), 200);
+			var btnQuit = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "btnQuit", GameString.FromString("str_quit").ToString(), 200);
 			btnQuit.OnClick += (sender) =>
 			{
 				OnScreenEventChanged?.Invoke("btnQuit", null);

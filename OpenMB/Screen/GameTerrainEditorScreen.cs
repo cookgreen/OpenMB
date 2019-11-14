@@ -8,7 +8,6 @@ namespace OpenMB.Screen
 {
 	public class GameTerrainEditorScreen : Screen
 	{
-		public override event Action<string, string> OnScreenEventChanged;
 		public override string Name
 		{
 			get

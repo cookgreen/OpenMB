@@ -8,10 +8,12 @@ using Mogre;
 namespace OpenMB.Screen
 {
     public class Screen : IScreen
-    {
-        protected bool isExiting;
+	{
+		protected bool isExiting;
+		public virtual event Action OnScreenExit;
+		public virtual event Action<string, string> OnScreenEventChanged;
 
-        public virtual bool IsVisible
+		public virtual bool IsVisible
         {
             get
             {
@@ -27,8 +29,9 @@ namespace OpenMB.Screen
             }
         }
 
-        public virtual event Action OnScreenExit;
-		public virtual event Action<string, string> OnScreenEventChanged;
+		public Screen()
+		{
+		}
 
 		public virtual bool CheckEnterScreen(Vector2 mousePos)
         {

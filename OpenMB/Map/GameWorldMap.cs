@@ -37,6 +37,7 @@ namespace OpenMB.Map
 			this.world = world;
 			sceneManager = world.SceneManager;
 			modData = world.ModData;
+			name = null;
 		}
 
 		public void Destroy()
