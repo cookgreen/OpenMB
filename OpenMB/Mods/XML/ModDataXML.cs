@@ -38,9 +38,13 @@ namespace OpenMB.Mods.XML
         public string modelsXml { get; set; }
 		[XmlElement("Menus")]
 		public string menusXml { get; set; }
+		[XmlElement("Strings")]
+		public string stringsXml { get; set; }
+		[XmlElement("UILayouts")]
+		public string uiLayoutsXml { get; set; }
 		[XmlElement]
         public ModDataDirXML DataDir { get; set; }
-    }
+	}
 
     public class ModDataDirXML
     {

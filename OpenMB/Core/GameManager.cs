@@ -228,7 +228,12 @@ namespace OpenMB
 
             this.gameOptions = gameOptions;
 
-            log.LogMessage("Game Started!");
+			SdkTrayManager.FactoryMethods = new Dictionary<string, Widgets.WidgetFactoryMethodDefine>();
+			SdkTrayManager.FactoryMethods.Add("Button", new Widgets.WidgetFactoryMethodDefine("createButton", 4, 4, 0, true));
+			SdkTrayManager.FactoryMethods.Add("InputBox", new Widgets.WidgetFactoryMethodDefine("createInputBox", 7, 5, 2, true));
+			SdkTrayManager.FactoryMethods.Add("SelectMenu", new Widgets.WidgetFactoryMethodDefine("createLongSelectMenu", 7, 5, 2, true));
+
+			log.LogMessage("Game Started!");
 
             return true;
         }

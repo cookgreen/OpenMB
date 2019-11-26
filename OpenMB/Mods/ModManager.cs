@@ -221,6 +221,22 @@ namespace OpenMB.Mods
 					currentMod.MenuInfos = menusDfnXml.Menus;
 				}
 
+				if (!string.IsNullOrEmpty(manifest.Data.UILayouts))
+				{
+					loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.UILayouts);
+					ModUILayoutsDfnXml uiLayoutsDfnXml;
+					loader.Load(out uiLayoutsDfnXml);
+					currentMod.UILayoutInfos = uiLayoutsDfnXml.UILayouts;
+				}
+
+				if (!string.IsNullOrEmpty(manifest.Data.Strings))
+				{
+					loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Strings);
+					ModStringsDfnXml stringsDfnXml;
+					loader.Load(out stringsDfnXml);
+					currentMod.StringInfos = stringsDfnXml.Strings;
+				}
+
 				//--------------------------------Load Types-------------------------
 				//Load Internal types
 				Assembly thisAssembly = GetType().Assembly;

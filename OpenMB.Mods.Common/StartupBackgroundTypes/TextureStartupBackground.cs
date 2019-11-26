@@ -16,7 +16,10 @@ namespace OpenMB.Mods.Common.StartupBackgroundTypes
 		{
 			var sceneManager = param[0] as SceneManager;
 			MaterialManager.Singleton.Remove("Background");
-			sceneManager.RootSceneNode.RemoveChild("BackgroundNode");
+			if (sceneManager.HasSceneNode("BackgroundNode"))
+			{
+				sceneManager.RootSceneNode.RemoveChild("BackgroundNode");
+			}
 
 			MaterialPtr material = MaterialManager.Singleton.Create("Background", "General");
 			material.GetTechnique(0).GetPass(0).CreateTextureUnitState(value);

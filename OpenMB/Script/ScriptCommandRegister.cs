@@ -37,6 +37,7 @@ namespace OpenMB.Script
 			RegisteredCommand.Add("change_hitpoint", typeof(ChangeHitpointScriptCommand));
             RegisteredCommand.Add("change_map", typeof(ChangeMapScriptCommand));
 			RegisteredCommand.Add("change_screen_return", typeof(ChangeScreenReturnScriptCommand));
+			RegisteredCommand.Add("change_ui", typeof(ChangeUIScriptCommand));
 			RegisteredCommand.Add("change_variable_value", typeof(ChangeSystemVariableValue));
 			RegisteredCommand.Add("change_world_map", typeof(ChangeWorldMapScriptCommand));
             RegisteredCommand.Add("condition", typeof(TriggerConditionScriptCommand));

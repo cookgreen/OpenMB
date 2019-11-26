@@ -1,0 +1,17 @@
+<Strings>
+	<String ID="str_player_name">Player Name:</String>
+	<String ID="str_choose_map">Choose Map</String>
+	<String ID="str_choose_mode">Choose Mode</String>
+	<String ID="str_choose_profession">Choose Profession</String>
+	<String ID="str_ok">OK</String>
+	<String ID="str_map_magic_forest">Magic Forest</String>
+	<String ID="str_map_end">!{Map String End}</String>
+	<String ID="str_game_mode_capture_the_flag">Capture The Flag</String>
+	<String ID="str_game_mode_survive">Survive</String>
+	<String ID="str_game_mode_end">!{Game Mode String End}</String>
+	<String ID="str_profession_sabrer">Sabrer</String>
+	<String ID="str_profession_gattling_gunner">Gattling Gunner</String>
+	<String ID="str_profession_ninja">Ninja</String>
+	<String ID="str_profession_end">!{Profession String End}</String>
+	<String ID="str_end">!{String End}</String>
+</Strings>

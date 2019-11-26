@@ -26,6 +26,7 @@
     <Skeletons>Skeletons.xml</Skeletons>
     <Skin>Skin.xml</Skin>
     <Sound>Sound.xml</Sound>
+    <Strings>Strings.xml</Strings>
     <UILayouts>UILayouts.xml</UILayouts>
     <WorldMaps>WorldMaps.xml</WorldMaps>
 	<DataDir>

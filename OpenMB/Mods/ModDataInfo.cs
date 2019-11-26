@@ -25,6 +25,8 @@ namespace OpenMB.Mods
         public readonly string MusicDir;
         public readonly string ScriptDir;
 		public readonly string Menus;
+		public readonly string Strings;
+		public readonly string UILayouts;
 
         public ModDataInfo(
 			string animations,
@@ -42,6 +44,8 @@ namespace OpenMB.Mods
             string models,
             string sceneProps,
 			string menus,
+			string strings,
+			string uiLayouts,
             string mapDir,
             string musicDir,
             string scriptDir)
@@ -64,6 +68,8 @@ namespace OpenMB.Mods
             MusicDir = musicDir;
             ScriptDir = scriptDir;
 			Menus = menus;
+			UILayouts = uiLayouts;
+			Strings = strings;
         }
     }
 }

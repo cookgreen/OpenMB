@@ -45,6 +45,8 @@ namespace OpenMB.Mods
                                         xmldata.Data.modelsXml,
                                         xmldata.Data.scenePropsXML,
 										xmldata.Data.menusXml,
+										xmldata.Data.stringsXml,
+										xmldata.Data.uiLayoutsXml,
                                         xmldata.Data.DataDir.MapDir,
                                         xmldata.Data.DataDir.MusicDir,
                                         xmldata.Data.DataDir.ScriptDir);

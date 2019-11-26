@@ -236,6 +236,8 @@
     <Compile Include="Mods\XML\ModSettingDfnXml.cs" />
     <Compile Include="Mods\XML\ModSkeletonsDfnXml.cs" />
     <Compile Include="Mods\XML\ModSkinDfnXml.cs" />
+    <Compile Include="Mods\XML\ModStringDfnXml.cs" />
+    <Compile Include="Mods\XML\ModUILayoutDfnXml.cs" />
     <Compile Include="Mods\XML\ModWorldMapsDfnXml.cs" />
     <Compile Include="Screen\CharacterScreen.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
@@ -281,6 +283,7 @@
     <Compile Include="Script\Command\ChangeHitpointScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeScreenReturnScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeSystemVariableValue.cs" />
+    <Compile Include="Script\Command\ChangeUIScriptCommand.cs" />
     <Compile Include="Script\Command\EndScriptCommand.cs" />
     <Compile Include="Script\Command\FunctionScriptCommand.cs" />
     <Compile Include="Script\Command\GetScenePropNumScriptCommand.cs" />
@@ -391,6 +394,7 @@
     <Compile Include="Widgets\StaticText.cs" />
     <Compile Include="Widgets\StaticTextButton.cs" />
     <Compile Include="Widgets\StaticTextRelative.cs" />
+    <Compile Include="Widgets\WidgetFactoryMethodDefine.cs" />
     <EmbeddedResource Include="Forms\frmConfigure.resx">
       <DependentUpon>frmConfigure.cs</DependentUpon>
       <SubType>Designer</SubType>

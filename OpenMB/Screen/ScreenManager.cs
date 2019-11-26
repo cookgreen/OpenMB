@@ -57,6 +57,7 @@ namespace OpenMB.Screen
 			innerScreens.Add(screenMenu.Name, screenMenu);
 			innerScreens.Add(screenCha.Name, screenCha);
 			innerScreens.Add(screenNotes.Name, screenNotes);
+			innerScreens.Add("ScriptedScreen", null);
 			//TODO: Load all screen script files
 			instance = this;
             runningScreenStack = new Stack<IScreen>();
@@ -123,6 +124,10 @@ namespace OpenMB.Screen
 							runningScreenStack.Pop().Exit();
 						}
 						IScreen runScreen = innerScreens[screenName];
+						if (runScreen == null && screenName == "ScriptedScreen")
+						{
+							runScreen = new ScriptedScreen();
+						}
                         runScreen.OnScreenExit += CurrentScreen_OnScreenExit;
 						runScreen.OnScreenEventChanged += CurrentScreen_OnScreenEventChanged;
 						runScreen.Init(param);
@@ -136,7 +141,11 @@ namespace OpenMB.Screen
                 if (innerScreens.ContainsKey(screenName))
                 {
                     IScreen runScreen = innerScreens[screenName];
-                    runScreen.OnScreenExit += CurrentScreen_OnScreenExit;
+					if (runScreen == null && screenName == "ScriptedScreen")
+					{
+						runScreen = new ScriptedScreen();
+					}
+					runScreen.OnScreenExit += CurrentScreen_OnScreenExit;
 					runScreen.OnScreenEventChanged += CurrentScreen_OnScreenEventChanged;
 					runScreen.Init(param);
                     runScreen.Run();

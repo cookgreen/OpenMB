@@ -10,10 +10,10 @@ namespace OpenMB.Widgets
 {
     public static class GameTrayManager
     {
-		public static InputBox createInputBox(this SdkTrayManager trayMgr, string name, string caption, float width, float boxWidth, string text = null, bool onlyAcceptNum = false)
+		public static InputBox createInputBox(this SdkTrayManager trayMgr, TrayLocation trayLocation, string name, string caption, float width, float boxWidth, string text = null, bool onlyAcceptNum = false)
 		{
 			InputBox ib = new InputBox(name, caption, width, boxWidth, text, onlyAcceptNum);
-			trayMgr.moveWidgetToTray(ib, TrayLocation.TL_NONE);
+			trayMgr.moveWidgetToTray(ib, trayLocation);
 			ib.Text = text;
 			//ib._assignListener(mListener);
 			return ib;

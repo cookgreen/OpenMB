@@ -71,7 +71,9 @@ namespace Mogre_Procedural.MogreBites
 	/// </summary>
 	public class SdkTrayManager : SdkTrayListener, IDisposable
 	{
+		public static Dictionary<string, WidgetFactoryMethodDefine> FactoryMethods { get; set; }
 		#region resource load event
+
 		void _HookResourceGroupLoadEvent()
 		{
 			_UnHookResourceGroupLoadEvent();
@@ -726,7 +728,6 @@ namespace Mogre_Procedural.MogreBites
 		{
 			return createButton(trayLoc, name, caption, 0f);
 		}
-
 		public Button createButton(TrayLocation trayLoc, string name, string caption, float width)
 		{
 			Button b = new Button(name, caption, width);

@@ -25,6 +25,8 @@ namespace OpenMB.Mods
         private List<ModLocationDfnXml> locationInfos;
         private List<ModSkeletonDfnXML> skeletonInfos;
 		private List<ModMenuDfnXml> menuInfos;
+		private List<ModUILayoutDfnXml> uiLayoutInfos;
+		private List<ModStringDfnXml> stringInfos;
 		private List<ModMediaData> modMediaData;
 
         public bool HasSinglePlayer { get; set; }
@@ -110,9 +112,19 @@ namespace OpenMB.Mods
         {
             get { return skeletonInfos; }
             set { skeletonInfos = value; }
-        }
+		}
+		public List<ModStringDfnXml> StringInfos
+		{
+			get { return stringInfos; }
+			set { stringInfos = value; }
+		}
+		public List<ModUILayoutDfnXml> UILayoutInfos
+		{
+			get { return uiLayoutInfos; }
+			set { uiLayoutInfos = value; }
+		}
 
-        public List<ModItemTypeDfnXml> ItemTypeInfos { get; set; }
+		public List<ModItemTypeDfnXml> ItemTypeInfos { get; set; }
 
         public List<ModScenePropDfnXml> SceneProps { get; set; }
         public List<ModModelDfnXml> Models { get; set; }
