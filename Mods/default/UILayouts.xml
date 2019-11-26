@@ -1,0 +1,13 @@
+<UILayouts>
+	<UILayout id="ui_custom_game">
+		<Background Type="NoChange"></Background>
+		<Script>ui_custom_game.script</Script>
+		<Widgets>
+			<Widget Type="InputBox" name="txtPlayerName" TrayLocation="TL_Center"></Widget>
+			<Widget Type="SelectMenu" name="cmbChooseMaps" TrayLocation="TL_Center"></Widget>
+			<Widget Type="SelectMenu" name="cmbChooseModes" TrayLocation="TL_Center"></Widget>
+			<Widget Type="SelectMenu" name="cmbChooseCharacters" TrayLocation="TL_Center"></Widget>
+			<Widget Type="Button" name="btnOK" TrayLocation="TL_Center"></Widget>
+		</Widgets>
+	</UILayout>
+</UILayouts>

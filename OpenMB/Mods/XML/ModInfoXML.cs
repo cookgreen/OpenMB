@@ -16,12 +16,20 @@ namespace OpenMB.Mods.XML
         public string Version { get; set; }
         [XmlElement("Thumb")]
         public string Thumb { get; set; }
-        [XmlElement("Movie")]
-        public string Movie { get; set; }
+        [XmlElement("StartupBackground")]
+        public StartupBackground StartupBackground { get; set; }
         [XmlArray("Assemblies")]
         [XmlArrayItem("Assembly")]
         public List<string> Assemblies { get; set; }
         [XmlElement]
         public bool DisplayInChooser { get; set; }
     }
+	[XmlRoot("StartupBackground")]
+	public class StartupBackground
+	{
+		[XmlAttribute]
+		public string Type { get; set; }
+		[XmlText]
+		public string Value { get; set; }
+	}
 }

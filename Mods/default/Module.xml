@@ -1,0 +1,49 @@
+<Module>
+  <Info>
+    <Name>OpenMB</Name>
+    <Description>Open Source RPG game</Description>
+    <Version>1.0</Version>
+    <Thumb>Sample_Thumb.png</Thumb>
+	<Assemblies>
+		<Assembly>common|OpenMB.Mods.Common</Assembly>
+		<Assembly>this|OpenMB.Mods.OIM</Assembly>
+	</Assemblies>
+	<DisplayInChooser>true</DisplayInChooser>
+	<StartupBackground Type="2DTexture">background.jpg</StartupBackground>
+  </Info>
+  <Data>
+    <Animations>Animations.xml</Animations>
+    <Characters>Characters.xml</Characters>
+    <Locations>Locations.xml</Locations>
+    <Items>Items.xml</Items>
+    <ItemTypes>ItemTypes.xml</ItemTypes>
+    <Maps>Maps.xml</Maps>
+    <Menus>Menus.xml</Menus>
+    <Models>Models.xml</Models>
+    <Music>Music.xml</Music>
+    <SceneProps>SceneProps.xml</SceneProps>
+    <Sides>Side.xml</Sides>
+    <Skeletons>Skeletons.xml</Skeletons>
+    <Skin>Skin.xml</Skin>
+    <Sound>Sound.xml</Sound>
+    <UILayouts>UILayouts.xml</UILayouts>
+    <WorldMaps>WorldMaps.xml</WorldMaps>
+	<DataDir>
+		<MapDir>Scenes</MapDir>
+		<MusicDir>Music</MusicDir>
+		<ScriptDir>Scripts</ScriptDir>
+	</DataDir>
+  </Data>
+  <Media>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Mesh">Media/Resources</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Material">Media/Material</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Texture">Media/Textures</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Media/Overlay</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Scripts</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Music</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Sound</MediaSection>
+    <MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Scenes</MediaSection>
+  </Media>
+  <Settings>
+  </Settings>
+</Module>

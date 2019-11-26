@@ -9,11 +9,12 @@ namespace OpenMB.Script.Command
     class AssignScriptCommand : ScriptCommand
     {
         private string[] commandArgs;
-        private ScriptContext context;
-        public AssignScriptCommand(ScriptContext context)
+        public AssignScriptCommand()
         {
-            this.context = context;
-            commandArgs = null;
+            commandArgs = new string[] {
+				"destValue",
+				"srcValue"
+			};
         }
         public override string[] CommandArgs
         {
@@ -50,7 +51,7 @@ namespace OpenMB.Script.Command
 
                 if(varname.StartsWith("%"))//local var
                 {
-                    context.ChangeLocalValue(varname.Substring(1, varname.IndexOf(varname.Last())), varvalue);
+                    Context.ChangeLocalValue(varname.Substring(1, varname.IndexOf(varname.Last())), varvalue);
                 }
                 else if(varname.StartsWith("$"))//global var
                 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mogre;
+using OpenMB.Mods.XML;
 
 namespace OpenMB
 {
@@ -16,7 +17,7 @@ namespace OpenMB
         public readonly string Description;
         public readonly string Author;
         public readonly string Thumb;
-        public readonly string Movie;
+        public readonly StartupBackground StartupBackground;
         public readonly List<string> Assemblies;
         public readonly bool DisplayInChooser;
 
@@ -26,7 +27,7 @@ namespace OpenMB
             string description,
             string author,
             string thumb,
-            string movie,
+            StartupBackground startupBackground,
             List<string> assemblies,
             bool displayInChooser) 
         {
@@ -35,7 +36,7 @@ namespace OpenMB
             Description = description;
             Author = author;
             Thumb = thumb;
-            Movie = movie;
+			StartupBackground = startupBackground;
             Assemblies = assemblies;
             DisplayInChooser = displayInChooser;
         }

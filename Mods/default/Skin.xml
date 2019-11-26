@@ -1,0 +1,29 @@
+<Skin>
+  <CharacterSkin ID="skn_sinbad" OritentionOffset="0,0,0">
+    <Name>Sinbad</Name>
+    <Desc>Ogre3d Sample Sinbad Character</Desc>
+	<Mesh>Sinbad.mesh</Mesh>
+	<Skeleton>skel_sinbad</Skeleton>
+	<HasParts>false</HasParts>
+    <Anims>
+	  <Anim Type="CAT_IDLE" HasTopBase="true">anim_sinbad_idle</Anim>
+	  <Anim Type="CAT_RUN" HasTopBase="true">anim_sinbad_run</Anim>
+	  <Anim Type="CAT_HANDS_CLOSED" HasTopBase="false">anim_sinbad_handsclosed</Anim>
+	  <Anim Type="CAT_HANDS_RELAXED" HasTopBase="false">anim_sinbad_handsrelaxed</Anim>
+	  <Anim Type="CAT_JUMP" HasTopBase="false">anim_sinbad_jump</Anim>
+	  <Anim Type="CAT_NONE" HasTopBase="false" />
+    </Anims>
+  </CharacterSkin> 
+  <CharacterSkin ID="skn_robot" OritentionOffset="0,90,0">
+    <Name>Robot</Name>
+    <Desc>Ogre3d Sample Robot Character</Desc>
+	<Mesh>robot.mesh</Mesh>
+	<Skeleton>skel_robot</Skeleton>
+	<HasParts>false</HasParts>
+    <Anims>
+	  <Anim Type="CAT_IDLE" HasTopBase="true">anim_robot_idle</Anim>
+	  <Anim Type="CAT_RUN" HasTopBase="true">anim_robot_walk</Anim>
+	  <Anim Type="CAT_NONE" HasTopBase="false" />
+    </Anims>
+  </CharacterSkin> 
+</Skin>

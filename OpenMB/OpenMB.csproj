@@ -220,6 +220,7 @@
     <Compile Include="Map\IGameMapLoader.cs" />
     <Compile Include="Mods\IModModelType.cs" />
     <Compile Include="Mods\IModSetting.cs" />
+    <Compile Include="Mods\IModStartupBackgroundType.cs" />
     <Compile Include="Mods\IModTriggerCondition.cs" />
     <Compile Include="Mods\ModTriggerConditionOnScenePropHit.cs" />
     <Compile Include="Mods\ModXmlDefineModelType.cs" />

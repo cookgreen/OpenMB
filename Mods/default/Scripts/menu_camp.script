@@ -1,0 +1,15 @@
+function menuInit
+end
+
+function menuButtonClicked
+	store_input_param %menuItemID 1
+	switch %menuItemID
+		case mni_do_something
+			end
+		case mni_wait_here
+			end
+		case mni_return
+			change_screen_return
+			end
+	end
+end

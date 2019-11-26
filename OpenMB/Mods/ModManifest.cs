@@ -27,7 +27,7 @@ namespace OpenMB.Mods
                                            xmldata.ModInfo.Description,
                                            xmldata.ModInfo.Version,
                                            xmldata.ModInfo.Thumb,
-                                           xmldata.ModInfo.Movie,
+                                           xmldata.ModInfo.StartupBackground,
                                            xmldata.ModInfo.Assemblies,
                                            xmldata.ModInfo.DisplayInChooser);
                 Data = new ModDataInfo( xmldata.Data.animationXml,

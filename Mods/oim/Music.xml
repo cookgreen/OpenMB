@@ -1,8 +1,0 @@
-<Tracks>
-  <Track>
-    <Id>game_title</Id>
-    <File>oim_mount_and_blade_title_screen.ogg</File>
-    <Type>ModuleTrack</Type>
-    <PlayType>MainMenu</PlayType>
-  </Track>
-</Tracks>

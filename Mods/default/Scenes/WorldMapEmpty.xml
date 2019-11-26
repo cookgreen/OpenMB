@@ -1,0 +1,9 @@
+<scene upAxis="y" unitsPerMeter="1" unitType="meters" formatVersion="1.0" minOgreVersion="1.7" author="EasyOgreExporter">
+    <environment>
+        <colourAmbient r="0" g="0" b="0" />
+        <colourBackground r="0.84705889225006104" g="0.86274516582489014" b="0.88235300779342651" />
+    </environment>
+	<locations>
+		<location X="0" Y="0">lot_ship</location>
+	</locations>
+</scene>

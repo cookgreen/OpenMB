@@ -33,6 +33,13 @@ namespace OpenMB.Widgets
 			return scrollablePanel;
 		}
 
+		public static PanelMaterial createMaterialPanel(this SdkTrayManager trayMgr, string name, string texture, float width = 0, float height = 0, float left = 0, float top = 0)
+		{
+			PanelMaterial materialPanel = new PanelMaterial(name, texture, width, height, left, top);
+			trayMgr.moveWidgetToTray(materialPanel, TrayLocation.TL_NONE);
+			return materialPanel;
+		}
+
 		public static PanelTemplate createTemplatePanel(this SdkTrayManager trayMgr, string name, string template, int width = 0, int height = 0, int top = 0, int left = 0)
 		{
 			PanelTemplate tmpPanel = new PanelTemplate(name, template, width, height, left, top);

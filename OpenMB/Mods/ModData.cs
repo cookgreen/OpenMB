@@ -120,6 +120,8 @@ namespace OpenMB.Mods
 
         public List<ModMediaData> ModMediaData { get { return modMediaData; } }
 
+		public List<IModStartupBackgroundType> StartupBackgroundTypes { get; set; }
+
 		public ModData()
         {
             characterInfos = new List<ModCharacterDfnXML>();
@@ -146,7 +148,8 @@ namespace OpenMB.Mods
             ModTriggerConditions = new List<IModTriggerCondition>();
             ItemTypes = new List<IItemType>();
             MapLoaders = new List<IGameMapLoader>();
-        }
+			StartupBackgroundTypes = new List<IModStartupBackgroundType>();
+		}
 
         public ModItemTypeDfnXml FindItemType(string itemType)
         {

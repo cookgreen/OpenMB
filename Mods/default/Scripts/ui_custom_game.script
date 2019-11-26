@@ -1,0 +1,28 @@
+function uiInit
+end
+
+function uiMouseEventChanged
+	store_input_param %widgetID 1
+	switch %widgetID
+		case btnOK
+			get_widget_text $g_player_name txtPlayerName
+			load_map $g_selected_map
+			end
+	end
+end
+
+function uiSelectionEventChanged
+	store_input_param %widgetID 1
+	store_input_param %value 2
+	switch %widgetID
+		case cmbChooseMaps
+			assign $g_selected_map %value
+			end
+		case cmbChooseModes
+			assign $g_selected_mode %value
+			end
+		case cmbChooseCharacters
+			assign $g_selected_character %value
+			end
+	end
+end

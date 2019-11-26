@@ -252,8 +252,13 @@ namespace OpenMB.Mods
                     {
                         var instance = thisAssembly.CreateInstance(internalType.FullName) as IGameMapLoader;
                         currentMod.MapLoaders.Add(instance);
-                    }
-                }
+					}
+					else if (internalType.GetInterface("IModStartupBackgroundType") != null)
+					{
+						var instance = thisAssembly.CreateInstance(internalType.FullName) as IModStartupBackgroundType;
+						currentMod.StartupBackgroundTypes.Add(instance);
+					}
+				}
 
                 //Load Customized type from the assembly
                 for (int i = 0; i < manifest.MetaData.Assemblies.Count; i++)
@@ -312,8 +317,13 @@ namespace OpenMB.Mods
                                 {
                                     var instance = assemblyDll.CreateInstance(type.FullName) as IGameMapLoader;
                                     currentMod.MapLoaders.Add(instance);
-                                }
-                            }
+								}
+								else if (type.GetInterface("IModStartupBackgroundType") != null)
+								{
+									var instance = assemblyDll.CreateInstance(type.FullName) as IModStartupBackgroundType;
+									currentMod.StartupBackgroundTypes.Add(instance);
+								}
+							}
                         }
                         catch (Exception ex)
                         {

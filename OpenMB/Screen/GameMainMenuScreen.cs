@@ -1,4 +1,5 @@
-﻿using Mogre_Procedural.MogreBites;
+﻿using Mogre;
+using Mogre_Procedural.MogreBites;
 using OpenMB.Core;
 using OpenMB.Mods;
 using OpenMB.Utilities;
@@ -14,6 +15,8 @@ namespace OpenMB.Screen
 	{
 		public override event Action<string, string> OnScreenEventChanged;
 		private ModData modData;
+		private SceneManager sceneManager;
+
 		public override string Name
 		{
 			get { return "MainMenu"; }
@@ -26,10 +29,17 @@ namespace OpenMB.Screen
 		public override void Init(params object[] param)
 		{
 			modData = param[0] as ModData;
+			sceneManager = param[1] as SceneManager;
 		}
 
 		public override void Run()
 		{
+			var startupBkType = modData.StartupBackgroundTypes.Where(o => o.Name == modData.BasicInfo.StartupBackground.Type).FirstOrDefault();
+			if (startupBkType != null)
+			{
+				startupBkType.StartBackground(modData.BasicInfo.StartupBackground.Value, sceneManager);
+			}
+
 			string str = "@" + modData.BasicInfo.Name;
 			GameManager.Instance.trayMgr.showCursor();
 			GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", str.ToLocalizedString(), 400);

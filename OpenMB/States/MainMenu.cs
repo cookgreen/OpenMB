@@ -49,7 +49,7 @@ namespace OpenMB.States
             GameMapManager.Instance.Init(modData);
 
 			ScreenManager.Instance.OnExternalEvent += OnExternalEvent;
-			ScreenManager.Instance.ChangeScreen("MainMenu", true , modData);
+			ScreenManager.Instance.ChangeScreen("MainMenu", true , modData, sceneMgr);
 
             GameManager.Instance.mouse.MouseMoved += mouseMoved;
             GameManager.Instance.mouse.MousePressed += mousePressed;

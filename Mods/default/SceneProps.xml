@@ -1,0 +1,21 @@
+<SceneProps>
+  <SceneProp ID="sceneprop_priateship" Combined="true">
+    <Flags>
+    </Flags>
+    <Models>
+		<Model Type="XmlDefine">model_pirateship_a</Model>
+		<Model Type="XmlDefine">model_pirateship_b</Model>
+		<Model Type="XmlDefine">model_pirateship_c</Model>
+		<Model Type="XmlDefine">model_pirateship_d</Model>
+		<Model Type="XmlDefine">model_pirateship_e</Model>
+		<Model Type="XmlDefine">model_pirateship_f</Model>
+		<Model Type="XmlDefine">model_pirateship_g</Model>
+		<Model Type="XmlDefine">model_pirateship_h</Model>
+		<Model Type="XmlDefine">model_pirateship_i</Model>
+		<Model Type="XmlDefine">model_pirateship_j</Model>
+		<Model Type="XmlDefine">model_pirateship_k</Model>
+		<Model Type="XmlDefine">model_pirateship_l</Model>
+		<Model Type="XmlDefine">model_pirateship_m</Model>
+	</Models>
+  </SceneProp>
+</SceneProps>

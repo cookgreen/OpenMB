@@ -58,6 +58,8 @@
     <Compile Include="Settings\HasMultiplayerModSetting.cs" />
     <Compile Include="Settings\HasSavedGameModSetting.cs" />
     <Compile Include="StartupActions\LoadBrfAction.cs" />
+    <Compile Include="StartupBackgroundTypes\AviMovieStartupBackground.cs" />
+    <Compile Include="StartupBackgroundTypes\TextureStartupBackground.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenMB\OpenMB.csproj">
@@ -67,8 +69,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
-    <Copy
-      SourceFiles="$(TargetPath)"
-      DestinationFolder="$(SolutionDir)Mods\common\"/>
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)Mods\common\" />
   </Target>
 </Project>
