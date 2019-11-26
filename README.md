@@ -1,4 +1,5 @@
-# OpenMB
+![](https://media.moddb.com/images/members/4/3399/3398047/logo.3.png)  
+
 ![Build](https://api.travis-ci.org/cookgreen/OpenMB.svg?branch=dev) [![Build status](https://ci.appveyor.com/api/projects/status/0yrneeoom5jk8de2/branch/dev?svg=true)](https://ci.appveyor.com/project/cookgreen/openmb/branch/dev)  
 
 ## Introduction:
