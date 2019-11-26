@@ -88,7 +88,7 @@ namespace OpenMB.Screen
 			panelFactionList.Padding.PaddingLeft = 0.01f;
 			panelFactionList.Padding.PaddingRight = 0.01f;
 
-			StaticText txtFactionsTitle = GameManager.Instance.trayMgr.createStaticText("txtFactionsTitle", "Factions");
+			StaticText txtFactionsTitle = GameManager.Instance.trayMgr.createStaticText("txtFactionsTitle", GameString.FromString("ui_game_notes_factions_title", "Factions").ToString());
 			txtFactionsTitle.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			panelFactionList.AddWidget(1, 1, txtFactionsTitle, AlignMode.Center);
 			PanelScrollable panelFactions = GameManager.Instance.trayMgr.createScrollablePanel("panelFactions", 1, 1, 0, 0, 1, 1, false);
@@ -111,7 +111,7 @@ namespace OpenMB.Screen
 					{
 						BuildFactionDetails(sideInfo);
 					}
-					var btnFaction = new StaticTextButton("txtFaction_" + sideInfo.Name, sideInfo.Name, 
+					var btnFaction = new StaticTextButton("txtFaction_" + sideInfo.Name, GameString.FromString(sideInfo.ID, sideInfo.Name).ToString(), 
 						(Color.FromArgb(36, 35, 191).ToColourValue()), 
 						ColourValue.Black, true);
 					panelFactions.AddWidgetRelative(curRow, 1, btnFaction);
