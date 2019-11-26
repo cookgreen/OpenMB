@@ -422,6 +422,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="openmb.ico" />
+    <None Include="Resources\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
