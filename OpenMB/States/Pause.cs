@@ -38,11 +38,11 @@ namespace OpenMB.States
 
             GameManager.Instance.viewport.Camera = camera;
 
-            GameManager.Instance.trayMgr.DestroyAllWidgets();
-            GameManager.Instance.trayMgr.ShowCursor();
-            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "BackToMenuBtn", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Back To Game"), 250);
-            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Quit"), 250);
-            GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_TOP, "PauseLbl", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Game Paused"), 250);
+            UIManager.Instance.DestroyAllWidgets();
+            UIManager.Instance.ShowCursor();
+            UIManager.Instance.CreateButton(TrayLocation.TL_CENTER, "BackToMenuBtn", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Back To Game"), 250);
+            UIManager.Instance.CreateButton(TrayLocation.TL_CENTER, "ExitBtn", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Quit"), 250);
+            UIManager.Instance.CreateLabel(TrayLocation.TL_TOP, "PauseLbl", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Game Paused"), 250);
 
             GameManager.Instance.mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
             GameManager.Instance.mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
@@ -62,8 +62,8 @@ namespace OpenMB.States
                 GameManager.Instance.root.DestroySceneManager(sceneMgr);
             }
 
-            GameManager.Instance.trayMgr.clearAllTrays();
-            GameManager.Instance.trayMgr.SetListener(null);
+            UIManager.Instance.clearAllTrays();
+            UIManager.Instance.SetListener(null);
         }
 
         public bool keyPressed(KeyEvent keyEventRef)
@@ -81,17 +81,17 @@ namespace OpenMB.States
 
         public bool mouseMoved(MouseEvent evt)
         {
-            if (GameManager.Instance.trayMgr.InjectMouseMove(evt)) return true;
+            if (UIManager.Instance.InjectMouseMove(evt)) return true;
             return true;
         }
         public bool mousePressed(MouseEvent evt, MouseButtonID id)
         {
-            if (GameManager.Instance.trayMgr.InjectMouseDown(evt, id)) return true;
+            if (UIManager.Instance.InjectMouseDown(evt, id)) return true;
             return true;
         }
         public bool mouseReleased(MouseEvent evt, MouseButtonID id)
         {
-            if (GameManager.Instance.trayMgr.InjectMouseUp(evt, id)) return true;
+            if (UIManager.Instance.InjectMouseUp(evt, id)) return true;
             return true;
         }
 
@@ -121,7 +121,7 @@ namespace OpenMB.States
             if (yesHit == true)
                 shutdown();
             else
-                GameManager.Instance.trayMgr.closeDialog();
+                UIManager.Instance.closeDialog();
 
             m_bQuestionActive = false;
         }
@@ -129,7 +129,7 @@ namespace OpenMB.States
         public override void update(double timeSinceLastFrame)
         {
             frameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
-            GameManager.Instance.trayMgr.FrameRenderingQueued(frameEvent);
+            UIManager.Instance.FrameRenderingQueued(frameEvent);
 
             if (m_bQuit == true)
             {

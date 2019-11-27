@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Vector3 = Mogre.Vector3;
 using OpenMB.Screen;
+using Mogre_Procedural.MogreBites;
 
 namespace OpenMB.Game
 {
@@ -170,7 +171,7 @@ namespace OpenMB.Game
                 case CameraMode.Manual:
                     break;
             }
-            GameManager.Instance.trayMgr.RefreshCursor();
+            UIManager.Instance.RefreshCursor();
         }
         public void MoveCamera()
         {

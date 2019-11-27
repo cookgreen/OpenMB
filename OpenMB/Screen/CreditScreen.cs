@@ -98,12 +98,12 @@ namespace OpenMB.Screen
         {
             elements = new List<Widget>();
             elementNames = new List<string>();
-            GameManager.Instance.trayMgr.DestroyAllWidgets();
+            UIManager.Instance.DestroyAllWidgets();
         }
 
         public override void Run()
         {
-            GameManager.Instance.trayMgr.HideCursor();
+            UIManager.Instance.HideCursor();
         }
 
         public override void Update(float timeSinceLastFrame)
@@ -112,7 +112,7 @@ namespace OpenMB.Screen
             {
                 if (!elementNames.Contains("lbCredit0"))
                 {
-                    elements.Add(GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbCredit0", strCreditLst[0]));
+                    elements.Add(UIManager.Instance.CreateStaticText(TrayLocation.TL_NONE, "lbCredit0", strCreditLst[0]));
                     elements[0].OverlayElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
                     elements[0].OverlayElement.Left = 0.5f;
                     elements[0].OverlayElement.Top = 0.5f;
@@ -136,11 +136,11 @@ namespace OpenMB.Screen
                 {
                     elements.Remove(elements.Find(o => o.Name == "lbCredit0"));
                     elementNames.Remove("lbCredit0");
-                    GameManager.Instance.trayMgr.DestroyWidget("lbCredit0");
+                    UIManager.Instance.DestroyWidget("lbCredit0");
                 }
                 if (!elementNames.Contains("lbCredit1"))
                 {
-                    elements.Add(GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbCredit1", strCreditLst[1]));
+                    elements.Add(UIManager.Instance.CreateStaticText(TrayLocation.TL_NONE, "lbCredit1", strCreditLst[1]));
                     elements[0].OverlayElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
                     elements[0].OverlayElement.Left = 0.5f;
                     elements[0].OverlayElement.Top = 0.5f;
@@ -164,11 +164,11 @@ namespace OpenMB.Screen
                 {
                     elements.Remove(elements.Find(o => o.Name == "lbCredit1"));
                     elementNames.Remove("lbCredit1");
-                    GameManager.Instance.trayMgr.DestroyWidget("lbCredit1");
+                    UIManager.Instance.DestroyWidget("lbCredit1");
                 }
                 if (!elementNames.Contains("lbCredit2"))
                 {
-                    elements.Add(GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbCredit2", strCreditLst[2]));
+                    elements.Add(UIManager.Instance.CreateStaticText(TrayLocation.TL_NONE, "lbCredit2", strCreditLst[2]));
                     elements[0].OverlayElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
                     elements[0].OverlayElement.Left = 0.5f;
                     elements[0].OverlayElement.Top = 1.0f;
@@ -195,7 +195,7 @@ namespace OpenMB.Screen
             {
                 base.Exit();
 
-                GameManager.Instance.trayMgr.DestroyAllWidgets();
+                UIManager.Instance.DestroyAllWidgets();
                 time = 0;
                 elements.Clear();
                 if (OnScreenExit != null)

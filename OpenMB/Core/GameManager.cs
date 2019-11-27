@@ -47,7 +47,6 @@ namespace OpenMB
         public MOIS.InputManager inputMgr;
         public Keyboard keyboard;
         public Mouse mouse;
-        public UIManager trayMgr;
         public static string LastStateName;
         public event Action<float> Update;
         public LoadingData loadingData;
@@ -100,7 +99,6 @@ namespace OpenMB
             inputMgr = null;
             keyboard = null;
             mouse = null;
-            trayMgr = null;
             appStateMgr = null;
             soundMgr = null;
             videoMode = new NameValuePairList();
@@ -219,9 +217,10 @@ namespace OpenMB
             
             ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 
-            trayMgr = new UIManager("AMOFTrayMgr", renderWindow, mouse, new UIListener() );
+			UIManager.Instance.Init("AMOFTrayMgr", renderWindow, mouse, new UIListener());
 
-            timer = new Timer();
+
+			timer = new Timer();
             timer.Reset();
  
             renderWindow.IsActive=true;
@@ -331,15 +330,15 @@ namespace OpenMB
 			}
 			else if (keyCollection == KeyMapperManager.Instance.GetKeyCollection(GameKeyCode.ShowOgreLogo))
 			{
-				if (trayMgr.isLogoVisible())
+				if (UIManager.Instance.isLogoVisible())
 				{
-					trayMgr.HideFrameStats();
-					trayMgr.hideLogo();
+					UIManager.Instance.HideFrameStats();
+					UIManager.Instance.hideLogo();
 				}
 				else
 				{
-					trayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
-					trayMgr.ShowLogo(TrayLocation.TL_BOTTOMRIGHT);
+					UIManager.Instance.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
+					UIManager.Instance.ShowLogo(TrayLocation.TL_BOTTOMRIGHT);
 				}
 			}
 		}
@@ -356,7 +355,7 @@ namespace OpenMB
         public void Dispose()
         {
             root.Dispose();
-            trayMgr.Dispose();
+			UIManager.Instance.Dispose();
             timer.Dispose();
         }
     }

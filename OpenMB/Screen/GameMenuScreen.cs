@@ -62,16 +62,16 @@ namespace OpenMB.Screen
 				loader.ExecuteFunction(script, "menuInit", world);
 				menuData = world.GlobalVariableTable["menuData"] as ModMenuDfnXml;
 
-				menuMainPanel = GameManager.Instance.trayMgr.createPanel("menuMainPanel");
+				menuMainPanel = UIManager.Instance.CreatePanel("menuMainPanel");
 				menuMainPanel.AddRow(Widgets.ValueType.Percent);
 				menuMainPanel.AddCol(Widgets.ValueType.Percent);
 
-				menuTitle = GameManager.Instance.trayMgr.createStaticText("menuStaticText", menuData.Title);
+				menuTitle = UIManager.Instance.CreateStaticText("menuStaticText", menuData.Title);
 				menuTitle.MetricMode = Mogre.GuiMetricsMode.GMM_RELATIVE;
 				menuTitle.Top = 0.05f;
 				menuMainPanel.AddWidget(1, 1, menuTitle, AlignMode.Center);
 
-				menuItemsPanel = GameManager.Instance.trayMgr.createPanel("menuItemsPanel", 0.5f, 0.5f, 0, 0);
+				menuItemsPanel = UIManager.Instance.CreatePanel("menuItemsPanel", 0.5f, 0.5f, 0, 0);
 				menuMainPanel.AddWidget(2, 1, menuItemsPanel, AlignMode.Left, DockMode.Fill);
 
 				foreach (var menu in menuData.Children)
@@ -82,7 +82,7 @@ namespace OpenMB.Screen
 				int row = 2;
 				foreach (var menu in menuData.Children)
 				{
-					var button = GameManager.Instance.trayMgr.createButton(menu.id, menu.Text, 200);
+					var button = UIManager.Instance.CreateButton(menu.id, menu.Text, 200);
 					button.MetricMode = Mogre.GuiMetricsMode.GMM_RELATIVE;
 					menuItemsPanel.AddWidget(row, 1, button, AlignMode.Center);
 					menuButtons.Add(button);
@@ -101,7 +101,7 @@ namespace OpenMB.Screen
 		{
 			TimerManager.Instance.Resume();
 
-			GameManager.Instance.trayMgr.DestroyAllWidgets();
+			UIManager.Instance.DestroyAllWidgets();
 		}
 	}
 }

@@ -68,25 +68,25 @@ namespace OpenMB.States
                 }
             }
 
-            GameManager.Instance.trayMgr.DestroyAllWidgets();
-            modTitle = GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_LEFT, "ModTitle", "Mod Info");
+            UIManager.Instance.DestroyAllWidgets();
+            modTitle = UIManager.Instance.CreateLabel(TrayLocation.TL_LEFT, "ModTitle", "Mod Info");
             modTitle.setCaption("Mod Info");
-            modDescBox = GameManager.Instance.trayMgr.createTextBox(TrayLocation.TL_LEFT, "ModInfo", "Mod Info", 250, 208);
+            modDescBox = UIManager.Instance.CreateTextBox(TrayLocation.TL_LEFT, "ModInfo", "Mod Info", 250, 208);
             modDescBox.setCaption("Mod Info");
-            modChooserMenu = GameManager.Instance.trayMgr.createThickSelectMenu(TrayLocation.TL_LEFT, "SelMod", "Select Mod", 250, 10);
+            modChooserMenu = UIManager.Instance.CreateThickSelectMenu(TrayLocation.TL_LEFT, "SelMod", "Select Mod", 250, 10);
             modChooserMenu.setCaption("Select Mod");
             modChooserMenu.setItems(modNames);
-            modSlider = GameManager.Instance.trayMgr.createThickSlider(TrayLocation.TL_LEFT, "ModSlider", "Slider Mods", 250, 80, 0, 0, 0);
+            modSlider = UIManager.Instance.CreateThickSlider(TrayLocation.TL_LEFT, "ModSlider", "Slider Mods", 250, 80, 0, 0, 0);
             modSlider.setCaption("Slider Mods");
             if (modNames.Count > 0)
             {
                 modTitle.setCaption(modChooserMenu.getSelectedItem());
             }
 
-            GameManager.Instance.trayMgr.ShowLogo(TrayLocation.TL_RIGHT);
-            GameManager.Instance.trayMgr.createSeparator(TrayLocation.TL_RIGHT, "LogoSep");
-            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "Play", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 140);
-            GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "Quit", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 140);
+            UIManager.Instance.ShowLogo(TrayLocation.TL_RIGHT);
+            UIManager.Instance.CreateSeparator(TrayLocation.TL_RIGHT, "LogoSep");
+            UIManager.Instance.CreateButton(TrayLocation.TL_RIGHT, "Play", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 140);
+            UIManager.Instance.CreateButton(TrayLocation.TL_RIGHT, "Quit", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 140);
             
             setupModMenu();
 
@@ -133,19 +133,19 @@ namespace OpenMB.States
                     frame.BorderMaterialName = "SdkTrays/Frame";
             }
 
-            GameManager.Instance.trayMgr.FrameRenderingQueued(evt);
+            UIManager.Instance.FrameRenderingQueued(evt);
 
             return true;
         }
 
         bool Mouse_MouseReleased(MouseEvent arg, MouseButtonID id)
         {
-            return GameManager.Instance.trayMgr.InjectMouseUp(arg, id);
+            return UIManager.Instance.InjectMouseUp(arg, id);
         }
 
         bool Mouse_MousePressed(MouseEvent arg, MouseButtonID id)
         {
-            return GameManager.Instance.trayMgr.InjectMouseDown(arg, id);
+            return UIManager.Instance.InjectMouseDown(arg, id);
         }
 
         bool Mouse_MouseMoved(MOIS.MouseEvent arg)
@@ -162,7 +162,7 @@ namespace OpenMB.States
                 selectedModName = modChooserMenu.getSelectedItem();
             }
 
-            return GameManager.Instance.trayMgr.InjectMouseMove(arg);
+            return UIManager.Instance.InjectMouseMove(arg);
         }
 
         public override bool pause()
@@ -185,7 +185,7 @@ namespace OpenMB.States
             GameManager.Instance.root.FrameRenderingQueued -= new FrameListener.FrameRenderingQueuedHandler(FrameRenderingQueued);
             foreach (BorderPanelOverlayElement bp in modThumbs)
             {
-                GameManager.Instance.trayMgr.GetTraysLayer().Remove2D(bp);
+                UIManager.Instance.GetTraysLayer().Remove2D(bp);
             }
 
             GameManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
@@ -245,7 +245,7 @@ namespace OpenMB.States
                 bp.HorizontalAlignment=(GuiHorizontalAlignment. GHA_RIGHT);
                 bp.VerticalAlignment=(GuiVerticalAlignment. GVA_CENTER);
                 bp.MaterialName=(name);
-                GameManager.Instance.trayMgr.GetTraysLayer().Add2D(bp);
+                UIManager.Instance.GetTraysLayer().Add2D(bp);
 
                 modThumbs.Add(bp);
             }  

@@ -167,7 +167,7 @@ namespace OpenMB.Game
 
             GameManager.Instance.viewport.Camera = cam;
 
-            GameManager.Instance.trayMgr.DestroyAllWidgets();
+            UIManager.Instance.DestroyAllWidgets();
             cam.FarClipDistance = 50000;
 
 			var time = TimerManager.Instance.CurrentTime;
@@ -232,7 +232,7 @@ namespace OpenMB.Game
         {
 			TimerManager.Instance.Pause();
 
-            GameManager.Instance.trayMgr.HideCursor();
+            UIManager.Instance.HideCursor();
 
             var findMaps = modData.MapInfos.Where(o => o.ID == mapID);
             if (findMaps.Count() > 0)
@@ -253,7 +253,7 @@ namespace OpenMB.Game
         /// <param name="worldMapID"></param>
         public void ChangeWorldMap(string worldMapID)
         {
-            GameManager.Instance.trayMgr.ShowCursor();
+            UIManager.Instance.ShowCursor();
 
             var findWorldMaps = modData.WorldMapInfos.Where(o => o.ID == worldMapID);
             if (findWorldMaps.Count() > 0)
@@ -326,17 +326,17 @@ namespace OpenMB.Game
         }
         bool Mouse_MouseReleased(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
 		{
-			if (GameManager.Instance.trayMgr.InjectMouseUp(arg, id)) return true;
+			if (UIManager.Instance.InjectMouseUp(arg, id)) return true;
 			return true;
         }
         bool Mouse_MousePressed(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
 		{
-			if (GameManager.Instance.trayMgr.InjectMouseDown(arg, id)) return true;
+			if (UIManager.Instance.InjectMouseDown(arg, id)) return true;
 			return true;
         }
         bool Mouse_MouseMoved(MOIS.MouseEvent arg)
 		{
-			if (GameManager.Instance.trayMgr.InjectMouseMove(arg)) return true;
+			if (UIManager.Instance.InjectMouseMove(arg)) return true;
 			return true;
         }
 
@@ -369,8 +369,8 @@ namespace OpenMB.Game
 
 		private void CreateLoadingScreen(string text)
 		{
-			GameManager.Instance.trayMgr.DestroyAllWidgets();
-			pbProgressBar = GameManager.Instance.trayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
+			UIManager.Instance.DestroyAllWidgets();
+			pbProgressBar = UIManager.Instance.CreateProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
 			pbProgressBar.setComment(text);
 		}
 

@@ -76,7 +76,7 @@ namespace OpenMB.Widgets
 			mTextArea.Colour = normalStateColor;
 			((OverlayContainer)element).AddChild(mTextArea);
 			Text = caption;
-			AssignListener(GameManager.Instance.trayMgr.Listener);
+			AssignListener(UIManager.Instance.Listener);
 			this.normalStateColor = normalStateColor;
 			this.activeStateColor = activeStateColor;
 			mState = ButtonState.BS_UP;

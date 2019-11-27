@@ -88,8 +88,8 @@ namespace OpenMB.States
 
             GameManager.Instance.viewport.Camera = camera;
 
-            GameManager.Instance.trayMgr.DestroyAllWidgets();
-            progressBar = GameManager.Instance.trayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
+            UIManager.Instance.DestroyAllWidgets();
+            progressBar = UIManager.Instance.CreateProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
             progressBar.setComment(GameManager.Instance.loadingData.Comment);
 
             switch (GameManager.Instance.loadingData.Type)
@@ -130,7 +130,7 @@ namespace OpenMB.States
 
         public override void exit()
         {
-            GameManager.Instance.trayMgr.DestroyAllWidgets();
+            UIManager.Instance.DestroyAllWidgets();
             sceneMgr.DestroyCamera(camera);
             if (sceneMgr != null)
                 GameManager.Instance.root.DestroySceneManager(sceneMgr);

@@ -89,13 +89,13 @@ namespace OpenMB.Screen
         {
             editor = param[0] as GameMapEditor;
             currentSelectedEnt = null;
-            GameManager.Instance.trayMgr.DestroyAllWidgets();
-            GameManager.Instance.trayMgr.ShowCursor();
+            UIManager.Instance.DestroyAllWidgets();
+            UIManager.Instance.ShowCursor();
         }
 
         public override void Exit()
         {
-            GameManager.Instance.trayMgr.HideCursor();
+            UIManager.Instance.HideCursor();
             editor.Dispose();
             OverlayContainer.ChildIterator children = editorPanel.GetChildIterator();
             while (children.MoveNext())
@@ -104,19 +104,19 @@ namespace OpenMB.Screen
                 editorPanel.RemoveChild(currentElement.Name);
             }
 
-            GameManager.Instance.trayMgr.DestroyWidget(btnAddObject);
-            GameManager.Instance.trayMgr.DestroyWidget(btnAIMeshCreateLine);
-            GameManager.Instance.trayMgr.DestroyWidget(btnAIMeshCreateVertex);
-            GameManager.Instance.trayMgr.DestroyWidget(btnClose);
-            GameManager.Instance.trayMgr.DestroyWidget(btnSave);
-            GameManager.Instance.trayMgr.DestroyWidget(lbAIMesh);
-            GameManager.Instance.trayMgr.DestroyWidget(lbGeneral);
-            GameManager.Instance.trayMgr.DestroyWidget(lbObjects);
-            GameManager.Instance.trayMgr.DestroyWidget(lsvObjects);
+            UIManager.Instance.DestroyWidget(btnAddObject);
+            UIManager.Instance.DestroyWidget(btnAIMeshCreateLine);
+            UIManager.Instance.DestroyWidget(btnAIMeshCreateVertex);
+            UIManager.Instance.DestroyWidget(btnClose);
+            UIManager.Instance.DestroyWidget(btnSave);
+            UIManager.Instance.DestroyWidget(lbAIMesh);
+            UIManager.Instance.DestroyWidget(lbGeneral);
+            UIManager.Instance.DestroyWidget(lbObjects);
+            UIManager.Instance.DestroyWidget(lsvObjects);
             Widget.NukeOverlayElement(horline);
             Widget.NukeOverlayElement(horline2);
 
-            GameManager.Instance.trayMgr.GetTraysLayer().Remove2D(editorPanel);
+            UIManager.Instance.GetTraysLayer().Remove2D(editorPanel);
             Widget.NukeOverlayElement(editorPanel);
         }
 
@@ -129,14 +129,14 @@ namespace OpenMB.Screen
             float top = MARGIN_TOP;
             editorPanel = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanel", "BorderPanel", "editorArea") as OverlayContainer;
 
-            lbGeneral = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbGeneral", "General", ColourValue.Black);
+            lbGeneral = UIManager.Instance.CreateStaticText(TrayLocation.TL_NONE, "lbGeneral", "General", ColourValue.Black);
             lbGeneral.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             lbGeneral.Left = 0.06f;
             lbGeneral.Top =  top;
             top = lbGeneral.Top + lbGeneral.Height;
             editorPanel.AddChild(lbGeneral.OverlayElement);
 
-            btnSave = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnSave", "Save", 150);
+            btnSave = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnSave", "Save", 150);
             btnSave.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnSave.Left = 0.06f;
             btnSave.Top = 0.02f + top;
@@ -144,7 +144,7 @@ namespace OpenMB.Screen
             top = btnSave.Top + btnSave.Height;
             editorPanel.AddChild(btnSave.OverlayElement);
 
-            btnClose = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnClose", "Close", 150);
+            btnClose = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnClose", "Close", 150);
             btnClose.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnClose.Left = 0.06f;
             btnClose.Top = 0.02f +top;
@@ -160,14 +160,14 @@ namespace OpenMB.Screen
             top = horline.Top + horline.Height;
             editorPanel.AddChild(horline);
 
-            lbAIMesh = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbAIMesh", "AIMesh", ColourValue.Black);
+            lbAIMesh = UIManager.Instance.CreateStaticText(TrayLocation.TL_NONE, "lbAIMesh", "AIMesh", ColourValue.Black);
             lbAIMesh.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             lbAIMesh.Left = 0.06f;
             lbAIMesh.Top = 0.02f + top;
             top = lbAIMesh.Top + lbAIMesh.Height;
             editorPanel.AddChild(lbAIMesh.OverlayElement);
 
-            btnAIMeshCreateVertex = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnCreateVertex", "Create Vertex", 150);
+            btnAIMeshCreateVertex = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnCreateVertex", "Create Vertex", 150);
             btnAIMeshCreateVertex.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnAIMeshCreateVertex.Left = 0.06f;
             btnAIMeshCreateVertex.Top = 0.02f + top;
@@ -175,7 +175,7 @@ namespace OpenMB.Screen
             top = btnAIMeshCreateVertex.Top + btnAIMeshCreateVertex.Height;
             editorPanel.AddChild(btnAIMeshCreateVertex.OverlayElement);
 
-            btnAIMeshCreateLine = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnCreateLine", "Create Line", 150);
+            btnAIMeshCreateLine = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnCreateLine", "Create Line", 150);
             btnAIMeshCreateLine.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnAIMeshCreateLine.Left = 0.06f;
             btnAIMeshCreateLine.Top = 0.02f + top;
@@ -191,14 +191,14 @@ namespace OpenMB.Screen
             top = horline2.Top + horline2.Height;
             editorPanel.AddChild(horline2);
 
-            lbObjects = GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbObjects", "Objects", ColourValue.Black);
+            lbObjects = UIManager.Instance.CreateStaticText(TrayLocation.TL_NONE, "lbObjects", "Objects", ColourValue.Black);
             lbObjects.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             lbObjects.Left = 0.06f;
             lbObjects.Top = 0.02f + top;
             top = lbObjects.Top + lbObjects.Height;
             editorPanel.AddChild(lbObjects.OverlayElement);
 
-            lsvObjects = GameManager.Instance.trayMgr.createListView(TrayLocation.TL_NONE, "lsvObjects", 0.3f, 0.22f, new List<string>()
+            lsvObjects = UIManager.Instance.CreateListView(TrayLocation.TL_NONE, "lsvObjects", 0.3f, 0.22f, new List<string>()
             {
                 "ObjectName"
             });
@@ -209,7 +209,7 @@ namespace OpenMB.Screen
             top = lsvObjects.Top + lsvObjects.Height;
             editorPanel.AddChild(lsvObjects.OverlayElement);
 
-            btnAddObject = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnAddObject", "Add Object", 100);
+            btnAddObject = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnAddObject", "Add Object", 100);
             btnAddObject.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnAddObject.Left = 0.14f;
             btnAddObject.Top = 0.02f + top;
@@ -217,7 +217,7 @@ namespace OpenMB.Screen
             top = btnAddObject.Top + btnAddObject.Height;
             editorPanel.AddChild(btnAddObject.OverlayElement);
 
-            GameManager.Instance.trayMgr.GetTraysLayer().Add2D(editorPanel);
+            UIManager.Instance.GetTraysLayer().Add2D(editorPanel);
         }
 
         private void BtnAddObject_OnClick(object obj)
@@ -280,7 +280,7 @@ namespace OpenMB.Screen
             }
             else if (id == MouseButtonID.MB_Left)
             {
-                Ray ray = GameManager.Instance.trayMgr.GetCursorRay(editor.Map.Camera);
+                Ray ray = UIManager.Instance.GetCursorRay(editor.Map.Camera);
                 var query = editor.Map.SceneManager.CreateRayQuery(ray);
                 RaySceneQueryResult result = query.Execute();
                 foreach (var sResult in result)
@@ -321,7 +321,7 @@ namespace OpenMB.Screen
             base.InjectMouseMove(arg);
 
             Vector2 cursorPos = new Vector2(arg.state.X.abs, arg.state.Y.abs);
-            Ray ray = GameManager.Instance.trayMgr.GetCursorRay(editor.Map.Camera);
+            Ray ray = UIManager.Instance.GetCursorRay(editor.Map.Camera);
             switch (state)
             {
                 case EditState.Add: 

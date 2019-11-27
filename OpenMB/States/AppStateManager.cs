@@ -182,7 +182,7 @@ namespace OpenMB.States
 
          protected void init(AppState state)
          {
-             GameManager.Instance.trayMgr.SetListener(state);
+             UIManager.Instance.SetListener(state);
              GameManager.Instance.renderWindow.ResetStatistics();
          }
 

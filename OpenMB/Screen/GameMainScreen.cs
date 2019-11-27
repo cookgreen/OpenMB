@@ -44,7 +44,7 @@ namespace OpenMB.Screen
 
 		public override void Run()
 		{
-			gameMainPanel = GameManager.Instance.trayMgr.createPanel("gameMainPanel", 1.0f, 0.08f, 0.0f, 0.92f);
+			gameMainPanel = UIManager.Instance.CreatePanel("gameMainPanel", 1.0f, 0.08f, 0.0f, 0.92f);
 			gameMainPanel.AddCol(Widgets.ValueType.Percent);
 			gameMainPanel.AddCol(Widgets.ValueType.Percent);
 			gameMainPanel.AddCol(Widgets.ValueType.Percent);
@@ -54,7 +54,7 @@ namespace OpenMB.Screen
 			gameMainPanel.AddCol(Widgets.ValueType.Abosulte, 0.1f);
 			gameMainPanel.AddCol(Widgets.ValueType.Abosulte, 180);
 
-			btnTerrain = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnTerrain", "Terrain", 150);
+			btnTerrain = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnTerrain", "Terrain", 150);
 			btnTerrain.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnTerrain.Top = 0.025f;
 			btnTerrain.OnClick += BtnTerrain_OnClick;
@@ -64,44 +64,44 @@ namespace OpenMB.Screen
 				btnTerrain.Hide();
 			}
 
-			btnCamp = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnCamp", "Camp", 150);
+			btnCamp = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnCamp", "Camp", 150);
 			btnCamp.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnCamp.Top = 0.025f;
 			btnCamp.OnClick += BtnCamp_OnClick;
 			gameMainPanel.AddWidget(1, 2, btnCamp);
 
-			btnReports = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnReports", "Reports", 150);
+			btnReports = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnReports", "Reports", 150);
 			btnReports.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnReports.OnClick += BtnReports_OnClick;
 			btnReports.Top = 0.025f;
 			gameMainPanel.AddWidget(1, 3, btnReports, AlignMode.Left, DockMode.FillWidth);
 
-			btnNotes = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnNotes", "Notes", 150);
+			btnNotes = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnNotes", "Notes", 150);
 			btnNotes.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnNotes.Top = 0.025f;
 			btnNotes.OnClick += BtnNotes_OnClick;
 			gameMainPanel.AddWidget(1, 4, btnNotes);
 
-			btnInventory = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnInventory", "Inventory", 150);
+			btnInventory = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnInventory", "Inventory", 150);
 			btnInventory.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnInventory.Top = 0.025f;
 			btnInventory.OnClick += BtnInventory_OnClick;
 			gameMainPanel.AddWidget(1, 5, btnInventory, AlignMode.Left, DockMode.FillWidth);
 
-			btnCharacter = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnCharacter", "Characters", 150);
+			btnCharacter = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnCharacter", "Characters", 150);
 			btnCharacter.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnCharacter.Top = 0.025f;
 			btnCharacter.OnClick += BtnCharacter_OnClick;
 			gameMainPanel.AddWidget(1, 6, btnCharacter);
 
-			btnParty = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnParty", "Party", 150);
+			btnParty = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnParty", "Party", 150);
 			btnParty.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnParty.Top = 0.025f;
 			btnParty.OnClick += BtnParty_OnClick;
 			gameMainPanel.AddWidget(1, 7, btnParty, AlignMode.Left, DockMode.FillWidth);
 
-			txtCurrentDate = GameManager.Instance.trayMgr.createStaticText("gameDate", TimerManager.Instance.GetDate());
-			txtCurrentTime = GameManager.Instance.trayMgr.createStaticText("gameTime", TimerManager.Instance.CurrentTime.ToString());
+			txtCurrentDate = UIManager.Instance.CreateStaticText("gameDate", TimerManager.Instance.GetDate());
+			txtCurrentTime = UIManager.Instance.CreateStaticText("gameTime", TimerManager.Instance.CurrentTime.ToString());
 			txtCurrentDate.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			txtCurrentTime.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			txtCurrentDate.Top = 0.015f;
@@ -149,7 +149,7 @@ namespace OpenMB.Screen
 		{
 			TimerManager.Instance.Pause();
 
-			GameManager.Instance.trayMgr.DestroyAllWidgets();
+			UIManager.Instance.DestroyAllWidgets();
 		}
 
 		public override void Update(float timeSinceLastFrame)

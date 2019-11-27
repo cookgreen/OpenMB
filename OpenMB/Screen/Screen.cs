@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MOIS;
 using Mogre;
+using Mogre_Procedural.MogreBites;
 
 namespace OpenMB.Screen
 {
@@ -71,15 +72,15 @@ namespace OpenMB.Screen
 
         public virtual void InjectMouseMove(MouseEvent arg)
         {
-            GameManager.Instance.trayMgr.InjectMouseMove(arg);
+            UIManager.Instance.InjectMouseMove(arg);
         }
         public virtual void InjectMousePressed(MouseEvent arg, MouseButtonID id)
         {
-            GameManager.Instance.trayMgr.InjectMouseDown(arg, id);
+            UIManager.Instance.InjectMouseDown(arg, id);
         }
         public virtual void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
         {
-            GameManager.Instance.trayMgr.InjectMouseUp(arg, id);
+            UIManager.Instance.InjectMouseUp(arg, id);
         }
 
         public virtual void Run()
