@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Widgets
 {
-	public class PanelMaterial : PanelTemplate
+	public class PanelMaterialWidget : PanelTemplateWidget
 	{
 		private MaterialPtr materialPtr;
-		public PanelMaterial(string name, string texture, float width = 0, float height = 0, float left = 0, float top = 0) : base(name, "MeshPanel", width, height, left, top)
+		public PanelMaterialWidget(string name, string texture, float width = 0, float height = 0, float left = 0, float top = 0) : base(name, "MeshPanel", width, height, left, top)
 		{
 			string matName = null;
 			if (!string.IsNullOrEmpty(texture))
@@ -25,13 +25,13 @@ namespace OpenMB.Widgets
 			materialPtr.GetTechnique(0).GetPass(0).SetSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
 			materialPtr.GetTechnique(0).GetPass(0).CreateTextureUnitState().SetTextureName(texture);
 
-			mElement.MaterialName = matName;
+			element.MaterialName = matName;
 		}
-		public PanelMaterial(string name, MaterialPtr material, float width = 0, float height = 0, float left = 0, float top = 0) : base(name, "MeshPanel", width, height, left, top)
+		public PanelMaterialWidget(string name, MaterialPtr material, float width = 0, float height = 0, float left = 0, float top = 0) : base(name, "MeshPanel", width, height, left, top)
 		{
 			materialPtr = material;
 
-			mElement.MaterialName = material.Name;
+			element.MaterialName = material.Name;
 		}
 
 		public override void Dispose()

@@ -25,14 +25,14 @@ namespace OpenMB.Widgets
 		{
 			get
 			{
-				return getCaptionWidth(Text, ref mTextArea);
+				return GetCaptionWidth(Text, ref mTextArea);
 			}
 		}
 		public float TextHeight
 		{
 			get
 			{
-				return getCaptionHeight(Text, ref mTextArea);
+				return GetCaptionHeight(Text, ref mTextArea);
 			}
 		}
 
@@ -57,10 +57,10 @@ namespace OpenMB.Widgets
 		public StaticTextButton(string name, string caption, ColourValue normalStateColor, ColourValue activeStateColor, bool specificColor = false)
 		{
 			OverlayManager overlayMgr = OverlayManager.Singleton;
-			mElement = overlayMgr.CreateOverlayElement("BorderPanel", name);
-			mElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-			mElement.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
-			mElement.Height = 0.32f;
+			element = overlayMgr.CreateOverlayElement("BorderPanel", name);
+			element.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
+			element.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
+			element.Height = 0.32f;
 			mTextArea = overlayMgr.CreateOverlayElement("TextArea", name + "/StaticTextCaption") as TextAreaOverlayElement;
 			mTextArea.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
 			mTextArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
@@ -74,9 +74,9 @@ namespace OpenMB.Widgets
 				normalStateColor = new ColourValue(0.9f, 1f, 0.7f);
 			}
 			mTextArea.Colour = normalStateColor;
-			((OverlayContainer)mElement).AddChild(mTextArea);
+			((OverlayContainer)element).AddChild(mTextArea);
 			Text = caption;
-			_assignListener(GameManager.Instance.trayMgr.Listener);
+			AssignListener(GameManager.Instance.trayMgr.Listener);
 			this.normalStateColor = normalStateColor;
 			this.activeStateColor = activeStateColor;
 			mState = ButtonState.BS_UP;
@@ -87,9 +87,9 @@ namespace OpenMB.Widgets
 			return mState;
 		}
 
-		public override void _cursorPressed(Mogre.Vector2 cursorPos)
+		public override void CursorPressed(Mogre.Vector2 cursorPos)
 		{
-			if (isCursorOver(cursorPos))
+			if (IsCursorOver(cursorPos))
 			{
 				setState(ButtonState.BS_DOWN);
 				if (OnClick != null)
@@ -99,7 +99,7 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public override void _cursorReleased(Mogre.Vector2 cursorPos)
+		public override void CursorReleased(Mogre.Vector2 cursorPos)
 		{
 			if (mState == ButtonState.BS_DOWN)
 			{
@@ -107,9 +107,9 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public override void _cursorMoved(Mogre.Vector2 cursorPos)
+		public override void CursorMoved(Mogre.Vector2 cursorPos)
 		{
-			if (isCursorOver(cursorPos))
+			if (IsCursorOver(cursorPos))
 			{
 				if (mState == ButtonState.BS_UP)
 					setState(ButtonState.BS_OVER);
@@ -121,7 +121,7 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public override void _focusLost()
+		public override void FocusLost()
 		{
 			setState(ButtonState.BS_UP); // reset button if cursor was lost
 		}
@@ -157,7 +157,7 @@ namespace OpenMB.Widgets
 					//mElement.Left = (parentWidgetWidth - TextWidth) / 2;
 					mTextArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
 					mTextArea.SetAlignment(TextAreaOverlayElement.Alignment.Center);
-					mElement.Left += mElement.Left + TextWidth - parentWidgetWidth / 2;
+					element.Left += element.Left + TextWidth - parentWidgetWidth / 2;
 					break;
 			}
 		}

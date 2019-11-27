@@ -8,6 +8,7 @@ using OpenMB.Localization;
 using OpenMB.Sound;
 using OpenMB.Utilities;
 using OpenMB.Mods;
+using OpenMB.Widgets;
 
 namespace OpenMB.States
 {
@@ -37,8 +38,8 @@ namespace OpenMB.States
 
             GameManager.Instance.viewport.Camera = camera;
 
-            GameManager.Instance.trayMgr.destroyAllWidgets();
-            GameManager.Instance.trayMgr.showCursor();
+            GameManager.Instance.trayMgr.DestroyAllWidgets();
+            GameManager.Instance.trayMgr.ShowCursor();
             GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "BackToMenuBtn", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Back To Game"), 250);
             GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "ExitBtn", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Quit"), 250);
             GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_TOP, "PauseLbl", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Game Paused"), 250);
@@ -62,7 +63,7 @@ namespace OpenMB.States
             }
 
             GameManager.Instance.trayMgr.clearAllTrays();
-            GameManager.Instance.trayMgr.setListener(null);
+            GameManager.Instance.trayMgr.SetListener(null);
         }
 
         public bool keyPressed(KeyEvent keyEventRef)
@@ -80,39 +81,39 @@ namespace OpenMB.States
 
         public bool mouseMoved(MouseEvent evt)
         {
-            if (GameManager.Instance.trayMgr.injectMouseMove(evt)) return true;
+            if (GameManager.Instance.trayMgr.InjectMouseMove(evt)) return true;
             return true;
         }
         public bool mousePressed(MouseEvent evt, MouseButtonID id)
         {
-            if (GameManager.Instance.trayMgr.injectMouseDown(evt, id)) return true;
+            if (GameManager.Instance.trayMgr.InjectMouseDown(evt, id)) return true;
             return true;
         }
         public bool mouseReleased(MouseEvent evt, MouseButtonID id)
         {
-            if (GameManager.Instance.trayMgr.injectMouseUp(evt, id)) return true;
+            if (GameManager.Instance.trayMgr.InjectMouseUp(evt, id)) return true;
             return true;
         }
 
-        public override void buttonHit(Button button)
+        public override void buttonHit(ButtonWidget button)
         {
-            if (button.getName() == "ExitBtn")
+            if (button.Name == "ExitBtn")
             {
                 //AdvancedMogreFramework.m_pTrayMgr.showYesNoDialog("Sure?", "Really leave?");
                 //m_bQuestionActive = true;
                 shutdown();
             }
-            else if (button.getName() == "BackToGameBtn")
+            else if (button.Name == "BackToGameBtn")
             {
                 popAllAndPushAppState<Pause>(findByName("GameState"));
                 m_bQuit = true;
             }
-            else if (button.getName() == "BackToSinbadBtn")
+            else if (button.Name == "BackToSinbadBtn")
             {
                 popAllAndPushAppState<Pause>(findByName("SinbadState"));
                 m_bQuit = true;
             }
-            else if (button.getName() == "BackToMenuBtn")
+            else if (button.Name == "BackToMenuBtn")
                 popAllAndPushAppState<Pause>(findByName("MenuState"));
         }
         public override void yesNoDialogClosed(string question, bool yesHit)
@@ -128,7 +129,7 @@ namespace OpenMB.States
         public override void update(double timeSinceLastFrame)
         {
             frameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
-            GameManager.Instance.trayMgr.frameRenderingQueued(frameEvent);
+            GameManager.Instance.trayMgr.FrameRenderingQueued(frameEvent);
 
             if (m_bQuit == true)
             {

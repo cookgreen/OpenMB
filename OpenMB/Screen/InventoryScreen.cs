@@ -18,13 +18,13 @@ namespace OpenMB.Screen
 		private GameObject gameObject;
 		private string chaID;
 		private ModCharacterDfnXML chaData;
-		private Panel discordPanel;
-		private Panel discordInventoryPanel;
-		private Panel playerPanel;
-		private Panel playerEquipPanel;
-		private Panel playerPreviewPanel;
-		private Panel backpackPanel;
-		private PanelScrollable backpackInventoryPanel;
+		private PanelWidget discordPanel;
+		private PanelWidget discordInventoryPanel;
+		private PanelWidget playerPanel;
+		private PanelWidget playerEquipPanel;
+		private PanelWidget playerPreviewPanel;
+		private PanelWidget backpackPanel;
+		private PanelScrollableWidget backpackInventoryPanel;
 		private Overlay meshLayer;
 
         public override string Name
@@ -51,7 +51,7 @@ namespace OpenMB.Screen
 				world = param[0] as GameWorld;
 				chaID = param[1].ToString();
             }
-            GameManager.Instance.trayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.DestroyAllWidgets();
         }
 
         public override void Run()
@@ -96,7 +96,7 @@ namespace OpenMB.Screen
 			int currCol = 1;
 			for (int i = 0; i < 9; i++)
 			{
-				var invSlot = new PanelTemplate("DiscordInvSlot_" + (i + 1).ToString(), "InventorySlot");
+				var invSlot = new PanelTemplateWidget("DiscordInvSlot_" + (i + 1).ToString(), "InventorySlot");
 				discordInventoryPanel.AddWidgetRelative(currRow, currCol, invSlot, AlignMode.Center, DockMode.Fill);
 				if ((i + 1) % 3 == 0)
 				{
@@ -147,7 +147,7 @@ namespace OpenMB.Screen
 			playerEquipPanel.AddWidget(1, 3, txtArms, AlignMode.Center);
 			for (int i = 0; i < 9; i++)
 			{
-				var equipSlot = new PanelTemplate("EquipSlot_" + (i + 1).ToString(), "InventorySlot");
+				var equipSlot = new PanelTemplateWidget("EquipSlot_" + (i + 1).ToString(), "InventorySlot");
 				switch (i)
 				{
 					case 0:
@@ -181,7 +181,7 @@ namespace OpenMB.Screen
 			}
 
 			meshLayer = OverlayManager.Singleton.Create("CharacterPreview");
-			meshLayer.ZOrder = (ushort)(GameManager.Instance.trayMgr.getCursorContainer().ZOrder - 1);
+			meshLayer.ZOrder = (ushort)(GameManager.Instance.trayMgr.GetCursorContainer().ZOrder - 1);
 			gameObject = new Character(world, chaData, skinData, new Mogre.Vector3(), true);
 			float length = gameObject.Mesh.Entity.BoundingBox.Size.Length * 2;
 			gameObject.Mesh.Entity.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_MAX;
@@ -227,7 +227,7 @@ namespace OpenMB.Screen
 			int curCol = 1;
 			for (int i = 0; i < 60; i++)
 			{
-				var invSlot = new PanelTemplate("InvSlot_" + (i + 1).ToString(), "InventorySlot");
+				var invSlot = new PanelTemplateWidget("InvSlot_" + (i + 1).ToString(), "InventorySlot");
 				invSlot.Height = 0.1f;
 				backpackInventoryPanel.ChangeRow(Widgets.ValueType.Abosulte, invSlot.Height, curRow);
 				backpackInventoryPanel.AddWidget(curRow, curCol, invSlot, AlignMode.Center, DockMode.Fill);
@@ -269,7 +269,7 @@ namespace OpenMB.Screen
 		{
 			gameObject.Destroy();
 			OverlayManager.Singleton.Destroy(meshLayer);
-			GameManager.Instance.trayMgr.destroyAllWidgets();
+			GameManager.Instance.trayMgr.DestroyAllWidgets();
         }
     }
 }

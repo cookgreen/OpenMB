@@ -13,13 +13,14 @@ using OpenMB.Utilities;
 using OpenMB.Mods;
 using OpenMB.Map;
 using OpenMB.Screen;
+using OpenMB.Widgets;
 
 namespace OpenMB.States
 {
     public class MainMenu : AppState
     {
         protected bool m_bQuit;
-        private SelectMenu renderMenu;
+        private SelectMenuWidget renderMenu;
         public MainMenu()
         {
             m_bQuit         = false;
@@ -92,7 +93,7 @@ namespace OpenMB.States
         public override void exit()
         {
             sceneMgr.DestroyCamera(camera);
-            GameManager.Instance.trayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.DestroyAllWidgets();
             GameManager.Instance.root.DestroySceneManager(sceneMgr);
             ModManager.Instance.UnloadAllMods();
 
@@ -120,17 +121,17 @@ namespace OpenMB.States
 
         public bool mouseMoved(MouseEvent evt)
         {
-            if (GameManager.Instance.trayMgr.injectMouseMove(evt)) return true;
+            if (GameManager.Instance.trayMgr.InjectMouseMove(evt)) return true;
             return true;
         }
         public bool mousePressed(MouseEvent evt, MouseButtonID id)
         {
-            if (GameManager.Instance.trayMgr.injectMouseDown(evt, id)) return true;
+            if (GameManager.Instance.trayMgr.InjectMouseDown(evt, id)) return true;
             return true;
         }
         public bool mouseReleased(MouseEvent evt, MouseButtonID id)
         {
-            if (GameManager.Instance.trayMgr.injectMouseUp(evt, id)) return true;
+            if (GameManager.Instance.trayMgr.InjectMouseUp(evt, id)) return true;
             return true;
         }
 
@@ -139,9 +140,9 @@ namespace OpenMB.States
             bool isModified = false;
             Dictionary<string, string> displayOptions = new Dictionary<string, string>();
             ConfigOptionMap options = GameManager.Instance.root.GetRenderSystemByName(renderMenu.getSelectedItem()).GetConfigOptions();
-            for (uint i = 3; i < GameManager.Instance.trayMgr.getNumWidgets(renderMenu.getTrayLocation());i++ )
+            for (uint i = 3; i < GameManager.Instance.trayMgr.GetNumWidgets(renderMenu.GetTrayLocation());i++ )
             {
-                SelectMenu optionMenu = (SelectMenu)GameManager.Instance.trayMgr.getWidget(renderMenu.getTrayLocation(), i);
+                SelectMenuWidget optionMenu = (SelectMenuWidget)GameManager.Instance.trayMgr.GetWidget(renderMenu.GetTrayLocation(), i);
                 if (optionMenu.getSelectedItem() != options[optionMenu.getCaption()].currentValue)
                     isModified = true;
                 displayOptions.Add(optionMenu.getCaption(), optionMenu.getSelectedItem());
@@ -165,7 +166,7 @@ namespace OpenMB.States
 
         private void Configure()
         {
-            GameManager.Instance.trayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.DestroyAllWidgets();
             GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_CENTER, "lbConfig", "Configure");
             renderMenu = GameManager.Instance.trayMgr.createLongSelectMenu(TrayLocation.TL_CENTER, "rendersys", "Render System", 450, 240, 10);
             StringVector rsNames = new StringVector();
@@ -181,20 +182,20 @@ namespace OpenMB.States
             GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "btnBack", "Back");
         }
 
-        public override void itemSelected(SelectMenu menu)
+        public override void itemSelected(SelectMenuWidget menu)
         {
             if (menu == renderMenu)
             {
-                while (GameManager.Instance.trayMgr.getNumWidgets(renderMenu.getTrayLocation()) > 2)
+                while (GameManager.Instance.trayMgr.GetNumWidgets(renderMenu.GetTrayLocation()) > 2)
                 {
-                    GameManager.Instance.trayMgr.destroyWidget(renderMenu.getTrayLocation(), 2);
+                    GameManager.Instance.trayMgr.DestroyWidget(renderMenu.GetTrayLocation(), 2);
                 }
                 uint i=0;
                 ConfigOptionMap options = GameManager.Instance.root.GetRenderSystemByName(renderMenu.getSelectedItem()).GetConfigOptions();
                 foreach (var item in options)
                 {
                     i++;
-                    SelectMenu optionMenu = GameManager.Instance.trayMgr.createLongSelectMenu(
+                    SelectMenuWidget optionMenu = GameManager.Instance.trayMgr.createLongSelectMenu(
                         TrayLocation.TL_CENTER, "ConfigOption" + i.ToString(), item.Key, 450, 240, 10);
                     optionMenu.setItems(item.Value.possibleValues);
 
@@ -220,13 +221,13 @@ namespace OpenMB.States
             }
 
             frameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
-            GameManager.Instance.trayMgr.frameRenderingQueued(frameEvent);
+            GameManager.Instance.trayMgr.FrameRenderingQueued(frameEvent);
         }
 
         private void buildMainMenu(ModData data)
         {
-            GameManager.Instance.trayMgr.destroyAllWidgets();
-            GameManager.Instance.trayMgr.showCursor();
+            GameManager.Instance.trayMgr.DestroyAllWidgets();
+            GameManager.Instance.trayMgr.ShowCursor();
 
             GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", data != null ? LocateSystem.Instance.LOC(LocateFileType.GameQuickString, data.BasicInfo.Name) : LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "MenuState"), 400);
 

@@ -6,6 +6,7 @@ using OpenMB.Mods;
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using OpenMB.Localization;
+using OpenMB.Widgets;
 
 namespace OpenMB.States
 {
@@ -68,7 +69,7 @@ namespace OpenMB.States
     }
     public class Loading : AppState
     {
-        private ProgressBar progressBar;
+        private ProgressBarWidget progressBar;
         public override void enter(ModData e = null)
         {
             modData = e;
@@ -87,7 +88,7 @@ namespace OpenMB.States
 
             GameManager.Instance.viewport.Camera = camera;
 
-            GameManager.Instance.trayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.DestroyAllWidgets();
             progressBar = GameManager.Instance.trayMgr.createProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
             progressBar.setComment(GameManager.Instance.loadingData.Comment);
 
@@ -129,7 +130,7 @@ namespace OpenMB.States
 
         public override void exit()
         {
-            GameManager.Instance.trayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.DestroyAllWidgets();
             sceneMgr.DestroyCamera(camera);
             if (sceneMgr != null)
                 GameManager.Instance.root.DestroySceneManager(sceneMgr);

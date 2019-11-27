@@ -47,7 +47,7 @@ namespace OpenMB
         public MOIS.InputManager inputMgr;
         public Keyboard keyboard;
         public Mouse mouse;
-        public SdkTrayManager trayMgr;
+        public UIManager trayMgr;
         public static string LastStateName;
         public event Action<float> Update;
         public LoadingData loadingData;
@@ -219,7 +219,7 @@ namespace OpenMB
             
             ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
 
-            trayMgr = new SdkTrayManager("AMOFTrayMgr", renderWindow, mouse, new SdkTrayListener() );
+            trayMgr = new UIManager("AMOFTrayMgr", renderWindow, mouse, new UIListener() );
 
             timer = new Timer();
             timer.Reset();
@@ -227,11 +227,6 @@ namespace OpenMB
             renderWindow.IsActive=true;
 
             this.gameOptions = gameOptions;
-
-			SdkTrayManager.FactoryMethods = new Dictionary<string, Widgets.WidgetFactoryMethodDefine>();
-			SdkTrayManager.FactoryMethods.Add("Button", new Widgets.WidgetFactoryMethodDefine("createButton", 4, 4, 0, true));
-			SdkTrayManager.FactoryMethods.Add("InputBox", new Widgets.WidgetFactoryMethodDefine("createInputBox", 7, 5, 2, true));
-			SdkTrayManager.FactoryMethods.Add("SelectMenu", new Widgets.WidgetFactoryMethodDefine("createLongSelectMenu", 7, 5, 2, true));
 
 			log.LogMessage("Game Started!");
 
@@ -338,13 +333,13 @@ namespace OpenMB
 			{
 				if (trayMgr.isLogoVisible())
 				{
-					trayMgr.hideFrameStats();
+					trayMgr.HideFrameStats();
 					trayMgr.hideLogo();
 				}
 				else
 				{
 					trayMgr.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
-					trayMgr.showLogo(TrayLocation.TL_BOTTOMRIGHT);
+					trayMgr.ShowLogo(TrayLocation.TL_BOTTOMRIGHT);
 				}
 			}
 		}

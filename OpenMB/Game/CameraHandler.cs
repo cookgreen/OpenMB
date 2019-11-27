@@ -170,7 +170,7 @@ namespace OpenMB.Game
                 case CameraMode.Manual:
                     break;
             }
-            GameManager.Instance.trayMgr.refreshCursor();
+            GameManager.Instance.trayMgr.RefreshCursor();
         }
         public void MoveCamera()
         {

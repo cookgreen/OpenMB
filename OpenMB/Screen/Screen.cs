@@ -71,15 +71,15 @@ namespace OpenMB.Screen
 
         public virtual void InjectMouseMove(MouseEvent arg)
         {
-            GameManager.Instance.trayMgr.injectMouseMove(arg);
+            GameManager.Instance.trayMgr.InjectMouseMove(arg);
         }
         public virtual void InjectMousePressed(MouseEvent arg, MouseButtonID id)
         {
-            GameManager.Instance.trayMgr.injectMouseDown(arg, id);
+            GameManager.Instance.trayMgr.InjectMouseDown(arg, id);
         }
         public virtual void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
         {
-            GameManager.Instance.trayMgr.injectMouseUp(arg, id);
+            GameManager.Instance.trayMgr.InjectMouseUp(arg, id);
         }
 
         public virtual void Run()

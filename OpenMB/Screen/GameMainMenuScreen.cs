@@ -41,7 +41,7 @@ namespace OpenMB.Screen
 			}
 
 			string str = "@" + modData.BasicInfo.Name;
-			GameManager.Instance.trayMgr.showCursor();
+			GameManager.Instance.trayMgr.ShowCursor();
 			GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_TOP, "MenuLbl", str.ToLocalizedString(), 400);
 			if (modData.HasSinglePlayer)
 			{
@@ -83,7 +83,7 @@ namespace OpenMB.Screen
 
 		public override void Exit()
 		{
-			GameManager.Instance.trayMgr.destroyAllWidgets();
+			GameManager.Instance.trayMgr.DestroyAllWidgets();
 		}
 	}
 }

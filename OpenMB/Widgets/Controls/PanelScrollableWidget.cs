@@ -19,7 +19,7 @@ namespace OpenMB.Widgets
 	/// <summary>
 	/// Scrollable Panel
 	/// </summary>
-	public class PanelScrollable : Panel, IScrollable
+	public class PanelScrollableWidget : PanelWidget, IScrollable
 	{
 		private List<Widget> visualWidgets;
 		private BorderPanelOverlayElement scroll;
@@ -34,7 +34,7 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public PanelScrollable(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1, bool hasBorder = true) : base(name, width, height, left, top, row, col, hasBorder)
+		public PanelScrollableWidget(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1, bool hasBorder = true) : base(name, width, height, left, top, row, col, hasBorder)
 		{
 			visualWidgets = new List<Widget>();
 			string scrollName = name + "_Scroll";
@@ -55,7 +55,7 @@ namespace OpenMB.Widgets
 			drag.Hide();
 		}
 
-		public override void _mouseMoved(MouseEvent mouseEvent)
+		public override void MouseMoved(MouseEvent mouseEvent)
 		{
 			if (mouseEvent.state.Z.rel != 0 && widgets.Count != 0)
 			{
@@ -83,27 +83,27 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public override void _cursorMoved(Vector2 cursorPos)
+		public override void CursorMoved(Vector2 cursorPos)
 		{
 			foreach (var v in visualWidgets)
 			{
-				v._cursorMoved(cursorPos);
+				v.CursorMoved(cursorPos);
 			}
 		}
 
-		public override void _cursorPressed(Vector2 cursorPos)
+		public override void CursorPressed(Vector2 cursorPos)
 		{
 			foreach (var v in visualWidgets)
 			{
-				v._cursorPressed(cursorPos);
+				v.CursorPressed(cursorPos);
 			}
 		}
 
-		public override void _focusLost()
+		public override void FocusLost()
 		{
 			foreach (var v in visualWidgets)
 			{
-				v._focusLost();
+				v.FocusLost();
 			}
 		}
 
@@ -170,13 +170,13 @@ namespace OpenMB.Widgets
 					break;
 			}
 
-			AddChildOverlayElement(widget.getOverlayElement());
+			AddChildOverlayElement(widget.OverlayElement);
 
 			if (widget.Top + widget.Height > Height)
 			{
 				scroll.Show();
 				drag.Show();
-				widget.hide();
+				widget.Hide();
 			}
 			else
 			{
@@ -201,7 +201,7 @@ namespace OpenMB.Widgets
 			{
 				scroll.Show();
 				drag.Show();
-				widget.hide();
+				widget.Hide();
 			}
 			else
 			{
@@ -221,7 +221,7 @@ namespace OpenMB.Widgets
 			float dragTopPos = drag.Top - initDragTop;
 			foreach (var widget in visualWidgets)
 			{
-				widget.hide();
+				widget.Hide();
 			}
 			int passedRowNum = (int)(System.Math.Round(dragTopPos / scroll.Height * rows.Count, MidpointRounding.AwayFromZero));
 			int skipNum = passedRowNum * cols.Count;
@@ -235,7 +235,7 @@ namespace OpenMB.Widgets
 				{
 					curIndex++;
 				}
-				visualWidgets[i].show();
+				visualWidgets[i].Show();
 			}
 		}
 

@@ -36,15 +36,15 @@ namespace OpenMB.Screen
 
 		public override void Run()
 		{
-			Panel panel = GameManager.Instance.trayMgr.createPanel("OperationPanel", 1, 0.08f, 0, 0.92f, 1, 8);
-			Button btnGameLog = GameManager.Instance.trayMgr.createButton("btnGameLog", "Game Log", 150);
-			Button btnRecentMessage = GameManager.Instance.trayMgr.createButton("btnRecentMessage", "Recent", 100);
-			Button btnNotes = GameManager.Instance.trayMgr.createButton("btnNotes", "Notes", 100);
-			Button btnGameConcepts = GameManager.Instance.trayMgr.createButton("btnGameConcepts", "Concepts", 100);
-			Button btnCharacters = GameManager.Instance.trayMgr.createButton("btnCharacters", "Characters", 100);
-			Button btnLocations = GameManager.Instance.trayMgr.createButton("btnLocations", "Locations", 100);
-			Button btnFactions = GameManager.Instance.trayMgr.createButton("btnFactions", "Factions", 100);
-			Button btnReturn = GameManager.Instance.trayMgr.createButton("btnReturn", "Return", 100);
+			PanelWidget panel = GameManager.Instance.trayMgr.createPanel("OperationPanel", 1, 0.08f, 0, 0.92f, 1, 8);
+			ButtonWidget btnGameLog = GameManager.Instance.trayMgr.createButton("btnGameLog", "Game Log", 150);
+			ButtonWidget btnRecentMessage = GameManager.Instance.trayMgr.createButton("btnRecentMessage", "Recent", 100);
+			ButtonWidget btnNotes = GameManager.Instance.trayMgr.createButton("btnNotes", "Notes", 100);
+			ButtonWidget btnGameConcepts = GameManager.Instance.trayMgr.createButton("btnGameConcepts", "Concepts", 100);
+			ButtonWidget btnCharacters = GameManager.Instance.trayMgr.createButton("btnCharacters", "Characters", 100);
+			ButtonWidget btnLocations = GameManager.Instance.trayMgr.createButton("btnLocations", "Locations", 100);
+			ButtonWidget btnFactions = GameManager.Instance.trayMgr.createButton("btnFactions", "Factions", 100);
+			ButtonWidget btnReturn = GameManager.Instance.trayMgr.createButton("btnReturn", "Return", 100);
 			btnGameLog.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnRecentMessage.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnNotes.MetricMode = GuiMetricsMode.GMM_RELATIVE;
@@ -82,7 +82,7 @@ namespace OpenMB.Screen
 		{
 			ClearAllWidgets();
 
-			Panel panelFactionList = GameManager.Instance.trayMgr.createPanel("panelFactionList", 0.3f, 0.92f, 0.7f, 0);
+			PanelWidget panelFactionList = GameManager.Instance.trayMgr.createPanel("panelFactionList", 0.3f, 0.92f, 0.7f, 0);
 			panelFactionList.ChangeRow(Widgets.ValueType.Abosulte, 0.05f);
 			panelFactionList.AddRow(Widgets.ValueType.Percent);
 			panelFactionList.Padding.PaddingLeft = 0.01f;
@@ -91,7 +91,7 @@ namespace OpenMB.Screen
 			StaticText txtFactionsTitle = GameManager.Instance.trayMgr.createStaticText("txtFactionsTitle", GameString.FromString("ui_game_notes_factions_title", "Factions").ToString());
 			txtFactionsTitle.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			panelFactionList.AddWidget(1, 1, txtFactionsTitle, AlignMode.Center);
-			PanelScrollable panelFactions = GameManager.Instance.trayMgr.createScrollablePanel("panelFactions", 1, 1, 0, 0, 1, 1, false);
+			PanelScrollableWidget panelFactions = GameManager.Instance.trayMgr.createScrollablePanel("panelFactions", 1, 1, 0, 0, 1, 1, false);
 			panelFactionList.AddWidget(2, 1, panelFactions, AlignMode.Center, DockMode.Fill);
 
 			panelFactions.ChangeRow(Widgets.ValueType.Abosulte, 0.03f);
@@ -129,7 +129,7 @@ namespace OpenMB.Screen
 		{
 			ClearSubWidgets();
 
-			PanelScrollable panelFactionDetails = GameManager.Instance.trayMgr.createScrollablePanel("panelFactionDetails", 0.7f, 0.92f);
+			PanelScrollableWidget panelFactionDetails = GameManager.Instance.trayMgr.createScrollablePanel("panelFactionDetails", 0.7f, 0.92f);
 			panelFactionDetails.ChangeRow(Widgets.ValueType.Abosulte, 0.03f);//next/prev
 			panelFactionDetails.AddRow(Widgets.ValueType.Abosulte, 0.05f);//faction name
 			panelFactionDetails.AddRow(Widgets.ValueType.Auto);//faction mesh
@@ -143,7 +143,7 @@ namespace OpenMB.Screen
 			StaticTextRelative txtFactionName = new StaticTextRelative("txtFactionName", GameString.FromString(sideInfo.ID, sideInfo.Name).ToString(), 0, false, ColourValue.Black, 150);
 			panelFactionDetails.AddWidgetRelative(2, 1, txtFactionName, AlignMode.Center);
 
-			PanelMaterial coatOfArmsPanel = new PanelMaterial("coatOfArmsPanel", sideInfo.COA);
+			PanelMaterialWidget coatOfArmsPanel = new PanelMaterialWidget("coatOfArmsPanel", sideInfo.COA);
 			coatOfArmsPanel.Width = 0.3f;
 			coatOfArmsPanel.Height = 0.3f;
 			panelFactionDetails.AddWidgetRelative(3, 1, coatOfArmsPanel, AlignMode.Center, DockMode.Center);
@@ -204,7 +204,7 @@ namespace OpenMB.Screen
 		{
 			for (int i = 0; i < widgets.Count; i++)
 			{
-				GameManager.Instance.trayMgr.destroyWidget(widgets[i]);
+				GameManager.Instance.trayMgr.DestroyWidget(widgets[i]);
 			}
 			widgets.Clear();
 		}
@@ -213,7 +213,7 @@ namespace OpenMB.Screen
 		{
 			for (int i = 0; i < subWidgets.Count; i++)
 			{
-				GameManager.Instance.trayMgr.destroyWidget(subWidgets[i]);
+				GameManager.Instance.trayMgr.DestroyWidget(subWidgets[i]);
 			}
 			subWidgets.Clear();
 		}
@@ -226,7 +226,7 @@ namespace OpenMB.Screen
 
 		public override void Exit()
 		{
-			GameManager.Instance.trayMgr.destroyAllWidgets();
+			GameManager.Instance.trayMgr.DestroyAllWidgets();
 		}
 	}
 }

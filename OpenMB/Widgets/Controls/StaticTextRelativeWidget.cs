@@ -18,14 +18,14 @@ namespace OpenMB.Widgets
 		{
 			get
 			{
-				return getCaptionWidth(Text, ref mTextArea);
+				return GetCaptionWidth(Text, ref mTextArea);
 			}
 		}
 		public float TextHeight
 		{
 			get
 			{
-				return getCaptionHeight(Text, ref mTextArea);
+				return GetCaptionHeight(Text, ref mTextArea);
 			}
 		}
 
@@ -51,10 +51,10 @@ namespace OpenMB.Widgets
 		public StaticTextRelative(string name, string caption, float width, bool specificColor, ColourValue color, float fontSize = 100)
 		{
 			OverlayManager overlayMgr = OverlayManager.Singleton;
-			mElement = overlayMgr.CreateOverlayElement("BorderPanel", name);
-			mElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-			mElement.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
-			mElement.Height = 0.32f;
+			element = overlayMgr.CreateOverlayElement("BorderPanel", name);
+			element.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
+			element.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
+			element.Height = 0.32f;
 			mTextArea = overlayMgr.CreateOverlayElement("TextArea", name + "/StaticTextCaption") as TextAreaOverlayElement;
 			mTextArea.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
 			mTextArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
@@ -71,11 +71,11 @@ namespace OpenMB.Widgets
 			{
 				mTextArea.Colour = color;
 			}
-			((OverlayContainer)mElement).AddChild(mTextArea);
+			((OverlayContainer)element).AddChild(mTextArea);
 			Text = caption;
 		}
 
-		public override void _cursorPressed(Mogre.Vector2 cursorPos)
+		public override void CursorPressed(Mogre.Vector2 cursorPos)
 		{
 		}
 
@@ -98,7 +98,7 @@ namespace OpenMB.Widgets
 					//mElement.Left = (parentWidgetWidth - TextWidth) / 2;
 					mTextArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
 					mTextArea.SetAlignment(TextAreaOverlayElement.Alignment.Center);
-					mElement.Left += mElement.Left + TextWidth - parentWidgetWidth / 1.9f;
+					element.Left += element.Left + TextWidth - parentWidgetWidth / 1.9f;
 					break;
 			}
 		}

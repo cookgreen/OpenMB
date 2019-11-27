@@ -12,14 +12,14 @@ namespace OpenMB.Screen
 {
 	public class GameMainScreen : Screen
 	{
-		private Panel gameMainPanel;
-		private Button btnTerrain;
-		private Button btnCamp;
-		private Button btnReports;
-		private Button btnNotes;
-		private Button btnInventory;
-		private Button btnCharacter;
-		private Button btnParty;
+		private PanelWidget gameMainPanel;
+		private ButtonWidget btnTerrain;
+		private ButtonWidget btnCamp;
+		private ButtonWidget btnReports;
+		private ButtonWidget btnNotes;
+		private ButtonWidget btnInventory;
+		private ButtonWidget btnCharacter;
+		private ButtonWidget btnParty;
 		private StaticText txtCurrentDate;
 		private StaticText txtCurrentTime;
 		private object[] param;
@@ -61,7 +61,7 @@ namespace OpenMB.Screen
 			gameMainPanel.AddWidget(1, 1, btnTerrain, AlignMode.Left, DockMode.FillWidth);
 			if (!GameManager.Instance.IS_ENABLE_EDIT_MODE)
 			{
-				btnTerrain.hide();
+				btnTerrain.Hide();
 			}
 
 			btnCamp = GameManager.Instance.trayMgr.createButton(TrayLocation.TL_NONE, "btnCamp", "Camp", 150);
@@ -149,7 +149,7 @@ namespace OpenMB.Screen
 		{
 			TimerManager.Instance.Pause();
 
-			GameManager.Instance.trayMgr.destroyAllWidgets();
+			GameManager.Instance.trayMgr.DestroyAllWidgets();
 		}
 
 		public override void Update(float timeSinceLastFrame)

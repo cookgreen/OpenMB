@@ -4,6 +4,7 @@ using Mogre;
 using Mogre_Procedural.MogreBites;
 using OpenMB.Mods;
 using OpenMB.Network;
+using OpenMB.Widgets;
 
 namespace OpenMB.States
 {
@@ -13,7 +14,7 @@ namespace OpenMB.States
         private GameServer thisServer;
         private Dictionary<string, string> option;
         private StringVector serverState;
-        private ParamsPanel serverpanel;
+        private ParamsPanelWidget serverpanel;
         private bool isEscapeMenuOpened;
 
         public Multiplayer()
@@ -53,7 +54,7 @@ namespace OpenMB.States
 
         private void BuildEscapeMenu()
         {
-            GameManager.Instance.trayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.DestroyAllWidgets();
             GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "choose_side", "Choose Side", 200f);
             GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "choose_chara", "Choose Character", 200f);
             GameManager.Instance.trayMgr.createButton(TrayLocation.TL_CENTER, "exit_multiplayer", "Exit", 200f);
@@ -86,7 +87,7 @@ namespace OpenMB.States
                 }
                 else
                 {
-                    GameManager.Instance.trayMgr.destroyAllWidgets();
+                    GameManager.Instance.trayMgr.DestroyAllWidgets();
                     this.serverpanel = GameManager.Instance.trayMgr.createParamsPanel(TrayLocation.TL_CENTER, "serverpanel", 400f, this.serverState);
                     this.isEscapeMenuOpened = false;
                 }
@@ -94,30 +95,30 @@ namespace OpenMB.States
             return true;
         }
 
-        public override void buttonHit(Button button)
+        public override void buttonHit(ButtonWidget button)
         {
-            if (button.getName() == "btnJoin")
+            if (button.Name == "btnJoin")
             {
             }
-            else if (button.getName() == "btnHost")
+            else if (button.Name == "btnHost")
             {
             }
-            else if (button.getName() == "btnCancel")
+            else if (button.Name == "btnCancel")
             {
                 exit();
                 enter();
             }
-            else if (button.getName() == "btnOK")
+            else if (button.Name == "btnOK")
             {
 
                 thisServer = new GameServer();
                 thisServer.OnEscapePressed += new Action(Server_OnEscapePressed);
-                GameManager.Instance.trayMgr.destroyAllWidgets();
+                GameManager.Instance.trayMgr.DestroyAllWidgets();
                 serverpanel=GameManager.Instance.trayMgr.createParamsPanel(TrayLocation.TL_CENTER, "serverpanel", 400, serverState);
                 ServerStartDelegate server = new ServerStartDelegate(ServerStart);
                 server.Invoke();
             }
-            else if (button.getName() == "btnExit")
+            else if (button.Name == "btnExit")
             {
                 changeAppState(findByName("MainMenu"), modData);
             }
@@ -141,7 +142,7 @@ namespace OpenMB.States
                 thisServer.Update();
                 thisServer.GetServerState(ref serverState);
                 if(!isEscapeMenuOpened)
-                    serverpanel.setAllParamValues(serverState);
+                    serverpanel.SetAllParamValues(serverState);
             }
         }
 
@@ -158,7 +159,7 @@ namespace OpenMB.States
             }
         }
 
-        public override void checkBoxToggled(CheckBox box)
+        public override void checkBoxToggled(CheckBoxWidget box)
         {
         }
     }

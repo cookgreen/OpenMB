@@ -5,6 +5,7 @@ using System.Text;
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
+using OpenMB.Widgets;
 
 namespace OpenMB.Screen
 {
@@ -97,12 +98,12 @@ namespace OpenMB.Screen
         {
             elements = new List<Widget>();
             elementNames = new List<string>();
-            GameManager.Instance.trayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.DestroyAllWidgets();
         }
 
         public override void Run()
         {
-            GameManager.Instance.trayMgr.hideCursor();
+            GameManager.Instance.trayMgr.HideCursor();
         }
 
         public override void Update(float timeSinceLastFrame)
@@ -112,17 +113,17 @@ namespace OpenMB.Screen
                 if (!elementNames.Contains("lbCredit0"))
                 {
                     elements.Add(GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbCredit0", strCreditLst[0]));
-                    elements[0].getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-                    elements[0].getOverlayElement().Left = 0.5f;
-                    elements[0].getOverlayElement().Top = 0.5f;
+                    elements[0].OverlayElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
+                    elements[0].OverlayElement.Left = 0.5f;
+                    elements[0].OverlayElement.Top = 0.5f;
                     elementNames.Add("lbCredit0");
                 }
-                ColourValue elementColor = elements[0].getOverlayElement().Colour;
+                ColourValue elementColor = elements[0].OverlayElement.Colour;
                 alpha = elementColor.a;
                 if (alpha > 0.0f)
                 {
                     alpha -= 0.0005f;
-                    elements[0].getOverlayElement().Colour = new ColourValue(
+                    elements[0].OverlayElement.Colour = new ColourValue(
                         elementColor.r,
                         elementColor.g,
                         elementColor.b,
@@ -133,24 +134,24 @@ namespace OpenMB.Screen
             {
                 if (elementNames.Contains("lbCredit0"))
                 {
-                    elements.Remove(elements.Find(o => o.getName() == "lbCredit0"));
+                    elements.Remove(elements.Find(o => o.Name == "lbCredit0"));
                     elementNames.Remove("lbCredit0");
-                    GameManager.Instance.trayMgr.destroyWidget("lbCredit0");
+                    GameManager.Instance.trayMgr.DestroyWidget("lbCredit0");
                 }
                 if (!elementNames.Contains("lbCredit1"))
                 {
                     elements.Add(GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbCredit1", strCreditLst[1]));
-                    elements[0].getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-                    elements[0].getOverlayElement().Left = 0.5f;
-                    elements[0].getOverlayElement().Top = 0.5f;
+                    elements[0].OverlayElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
+                    elements[0].OverlayElement.Left = 0.5f;
+                    elements[0].OverlayElement.Top = 0.5f;
                     elementNames.Add("lbCredit1");
                 }
-                ColourValue elementColor = elements[0].getOverlayElement().Colour;
+                ColourValue elementColor = elements[0].OverlayElement.Colour;
                 alpha = elementColor.a;
                 if (alpha > 0.0f)
                 {
                     alpha -= 0.0005f;
-                    elements[0].getOverlayElement().Colour = new ColourValue(
+                    elements[0].OverlayElement.Colour = new ColourValue(
                         elementColor.r,
                         elementColor.g,
                         elementColor.b,
@@ -161,21 +162,21 @@ namespace OpenMB.Screen
             {
                 if (elementNames.Contains("lbCredit1"))
                 {
-                    elements.Remove(elements.Find(o => o.getName() == "lbCredit1"));
+                    elements.Remove(elements.Find(o => o.Name == "lbCredit1"));
                     elementNames.Remove("lbCredit1");
-                    GameManager.Instance.trayMgr.destroyWidget("lbCredit1");
+                    GameManager.Instance.trayMgr.DestroyWidget("lbCredit1");
                 }
                 if (!elementNames.Contains("lbCredit2"))
                 {
                     elements.Add(GameManager.Instance.trayMgr.createStaticText(TrayLocation.TL_NONE, "lbCredit2", strCreditLst[2]));
-                    elements[0].getOverlayElement().MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-                    elements[0].getOverlayElement().Left = 0.5f;
-                    elements[0].getOverlayElement().Top = 1.0f;
+                    elements[0].OverlayElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
+                    elements[0].OverlayElement.Left = 0.5f;
+                    elements[0].OverlayElement.Top = 1.0f;
                     elementNames.Add("lbCredit2");
                 }
-                if (elements[0].getOverlayElement().Top > -1.0f)
+                if (elements[0].OverlayElement.Top > -1.0f)
                 {
-                    elements[0].getOverlayElement().Top -= 0.00025f;
+                    elements[0].OverlayElement.Top -= 0.00025f;
                 }
             }
             else
@@ -194,7 +195,7 @@ namespace OpenMB.Screen
             {
                 base.Exit();
 
-                GameManager.Instance.trayMgr.destroyAllWidgets();
+                GameManager.Instance.trayMgr.DestroyAllWidgets();
                 time = 0;
                 elements.Clear();
                 if (OnScreenExit != null)

@@ -7,6 +7,7 @@ using Mogre_Procedural.MogreBites;
 using MOIS;
 using OpenMB.Localization;
 using OpenMB.Mods;
+using OpenMB.Widgets;
 
 namespace OpenMB.States
 {
@@ -15,8 +16,8 @@ namespace OpenMB.States
     public class ModChooser : AppState
     {
         private bool isQuit;
-        private SelectMenu modChooserMenu;
-        private Label modTitle;
+        private SelectMenuWidget modChooserMenu;
+        private LabelWidget modTitle;
         private TextBox modDescBox;
         private Slider modSlider;
         private StringVector modNames;
@@ -67,7 +68,7 @@ namespace OpenMB.States
                 }
             }
 
-            GameManager.Instance.trayMgr.destroyAllWidgets();
+            GameManager.Instance.trayMgr.DestroyAllWidgets();
             modTitle = GameManager.Instance.trayMgr.createLabel(TrayLocation.TL_LEFT, "ModTitle", "Mod Info");
             modTitle.setCaption("Mod Info");
             modDescBox = GameManager.Instance.trayMgr.createTextBox(TrayLocation.TL_LEFT, "ModInfo", "Mod Info", 250, 208);
@@ -82,7 +83,7 @@ namespace OpenMB.States
                 modTitle.setCaption(modChooserMenu.getSelectedItem());
             }
 
-            GameManager.Instance.trayMgr.showLogo(TrayLocation.TL_RIGHT);
+            GameManager.Instance.trayMgr.ShowLogo(TrayLocation.TL_RIGHT);
             GameManager.Instance.trayMgr.createSeparator(TrayLocation.TL_RIGHT, "LogoSep");
             GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "Play", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 140);
             GameManager.Instance.trayMgr.createButton(TrayLocation.TL_RIGHT, "Quit", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 140);
@@ -132,19 +133,19 @@ namespace OpenMB.States
                     frame.BorderMaterialName = "SdkTrays/Frame";
             }
 
-            GameManager.Instance.trayMgr.frameRenderingQueued(evt);
+            GameManager.Instance.trayMgr.FrameRenderingQueued(evt);
 
             return true;
         }
 
         bool Mouse_MouseReleased(MouseEvent arg, MouseButtonID id)
         {
-            return GameManager.Instance.trayMgr.injectMouseUp(arg, id);
+            return GameManager.Instance.trayMgr.InjectMouseUp(arg, id);
         }
 
         bool Mouse_MousePressed(MouseEvent arg, MouseButtonID id)
         {
-            return GameManager.Instance.trayMgr.injectMouseDown(arg, id);
+            return GameManager.Instance.trayMgr.InjectMouseDown(arg, id);
         }
 
         bool Mouse_MouseMoved(MOIS.MouseEvent arg)
@@ -161,7 +162,7 @@ namespace OpenMB.States
                 selectedModName = modChooserMenu.getSelectedItem();
             }
 
-            return GameManager.Instance.trayMgr.injectMouseMove(arg);
+            return GameManager.Instance.trayMgr.InjectMouseMove(arg);
         }
 
         public override bool pause()
@@ -184,7 +185,7 @@ namespace OpenMB.States
             GameManager.Instance.root.FrameRenderingQueued -= new FrameListener.FrameRenderingQueuedHandler(FrameRenderingQueued);
             foreach (BorderPanelOverlayElement bp in modThumbs)
             {
-                GameManager.Instance.trayMgr.getTraysLayer().Remove2D(bp);
+                GameManager.Instance.trayMgr.GetTraysLayer().Remove2D(bp);
             }
 
             GameManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
@@ -202,18 +203,18 @@ namespace OpenMB.States
             }
         }
 
-        public override void buttonHit(Button button)
+        public override void buttonHit(ButtonWidget button)
         {
-            if (button.getName() == "Play")
+            if (button.Name == "Play")
             {
                 GameManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", selectedModName, "MainMenu");
                 changeAppState(findByName("Loading"));
             }
-            else if (button.getName() == "Configure")
+            else if (button.Name == "Configure")
             {
                 ConfigureScreen();
             }
-            else if (button.getName() == "Quit")
+            else if (button.Name == "Quit")
             {
                 isQuit = true;
             }
@@ -244,7 +245,7 @@ namespace OpenMB.States
                 bp.HorizontalAlignment=(GuiHorizontalAlignment. GHA_RIGHT);
                 bp.VerticalAlignment=(GuiVerticalAlignment. GVA_CENTER);
                 bp.MaterialName=(name);
-                GameManager.Instance.trayMgr.getTraysLayer().Add2D(bp);
+                GameManager.Instance.trayMgr.GetTraysLayer().Add2D(bp);
 
                 modThumbs.Add(bp);
             }  

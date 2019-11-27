@@ -23,7 +23,7 @@ namespace OpenMB.States
         public virtual void shutdown() { }
         public virtual void popAllAndPushAppState<T>(AppState state) where T:AppState { }
 };
-    public class AppState : SdkTrayListener
+    public class AppState : UIListener
     {
         protected AppStateListener listener;
         protected Camera camera;

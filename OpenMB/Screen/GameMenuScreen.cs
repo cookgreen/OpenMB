@@ -16,10 +16,10 @@ namespace OpenMB.Screen
 		private GameWorld world;
 		private string menuID;
 		private ModMenuDfnXml menuData;
-		private Panel menuMainPanel;
-		private Panel menuItemsPanel;
+		private PanelWidget menuMainPanel;
+		private PanelWidget menuItemsPanel;
 		private StaticText menuTitle;
-		private List<Button> menuButtons;
+		private List<ButtonWidget> menuButtons;
 		private ScriptLoader loader = new ScriptLoader();
 		private ScriptFile script = new ScriptFile();
 
@@ -33,7 +33,7 @@ namespace OpenMB.Screen
 
 		public GameMenuScreen()
 		{
-			menuButtons = new List<Button>();
+			menuButtons = new List<ButtonWidget>();
 		}
 
 		public override void Init(params object[] param)
@@ -94,14 +94,14 @@ namespace OpenMB.Screen
 
 		private void Button_OnClick(object sender)
 		{
-			loader.ExecuteFunction(script, "menuButtonClicked", world, (sender as Button).getName());
+			loader.ExecuteFunction(script, "menuButtonClicked", world, (sender as ButtonWidget).Name);
 		}
 
 		public override void Exit()
 		{
 			TimerManager.Instance.Resume();
 
-			GameManager.Instance.trayMgr.destroyAllWidgets();
+			GameManager.Instance.trayMgr.DestroyAllWidgets();
 		}
 	}
 }

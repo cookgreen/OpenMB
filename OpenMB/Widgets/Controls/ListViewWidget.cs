@@ -44,7 +44,7 @@ namespace OpenMB.Widgets
         }
     }
 
-    public class ListView : Widget
+    public class ListViewWidget : Widget
     {
         public event Action<object,ListViewSelectionChangedArgs> SelectionChanged;
         public List<ListViewColumn> Columns
@@ -87,7 +87,7 @@ namespace OpenMB.Widgets
         private double maxShowItem;
         private List<OverlayElement> allUsedElements;
         //private bool dragging;
-        public ListView(string name, float left, float top, float height, float width, List<string> columnNames)
+        public ListViewWidget(string name, float left, float top, float height, float width, List<string> columnNames)
         {
             listview = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/ListView", "BorderPanel", name) as OverlayContainer;
             scroll = listview.GetChild(name+"/ListViewScroll") as BorderPanelOverlayElement;
@@ -111,7 +111,7 @@ namespace OpenMB.Widgets
             visibleItems = new List<ListViewItem>();
             allUsedElements = new List<OverlayElement>();
 
-            mElement = listview;
+            element = listview;
 
             LoadColumns(columnNames);
         }

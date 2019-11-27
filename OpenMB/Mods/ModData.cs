@@ -7,11 +7,13 @@ using OpenMB.Mods.XML;
 using OpenMB.Sound;
 using OpenMB.Game.ItemTypes;
 using OpenMB.Map;
+using System.Reflection;
 
 namespace OpenMB.Mods
 {
     public class ModData
     {
+		private List<Assembly> assemblies;
         private ModBaseInfo modBasicInfo;
 		private List<ModAnimationDfnXml> animationInfos;
 		private List<ModCharacterDfnXML> characterInfos;
@@ -133,6 +135,13 @@ namespace OpenMB.Mods
         public List<ModMediaData> ModMediaData { get { return modMediaData; } }
 
 		public List<IModStartupBackgroundType> StartupBackgroundTypes { get; set; }
+		public List<Assembly> Assemblies
+		{
+			get
+			{
+				return assemblies;
+			}
+		}
 
 		public ModData()
         {
@@ -161,6 +170,8 @@ namespace OpenMB.Mods
             ItemTypes = new List<IItemType>();
             MapLoaders = new List<IGameMapLoader>();
 			StartupBackgroundTypes = new List<IModStartupBackgroundType>();
+
+			assemblies = new List<Assembly>();
 		}
 
         public ModItemTypeDfnXml FindItemType(string itemType)

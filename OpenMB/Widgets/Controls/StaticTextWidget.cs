@@ -40,10 +40,10 @@ namespace OpenMB.Widgets
         public StaticText(string name, string caption, float width, bool specificColor, ColourValue color)
         {
             OverlayManager overlayMgr = OverlayManager.Singleton;
-            mElement = overlayMgr.CreateOverlayElement("BorderPanel", name);
-            mElement.MetricsMode = GuiMetricsMode.GMM_PIXELS;
-            mElement.HorizontalAlignment = GuiHorizontalAlignment.GHA_CENTER;
-            mElement.Height = 32;
+            element = overlayMgr.CreateOverlayElement("BorderPanel", name);
+            element.MetricsMode = GuiMetricsMode.GMM_PIXELS;
+            element.HorizontalAlignment = GuiHorizontalAlignment.GHA_CENTER;
+            element.Height = 32;
             mTextArea = overlayMgr.CreateOverlayElement("TextArea", name + "/StaticTextCaption") as TextAreaOverlayElement;
             mTextArea.MetricsMode = GuiMetricsMode.GMM_PIXELS;
             mTextArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_CENTER;
@@ -60,7 +60,7 @@ namespace OpenMB.Widgets
             {
                 mTextArea.Colour = color;
             }
-            ((OverlayContainer)mElement).AddChild(mTextArea);
+            ((OverlayContainer)element).AddChild(mTextArea);
             SetText(caption);
         }
 
@@ -74,7 +74,7 @@ namespace OpenMB.Widgets
             mTextArea.Caption = text;
         }
 
-        public override void _cursorPressed(Mogre.Vector2 cursorPos)
+        public override void CursorPressed(Mogre.Vector2 cursorPos)
         {
         }
 

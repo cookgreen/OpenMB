@@ -275,6 +275,7 @@ namespace OpenMB.Mods
 						currentMod.StartupBackgroundTypes.Add(instance);
 					}
 				}
+				currentMod.Assemblies.Add(thisAssembly);
 
                 //Load Customized type from the assembly
                 for (int i = 0; i < manifest.MetaData.Assemblies.Count; i++)
@@ -340,7 +341,8 @@ namespace OpenMB.Mods
 									currentMod.StartupBackgroundTypes.Add(instance);
 								}
 							}
-                        }
+							currentMod.Assemblies.Add(assemblyDll);
+						}
                         catch (Exception ex)
                         {
                             GameManager.Instance.log.LogMessage("Error Loading Assembly, Details: " + ex.ToString(), LogMessage.LogType.Error);
@@ -349,8 +351,8 @@ namespace OpenMB.Mods
                     else
                     {
                         GameManager.Instance.log.LogMessage("Requested Assembly Path don't exist!", LogMessage.LogType.Error);
-                    }
-                }
+					}
+				}
                 //--------------------------------------------
 
                 //Valid Item Type

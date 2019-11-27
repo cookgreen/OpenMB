@@ -41,7 +41,7 @@ namespace OpenMB.Widgets
 	{
 		public ValueType Type;
 		public float Height;
-		private Panel panel;
+		private PanelWidget panel;
 		public float AbosulteHeight
 		{
 			get
@@ -75,7 +75,7 @@ namespace OpenMB.Widgets
 			return heights;
 		}
 
-		public PanelRow(Panel panel)
+		public PanelRow(PanelWidget panel)
 		{
 			this.panel = panel;
 		}
@@ -88,7 +88,7 @@ namespace OpenMB.Widgets
 	{
 		public ValueType Type;
 		public float Width;
-		private Panel panel;
+		private PanelWidget panel;
 		public float AbosulteWidth
 		{
 			get
@@ -108,7 +108,7 @@ namespace OpenMB.Widgets
 				return -1;
 			}
 		}
-		public PanelColumn(Panel panel)
+		public PanelColumn(PanelWidget panel)
 		{
 			this.panel = panel;
 		}
@@ -130,7 +130,7 @@ namespace OpenMB.Widgets
 	/// <summary>
 	/// Panel Control
 	/// </summary>
-    public class Panel : Widget
+    public class PanelWidget : Widget
     {
 		protected List<PanelRow> rows;
 		protected List<PanelColumn> cols;
@@ -151,32 +151,32 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public Panel(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1, bool hasBorder = true)
+		public PanelWidget(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1, bool hasBorder = true)
         {
             widgets = new List<Widget>();
             OverlayManager overlayMgr = OverlayManager.Singleton;
 			if(hasBorder)
 			{
-				mElement = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanel", "BorderPanel", name);
+				element = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanel", "BorderPanel", name);
 			}
 			else
 			{
-				mElement = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanelNoBorder", "BorderPanel", name);
+				element = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanelNoBorder", "BorderPanel", name);
 			}
-			mElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
+			element.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
 
 			if (width == 0 || height == 0)
             {
-				mElement.Width = 1.0f;
-				mElement.Height = 1.0f;
+				element.Width = 1.0f;
+				element.Height = 1.0f;
             }
             else if (width > 0 && height > 0)
             {
-                mElement.Width = width;
-                mElement.Height = height;
+                element.Width = width;
+                element.Height = height;
             }
-			mElement.Top = top;
-			mElement.Left = left;
+			element.Top = top;
+			element.Left = left;
 			cols = new List<PanelColumn>();
 			rows = new List<PanelRow>();
 			for (int i = 0; i < row; i++)
@@ -389,7 +389,7 @@ namespace OpenMB.Widgets
 					break;
 			}
 
-			((OverlayContainer)mElement).AddChild(widget.getOverlayElement());
+			((OverlayContainer)element).AddChild(widget.OverlayElement);
 			widget.AddedToAnotherWidgetFinished(align, relativeLeft, c.AbosulteWidth, relativeTop, r.AbosulteHeight);
 		}
 
@@ -415,8 +415,8 @@ namespace OpenMB.Widgets
 			if (widget != null)
 			{
 				widgets.Remove(widget);
-				((OverlayContainer)mElement).RemoveChild(widget.getOverlayElement().Name);
-				Control.nukeOverlayElement(widget.getOverlayElement());
+				((OverlayContainer)element).RemoveChild(widget.OverlayElement.Name);
+				Control.nukeOverlayElement(widget.OverlayElement);
 			}
 		}
 
@@ -429,43 +429,43 @@ namespace OpenMB.Widgets
 			widgets.Clear();
 		}
 
-		public override void _mouseMoved(MouseEvent evt)
+		public override void MouseMoved(MouseEvent evt)
 		{
 			foreach (var w in widgets)
 			{
-				w._mouseMoved(evt);
+				w.MouseMoved(evt);
 			}
 		}
 
-		public override void _cursorPressed(Vector2 cursorPos)
+		public override void CursorPressed(Vector2 cursorPos)
 		{
 			foreach (var w in widgets)
 			{
-				if (isCursorOver(w.getOverlayElement(), cursorPos))
+				if (IsCursorOver(w.OverlayElement, cursorPos))
 				{
-					w._cursorPressed(cursorPos);
+					w.CursorPressed(cursorPos);
 					break;
 				}
 			}
 		}
 		
-		public override void _cursorReleased(Vector2 cursorPos)
+		public override void CursorReleased(Vector2 cursorPos)
 		{
 			foreach (var w in widgets)
 			{
-				if (isCursorOver(w.getOverlayElement(), cursorPos))
+				if (IsCursorOver(w.OverlayElement, cursorPos))
 				{
-					w._cursorReleased(cursorPos);
+					w.CursorReleased(cursorPos);
 					break;
 				}
 			}
 		}
 
-		public override void _focusLost()
+		public override void FocusLost()
 		{
 			foreach (var w in widgets)
 			{
-				w._focusLost();
+				w.FocusLost();
 			}
 		}
 	}
