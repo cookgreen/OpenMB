@@ -167,8 +167,8 @@ namespace OpenMB.States
         private void Configure()
         {
             UIManager.Instance.DestroyAllWidgets();
-            UIManager.Instance.CreateLabel(TrayLocation.TL_CENTER, "lbConfig", "Configure");
-            renderMenu = UIManager.Instance.CreateLongSelectMenu(TrayLocation.TL_CENTER, "rendersys", "Render System", 450, 240, 10);
+            UIManager.Instance.CreateLabel(UIWidgetLocation.TL_CENTER, "lbConfig", "Configure");
+            renderMenu = UIManager.Instance.CreateLongSelectMenu(UIWidgetLocation.TL_CENTER, "rendersys", "Render System", 450, 240, 10);
             StringVector rsNames = new StringVector();
             Const_RenderSystemList rsList = GameManager.Instance.root.GetAvailableRenderers();
             for (int i = 0; i < rsList.Count; i++)
@@ -178,8 +178,8 @@ namespace OpenMB.States
             renderMenu.setItems(rsNames);
             renderMenu.selectItem(GameManager.Instance.root.RenderSystem.Name);
 
-            UIManager.Instance.CreateButton(TrayLocation.TL_RIGHT, "btnApply", "Apply");
-            UIManager.Instance.CreateButton(TrayLocation.TL_RIGHT, "btnBack", "Back");
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnApply", "Apply");
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnBack", "Back");
         }
 
         public override void itemSelected(SelectMenuWidget menu)
@@ -196,7 +196,7 @@ namespace OpenMB.States
                 {
                     i++;
                     SelectMenuWidget optionMenu = UIManager.Instance.CreateLongSelectMenu(
-                        TrayLocation.TL_CENTER, "ConfigOption" + i.ToString(), item.Key, 450, 240, 10);
+                        UIWidgetLocation.TL_CENTER, "ConfigOption" + i.ToString(), item.Key, 450, 240, 10);
                     optionMenu.setItems(item.Value.possibleValues);
 
                     try
@@ -229,21 +229,21 @@ namespace OpenMB.States
             UIManager.Instance.DestroyAllWidgets();
             UIManager.Instance.ShowCursor();
 
-            UIManager.Instance.CreateLabel(TrayLocation.TL_TOP, "MenuLbl", data != null ? LocateSystem.Instance.LOC(LocateFileType.GameQuickString, data.BasicInfo.Name) : LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "MenuState"), 400);
+            UIManager.Instance.CreateLabel(UIWidgetLocation.TL_TOP, "MenuLbl", data != null ? LocateSystem.Instance.LOC(LocateFileType.GameQuickString, data.BasicInfo.Name) : LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "MenuState"), 400);
 
             if(modData.HasSinglePlayer)
-                UIManager.Instance.CreateButton(TrayLocation.TL_CENTER, "btnSingleplayer", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_single_player"), 200);
+                UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnSingleplayer", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_single_player"), 200);
             if(modData.HasSavedGame)
-                UIManager.Instance.CreateButton(TrayLocation.TL_CENTER, "btnLoadGame", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_load"), 200);
+                UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnLoadGame", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_load"), 200);
             if(modData.HasMultiplater)
-                UIManager.Instance.CreateButton(TrayLocation.TL_CENTER, "btnMultiplayer", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_multiplayer"), 200);
+                UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnMultiplayer", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_multiplayer"), 200);
 
-            UIManager.Instance.CreateButton(TrayLocation.TL_CENTER, "btnConfigure", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_config"), 200);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnConfigure", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_config"), 200);
 
             if (modData.HasCredit)
-                UIManager.Instance.CreateButton(TrayLocation.TL_CENTER, "btnCredit", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_credit"), 200);
+                UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnCredit", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_credit"), 200);
 
-            UIManager.Instance.CreateButton(TrayLocation.TL_CENTER, "btnQuit", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_quit"), 200);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnQuit", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_quit"), 200);
         }
     }
 }

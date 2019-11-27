@@ -208,7 +208,7 @@ namespace OpenMB.Widgets
 		//		-----------------------------------------------------------------------------
 		public void setScrollPercentage(float percentage)
 		{
-			mScrollPercentage = SdkTrayMathHelper.clamp<float>(percentage, 0f, 1f); //Mogre.Math.Clamp<float>(percentage, 0, 1);
+			mScrollPercentage = UIMathHelper.clamp<float>(percentage, 0f, 1f); //Mogre.Math.Clamp<float>(percentage, 0, 1);
 			mScrollHandle.Top = ((int)(percentage * (mScrollTrack.Height - mScrollHandle.Height)));
 			filterLines();
 		}
@@ -245,10 +245,10 @@ namespace OpenMB.Widgets
 			{
 				float newTop = mScrollHandle.Top + co.y;
 				float lowerBoundary = mScrollTrack.Height - mScrollHandle.Height;
-				mScrollHandle.Top = (SdkTrayMathHelper.clamp<int>((int)newTop, 0, (int)lowerBoundary));
+				mScrollHandle.Top = (UIMathHelper.clamp<int>((int)newTop, 0, (int)lowerBoundary));
 
 				// update text area contents based on new scroll percentage
-				mScrollPercentage = SdkTrayMathHelper.clamp<float>(newTop / lowerBoundary, 0f, 1f);
+				mScrollPercentage = UIMathHelper.clamp<float>(newTop / lowerBoundary, 0f, 1f);
 				filterLines();
 			}
 		}
@@ -265,10 +265,10 @@ namespace OpenMB.Widgets
 				Mogre.Vector2 co = Widget.CursorOffset(mScrollHandle, cursorPos);
 				float newTop = mScrollHandle.Top + co.y - mDragOffset;
 				float lowerBoundary = mScrollTrack.Height - mScrollHandle.Height;
-				mScrollHandle.Top = (SdkTrayMathHelper.clamp<int>((int)newTop, 0, (int)lowerBoundary));
+				mScrollHandle.Top = (UIMathHelper.clamp<int>((int)newTop, 0, (int)lowerBoundary));
 
 				// update text area contents based on new scroll percentage
-				mScrollPercentage = SdkTrayMathHelper.clamp<float>(newTop / lowerBoundary, 0f, 1f);
+				mScrollPercentage = UIMathHelper.clamp<float>(newTop / lowerBoundary, 0f, 1f);
 				filterLines();
 			}
 		}

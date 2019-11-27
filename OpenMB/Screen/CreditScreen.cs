@@ -112,7 +112,7 @@ namespace OpenMB.Screen
             {
                 if (!elementNames.Contains("lbCredit0"))
                 {
-                    elements.Add(UIManager.Instance.CreateStaticText(TrayLocation.TL_NONE, "lbCredit0", strCreditLst[0]));
+                    elements.Add(UIManager.Instance.CreateStaticText(UIWidgetLocation.TL_NONE, "lbCredit0", strCreditLst[0]));
                     elements[0].OverlayElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
                     elements[0].OverlayElement.Left = 0.5f;
                     elements[0].OverlayElement.Top = 0.5f;
@@ -140,7 +140,7 @@ namespace OpenMB.Screen
                 }
                 if (!elementNames.Contains("lbCredit1"))
                 {
-                    elements.Add(UIManager.Instance.CreateStaticText(TrayLocation.TL_NONE, "lbCredit1", strCreditLst[1]));
+                    elements.Add(UIManager.Instance.CreateStaticText(UIWidgetLocation.TL_NONE, "lbCredit1", strCreditLst[1]));
                     elements[0].OverlayElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
                     elements[0].OverlayElement.Left = 0.5f;
                     elements[0].OverlayElement.Top = 0.5f;
@@ -168,7 +168,7 @@ namespace OpenMB.Screen
                 }
                 if (!elementNames.Contains("lbCredit2"))
                 {
-                    elements.Add(UIManager.Instance.CreateStaticText(TrayLocation.TL_NONE, "lbCredit2", strCreditLst[2]));
+                    elements.Add(UIManager.Instance.CreateStaticText(UIWidgetLocation.TL_NONE, "lbCredit2", strCreditLst[2]));
                     elements[0].OverlayElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
                     elements[0].OverlayElement.Left = 0.5f;
                     elements[0].OverlayElement.Top = 1.0f;

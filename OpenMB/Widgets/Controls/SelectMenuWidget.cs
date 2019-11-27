@@ -295,9 +295,9 @@ namespace OpenMB.Widgets
 					{
 						float newTop = scrollHandleElement.Top + co.y;
 						float lowerBoundary = scrollTrackElement.Height - scrollHandleElement.Height;
-						scrollHandleElement.Top = (SdkTrayMathHelper.clamp<int>((int)newTop, 0, (int)lowerBoundary));
+						scrollHandleElement.Top = (UIMathHelper.clamp<int>((int)newTop, 0, (int)lowerBoundary));
 
-						float scrollPercentage = SdkTrayMathHelper.clamp<float>(newTop / lowerBoundary, 0f, 1f);
+						float scrollPercentage = UIMathHelper.clamp<float>(newTop / lowerBoundary, 0f, 1f);
 						setDisplayIndex((uint)(scrollPercentage * (items.Count - itemElements.Count) + 0.5f));
 						return;
 					}
@@ -380,9 +380,9 @@ namespace OpenMB.Widgets
 					Mogre.Vector2 co = Widget.CursorOffset(scrollHandleElement, cursorPos);
 					float newTop = scrollHandleElement.Top + co.y - dragOffset;
 					float lowerBoundary = scrollTrackElement.Height - scrollHandleElement.Height;
-					scrollHandleElement.Top = (SdkTrayMathHelper.clamp<int>((int)newTop, 0, (int)lowerBoundary));
+					scrollHandleElement.Top = (UIMathHelper.clamp<int>((int)newTop, 0, (int)lowerBoundary));
 
-					float scrollPercentage = SdkTrayMathHelper.clamp<float>(newTop / lowerBoundary, 0f, 1f);
+					float scrollPercentage = UIMathHelper.clamp<float>(newTop / lowerBoundary, 0f, 1f);
 					int newIndex = (int)(scrollPercentage * (items.Count - itemElements.Count) + 0.5f);
 					if (newIndex != displayIndex)
 						setDisplayIndex((uint)newIndex);

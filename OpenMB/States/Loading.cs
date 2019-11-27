@@ -89,7 +89,7 @@ namespace OpenMB.States
             GameManager.Instance.viewport.Camera = camera;
 
             UIManager.Instance.DestroyAllWidgets();
-            progressBar = UIManager.Instance.CreateProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
+            progressBar = UIManager.Instance.CreateProgressBar(UIWidgetLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
             progressBar.setComment(GameManager.Instance.loadingData.Comment);
 
             switch (GameManager.Instance.loadingData.Type)

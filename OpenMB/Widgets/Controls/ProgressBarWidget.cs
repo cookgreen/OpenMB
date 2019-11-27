@@ -43,7 +43,7 @@ namespace OpenMB.Widgets
 		/// <param name="progress"></param>
 		public void setProgress(float progress)
 		{
-			this.progress = SdkTrayMathHelper.clamp<float>(progress, 0f, 1f);
+			this.progress = UIMathHelper.clamp<float>(progress, 0f, 1f);
 			fillElement.Width = (System.Math.Max((int)fillElement.Height, (int)(this.progress * (meterElement.Width - 2 * fillElement.Left))));
 		}
 

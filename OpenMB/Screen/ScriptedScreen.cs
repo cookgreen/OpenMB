@@ -50,6 +50,7 @@ namespace OpenMB.Screen
 
 		private void createWidget(ModUILayoutWidgetDfnXml widgetData)
 		{
+			Widget widget = UIManager.Instance.CreateWidget(modData, widgetData);
 		}
 
 		public override void Update(float timeSinceLastFrame)

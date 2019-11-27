@@ -5,6 +5,7 @@ using System.Text;
 using MOIS;
 using Mogre;
 using Mogre_Procedural.MogreBites;
+using OpenMB.Widgets;
 
 namespace OpenMB.Screen
 {

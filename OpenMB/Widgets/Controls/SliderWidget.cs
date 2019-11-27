@@ -121,7 +121,7 @@ namespace OpenMB.Widgets
 			if (mInterval == 0)
 				return;
 
-			mValue = SdkTrayMathHelper.clamp<float>(@value, mMinValue, mMaxValue);
+			mValue = UIMathHelper.clamp<float>(@value, mMinValue, mMaxValue);
 
 			setValueCaption((mValue).ToString());
 
@@ -167,7 +167,7 @@ namespace OpenMB.Widgets
 				float newLeft = mHandle.Left + co.x;
 				float rightBoundary = mTrack.Width - mHandle.Width;
 
-				mHandle.Left = (SdkTrayMathHelper.clamp<int>((int)newLeft, 0, (int)rightBoundary));
+				mHandle.Left = (UIMathHelper.clamp<int>((int)newLeft, 0, (int)rightBoundary));
 				setValue(getSnappedValue(newLeft / rightBoundary));
 			}
 		}
@@ -189,7 +189,7 @@ namespace OpenMB.Widgets
 				float newLeft = mHandle.Left + co.x - mDragOffset;
 				float rightBoundary = mTrack.Width - mHandle.Width;
 
-				mHandle.Left = (SdkTrayMathHelper.clamp<int>((int)newLeft, 0, (int)rightBoundary));
+				mHandle.Left = (UIMathHelper.clamp<int>((int)newLeft, 0, (int)rightBoundary));
 				setValue(getSnappedValue(newLeft / rightBoundary));
 			}
 		}
@@ -202,7 +202,7 @@ namespace OpenMB.Widgets
 
 		protected float getSnappedValue(float percentage)
 		{
-			percentage = SdkTrayMathHelper.clamp<float>(percentage, 0f, 1f);
+			percentage = UIMathHelper.clamp<float>(percentage, 0f, 1f);
 			uint whichMarker = (uint)(percentage * (mMaxValue - mMinValue) / mInterval + 0.5f);
 			return whichMarker * mInterval + mMinValue;
 		}

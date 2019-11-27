@@ -370,7 +370,7 @@ namespace OpenMB.Game
 		private void CreateLoadingScreen(string text)
 		{
 			UIManager.Instance.DestroyAllWidgets();
-			pbProgressBar = UIManager.Instance.CreateProgressBar(TrayLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
+			pbProgressBar = UIManager.Instance.CreateProgressBar(UIWidgetLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
 			pbProgressBar.setComment(text);
 		}
 

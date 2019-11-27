@@ -16,7 +16,7 @@ namespace OpenMB.Widgets
 	public class Widget : IDisposable
 	{
 		protected OverlayElement element;
-		protected TrayLocation trayLoc;
+		protected UIWidgetLocation trayLoc;
 		protected UIListener listener;
 		protected Padding padding;
 		public string Name
@@ -127,7 +127,7 @@ namespace OpenMB.Widgets
 
 		public Widget()
 		{
-			trayLoc = TrayLocation.TL_NONE;
+			trayLoc = UIWidgetLocation.TL_NONE;
 			element = null;
 			listener = null;
 			padding = new Padding();
@@ -409,7 +409,7 @@ namespace OpenMB.Widgets
 			area.Caption = (s);
 		}
 
-		public TrayLocation GetTrayLocation()
+		public UIWidgetLocation GetTrayLocation()
 		{
 			return trayLoc;
 		}
@@ -454,7 +454,7 @@ namespace OpenMB.Widgets
 
 		// internal methods used by SdkTrayManager. do not call directly.
 
-		public void AssignToTray(TrayLocation trayLoc)
+		public void AssignToTray(UIWidgetLocation trayLoc)
 		{
 			this.trayLoc = trayLoc;
 		}

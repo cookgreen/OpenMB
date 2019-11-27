@@ -54,7 +54,7 @@ namespace OpenMB.Screen
 			gameMainPanel.AddCol(Widgets.ValueType.Abosulte, 0.1f);
 			gameMainPanel.AddCol(Widgets.ValueType.Abosulte, 180);
 
-			btnTerrain = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnTerrain", "Terrain", 150);
+			btnTerrain = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnTerrain", "Terrain", 150);
 			btnTerrain.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnTerrain.Top = 0.025f;
 			btnTerrain.OnClick += BtnTerrain_OnClick;
@@ -64,37 +64,37 @@ namespace OpenMB.Screen
 				btnTerrain.Hide();
 			}
 
-			btnCamp = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnCamp", "Camp", 150);
+			btnCamp = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnCamp", "Camp", 150);
 			btnCamp.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnCamp.Top = 0.025f;
 			btnCamp.OnClick += BtnCamp_OnClick;
 			gameMainPanel.AddWidget(1, 2, btnCamp);
 
-			btnReports = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnReports", "Reports", 150);
+			btnReports = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnReports", "Reports", 150);
 			btnReports.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnReports.OnClick += BtnReports_OnClick;
 			btnReports.Top = 0.025f;
 			gameMainPanel.AddWidget(1, 3, btnReports, AlignMode.Left, DockMode.FillWidth);
 
-			btnNotes = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnNotes", "Notes", 150);
+			btnNotes = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnNotes", "Notes", 150);
 			btnNotes.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnNotes.Top = 0.025f;
 			btnNotes.OnClick += BtnNotes_OnClick;
 			gameMainPanel.AddWidget(1, 4, btnNotes);
 
-			btnInventory = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnInventory", "Inventory", 150);
+			btnInventory = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnInventory", "Inventory", 150);
 			btnInventory.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnInventory.Top = 0.025f;
 			btnInventory.OnClick += BtnInventory_OnClick;
 			gameMainPanel.AddWidget(1, 5, btnInventory, AlignMode.Left, DockMode.FillWidth);
 
-			btnCharacter = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnCharacter", "Characters", 150);
+			btnCharacter = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnCharacter", "Characters", 150);
 			btnCharacter.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnCharacter.Top = 0.025f;
 			btnCharacter.OnClick += BtnCharacter_OnClick;
 			gameMainPanel.AddWidget(1, 6, btnCharacter);
 
-			btnParty = UIManager.Instance.CreateButton(TrayLocation.TL_NONE, "btnParty", "Party", 150);
+			btnParty = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnParty", "Party", 150);
 			btnParty.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnParty.Top = 0.025f;
 			btnParty.OnClick += BtnParty_OnClick;

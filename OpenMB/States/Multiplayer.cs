@@ -21,7 +21,8 @@ namespace OpenMB.States
         {
             option = new Dictionary<string, string>();
             serverState = new StringVector();
-        }
+			thisServer = new GameServer();
+		}
 
         public override void enter(Mods.ModData e = null)
         {
@@ -44,9 +45,9 @@ namespace OpenMB.States
 
         private void BuildGameListUI()
         {
-            UIManager.Instance.CreateButton(TrayLocation.TL_RIGHT, "btnJoin", "Join",50);
-            UIManager.Instance.CreateButton(TrayLocation.TL_RIGHT, "btnHost", "Host", 50);
-            UIManager.Instance.CreateButton(TrayLocation.TL_RIGHT, "btnExit", "Exit", 50);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnJoin", "Join",50);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnHost", "Host", 50);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnExit", "Exit", 50);
         }
         void HostGameUI()
         {
@@ -55,9 +56,9 @@ namespace OpenMB.States
         private void BuildEscapeMenu()
         {
             UIManager.Instance.DestroyAllWidgets();
-            UIManager.Instance.CreateButton(TrayLocation.TL_CENTER, "choose_side", "Choose Side", 200f);
-            UIManager.Instance.CreateButton(TrayLocation.TL_CENTER, "choose_chara", "Choose Character", 200f);
-            UIManager.Instance.CreateButton(TrayLocation.TL_CENTER, "exit_multiplayer", "Exit", 200f);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "choose_side", "Choose Side", 200f);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "choose_chara", "Choose Character", 200f);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "exit_multiplayer", "Exit", 200f);
             this.isEscapeMenuOpened = true;
         }
         #endregion
@@ -88,40 +89,11 @@ namespace OpenMB.States
                 else
                 {
                     UIManager.Instance.DestroyAllWidgets();
-                    this.serverpanel = UIManager.Instance.CreateParamsPanel(TrayLocation.TL_CENTER, "serverpanel", 400f, this.serverState);
+                    this.serverpanel = UIManager.Instance.CreateParamsPanel(UIWidgetLocation.TL_CENTER, "serverpanel", 400f, this.serverState);
                     this.isEscapeMenuOpened = false;
                 }
             }
             return true;
-        }
-
-        public override void buttonHit(ButtonWidget button)
-        {
-            if (button.Name == "btnJoin")
-            {
-            }
-            else if (button.Name == "btnHost")
-            {
-            }
-            else if (button.Name == "btnCancel")
-            {
-                exit();
-                enter();
-            }
-            else if (button.Name == "btnOK")
-            {
-
-                thisServer = new GameServer();
-                thisServer.OnEscapePressed += new Action(Server_OnEscapePressed);
-                UIManager.Instance.DestroyAllWidgets();
-                serverpanel=UIManager.Instance.CreateParamsPanel(TrayLocation.TL_CENTER, "serverpanel", 400, serverState);
-                ServerStartDelegate server = new ServerStartDelegate(ServerStart);
-                server.Invoke();
-            }
-            else if (button.Name == "btnExit")
-            {
-                changeAppState(findByName("MainMenu"), modData);
-            }
         }
 
         public bool ServerStart()
@@ -157,10 +129,6 @@ namespace OpenMB.States
             {
                 thisServer.Exit();
             }
-        }
-
-        public override void checkBoxToggled(CheckBoxWidget box)
-        {
         }
     }
 }

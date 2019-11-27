@@ -404,7 +404,6 @@
     <Compile Include="Widgets\Controls\StaticTextRelativeWidget.cs" />
     <Compile Include="Widgets\Controls\TextBox.cs" />
     <Compile Include="Widgets\Widget.cs" />
-    <Compile Include="Widgets\WidgetLoader.cs" />
     <EmbeddedResource Include="Forms\frmConfigure.resx">
       <DependentUpon>frmConfigure.cs</DependentUpon>
       <SubType>Designer</SubType>

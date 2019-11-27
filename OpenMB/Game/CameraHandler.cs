@@ -8,6 +8,7 @@ using System.Text;
 using Vector3 = Mogre.Vector3;
 using OpenMB.Screen;
 using Mogre_Procedural.MogreBites;
+using OpenMB.Widgets;
 
 namespace OpenMB.Game
 {

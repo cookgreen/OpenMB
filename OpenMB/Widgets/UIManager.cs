@@ -31,18 +31,19 @@ THE SOFTWARE.
 using InputContext = MOIS.Mouse;
 using Math = System.Math;
 using Mogre;
-using OpenMB.Widgets;
 using System;
 using System.Collections.Generic;
-using MOIS;
 using OpenMB.Mods.XML;
+using OpenMB.Mods;
+using System.Linq;
+using System.Reflection;
 
-namespace Mogre_Procedural.MogreBites
+namespace OpenMB.Widgets
 {
 	/// <summary>
 	/// Enumerator values for widget tray anchoring locations
 	/// </summary>
-	public enum TrayLocation : int
+	public enum UIWidgetLocation : int
     {
         TL_TOPLEFT,
         TL_TOP,
@@ -182,13 +183,13 @@ namespace Mogre_Procedural.MogreBites
 				trayWidgetAlign[i] = GuiHorizontalAlignment.GHA_CENTER;
 
 				// align trays based on location
-				if (i == (int)TrayLocation.TL_TOP || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_BOTTOM)
+				if (i == (int)UIWidgetLocation.TL_TOP || i == (int)UIWidgetLocation.TL_CENTER || i == (int)UIWidgetLocation.TL_BOTTOM)
 					mTrays[i].HorizontalAlignment = (GuiHorizontalAlignment.GHA_CENTER);
-				if (i == (int)TrayLocation.TL_LEFT || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_RIGHT)
+				if (i == (int)UIWidgetLocation.TL_LEFT || i == (int)UIWidgetLocation.TL_CENTER || i == (int)UIWidgetLocation.TL_RIGHT)
 					mTrays[i].VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-				if (i == (int)TrayLocation.TL_TOPRIGHT || i == (int)TrayLocation.TL_RIGHT || i == (int)TrayLocation.TL_BOTTOMRIGHT)
+				if (i == (int)UIWidgetLocation.TL_TOPRIGHT || i == (int)UIWidgetLocation.TL_RIGHT || i == (int)UIWidgetLocation.TL_BOTTOMRIGHT)
 					mTrays[i].HorizontalAlignment = (GuiHorizontalAlignment.GHA_RIGHT);
-				if (i == (int)TrayLocation.TL_BOTTOMLEFT || i == (int)TrayLocation.TL_BOTTOM || i == (int)TrayLocation.TL_BOTTOMRIGHT)
+				if (i == (int)UIWidgetLocation.TL_BOTTOMLEFT || i == (int)UIWidgetLocation.TL_BOTTOM || i == (int)UIWidgetLocation.TL_BOTTOMRIGHT)
 					mTrays[i].VerticalAlignment = (GuiVerticalAlignment.GVA_BOTTOM);
 			}
 
@@ -276,13 +277,13 @@ namespace Mogre_Procedural.MogreBites
 				trayWidgetAlign[i] = GuiHorizontalAlignment.GHA_CENTER;
 
 				// align trays based on location
-				if (i == (int)TrayLocation.TL_TOP || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_BOTTOM)
+				if (i == (int)UIWidgetLocation.TL_TOP || i == (int)UIWidgetLocation.TL_CENTER || i == (int)UIWidgetLocation.TL_BOTTOM)
 					mTrays[i].HorizontalAlignment = (GuiHorizontalAlignment.GHA_CENTER);
-				if (i == (int)TrayLocation.TL_LEFT || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_RIGHT)
+				if (i == (int)UIWidgetLocation.TL_LEFT || i == (int)UIWidgetLocation.TL_CENTER || i == (int)UIWidgetLocation.TL_RIGHT)
 					mTrays[i].VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-				if (i == (int)TrayLocation.TL_TOPRIGHT || i == (int)TrayLocation.TL_RIGHT || i == (int)TrayLocation.TL_BOTTOMRIGHT)
+				if (i == (int)UIWidgetLocation.TL_TOPRIGHT || i == (int)UIWidgetLocation.TL_RIGHT || i == (int)UIWidgetLocation.TL_BOTTOMRIGHT)
 					mTrays[i].HorizontalAlignment = (GuiHorizontalAlignment.GHA_RIGHT);
-				if (i == (int)TrayLocation.TL_BOTTOMLEFT || i == (int)TrayLocation.TL_BOTTOM || i == (int)TrayLocation.TL_BOTTOMRIGHT)
+				if (i == (int)UIWidgetLocation.TL_BOTTOMLEFT || i == (int)UIWidgetLocation.TL_BOTTOM || i == (int)UIWidgetLocation.TL_BOTTOMRIGHT)
 					mTrays[i].VerticalAlignment = (GuiVerticalAlignment.GVA_BOTTOM);
 			}
 
@@ -359,7 +360,7 @@ namespace Mogre_Procedural.MogreBites
 		/// </summary>
 		/// <param name="trayLoc"></param>
 		/// <returns></returns>
-		public Mogre.OverlayContainer GetTrayContainer(TrayLocation trayLoc)
+		public Mogre.OverlayContainer GetTrayContainer(UIWidgetLocation trayLoc)
 		{
 			return mTrays[(int)trayLoc];
 		}
@@ -523,7 +524,7 @@ namespace Mogre_Procedural.MogreBites
 		/// </summary>
 		/// <param name="trayLoc"></param>
 		/// <param name="gha"></param>
-		public void SetTrayWidgetAlignment(TrayLocation trayLoc, Mogre.GuiHorizontalAlignment gha)
+		public void SetTrayWidgetAlignment(UIWidgetLocation trayLoc, Mogre.GuiHorizontalAlignment gha)
 		{
 			trayWidgetAlign[(int)trayLoc] = gha;
 
@@ -650,18 +651,18 @@ namespace Mogre_Procedural.MogreBites
 
 			for (uint i = 0; i < 9; i++) // snap trays to anchors
 			{
-				if (i == (int)TrayLocation.TL_TOPLEFT || i == (int)TrayLocation.TL_LEFT || i == (int)TrayLocation.TL_BOTTOMLEFT)
+				if (i == (int)UIWidgetLocation.TL_TOPLEFT || i == (int)UIWidgetLocation.TL_LEFT || i == (int)UIWidgetLocation.TL_BOTTOMLEFT)
 					mTrays[i].Left = (trayPadding);
-				if (i == (int)TrayLocation.TL_TOP || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_BOTTOM)
+				if (i == (int)UIWidgetLocation.TL_TOP || i == (int)UIWidgetLocation.TL_CENTER || i == (int)UIWidgetLocation.TL_BOTTOM)
 					mTrays[i].Left = (-mTrays[i].Width / 2);
-				if (i == (int)TrayLocation.TL_TOPRIGHT || i == (int)TrayLocation.TL_RIGHT || i == (int)TrayLocation.TL_BOTTOMRIGHT)
+				if (i == (int)UIWidgetLocation.TL_TOPRIGHT || i == (int)UIWidgetLocation.TL_RIGHT || i == (int)UIWidgetLocation.TL_BOTTOMRIGHT)
 					mTrays[i].Left = (-(mTrays[i].Width + trayPadding));
 
-				if (i == (int)TrayLocation.TL_TOPLEFT || i == (int)TrayLocation.TL_TOP || i == (int)TrayLocation.TL_TOPRIGHT)
+				if (i == (int)UIWidgetLocation.TL_TOPLEFT || i == (int)UIWidgetLocation.TL_TOP || i == (int)UIWidgetLocation.TL_TOPRIGHT)
 					mTrays[i].Top = (trayPadding);
-				if (i == (int)TrayLocation.TL_LEFT || i == (int)TrayLocation.TL_CENTER || i == (int)TrayLocation.TL_RIGHT)
+				if (i == (int)UIWidgetLocation.TL_LEFT || i == (int)UIWidgetLocation.TL_CENTER || i == (int)UIWidgetLocation.TL_RIGHT)
 					mTrays[i].Top = (-mTrays[i].Height / 2);
-				if (i == (int)TrayLocation.TL_BOTTOMLEFT || i == (int)TrayLocation.TL_BOTTOM || i == (int)TrayLocation.TL_BOTTOMRIGHT)
+				if (i == (int)UIWidgetLocation.TL_BOTTOMLEFT || i == (int)UIWidgetLocation.TL_BOTTOM || i == (int)UIWidgetLocation.TL_BOTTOMRIGHT)
 					mTrays[i].Top = (-mTrays[i].Height - trayPadding);
 
 				// prevents some weird texture filtering problems (just some)
@@ -681,11 +682,52 @@ namespace Mogre_Procedural.MogreBites
 		}
 
 		#region Factory Methods
-		internal ButtonWidget CreateButton(TrayLocation trayLoc, string name, string caption)
+
+		public Widget CreateWidget(ModData modData, ModUILayoutWidgetDfnXml xmlData)
+		{
+			//Find suitable constructor
+			Type widgetType = null;
+			foreach (var assembly in modData.Assemblies)
+			{
+				widgetType = assembly.GetTypes().Where(o => o.Name == xmlData.Type + "Widget").FirstOrDefault();
+				if (widgetType != null)
+				{
+					break;
+				}
+			}
+
+			ConstructorInfo constructorInfo = null;
+			if (widgetType != null)
+			{
+				var flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
+				constructorInfo = widgetType.GetConstructors(flags).FirstOrDefault();
+			}
+
+			//Prepare the parameters
+			if (constructorInfo != null)
+			{
+				var p = constructorInfo.GetParameters();
+				var a = new object[p.Length];
+				for (var i = 0; i < p.Length; i++)
+				{
+					var key = p[i].Name;
+					if (xmlData.WidgetParameters.Where(o => o.Name == key).Count() == 0)
+						throw new Exception("Invalid Widget Parameter!");
+					a[i] = xmlData.WidgetParameters.Where(o => o.Name == key).FirstOrDefault().Value;
+				}
+
+				//Invoke the constructor and get the widget object
+				Widget w = constructorInfo.Invoke(a) as Widget;
+				return w;
+			}
+
+			return null;
+		}
+		internal ButtonWidget CreateButton(UIWidgetLocation trayLoc, string name, string caption)
 		{
 			return CreateButton(trayLoc, name, caption, 0f);
 		}
-		internal ButtonWidget CreateButton(TrayLocation trayLoc, string name, string caption, float width)
+		internal ButtonWidget CreateButton(UIWidgetLocation trayLoc, string name, string caption, float width)
 		{
 			ButtonWidget b = new ButtonWidget(name, caption, width);
 			moveWidgetToTray(b, trayLoc);
@@ -695,22 +737,22 @@ namespace Mogre_Procedural.MogreBites
 		internal ButtonWidget CreateButton(string name, string caption, float width)
 		{
 			ButtonWidget b = new ButtonWidget(name, caption, width);
-			moveWidgetToTray(b, TrayLocation.TL_NONE);
+			moveWidgetToTray(b, UIWidgetLocation.TL_NONE);
 			b.AssignListener(listener);
 			return b;
 		}
-		internal TextBox CreateTextBox(TrayLocation trayLoc, string name, string caption, float width, float height)
+		internal TextBox CreateTextBox(UIWidgetLocation trayLoc, string name, string caption, float width, float height)
 		{
 			TextBox tb = new TextBox(name, caption, width, height);
 			moveWidgetToTray(tb, trayLoc);
 			tb.AssignListener(listener);
 			return tb;
 		}
-		internal SelectMenuWidget CreateThickSelectMenu(TrayLocation trayLoc, string name, string caption, float width, uint maxItemsShown)
+		internal SelectMenuWidget CreateThickSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float width, uint maxItemsShown)
 		{
 			return CreateThickSelectMenu(trayLoc, name, caption, width, maxItemsShown, new StringVector());
 		}
-		internal SelectMenuWidget CreateThickSelectMenu(TrayLocation trayLoc, string name, string caption, float width, uint maxItemsShown, StringVector items)
+		internal SelectMenuWidget CreateThickSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float width, uint maxItemsShown, StringVector items)
 		{
 			SelectMenuWidget sm = new SelectMenuWidget(name, caption, width, 0f, maxItemsShown);
 			moveWidgetToTray(sm, trayLoc);
@@ -720,11 +762,11 @@ namespace Mogre_Procedural.MogreBites
 				sm.setItems(items);
 			return sm;
 		}
-		internal SelectMenuWidget CreateLongSelectMenu(TrayLocation trayLoc, string name, string caption, float width, float boxWidth, uint maxItemsShown)
+		internal SelectMenuWidget CreateLongSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float width, float boxWidth, uint maxItemsShown)
 		{
 			return CreateLongSelectMenu(trayLoc, name, caption, width, boxWidth, maxItemsShown, new StringVector());
 		}
-		internal SelectMenuWidget CreateLongSelectMenu(TrayLocation trayLoc, string name, string caption, float width, float boxWidth, uint maxItemsShown, StringVector items)
+		internal SelectMenuWidget CreateLongSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float width, float boxWidth, uint maxItemsShown, StringVector items)
 		{
 			SelectMenuWidget sm = new SelectMenuWidget(name, caption, width, boxWidth, maxItemsShown);
 			moveWidgetToTray(sm, trayLoc);
@@ -734,19 +776,19 @@ namespace Mogre_Procedural.MogreBites
 				sm.setItems(items);
 			return sm;
 		}
-		internal SelectMenuWidget CreateLongSelectMenu(TrayLocation trayLoc, string name, string caption, float boxWidth, uint maxItemsShown)
+		internal SelectMenuWidget CreateLongSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float boxWidth, uint maxItemsShown)
 		{
 			return CreateLongSelectMenu(trayLoc, name, caption, boxWidth, maxItemsShown, new StringVector());
 		}
-		internal SelectMenuWidget CreateLongSelectMenu(TrayLocation trayLoc, string name, string caption, float boxWidth, uint maxItemsShown, StringVector items)
+		internal SelectMenuWidget CreateLongSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float boxWidth, uint maxItemsShown, StringVector items)
 		{
 			return CreateLongSelectMenu(trayLoc, name, caption, 0, boxWidth, maxItemsShown, items);
 		}
-		internal LabelWidget CreateLabel(TrayLocation trayLoc, string name, string caption)
+		internal LabelWidget CreateLabel(UIWidgetLocation trayLoc, string name, string caption)
 		{
 			return CreateLabel(trayLoc, name, caption, 0f);
 		}
-		internal LabelWidget CreateLabel(TrayLocation trayLoc, string name, string caption, float width)
+		internal LabelWidget CreateLabel(UIWidgetLocation trayLoc, string name, string caption, float width)
 		{
 			LabelWidget l = new LabelWidget(name, caption, width);
 			moveWidgetToTray(l, trayLoc);
@@ -755,41 +797,41 @@ namespace Mogre_Procedural.MogreBites
 		}
 		internal StaticText CreateStaticText(string name, string text)
 		{
-			return CreateStaticText(TrayLocation.TL_NONE, name, text, 0f, false, ColourValue.Black);
+			return CreateStaticText(UIWidgetLocation.TL_NONE, name, text, 0f, false, ColourValue.Black);
 		}
-		internal StaticText CreateStaticText(TrayLocation trayLoc, string name, string caption)
+		internal StaticText CreateStaticText(UIWidgetLocation trayLoc, string name, string caption)
 		{
 			return CreateStaticText(trayLoc, name, caption, 0f, false, ColourValue.Black);
 		}
-		internal StaticText CreateStaticText(TrayLocation trayLoc, string name, string caption, ColourValue color)
+		internal StaticText CreateStaticText(UIWidgetLocation trayLoc, string name, string caption, ColourValue color)
 		{
 			return CreateStaticText(trayLoc, name, caption, 0f, true, color);
 		}
-		internal StaticText CreateStaticText(TrayLocation trayLoc, string name, string caption, float width, bool specificColor, ColourValue color)
+		internal StaticText CreateStaticText(UIWidgetLocation trayLoc, string name, string caption, float width, bool specificColor, ColourValue color)
 		{
 			StaticText st = new StaticText(name, caption, width, specificColor, ColourValue.Black);
 			moveWidgetToTray(st, trayLoc);
 			st.AssignListener(listener);
 			return st;
 		}
-		internal Separator CreateSeparator(TrayLocation trayLoc, string name)
+		internal Separator CreateSeparator(UIWidgetLocation trayLoc, string name)
 		{
 			return CreateSeparator(trayLoc, name, 0f);
 		}
-		internal Separator CreateSeparator(TrayLocation trayLoc, string name, float width)
+		internal Separator CreateSeparator(UIWidgetLocation trayLoc, string name, float width)
 		{
 			Separator s = new Separator(name, width);
 			moveWidgetToTray(s, trayLoc);
 			return s;
 		}
-		internal Slider CreateThickSlider(TrayLocation trayLoc, string name, string caption, float width, float valueBoxWidth, float minValue, float maxValue, uint snaps)
+		internal Slider CreateThickSlider(UIWidgetLocation trayLoc, string name, string caption, float width, float valueBoxWidth, float minValue, float maxValue, uint snaps)
 		{
 			Slider s = new Slider(name, caption, width, 0, valueBoxWidth, minValue, maxValue, snaps);
 			moveWidgetToTray(s, trayLoc);
 			s.AssignListener(listener);
 			return s;
 		}
-		internal Slider CreateLongSlider(TrayLocation trayLoc, string name, string caption, float width, float trackWidth, float valueBoxWidth, float minValue, float maxValue, uint snaps)
+		internal Slider CreateLongSlider(UIWidgetLocation trayLoc, string name, string caption, float width, float trackWidth, float valueBoxWidth, float minValue, float maxValue, uint snaps)
 		{
 			if (trackWidth <= 0)
 				trackWidth = 1;
@@ -798,24 +840,24 @@ namespace Mogre_Procedural.MogreBites
 			s.AssignListener(listener);
 			return s;
 		}
-		internal Slider CreateLongSlider(TrayLocation trayLoc, string name, string caption, float trackWidth, float valueBoxWidth, float minValue, float maxValue, uint snaps)
+		internal Slider CreateLongSlider(UIWidgetLocation trayLoc, string name, string caption, float trackWidth, float valueBoxWidth, float minValue, float maxValue, uint snaps)
 		{
 			return CreateLongSlider(trayLoc, name, caption, 0, trackWidth, valueBoxWidth, minValue, maxValue, snaps);
 		}
-		internal ParamsPanelWidget CreateParamsPanel(TrayLocation trayLoc, string name, float width, uint lines)
+		internal ParamsPanelWidget CreateParamsPanel(UIWidgetLocation trayLoc, string name, float width, uint lines)
 		{
 			ParamsPanelWidget pp = new ParamsPanelWidget(name, width, lines);
 			moveWidgetToTray(pp, trayLoc);
 			return pp;
 		}
-		internal ParamsPanelWidget CreateParamsPanel(TrayLocation trayLoc, string name, float width, StringVector paramNames)
+		internal ParamsPanelWidget CreateParamsPanel(UIWidgetLocation trayLoc, string name, float width, StringVector paramNames)
 		{
 			ParamsPanelWidget pp = new ParamsPanelWidget(name, width, (uint)paramNames.Count);
 			pp.SetAllParamNames(paramNames);
 			moveWidgetToTray(pp, trayLoc);
 			return pp;
 		}
-		internal ParamsPanelWidget CreateParamsPanel(TrayLocation trayLoc, string name, float width, string[] paramNames)
+		internal ParamsPanelWidget CreateParamsPanel(UIWidgetLocation trayLoc, string name, float width, string[] paramNames)
 		{
 			StringVector sv = new StringVector();
 			foreach (var v in paramNames)
@@ -824,37 +866,37 @@ namespace Mogre_Procedural.MogreBites
 			}
 			return CreateParamsPanel(trayLoc, name, width, sv);
 		}
-		internal CheckBoxWidget CreateCheckBox(TrayLocation trayLoc, string name, string caption)
+		internal CheckBoxWidget CreateCheckBox(UIWidgetLocation trayLoc, string name, string caption)
 		{
 			return CreateCheckBox(trayLoc, name, caption, 0f);
 		}
-		internal CheckBoxWidget CreateCheckBox(TrayLocation trayLoc, string name, string caption, float width)
+		internal CheckBoxWidget CreateCheckBox(UIWidgetLocation trayLoc, string name, string caption, float width)
 		{
 			CheckBoxWidget cb = new CheckBoxWidget(name, caption, width);
 			moveWidgetToTray(cb, trayLoc);
 			cb.AssignListener(listener);
 			return cb;
 		}
-		internal DecorWidget CreateDecorWidget(TrayLocation trayLoc, string name, string templateName)
+		internal DecorWidget CreateDecorWidget(UIWidgetLocation trayLoc, string name, string templateName)
 		{
 			DecorWidget dw = new DecorWidget(name, templateName);
 			moveWidgetToTray(dw, trayLoc);
 			return dw;
 		}
-		internal ProgressBarWidget CreateProgressBar(TrayLocation trayLoc, string name, string caption, float width, float commentBoxWidth)
+		internal ProgressBarWidget CreateProgressBar(UIWidgetLocation trayLoc, string name, string caption, float width, float commentBoxWidth)
 		{
 			ProgressBarWidget pb = new ProgressBarWidget(name, caption, width, commentBoxWidth);
 			moveWidgetToTray(pb, trayLoc);
 			return pb;
 		}
-		internal ListViewWidget CreateListView(TrayLocation trayLoc, string name, float height, float width, List<string> columnNames)
+		internal ListViewWidget CreateListView(UIWidgetLocation trayLoc, string name, float height, float width, List<string> columnNames)
 		{
 			ListViewWidget lsv = new ListViewWidget(name, -1, -1, height, width, columnNames);
 			moveWidgetToTray(lsv, trayLoc);
 			lsv.AssignListener(listener);
 			return lsv;
 		}
-		internal InputBoxWidget CreateInputBox(TrayLocation trayLocation, string name, string caption, float width, float boxWidth, string text = null, bool onlyAcceptNum = false)
+		internal InputBoxWidget CreateInputBox(UIWidgetLocation trayLocation, string name, string caption, float width, float boxWidth, string text = null, bool onlyAcceptNum = false)
 		{
 			InputBoxWidget ib = new InputBoxWidget(name, caption, width, boxWidth, text, onlyAcceptNum);
 			moveWidgetToTray(ib, trayLocation);
@@ -865,25 +907,25 @@ namespace Mogre_Procedural.MogreBites
 		internal PanelWidget CreatePanel(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1)
 		{
 			PanelWidget panel = new PanelWidget(name, width, height, left, top, row, col);
-			moveWidgetToTray(panel, TrayLocation.TL_NONE);
+			moveWidgetToTray(panel, UIWidgetLocation.TL_NONE);
 			return panel;
 		}
 		internal PanelScrollableWidget CreateScrollablePanel(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1, bool hasBorder = true)
 		{
 			PanelScrollableWidget scrollablePanel = new PanelScrollableWidget(name, width, height, left, top, row, col, hasBorder);
-			moveWidgetToTray(scrollablePanel, TrayLocation.TL_NONE);
+			moveWidgetToTray(scrollablePanel, UIWidgetLocation.TL_NONE);
 			return scrollablePanel;
 		}
 		internal PanelMaterialWidget CreateMaterialPanel(string name, string texture, float width = 0, float height = 0, float left = 0, float top = 0)
 		{
 			PanelMaterialWidget materialPanel = new PanelMaterialWidget(name, texture, width, height, left, top);
-			moveWidgetToTray(materialPanel, TrayLocation.TL_NONE);
+			moveWidgetToTray(materialPanel, UIWidgetLocation.TL_NONE);
 			return materialPanel;
 		}
 		internal PanelTemplateWidget CreateTemplatePanel(string name, string template, int width = 0, int height = 0, int top = 0, int left = 0)
 		{
 			PanelTemplateWidget tmpPanel = new PanelTemplateWidget(name, template, width, height, left, top);
-			moveWidgetToTray(tmpPanel, TrayLocation.TL_NONE);
+			moveWidgetToTray(tmpPanel, UIWidgetLocation.TL_NONE);
 			return tmpPanel;
 		}
 		#endregion
@@ -892,12 +934,12 @@ namespace Mogre_Procedural.MogreBites
 		/// Shows frame statistics widget set in the specified location.
 		/// </summary>
 		/// <param name="trayLoc"></param>
-		public void showFrameStats(TrayLocation trayLoc)
+		public void showFrameStats(UIWidgetLocation trayLoc)
 		{
 			showFrameStats(trayLoc, -1);
 		}
 
-		public void showFrameStats(TrayLocation trayLoc, int place)
+		public void showFrameStats(UIWidgetLocation trayLoc, int place)
 		{
 			if (!AreFrameStatsVisible())
 			{
@@ -908,9 +950,9 @@ namespace Mogre_Procedural.MogreBites
 				stats.Add("Triangles");
 				stats.Add("Batches");
 
-				fpsLabel = CreateLabel(TrayLocation.TL_NONE, Name + "/FpsLabel", "FPS:", 180);
+				fpsLabel = CreateLabel(UIWidgetLocation.TL_NONE, Name + "/FpsLabel", "FPS:", 180);
 				fpsLabel.AssignListener(this);
-				statsPanel = CreateParamsPanel(TrayLocation.TL_NONE, Name + "/StatsPanel", 180, stats);
+				statsPanel = CreateParamsPanel(UIWidgetLocation.TL_NONE, Name + "/StatsPanel", 180, stats);
 			}
 
 			moveWidgetToTray(fpsLabel, trayLoc, place);
@@ -953,15 +995,15 @@ namespace Mogre_Procedural.MogreBites
 		/// Shows logo in the specified location.
 		/// </summary>
 		/// <param name="trayLoc"></param>
-		public void ShowLogo(TrayLocation trayLoc)
+		public void ShowLogo(UIWidgetLocation trayLoc)
 		{
 			ShowLogo(trayLoc, -1);
 		}
 
-		public void ShowLogo(TrayLocation trayLoc, int place)
+		public void ShowLogo(UIWidgetLocation trayLoc, int place)
 		{
 			if (!isLogoVisible())
-				logo = CreateDecorWidget(TrayLocation.TL_NONE, Name + "/Logo", "SdkTrays/Logo");
+				logo = CreateDecorWidget(UIWidgetLocation.TL_NONE, Name + "/Logo", "SdkTrays/Logo");
 			moveWidgetToTray(logo, trayLoc, place);
 		}
 
@@ -1165,7 +1207,7 @@ namespace Mogre_Procedural.MogreBites
 		/// <param name="trayLoc"></param>
 		/// <param name="place"></param>
 		/// <returns></returns>
-		public Widget GetWidget(TrayLocation trayLoc, uint place)
+		public Widget GetWidget(UIWidgetLocation trayLoc, uint place)
 		{
 			if (place < widgets[(int)trayLoc].Count)
 				return widgets[(int)trayLoc][(int)place];
@@ -1178,7 +1220,7 @@ namespace Mogre_Procedural.MogreBites
 		/// <param name="trayLoc"></param>
 		/// <param name="name"></param>
 		/// <returns></returns>
-		public Widget GetWidget(TrayLocation trayLoc, string name)
+		public Widget GetWidget(UIWidgetLocation trayLoc, string name)
 		{
 			for (int i = 0; i < widgets[(int)trayLoc].Count; i++)
 			{
@@ -1227,7 +1269,7 @@ namespace Mogre_Procedural.MogreBites
 		/// </summary>
 		/// <param name="trayLoc"></param>
 		/// <returns></returns>
-		public int GetNumWidgets(TrayLocation trayLoc)
+		public int GetNumWidgets(UIWidgetLocation trayLoc)
 		{
 			return widgets[(int)trayLoc].Count;
 		}
@@ -1237,7 +1279,7 @@ namespace Mogre_Procedural.MogreBites
 		/// </summary>
 		/// <param name="trayLoc"></param>
 		/// <returns></returns>
-		public List<Widget> GetWidgetIterator(TrayLocation trayLoc)
+		public List<Widget> GetWidgetIterator(UIWidgetLocation trayLoc)
 		{
 			return widgets[(int)trayLoc];
 			//return Mogre.VectorIterator<List<Widget*>>(mWidgets[(int)trayLoc].begin(), mWidgets[(int)trayLoc].end());
@@ -1302,12 +1344,12 @@ namespace Mogre_Procedural.MogreBites
 			throw new Exception(p + "_" + p_2 + "_" + p_3);
 		}
 
-		public void DestroyWidget(TrayLocation trayLoc, uint place)
+		public void DestroyWidget(UIWidgetLocation trayLoc, uint place)
 		{
 			DestroyWidget(GetWidget(trayLoc, place));
 		}
 
-		public void DestroyWidget(TrayLocation trayLoc, string name)
+		public void DestroyWidget(UIWidgetLocation trayLoc, string name)
 		{
 			DestroyWidget(GetWidget(trayLoc, name));
 		}
@@ -1321,7 +1363,7 @@ namespace Mogre_Procedural.MogreBites
 		/// Destroys all widgets in a tray.
 		/// </summary>
 		/// <param name="trayLoc"></param>
-		public void DestroyAllWidgetsInTray(TrayLocation trayLoc)
+		public void DestroyAllWidgetsInTray(UIWidgetLocation trayLoc)
 		{
 			//while (!mWidgets[(int)trayLoc].empty())
 			while (widgets[(int)trayLoc].Count > 0)
@@ -1335,7 +1377,7 @@ namespace Mogre_Procedural.MogreBites
 		{
 			for (uint i = 0; i < 10; i++) // destroy every widget in every tray (including null tray)
 			{
-				DestroyAllWidgetsInTray((TrayLocation)i);
+				DestroyAllWidgetsInTray((UIWidgetLocation)i);
 			}
 		}
 
@@ -1344,12 +1386,12 @@ namespace Mogre_Procedural.MogreBites
 		/// </summary>
 		/// <param name="widget"></param>
 		/// <param name="trayLoc"></param>
-		public void moveWidgetToTray(Widget widget, TrayLocation trayLoc)
+		public void moveWidgetToTray(Widget widget, UIWidgetLocation trayLoc)
 		{
 			moveWidgetToTray(widget, trayLoc, -1);
 		}
 
-		public void moveWidgetToTray(Widget widget, TrayLocation trayLoc, int place)
+		public void moveWidgetToTray(Widget widget, UIWidgetLocation trayLoc, int place)
 		{
 			if (widget == null)
 				OGRE_EXCEPT("Mogre.Exception.ERR_ITEM_NOT_FOUND", "Widget does not exist.", "TrayManager::moveWidgetToTray");
@@ -1375,38 +1417,38 @@ namespace Mogre_Procedural.MogreBites
 			widget.OverlayElement.HorizontalAlignment = (trayWidgetAlign[(int)trayLoc]);
 
 			// adjust trays if necessary
-			if (widget.GetTrayLocation() != TrayLocation.TL_NONE || trayLoc != TrayLocation.TL_NONE)
+			if (widget.GetTrayLocation() != UIWidgetLocation.TL_NONE || trayLoc != UIWidgetLocation.TL_NONE)
 				AdjustTrays();
 
 			widget.AssignToTray(trayLoc);
 		}
 
-		public void moveWidgetToTray(string name, TrayLocation trayLoc)
+		public void moveWidgetToTray(string name, UIWidgetLocation trayLoc)
 		{
 			moveWidgetToTray(name, trayLoc, -1);
 		}
 
-		public void moveWidgetToTray(string name, TrayLocation trayLoc, int place)
+		public void moveWidgetToTray(string name, UIWidgetLocation trayLoc, int place)
 		{
 			moveWidgetToTray(GetWidget(name), trayLoc, place);
 		}
 
-		public void moveWidgetToTray(TrayLocation currentTrayLoc, string name, TrayLocation targetTrayLoc)
+		public void moveWidgetToTray(UIWidgetLocation currentTrayLoc, string name, UIWidgetLocation targetTrayLoc)
 		{
 			moveWidgetToTray(currentTrayLoc, name, targetTrayLoc, -1);
 		}
 		//ORIGINAL LINE: void moveWidgetToTray(TrayLocation currentTrayLoc, const Ogre::String& name, TrayLocation targetTrayLoc, int place = -1)
-		public void moveWidgetToTray(TrayLocation currentTrayLoc, string name, TrayLocation targetTrayLoc, int place)
+		public void moveWidgetToTray(UIWidgetLocation currentTrayLoc, string name, UIWidgetLocation targetTrayLoc, int place)
 		{
 			moveWidgetToTray(GetWidget(currentTrayLoc, name), targetTrayLoc, place);
 		}
 
-		public void moveWidgetToTray(TrayLocation currentTrayLoc, uint currentPlace, TrayLocation targetTrayLoc)
+		public void moveWidgetToTray(UIWidgetLocation currentTrayLoc, uint currentPlace, UIWidgetLocation targetTrayLoc)
 		{
 			moveWidgetToTray(currentTrayLoc, currentPlace, targetTrayLoc, -1);
 		}
 
-		public void moveWidgetToTray(TrayLocation currentTrayLoc, uint currentPlace, TrayLocation targetTrayLoc, int targetPlace)
+		public void moveWidgetToTray(UIWidgetLocation currentTrayLoc, uint currentPlace, UIWidgetLocation targetTrayLoc, int targetPlace)
 		{
 			moveWidgetToTray(GetWidget(currentTrayLoc, currentPlace), targetTrayLoc, targetPlace);
 		}
@@ -1417,7 +1459,7 @@ namespace Mogre_Procedural.MogreBites
 		/// <param name="widget"></param>
 		public void removeWidgetFromTray(Widget widget)
 		{
-			moveWidgetToTray(widget, TrayLocation.TL_NONE);
+			moveWidgetToTray(widget, UIWidgetLocation.TL_NONE);
 		}
 
 		public void removeWidgetFromTray(string name)
@@ -1425,12 +1467,12 @@ namespace Mogre_Procedural.MogreBites
 			removeWidgetFromTray(GetWidget(name));
 		}
 
-		public void removeWidgetFromTray(TrayLocation trayLoc, string name)
+		public void removeWidgetFromTray(UIWidgetLocation trayLoc, string name)
 		{
 			removeWidgetFromTray(GetWidget(trayLoc, name));
 		}
 
-		public void removeWidgetFromTray(TrayLocation trayLoc, uint place)
+		public void removeWidgetFromTray(UIWidgetLocation trayLoc, uint place)
 		{
 			removeWidgetFromTray(GetWidget(trayLoc, place));
 		}
@@ -1438,9 +1480,9 @@ namespace Mogre_Procedural.MogreBites
 		//        -----------------------------------------------------------------------------
 		//		| Removes all widgets from a widget tray.
 		//		-----------------------------------------------------------------------------
-		public void clearTray(TrayLocation trayLoc)
+		public void clearTray(UIWidgetLocation trayLoc)
 		{
-			if (trayLoc == TrayLocation.TL_NONE) // can't clear the null tray
+			if (trayLoc == UIWidgetLocation.TL_NONE) // can't clear the null tray
 				return;
 
 			//while (!mWidgets[(int)trayLoc].empty()) // remove every widget from given tray
@@ -1457,7 +1499,7 @@ namespace Mogre_Procedural.MogreBites
 		{
 			for (uint i = 0; i < 9; i++)
 			{
-				clearTray((TrayLocation)i);
+				clearTray((UIWidgetLocation)i);
 			}
 		}
 
@@ -1774,7 +1816,7 @@ namespace Mogre_Procedural.MogreBites
 			expandedMenu = m;
 		}
 
-		public void AddOverlayElementToTrayLocation(OverlayElement element, TrayLocation trayLoc)
+		public void AddOverlayElementToTrayLocation(OverlayElement element, UIWidgetLocation trayLoc)
 		{
 			mTrays[(int)trayLoc].AddChild(element);
 		}
@@ -1804,7 +1846,7 @@ namespace Mogre_Procedural.MogreBites
         public virtual void yesNoDialogClosed(string question, bool yesHit) {
         }
     }
-    public class SdkTrayMathHelper
+    public class UIMathHelper
     {
         public const double PI = Math.PI;
 

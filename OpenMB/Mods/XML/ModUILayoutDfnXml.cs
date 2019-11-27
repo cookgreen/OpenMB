@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using OpenMB.Widgets;
 
 namespace OpenMB.Mods.XML
 {
@@ -35,7 +36,7 @@ namespace OpenMB.Mods.XML
 		[XmlAttribute]
 		public string Name { get; set; }
 		[XmlAttribute]
-		public TrayLocation TrayLocation { get; set; }
+		public UIWidgetLocation TrayLocation { get; set; }
 		[XmlAttribute]
 		public float Width { get; set; }
 		[XmlAttribute]
@@ -44,5 +45,17 @@ namespace OpenMB.Mods.XML
 		public float Top { get; set; }
 		[XmlAttribute]
 		public float Left { get; set; }
+		[XmlArray("Parameters")]
+		[XmlArrayItem("Parameter")]
+		public List<ModUILayoutWidgetParameterDfnXml> WidgetParameters { get; set; }
+	}
+
+	[XmlRoot("Parameter")]
+	public class ModUILayoutWidgetParameterDfnXml
+	{
+		[XmlAttribute]
+		public string Name { get; set; }
+		[XmlText]
+		public string Value { get; set; }
 	}
 }

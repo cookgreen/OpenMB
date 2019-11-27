@@ -69,24 +69,24 @@ namespace OpenMB.States
             }
 
             UIManager.Instance.DestroyAllWidgets();
-            modTitle = UIManager.Instance.CreateLabel(TrayLocation.TL_LEFT, "ModTitle", "Mod Info");
+            modTitle = UIManager.Instance.CreateLabel(UIWidgetLocation.TL_LEFT, "ModTitle", "Mod Info");
             modTitle.setCaption("Mod Info");
-            modDescBox = UIManager.Instance.CreateTextBox(TrayLocation.TL_LEFT, "ModInfo", "Mod Info", 250, 208);
+            modDescBox = UIManager.Instance.CreateTextBox(UIWidgetLocation.TL_LEFT, "ModInfo", "Mod Info", 250, 208);
             modDescBox.setCaption("Mod Info");
-            modChooserMenu = UIManager.Instance.CreateThickSelectMenu(TrayLocation.TL_LEFT, "SelMod", "Select Mod", 250, 10);
+            modChooserMenu = UIManager.Instance.CreateThickSelectMenu(UIWidgetLocation.TL_LEFT, "SelMod", "Select Mod", 250, 10);
             modChooserMenu.setCaption("Select Mod");
             modChooserMenu.setItems(modNames);
-            modSlider = UIManager.Instance.CreateThickSlider(TrayLocation.TL_LEFT, "ModSlider", "Slider Mods", 250, 80, 0, 0, 0);
+            modSlider = UIManager.Instance.CreateThickSlider(UIWidgetLocation.TL_LEFT, "ModSlider", "Slider Mods", 250, 80, 0, 0, 0);
             modSlider.setCaption("Slider Mods");
             if (modNames.Count > 0)
             {
                 modTitle.setCaption(modChooserMenu.getSelectedItem());
             }
 
-            UIManager.Instance.ShowLogo(TrayLocation.TL_RIGHT);
-            UIManager.Instance.CreateSeparator(TrayLocation.TL_RIGHT, "LogoSep");
-            UIManager.Instance.CreateButton(TrayLocation.TL_RIGHT, "Play", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 140);
-            UIManager.Instance.CreateButton(TrayLocation.TL_RIGHT, "Quit", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 140);
+            UIManager.Instance.ShowLogo(UIWidgetLocation.TL_RIGHT);
+            UIManager.Instance.CreateSeparator(UIWidgetLocation.TL_RIGHT, "LogoSep");
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Play", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 140);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Quit", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 140);
             
             setupModMenu();
 

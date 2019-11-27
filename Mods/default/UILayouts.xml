@@ -3,12 +3,54 @@
 		<Background Type="NoChange"></Background>
 		<Script>ui_custom_game.script</Script>
 		<Widgets>
-			<Widget Type="InputBox" TrayLocation="TL_CENTER" Name="txtPlayerName" Text="str_player_name" Width="200"></Widget>
-			<Widget Type="SelectMenu" TrayLocation="TL_CENTER" Name="cmbChooseMaps" Text="str_choose_map" Width="200"></Widget>
-			<Widget Type="SelectMenu" TrayLocation="TL_CENTER" Name="cmbChooseModes" Text="str_choose_mode" Width="200"></Widget>
-			<Widget Type="SelectMenu" TrayLocation="TL_CENTER" Name="cmbChooseCharacters" Text="str_choose_profession" Width="200"></Widget>
-			<Widget Type="Button" TrayLocation="TL_RIGHT" Name="btnOK" Text="str_ok" Width="100"></Widget>
-			<Widget Type="Button" TrayLocation="TL_RIGHT" Name="btnCancel" Text="str_cancel" Width="100"></Widget>
+			<Widget Type="Button">
+				<WidgetParameters>
+					<WidgetParameter Name="trayLocation">TL_CENTER</WidgetParameter>
+					<WidgetParameter Name="name">txtPlayerName</WidgetParameter>
+					<WidgetParameter Name="caption">str_player_name</WidgetParameter>
+					<WidgetParameter Name="width">200</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="SelectMenu">
+				<WidgetParameters>
+					<WidgetParameter Name="trayLocation">TL_CENTER</WidgetParameter>
+					<WidgetParameter Name="name">cmbChooseMaps</WidgetParameter>
+					<WidgetParameter Name="caption">str_choose_map</WidgetParameter>
+					<WidgetParameter Name="width">200</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="SelectMenu">
+				<WidgetParameters>
+					<WidgetParameter Name="trayLocation">TL_CENTER</WidgetParameter>
+					<WidgetParameter Name="name">cmbChooseModes</WidgetParameter>
+					<WidgetParameter Name="caption">str_choose_mode</WidgetParameter>
+					<WidgetParameter Name="width">200</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="SelectMenu">
+				<WidgetParameters>
+					<WidgetParameter Name="trayLocation">TL_CENTER</WidgetParameter>
+					<WidgetParameter Name="name">cmbChooseCharacters</WidgetParameter>
+					<WidgetParameter Name="caption">str_choose_profession</WidgetParameter>
+					<WidgetParameter Name="width">200</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="Button">
+				<WidgetParameters>
+					<WidgetParameter Name="trayLocation">TL_RIGHT</WidgetParameter>
+					<WidgetParameter Name="name">btnOK</WidgetParameter>
+					<WidgetParameter Name="caption">str_ok</WidgetParameter>
+					<WidgetParameter Name="width">100</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="Button">
+				<WidgetParameters>
+					<WidgetParameter Name="trayLocation">TL_RIGHT</WidgetParameter>
+					<WidgetParameter Name="name">btnCancel</WidgetParameter>
+					<WidgetParameter Name="caption">str_cancel</WidgetParameter>
+					<WidgetParameter Name="width">100</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
 		</Widgets>
 	</UILayout>
 </UILayouts>

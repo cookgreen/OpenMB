@@ -11,6 +11,7 @@ using OpenMB.Network;
 using OpenMB.Screen;
 using OpenMB.Sound;
 using OpenMB.States;
+using OpenMB.Widgets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -337,8 +338,8 @@ namespace OpenMB
 				}
 				else
 				{
-					UIManager.Instance.showFrameStats(TrayLocation.TL_BOTTOMLEFT);
-					UIManager.Instance.ShowLogo(TrayLocation.TL_BOTTOMRIGHT);
+					UIManager.Instance.showFrameStats(UIWidgetLocation.TL_BOTTOMLEFT);
+					UIManager.Instance.ShowLogo(UIWidgetLocation.TL_BOTTOMRIGHT);
 				}
 			}
 		}

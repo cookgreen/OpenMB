@@ -40,9 +40,9 @@ namespace OpenMB.States
 
             UIManager.Instance.DestroyAllWidgets();
             UIManager.Instance.ShowCursor();
-            UIManager.Instance.CreateButton(TrayLocation.TL_CENTER, "BackToMenuBtn", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Back To Game"), 250);
-            UIManager.Instance.CreateButton(TrayLocation.TL_CENTER, "ExitBtn", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Quit"), 250);
-            UIManager.Instance.CreateLabel(TrayLocation.TL_TOP, "PauseLbl", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Game Paused"), 250);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "BackToMenuBtn", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Back To Game"), 250);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "ExitBtn", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Quit"), 250);
+            UIManager.Instance.CreateLabel(UIWidgetLocation.TL_TOP, "PauseLbl", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Game Paused"), 250);
 
             GameManager.Instance.mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
             GameManager.Instance.mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);

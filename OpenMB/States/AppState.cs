@@ -5,6 +5,7 @@ using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
 using OpenMB.Mods;
+using OpenMB.Widgets;
 
 namespace OpenMB.States
 {
