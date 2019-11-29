@@ -10,7 +10,7 @@ namespace OpenMB.Widgets
 {
     public class InputBoxWidget : Widget
     {
-        protected BorderPanelOverlayElement inputBoxTextElement;
+        protected BorderPanelOverlayElement inputBoxElement;
         protected TextAreaOverlayElement textAreaElement;
         protected TextAreaOverlayElement smallTextAreaElement;
         protected BorderPanelOverlayElement scrollTrackElement;
@@ -38,36 +38,37 @@ namespace OpenMB.Widgets
 
 		public InputBoxWidget(string name, string caption, float width, float boxWidth, string text = null, bool onlyAcceptNum = false)
 		{
-			this.isTextMode = false;
-			this.element = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/InputBox", "BorderPanel", name);
-			this.highlightIndex = 0;
-			this.displayIndex = 0;
-			this.dragOffset = 0.0f;
-			this.selectionIndex = -1;
-			this.isFitToContents = false;
-			this.isCursorOver = false;
-			this.isDragging = false;
-			this.itemsShown = 0;
-			this.textAreaElement = (TextAreaOverlayElement)((OverlayContainer)this.element).GetChild(name + "/InputBoxCaption");
-			this.inputBoxTextElement = (BorderPanelOverlayElement)((OverlayContainer)this.element).GetChild(name + "/InputBoxText");
-			this.inputBoxTextElement.Width = width - 10;
-			this.smallTextAreaElement = (TextAreaOverlayElement)this.inputBoxTextElement.GetChild(name + "/InputBoxText/InputBoxSmallText");
-			this.element.Width = width;
-			this.itemElements = new List<BorderPanelOverlayElement>();
-			this.mText = string.Empty;
-			this.isOnlyAcceptNum = onlyAcceptNum;
+			isTextMode = false;
+			element = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/InputBox", "BorderPanel", name);
+			highlightIndex = 0;
+			displayIndex = 0;
+			dragOffset = 0.0f;
+			selectionIndex = -1;
+			isFitToContents = false;
+			isCursorOver = false;
+			isDragging = false;
+			itemsShown = 0;
+			textAreaElement = (TextAreaOverlayElement)((OverlayContainer)element).GetChild(name + "/InputBoxCaption");
+			inputBoxElement = (BorderPanelOverlayElement)((OverlayContainer)element).GetChild(name + "/InputBoxText");
+			inputBoxElement.Width = width - 10;
+			smallTextAreaElement = (TextAreaOverlayElement)inputBoxElement.GetChild(name + "/InputBoxText/InputBoxSmallText");
+			element.Width = width;
+			itemElements = new List<BorderPanelOverlayElement>();
+			mText = string.Empty;
+			isOnlyAcceptNum = onlyAcceptNum;
+            textAreaElement.Caption = caption;
 
-			if (boxWidth > 0)
+            if (boxWidth > 0)
 			{
-				if (width <= 0) { this.isFitToContents = true; }
-				this.inputBoxTextElement.Width = boxWidth;
-				this.inputBoxTextElement.Top = 2;
-				this.inputBoxTextElement.Left = width - boxWidth - 5;
-				this.element.Height = this.inputBoxTextElement.Height + 4;
-				this.textAreaElement.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
-				this.textAreaElement.SetAlignment(TextAreaOverlayElement.Alignment.Left);
-				this.textAreaElement.Left = 12;
-				this.textAreaElement.Top = 10;
+				if (width <= 0) { isFitToContents = true; }
+				inputBoxElement.Width = boxWidth;
+				inputBoxElement.Top = 2;
+				inputBoxElement.Left = width - boxWidth - 5;
+				element.Height = this.inputBoxElement.Height + 4;
+				textAreaElement.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
+				textAreaElement.SetAlignment(TextAreaOverlayElement.Alignment.Left);
+				textAreaElement.Left = 12;
+				textAreaElement.Top = 10;
 			}
 
 			if (!string.IsNullOrEmpty(text))
@@ -76,14 +77,14 @@ namespace OpenMB.Widgets
 				mText = text;
 			}
 
-			this.setCaption(caption);
+			setCaption(caption);
 		}
 
         public void setCaption(string caption) {
-            this.textAreaElement.Caption = caption;
-            if (this.isFitToContents) {
-                this.element.Width = Widget.GetCaptionWidth(caption, ref this.textAreaElement) + this.inputBoxTextElement.Width + 23;
-                this.inputBoxTextElement.Left = this.element.Width - this.inputBoxTextElement.Width - 5;
+            textAreaElement.Caption = caption;
+            if (isFitToContents) {
+                element.Width = GetCaptionWidth(caption, ref textAreaElement) + inputBoxElement.Width + 23;
+                inputBoxElement.Left = element.Width - inputBoxElement.Width - 5;
             }
         }
 
@@ -91,17 +92,17 @@ namespace OpenMB.Widgets
         {
             //Click the text area so that we can input
 
-            if (IsCursorOver(inputBoxTextElement, cursorPos))
+            if (IsCursorOver(inputBoxElement, cursorPos))
             {
                 isTextMode = true;
-                inputBoxTextElement.MaterialName = "SdkTrays/MiniTextBox/Press";
-                inputBoxTextElement.BorderMaterialName = "SdkTrays/MiniTextBox/Press";
+                inputBoxElement.MaterialName = "SdkTrays/MiniTextBox/Press";
+                inputBoxElement.BorderMaterialName = "SdkTrays/MiniTextBox/Press";
             }
             else
             {
                 isTextMode = false;
-                inputBoxTextElement.MaterialName = "SdkTrays/MiniTextBox";
-                inputBoxTextElement.BorderMaterialName = "SdkTrays/MiniTextBox";
+                inputBoxElement.MaterialName = "SdkTrays/MiniTextBox";
+                inputBoxElement.BorderMaterialName = "SdkTrays/MiniTextBox";
             }
         }
 
@@ -114,11 +115,11 @@ namespace OpenMB.Widgets
                 {
                     mText += str;//original text
                     smallTextAreaElement.Caption += str;//cut text
-                    float textLength = Widget.GetCaptionWidth(smallTextAreaElement.Caption, ref smallTextAreaElement);
+                    float textLength = GetCaptionWidth(smallTextAreaElement.Caption, ref smallTextAreaElement);
                     float textBoxLength = smallTextAreaElement.Width;
-                    if (textLength > inputBoxTextElement.Width)
+                    if (textLength > inputBoxElement.Width)
                     {
-                        float offset = textLength - inputBoxTextElement.Width;
+                        float offset = textLength - inputBoxElement.Width;
                         smallTextAreaElement.Caption = smallTextAreaElement.Caption.Remove(0, (int)offset);
                     }
                 }
@@ -129,11 +130,11 @@ namespace OpenMB.Widgets
                     {
                         mText += str;//original text
                         smallTextAreaElement.Caption += str;//cut text
-                        float textLength = Widget.GetCaptionWidth(smallTextAreaElement.Caption, ref smallTextAreaElement);
+                        float textLength = GetCaptionWidth(smallTextAreaElement.Caption, ref smallTextAreaElement);
                         float textBoxLength = smallTextAreaElement.Width;
-                        if (textLength > inputBoxTextElement.Width)
+                        if (textLength > inputBoxElement.Width)
                         {
-                            float offset = textLength - inputBoxTextElement.Width;
+                            float offset = textLength - inputBoxElement.Width;
                             smallTextAreaElement.Caption = smallTextAreaElement.Caption.Remove(0, (int)offset);
                         }
                     }

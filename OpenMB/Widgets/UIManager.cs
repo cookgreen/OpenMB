@@ -37,6 +37,7 @@ using OpenMB.Mods.XML;
 using OpenMB.Mods;
 using System.Linq;
 using System.Reflection;
+using OpenMB.Localization;
 
 namespace OpenMB.Widgets
 {
@@ -713,11 +714,46 @@ namespace OpenMB.Widgets
 					var key = p[i].Name;
 					if (xmlData.WidgetParameters.Where(o => o.Name == key).Count() == 0)
 						throw new Exception("Invalid Widget Parameter!");
-					a[i] = xmlData.WidgetParameters.Where(o => o.Name == key).FirstOrDefault().Value;
+					var widgetParameter = xmlData.WidgetParameters.Where(o => o.Name == key).FirstOrDefault();
+                    var paramType = widgetParameter.Type;
+                    if (!string.IsNullOrEmpty(widgetParameter.Value) && 
+                        (widgetParameter.Value.StartsWith("str_") ||
+                        widgetParameter.Value.StartsWith("@")))
+                    {
+                        string originaContent = "No such Key";
+                        var stringInfo = modData.StringInfos.Where(o => o.ID == widgetParameter.Value).FirstOrDefault();
+                        if (stringInfo != null)
+                        {
+                            originaContent = stringInfo.Content;
+                        }
+                        widgetParameter.Value = LocateSystem.Instance.GetLocalizedStringMod(widgetParameter.Value, originaContent);
+                    }
+                    switch(paramType)
+                    {
+                        case "String":
+                            a[i] = widgetParameter.Value;
+                            break;
+                        case "Float":
+                            a[i] = float.Parse(widgetParameter.Value);
+                            break;
+                        case "Double":
+                            a[i] = double.Parse(widgetParameter.Value);
+                            break;
+                        case "Integer":
+                            a[i] = int.Parse(widgetParameter.Value);
+                            break;
+                        case "UnsigedInteger":
+                            a[i] = uint.Parse(widgetParameter.Value);
+                            break;
+                        case "Boolean":
+                            a[i] = bool.Parse(widgetParameter.Value);
+                            break;
+                    }
 				}
 
 				//Invoke the constructor and get the widget object
 				Widget w = constructorInfo.Invoke(a) as Widget;
+                moveWidgetToTray(w, xmlData.TrayLocation);
 				return w;
 			}
 

@@ -45,17 +45,19 @@ namespace OpenMB.Mods.XML
 		public float Top { get; set; }
 		[XmlAttribute]
 		public float Left { get; set; }
-		[XmlArray("Parameters")]
-		[XmlArrayItem("Parameter")]
+		[XmlArray("WidgetParameters")]
+		[XmlArrayItem("WidgetParameter")]
 		public List<ModUILayoutWidgetParameterDfnXml> WidgetParameters { get; set; }
 	}
 
-	[XmlRoot("Parameter")]
+	[XmlRoot("WidgetParameter")]
 	public class ModUILayoutWidgetParameterDfnXml
 	{
 		[XmlAttribute]
 		public string Name { get; set; }
-		[XmlText]
+        [XmlAttribute]
+        public string Type { get; set; }
+        [XmlText]
 		public string Value { get; set; }
-	}
+    }
 }

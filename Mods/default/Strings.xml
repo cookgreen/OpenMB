@@ -1,9 +1,11 @@
 <Strings>
+	<String ID="str_custom_game_title">Custom Game</String>
 	<String ID="str_player_name">Player Name:</String>
 	<String ID="str_choose_map">Choose Map</String>
 	<String ID="str_choose_mode">Choose Mode</String>
 	<String ID="str_choose_profession">Choose Profession</String>
 	<String ID="str_ok">OK</String>
+	<String ID="str_cancel">Cancel</String>
 	<String ID="str_map_magic_forest">Magic Forest</String>
 	<String ID="str_map_end">!{Map String End}</String>
 	<String ID="str_game_mode_capture_the_flag">Capture The Flag</String>
