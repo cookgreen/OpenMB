@@ -69,14 +69,14 @@ namespace OpenMB.States
             }
 
             UIManager.Instance.DestroyAllWidgets();
-            modTitle = UIManager.Instance.CreateLabel(UIWidgetLocation.TL_LEFT, "ModTitle", "Mod Info");
+            modTitle = UIManager.Instance.CreateLabel(UIWidgetLocation.TL_CENTER, "ModTitle", "Mod Info");
             modTitle.setCaption("Mod Info");
-            modDescBox = UIManager.Instance.CreateTextBox(UIWidgetLocation.TL_LEFT, "ModInfo", "Mod Info", 250, 208);
+            modDescBox = UIManager.Instance.CreateTextBox(UIWidgetLocation.TL_CENTER, "ModInfo", "Mod Info", 250, 208);
             modDescBox.setCaption("Mod Info");
-            modChooserMenu = UIManager.Instance.CreateThickSelectMenu(UIWidgetLocation.TL_LEFT, "SelMod", "Select Mod", 250, 10);
+            modChooserMenu = UIManager.Instance.CreateThickSelectMenu(UIWidgetLocation.TL_CENTER, "SelMod", "Select Mod", 250, 10);
             modChooserMenu.setCaption("Select Mod");
             modChooserMenu.setItems(modNames);
-            modSlider = UIManager.Instance.CreateThickSlider(UIWidgetLocation.TL_LEFT, "ModSlider", "Slider Mods", 250, 80, 0, 0, 0);
+            modSlider = UIManager.Instance.CreateThickSlider(UIWidgetLocation.TL_CENTER, "ModSlider", "Slider Mods", 250, 80, 0, 0, 0);
             modSlider.setCaption("Slider Mods");
             if (modNames.Count > 0)
             {

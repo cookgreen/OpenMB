@@ -1,9 +1,9 @@
 <Module>
   <Info>
     <Name>OpenMB</Name>
-    <Description>Open Source RPG game</Description>
+    <Description>Open Source Role-Playing game</Description>
     <Version>1.0</Version>
-    <Thumb>Sample_Thumb.png</Thumb>
+    <Thumb>Preview.png</Thumb>
 	<Assemblies>
 		<Assembly>common|OpenMB.Mods.Common</Assembly>
 		<Assembly>this|OpenMB.Mods.OIM</Assembly>

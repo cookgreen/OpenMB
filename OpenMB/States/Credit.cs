@@ -28,7 +28,6 @@ namespace OpenMB.States
             GameManager.Instance.viewport.Camera = camera;
 
             ScreenManager.Instance.ChangeScreen("Credit");
-            ScreenManager.Instance.OnCurrentScreenExit += OnCurrentScreenExit;
 
             GameManager.Instance.mouse.MousePressed += MousePressed;
         }
@@ -37,14 +36,10 @@ namespace OpenMB.States
         {
             if (id == MOIS.MouseButtonID.MB_Right)
             {
+                ScreenManager.Instance.ExitCurrentScreen();
                 changeAppState(findByName("MainMenu"), modData);
             }
             return true;
-        }
-
-        private void OnCurrentScreenExit()
-        {
-            changeAppState(findByName("MainMenu"), modData);
         }
 
         public override bool pause()

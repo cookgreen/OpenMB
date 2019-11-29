@@ -93,9 +93,9 @@ namespace OpenMB.States
         public override void exit()
         {
             sceneMgr.DestroyCamera(camera);
+            ScreenManager.Instance.ExitCurrentScreen();
             UIManager.Instance.DestroyAllWidgets();
             GameManager.Instance.root.DestroySceneManager(sceneMgr);
-            ModManager.Instance.UnloadAllMods();
 
             GameManager.Instance.mouse.MouseMoved -= mouseMoved;
             GameManager.Instance.mouse.MousePressed -= mousePressed;
@@ -222,28 +222,6 @@ namespace OpenMB.States
 
             frameEvent.timeSinceLastFrame = (float)timeSinceLastFrame;
             UIManager.Instance.FrameRenderingQueued(frameEvent);
-        }
-
-        private void buildMainMenu(ModData data)
-        {
-            UIManager.Instance.DestroyAllWidgets();
-            UIManager.Instance.ShowCursor();
-
-            UIManager.Instance.CreateLabel(UIWidgetLocation.TL_TOP, "MenuLbl", data != null ? LocateSystem.Instance.LOC(LocateFileType.GameQuickString, data.BasicInfo.Name) : LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "MenuState"), 400);
-
-            if(modData.HasSinglePlayer)
-                UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnSingleplayer", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_single_player"), 200);
-            if(modData.HasSavedGame)
-                UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnLoadGame", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_load"), 200);
-            if(modData.HasMultiplater)
-                UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnMultiplayer", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_multiplayer"), 200);
-
-            UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnConfigure", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_config"), 200);
-
-            if (modData.HasCredit)
-                UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnCredit", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_credit"), 200);
-
-            UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnQuit", LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_quit"), 200);
         }
     }
 }

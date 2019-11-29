@@ -191,17 +191,14 @@ namespace OpenMB.Screen
 
         public override void Exit()
         {
-            if (!isExiting)
-            {
-                base.Exit();
+            base.Exit();
 
-                UIManager.Instance.DestroyAllWidgets();
-                time = 0;
-                elements.Clear();
-                if (OnScreenExit != null)
-                {
-                    OnScreenExit();
-                }
+            UIManager.Instance.DestroyAllWidgets();
+            time = 0;
+            elements.Clear();
+            if (OnScreenExit != null)
+            {
+                OnScreenExit();
             }
         }
 

@@ -16,10 +16,6 @@ namespace OpenMB.Mods.Common.StartupBackgroundTypes
 		{
 			var sceneManager = param[0] as SceneManager;
 			MaterialManager.Singleton.Remove("Background");
-			if (sceneManager.HasSceneNode("BackgroundNode"))
-			{
-				sceneManager.RootSceneNode.RemoveChild("BackgroundNode");
-			}
 
 			MaterialPtr material = MaterialManager.Singleton.Create("Background", "General");
 			material.GetTechnique(0).GetPass(0).CreateTextureUnitState(value);
@@ -37,7 +33,7 @@ namespace OpenMB.Mods.Common.StartupBackgroundTypes
 			aab.SetInfinite();
 			rect.BoundingBox = aab;
 
-			SceneNode node = sceneManager.RootSceneNode.CreateChildSceneNode("BackgroundNode");
+			SceneNode node = sceneManager.RootSceneNode.CreateChildSceneNode(Guid.NewGuid().ToString());
 			node.AttachObject(rect);
 		}
 	}
