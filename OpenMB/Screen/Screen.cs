@@ -11,6 +11,7 @@ namespace OpenMB.Screen
 {
     public class Screen : IScreen
 	{
+        protected List<Widget> widgets;
 		protected bool isExiting;
 		public virtual event Action OnScreenExit;
 		public virtual event Action<string, string> OnScreenEventChanged;
@@ -31,8 +32,11 @@ namespace OpenMB.Screen
             }
         }
 
-		public Screen()
+        public List<Widget> UIWidgets { get { return widgets; } }
+
+        public Screen()
 		{
+            widgets = new List<Widget>();
 		}
 
 		public virtual bool CheckEnterScreen(Vector2 mousePos)

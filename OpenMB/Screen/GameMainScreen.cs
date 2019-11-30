@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Mogre;
-using Mogre_Procedural.MogreBites;
+﻿using Mogre;
 using OpenMB.Game;
 using OpenMB.Widgets;
+using ValueType = OpenMB.Widgets.ValueType;
 
 namespace OpenMB.Screen
 {
-	public class GameMainScreen : Screen
+    public class GameMainScreen : Screen
 	{
 		private PanelWidget gameMainPanel;
 		private ButtonWidget btnTerrain;
@@ -45,14 +40,14 @@ namespace OpenMB.Screen
 		public override void Run()
 		{
 			gameMainPanel = UIManager.Instance.CreatePanel("gameMainPanel", 1.0f, 0.08f, 0.0f, 0.92f);
-			gameMainPanel.AddCol(Widgets.ValueType.Percent);
-			gameMainPanel.AddCol(Widgets.ValueType.Percent);
-			gameMainPanel.AddCol(Widgets.ValueType.Percent);
-			gameMainPanel.AddCol(Widgets.ValueType.Percent);
-			gameMainPanel.AddCol(Widgets.ValueType.Percent);
-			gameMainPanel.AddCol(Widgets.ValueType.Percent);
-			gameMainPanel.AddCol(Widgets.ValueType.Abosulte, 0.1f);
-			gameMainPanel.AddCol(Widgets.ValueType.Abosulte, 180);
+			gameMainPanel.AddCol(ValueType.Percent);
+			gameMainPanel.AddCol(ValueType.Percent);
+			gameMainPanel.AddCol(ValueType.Percent);
+			gameMainPanel.AddCol(ValueType.Percent);
+			gameMainPanel.AddCol(ValueType.Percent);
+			gameMainPanel.AddCol(ValueType.Percent);
+			gameMainPanel.AddCol(ValueType.Abosulte, 0.1f);
+			gameMainPanel.AddCol(ValueType.Abosulte, 180);
 
 			btnTerrain = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnTerrain", "Terrain", 150);
 			btnTerrain.MetricMode = GuiMetricsMode.GMM_RELATIVE;

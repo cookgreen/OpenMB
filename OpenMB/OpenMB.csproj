@@ -313,6 +313,8 @@
     <Compile Include="Script\Command\StoreFunctionInputParameterScriptCommand.cs" />
     <Compile Include="Script\Command\StoreScriptCommand.cs" />
     <Compile Include="Script\Command\StoreStringScriptCommand.cs" />
+    <Compile Include="Script\Command\StringStoreIndexScriptCommand.cs" />
+    <Compile Include="Script\Command\StringStoreStrByIndexScriptCommand.cs" />
     <Compile Include="Script\Command\SwitchScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerExecuteSrciptCommand.cs" />
@@ -324,6 +326,7 @@
     <Compile Include="Script\Command\VectorSetXScriptCommand.cs" />
     <Compile Include="Script\Command\VectorSetYScriptCommand.cs" />
     <Compile Include="Script\Command\VectorSetZScriptCommand.cs" />
+    <Compile Include="Script\Command\WidgetAddItemScriptCommand.cs" />
     <Compile Include="Script\ScriptCommandRegister.cs" />
     <Compile Include="Script\ScriptContext.cs" />
     <Compile Include="Script\ScriptFile.cs" />

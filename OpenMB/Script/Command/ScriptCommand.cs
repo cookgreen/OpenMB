@@ -61,7 +61,16 @@ namespace OpenMB.Script.Command
 
         protected string getParamterValue(string commandArg)
         {
-            return commandArg.StartsWith("%") ? Context.GetLocalValue(commandArg.Substring(1)) : commandArg;
+            return 
+                commandArg.StartsWith("%") || commandArg.StartsWith("$")
+                ? Context.GetLocalValue(commandArg.Substring(1)) 
+                : commandArg;
+        }
+
+        public void AddSubCommand(ScriptCommand scriptCommand)
+        {
+            SubCommands.Add(scriptCommand);
+            scriptCommand.ParentCommand = this;
         }
     }
 }

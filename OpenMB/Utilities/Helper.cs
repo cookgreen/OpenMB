@@ -225,7 +225,7 @@ namespace OpenMB.Utilities
 
 		public static string ToLocalizedString(this string strID, string originalString = null)
 		{
-			return Localization.LocateSystem.Instance.GetLocalizedStringMod(strID, originalString);
+			return Localization.LocateSystem.Instance.GetLocalizedString(strID, originalString);
 		}
 	}
 }

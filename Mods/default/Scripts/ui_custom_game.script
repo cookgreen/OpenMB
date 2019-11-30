@@ -1,15 +1,19 @@
 function uiInit
 	string_store_index %game_map_start_index str_map_magic_forest
+	string_store_index %game_map_end_index str_map_end
+	
 	string_store_index %game_mode_start_index str_game_mode_capture_the_flag
-	string_store_index %game_profession_start_index str_game_mode_capture_the_flag
+	string_store_index %game_mode_end_index str_game_mode_end
+	
+	string_store_index %game_profession_start_index str_profession_sabrer
 	string_store_index %game_profession_end_index str_profession_end
 	
-	loop %game_map_start_index %game_mode_start_index 1
+	loop %game_map_start_index %game_map_end_index 1
 		string_store_str_by_index %str %current
 		widget_add_item cmbChooseMaps %str
 	end
 	
-	loop %game_mode_start_index %game_profession_start_index 1
+	loop %game_mode_start_index %game_mode_end_index 1
 		string_store_str_by_index %str %current
 		widget_add_item cmbChooseModes %str
 	end

@@ -18,7 +18,7 @@ namespace OpenMB.Script.Command
 		{
 			get
 			{
-				return "switch";
+				return "case";
 			}
 		}
 

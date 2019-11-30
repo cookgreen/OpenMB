@@ -8,11 +8,11 @@
 	<COA></COA>
   </Side>
   <Side ID="side_empire">
-    <Name>The Empire</Name>
+    <Name>Skware Empire</Name>
 	<COA>coat_of_arms_the_empire.png</COA>
   </Side>
   <Side ID="side_order">
-    <Name>The Order</Name>
+    <Name>Menson Order</Name>
 	<COA>coat_of_arms_the_order.png</COA>
   </Side>
   <Side ID="side_outlaws">

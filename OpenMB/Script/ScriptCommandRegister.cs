@@ -30,50 +30,6 @@ namespace OpenMB.Script
         public ScriptCommandRegister()
         {
             registerCommand = new Dictionary<string, Type>();
-            RegisteredCommand.Add("assign", typeof(AssignScriptCommand));
-            RegisteredCommand.Add("agent_equip_item", typeof(AgentEquipItemScriptCommand));
-            RegisteredCommand.Add("call", typeof(CallScriptCommand));
-			RegisteredCommand.Add("case", typeof(CaseScriptCommand));
-			RegisteredCommand.Add("change_hitpoint", typeof(ChangeHitpointScriptCommand));
-            RegisteredCommand.Add("change_map", typeof(ChangeMapScriptCommand));
-			RegisteredCommand.Add("change_screen_return", typeof(ChangeScreenReturnScriptCommand));
-			RegisteredCommand.Add("change_ui", typeof(ChangeUIScriptCommand));
-			RegisteredCommand.Add("change_variable_value", typeof(ChangeSystemVariableValue));
-			RegisteredCommand.Add("change_world_map", typeof(ChangeWorldMapScriptCommand));
-            RegisteredCommand.Add("condition", typeof(TriggerConditionScriptCommand));
-            RegisteredCommand.Add("end", typeof(EndScriptCommand));
-            RegisteredCommand.Add("execute", typeof(TriggerExecuteSrciptCommand));
-            RegisteredCommand.Add("function", typeof(FunctionScriptCommand));
-            RegisteredCommand.Add("get_scene_prop_num", typeof(GetScenePropNumScriptCommand));
-            RegisteredCommand.Add("get_scene_prop", typeof(GetScenePropScriptCommand));
-            RegisteredCommand.Add("init_vector", typeof(InitVectorScriptCommand));
-            RegisteredCommand.Add("init_list", typeof(InitListScriptCommand));
-            RegisteredCommand.Add("list_get_num", typeof(ListGetValueNumScriptCommand));
-            RegisteredCommand.Add("list_get_value", typeof(ListGetValueScriptCommand));
-            RegisteredCommand.Add("list_remove_value", typeof(ListRemoveValueScriptCommand));
-            RegisteredCommand.Add("list_set_value", typeof(ListSetValueScriptCommand));
-            RegisteredCommand.Add("loop", typeof(LoopScriptCommand));
-            RegisteredCommand.Add("move_scene_prop", typeof(MoveScenePropScriptCommand));
-            RegisteredCommand.Add("namespace", typeof(NamespaceScriptCommand));
-            RegisteredCommand.Add("remove_scene_prop", typeof(RemoveScenePropScriptCommand));
-			RegisteredCommand.Add("set_slot", typeof(SlotSetScriptCommand));
-			RegisteredCommand.Add("spawn", typeof(SpawnScriptCommand));
-			RegisteredCommand.Add("start_screen", typeof(StartScreenScriptCommand));
-			RegisteredCommand.Add("store", typeof(StoreScriptCommand));
-			RegisteredCommand.Add("store_input_param", typeof(StoreFunctionInputParameterScriptCommand));
-			RegisteredCommand.Add("store_string", typeof(StoreStringScriptCommand));
-			RegisteredCommand.Add("switch", typeof(SwitchScriptCommand));
-			RegisteredCommand.Add("team", typeof(TeamScriptCommand));
-            RegisteredCommand.Add("trigger", typeof(TriggerScriptCommand));
-            RegisteredCommand.Add("ui", typeof(UIScriptCommand));
-            RegisteredCommand.Add("ui_setup", typeof(UISetupScriptCommand));
-            RegisteredCommand.Add("ui_update", typeof(UIUpdateScriptCommand));
-            RegisteredCommand.Add("vector_get_x", typeof(VectorGetXScriptCommand));
-            RegisteredCommand.Add("vector_get_y", typeof(VectorGetYScriptCommand));
-            RegisteredCommand.Add("vector_get_z", typeof(VectorGetZScriptCommand));
-            RegisteredCommand.Add("vector_set_x", typeof(VectorSetXScriptCommand));
-            RegisteredCommand.Add("vector_set_y", typeof(VectorSetYScriptCommand));
-            RegisteredCommand.Add("vector_set_z", typeof(VectorSetZScriptCommand));
         }
 
         public void RegisterNewCommand(string commandName, Type type)

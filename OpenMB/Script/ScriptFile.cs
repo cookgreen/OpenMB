@@ -88,6 +88,9 @@ namespace OpenMB.Script
                 }
                 try
                 {
+                    if (i == 3)
+                    {
+                    }
                     ScriptCommand scriptCommand;
                     scriptCommand = Activator.CreateInstance(registeredCommand[lineToken[0]]) as ScriptCommand;
                     scriptCommand.ParentCommand = currentCommand;
@@ -100,10 +103,10 @@ namespace OpenMB.Script
                     switch (scriptCommand.CommandType)
                     {
                         case ScriptCommandType.Line:
-                            currentCommand.SubCommands.Add(scriptCommand);
+                            currentCommand.AddSubCommand(scriptCommand);
                             break;
                         case ScriptCommandType.Block:
-                            currentCommand.SubCommands.Add(scriptCommand);
+                            currentCommand.AddSubCommand(scriptCommand);
                             currentCommand = scriptCommand;
                             break;
                         case ScriptCommandType.End:

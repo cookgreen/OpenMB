@@ -17,7 +17,6 @@ namespace OpenMB.Screen
 	public class GameNotesScreen : Screen
 	{
 		private GameWorld world;
-		private List<Widget> widgets;
 		private List<Widget> subWidgets;
 		public override string Name
 		{

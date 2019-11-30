@@ -15,9 +15,8 @@ namespace OpenMB.Screen
 		private GameWorld world;
 		private string uiLayoutID;
 		private ModData modData;
-
-		public override event Action OnScreenExit;
-        public UIScriptFile uiScript;
+        private ScriptFile scriptFile;
+        private ScriptLoader loader;
         public override string Name
         {
             get
@@ -32,7 +31,8 @@ namespace OpenMB.Screen
 			world = args[0] as GameWorld;
 			uiLayoutID = args[1].ToString();
 			modData = world.ModData;
-		}
+            loader = new ScriptLoader();
+        }
 
         public override void Run()
         {
@@ -45,24 +45,47 @@ namespace OpenMB.Screen
 			foreach(var widgetData in uiLayoutData.Widgets)
 			{
 				createWidget(widgetData);
-			}
-		}
+            }
+
+            if (!string.IsNullOrEmpty(uiLayoutData.Script))
+            {
+                scriptFile = new ScriptFile(uiLayoutData.Script);
+                ScriptLoader loader = new ScriptLoader();
+                loader.ExecuteFunction(scriptFile, "uiInit", world, this);
+            }
+        }
 
 		private void createWidget(ModUILayoutWidgetDfnXml widgetData)
 		{
-			UIManager.Instance.CreateWidget(modData, widgetData);
+			Widget widget = UIManager.Instance.CreateWidget(modData, widgetData);
+            if (widgetData.Type == "Button")
+            {
+                (widget as ButtonWidget).OnClick += ButtonWidget_OnClick;
+            }
+            widgets.Add(widget);
 		}
 
-		public override void Update(float timeSinceLastFrame)
+        private void ButtonWidget_OnClick(object obj)
+        {
+            if (scriptFile != null)
+            {
+                loader.ExecuteFunction(
+                    scriptFile, 
+                    "uiMouseEventChanged", 
+                    (obj as Widget).Name, 
+                    world, 
+                    this
+                );
+            }
+        }
+
+        public override void Update(float timeSinceLastFrame)
         {
         }
 
         public override void Exit()
         {
-            if (OnScreenExit != null)
-            {
-                OnScreenExit();
-            }
+            UIManager.Instance.DestroyAllWidgets();
         }
     }
 }

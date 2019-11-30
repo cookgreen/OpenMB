@@ -726,7 +726,7 @@ namespace OpenMB.Widgets
                         {
                             originaContent = stringInfo.Content;
                         }
-                        widgetParameter.Value = LocateSystem.Instance.GetLocalizedStringMod(widgetParameter.Value, originaContent);
+                        widgetParameter.Value = LocateSystem.Instance.GetLocalizedString(widgetParameter.Value, originaContent);
                     }
                     switch(paramType)
                     {

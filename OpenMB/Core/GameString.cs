@@ -18,7 +18,7 @@ namespace OpenMB.Core
 
 		public static GameString FromString(string str, string originalString = null)
 		{
-			string localizedStr = LocateSystem.Instance.GetLocalizedStringMod(str, originalString);
+			string localizedStr = LocateSystem.Instance.GetLocalizedString(str, originalString);
 			if (string.IsNullOrEmpty(localizedStr))
 			{
 				localizedStr = "$![No such key]";

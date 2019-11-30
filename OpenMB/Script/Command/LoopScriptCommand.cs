@@ -50,10 +50,10 @@ namespace OpenMB.Script.Command
 
         public override void Execute(params object[] executeArgs)
         {
-            int startVal = int.Parse(CommandArgs[0].ToString());
-            int endVal = int.Parse(CommandArgs[1].ToString());
-            int step = int.Parse(CommandArgs[2].ToString());
-            for (int i = startVal; i < endVal; i = i + step)
+            int startVal = int.Parse(getParamterValue(commandArgs[0]));
+            int endVal = int.Parse(getParamterValue(commandArgs[1]));
+            int step = int.Parse(getParamterValue(commandArgs[2]));
+            for (int i = startVal; i < endVal; i += step)
             {
                 Context.ChangeLocalValue("current", i.ToString());
                 int cmdNum = SubCommands.Count;

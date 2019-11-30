@@ -178,7 +178,7 @@ namespace OpenMB.Localization
             return string.Format("$No Such Key '{0}'!", ID);
         }
 
-        public string GetLocalizedStringMod(string ID, string originalString = null)
+        public string GetLocalizedString(string ID, string originalString = null)
         {
 			if (ID.StartsWith("@")) //means it is a quick string
 			{
