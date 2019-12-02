@@ -6,6 +6,8 @@ using System.IO;
 using System.Drawing;
 using Mogre;
 using OpenMB.Connector;
+using OpenMB.Render;
+using SharpGL;
 
 namespace OpenMB.FileFormats
 {
@@ -492,5 +494,5 @@ namespace OpenMB.FileFormats
                 skinning.Clear();
             }
         }
-    }
+	}
 }

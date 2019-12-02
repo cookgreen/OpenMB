@@ -17,6 +17,7 @@ using OpenMB.Trigger;
 using OpenMB.Map;
 using OpenMB.Widgets;
 using OpenMB.States;
+using OpenMB.Render;
 
 namespace OpenMB.Game
 {
@@ -162,6 +163,8 @@ namespace OpenMB.Game
             scm = GameManager.Instance.root.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE, "GameSceneManager");
             scm.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
 
+			OpenGLRenderManager.Initization(scm);
+
             cam = scm.CreateCamera("gameCam");
             cam.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
             cam.NearClipDistance = 5;
@@ -303,6 +306,8 @@ namespace OpenMB.Game
             GameManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
 
 			TimerManager.Instance.Stop();
+
+			OpenGLRenderManager.Shutdown();
         }
 
         #endregion

@@ -121,6 +121,12 @@
     <Reference Include="NVorbis">
       <HintPath>..\Dependencies\NVorbis.dll</HintPath>
     </Reference>
+    <Reference Include="SharpGL, Version=2.4.1.2, Culture=neutral, PublicKeyToken=27fc851303210b27, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpGL.2.4.1.2\lib\net40-client\SharpGL.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpGL.SceneGraph, Version=2.4.1.2, Culture=neutral, PublicKeyToken=27fc851303210b27, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpGL.SceneGraph.2.4.1.2\lib\net40\SharpGL.SceneGraph.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -241,6 +247,9 @@
     <Compile Include="Mods\XML\ModStringDfnXml.cs" />
     <Compile Include="Mods\XML\ModUILayoutDfnXml.cs" />
     <Compile Include="Mods\XML\ModWorldMapsDfnXml.cs" />
+    <Compile Include="Render\IOpenGLRenderable.cs" />
+    <Compile Include="Render\MBBrfMeshRenderable.cs" />
+    <Compile Include="Render\OpenGLRenderManager.cs" />
     <Compile Include="Screen\CharacterScreen.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
     <Compile Include="Screen\GameMainMenuScreen.cs" />
