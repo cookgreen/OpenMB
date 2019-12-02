@@ -43,10 +43,10 @@ namespace OpenMB.Script.Command
 
             string widgetName = getParamterValue(commandArgs[0]);
             var w = currentScreen.UIWidgets.Where(o => o.Name == widgetName).FirstOrDefault();
-            if (w != null)
-            {
-                (w as SelectMenuWidget).addItem(getParamterValue(commandArgs[1]));
-            }
+			if (w != null && (w as IHasSubItems) != null)
+			{
+				(w as IHasSubItems).AddItem(getParamterValue(commandArgs[1]));
+			}
         }
     }
 }

@@ -389,6 +389,8 @@
     <Compile Include="Widgets\Controls\Control.cs" />
     <Compile Include="Widgets\Controls\InputBoxWidget.cs" />
     <Compile Include="Widgets\Controls\GameTrayManager.cs" />
+    <Compile Include="Widgets\IHasSubItems.cs" />
+    <Compile Include="Widgets\IHasSubWidgets.cs" />
     <Compile Include="Widgets\IScrollable.cs" />
     <Compile Include="Widgets\Controls\LabelWidget.cs" />
     <Compile Include="Widgets\Controls\ListViewWidget.cs" />

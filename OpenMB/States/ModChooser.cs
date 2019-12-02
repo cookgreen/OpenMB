@@ -20,7 +20,7 @@ namespace OpenMB.States
         private LabelWidget modTitle;
         private TextBox modDescBox;
         private Slider modSlider;
-        private StringVector modNames;
+        private List<string> modNames;
         private StringVector modDescs;
         private StringVector modThumb;
         private Mods mods;
@@ -32,7 +32,7 @@ namespace OpenMB.States
         {
             isQuit = false;
 
-            modNames = new StringVector();
+            modNames = new List<string>();
             modThumb = new StringVector();
             modDescs = new StringVector();
             modThumbs = new List<OverlayContainer>();
@@ -75,7 +75,7 @@ namespace OpenMB.States
             modDescBox.setCaption("Mod Info");
             modChooserMenu = UIManager.Instance.CreateThickSelectMenu(UIWidgetLocation.TL_CENTER, "SelMod", "Select Mod", 250, 10);
             modChooserMenu.setCaption("Select Mod");
-            modChooserMenu.setItems(modNames);
+            modChooserMenu.SetItems(modNames);
             modSlider = UIManager.Instance.CreateThickSlider(UIWidgetLocation.TL_CENTER, "ModSlider", "Slider Mods", 250, 80, 0, 0, 0);
             modSlider.setCaption("Slider Mods");
             if (modNames.Count > 0)
@@ -152,11 +152,11 @@ namespace OpenMB.States
         {
 
             MouseState_NativePtr state = arg.state;
-            if (arg.state.Z.rel != 0 && modChooserMenu.getNumItems() != 0)
+            if (arg.state.Z.rel != 0 && modChooserMenu.GetNumItems() != 0)
             {
                 float newIndex = modChooserMenu.getSelectionIndex() - arg.state.Z.rel / Mogre.Math.Abs((float)arg.state.Z.rel);
-                float finalIndex = OpenMB.Utilities.Helper.Clamp<float>(newIndex, 0.0f, (float)(modChooserMenu.getNumItems() - 1));
-                modChooserMenu.selectItem((uint)finalIndex);
+                float finalIndex = OpenMB.Utilities.Helper.Clamp<float>(newIndex, 0.0f, (float)(modChooserMenu.GetNumItems() - 1));
+                modChooserMenu.SelectItem((uint)finalIndex);
                 modTitle.setCaption(modChooserMenu.getSelectedItem());
                 modDescBox.setText(modDescs[modNames.ToList().IndexOf(modChooserMenu.getSelectedItem())]);
                 selectedModName = modChooserMenu.getSelectedItem();

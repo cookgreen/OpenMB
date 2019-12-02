@@ -786,37 +786,37 @@ namespace OpenMB.Widgets
 		}
 		internal SelectMenuWidget CreateThickSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float width, uint maxItemsShown)
 		{
-			return CreateThickSelectMenu(trayLoc, name, caption, width, maxItemsShown, new StringVector());
+			return CreateThickSelectMenu(trayLoc, name, caption, width, maxItemsShown, new List<string>());
 		}
-		internal SelectMenuWidget CreateThickSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float width, uint maxItemsShown, StringVector items)
+		internal SelectMenuWidget CreateThickSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float width, uint maxItemsShown, List<string> items)
 		{
 			SelectMenuWidget sm = new SelectMenuWidget(name, caption, width, 0f, maxItemsShown);
 			moveWidgetToTray(sm, trayLoc);
 			sm.AssignListener(listener);
 			//if (!items.empty())
-			if (!items.IsEmpty)
-				sm.setItems(items);
+			if (items.Count > 0)
+				sm.SetItems(items);
 			return sm;
 		}
 		internal SelectMenuWidget CreateLongSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float width, float boxWidth, uint maxItemsShown)
 		{
-			return CreateLongSelectMenu(trayLoc, name, caption, width, boxWidth, maxItemsShown, new StringVector());
+			return CreateLongSelectMenu(trayLoc, name, caption, width, boxWidth, maxItemsShown, new List<string>());
 		}
-		internal SelectMenuWidget CreateLongSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float width, float boxWidth, uint maxItemsShown, StringVector items)
+		internal SelectMenuWidget CreateLongSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float width, float boxWidth, uint maxItemsShown, List<string> items)
 		{
 			SelectMenuWidget sm = new SelectMenuWidget(name, caption, width, boxWidth, maxItemsShown);
 			moveWidgetToTray(sm, trayLoc);
 			sm.AssignListener(listener);
 			//if (!items.empty())
-			if (!items.IsEmpty)
-				sm.setItems(items);
+			if (items.Count > 0)
+				sm.SetItems(items);
 			return sm;
 		}
 		internal SelectMenuWidget CreateLongSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float boxWidth, uint maxItemsShown)
 		{
-			return CreateLongSelectMenu(trayLoc, name, caption, boxWidth, maxItemsShown, new StringVector());
+			return CreateLongSelectMenu(trayLoc, name, caption, boxWidth, maxItemsShown, new List<string>());
 		}
-		internal SelectMenuWidget CreateLongSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float boxWidth, uint maxItemsShown, StringVector items)
+		internal SelectMenuWidget CreateLongSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float boxWidth, uint maxItemsShown, List<string> items)
 		{
 			return CreateLongSelectMenu(trayLoc, name, caption, 0, boxWidth, maxItemsShown, items);
 		}

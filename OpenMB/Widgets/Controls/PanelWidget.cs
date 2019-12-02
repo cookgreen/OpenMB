@@ -130,7 +130,7 @@ namespace OpenMB.Widgets
 	/// <summary>
 	/// Panel Control
 	/// </summary>
-    public class PanelWidget : Widget
+    public class PanelWidget : Widget, IHasSubWidgets
     {
 		protected List<PanelRow> rows;
 		protected List<PanelColumn> cols;

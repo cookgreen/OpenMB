@@ -12,7 +12,7 @@ namespace OpenMB.Widgets
 	/// <summary>
 	/// Basic selection menu widget
 	/// </summary>
-	public class SelectMenuWidget : Widget
+	public class SelectMenuWidget : Widget, IHasSubItems
 	{
 		protected BorderPanelOverlayElement smallBoxElement;
 		protected BorderPanelOverlayElement expandedBoxElement;
@@ -27,11 +27,11 @@ namespace OpenMB.Widgets
 		protected bool isExpanded;
 		protected bool isFitToContents;
 		protected bool isDragging;
-		protected StringVector items = new StringVector();
 		protected int selectionIndex;
 		protected int highlightIndex;
 		protected int displayIndex;
 		protected float dragOffset = 0f;
+		public List<string> Items { get; private set; }
 
 		public SelectMenuWidget(string name, string caption, float width, float boxWidth, uint maxItemsShown)
 		{
@@ -51,11 +51,6 @@ namespace OpenMB.Widgets
 			smallBoxElement.Width = (width - 10);
 			smallTextAreaElement = (Mogre.TextAreaOverlayElement)smallBoxElement.GetChild(name + "/MenuSmallBox/MenuSmallText");
 			element.Width = (width);
-			//
-#if OGRE_PLATFORM_APPLE_IOS
-			mTextArea.setCharHeight(mTextArea.CharHeight - 3);
-			mSmallTextArea.setCharHeight(mSmallTextArea.CharHeight - 3);
-#endif
 
 			if (boxWidth > 0f) // long style
 			{
@@ -100,19 +95,14 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public StringVector getItems()
+		public int GetNumItems()
 		{
-			return items;
+			return Items.Count;
 		}
 
-		public int getNumItems()
+		public void SetItems(List<string> items)
 		{
-			return items.Count;
-		}
-
-		public void setItems(StringVector items)
-		{
-			this.items = items;
+			this.Items = items;
 			selectionIndex = -1;
 
 			for (int i = 0; i < itemElements.Count; i++) // destroy all the item elements
@@ -121,7 +111,7 @@ namespace OpenMB.Widgets
 			}
 			itemElements.Clear();
 
-			itemsShown = System.Math.Max((uint)2, System.Math.Min(maxItemsShown, (uint)this.items.Count));
+			itemsShown = System.Math.Max((uint)2, System.Math.Min(maxItemsShown, (uint)this.Items.Count));
 
 			for (int i = 0; i < itemsShown; i++) // create all the item elements
 			{
@@ -134,39 +124,37 @@ namespace OpenMB.Widgets
 				itemElements.Add(e);
 			}
 
-			if (!items.IsEmpty)
-				selectItem(0, false);
+			if (items.Count > 0)
+				SelectItem(0, false);
 			else
-				smallTextAreaElement.Caption = ("");
+				smallTextAreaElement.Caption = string.Empty;
 		}
 
-		public void addItem(string item)
+		public void AddItem(string item)
 		{
-			items.Add(item);
-			setItems(items);
+			Items.Add(item);
+			SetItems(Items);
 		}
 
-		public void removeItem(string item)
+		public void RemoveItem(string item)
 		{
-			//StringVector.Iterator it = new StringVector.Iterator();
 			int it = -1;
-			//for (it = mItems.begin(); it != mItems.end(); it++)
-			for (int i = 0; i < items.Count; i++)
+
+			for (int i = 0; i < Items.Count; i++)
 			{
-				if (item == items[i])
+				if (item == Items[i])
 				{
 					it = i;
 					break;
 				}
 			}
 
-			//if (it != mItems.end())
 			if (it != -1)
 			{
-				items.Erase(it);
-				if (items.Count < itemsShown)
+				Items.RemoveAt(it);
+				if (Items.Count < itemsShown)
 				{
-					itemsShown = (uint)items.Count;
+					itemsShown = (uint)Items.Count;
 					NukeOverlayElement(itemElements[itemElements.Count - 1]);
 					if (itemElements.Count > 0)
 						itemElements.RemoveAt(itemElements.Count - 1);//remove the end
@@ -179,13 +167,13 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public void removeItem(uint index)
+		public void RemoveItem(uint index)
 		{
 			//stringVector.iterator it = new stringVector.iterator();
 			int it = -1;
 			//uint i = 0;
 			//for (it = mItems.begin(); it != mItems.end(); it++)
-			for (int j = 0; j < items.Count; j++)
+			for (int j = 0; j < Items.Count; j++)
 			{
 				if (j == index)
 				{
@@ -198,10 +186,10 @@ namespace OpenMB.Widgets
 			//if (it != mItems.end())
 			if (it != -1)
 			{
-				items.Erase(it);
-				if (items.Count < itemsShown)
+				Items.RemoveAt(it);
+				if (Items.Count < itemsShown)
 				{
-					itemsShown = (uint)items.Count;
+					itemsShown = (uint)Items.Count;
 					NukeOverlayElement(itemElements[itemElements.Count - 1]);
 					itemElements.RemoveAt(itemElements.Count - 1);//remove the end
 				}
@@ -213,45 +201,45 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public void clearItems()
+		public void ClearItems()
 		{
-			items.Clear();
+			Items.Clear();
 			selectionIndex = -1;
 			smallTextAreaElement.Caption = ("");
 		}
 
-		public void selectItem(uint index)
+		public void SelectItem(uint index)
 		{
-			selectItem(index, true);
+			SelectItem(index, true);
 		}
 
-		public void selectItem(uint index, bool notifyListener)
+		public void SelectItem(uint index, bool notifyListener)
 		{
-			if (index >= items.Count)
+			if (index >= Items.Count)
 			{
 				string desc = "Menu \"" + Name + "\" contains no item at position " + (index).ToString() + ".";
 				OGRE_EXCEPT("Mogre.Exception.ERR_ITEM_NOT_FOUND", desc, "SelectMenu::selectItem");
 			}
 
 			selectionIndex = (int)index;
-			FitCaptionToArea(items[(int)index], ref smallTextAreaElement, smallBoxElement.Width - smallTextAreaElement.Left * 2f);
+			FitCaptionToArea(Items[(int)index], ref smallTextAreaElement, smallBoxElement.Width - smallTextAreaElement.Left * 2f);
 
 			if (listener != null && notifyListener)
 				listener.itemSelected(this);
 		}
 
-		public void selectItem(string item)
+		public void SelectItem(string item)
 		{
-			selectItem(item, true);
+			SelectItem(item, true);
 		}
 
-		public void selectItem(string item, bool notifyListener)
+		public void SelectItem(string item, bool notifyListener)
 		{
-			for (int i = 0; i < items.Count; i++)
+			for (int i = 0; i < Items.Count; i++)
 			{
-				if (item == items[i])
+				if (item == Items[i])
 				{
-					selectItem((uint)i, notifyListener);
+					SelectItem((uint)i, notifyListener);
 					return;
 				}
 			}
@@ -267,7 +255,7 @@ namespace OpenMB.Widgets
 				return "";
 			}
 			else
-				return items[selectionIndex];
+				return Items[selectionIndex];
 		}
 
 		public int getSelectionIndex()
@@ -298,7 +286,7 @@ namespace OpenMB.Widgets
 						scrollHandleElement.Top = (UIMathHelper.clamp<int>((int)newTop, 0, (int)lowerBoundary));
 
 						float scrollPercentage = UIMathHelper.clamp<float>(newTop / lowerBoundary, 0f, 1f);
-						setDisplayIndex((uint)(scrollPercentage * (items.Count - itemElements.Count) + 0.5f));
+						setDisplayIndex((uint)(scrollPercentage * (Items.Count - itemElements.Count) + 0.5f));
 						return;
 					}
 				}
@@ -315,14 +303,14 @@ namespace OpenMB.Widgets
 					if (cursorPos.x >= l && cursorPos.x <= r && cursorPos.y >= t && cursorPos.y <= b)
 					{
 						if (highlightIndex != selectionIndex)
-							selectItem((uint)highlightIndex);
+							SelectItem((uint)highlightIndex);
 						retract();
 					}
 				}
 			}
 			else
 			{
-				if (items.Count < 2) // don't waste time showing a menu if there's no choice
+				if (Items.Count < 2) // don't waste time showing a menu if there's no choice
 					return;
 
 				if (IsCursorOver(smallBoxElement, cursorPos, 4f))
@@ -352,11 +340,11 @@ namespace OpenMB.Widgets
 					highlightIndex = selectionIndex;
 					setDisplayIndex((uint)highlightIndex);
 
-					if (itemsShown < items.Count) // update scrollbar position
+					if (itemsShown < Items.Count) // update scrollbar position
 					{
 						scrollHandleElement.Show();
 						float lowerBoundary = scrollTrackElement.Height - scrollHandleElement.Height;
-						scrollHandleElement.Top = ((int)(displayIndex * lowerBoundary / (items.Count - itemElements.Count)));
+						scrollHandleElement.Top = ((int)(displayIndex * lowerBoundary / (Items.Count - itemElements.Count)));
 					}
 					else
 						scrollHandleElement.Hide();
@@ -383,7 +371,7 @@ namespace OpenMB.Widgets
 					scrollHandleElement.Top = (UIMathHelper.clamp<int>((int)newTop, 0, (int)lowerBoundary));
 
 					float scrollPercentage = UIMathHelper.clamp<float>(newTop / lowerBoundary, 0f, 1f);
-					int newIndex = (int)(scrollPercentage * (items.Count - itemElements.Count) + 0.5f);
+					int newIndex = (int)(scrollPercentage * (Items.Count - itemElements.Count) + 0.5f);
 					if (newIndex != displayIndex)
 						setDisplayIndex((uint)newIndex);
 					return;
@@ -436,7 +424,7 @@ namespace OpenMB.Widgets
 		//		-----------------------------------------------------------------------------
 		protected void setDisplayIndex(uint index)
 		{
-			index = (uint)System.Math.Min((int)index, (int)(items.Count - itemElements.Count));
+			index = (uint)System.Math.Min((int)index, (int)(Items.Count - itemElements.Count));
 			displayIndex = (int)index;
 			Mogre.BorderPanelOverlayElement ie;
 			Mogre.TextAreaOverlayElement ta;
@@ -446,7 +434,7 @@ namespace OpenMB.Widgets
 				ie = itemElements[i];
 				ta = (Mogre.TextAreaOverlayElement)ie.GetChild(ie.Name + "/MenuItemText");
 
-				FitCaptionToArea(items[displayIndex + i], ref ta, ie.Width - 2f * ta.Left);
+				FitCaptionToArea(Items[displayIndex + i], ref ta, ie.Width - 2f * ta.Left);
 
 				if ((displayIndex + i) == highlightIndex)
 				{

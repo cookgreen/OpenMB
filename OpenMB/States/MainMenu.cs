@@ -169,14 +169,14 @@ namespace OpenMB.States
             UIManager.Instance.DestroyAllWidgets();
             UIManager.Instance.CreateLabel(UIWidgetLocation.TL_CENTER, "lbConfig", "Configure");
             renderMenu = UIManager.Instance.CreateLongSelectMenu(UIWidgetLocation.TL_CENTER, "rendersys", "Render System", 450, 240, 10);
-            StringVector rsNames = new StringVector();
+            List<string> rsNames = new List<string>();
             Const_RenderSystemList rsList = GameManager.Instance.root.GetAvailableRenderers();
             for (int i = 0; i < rsList.Count; i++)
             {
                 rsNames.Add(rsList[i].Name);
             }
-            renderMenu.setItems(rsNames);
-            renderMenu.selectItem(GameManager.Instance.root.RenderSystem.Name);
+            renderMenu.SetItems(rsNames);
+            renderMenu.SelectItem(GameManager.Instance.root.RenderSystem.Name);
 
             UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnApply", "Apply");
             UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnBack", "Back");
@@ -197,16 +197,16 @@ namespace OpenMB.States
                     i++;
                     SelectMenuWidget optionMenu = UIManager.Instance.CreateLongSelectMenu(
                         UIWidgetLocation.TL_CENTER, "ConfigOption" + i.ToString(), item.Key, 450, 240, 10);
-                    optionMenu.setItems(item.Value.possibleValues);
+                    optionMenu.SetItems(item.Value.possibleValues.ToList());
 
                     try
                     {
-                        optionMenu.selectItem(item.Value.currentValue);
+                        optionMenu.SelectItem(item.Value.currentValue);
                     }
                     catch
                     {
-                        optionMenu.addItem(item.Value.currentValue);
-                        optionMenu.selectItem(item.Value.currentValue);
+                        optionMenu.AddItem(item.Value.currentValue);
+                        optionMenu.SelectItem(item.Value.currentValue);
                     }
                 }
             }
