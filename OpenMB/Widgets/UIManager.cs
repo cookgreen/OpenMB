@@ -38,6 +38,7 @@ using OpenMB.Mods;
 using System.Linq;
 using System.Reflection;
 using OpenMB.Localization;
+using OpenMB.Core;
 
 namespace OpenMB.Widgets
 {
@@ -61,7 +62,7 @@ namespace OpenMB.Widgets
 	/// <summary>
 	/// Main class to manage a cursor, backdrop, trays and widgets
 	/// </summary>
-	public class UIManager : UIListener, IDisposable
+	public class UIManager : UIListener, IDisposable, IInitializeMod
 	{
 		private static UIManager instance;
 		public static UIManager Instance
@@ -109,6 +110,9 @@ namespace OpenMB.Widgets
 		protected Mogre.GuiHorizontalAlignment[] trayWidgetAlign = new Mogre.GuiHorizontalAlignment[10]; // tray widget alignments
 		protected Mogre.Timer timer; // Root::getSingleton().getTimer()
 		protected uint mLastStatUpdateTime; // The last time the stat text were updated
+		private GameCursor gameCursor;
+		private ModData modData;
+
 		public UIListener Listener
 		{
 			get
@@ -202,7 +206,14 @@ namespace OpenMB.Widgets
 
 			ShowTrays();
 			ShowCursor();
+			gameCursor = new GameCursor();
 		}
+
+		public void InitMod(ModData modData)
+		{
+			this.modData = modData;
+		}
+
 		/// <summary>
 		/// Creates backdrop, cursor, and trays.
 		/// </summary>
@@ -447,7 +458,7 @@ namespace OpenMB.Widgets
 		public void ShowCursor(string materialName)
 		{
 			if (!string.IsNullOrEmpty(materialName))
-				GetCursorImage().MaterialName = (materialName);
+				GetCursorImage().MaterialName = materialName;
 
 			if (!cursorLayer.IsVisible)
 			{
@@ -1857,6 +1868,10 @@ namespace OpenMB.Widgets
 			mTrays[(int)trayLoc].AddChild(element);
 		}
 
+		public void ChangeCursor(string name)
+		{
+			gameCursor.ChangeCursor(modData.CursorInfos, name);
+		}
 	}
 
 	/// <summary>

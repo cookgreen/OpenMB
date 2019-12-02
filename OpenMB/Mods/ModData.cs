@@ -29,6 +29,7 @@ namespace OpenMB.Mods
 		private List<ModMenuDfnXml> menuInfos;
 		private List<ModUILayoutDfnXml> uiLayoutInfos;
 		private List<ModStringDfnXml> stringInfos;
+		private List<ModCursorDfnXml> cursorInfos;
 		private List<ModMediaData> modMediaData;
 
         public bool HasSinglePlayer { get; set; }
@@ -125,6 +126,11 @@ namespace OpenMB.Mods
 			get { return uiLayoutInfos; }
 			set { uiLayoutInfos = value; }
 		}
+		public List<ModCursorDfnXml> CursorInfos
+		{
+			get { return cursorInfos; }
+			set { cursorInfos = value; }
+		}
 
 		public List<ModItemTypeDfnXml> ItemTypeInfos { get; set; }
 
@@ -158,6 +164,7 @@ namespace OpenMB.Mods
             ItemTypeInfos = new List<ModItemTypeDfnXml>();
 			menuInfos = new List<ModMenuDfnXml>();
 			modMediaData = new List<ModMediaData>();
+			cursorInfos = new List<ModCursorDfnXml>();
 
 			HasSinglePlayer = true;
             HasMultiplater = true;

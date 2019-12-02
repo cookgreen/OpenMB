@@ -13,6 +13,8 @@ using OpenMB.Mods.XML;
 using OpenMB.Script;
 using OpenMB.Script.Command;
 using OpenMB.Screen;
+using OpenMB.Widgets;
+using OpenMB.Sound;
 
 namespace OpenMB.Mods
 {
@@ -106,7 +108,10 @@ namespace OpenMB.Mods
 
                 LoadModLocalization(manifest);
 
-				ScreenManager.Instance.ModData = currentMod;
+				GameMapManager.Instance.InitMod(currentMod);
+				ScreenManager.Instance.InitMod(currentMod);
+				SoundManager.Instance.InitMod(currentMod);
+				UIManager.Instance.InitMod(currentMod);
 
 				StringVector resources = ResourceGroupManager.Singleton.FindResourceNames(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, "*.script");
                 ScriptPreprocessor.Instance.Process(resources.ToList());
@@ -268,8 +273,16 @@ namespace OpenMB.Mods
                 ModStringsDfnXml stringsDfnXml;
                 loader.Load(out stringsDfnXml);
                 currentMod.StringInfos = stringsDfnXml.Strings;
-            }
-        }
+			}
+
+			if (!string.IsNullOrEmpty(manifest.Data.Cursors))
+			{
+				loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Cursors);
+				ModCursorsDfnXml cursorsDfnXml;
+				loader.Load(out cursorsDfnXml);
+				currentMod.CursorInfos = cursorsDfnXml.Cursors;
+			}
+		}
 
         private void LoadInternalTypes(ModManifest manifest)
         {

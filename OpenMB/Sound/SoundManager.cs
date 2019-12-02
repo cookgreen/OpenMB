@@ -9,6 +9,7 @@ using Mogre;
 using MogreFreeSL;
 using System.IO;
 using System.Threading;
+using OpenMB.Mods;
 
 namespace OpenMB.Sound
 {
@@ -18,7 +19,7 @@ namespace OpenMB.Sound
         Playing,
         Paused
     }
-    public class SoundManager : IDisposable
+    public class SoundManager : IDisposable, IInitializeMod
     {
         private MogreFreeSL.SoundManager soundEngine;
         private List<GameSound> musicLst;
@@ -78,11 +79,10 @@ namespace OpenMB.Sound
             this.hasSound = hasSound;
         }
         
-        public bool InitSound(Camera cam, Mods.ModData modData)
+        public bool InitSound(Camera cam)
         {
             try
             {
-                this.modData = modData;
                 if (!hasMusic && !hasSound)
                 {
                     return false;
@@ -275,5 +275,10 @@ namespace OpenMB.Sound
                 return null;
             }
         }
-    }
+
+		public void InitMod(ModData modData)
+		{
+			this.modData = modData;
+		}
+	}
 }

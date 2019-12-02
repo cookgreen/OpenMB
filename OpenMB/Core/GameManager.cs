@@ -135,10 +135,10 @@ namespace OpenMB
             RenderSystem rs = null;
             IniConfigFileParser parser = new IniConfigFileParser();
 
-            if(gameOptions==null)
-            {
-                gameOptions = GameConfigXml.Load("game.xml");
-            }
+			if (gameOptions == null)
+			{
+				gameOptions = GameConfigXml.Load("game.xml");
+			}
 
             defaultRenderSystemName = gameOptions.GraphicConfig.CurrentRenderSystem;
             var renderParams = gameOptions.GraphicConfig[gameOptions.GraphicConfig.CurrentRenderSystem];

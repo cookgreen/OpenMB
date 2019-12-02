@@ -8,7 +8,7 @@ using System.Text;
 
 namespace OpenMB.Map
 {
-    public class GameMapManager
+    public class GameMapManager : IInitializeMod
     {
         private ModData modData;
         private static GameMapManager instance;
@@ -42,11 +42,6 @@ namespace OpenMB.Map
         public GameMapManager()
         {
             maps = new Queue<IGameMap>();
-        }
-
-        public void Init(ModData modData)
-        {
-            this.modData = modData;
         }
 
         private GameWorld world;
@@ -123,5 +118,10 @@ namespace OpenMB.Map
         {
             return modData.BasicInfo.InstallPath + "//" + modData.MapDir + "//" + file;
         }
-    }
+
+		public void InitMod(ModData modData)
+		{
+			this.modData = modData;
+		}
+	}
 }

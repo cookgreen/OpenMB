@@ -139,6 +139,7 @@
     <Compile Include="Connector\MBOgreManifest.cs" />
     <Compile Include="Connector\MBOgreUtil.cs" />
     <Compile Include="Core\GameConfigXml.cs" />
+    <Compile Include="Core\GameCursor.cs" />
     <Compile Include="Core\GameRegisterManager.cs" />
     <Compile Include="Core\GameSlotManager.cs" />
     <Compile Include="Core\GameString.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="Mods\ModXmlDefineModelType.cs" />
     <Compile Include="Mods\XML\ModAnimationDfnXml.cs" />
     <Compile Include="Mods\XML\ModCharacterSkinSlot.cs" />
+    <Compile Include="Mods\XML\ModCursorDfnXml.cs" />
     <Compile Include="Mods\XML\ModItemTypeDfnXml.cs" />
     <Compile Include="Mods\XML\ModLocationsDfnXml.cs" />
     <Compile Include="Mods\XML\ModMapsDfnXml.cs" />
@@ -391,6 +393,7 @@
     <Compile Include="Widgets\Controls\GameTrayManager.cs" />
     <Compile Include="Widgets\IHasSubItems.cs" />
     <Compile Include="Widgets\IHasSubWidgets.cs" />
+    <Compile Include="Mods\IInitializeMod.cs" />
     <Compile Include="Widgets\IScrollable.cs" />
     <Compile Include="Widgets\Controls\LabelWidget.cs" />
     <Compile Include="Widgets\Controls\ListViewWidget.cs" />

@@ -8,12 +8,14 @@ using OpenMB.Mods;
 
 namespace OpenMB.Screen
 {
-    public class ScreenManager
-    {
+    public class ScreenManager : IInitializeMod
+	{
         private Stack<IScreen> runningScreenStack;
         private Dictionary<string, IScreen> innerScreens;
         private static ScreenManager instance;
         private Camera camera;
+		private ModData modData;
+
 		public event Action<string, string> OnExternalEvent;
 
         public Camera Camera
@@ -34,7 +36,7 @@ namespace OpenMB.Screen
             }
         }
 
-		public ModData ModData { get; set; }
+		public ModData ModData { get { return modData; } }
 
 		public ScreenManager()
         {
@@ -239,5 +241,10 @@ namespace OpenMB.Screen
         {
             return runningScreenStack.Count > 0 ? runningScreenStack.Peek().CheckEnterScreen(mousePos) : false;
         }
-    }
+
+		public void InitMod(ModData modData)
+		{
+			this.modData = modData;
+		}
+	}
 }

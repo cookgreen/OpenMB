@@ -33,18 +33,18 @@ namespace OpenMB.Core
             string modArg = gameArgument.GetArgValue("Engine.Mod");
 
             string showConfigArg = gameArgument.GetArgValue("Engine.ShowConfig");
-            //if (string.IsNullOrEmpty(showConfigArg) || showConfigArg == "yes")
-            //{
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                frmConfigureController controller = new frmConfigureController(new frmConfigure(modArg));
-                controller.form.ShowDialog();
-            //}
-            //else
-            //{
-            //    GameApp app = new GameApp(null, modArg);
-            //    app.Run();
-            //}
+            if (string.IsNullOrEmpty(showConfigArg) || showConfigArg == "yes")
+            {
+                 Application.EnableVisualStyles();
+                 Application.SetCompatibleTextRenderingDefault(false);
+                 frmConfigureController controller = new frmConfigureController(new frmConfigure(modArg));
+                 controller.form.ShowDialog();
+            }
+            else
+            {
+                GameApp app = new GameApp(GameConfigXml.Load("game.xml"), modArg);
+                app.Run();
+            }
         }
     }
 }

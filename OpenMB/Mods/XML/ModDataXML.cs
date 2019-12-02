@@ -12,7 +12,9 @@ namespace OpenMB.Mods.XML
 		public string animationXml { get; set; }
 		[XmlElement("Characters")]
         public string characterXML { get; set; }
-        [XmlElement("Music")]
+		[XmlElement("Cursors")]
+		public string cursorsXml { get; set; }
+		[XmlElement("Music")]
         public string musicXML { get; set; }
         [XmlElement("Sound")]
         public string soundXML { get; set; }
