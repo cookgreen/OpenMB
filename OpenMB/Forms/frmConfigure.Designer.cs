@@ -450,6 +450,7 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.Name = "frmConfigure";
+			this.ShowIcon = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Engine Option";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmConfigure_FormClosed);
