@@ -410,7 +410,7 @@
     <Compile Include="Widgets\Controls\StaticTextWidget.cs" />
     <Compile Include="Widgets\Controls\StaticTextButtonWidget.cs" />
     <Compile Include="Widgets\Controls\StaticTextRelativeWidget.cs" />
-    <Compile Include="Widgets\Controls\TextBox.cs" />
+    <Compile Include="Widgets\Controls\StaticMultiLineTextBoxWidget.cs" />
     <Compile Include="Widgets\Widget.cs" />
     <EmbeddedResource Include="Forms\frmConfigure.resx">
       <DependentUpon>frmConfigure.cs</DependentUpon>

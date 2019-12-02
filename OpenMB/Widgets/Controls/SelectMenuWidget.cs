@@ -35,6 +35,7 @@ namespace OpenMB.Widgets
 
 		public SelectMenuWidget(string name, string caption, float width, float boxWidth, uint maxItemsShown)
 		{
+			Items = new List<string>();
 			highlightIndex = 0;
 			displayIndex = 0;
 			dragOffset = 0.0f;

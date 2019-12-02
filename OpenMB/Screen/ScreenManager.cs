@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using OpenMB.Mods;
+using OpenMB.Widgets;
 
 namespace OpenMB.Screen
 {
@@ -210,6 +211,7 @@ namespace OpenMB.Screen
         public void Update(float timeSinceLastFrame)
         {
             UpdateCurrentScreen(timeSinceLastFrame);
+			UIManager.Instance.Update();
         }
 
         public void ExitCurrentScreen()

@@ -18,7 +18,7 @@ namespace OpenMB.States
         private bool isQuit;
         private SelectMenuWidget modChooserMenu;
         private LabelWidget modTitle;
-        private TextBox modDescBox;
+        private StaticMultiLineTextBoxWidget modDescBox;
         private Slider modSlider;
         private List<string> modNames;
         private StringVector modDescs;

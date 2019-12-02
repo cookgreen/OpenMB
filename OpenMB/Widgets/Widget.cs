@@ -430,22 +430,22 @@ namespace OpenMB.Widgets
 		}
 
 
-		public virtual void CursorPressed(Mogre.Vector2 cursorPos)
+		public virtual void CursorPressed(Vector2 cursorPos)
 		{
 		}
-		public virtual void CursorReleased(Mogre.Vector2 cursorPos)
+		public virtual void CursorReleased(Vector2 cursorPos)
 		{
 		}
-		public virtual void CursorMoved(Mogre.Vector2 cursorPos)
+		public virtual void CursorMoved(Vector2 cursorPos)
 		{
 		}
 		public virtual void MouseMoved(MouseEvent evt)
 		{
 		}
-		public virtual void KeyPressed(uint text)
+		public virtual void KeyPressed(Vector2 cursorPos, KeyEvent evt)
 		{
 		}
-		public virtual void KeyReleased(uint text)
+		public virtual void KeyReleased(Vector2 cursorPos, KeyEvent evt)
 		{
 		}
 		public virtual void FocusLost()
@@ -475,5 +475,9 @@ namespace OpenMB.Widgets
 		{
 		}
 
+		public virtual void Update()
+		{
+
+		}
 	}
 }

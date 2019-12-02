@@ -39,6 +39,7 @@ using System.Linq;
 using System.Reflection;
 using OpenMB.Localization;
 using OpenMB.Core;
+using MOIS;
 
 namespace OpenMB.Widgets
 {
@@ -94,7 +95,7 @@ namespace OpenMB.Widgets
 		protected float trayPadding = 0f; // tray padding
 		protected bool trayDrag; // a mouse press was initiated on a tray
 		protected SelectMenuWidget expandedMenu; // top priority expanded menu widget
-		protected TextBox dialog; // top priority dialog widget
+		protected StaticMultiLineTextBoxWidget dialog; // top priority dialog widget
 		protected Mogre.OverlayContainer dialogShade; // top priority dialog shade
 		protected ButtonWidget ok; // top priority OK button
 		protected ButtonWidget yes; // top priority Yes button
@@ -698,7 +699,7 @@ namespace OpenMB.Widgets
 		public Widget CreateWidget(ModData modData, ModUILayoutWidgetDfnXml xmlData)
 		{
 			//Find suitable constructor
-			Type widgetType = null;
+			System.Type widgetType = null;
 			foreach (var assembly in modData.Assemblies)
 			{
 				widgetType = assembly.GetTypes().Where(o => o.Name == xmlData.Type + "Widget").FirstOrDefault();
@@ -788,9 +789,9 @@ namespace OpenMB.Widgets
 			b.AssignListener(listener);
 			return b;
 		}
-		internal TextBox CreateTextBox(UIWidgetLocation trayLoc, string name, string caption, float width, float height)
+		internal StaticMultiLineTextBoxWidget CreateTextBox(UIWidgetLocation trayLoc, string name, string caption, float width, float height)
 		{
-			TextBox tb = new TextBox(name, caption, width, height);
+			StaticMultiLineTextBoxWidget tb = new StaticMultiLineTextBoxWidget(name, caption, width, height);
 			moveWidgetToTray(tb, trayLoc);
 			tb.AssignListener(listener);
 			return tb;
@@ -943,9 +944,9 @@ namespace OpenMB.Widgets
 			lsv.AssignListener(listener);
 			return lsv;
 		}
-		internal InputBoxWidget CreateInputBox(UIWidgetLocation trayLocation, string name, string caption, float width, float boxWidth, string text = null, bool onlyAcceptNum = false)
+		internal InputBoxWidget CreateInputBox(UIWidgetLocation trayLocation, string name, string caption, float width, float boxWidth, string text = null)
 		{
-			InputBoxWidget ib = new InputBoxWidget(name, caption, width, boxWidth, text, onlyAcceptNum);
+			InputBoxWidget ib = new InputBoxWidget(name, caption, width, boxWidth, text);
 			moveWidgetToTray(ib, trayLocation);
 			ib.Text = text;
 			//ib._assignListener(mListener);
@@ -1115,7 +1116,7 @@ namespace OpenMB.Widgets
 
 				dialogShade.Show();
 
-				dialog = new TextBox(Name + "/DialogBox", caption, 300f, 208f);
+				dialog = new StaticMultiLineTextBoxWidget(Name + "/DialogBox", caption, 300f, 208f);
 				dialog.setText(message);
 				e = dialog.OverlayElement;
 				dialogShade.AddChild(e);
@@ -1173,7 +1174,7 @@ namespace OpenMB.Widgets
 
 				dialogShade.Show();
 
-				dialog = new TextBox(Name + "/DialogBox", caption, 300f, 208f);
+				dialog = new StaticMultiLineTextBoxWidget(Name + "/DialogBox", caption, 300f, 208f);
 				dialog.setText(question);
 				e = dialog.OverlayElement;
 				dialogShade.AddChild(e);
@@ -1838,6 +1839,46 @@ namespace OpenMB.Widgets
 			return false;
 		}
 
+		public void InjectKeyReleased(KeyEvent arg)
+		{
+			Widget w = null;
+
+			for (int i = 0; i < 10; i++)
+			{
+				if (!mTrays[i].IsVisible)
+					continue;
+
+				for (int j = 0; j < widgets[i].Count; j++)
+				{
+					w = widgets[i][j];
+					if (!w.OverlayElement.IsVisible)
+						continue;
+					Vector2 pos = new Vector2(cursor.Left, cursor.Top);
+					w.KeyReleased(pos, arg);
+				}
+			}
+		}
+
+		public void InjectKeyPressed(KeyEvent arg)
+		{
+			Widget w = null;
+
+			for (int i = 0; i < 10; i++)
+			{
+				if (!mTrays[i].IsVisible)
+					continue;
+
+				for (int j = 0; j < widgets[i].Count; j++)
+				{
+					w = widgets[i][j];
+					if (!w.OverlayElement.IsVisible)
+						continue;
+					Vector2 pos = new Vector2(cursor.Left, cursor.Top);
+					w.KeyPressed(pos, arg);
+				}
+			}
+		}
+
 
 		//        -----------------------------------------------------------------------------
 		//		| Internal method to prioritise / deprioritise expanded menus.
@@ -1871,6 +1912,25 @@ namespace OpenMB.Widgets
 		public void ChangeCursor(string name)
 		{
 			gameCursor.ChangeCursor(modData.CursorInfos, name);
+		}
+
+		public void Update()
+		{
+			Widget w = null;
+
+			for (int i = 0; i < 10; i++)
+			{
+				if (!mTrays[i].IsVisible)
+					continue;
+
+				for (int j = 0; j < widgets[i].Count; j++)
+				{
+					w = widgets[i][j];
+					if (!w.OverlayElement.IsVisible)
+						continue;
+					w.Update();
+				}
+			}
 		}
 	}
 

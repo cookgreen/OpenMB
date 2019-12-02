@@ -40,7 +40,7 @@ namespace OpenMB.Game
         {
             if (cameraMode == CameraMode.Manual)
             {
-                ScreenManager.Instance.InjectMouseMove(arg);
+                //ScreenManager.Instance.InjectMouseMove(arg);
                 return;
             }
             Degree deCameraYaw = new Degree(arg.state.X.rel * -0.1f);
@@ -88,7 +88,7 @@ namespace OpenMB.Game
         {
             if (cameraMode == CameraMode.Manual)
             {
-                ScreenManager.Instance.InjectKeyPressed(arg);
+                //ScreenManager.Instance.InjectKeyPressed(arg);
             }
             else if (cameraMode == CameraMode.Follow &&
                (arg.key == KeyCode.KC_W ||
@@ -144,7 +144,7 @@ namespace OpenMB.Game
         {
             if (cameraMode == CameraMode.Manual)
             {
-                ScreenManager.Instance.InjectKeyReleased(arg);
+                //ScreenManager.Instance.InjectKeyReleased(arg);
             }
             cameraMovement = new Vector3(0, 0, 0);
         }

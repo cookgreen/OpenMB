@@ -68,11 +68,13 @@ namespace OpenMB.Screen
         }
 
         public virtual void InjectKeyPressed(KeyEvent arg)
-        {
-        }
+		{
+			UIManager.Instance.InjectKeyPressed(arg);
+		}
 
         public virtual void InjectKeyReleased(KeyEvent arg)
         {
+			UIManager.Instance.InjectKeyReleased(arg);
         }
 
         public virtual void InjectMouseMove(MouseEvent arg)

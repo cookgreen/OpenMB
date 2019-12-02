@@ -580,7 +580,6 @@ namespace OpenMB.Map
         private bool Keyboard_KeyReleased(KeyEvent arg)
         {
             combineKey = false;
-            ScreenManager.Instance.InjectKeyReleased(arg);
 
             if (playerAgent != null)
             {
@@ -597,7 +596,7 @@ namespace OpenMB.Map
         {
             if (ScreenManager.Instance.CheckEnterScreen(new Vector2(arg.state.X.abs, arg.state.Y.abs)))
             {
-                ScreenManager.Instance.InjectMouseMove(arg);
+                //ScreenManager.Instance.InjectMouseMove(arg);
             }
             else if (playerAgent == null)
             {
@@ -610,7 +609,7 @@ namespace OpenMB.Map
         {
             if (ScreenManager.Instance.CheckHasScreen())
             {
-                ScreenManager.Instance.InjectMouseReleased(arg, id);
+                //ScreenManager.Instance.InjectMouseReleased(arg, id);
             }
             else
             {
@@ -623,7 +622,7 @@ namespace OpenMB.Map
         {
             if (ScreenManager.Instance.CheckHasScreen())
             {
-                ScreenManager.Instance.InjectMousePressed(arg, id);
+                //ScreenManager.Instance.InjectMousePressed(arg, id);
             }
             else
             {

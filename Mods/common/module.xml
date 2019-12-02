@@ -3,37 +3,16 @@
     <Name>Common</Name>
     <Description>Common mod</Description>
     <Version>1.0</Version>
-    <Thumb></Thumb>
+    <Thumb />
 	<Assemblies>
 		<Assembly>this|OpenMB.Mods.Common</Assembly>
-		<Assembly>this|OpenMB.Mods.MB</Assembly>
 	</Assemblies>
 	<DisplayInChooser>false</DisplayInChooser>
   </Info>
   <Data>
-    <Characters></Characters>
-    <Items></Items>
-    <ItemTypes></ItemTypes>
-    <Locations></Locations>
-    <Maps></Maps>
-    <Models></Models>
-    <Music></Music>
-    <SceneProps></SceneProps>
-    <Skeletons></Skeletons>
-    <Skin></Skin>
-    <Sides></Sides>
-    <Sound></Sound>
-    <WorldMaps></WorldMaps>
-	<DataDir>
-		<MapDir></MapDir>
-		<MusicDir></MusicDir>
-		<ScriptDir></ScriptDir>
-	</DataDir>
+  	<DataDir />
   </Data>
-  <Media>
-  </Media>
-  <Settings>
-  </Settings>
-  <Startup>
-  </Startup>
+  <Media />
+  <Settings />
+  <Startup />
 </Module>

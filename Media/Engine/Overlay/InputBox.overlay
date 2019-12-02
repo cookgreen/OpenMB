@@ -49,7 +49,7 @@ template container BorderPanel(AMGE/UI/InputBox)
 		border_bottom_uv      0.4 0.6 0.6 1.0
 		border_bottomright_uv 0.6 0.6 1.0 1.0
 
-		element TextArea(InputBoxSmallText)
+		element TextArea(InputBoxContentText)
 		{
 			metrics_mode pixels
 			left 12
@@ -58,6 +58,17 @@ template container BorderPanel(AMGE/UI/InputBox)
 			char_height 19
 			space_width 8
 			colour 0 0 0
+		}
+
+		element BorderPanel(InputBoxCursor)
+		{
+			metrics_mode pixels
+			material Engine/UI/InputBox/Cursor
+			left 8
+			top 8
+			height 15
+			uv_coords 0 0 1 1
+			border_material NoMaterial
 		}
 	}
 }

@@ -41,9 +41,8 @@ namespace OpenMB.Screen
 				startupBkType.StartBackground(modData.BasicInfo.StartupBackground.Value, sceneManager);
 			}
 
-			string str = "@" + modData.BasicInfo.Name;
 			UIManager.Instance.ShowCursor();
-			UIManager.Instance.CreateLabel(UIWidgetLocation.TL_TOP, "MenuLbl", str.ToLocalizedString(), 400);
+
 			if (modData.HasSinglePlayer)
 			{
 				var btnSingleplayer = UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnSingleplayer", GameString.FromString("str_single_player").ToString(), 200);

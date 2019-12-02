@@ -31,6 +31,20 @@ material Engine/Cursor/Edit : Engine/Base
     }
 }
 
+material Engine/UI/InputBox/Cursor : Engine/Base
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture input_cursor.png
+            }
+        }
+    }
+}
+
 material AMGE/Engine/BackHorizalLine
 {
 	technique

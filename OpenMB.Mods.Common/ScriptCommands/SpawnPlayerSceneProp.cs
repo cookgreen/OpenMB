@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using Mogre;
 
-namespace OpenMB.Mods.HitBalloons.ScriptCommands
+namespace OpenMB.Mods.Common.ScriptCommands
 {
     /// <summary>
     /// Spawn a scene prop and make player can control it

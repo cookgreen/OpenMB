@@ -318,25 +318,27 @@ namespace OpenMB.Game
         #region Handle Input
         bool Keyboard_KeyReleased(MOIS.KeyEvent arg)
         {
+			ScreenManager.Instance.InjectKeyReleased(arg);
             return true;
         }
         bool Keyboard_KeyPressed(MOIS.KeyEvent arg)
         {
+			ScreenManager.Instance.InjectKeyPressed(arg);
             return true;
         }
         bool Mouse_MouseReleased(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
 		{
-			if (UIManager.Instance.InjectMouseUp(arg, id)) return true;
+			ScreenManager.Instance.InjectMouseReleased(arg, id);
 			return true;
         }
         bool Mouse_MousePressed(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
 		{
-			if (UIManager.Instance.InjectMouseDown(arg, id)) return true;
+			ScreenManager.Instance.InjectMousePressed(arg, id);
 			return true;
         }
         bool Mouse_MouseMoved(MOIS.MouseEvent arg)
 		{
-			if (UIManager.Instance.InjectMouseMove(arg)) return true;
+			ScreenManager.Instance.InjectMouseMove(arg);
 			return true;
         }
 

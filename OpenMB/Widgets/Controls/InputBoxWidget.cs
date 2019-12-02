@@ -10,53 +10,43 @@ namespace OpenMB.Widgets
 {
     public class InputBoxWidget : Widget
     {
-        protected BorderPanelOverlayElement inputBoxElement;
-        protected TextAreaOverlayElement textAreaElement;
-        protected TextAreaOverlayElement smallTextAreaElement;
-        protected BorderPanelOverlayElement scrollTrackElement;
-        protected PanelOverlayElement scrollHandleElement;
-        protected List<BorderPanelOverlayElement> itemElements;
-        protected uint maxItemsShown;
-        protected uint itemsShown;
-        protected bool isCursorOver;
-        protected bool isFitToContents;
-        protected bool isDragging;
-        protected List<string> items;
-        protected int selectionIndex;
-        protected int highlightIndex;
-        protected int displayIndex;
-        protected float dragOffset;
-        protected bool isTextMode;
-        private string mText;
-        private bool isOnlyAcceptNum;
+		private BorderPanelOverlayElement inputBoxElement;
+		private TextAreaOverlayElement captionTextAreaElement;
+		private TextAreaOverlayElement contentTextAreaElement;
+		private BorderPanelOverlayElement inputCursorElement;
+		private bool isFitToContents;
+		private bool isTextMode;
+        private string originalText;
+		private int init_tick = 120;
+		private int tick = 0;
 
-        public string Text
+		public string Text
         {
-            get { return mText; }
-            set { mText = value; }
+            get { return originalText; }
+            set { originalText = value; }
         }
 
-		public InputBoxWidget(string name, string caption, float width, float boxWidth, string text = null, bool onlyAcceptNum = false)
+		public InputBoxWidget(string name, string caption, float width, float boxWidth, string text = null)
 		{
 			isTextMode = false;
 			element = OverlayManager.Singleton.CreateOverlayElementFromTemplate("AMGE/UI/InputBox", "BorderPanel", name);
-			highlightIndex = 0;
-			displayIndex = 0;
-			dragOffset = 0.0f;
-			selectionIndex = -1;
 			isFitToContents = false;
-			isCursorOver = false;
-			isDragging = false;
-			itemsShown = 0;
-			textAreaElement = (TextAreaOverlayElement)((OverlayContainer)element).GetChild(name + "/InputBoxCaption");
+
 			inputBoxElement = (BorderPanelOverlayElement)((OverlayContainer)element).GetChild(name + "/InputBoxText");
 			inputBoxElement.Width = width - 10;
-			smallTextAreaElement = (TextAreaOverlayElement)inputBoxElement.GetChild(name + "/InputBoxText/InputBoxSmallText");
+
+			captionTextAreaElement = (TextAreaOverlayElement)((OverlayContainer)element).GetChild(name + "/InputBoxCaption");
+			captionTextAreaElement.Width = width - inputBoxElement.Width;
+
+			contentTextAreaElement = (TextAreaOverlayElement)inputBoxElement.GetChild(name + "/InputBoxText/InputBoxContentText");
+			contentTextAreaElement.Width = inputBoxElement.Width;
+
+			inputCursorElement = (BorderPanelOverlayElement)inputBoxElement.GetChild(name + "/InputBoxText/InputBoxCursor");
+			inputCursorElement.Width = 2;
+			inputCursorElement.Hide();
+
 			element.Width = width;
-			itemElements = new List<BorderPanelOverlayElement>();
-			mText = string.Empty;
-			isOnlyAcceptNum = onlyAcceptNum;
-            textAreaElement.Caption = caption;
+			originalText = string.Empty;
 
             if (boxWidth > 0)
 			{
@@ -64,82 +54,113 @@ namespace OpenMB.Widgets
 				inputBoxElement.Width = boxWidth;
 				inputBoxElement.Top = 2;
 				inputBoxElement.Left = width - boxWidth - 5;
-				element.Height = this.inputBoxElement.Height + 4;
-				textAreaElement.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
-				textAreaElement.SetAlignment(TextAreaOverlayElement.Alignment.Left);
-				textAreaElement.Left = 12;
-				textAreaElement.Top = 10;
+				element.Height = inputBoxElement.Height + 4;
+				captionTextAreaElement.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
+				captionTextAreaElement.SetAlignment(TextAreaOverlayElement.Alignment.Left);
+				captionTextAreaElement.Left = 12;
+				captionTextAreaElement.Top = 9;
 			}
 
 			if (!string.IsNullOrEmpty(text))
 			{
-				smallTextAreaElement.Caption = text;
-				mText = text;
+				contentTextAreaElement.Caption = text;
+				originalText = text;
 			}
 
 			setCaption(caption);
 		}
 
         public void setCaption(string caption) {
-            textAreaElement.Caption = caption;
+            captionTextAreaElement.Caption = caption;
             if (isFitToContents) {
-                element.Width = GetCaptionWidth(caption, ref textAreaElement) + inputBoxElement.Width + 23;
+                element.Width = GetCaptionWidth(caption, ref captionTextAreaElement) + inputBoxElement.Width + 23;
                 inputBoxElement.Left = element.Width - inputBoxElement.Width - 5;
             }
         }
 
-        public override void CursorPressed(Vector2 cursorPos)
+		public override void CursorMoved(Vector2 cursorPos)
+		{
+			if (IsCursorOver(inputBoxElement, cursorPos))
+			{
+				UIManager.Instance.ChangeCursor("Edit");
+			}
+			else
+			{
+				UIManager.Instance.ChangeCursor("Normal");
+			}
+		}
+
+		public override void CursorPressed(Vector2 cursorPos)
         {
             //Click the text area so that we can input
-
             if (IsCursorOver(inputBoxElement, cursorPos))
             {
                 isTextMode = true;
                 inputBoxElement.MaterialName = "SdkTrays/MiniTextBox/Press";
                 inputBoxElement.BorderMaterialName = "SdkTrays/MiniTextBox/Press";
-            }
+				inputCursorElement.Show();
+				tick = init_tick;
+			}
             else
             {
                 isTextMode = false;
                 inputBoxElement.MaterialName = "SdkTrays/MiniTextBox";
                 inputBoxElement.BorderMaterialName = "SdkTrays/MiniTextBox";
-            }
+				inputCursorElement.Hide();
+				tick = 0;
+			}
         }
 
-        public override void KeyPressed(uint text)
+        public override void KeyPressed(Vector2 mousePos, KeyEvent arg)
         {
-            if (isTextMode)
+			uint text = arg.text;
+            if (isTextMode && IsCursorOver(inputBoxElement, mousePos))
             {
                 string str = Utilities.Helper.ConvertUintToString(text);
-                if (!isOnlyAcceptNum)
+
+                originalText += str;//original text
+                contentTextAreaElement.Caption += str;//cut text
+                float textLength = GetCaptionWidth(contentTextAreaElement.Caption, ref contentTextAreaElement);
+                if (textLength > inputBoxElement.Width)
                 {
-                    mText += str;//original text
-                    smallTextAreaElement.Caption += str;//cut text
-                    float textLength = GetCaptionWidth(smallTextAreaElement.Caption, ref smallTextAreaElement);
-                    float textBoxLength = smallTextAreaElement.Width;
-                    if (textLength > inputBoxElement.Width)
-                    {
-                        float offset = textLength - inputBoxElement.Width;
-                        smallTextAreaElement.Caption = smallTextAreaElement.Caption.Remove(0, (int)offset);
-                    }
+                    float offset = textLength - inputBoxElement.Width;
+                    contentTextAreaElement.Caption = contentTextAreaElement.Caption.Remove(0, (int)offset);
                 }
-                else
-                {
-                    int result;
-                    if (int.TryParse(str, out result))
-                    {
-                        mText += str;//original text
-                        smallTextAreaElement.Caption += str;//cut text
-                        float textLength = GetCaptionWidth(smallTextAreaElement.Caption, ref smallTextAreaElement);
-                        float textBoxLength = smallTextAreaElement.Width;
-                        if (textLength > inputBoxElement.Width)
-                        {
-                            float offset = textLength - inputBoxElement.Width;
-                            smallTextAreaElement.Caption = smallTextAreaElement.Caption.Remove(0, (int)offset);
-                        }
-                    }
-                }
-            }
+				calculateInputCursorPosition(str);
+			}
         }
-    }
+
+		private void calculateInputCursorPosition(string str)
+		{
+			var totalLeft = inputCursorElement.Left + GetCaptionWidth(str, ref contentTextAreaElement);
+			if (totalLeft >= inputBoxElement.Width)
+			{
+				inputCursorElement.Left = inputBoxElement.Width - 8;
+			}
+			else
+			{
+				inputCursorElement.Left = totalLeft;
+			}
+		}
+
+		public override void Update()
+		{
+			if (!isTextMode)
+			{
+				return;
+			}
+			if (tick == init_tick)
+			{
+				if (inputCursorElement.IsVisible)
+					inputCursorElement.Hide();
+				else
+					inputCursorElement.Show();
+				tick = 0;
+			}
+			else
+			{
+				tick++;
+			}
+		}
+	}
 }
