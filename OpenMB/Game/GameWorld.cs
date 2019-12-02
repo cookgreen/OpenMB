@@ -16,6 +16,7 @@ using OpenMB.Utilities;
 using OpenMB.Trigger;
 using OpenMB.Map;
 using OpenMB.Widgets;
+using OpenMB.States;
 
 namespace OpenMB.Game
 {
@@ -512,6 +513,14 @@ namespace OpenMB.Game
 					GameMapManager.Instance.CurrentMap.CameraHanlder.ChangeMode(CameraMode.Manual);
 					break;
 			}
+		}
+
+		public void ChangeGameState(string newState)
+		{
+			AppStateManager.Instance.changeAppState(
+				AppStateManager.Instance.findByName(newState),
+				modData
+			);
 		}
 		#endregion
 	}

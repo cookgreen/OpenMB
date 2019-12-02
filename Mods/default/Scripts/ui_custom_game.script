@@ -31,6 +31,9 @@ function uiMouseEventChanged
 			get_widget_text $g_player_name txtPlayerName
 			load_map $g_selected_map
 			end
+		case btnCancel
+			change_return_main_menu
+			end
 	end
 end
 

@@ -283,6 +283,7 @@
     <Compile Include="Script\Command\AssignScriptCommand.cs" />
     <Compile Include="Script\Command\CaseScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeHitpointScriptCommand.cs" />
+    <Compile Include="Script\Command\ChangeReturnMainMenu.cs" />
     <Compile Include="Script\Command\ChangeScreenReturnScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeSystemVariableValue.cs" />
     <Compile Include="Script\Command\ChangeUIScriptCommand.cs" />

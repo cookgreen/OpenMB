@@ -71,9 +71,9 @@ namespace OpenMB.Screen
             {
                 loader.ExecuteFunction(
                     scriptFile, 
-                    "uiMouseEventChanged", 
-                    (obj as Widget).Name, 
-                    world, 
+                    "uiMouseEventChanged",
+					world,
+					(obj as Widget).Name,  
                     this
                 );
             }

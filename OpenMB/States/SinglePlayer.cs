@@ -17,7 +17,7 @@ namespace OpenMB.States
 
         public override void enter(ModData data = null)
         {
-            world = new GameWorld(data);
+			world = new GameWorld(data) ;
             world.Init();
             world.Start();
         }
@@ -43,7 +43,7 @@ namespace OpenMB.States
 
         public override void exit()
         {
-            modData = world.CurrentMap.ModData;
+            modData = world.ModData;
             world.Destroy();
         }
     }

@@ -44,7 +44,7 @@ namespace OpenMB.States
              isShutdown = false;
          }
 
-          public override void manageAppState(String stateName, AppState state)
+         public override void manageAppState(String stateName, AppState state)
          {
 		        state_info new_state_info;
 		        new_state_info.name = stateName;
