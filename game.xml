@@ -39,7 +39,7 @@
     <EnableMusic>false</EnableMusic>
   </Audio>
   <Localized>
-    <CurrentLocate>Simplified Chinese</CurrentLocate>
+    <CurrentLocate>English</CurrentLocate>
   </Localized>
   <Mod>
     <ModDir>Mods/</ModDir>

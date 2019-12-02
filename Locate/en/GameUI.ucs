@@ -1,6 +1,7 @@
 ui_rendersystem	Render System
 ui_graphic	Graphic
 ui_audio	Audio
+ui_resource	Resource
 ui_game	Game
 ui_click_on_options	Click On Options
 ui_language	Language
@@ -14,3 +15,16 @@ ui_localization	Localization
 ui_advanced_options	Advanced Options
 ui_is_enable_edit_mode	Enable Edit Mode
 ui_is_enable_cheat_mode	Enable Cheat Mode
+ui_auto_detect	Auto Detect
+ui_filesystem	FileSystem
+ui_zip	ZIP Archive
+ui_add	Add
+ui_modify	Modify
+ui_delete	Delete
+ui_file_browser_current_loc	Current Directory
+ui_file_browser_up	Up
+ui_file_browser_title	Browse
+ui_file_browser_selected_file_name	Selected file name:
+ui_file_browser_selected_folder_name	Selected folder name:
+ui_file_browser_err_must_select_valid_file	You must select a valid file!
+ui_error	Error
