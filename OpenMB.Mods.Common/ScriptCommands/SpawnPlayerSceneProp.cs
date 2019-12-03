@@ -49,7 +49,7 @@ namespace OpenMB.Mods.Common.ScriptCommands
         public override void Execute(params object[] executeArgs)
         {
             GameWorld world = executeArgs[0] as GameWorld;
-            string vectorName = getParamterValue(CommandArgs[1]);
+            string vectorName = getParamterValue(CommandArgs[1], world);
 
             var vector = world.GlobalValueTable.GetRecord(vectorName);
             if (vector == null)
@@ -57,7 +57,7 @@ namespace OpenMB.Mods.Common.ScriptCommands
                 GameManager.Instance.log.LogMessage("Invalid Vector Name!", LogMessage.LogType.Error);
                 return;
             }
-            world.CreatePlayerSceneProp(getParamterValue(CommandArgs[0]),
+            world.CreatePlayerSceneProp(getParamterValue(CommandArgs[0], world),
                 new Vector3() {
                     x = float.Parse(vector.NextNodes[0].Value),
                     y = float.Parse(vector.NextNodes[1].Value),

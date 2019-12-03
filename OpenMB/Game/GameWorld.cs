@@ -131,15 +131,15 @@ namespace OpenMB.Game
             globalValueTable = ScriptValueRegister.Instance.GlobalValueTable;
 
             /*Physx Debugger*/
-            if (physics.RemoteDebugger.IsConnected)
-            {
-                physics.RemoteDebugger.Connect("127.0.0.1", 5425);
-            }
-            else
-            {
-                physics.RemoteDebugger.Disconnect();
-                physics.RemoteDebugger.Connect("127.0.0.1", 5425);
-            }
+            //if (physics.RemoteDebugger.IsConnected)
+            //{
+            //    physics.RemoteDebugger.Connect("127.0.0.1", 5425);
+            //}
+            //else
+            //{
+            //    physics.RemoteDebugger.Disconnect();
+            //    physics.RemoteDebugger.Connect("127.0.0.1", 5425);
+            //}
         }
         #endregion
 
@@ -150,14 +150,6 @@ namespace OpenMB.Game
         public void Init()
         {
             GameMapManager.Instance.Initization(this);
-
-            GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
-            GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
-            GameManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
-            GameManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
-            GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
-
-            GameManager.Instance.root.FrameRenderingQueued += FrameRenderingQueued;
 
             /* Will implement them in the script or the map xml file */
             scm = GameManager.Instance.root.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE, "GameSceneManager");
@@ -174,8 +166,8 @@ namespace OpenMB.Game
             UIManager.Instance.DestroyAllWidgets();
             cam.FarClipDistance = 50000;
 
-			var time = TimerManager.Instance.CurrentTime;
-			scm.SetSkyBox(true, GetSkyboxMaterialByTime(time));
+			//var time = TimerManager.Instance.CurrentTime;
+			//scm.SetSkyBox(true, GetSkyboxMaterialByTime(time));
 
 			Light light = scm.CreateLight();
             light.Type = Light.LightTypes.LT_POINT;
@@ -185,6 +177,14 @@ namespace OpenMB.Game
             ScreenManager.Instance.Camera = cam;
 
 			TimerManager.Instance.TimeChanged += TimeChanged;
+
+			GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
+			GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
+			GameManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
+			GameManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
+			GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
+
+			GameManager.Instance.root.FrameRenderingQueued += FrameRenderingQueued;
 
 			globalVariableTable = new Dictionary<string, object>();
 
@@ -235,8 +235,8 @@ namespace OpenMB.Game
         public void ChangeScene(string mapID)
         {
 			TimerManager.Instance.Pause();
-
             UIManager.Instance.HideCursor();
+			ScreenManager.Instance.ExitCurrentScreen();
 
             var findMaps = modData.MapInfos.Where(o => o.ID == mapID);
             if (findMaps.Count() > 0)
@@ -293,11 +293,6 @@ namespace OpenMB.Game
         {
             GameMapManager.Instance.Dispose();
 
-            cam.Dispose();
-            scm.Dispose();
-            physicsScene.Dispose();
-            physics.Dispose();
-
             GameManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
             GameManager.Instance.mouse.MousePressed -= Mouse_MousePressed;
             GameManager.Instance.mouse.MouseReleased -= Mouse_MouseReleased;
@@ -308,7 +303,10 @@ namespace OpenMB.Game
 			TimerManager.Instance.Stop();
 
 			OpenGLRenderManager.Shutdown();
-        }
+
+			scm.DestroyCamera(cam);
+			GameManager.Instance.root.DestroySceneManager(scm);
+		}
 
         #endregion
 

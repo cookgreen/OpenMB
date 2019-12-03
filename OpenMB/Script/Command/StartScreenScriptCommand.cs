@@ -45,13 +45,15 @@ namespace OpenMB.Script.Command
 
 		public override void Execute(params object[] executeArgs)
 		{
+			GameWorld world = executeArgs[0] as GameWorld;
+
 			if (commandArgs.Length == 0)
 			{
 				GameManager.Instance.log.LogMessage("Missing parameter for `start_screen` script command");
 				return;
 			}
 
-			ScreenManager.Instance.ChangeScreen(getParamterValue(commandArgs[0]), true, executeArgs[0] as GameWorld);
+			ScreenManager.Instance.ChangeScreen(getParamterValue(commandArgs[0], world), true, executeArgs[0] as GameWorld);
 		}
 	}
 }

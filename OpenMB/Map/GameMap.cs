@@ -335,7 +335,7 @@ namespace OpenMB.Map
         /// <returns></returns>
         public string CreateSceneProp(string scenePropTypeID, Mogre.Vector3 position)
         {
-            var findSceneProp = modData.SceneProps.Where(o => o.ID == scenePropTypeID).FirstOrDefault();
+            var findSceneProp = modData.ScenePropInfos.Where(o => o.ID == scenePropTypeID).FirstOrDefault();
 			if (findSceneProp != null)
 			{
 				SceneProp sceneProp = new SceneProp(world, findSceneProp, position);
@@ -346,7 +346,7 @@ namespace OpenMB.Map
 						var findModelType = modData.ModModelTypes.Where(o => o.Name == modelData.ModelType).FirstOrDefault();
 						if (findModelType != null)
 						{
-							var findedModel = modData.Models.Where(o => o.ID == modelData.ModelID).FirstOrDefault();
+							var findedModel = modData.ModelInfos.Where(o => o.ID == modelData.ModelID).FirstOrDefault();
 							if (findedModel != null)
 							{
 								findedModel.ModelType = findModelType;
@@ -360,7 +360,7 @@ namespace OpenMB.Map
 					var findModelType = modData.ModModelTypes.Where(o => o.Name == findSceneProp.Models[0].ModelType).FirstOrDefault();
 					if (findModelType != null)
 					{
-						var findedModel = modData.Models.Where(o => o.ID == findSceneProp.Models[0].ModelID).FirstOrDefault();
+						var findedModel = modData.ModelInfos.Where(o => o.ID == findSceneProp.Models[0].ModelID).FirstOrDefault();
 						if (findedModel != null)
 						{
 							findedModel.ModelType = findModelType;

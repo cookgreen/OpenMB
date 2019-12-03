@@ -93,7 +93,7 @@ namespace OpenMB.Sound
                 foreach (var track in tracks)
                 {
                     GameSound music = new GameSound();
-                    music.AddSound(soundEngine.CreateAmbientSound(findMusicFileByID(track.Id), track.Id, true, false));
+                    music.AddSound(soundEngine.CreateAmbientSound(findMusicFileByID(track.ID), track.ID, true, false));
                     music.PlayType = track.PlayType;
                     musicLst.Add(music);
                 }
@@ -215,7 +215,7 @@ namespace OpenMB.Sound
         {
             string musicfile = string.Empty;
             var result = from musicDfn in modData.MusicInfos
-                         where musicDfn.Id == musicID
+                         where musicDfn.ID == musicID
                          select musicDfn;
             if (result.Count() == 1)
             {
@@ -251,7 +251,7 @@ namespace OpenMB.Sound
         {
             string soundFile = string.Empty;
             var result = from soundDfn in modData.SoundInfos
-                         where soundDfn.Id == soundID
+                         where soundDfn.ID == soundID
                          select soundDfn;
             if (result.Count() == 1)
             {

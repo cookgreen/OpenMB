@@ -45,7 +45,7 @@ namespace OpenMB.Screen
 		public override void Run()
 		{
 			var modData = ScreenManager.Instance.ModData;
-			var findedMenus = modData.MenuInfos.Where(o => o.id == menuID);
+			var findedMenus = modData.MenuInfos.Where(o => o.ID == menuID);
 			if (findedMenus.Count() > 0)
 			{
 				menuData = findedMenus.First();
@@ -94,7 +94,13 @@ namespace OpenMB.Screen
 
 		private void Button_OnClick(object sender)
 		{
-			loader.ExecuteFunction(script, "menuButtonClicked", world, (sender as ButtonWidget).Name);
+			loader.ExecuteFunction(
+				script, 
+				"menuButtonClicked", 
+				world,
+				this,
+				(sender as ButtonWidget).Name
+			);
 		}
 
 		public override void Exit()

@@ -18,7 +18,7 @@ namespace OpenMB.Mods.XML
 	public class ModMenuDfnXml
 	{
 		[XmlAttribute]
-		public string id { get; set; }
+		public string ID { get; set; }
 		[XmlElement]
 		public string Title { get; set; }
 		[XmlElement]

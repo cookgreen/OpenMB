@@ -1,4 +1,5 @@
-﻿using OpenMB.Screen;
+﻿using OpenMB.Game;
+using OpenMB.Screen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,9 @@ namespace OpenMB.Script.Command
 
 		public override void Execute(params object[] executeArgs)
 		{
-			var uiLayoutID = getParamterValue(commandArgs[0]);
+			GameWorld world = executeArgs[0] as GameWorld;
+
+			var uiLayoutID = getParamterValue(commandArgs[0], world);
 			ScreenManager.Instance.ChangeScreen("ScriptedScreen", true, executeArgs[0], uiLayoutID);
 		}
 	}

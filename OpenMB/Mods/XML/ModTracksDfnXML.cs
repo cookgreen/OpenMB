@@ -18,7 +18,7 @@ namespace OpenMB.Mods.XML
     public class ModTrackDfnXML
     {
         [XmlElement("Id")]
-        public string Id { get; set; }
+        public string ID { get; set; }
         [XmlElement("File")]
         public string File { get; set; }
         [XmlElement("Type")]

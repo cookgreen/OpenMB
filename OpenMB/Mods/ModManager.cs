@@ -240,7 +240,7 @@ namespace OpenMB.Mods
                 loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.SceneProps);
                 ModScenePropsDfnXml scenePropsDfnXml;
                 loader.Load(out scenePropsDfnXml);
-                currentMod.SceneProps = scenePropsDfnXml.SceneProps;
+                currentMod.ScenePropInfos = scenePropsDfnXml.SceneProps;
             }
 
             if (!string.IsNullOrEmpty(manifest.Data.Models))
@@ -248,7 +248,7 @@ namespace OpenMB.Mods
                 loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Models);
                 ModModelsDfnXml modelsDfnXml;
                 loader.Load(out modelsDfnXml);
-                currentMod.Models = modelsDfnXml.Models;
+                currentMod.ModelInfos = modelsDfnXml.Models;
             }
 
             if (!string.IsNullOrEmpty(manifest.Data.Menus))

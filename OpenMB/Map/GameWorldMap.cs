@@ -66,7 +66,7 @@ namespace OpenMB.Map
 				var modelTypeInfo = modData.ModModelTypes.Where(o => o.Name == locationInfo.Model.Type).FirstOrDefault();
 				if (modelTypeInfo != null)
 				{
-					var model = modData.Models.Where(o => o.ID == locationInfo.Model.Resource).FirstOrDefault();
+					var model = modData.ModelInfos.Where(o => o.ID == locationInfo.Model.Resource).FirstOrDefault();
 					model.ModelType = modelTypeInfo;
 
 					GameLocation location = new GameLocation(world, locationInfo);

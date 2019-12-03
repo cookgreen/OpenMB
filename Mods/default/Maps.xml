@@ -1,14 +1,8 @@
 <Maps>
-  <Map ID="scene_worldmap_empty" Loader="WorldMapXml">
+  <Map ID="map_magic_forest" Loader="Xml">
     <Flags>
     </Flags>
-    <Name>WorldMapEmpty</Name>
-    <File>WorldMapEmpty.xml</File>
-  </Map>
-  <Map ID="scene_sink_ship" Loader="Xml">
-    <Flags>
-    </Flags>
-    <Name>SinkShip</Name>
-    <File>SinkShip.xml</File>
+    <Name>Magic Forest</Name>
+    <File>map_magic_forest.xml</File>
   </Map>
 </Maps>

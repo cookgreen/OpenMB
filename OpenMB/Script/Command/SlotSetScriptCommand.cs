@@ -1,4 +1,5 @@
 ﻿using OpenMB.Core;
+using OpenMB.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,9 +47,11 @@ namespace OpenMB.Script.Command
 
 		public override void Execute(params object[] executeArgs)
 		{
-			string objectID = getParamterValue(commandArgs[0]);
-			string slotID = getParamterValue(commandArgs[1]);
-			string slotValue = getParamterValue(commandArgs[2]);
+			GameWorld world = executeArgs[0] as GameWorld;
+
+			string objectID = getParamterValue(commandArgs[0], world);
+			string slotID = getParamterValue(commandArgs[1], world);
+			string slotValue = getParamterValue(commandArgs[2], world);
 			GameSlotManager.Instance.SetSlot(objectID, slotID, slotValue);
 		}
 	}

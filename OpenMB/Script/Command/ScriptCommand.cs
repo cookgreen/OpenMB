@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenMB.Game;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,12 +60,14 @@ namespace OpenMB.Script.Command
             CommandArgs[index] = cmdArg;
         }
 
-        protected string getParamterValue(string commandArg)
+        protected string getParamterValue(string commandArg, GameWorld world)
         {
-            return 
-                commandArg.StartsWith("%") || commandArg.StartsWith("$")
-                ? Context.GetLocalValue(commandArg.Substring(1)) 
-                : commandArg;
+			return
+				commandArg.StartsWith("%") 
+				? Context.GetLocalValue(commandArg.Substring(1))
+				: commandArg.StartsWith("$") 
+					? world.GetGlobalValue(commandArg.Substring(1)) 
+					: commandArg;
         }
 
         public void AddSubCommand(ScriptCommand scriptCommand)

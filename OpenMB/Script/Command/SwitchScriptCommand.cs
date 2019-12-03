@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenMB.Game;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,7 +46,9 @@ namespace OpenMB.Script.Command
 
 		public override void Execute(params object[] executeArgs)
 		{
-			var value = getParamterValue(commandArgs[0]);
+			GameWorld world = executeArgs[0] as GameWorld;
+
+			var value = getParamterValue(commandArgs[0], world);
 			foreach (var command in SubCommands)
 			{
 				if (command.GetType() == typeof(CaseScriptCommand) &&

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenMB.Game;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,9 +51,10 @@ namespace OpenMB.Script.Command
 
         public override void Execute(params object[] executeArgs)
         {
-            int startVal = int.Parse(getParamterValue(commandArgs[0]));
-            int endVal = int.Parse(getParamterValue(commandArgs[1]));
-            int step = int.Parse(getParamterValue(commandArgs[2]));
+			GameWorld world = executeArgs[0] as GameWorld;
+            int startVal = int.Parse(getParamterValue(commandArgs[0], world));
+            int endVal = int.Parse(getParamterValue(commandArgs[1], world));
+            int step = int.Parse(getParamterValue(commandArgs[2], world));
             for (int i = startVal; i < endVal; i += step)
             {
                 Context.ChangeLocalValue("current", i.ToString());

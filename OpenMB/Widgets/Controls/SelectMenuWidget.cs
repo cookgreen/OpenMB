@@ -31,6 +31,7 @@ namespace OpenMB.Widgets
 		protected int highlightIndex;
 		protected int displayIndex;
 		protected float dragOffset = 0f;
+		public event Action<object, int> OnSelectedIndexChanged;
 		public List<string> Items { get; private set; }
 
 		public SelectMenuWidget(string name, string caption, float width, float boxWidth, uint maxItemsShown)
@@ -227,6 +228,8 @@ namespace OpenMB.Widgets
 
 			if (listener != null && notifyListener)
 				listener.itemSelected(this);
+
+			OnSelectedIndexChanged?.Invoke(this, (int)index);
 		}
 
 		public void SelectItem(string item)

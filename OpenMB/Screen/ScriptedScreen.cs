@@ -58,28 +58,48 @@ namespace OpenMB.Screen
 		private void createWidget(ModUILayoutWidgetDfnXml widgetData)
 		{
 			Widget widget = UIManager.Instance.CreateWidget(modData, widgetData);
-            if (widgetData.Type == "Button")
-            {
-                (widget as ButtonWidget).OnClick += ButtonWidget_OnClick;
-            }
+			if (widgetData.Type == "Button")
+			{
+				(widget as ButtonWidget).OnClick += ButtonWidget_OnClick;
+			}
+			else if (widgetData.Type == "SelectMenu")
+			{
+				(widget as SelectMenuWidget).OnSelectedIndexChanged += SelectMenuWidget_OnSelectedIndexChanged;
+			}
             widgets.Add(widget);
 		}
 
-        private void ButtonWidget_OnClick(object obj)
+		private void ButtonWidget_OnClick(object sender)
         {
             if (scriptFile != null)
             {
-                loader.ExecuteFunction(
-                    scriptFile, 
-                    "uiMouseEventChanged",
+				loader.ExecuteFunction(
+					scriptFile,
+					"uiEventChanged",
 					world,
-					(obj as Widget).Name,  
-                    this
-                );
+					this,
+					(sender as Widget).Name,
+					string.Empty
+				);
             }
-        }
+		}
 
-        public override void Update(float timeSinceLastFrame)
+		private void SelectMenuWidget_OnSelectedIndexChanged(object sender, int selectedIndex)
+		{
+			if (scriptFile != null)
+			{
+				loader.ExecuteFunction(
+					scriptFile,
+					"uiEventChanged",
+					world,
+					this,
+					(sender as Widget).Name,
+					selectedIndex
+				);
+			}
+		}
+
+		public override void Update(float timeSinceLastFrame)
         {
         }
 

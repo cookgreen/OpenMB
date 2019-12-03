@@ -18,7 +18,7 @@ namespace OpenMB.Mods
         public object Process(ModData data, params object[] param)
         {
             string modelID = param[0].ToString();
-            var findedModels = data.Models.Where(o => o.ID == modelID);
+            var findedModels = data.ModelInfos.Where(o => o.ID == modelID);
             if (findedModels.Count() > 0)
             {
                 var findedModel = findedModels.ElementAt(0);

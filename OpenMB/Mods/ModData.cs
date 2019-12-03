@@ -134,8 +134,8 @@ namespace OpenMB.Mods
 
 		public List<ModItemTypeDfnXml> ItemTypeInfos { get; set; }
 
-        public List<ModScenePropDfnXml> SceneProps { get; set; }
-        public List<ModModelDfnXml> Models { get; set; }
+        public List<ModScenePropDfnXml> ScenePropInfos { get; set; }
+        public List<ModModelDfnXml> ModelInfos { get; set; }
         public List<IItemType> ItemTypes { get; set; }
 
         public List<ModMediaData> ModMediaData { get { return modMediaData; } }

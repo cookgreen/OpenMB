@@ -1,54 +1,61 @@
 function uiInit
-	string_store_index %game_map_start_index str_map_magic_forest
-	string_store_index %game_map_end_index str_map_end
+	data_store_index %game_map_start_index str_map_magic_forest 15
+	data_store_index %game_map_end_index str_map_end 15
 	
-	string_store_index %game_mode_start_index str_game_mode_capture_the_flag
-	string_store_index %game_mode_end_index str_game_mode_end
+	data_store_index %game_mode_start_index str_game_mode_capture_the_flag 15
+	data_store_index %game_mode_end_index str_game_mode_end 15
 	
-	string_store_index %game_profession_start_index str_profession_sabrer
-	string_store_index %game_profession_end_index str_profession_end
+	data_store_index %game_profession_start_index str_profession_sabrer 15
+	data_store_index %game_profession_end_index str_profession_end 15
+	
+	data_store_index %character_start_index cha_quick_battle_sabrer 1
 	
 	loop %game_map_start_index %game_map_end_index 1
-		string_store_str_by_index %str %current
+		data_store_value_by_index %str %current 15
 		widget_add_item cmbChooseMaps %str
 	end
 	
 	loop %game_mode_start_index %game_mode_end_index 1
-		string_store_str_by_index %str %current
+		data_store_value_by_index %str %current 15
 		widget_add_item cmbChooseModes %str
 	end
 	
 	loop %game_profession_start_index %game_profession_end_index 1
-		string_store_str_by_index %str %current
+		data_store_id_by_index %str_id %current 1
+		data_store_value_by_index %str %current 15
+		data_store_id_by_index %cha_id %current 1
+		
+		set_slot %str_id slot_linked_profession %cha_id
 		widget_add_item cmbChooseCharacters %str
 	end
 end
 
-function uiMouseEventChanged
-	store_input_param %widgetID 1
-	switch %widgetID
-		case btnOK
-			get_widget_text $g_player_name txtPlayerName
-			load_map $g_selected_map
-			end
-		case btnCancel
-			change_return_main_menu
-			end
-	end
-end
-
-function uiSelectionEventChanged
+function uiEventChanged
 	store_input_param %widgetID 1
 	store_input_param %value 2
 	switch %widgetID
 		case cmbChooseMaps
-			assign $g_selected_map %value
+			data_store_index %game_map_index map_magic_forest 6
+			value_add %game_map_index %value
+			data_store_id_by_index %game_map_id %game_map_index 6
+			assign $g_selected_map %game_map_id
 			end
 		case cmbChooseModes
 			assign $g_selected_mode %value
 			end
 		case cmbChooseCharacters
-			assign $g_selected_character %value
+			data_store_index %game_profession_start_index str_profession_sabrer 15
+			value_add %game_profession_start_index %value
+			data_store_id_by_index %str_profession_id %game_profession_start_index 15
+			get_slot %cha_id %str_profession_id slot_linked_profession
+			assign $g_selected_character %cha_id
+			end
+		case btnOK
+			widget_get_text $g_player_name txtPlayerName
+			change_map $g_selected_map
+			end
+		case btnCancel
+			change_return_main_menu
 			end
 	end
 end

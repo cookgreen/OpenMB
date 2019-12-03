@@ -15,8 +15,8 @@ namespace OpenMB.Mods.XML
     [XmlRoot("Sound")]
     public class ModSoundDfnXML
     {
-        [XmlElement("Id")]
-        public string Id { get; set; }
+        [XmlElement("ID")]
+        public string ID { get; set; }
         [XmlElement("File")]
         public string File { get; set; }
     }

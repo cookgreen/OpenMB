@@ -44,7 +44,7 @@ namespace OpenMB.Script.Command
         public override void Execute(params object[] executeArgs)
         {
             GameWorld world = executeArgs[0] as GameWorld;
-            world.ChangeCameraMode(getParamterValue(commandArgs[0]));
+            world.ChangeCameraMode(getParamterValue(commandArgs[0], world));
         }
     }
 }

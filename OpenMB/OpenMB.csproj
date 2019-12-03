@@ -296,6 +296,7 @@
     <Compile Include="Script\Command\ChangeScreenReturnScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeSystemVariableValue.cs" />
     <Compile Include="Script\Command\ChangeUIScriptCommand.cs" />
+    <Compile Include="Script\Command\DataStoreIdByIndexScriptCommand.cs" />
     <Compile Include="Script\Command\EndScriptCommand.cs" />
     <Compile Include="Script\Command\FunctionScriptCommand.cs" />
     <Compile Include="Script\Command\GetScenePropNumScriptCommand.cs" />
@@ -315,6 +316,7 @@
     <Compile Include="Script\Command\RootScriptCommand.cs" />
     <Compile Include="Script\Command\ScriptCommand.cs" />
     <Compile Include="Script\Command\SetCameraModeScriptCommand.cs" />
+    <Compile Include="Script\Command\SlotGetScriptCommand.cs" />
     <Compile Include="Script\Command\SlotSetScriptCommand.cs" />
     <Compile Include="Script\Command\SpawnPlaneScriptCommand.cs" />
     <Compile Include="Script\Command\SpawnPlayerCharacterScriptCommand.cs" />
@@ -325,12 +327,14 @@
     <Compile Include="Script\Command\StoreFunctionInputParameterScriptCommand.cs" />
     <Compile Include="Script\Command\StoreScriptCommand.cs" />
     <Compile Include="Script\Command\StoreStringScriptCommand.cs" />
-    <Compile Include="Script\Command\StringStoreIndexScriptCommand.cs" />
-    <Compile Include="Script\Command\StringStoreStrByIndexScriptCommand.cs" />
+    <Compile Include="Script\Command\DataStoreIndexScriptCommand.cs" />
+    <Compile Include="Script\Command\DataStoreValueByIndexScriptCommand.cs" />
     <Compile Include="Script\Command\SwitchScriptCommand.cs" />
+    <Compile Include="Widgets\Controls\TextWidget.cs" />
     <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerExecuteSrciptCommand.cs" />
     <Compile Include="Script\Command\TriggerScriptCommand.cs" />
+    <Compile Include="Script\Command\ValueAddScriptCommand.cs" />
     <Compile Include="Script\Command\VectorGetXScriptCommand.cs" />
     <Compile Include="Script\Command\VectorGetYScriptCommand.cs" />
     <Compile Include="Script\Command\VectorGetZScriptCommand.cs" />
@@ -338,6 +342,7 @@
     <Compile Include="Script\Command\VectorSetYScriptCommand.cs" />
     <Compile Include="Script\Command\VectorSetZScriptCommand.cs" />
     <Compile Include="Script\Command\WidgetAddItemScriptCommand.cs" />
+    <Compile Include="Script\Command\WidgetGetTextScriptCommand.cs" />
     <Compile Include="Script\ScriptCommandRegister.cs" />
     <Compile Include="Script\ScriptContext.cs" />
     <Compile Include="Script\ScriptFile.cs" />

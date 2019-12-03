@@ -19,7 +19,7 @@ namespace OpenMB.Game
 
 		public void Spawn()
 		{
-			var model = world.ModData.Models.Where(o => o.ID == lotData.Model.Resource).FirstOrDefault();
+			var model = world.ModData.ModelInfos.Where(o => o.ID == lotData.Model.Resource).FirstOrDefault();
 			if (model != null)
 			{
 				mesh.Entity = mesh.SceneManager.CreateEntity(Guid.NewGuid().ToString(), model.Mesh);

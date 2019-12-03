@@ -48,7 +48,7 @@ namespace OpenMB.Script.Command
 				GameWorld world = executeArgs[0] as GameWorld;
 				string destVar = (string)CommandArgs[0];
 				int parameterIndex = int.Parse(CommandArgs[1]);
-				var paramter = executeArgs[parameterIndex].ToString();
+				var paramter = executeArgs[parameterIndex + 1].ToString();
 				if (destVar.StartsWith("%"))//local var
 				{
 					Context.ChangeLocalValue(destVar.Substring(1, destVar.IndexOf(destVar.Last())), paramter);

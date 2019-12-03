@@ -8,8 +8,8 @@ using MOIS;
 
 namespace OpenMB.Widgets
 {
-    public class InputBoxWidget : Widget
-    {
+    public class InputBoxWidget : TextWidget
+	{
 		private BorderPanelOverlayElement inputBoxElement;
 		private TextAreaOverlayElement captionTextAreaElement;
 		private TextAreaOverlayElement contentTextAreaElement;
@@ -20,7 +20,7 @@ namespace OpenMB.Widgets
 		private int init_tick = 120;
 		private int tick = 0;
 
-		public string Text
+		public override string Text
         {
             get { return originalText; }
             set { originalText = value; }
