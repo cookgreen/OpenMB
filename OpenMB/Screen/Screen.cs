@@ -69,26 +69,46 @@ namespace OpenMB.Screen
 
         public virtual void InjectKeyPressed(KeyEvent arg)
 		{
-			UIManager.Instance.InjectKeyPressed(arg);
+			var uiEvent = UIManager.Instance.InjectKeyPressed(arg);
+			if (uiEvent != null)
+			{
+				OnScreenEventChanged?.Invoke(uiEvent.WidgetName, uiEvent.EventValue);
+			}
 		}
 
         public virtual void InjectKeyReleased(KeyEvent arg)
         {
-			UIManager.Instance.InjectKeyReleased(arg);
-        }
+			var uiEvent = UIManager.Instance.InjectKeyReleased(arg);
+			if (uiEvent != null)
+			{
+				OnScreenEventChanged?.Invoke(uiEvent.WidgetName, uiEvent.EventValue);
+			}
+		}
 
         public virtual void InjectMouseMove(MouseEvent arg)
         {
-            UIManager.Instance.InjectMouseMove(arg);
-        }
+			var uiEvent = UIManager.Instance.InjectMouseMove(arg);
+			if (uiEvent != null)
+			{
+				OnScreenEventChanged?.Invoke(uiEvent.WidgetName, uiEvent.EventValue);
+			}
+		}
         public virtual void InjectMousePressed(MouseEvent arg, MouseButtonID id)
         {
-            UIManager.Instance.InjectMouseDown(arg, id);
-        }
+			var uiEvent = UIManager.Instance.InjectMouseDown(arg, id);
+			if (uiEvent != null)
+			{
+				OnScreenEventChanged?.Invoke(uiEvent.WidgetName, uiEvent.EventValue);
+			}
+		}
         public virtual void InjectMouseReleased(MouseEvent arg, MouseButtonID id)
         {
-            UIManager.Instance.InjectMouseUp(arg, id);
-        }
+			var uiEvent = UIManager.Instance.InjectMouseUp(arg, id);
+			if (uiEvent != null)
+			{
+				OnScreenEventChanged?.Invoke(uiEvent.WidgetName, uiEvent.EventValue);
+			}
+		}
 
         public virtual void Run()
         {

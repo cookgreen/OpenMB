@@ -118,5 +118,12 @@ namespace OpenMB.Trigger
                 trigger.Execute(world, gameObjInstance.ID, gameObjInstance2.ID);
             }
         }
+
+		public void Exit()
+		{
+			triggerDelayQueue.Clear();
+			triggerExecuteQueue.Clear();
+			triggerForzenQueue.Clear();
+		}
     }
 }

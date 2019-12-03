@@ -43,6 +43,11 @@ using MOIS;
 
 namespace OpenMB.Widgets
 {
+	public class UIEvent
+	{
+		public string WidgetName { get; set; }
+		public string EventValue { get; set; }
+	}
 	/// <summary>
 	/// Enumerator values for widget tray anchoring locations
 	/// </summary>
@@ -1657,10 +1662,10 @@ namespace OpenMB.Widgets
 		//		| consumed and should not be passed on to other handlers.
 		//		-----------------------------------------------------------------------------
 
-		public bool InjectMouseDown(MOIS.MouseEvent evt, MOIS.MouseButtonID id)
+		public UIEvent InjectMouseDown(MOIS.MouseEvent evt, MOIS.MouseButtonID id)
 		{
 			if (!cursorLayer.IsVisible || id != MOIS.MouseButtonID.MB_Left)
-				return false;
+				return null;
 
 			Mogre.Vector2 cursorPos = new Mogre.Vector2(cursor.Left, cursor.Top);
 
@@ -1671,7 +1676,7 @@ namespace OpenMB.Widgets
 				expandedMenu.CursorPressed(cursorPos);
 				if (!expandedMenu.Expanded())
 					setExpandedMenu(null);
-				return true;
+				return null;
 			}
 
 			if (dialog != null) // only check top priority widget until it passes on
@@ -1684,7 +1689,7 @@ namespace OpenMB.Widgets
 					yes.CursorPressed(cursorPos);
 					no.CursorPressed(cursorPos);
 				}
-				return true;
+				return null;
 			}
 
 			for (uint i = 0; i < 9; i++) // check if mouse is over a non-null tray
@@ -1716,18 +1721,23 @@ namespace OpenMB.Widgets
 					Widget w = widgets[i][j];
 					if (!w.OverlayElement.IsVisible)
 						continue;
-					w.CursorPressed(cursorPos); // send event to widget
-
-					SelectMenuWidget m = w as SelectMenuWidget;
-					if (m != null && m.Expanded()) // a menu has begun a top priority session
+					if (w.IsCursorOver(cursorPos))
 					{
-						setExpandedMenu(m);
-						return true;
+						w.CursorPressed(cursorPos); // send event to widget
+
+						SelectMenuWidget m = w as SelectMenuWidget;
+						if (m != null && m.Expanded()) // a menu has begun a top priority session
+						{
+							setExpandedMenu(m);
+							return new UIEvent() {
+								WidgetName = w.Name
+							};
+						}
 					}
 				}
 			}
 
-			return true; // a tray click is not to be handled by another party
+			return null; // a tray click is not to be handled by another party
 		}
 
 		//        -----------------------------------------------------------------------------
@@ -1735,17 +1745,17 @@ namespace OpenMB.Widgets
 		//		| consumed and should not be passed on to other handlers.
 		//		-----------------------------------------------------------------------------
 
-		public bool InjectMouseUp(MOIS.MouseEvent evt, MOIS.MouseButtonID id)
+		public UIEvent InjectMouseUp(MOIS.MouseEvent evt, MOIS.MouseButtonID id)
 		{
 			if (!cursorLayer.IsVisible || id != MOIS.MouseButtonID.MB_Left)
-				return false;
+				return null;
 
 			Mogre.Vector2 cursorPos = new Mogre.Vector2(cursor.Left, cursor.Top);
 
 			if (expandedMenu != null) // only check top priority widget until it passes on
 			{
 				expandedMenu.CursorReleased(cursorPos);
-				return true;
+				return null;
 			}
 
 			if (dialog != null) // only check top priority widget until it passes on
@@ -1760,11 +1770,11 @@ namespace OpenMB.Widgets
 					if (no != null)
 						no.CursorReleased(cursorPos);
 				}
-				return true;
+				return null;
 			}
 
 			if (!trayDrag) // this click did not originate in a tray, so don't process
-				return false;
+				return null;
 
 			Widget w = null;
 
@@ -1776,24 +1786,31 @@ namespace OpenMB.Widgets
 				for (int j = 0; j < widgets[i].Count; j++)
 				{
 					w = widgets[i][j];
-					if (!w.OverlayElement.IsVisible)
-						continue;
-					w.CursorReleased(cursorPos); // send event to widget
+					if(w.IsCursorOver(cursorPos))
+					{
+						if (!w.OverlayElement.IsVisible)
+							continue;
+						w.CursorReleased(cursorPos); // send event to widget
+						return new UIEvent()
+						{
+							WidgetName = w.Name
+						};
+					}
 				}
 			}
 
 			trayDrag = false; // stop this drag
-			return true; // this click did originate in this tray, so don't pass it on
+			return null; // this click did originate in this tray, so don't pass it on
 		}
 
 		//        -----------------------------------------------------------------------------
 		//		| Updates cursor position. Returns true if the event was
 		//		| consumed and should not be passed on to other handlers.
 		//		-----------------------------------------------------------------------------
-		public bool InjectMouseMove(MOIS.MouseEvent evt)
+		public UIEvent InjectMouseMove(MOIS.MouseEvent evt)
 		{
 			if (!cursorLayer.IsVisible) // don't process if cursor layer is invisible
-				return false;
+				return null;
 
 			Mogre.Vector2 cursorPos = new Mogre.Vector2(evt.state.X.abs, evt.state.Y.abs);
 			cursor.SetPosition(cursorPos.x, cursorPos.y);
@@ -1801,7 +1818,7 @@ namespace OpenMB.Widgets
 			if (expandedMenu != null) // only check top priority widget until it passes on
 			{
 				expandedMenu.CursorMoved(cursorPos);
-				return true;
+				return null;
 			}
 
 			if (dialog != null) // only check top priority widget until it passes on
@@ -1814,7 +1831,7 @@ namespace OpenMB.Widgets
 					yes.CursorMoved(cursorPos);
 					no.CursorMoved(cursorPos);
 				}
-				return true;
+				return null;
 			}
 
 			Widget w = null;
@@ -1829,17 +1846,24 @@ namespace OpenMB.Widgets
 					w = widgets[i][j];
 					if (!w.OverlayElement.IsVisible)
 						continue;
-					w.CursorMoved(cursorPos); // send event to widget
-					w.MouseMoved(evt); // send event to widget
+					if(w.IsCursorOver(cursorPos))
+					{
+						w.CursorMoved(cursorPos); // send event to widget
+						w.MouseMoved(evt); // send event to widget
+						return new UIEvent() {
+							WidgetName = w.Name,
+							EventValue = null
+						};
+					}
 				}
 			}
 
 			if (trayDrag) // don't pass this event on if we're in the middle of a drag
-				return true;
-			return false;
+				return null;
+			return null;
 		}
 
-		public void InjectKeyReleased(KeyEvent arg)
+		public UIEvent InjectKeyReleased(KeyEvent arg)
 		{
 			Widget w = null;
 
@@ -1854,12 +1878,21 @@ namespace OpenMB.Widgets
 					if (!w.OverlayElement.IsVisible)
 						continue;
 					Vector2 pos = new Vector2(cursor.Left, cursor.Top);
-					w.KeyReleased(pos, arg);
+					if (w.IsCursorOver(pos))
+					{
+						w.KeyReleased(pos, arg);
+						return new UIEvent()
+						{
+							WidgetName = w.Name,
+							EventValue = arg.text.ToString()
+						};
+					}
 				}
 			}
+			return null;
 		}
 
-		public void InjectKeyPressed(KeyEvent arg)
+		public UIEvent InjectKeyPressed(KeyEvent arg)
 		{
 			Widget w = null;
 
@@ -1874,9 +1907,17 @@ namespace OpenMB.Widgets
 					if (!w.OverlayElement.IsVisible)
 						continue;
 					Vector2 pos = new Vector2(cursor.Left, cursor.Top);
-					w.KeyPressed(pos, arg);
+					if (w.IsCursorOver(pos))
+					{
+						w.KeyPressed(pos, arg);
+						return new UIEvent() {
+							WidgetName = w.Name,
+							EventValue = arg.text.ToString()
+						};
+					}
 				}
 			}
+			return null;
 		}
 
 

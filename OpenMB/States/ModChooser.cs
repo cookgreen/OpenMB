@@ -140,12 +140,14 @@ namespace OpenMB.States
 
         bool Mouse_MouseReleased(MouseEvent arg, MouseButtonID id)
         {
-            return UIManager.Instance.InjectMouseUp(arg, id);
+            UIManager.Instance.InjectMouseUp(arg, id);
+			return true;
         }
 
         bool Mouse_MousePressed(MouseEvent arg, MouseButtonID id)
         {
-            return UIManager.Instance.InjectMouseDown(arg, id);
+            UIManager.Instance.InjectMouseDown(arg, id);
+			return true;
         }
 
         bool Mouse_MouseMoved(MOIS.MouseEvent arg)
@@ -162,7 +164,8 @@ namespace OpenMB.States
                 selectedModName = modChooserMenu.getSelectedItem();
             }
 
-            return UIManager.Instance.InjectMouseMove(arg);
+			UIManager.Instance.InjectMouseMove(arg);
+			return true;
         }
 
         public override bool pause()

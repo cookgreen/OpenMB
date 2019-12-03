@@ -23,7 +23,11 @@ namespace OpenMB.Widgets
 		{
 			get
 			{
-				return element.Name;
+				if (element != null)
+				{
+					return element.Name;
+				}
+				return null;
 			}
 		}
 		public virtual float DerivedTop

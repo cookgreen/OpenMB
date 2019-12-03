@@ -81,17 +81,17 @@ namespace OpenMB.States
 
         public bool mouseMoved(MouseEvent evt)
         {
-            if (UIManager.Instance.InjectMouseMove(evt)) return true;
+            UIManager.Instance.InjectMouseMove(evt);
             return true;
         }
         public bool mousePressed(MouseEvent evt, MouseButtonID id)
         {
-            if (UIManager.Instance.InjectMouseDown(evt, id)) return true;
+            UIManager.Instance.InjectMouseDown(evt, id);
             return true;
         }
         public bool mouseReleased(MouseEvent evt, MouseButtonID id)
         {
-            if (UIManager.Instance.InjectMouseUp(evt, id)) return true;
+            UIManager.Instance.InjectMouseUp(evt, id);
             return true;
         }
 
