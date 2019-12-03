@@ -21,9 +21,9 @@ namespace OpenMB.Game
 	}
 	public enum TimerState
 	{
-		Stop,
 		Running,
-		Paused
+		Paused,
+		Stopped
 	}
 
 	public class TimerManager
@@ -88,7 +88,7 @@ namespace OpenMB.Game
 			this.hour = hour;
 			this.minute = minute;
 			this.second = second;
-			state = TimerState.Running;
+			state = TimerState.Stopped;
 			lastTime = CurrentTime;
 		}
 
@@ -143,6 +143,11 @@ namespace OpenMB.Game
 			lastTime = currentTime;
 		}
 
+		public void Start()
+		{
+			state = TimerState.Running;
+		}
+
 		public void Resume()
 		{
 			if(state== TimerState.Paused)
@@ -158,7 +163,7 @@ namespace OpenMB.Game
 
 		public void Stop()
 		{
-			state = TimerState.Stop;
+			state = TimerState.Stopped;
 		}
 
 		private string getMonthStr(int month)
@@ -196,22 +201,24 @@ namespace OpenMB.Game
 
 		private string getDayStr(int day)
 		{
-			if (day == 1)
+			string suffix;
+			if (day.ToString().EndsWith("1"))
 			{
-				return "1st";
+				suffix = "st";
 			}
-			else if (day == 2)
+			else if(day.ToString().EndsWith("2"))
 			{
-				return "2nd";
+				suffix = "nd";
 			}
-			else if (day == 3)
+			else if(day.ToString().EndsWith("3"))
 			{
-				return "3rd";
+				suffix = "rd";
 			}
 			else
 			{
-				return day.ToString() + "th";
+				suffix = "th";
 			}
+			return day.ToString() + suffix;
 		}
 	}
 }
