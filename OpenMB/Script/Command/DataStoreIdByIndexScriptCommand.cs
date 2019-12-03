@@ -97,6 +97,9 @@ namespace OpenMB.Script.Command
 				case 17://World Maps
 					value = world.ModData.WorldMapInfos[dataIndex].ID;
 					break;
+				case 18://Map Templates
+					value = world.ModData.MapTemplateInfos[dataIndex].ID;
+					break;
 			}
 			if (commandArgs[0].StartsWith("%"))
 			{

@@ -30,9 +30,10 @@ namespace OpenMB.Mods
 		private List<ModUILayoutDfnXml> uiLayoutInfos;
 		private List<ModStringDfnXml> stringInfos;
 		private List<ModCursorDfnXml> cursorInfos;
+		private List<ModMapTemplateDfnXml> mapTemplateInfos;
 		private List<ModMediaData> modMediaData;
 
-        public bool HasSinglePlayer { get; set; }
+		public bool HasSinglePlayer { get; set; }
         public bool HasMultiplater { get; set; }
         public bool HasCredit { get; set; }
         public bool HasSavedGame { get; set; }
@@ -130,6 +131,11 @@ namespace OpenMB.Mods
 		{
 			get { return cursorInfos; }
 			set { cursorInfos = value; }
+		}
+		public List<ModMapTemplateDfnXml> MapTemplateInfos
+		{
+			get { return mapTemplateInfos; }
+			set { mapTemplateInfos = value; }
 		}
 
 		public List<ModItemTypeDfnXml> ItemTypeInfos { get; set; }

@@ -232,7 +232,7 @@ namespace OpenMB.Game
         /// Change inner scene
         /// </summary>
         /// <param name="mapID"></param>
-        public void ChangeScene(string mapID)
+        public void ChangeScene(string mapID, string mapTemplateID, List<string> sideIDs)
         {
 			TimerManager.Instance.Pause();
             UIManager.Instance.HideCursor();
@@ -246,7 +246,41 @@ namespace OpenMB.Game
                 if (findLoaders.Count() > 0)
                 {
                     var loader = findLoaders.ElementAt(0);
-                    GameMapManager.Instance.Load(findMap.File, loader);
+
+					string logicScriptFile = null;
+					List<GameMapEntryPoint> mapEntryPoints = null;
+					if (!string.IsNullOrEmpty(mapTemplateID))
+					{
+						var mapTemplateData = modData.MapTemplateInfos.Where(o => o.ID == mapTemplateID).FirstOrDefault();
+						logicScriptFile = mapTemplateData.Logic;
+						mapEntryPoints = new List<GameMapEntryPoint>();
+						foreach(var entryPointData in mapTemplateData.EntryPoints)
+						{
+							mapEntryPoints.Add(new GameMapEntryPoint()
+							{
+								Number = int.Parse(entryPointData.ID),
+								Team = int.Parse(entryPointData.Team)
+							});
+						}
+					}
+
+					List<GameTeam> teams = new List<GameTeam>();
+					foreach (var sideID in sideIDs)
+					{
+						var sideInfo = modData.SideInfos.Where(o => o.ID == sideID).FirstOrDefault();
+						if (sideInfo != null)
+						{
+							teams.Add(new GameTeam(teams.Count, sideID));
+						}
+					}
+
+                    GameMapManager.Instance.Load(
+						findMap.File, 
+						mapEntryPoints,
+						teams,
+						logicScriptFile,
+						loader
+					);
                 }
             }
         }
@@ -272,7 +306,7 @@ namespace OpenMB.Game
                     if (findLoaders.Count() > 0)
                     {
                         var loader = findLoaders.ElementAt(0);
-                        GameMapManager.Instance.LoadWorldMap(worldMapID, findMap.File, loader);
+                        GameMapManager.Instance.LoadWorldMap(findMap.File, loader);
                     }
                 }
                 else

@@ -10,6 +10,9 @@ function uiInit
 	
 	data_store_index %character_start_index cha_quick_battle_sabrer 1
 	
+	data_store_index %game_side_start_index side_empire 11
+	data_store_index %game_side_end_index side_outlaws 11
+	
 	loop %game_map_start_index %game_map_end_index 1
 		data_store_value_by_index %str %current 15
 		widget_add_item cmbChooseMaps %str
@@ -18,6 +21,16 @@ function uiInit
 	loop %game_mode_start_index %game_mode_end_index 1
 		data_store_value_by_index %str %current 15
 		widget_add_item cmbChooseModes %str
+	end
+	
+	loop %game_side_start_index %game_side_end_index 1
+		data_store_value_by_index %str %current 11
+		widget_add_item cmbChooseTeam1 %str
+	end
+	
+	loop %game_side_start_index %game_side_end_index 1
+		data_store_value_by_index %str %current 11
+		widget_add_item cmbChooseTeam2 %str
 	end
 	
 	loop %game_profession_start_index %game_profession_end_index 1
@@ -41,7 +54,10 @@ function uiEventChanged
 			assign $g_selected_map %game_map_id
 			end
 		case cmbChooseModes
-			assign $g_selected_mode %value
+			data_store_index %game_mode_index mt_custom_game_ctf 18
+			value_add %game_mode_index %value
+			data_store_id_by_index %game_mode_id %game_mode_index 18
+			assign $g_selected_mode %game_mode_id
 			end
 		case cmbChooseCharacters
 			data_store_index %game_profession_start_index str_profession_sabrer 15
@@ -50,9 +66,22 @@ function uiEventChanged
 			get_slot %cha_id %str_profession_id slot_linked_profession
 			assign $g_selected_character %cha_id
 			end
+		case cmbChooseTeam1
+			data_store_index %game_side_index side_empire 11
+			value_add %game_side_index %value
+			data_store_id_by_index $g_selected_team_1 %game_side_index 11
+			end
+		case cmbChooseTeam2
+			data_store_index %game_side_index side_empire 11
+			value_add %game_side_index %value
+			data_store_id_by_index $g_selected_team_2 %game_side_index 11
+			end
 		case btnOK
+			init_list %side_list
+			list_add $g_selected_team_1
+			list_add $g_selected_team_2
 			widget_get_text $g_player_name txtPlayerName
-			change_map $g_selected_map
+			change_map $g_selected_map $g_selected_mode %side_list
 			end
 		case btnCancel
 			change_return_main_menu

@@ -47,6 +47,24 @@
 					<WidgetParameter Name="maxItemsShown" Type="UnsigedInteger">5</WidgetParameter>
 				</WidgetParameters>
 			</Widget>
+			<Widget Type="SelectMenu" TrayLocation="TL_CENTER">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">cmbChooseTeam1</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_team_1</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+					<WidgetParameter Name="boxWidth" Type="Float">180</WidgetParameter>
+					<WidgetParameter Name="maxItemsShown" Type="UnsigedInteger">5</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="SelectMenu" TrayLocation="TL_CENTER">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">cmbChooseTeam2</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_team_2</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+					<WidgetParameter Name="boxWidth" Type="Float">180</WidgetParameter>
+					<WidgetParameter Name="maxItemsShown" Type="UnsigedInteger">5</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
 			<Widget Type="Button" TrayLocation="TL_RIGHT">
 				<WidgetParameters>
 					<WidgetParameter Name="name" Type="String">btnOK</WidgetParameter>

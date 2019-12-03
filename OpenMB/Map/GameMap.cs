@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using OpenMB.Game.ControlObjType;
 using System.IO;
+using OpenMB.Mods.XML;
 
 namespace OpenMB.Map
 {
@@ -25,11 +26,7 @@ namespace OpenMB.Map
     /// </summary>
     public class GameMap : IGameMap
     {
-        private string mapName;
-        private IGameMapLoader loader;
-        private Dictionary<string, List<GameObject>> gameObjects;
         private List<ActorNode> actorNodeList;
-        private ScriptLoader scriptLoader;
         private SceneManager sceneManager;
         //private TerrainGroup terrianGroup;
         private Scene physicsScene;
@@ -37,19 +34,27 @@ namespace OpenMB.Map
         private ModData modData;
         private Physics physics;
         private ControllerManager controllerMgr;
-        private Player player;
-        private Character playerAgent;
         private Camera camera;
-        private CameraHandler cameraHanlder;
-        private GameWorld world;
-        private AIMesh aimesh;
-        private List<Mogre.Vector3> aimeshVertexData;
-        private List<Mogre.Vector3> aimeshIndexData;
-        private GameMapEditor editor;
+
         private bool combineKey;
         private KeyCode combineKeyCode;
+		private string mapName;
+		private GameWorld world;
+		private Dictionary<string, List<GameObject>> gameObjects;
+		private IGameMapLoader loader;
+		private ScriptLoader scriptLoader;
+		private CameraHandler cameraHanlder;
+		private GameMapEditor editor;
+		private List<GameTeam> teams;
+		private string logicScriptFile;
+		private List<GameMapEntryPoint> mapEntryPoints;
+		private AIMesh aimesh;
+		private List<Mogre.Vector3> aimeshVertexData;
+		private List<Mogre.Vector3> aimeshIndexData;
+		private Player player;
+		private Character playerAgent;
 
-        public string Name
+		public string Name
         {
             get
             {
@@ -139,7 +144,13 @@ namespace OpenMB.Map
 
         public event MapLoadhandler LoadMapStarted;
         public event MapLoadhandler LoadMapFinished;
-        public GameMap(GameWorld world, IGameMapLoader loader)
+        public GameMap(
+			GameWorld world, 
+			List<GameMapEntryPoint> mapEntryPoints, 
+			List<GameTeam> teams, 
+			string logicScriptFile,
+			IGameMapLoader loader
+		)
         {
             scriptLoader = new ScriptLoader();
             actorNodeList = new List<ActorNode>();
@@ -160,11 +171,16 @@ namespace OpenMB.Map
             gameObjects = new Dictionary<string, List<GameObject>>();
             combineKey = false;
 
-            GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
+			this.mapEntryPoints = mapEntryPoints;
+			this.teams = teams;
+			this.logicScriptFile = logicScriptFile;
+
+			GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
             GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
             GameManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
             GameManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
             GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
+
         }
 
         private void Loader_LoadMapFinished()
@@ -172,7 +188,7 @@ namespace OpenMB.Map
             aimesh = new AIMesh();
             gameObjects = new Dictionary<string, List<GameObject>>();
 
-            var file = scriptLoader.Parse(Path.GetFileNameWithoutExtension(loader.LoadedMapName)+".script", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+            var file = scriptLoader.Parse(logicScriptFile, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
             scriptLoader.ExecuteFunction(file, "map_loaded", world);
             
             TriggerManager.Instance.Init(world, scriptLoader.currentContext);
@@ -186,26 +202,6 @@ namespace OpenMB.Map
         {
             mapName = name;
             loader.LoadAsync(this, mapName);
-        }
-
-        public void LoadWorldMap(string name, string file)
-        {
-            var mesh = Connector.MBOgre.Instance.LoadWorldMap(
-                name, sceneManager,
-                FileFormats.MBWorldMap.ParseXml(
-                    GameMapManager.Instance.FindPath(file)
-                )
-            );
-            if (sceneManager.HasEntity("CURRENT_WORLDMAP"))
-            {
-                sceneManager.DestroyEntity("CURRENT_WORLDMAP");
-            }
-            if (sceneManager.HasSceneNode("CURRENT_WORLDMAP_SCENENODE"))
-            {
-                sceneManager.DestroySceneNode("CURRENT_WORLDMAP_SCENENODE");
-            }
-            var worldmapEnt = sceneManager.CreateEntity("CURRENT_WORLDMAP", "WORLDMAP-" + name);
-            sceneManager.RootSceneNode.CreateChildSceneNode("CURRENT_WORLDMAP_SCENENODE").AttachObject(worldmapEnt);
         }
 
         public Entity CreateEntityWithMaterial(string name, string entityMeshName, string materialName)

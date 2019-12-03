@@ -19,6 +19,7 @@
     <Items>Items.xml</Items>
     <ItemTypes>ItemTypes.xml</ItemTypes>
     <Maps>Maps.xml</Maps>
+    <MapTemplates>MapTemplates.xml</MapTemplates>
     <Menus>Menus.xml</Menus>
     <Models>Models.xml</Models>
     <Music>Music.xml</Music>

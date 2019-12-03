@@ -116,6 +116,10 @@ namespace OpenMB.Script.Command
 					item = world.ModData.WorldMapInfos.Where(o => o.ID == commandArgs[1]).FirstOrDefault();
 					dataIndex = world.ModData.WorldMapInfos.IndexOf(item as ModWorldMapDfnXml);
 					break;
+				case 18://World Maps
+					item = world.ModData.MapTemplateInfos.Where(o => o.ID == commandArgs[1]).FirstOrDefault();
+					dataIndex = world.ModData.MapTemplateInfos.IndexOf(item as ModMapTemplateDfnXml);
+					break;
 			}
             if (commandArgs[0].StartsWith("%"))
             {

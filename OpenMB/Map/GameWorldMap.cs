@@ -4,6 +4,7 @@ using Mogre;
 using OpenMB.Game;
 using OpenMB.Mods;
 using System.Linq;
+using System.ComponentModel;
 
 namespace OpenMB.Map
 {
@@ -14,6 +15,10 @@ namespace OpenMB.Map
 		private ModData modData;
 		private SceneManager sceneManager;
 		private List<GameObject> locations;
+		private BackgroundWorker worker;
+
+		public event MapLoadhandler LoadMapStarted;
+		public event MapLoadhandler LoadMapFinished;
 
 		public string Name
 		{
@@ -31,13 +36,25 @@ namespace OpenMB.Map
 			}
 		}
 
-		public GameWorldMap(GameWorld world)
+		public GameWorldMap(GameWorld world,  string file, IGameMapLoader loader)
 		{
 			locations = new List<GameObject>();
 			this.world = world;
 			sceneManager = world.SceneManager;
 			modData = world.ModData;
 			name = null;
+			worker = new BackgroundWorker();
+			worker.DoWork += Worker_DoWork;
+			worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+		}
+
+		private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			LoadMapFinished?.Invoke();
+		}
+
+		private void Worker_DoWork(object sender, DoWorkEventArgs e)
+		{
 		}
 
 		public void Destroy()
@@ -52,6 +69,8 @@ namespace OpenMB.Map
 
 		public void LoadAsync()
 		{
+			LoadMapStarted?.Invoke();
+			worker.RunWorkerAsync();
 		}
 
 		public void Update(float timeSinceLastFrame)

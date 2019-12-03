@@ -14,8 +14,10 @@ namespace OpenMB.Script.Command
         public ChangeMapScriptCommand()
         {
             commandArgs = new string[] {
-                "mapName"
-            };
+                "map Name",
+				"map Template Name",
+				"side list"
+			};
         }
         public override string[] CommandArgs
         {
@@ -44,9 +46,16 @@ namespace OpenMB.Script.Command
         public override void Execute(params object[] executeArgs)
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
-			string mapID = getParamterValue(CommandArgs[0], world);
-
-            world.ChangeScene(mapID);
+			string mapID = getParamterValue(commandArgs[0], world);
+			string mapTemplateID = getParamterValue(commandArgs[1], world);
+			string listVariable = commandArgs[2];
+			var list = Context.LocalTable.GetRecord(listVariable.Substring(1));
+			List<string> items = new List<string>();
+			foreach (var value in list.NextNodes)
+			{
+				items.Add(value.Value);
+			}
+            world.ChangeScene(mapID, mapTemplateID, items);
         }
     }
 }

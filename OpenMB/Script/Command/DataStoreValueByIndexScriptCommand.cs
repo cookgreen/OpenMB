@@ -99,6 +99,8 @@ namespace OpenMB.Script.Command
 					break;
 				case 17://World Maps
 					break;
+				case 18://Map Templates
+					break;
 			}
 			if (commandArgs[0].StartsWith("%"))
             {

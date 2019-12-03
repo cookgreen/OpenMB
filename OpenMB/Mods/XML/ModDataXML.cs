@@ -44,6 +44,8 @@ namespace OpenMB.Mods.XML
 		public string stringsXml { get; set; }
 		[XmlElement("UILayouts")]
 		public string uiLayoutsXml { get; set; }
+		[XmlElement("MapTemplates")]
+		public string mapTemplatesXml { get; set; }
 		[XmlElement]
         public ModDataDirXML DataDir { get; set; }
 	}

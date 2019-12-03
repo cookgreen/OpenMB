@@ -13,5 +13,8 @@ namespace OpenMB.Map
         void Update(float timeSinceLastFrame);
         string Name { get; }
         List<GameObject> GetGameObjects(string objectID);
-    }
+
+		event MapLoadhandler LoadMapStarted;
+		event MapLoadhandler LoadMapFinished;
+	}
 }

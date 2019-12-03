@@ -282,6 +282,14 @@ namespace OpenMB.Mods
 				loader.Load(out cursorsDfnXml);
 				currentMod.CursorInfos = cursorsDfnXml.Cursors;
 			}
+
+			if (!string.IsNullOrEmpty(manifest.Data.MapTemplates))
+			{
+				loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.MapTemplates);
+				ModMapTemplatesDfnXml mapTemplatesDfnXml;
+				loader.Load(out mapTemplatesDfnXml);
+				currentMod.MapTemplateInfos = mapTemplatesDfnXml.MapTemplates;
+			}
 		}
 
         private void LoadInternalTypes(ModManifest manifest)

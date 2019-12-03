@@ -36,30 +36,33 @@ namespace OpenMB.Script
                 ScriptLoader loader = new ScriptLoader();
                 ScriptFile file;
                 file = loader.Parse(res, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-                ScriptCommand namespaceCmd = (ScriptCommand)file.Commands[0];
-                if (namespaceCmd != null && namespaceCmd.GetType().Equals(typeof(NamespaceScriptCommand)))
-                {
-                    namespaceCmd.Execute(this);
-                }
-                else
-                {
-                    if (namespaceFileDic.ContainsKey("(default)"))
-                    {
-                        if (namespaceFileDic["(default)"] == null)
-                        {
-                            namespaceFileDic["(default)"] = new List<ScriptFile>();
-                        }
-                        namespaceFileDic["(default)"].Add(file);
-                    }
-                    else
-                    {
-                        namespaceFileDic.Add("(default)", new List<ScriptFile>()
-                        {
-                            file
-                        });
-                    }
-                }
-            }
+				if (file.Commands.Count > 0)
+				{
+					ScriptCommand namespaceCmd = (ScriptCommand)file.Commands[0];
+					if (namespaceCmd != null && namespaceCmd.GetType().Equals(typeof(NamespaceScriptCommand)))
+					{
+						namespaceCmd.Execute(this);
+					}
+					else
+					{
+						if (namespaceFileDic.ContainsKey("(default)"))
+						{
+							if (namespaceFileDic["(default)"] == null)
+							{
+								namespaceFileDic["(default)"] = new List<ScriptFile>();
+							}
+							namespaceFileDic["(default)"].Add(file);
+						}
+						else
+						{
+							namespaceFileDic.Add("(default)", new List<ScriptFile>()
+							{
+								file
+							});
+						}
+					}
+				}
+			}
         }
 
         public void LoadSpecificFunction(string function, params object[] executeArgs)

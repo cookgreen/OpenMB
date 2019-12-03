@@ -48,6 +48,7 @@ namespace OpenMB.Script.Command
             if (list == null)
             {
                 list = new ScriptLinkTableNode();
+				list.Name = listVariable.Substring(1);
                 Context.LocalTable.AddRecord(list);
             }
             else
