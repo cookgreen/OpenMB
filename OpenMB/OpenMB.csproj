@@ -333,6 +333,7 @@
     <Compile Include="Script\Command\StoreStringScriptCommand.cs" />
     <Compile Include="Script\Command\DataStoreIndexScriptCommand.cs" />
     <Compile Include="Script\Command\DataStoreValueByIndexScriptCommand.cs" />
+    <Compile Include="Script\Command\SwitchMenuScriptCommand.cs" />
     <Compile Include="Script\Command\SwitchScriptCommand.cs" />
     <Compile Include="Widgets\Controls\TextWidget.cs" />
     <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />
