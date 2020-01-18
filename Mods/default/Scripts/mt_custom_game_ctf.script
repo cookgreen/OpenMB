@@ -1,0 +1,19 @@
+function mt_init
+end
+
+function mt_run
+
+hook_trigger BeforeMTSatrt beforeMTStart
+hook_trigger AfterMTStart afterMTStart
+
+end
+
+function mt_update
+end
+
+function beforeMTStart
+end
+
+function afterMTStart
+end
+
