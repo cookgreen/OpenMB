@@ -3,8 +3,8 @@ end
 
 function mt_run
 
-hook_trigger BeforeMTSatrt beforeMTStart
-hook_trigger AfterMTStart afterMTStart
+hook_trigger_event BeforeMTSatrt beforeMTStart
+hook_trigger_event AfterMTStart afterMTStart
 
 end
 
