@@ -5,11 +5,13 @@ function mt_run
 
 hook_trigger_event BeforeMTSatrt beforeMTStart
 hook_trigger_event AfterMTStart afterMTStart
+hook_trigger_event AgentKilled agentKilled
 
 end
 
 function mt_update
 end
+
 
 function beforeMTStart
 end
@@ -17,3 +19,5 @@ end
 function afterMTStart
 end
 
+function agentKilled
+end
