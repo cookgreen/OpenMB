@@ -67,20 +67,31 @@ namespace OpenMB.Script
 
         public void LoadSpecificFunction(string function, params object[] executeArgs)
         {
+            bool findedSpecificFunction = false;
             foreach (var kpl in namespaceFileDic)
             {
                 for (int i = 0; i < kpl.Value.Count; i++)
                 {
+                    if (findedSpecificFunction)
+                    {
+                        break;
+                    }
+
                     var func = kpl.Value[i].FindFunction(function);
                     if (func != null)
                     {
                         func.Execute(executeArgs);
 
                         GameManager.Instance.log.LogMessage(
-                            string.Format("Execute Function at namespace `{0}` in file `{1}`", 
-                            kpl.Key, kpl.Value[i].FileName));
+                            string.Format("Execute Function `{0}` in file `{1}`", 
+                            func.Name, kpl.Value[i].FileName));
+                        findedSpecificFunction = true;
                     }
-                }   
+                }
+                if (findedSpecificFunction)
+                {
+                    break;
+                }
             }
         }
 

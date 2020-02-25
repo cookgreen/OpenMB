@@ -109,10 +109,23 @@ namespace OpenMB.Screen
                 if (runningScreenStack.Peek().Name == screenName)
                 {
                     runningScreenStack.Pop().Exit();
-					if (runningScreenStack.Count > 0)
-					{
-						runningScreenStack.Peek().Run();
-					}
+                    if (runningScreenStack.Count > 0)
+                    {
+                        runningScreenStack.Peek().Run();
+                    }
+                    else
+                    {
+                        IScreen runScreen = innerScreens[screenName];
+                        if (runScreen == null && screenName == "ScriptedScreen")
+                        {
+                            runScreen = new ScriptedScreen();
+                        }
+                        runScreen.OnScreenExit += CurrentScreen_OnScreenExit;
+                        runScreen.OnScreenEventChanged += CurrentScreen_OnScreenEventChanged;
+                        runScreen.Init(param);
+                        runScreen.Run();
+                        runningScreenStack.Push(runScreen);
+                    }
 				}
                 else
                 {
@@ -164,7 +177,10 @@ namespace OpenMB.Screen
 
 		public void ChangeScreenReturn()
 		{
-			runningScreenStack.Pop().Exit();
+            IScreen screen = runningScreenStack.Pop();
+            screen.OnScreenEventChanged -= OnExternalEvent;
+            screen.OnScreenExit -= OnCurrentScreenExit; 
+            screen.Exit();
 			if (runningScreenStack.Count > 0)
 			{
 				runningScreenStack.Peek().Run();
@@ -175,7 +191,10 @@ namespace OpenMB.Screen
         {
             if (runningScreenStack.Count > 0)
             {
-                runningScreenStack.Pop().Exit();
+                IScreen screen = runningScreenStack.Pop();
+                screen.OnScreenEventChanged -= OnExternalEvent;
+                screen.OnScreenExit -= OnCurrentScreenExit;
+                screen.Exit();
             }
             if (runningScreenStack.Count > 0)
             {
@@ -196,7 +215,10 @@ namespace OpenMB.Screen
         {
             while (runningScreenStack.Count > 0)
             {
-                runningScreenStack.Pop().Exit();
+                IScreen screen = runningScreenStack.Pop();
+                screen.OnScreenEventChanged -= OnExternalEvent;
+                screen.OnScreenExit -= OnCurrentScreenExit;
+                screen.Exit();
             }
         }
 
@@ -218,7 +240,10 @@ namespace OpenMB.Screen
         {
             if (runningScreenStack.Count > 0)
             {
-                runningScreenStack.Pop().Exit();
+                IScreen screen = runningScreenStack.Pop();
+                screen.OnScreenEventChanged -= OnExternalEvent;
+                screen.OnScreenExit -= OnCurrentScreenExit;
+                screen.Exit();
             }
         }
 
