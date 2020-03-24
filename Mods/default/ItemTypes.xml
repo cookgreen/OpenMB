@@ -24,7 +24,12 @@
 	<ItemType>
 		<ID>IT_RIDEDRIVE</ID>
 		<Name>Ridable or drivable items</Name>
-		<SubTypes />
+		<SubTypes>
+			<ItemType>
+				<ID>IST_VEHICLE</ID>
+				<Name>Vehicle</Name>
+			</ItemType>
+		</SubTypes>
 	</ItemType>
 	<ItemType>
 		<ID>IT_WEAPON</ID>

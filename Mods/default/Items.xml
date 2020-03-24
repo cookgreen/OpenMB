@@ -124,17 +124,17 @@
     <AttachOptionWhenUse>IAO_LEFT_HAND</AttachOptionWhenUse>
     <AttachOptionWhenHave>IHAO_BACK_FROM_RIGHT_TO_LEFT</AttachOptionWhenHave>
   </Item>
+  <Item>
+	<ID>item_simple_tank</ID>
+	<Desc>Simple Tank</Desc>
+    <MeshName>simple_tank.mesh</MeshName>
+    <Type>IT_RIDEDRIVE</Type>
+	<SubType>IST_VEHICLE</SubType>
+	<LinkedData>vehicle_simple_tank</LinkedData>
+  </Item>
   <Item damage="0" range="0">
     <ID>item_dragon</ID>
     <Desc>Dragon</Desc>
-    <MeshName>dragon.mesh</MeshName>
     <Type>IT_RIDEDRIVE</Type>
-    <Animations>
-      <Animation type="Attack">ANIM_SLICE_HORIZONTAL</Animation>
-      <Animation type="Attack">ANIM_SLICE_VERTICAL</Animation>
-      <Animation type="Draw">ANIM_DRAW_SWORDS</Animation>
-    </Animations>
-    <AttachOptionWhenUse>IAO_LEFT_HAND</AttachOptionWhenUse>
-    <AttachOptionWhenHave>IHAO_BACK_FROM_RIGHT_TO_LEFT</AttachOptionWhenHave>
   </Item>
 </Items>

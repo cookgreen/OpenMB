@@ -1,0 +1,13 @@
+material Vehicle/SimpleTankGreen
+{
+	technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture DarkGreen.png
+            }
+        }
+    }
+}
