@@ -7,7 +7,7 @@
 		<FullPartMesh>simple_tank.mesh</FullPartMesh> <!-- Inital State -->
 		<DestroyedMesh>simple_tank.mesh</DestroyedMesh> <!-- Destroyed State -->
 		<Material>Vehicle/SimpleTankGreen</Material>
-		<Scale size="1,1,1" />
+		<Scale>1,1,1</Scale>
 		<Parts>
 			<Part>
 				<Type>VPT_Body</Type>
@@ -18,6 +18,13 @@
 				<Type>VPT_Turrent</Type>
 				<Mesh>simple_tank_turrent.mesh</Mesh>
 				<Material>Vehicle/SimpleTankGreen</Material>
+				<SubParts>
+					<Part>
+						<Type>VPT_Turrent_Barrel</Type>
+						<Mesh>simple_tank_turrent.mesh</Mesh>
+						<Material>Vehicle/SimpleTankGreen</Material>
+					</Part>
+				</SubParts>
 			</Part>
 		</Parts>
 		<Flags>

@@ -124,24 +124,7 @@ namespace OpenMB.Game
 
         public void EquipNewItem(Item item)
         {
-            if (item.ItemType == ItemValidType.IT_WEAPON)
-            {
-                if (!EquipNewWeapon(item))
-                {
-                    AddItemToBackpack(item);
-                }
-            }
-            else if (item.ItemType == ItemValidType.IT_ARMOUR)
-            {
-                if (!EquipNewClothes(item))
-                {
-                    AddItemToBackpack(item);
-                }
-            }
-            else
-            {
-                AddItemToBackpack(item);
-            }
+            AddItemToBackpack(item);
         }
 
         public void Update(float timeSinceLastFrame)

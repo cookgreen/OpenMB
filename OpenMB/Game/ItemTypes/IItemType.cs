@@ -23,6 +23,6 @@ namespace OpenMB.Game.ItemTypes
 
         void SpawnIntoWorld();
 
-        void SpawnIntoCharacter(Character character);
+        void SpawnIntoCharacter(GameWorld world, Character character);
 	}
 }

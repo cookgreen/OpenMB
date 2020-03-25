@@ -289,8 +289,16 @@ namespace OpenMB.Mods
 				ModMapTemplatesDfnXml mapTemplatesDfnXml;
 				loader.Load(out mapTemplatesDfnXml);
 				currentMod.MapTemplateInfos = mapTemplatesDfnXml.MapTemplates;
-			}
-		}
+            }
+
+            if (!string.IsNullOrEmpty(manifest.Data.Vehicles))
+            {
+                loader = new ModXmlLoader(manifest.InstalledPath + "/" + manifest.Data.Vehicles);
+                ModVehiclesDfnXml vehiclesDfnXml;
+                loader.Load(out vehiclesDfnXml);
+                currentMod.VehicleInfos = vehiclesDfnXml.VehicleDfns;
+            }
+        }
 
         private void LoadInternalTypes(ModManifest manifest)
         {

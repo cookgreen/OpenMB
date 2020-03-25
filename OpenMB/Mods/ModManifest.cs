@@ -49,6 +49,7 @@ namespace OpenMB.Mods
 										xmldata.Data.uiLayoutsXml,
 										xmldata.Data.cursorsXml,
 										xmldata.Data.mapTemplatesXml,
+                                        xmldata.Data.vehicleXml,
                                         xmldata.Data.DataDir.MapDir,
                                         xmldata.Data.DataDir.MusicDir,
                                         xmldata.Data.DataDir.ScriptDir);

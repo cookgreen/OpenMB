@@ -79,8 +79,7 @@ namespace OpenMB.Game
         protected int ownerID;
         protected string itemName;
         protected string itemMeshName;
-        protected IItemType itemType2;
-        protected ItemValidType itemType;
+        protected IItemType itemType;
         protected ItemHaveAttachOption itemAttachOptionWhenHave;
         protected ItemUseAttachOption itemAttachOptionWhenUse;
         private Character user;
@@ -90,11 +89,6 @@ namespace OpenMB.Game
         private Actor itemActor;
         private ModItemDfnXML itemData;
         #endregion
-        public virtual ItemValidType ItemType
-        {
-            get { return itemType; }
-            set { itemType = value; }
-        }
         public string ItemMeshName
         {
             get { return itemMeshName; }
@@ -134,13 +128,14 @@ namespace OpenMB.Game
         public virtual Type Ammo { get; set; }
         public virtual int AmmoCapcity { get; set; }
         public virtual string[] Animations { get; set; }
+        public GameObject LinkedGameObject { get; set; } //Use ItemType to check its type
 
         public Item(GameWorld world, IItemType itemType, ModItemDfnXML itemData, bool createNow = false) : base(-1, world)
         {
-            this.itemType2 = itemType;
+            this.itemType = itemType;
             this.itemData = itemData;
 
-            itemType2.Item = this;
+            this.itemType.Item = this;
 
             if (createNow)
             {
@@ -150,12 +145,12 @@ namespace OpenMB.Game
 
         public void SpawnIntoWorld()
         {
-            itemType2.SpawnIntoWorld();
+            itemType.SpawnIntoWorld();
         }
 
         public void SpawnIntoCharacter(Character character)//Spawn and attach into the character
         {
-            itemType2.SpawnIntoCharacter(character);
+            itemType.SpawnIntoCharacter(world, character);
         }
 
         public void Attack(int victimId)
@@ -249,7 +244,7 @@ namespace OpenMB.Game
 
 		public override MaterialPtr RenderInventoryPreview()
 		{
-			return itemType2.RenderInventoryPreview(mesh.Entity);
+			return itemType.RenderInventoryPreview(mesh.Entity);
 		}
 	}
 }

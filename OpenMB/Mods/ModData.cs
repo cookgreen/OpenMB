@@ -31,7 +31,8 @@ namespace OpenMB.Mods
 		private List<ModStringDfnXml> stringInfos;
 		private List<ModCursorDfnXml> cursorInfos;
 		private List<ModMapTemplateDfnXml> mapTemplateInfos;
-		private List<ModMediaData> modMediaData;
+        private List<ModVehicleDfnXml> vehicleInfos;
+        private List<ModMediaData> modMediaData;
 
 		public bool HasSinglePlayer { get; set; }
         public bool HasMultiplater { get; set; }
@@ -136,9 +137,15 @@ namespace OpenMB.Mods
 		{
 			get { return mapTemplateInfos; }
 			set { mapTemplateInfos = value; }
-		}
+        }
 
-		public List<ModItemTypeDfnXml> ItemTypeInfos { get; set; }
+        public List<ModVehicleDfnXml> VehicleInfos
+        {
+            get { return vehicleInfos; }
+            set { vehicleInfos = value; }
+        }
+
+        public List<ModItemTypeDfnXml> ItemTypeInfos { get; set; }
 
         public List<ModScenePropDfnXml> ScenePropInfos { get; set; }
         public List<ModModelDfnXml> ModelInfos { get; set; }
@@ -171,6 +178,7 @@ namespace OpenMB.Mods
 			menuInfos = new List<ModMenuDfnXml>();
 			modMediaData = new List<ModMediaData>();
 			cursorInfos = new List<ModCursorDfnXml>();
+            vehicleInfos = new List<ModVehicleDfnXml>();
 
 			HasSinglePlayer = true;
             HasMultiplater = true;

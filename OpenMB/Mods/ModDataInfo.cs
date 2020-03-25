@@ -29,13 +29,14 @@ namespace OpenMB.Mods
 		public readonly string UILayouts;
 		public readonly string Cursors;
 		public readonly string MapTemplates;
+        public readonly string Vehicles;
 
 		public ModDataInfo(
 			string animations, string characters, string sound, string music,
             string items, string itemTypes, string sides, string skin, string maps,
             string worldmaps, string locations, string skeletons, string models,
             string sceneProps, string menus, string strings, string uiLayouts,
-			string cursors, string mapTemplates,
+			string cursors, string mapTemplates, string vehicles,
 			string mapDir, string musicDir, string scriptDir)
         {
 			Animations = animations;
@@ -60,6 +61,7 @@ namespace OpenMB.Mods
 			Strings = strings;
 			Cursors = cursors;
 			MapTemplates = mapTemplates;
+            Vehicles = vehicles;
         }
 	}
 }

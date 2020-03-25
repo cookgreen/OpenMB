@@ -253,6 +253,7 @@
     <Compile Include="Mods\XML\ModSkinDfnXml.cs" />
     <Compile Include="Mods\XML\ModStringDfnXml.cs" />
     <Compile Include="Mods\XML\ModUILayoutDfnXml.cs" />
+    <Compile Include="Mods\XML\ModVehicleDfnXml.cs" />
     <Compile Include="Mods\XML\ModWorldMapsDfnXml.cs" />
     <Compile Include="Render\IOpenGLRenderable.cs" />
     <Compile Include="Render\MBBrfMeshRenderable.cs" />
