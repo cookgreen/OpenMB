@@ -190,7 +190,7 @@ namespace OpenMB.Game
 
 		}
 
-		private string GetSkyboxMaterialByTime(Time time)
+		public string GetSkyboxMaterialByTime(Time time)
 		{
 			string skyboxMaterialName = null;
 			switch (time)

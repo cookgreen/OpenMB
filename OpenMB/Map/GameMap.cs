@@ -175,12 +175,19 @@ namespace OpenMB.Map
 			this.teams = teams;
 			this.logicScriptFile = logicScriptFile;
 
+            InitSkyBoxByTime();
+
 			GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
             GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
             GameManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
             GameManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
             GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
 
+        }
+
+        private void InitSkyBoxByTime()
+        {
+            sceneManager.SetSkyBox(true, world.GetSkyboxMaterialByTime(TimerManager.Instance.CurrentTime));
         }
 
         private void Loader_LoadMapFinished()
