@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenMB.Game;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace OpenMB.Mods
             }
         }
 
-        public object Process(ModData data, params object[] param)
+        public object Process(ModData data, GameWorld world, params object[] param)
         {
             string modelID = param[0].ToString();
             var findedModels = data.ModelInfos.Where(o => o.ID == modelID);

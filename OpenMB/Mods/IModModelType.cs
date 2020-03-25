@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenMB.Game;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,6 @@ namespace OpenMB.Mods
         /// <param name="mod"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        object Process(ModData mod, params object[] param);
+        object Process(ModData mod, GameWorld world, params object[] param);
 	}
 }

@@ -7,16 +7,17 @@ using Mogre;
 
 namespace OpenMB.Game.ItemTypes
 {
-    public class ItemTypeRideDrive : IItemType
+    public class ItemTypeRideDrive : ItemType
     {
-        public string Name {
+
+        public override string Name {
             get
             {
                 return "IT_RIDEDRIVE";
             }
         }
 
-        public string AttachBoneName
+        public override string SpawnAttachBoneName
         {
             get
             {
@@ -24,11 +25,11 @@ namespace OpenMB.Game.ItemTypes
             }
         }
 
-		public void Use(params object[] param)
+        public override void Use(params object[] param)
         {
 		}
 
-		public MaterialPtr RenderPreview(Entity ent)
+        public override MaterialPtr RenderInventoryPreview(Entity ent)
 		{
 			return null;
 		}

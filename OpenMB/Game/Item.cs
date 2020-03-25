@@ -14,7 +14,7 @@ namespace OpenMB.Game
     /// <summary>
     /// Item Type
     /// </summary>
-    public enum ItemType
+    public enum ItemValidType
     {
         IT_INVALID,             //default value
         IT_AMMUNITION,          //Ammo
@@ -80,7 +80,7 @@ namespace OpenMB.Game
         protected string itemName;
         protected string itemMeshName;
         protected IItemType itemType2;
-        protected ItemType itemType;
+        protected ItemValidType itemType;
         protected ItemHaveAttachOption itemAttachOptionWhenHave;
         protected ItemUseAttachOption itemAttachOptionWhenUse;
         private Character user;
@@ -90,7 +90,7 @@ namespace OpenMB.Game
         private Actor itemActor;
         private ModItemDfnXML itemData;
         #endregion
-        public virtual ItemType ItemType
+        public virtual ItemValidType ItemType
         {
             get { return itemType; }
             set { itemType = value; }
@@ -139,10 +139,23 @@ namespace OpenMB.Game
         {
             this.itemType2 = itemType;
             this.itemData = itemData;
+
+            itemType2.Item = this;
+
             if (createNow)
             {
                 create();
             }
+        }
+
+        public void SpawnIntoWorld()
+        {
+            itemType2.SpawnIntoWorld();
+        }
+
+        public void SpawnIntoCharacter(Character character)//Spawn and attach into the character
+        {
+            itemType2.SpawnIntoCharacter(character);
         }
 
         public void Attack(int victimId)
@@ -234,9 +247,9 @@ namespace OpenMB.Game
 
         }
 
-		public override MaterialPtr RenderPreview()
+		public override MaterialPtr RenderInventoryPreview()
 		{
-			return itemType2.RenderPreview(mesh.Entity);
+			return itemType2.RenderInventoryPreview(mesh.Entity);
 		}
 	}
 }

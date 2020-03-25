@@ -6,6 +6,14 @@
     <Equips>
     </Equips>
   </Character>
+  <Character ID="cha_tank_driver">
+    <Name>Tank Driver</Name>
+	<Skin>skn_sinbad</Skin>
+	<Side>side_player</Side>
+    <Equips>
+      <EquipItem>item_simple_tank</EquipItem>
+    </Equips>
+  </Character>
   <Character ID="cha_side_empire_leader">
     <Name>Empress Helna</Name>
 	<Skin>skn_sinbad</Skin>

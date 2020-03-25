@@ -124,10 +124,10 @@
     <AttachOptionWhenUse>IAO_LEFT_HAND</AttachOptionWhenUse>
     <AttachOptionWhenHave>IHAO_BACK_FROM_RIGHT_TO_LEFT</AttachOptionWhenHave>
   </Item>
-  <Item>
+  <Item damage="0" range="0">
 	<ID>item_simple_tank</ID>
 	<Desc>Simple Tank</Desc>
-    <MeshName>simple_tank.mesh</MeshName>
+    <MeshName>vehicle_simple_tank</MeshName>
     <Type>IT_RIDEDRIVE</Type>
 	<SubType>IST_VEHICLE</SubType>
 	<LinkedData>vehicle_simple_tank</LinkedData>

@@ -7,11 +7,12 @@ using Mogre;
 namespace OpenMB.Game.ItemTypes
 {
     //This kind of item can reduce the damage receive
-    public class ItemTypeArmour : IItemType
+    public class ItemTypeArmour : ItemType
     {
+
         public int Armour { get; set; }
 
-        public string Name
+        public override string Name
         {
             get
             {
@@ -19,7 +20,7 @@ namespace OpenMB.Game.ItemTypes
             }
         }
 
-        public string AttachBoneName
+        public override string SpawnAttachBoneName
         {
             get
             {
@@ -27,7 +28,7 @@ namespace OpenMB.Game.ItemTypes
             }
         }
 
-		public void Use(params object[] param)
+        public override void Use(params object[] param)
         {
             GameWorld world = param[0] as GameWorld;
             int userID = int.Parse(param[1].ToString());
@@ -45,7 +46,7 @@ namespace OpenMB.Game.ItemTypes
 
 		}
 
-		public MaterialPtr RenderPreview(Entity ent)
+        public override MaterialPtr RenderInventoryPreview(Entity ent)
 		{
 			return null;
 		}

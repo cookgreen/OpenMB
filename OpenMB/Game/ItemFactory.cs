@@ -36,7 +36,7 @@ namespace OpenMB.Game
 
         public Item Produce(
             int id,
-            string desc, string meshName, ItemType type,
+            string desc, string meshName, ItemValidType type,
             ItemUseAttachOption itemUseAttachOption,
             ItemHaveAttachOption itemHaveAttachOption,
             double damage, int range,
@@ -48,9 +48,18 @@ namespace OpenMB.Game
             return item;
         }
 
-        public Item PreProduce(ModItemDfnXML findedItem)
+        public Item PreProduce(ModData modData, GameWorld world, ModItemDfnXML findedItem)
         {
-            return null;
+            var itemType = modData.ItemTypes.Where(o => o.Name == findedItem.Type).FirstOrDefault();
+            if (itemType == null)
+            {
+                throw new Exception("Couldn't find properly item type!");
+            }
+
+            itemType.ModData = modData;
+
+            Item item = new Item(world, itemType, findedItem);
+            return item;
         }
 
         public Item Produce(Mods.XML.ModItemDfnXML itemXml, GameWorld world)

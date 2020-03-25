@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Game.ItemTypes
 {
-	public class ItemTypeVehicle : IItemType
+	public class ItemTypeVehicle : ItemType
 	{
-		public string Name
+		public override string Name
 		{
 			get
 			{
@@ -17,14 +17,24 @@ namespace OpenMB.Game.ItemTypes
 			}
 		}
 
-		public string AttachBoneName { get; }
+		public override string SpawnAttachBoneName { get; }
 
-		public MaterialPtr RenderPreview(Entity ent)
+		public override MaterialPtr RenderInventoryPreview(Entity ent)
 		{
 			return null;
 		}
 
-		public void Use(params object[] param)
+		public override void SpawnIntoWorld()
+		{
+
+		}
+
+		public override void SpawnIntoCharacter(Character character)
+		{
+			var vehicleId = Item.ItemMeshName;
+		}
+
+		public override void Use(params object[] param)
 		{
 		}
 	}

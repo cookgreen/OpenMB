@@ -221,7 +221,7 @@ namespace OpenMB.Map
         public Item CreateItem(
             string desc, 
             string meshName, 
-            ItemType type, 
+            ItemValidType type, 
             ItemUseAttachOption attachOptionWhenUse, 
             ItemHaveAttachOption attachOptionWhenHave, 
             double damage, 

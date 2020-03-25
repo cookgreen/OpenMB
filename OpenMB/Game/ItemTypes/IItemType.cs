@@ -1,4 +1,5 @@
 ﻿using Mogre;
+using OpenMB.Mods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,18 @@ namespace OpenMB.Game.ItemTypes
     {
         string Name { get; }
 
-        string AttachBoneName { get; }
+        string SpawnAttachBoneName { get; }
 
         void Use(params object[] param);
 
-		MaterialPtr RenderPreview(Entity ent);
-    }
+		MaterialPtr RenderInventoryPreview(Entity ent);
+
+        Item Item { get; set; }
+
+        ModData ModData { get; set; }
+
+        void SpawnIntoWorld();
+
+        void SpawnIntoCharacter(Character character);
+	}
 }

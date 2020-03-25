@@ -155,6 +155,7 @@
     <Compile Include="Game\GameLocation.cs" />
     <Compile Include="Game\GameMesh.cs" />
     <Compile Include="Game\GameTeam.cs" />
+    <Compile Include="Game\ItemTypes\ItemType.cs" />
     <Compile Include="Game\ItemTypes\ItemTypeVehicle.cs" />
     <Compile Include="Game\Vehicle.cs" />
     <Compile Include="Game\VehicleController.cs" />

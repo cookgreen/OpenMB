@@ -124,14 +124,14 @@ namespace OpenMB.Game
 
         public void EquipNewItem(Item item)
         {
-            if (item.ItemType == ItemType.IT_WEAPON)
+            if (item.ItemType == ItemValidType.IT_WEAPON)
             {
                 if (!EquipNewWeapon(item))
                 {
                     AddItemToBackpack(item);
                 }
             }
-            else if (item.ItemType == ItemType.IT_ARMOUR)
+            else if (item.ItemType == ItemValidType.IT_ARMOUR)
             {
                 if (!EquipNewClothes(item))
                 {
