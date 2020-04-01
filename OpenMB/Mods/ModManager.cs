@@ -27,7 +27,7 @@ namespace OpenMB.Mods
         private IniConfigFile modConfigData;
         private ModData currentMod;
         private string currentModName;
-        private BackgroundWorker worker;
+        private BackgroundWorker loadModWorker;
         public event Action LoadingModStarted;
         public event Action LoadingModFinished;
         public event Action<int> LoadingModProcessing;
@@ -65,25 +65,25 @@ namespace OpenMB.Mods
             modConfigData = new IniConfigFile();
             modInstallRootDir = null;
             parser = new IniConfigFileParser();
-            worker = new BackgroundWorker();
-            worker.WorkerReportsProgress = true;
-            worker.DoWork += worker_DoWork;
-            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
-            worker.ProgressChanged += worker_ProgressChanged;
+            loadModWorker = new BackgroundWorker();
+            loadModWorker.WorkerReportsProgress = true;
+            loadModWorker.DoWork += loadModWorker_DoWork;
+            loadModWorker.RunWorkerCompleted += loadModWorker_RunWorkerCompleted;
+            loadModWorker.ProgressChanged += loadModWorker_ProgressChanged;
         }
 
-        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        void loadModWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             LoadingModProcessing?.Invoke(e.ProgressPercentage);
         }
 
-        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        void loadModWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            worker.Dispose();
+            loadModWorker.Dispose();
             LoadingModFinished?.Invoke();
         }
 
-        void worker_DoWork(object sender, DoWorkEventArgs e)
+        void loadModWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace OpenMB.Mods
                 ModManifest manifest = installedMods.Where(o => o.Key == currentModName).SingleOrDefault().Value;
                 currentMod = new OpenMB.Mods.ModData();
                 currentMod.BasicInfo = manifest.MetaData;
-                worker.ReportProgress(25);
+                loadModWorker.ReportProgress(25);
 
                 LoadXmlData(manifest);
 
@@ -120,7 +120,7 @@ namespace OpenMB.Mods
                 currentMod.MusicDir = manifest.Data.MusicDir;
                 currentMod.ScriptDir = manifest.Data.ScriptDir;
 
-                worker.ReportProgress(100);
+                loadModWorker.ReportProgress(100);
 
                 System.Threading.Thread.Sleep(1000);
             }
@@ -140,7 +140,7 @@ namespace OpenMB.Mods
                 ModAnimationsDfnXml animationDfn;
                 loader.Load(out animationDfn);
                 currentMod.AnimationInfos = animationDfn.Animations;
-                worker.ReportProgress(20);
+                loadModWorker.ReportProgress(20);
             }
 
             if (!string.IsNullOrEmpty(manifest.Data.Characters))
@@ -149,7 +149,7 @@ namespace OpenMB.Mods
                 ModCharactersDfnXML characterDfn;
                 loader.Load(out characterDfn);
                 currentMod.CharacterInfos = characterDfn.CharacterDfns;
-                worker.ReportProgress(50);
+                loadModWorker.ReportProgress(50);
             }
 
             if (!string.IsNullOrEmpty(manifest.Data.ItemTypes))
@@ -158,7 +158,7 @@ namespace OpenMB.Mods
                 ModItemTypesDfnXml itemTypesDfn;
                 loader.Load(out itemTypesDfn);
                 currentMod.ItemTypeInfos = itemTypesDfn != null ? itemTypesDfn.ItemTypes : null;
-                worker.ReportProgress(75);
+                loadModWorker.ReportProgress(75);
             }
 
             if (!string.IsNullOrEmpty(manifest.Data.Items))
@@ -167,7 +167,7 @@ namespace OpenMB.Mods
                 ModItemsDfnXML itemDfn;
                 loader.Load(out itemDfn);
                 currentMod.ItemInfos = itemDfn != null ? itemDfn.Items : null;
-                worker.ReportProgress(75);
+                loadModWorker.ReportProgress(75);
             }
 
             if (!string.IsNullOrEmpty(manifest.Data.Sides))
@@ -176,7 +176,7 @@ namespace OpenMB.Mods
                 ModSidesDfnXML sideDfn;
                 loader.Load(out sideDfn);
                 currentMod.SideInfos = sideDfn.Sides;
-                worker.ReportProgress(80);
+                loadModWorker.ReportProgress(80);
             }
 
             if (!string.IsNullOrEmpty(manifest.Data.Skin))
@@ -447,7 +447,7 @@ namespace OpenMB.Mods
                 {
                     if (fileSystemInfo.Attributes != FileAttributes.Directory && Path.GetExtension(fileSystemInfo.Name) == ".ucs")
                     {
-                        LocateSystem.Instance.AddModLocateFile(fileSystemInfo.FullName);
+                        LocateSystem.Instance.AddModLocateFile(manifest.ID, fileSystemInfo.FullName);
                     }
                 }
             }
@@ -539,11 +539,12 @@ namespace OpenMB.Mods
                     if (File.Exists(string.Format("{0}/Module.xml", dir.FullName)))
                     {
                         ModManifest manifest = new ModManifest(dir.FullName);
-                        if (installedMods.ContainsKey(dir.Name))
-                            continue;
-                        installedMods.Add(dir.Name, manifest);
-                        
-                        ResourceGroupManager.Singleton.AddResourceLocation(manifest.InstalledPath, "FileSystem", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                        if (!installedMods.ContainsKey(dir.Name))
+                        {
+                            installedMods.Add(dir.Name, manifest);
+                            LoadModLocalization(manifest);
+                            ResourceGroupManager.Singleton.AddResourceLocation(manifest.InstalledPath, "FileSystem", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                        }
                     }
                 }
             }
@@ -555,7 +556,7 @@ namespace OpenMB.Mods
         {
             LoadingModStarted?.Invoke();
             currentModName = name;
-            worker.RunWorkerAsync();
+            loadModWorker.RunWorkerAsync();
         }
 
         public void UnloadAllMods()

@@ -13,6 +13,19 @@ namespace OpenMB.States
 {
     using Mods = Dictionary<string, ModManifest>;
 
+    public class ModDisplayData
+    {
+        public readonly string ID;
+        public string Name { get; set; }
+        public string Desc { get; set; }
+        public string Thumb { get; set; }
+
+        public ModDisplayData(string id)
+        {
+            ID = id;
+        }
+    }
+
     public class ModChooser : AppState
     {
         private bool isQuit;
@@ -20,9 +33,7 @@ namespace OpenMB.States
         private LabelWidget modTitle;
         private StaticMultiLineTextBoxWidget modDescBox;
         private Slider modSlider;
-        private List<string> modNames;
-        private StringVector modDescs;
-        private StringVector modThumb;
+        private List<ModDisplayData> modDisplayDataList;
         private Mods mods;
         private List<OverlayContainer> modThumbs;
         private float carouselPlace;
@@ -31,11 +42,8 @@ namespace OpenMB.States
         public ModChooser()
         {
             isQuit = false;
-
-            modNames = new List<string>();
-            modThumb = new StringVector();
-            modDescs = new StringVector();
             modThumbs = new List<OverlayContainer>();
+            modDisplayDataList = new List<ModDisplayData>();
         }
 
         public override void enter(ModData e = null)
@@ -54,17 +62,18 @@ namespace OpenMB.States
             camera.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
 
             GameManager.Instance.viewport.Camera = camera;
-            modNames.Clear();
-            modThumb.Clear();
+            modDisplayDataList.Clear();
 
             mods = ModManager.Instance.GetInstalledMods();
-            foreach (var mod in mods)
+            foreach (var pair in mods)
             {
-                if (mod.Value.MetaData.DisplayInChooser)
+                if (pair.Value.MetaData.DisplayInChooser)
                 {
-                    modNames.Add(mod.Key);
-                    modDescs.Add(mod.Value.MetaData.Description);
-                    modThumb.Add(mod.Value.MetaData.Thumb);
+                    ModDisplayData modDisplayData = new ModDisplayData(pair.Value.ID);
+                    modDisplayData.Name = pair.Value.MetaData.Name;
+                    modDisplayData.Desc = pair.Value.MetaData.Description;
+                    modDisplayData.Thumb = pair.Value.MetaData.Thumb;
+                    modDisplayDataList.Add(modDisplayData);
                 }
             }
 
@@ -75,10 +84,10 @@ namespace OpenMB.States
             modDescBox.setCaption("Mod Info");
             modChooserMenu = UIManager.Instance.CreateThickSelectMenu(UIWidgetLocation.TL_CENTER, "SelMod", "Select Mod", 250, 10);
             modChooserMenu.setCaption("Select Mod");
-            modChooserMenu.SetItems(modNames);
+            modChooserMenu.SetItems(modDisplayDataList.Select(o=>o.Name).ToList());
             modSlider = UIManager.Instance.CreateThickSlider(UIWidgetLocation.TL_CENTER, "ModSlider", "Slider Mods", 250, 80, 0, 0, 0);
             modSlider.setCaption("Slider Mods");
-            if (modNames.Count > 0)
+            if (modDisplayDataList.Count > 0)
             {
                 modTitle.setCaption(modChooserMenu.getSelectedItem());
             }
@@ -158,9 +167,24 @@ namespace OpenMB.States
             {
                 float newIndex = modChooserMenu.getSelectionIndex() - arg.state.Z.rel / Mogre.Math.Abs((float)arg.state.Z.rel);
                 float finalIndex = OpenMB.Utilities.Helper.Clamp<float>(newIndex, 0.0f, (float)(modChooserMenu.GetNumItems() - 1));
+               
                 modChooserMenu.SelectItem((uint)finalIndex);
-                modTitle.setCaption(modChooserMenu.getSelectedItem());
-                modDescBox.setText(modDescs[modNames.ToList().IndexOf(modChooserMenu.getSelectedItem())]);
+                //modTitle.setCaption("modChooserMenu.getSelectedItem()");
+                modTitle.setCaption(
+                    LocateSystem.Instance.GetLocalizedString(
+                        "module_info_name", 
+                        modChooserMenu.getSelectedItem(),
+                        modDisplayDataList[modChooserMenu.Items.IndexOf(modChooserMenu.getSelectedItem())].ID
+                    ));
+
+                //modDescBox.setText(modDisplayDataList[modChooserMenu.Items.IndexOf(modChooserMenu.getSelectedItem())].Desc);
+                modDescBox.setText(
+                    LocateSystem.Instance.GetLocalizedString(
+                        "module_info_desc",
+                        modDisplayDataList[modChooserMenu.Items.IndexOf(modChooserMenu.getSelectedItem())].Desc,
+                        modDisplayDataList[modChooserMenu.Items.IndexOf(modChooserMenu.getSelectedItem())].ID
+                    ));
+
                 selectedModName = modChooserMenu.getSelectedItem();
             }
 
@@ -229,15 +253,15 @@ namespace OpenMB.States
             thumbMat.GetTechnique(0).GetPass(0).CreateTextureUnitState();
             MaterialPtr templateMat = MaterialManager.Singleton.GetByName("ModThumbnail");
 
-            foreach ( string itr in modThumb )
+            foreach ( var modDisplayData in modDisplayDataList )
             {
                 string name = "ModThumb" + (modThumbs.Count + 1).ToString();
 
                 MaterialPtr newMat = templateMat.Clone(name);
 
                 TextureUnitState tus = newMat.GetTechnique(0).GetPass(0).GetTextureUnitState(0);
-                if (ResourceGroupManager.Singleton.ResourceExists("General", itr))
-                    tus.SetTextureName(itr);
+                if (ResourceGroupManager.Singleton.ResourceExists("General", modDisplayData.Thumb))
+                    tus.SetTextureName(modDisplayData.Thumb);
                 else
                     tus.SetTextureName("thumb_error.png");
 

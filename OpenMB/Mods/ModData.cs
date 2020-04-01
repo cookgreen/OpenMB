@@ -8,6 +8,7 @@ using OpenMB.Sound;
 using OpenMB.Game.ItemTypes;
 using OpenMB.Map;
 using System.Reflection;
+using OpenMB.Localization;
 
 namespace OpenMB.Mods
 {
@@ -192,7 +193,7 @@ namespace OpenMB.Mods
             MapLoaders = new List<IGameMapLoader>();
 			StartupBackgroundTypes = new List<IModStartupBackgroundType>();
 
-			assemblies = new List<Assembly>();
+            assemblies = new List<Assembly>();
 		}
 
         public ModItemTypeDfnXml FindItemType(string itemType)

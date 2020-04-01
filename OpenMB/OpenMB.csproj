@@ -159,6 +159,7 @@
     <Compile Include="Game\ItemTypes\ItemTypeVehicle.cs" />
     <Compile Include="Game\Vehicle.cs" />
     <Compile Include="Game\VehicleController.cs" />
+    <Compile Include="Localization\LocateLanguage.cs" />
     <Compile Include="Map\GameMapEntryPoint.cs" />
     <Compile Include="Map\GameWorldMap.cs" />
     <Compile Include="Game\DescriptionAttribute.cs" />

@@ -15,6 +15,6 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <StartArguments>Engine.ShowConfig=yes Engine.Mod=default</StartArguments>
+    <StartArguments>Engine.ShowConfig=yes</StartArguments>
   </PropertyGroup>
 </Project>

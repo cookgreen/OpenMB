@@ -1,6 +1,8 @@
-﻿using OpenMB.Mods.XML;
+﻿using OpenMB.Localization;
+using OpenMB.Mods.XML;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -13,6 +15,7 @@ namespace OpenMB.Mods
         public readonly ModMediaXml Media;
         public readonly List<ModSettingDfnXml> Settings;
         public readonly string InstalledPath;
+        public readonly string ID;
 
         public ModManifest(string path)
         {
@@ -56,6 +59,8 @@ namespace OpenMB.Mods
                 Media = xmldata.Media;
 
                 Settings = xmldata.Settings.Settings;
+
+                ID = (new DirectoryInfo(path)).Name;
             }
         }
     }

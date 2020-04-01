@@ -33,8 +33,11 @@ namespace OpenMB.Localization
         private LocateUCSFile ucsGameStr;
         private LocateUCSFile ucsGameUI;
         private LocateUCSFile ucsGameQuickStr;
-        private List<LocateUCSFile> modUCSFiles;
+        private Dictionary<string, List<LocateUCSFile>> modUCSFiles;
         private List<string> avaliableLocates;
+        private List<LocateLanguage> supprotedLanguages;
+        private LocateLanguage currentLanguage;
+
         public bool IsInit
         {
             get
@@ -71,12 +74,57 @@ namespace OpenMB.Localization
             }
         }
 
+        public LocateLanguage CurrentLanguage
+        {
+            get
+            {
+                return currentLanguage;
+            }
+        }
+
         static LocateSystem instance;
 
         public LocateSystem()
         {
             avaliableLocates = new List<string>();
-            modUCSFiles = new List<LocateUCSFile>();
+            modUCSFiles = new Dictionary<string, List<LocateUCSFile>>();
+            supprotedLanguages = new List<LocateLanguage>();
+            supprotedLanguages.Add(new LocateLanguage()
+            {
+                ID = "en",
+                FullName = "English",
+                LanguageHandleType = LanguageHandleType.Default
+            });
+            supprotedLanguages.Add(new LocateLanguage()
+            {
+                ID = "cns",
+                FullName = "Simplified Chinese",
+                LanguageHandleType = LanguageHandleType.Unicode
+            });
+            supprotedLanguages.Add(new LocateLanguage()
+            {
+                ID = "cnt",
+                FullName = "Traditional Chinese",
+                LanguageHandleType = LanguageHandleType.Unicode
+            });
+            supprotedLanguages.Add(new LocateLanguage()
+            {
+                ID = "ge",
+                FullName = "German",
+                LanguageHandleType = LanguageHandleType.Default
+            });
+            supprotedLanguages.Add(new LocateLanguage()
+            {
+                ID = "fr",
+                FullName = "French",
+                LanguageHandleType = LanguageHandleType.Unicode
+            });
+            supprotedLanguages.Add(new LocateLanguage()
+            {
+                ID = "ja",
+                FullName = "Japanese",
+                LanguageHandleType = LanguageHandleType.Unicode
+            });
         }
 
         public void Dispose()
@@ -118,7 +166,18 @@ namespace OpenMB.Localization
 
             ucsGameStr.Prepare();
             ucsGameUI.Prepare();
-            
+
+            currentLanguage = supprotedLanguages.Where(o => o.ID == CurrentLocate.ToString()).FirstOrDefault();
+            if (currentLanguage == null)
+            {
+                GameManager.Instance.log.LogMessage(
+                    string.Format(
+                        "The specific locate `{0}` isn't supported!", 
+                        CurrentLocate.ToString()),
+                    LogMessage.LogType.Warning
+                );
+            }
+
             DirectoryInfo di = new DirectoryInfo("./locate/");
             FileSystemInfo[] fsi = di.GetFileSystemInfos();
             foreach (var dir in fsi)
@@ -136,9 +195,13 @@ namespace OpenMB.Localization
 				ucsGameStr.Process() &&
 				ucsGameQuickStr.Process())
 			{
-				modUCSFiles.Add(ucsGameUI);
-				modUCSFiles.Add(ucsGameStr);
-				modUCSFiles.Add(ucsGameQuickStr);
+                if (!modUCSFiles.ContainsKey("common"))
+                {
+                    modUCSFiles.Add("common", new List<LocateUCSFile>());
+                }
+                modUCSFiles["common"].Add(ucsGameUI);
+				modUCSFiles["common"].Add(ucsGameStr);
+				modUCSFiles["common"].Add(ucsGameQuickStr);
 
 				return true;
 			}
@@ -148,11 +211,15 @@ namespace OpenMB.Localization
             }
         }
 
-        public void AddModLocateFile(string fullPath)
+        public void AddModLocateFile(string modID, string fullPath)
         {
             LocateUCSFile ucsFile = new LocateUCSFile(fullPath, locate, LocateFileStorageType.Default);
 			ucsFile.Process();
-			modUCSFiles.Add(ucsFile);
+            if (!modUCSFiles.ContainsKey(modID))
+            {
+                modUCSFiles.Add(modID, new List<LocateUCSFile>());
+            }
+			modUCSFiles[modID].Add(ucsFile);
         }
 
         public string LOC(LocateFileType file, string str)
@@ -178,7 +245,7 @@ namespace OpenMB.Localization
             return string.Format("$No Such Key '{0}'!", ID);
         }
 
-        public string GetLocalizedString(string ID, string originalString = null)
+        public string GetLocalizedString(string ID, string originalString = null, string modID = null)
         {
 			if (ID.StartsWith("@")) //means it is a quick string
 			{
@@ -187,12 +254,31 @@ namespace OpenMB.Localization
 				ID = id;
 				originalString = content;
 			}
-            foreach(var ucs in modUCSFiles)
+            if (!string.IsNullOrEmpty(modID))
             {
-                string res = ucs.SeekValueByKey(ID);
-                if (!string.IsNullOrEmpty(res))
+                if (modUCSFiles.ContainsKey(modID))
                 {
-                    return res;
+                    var ucsfiles = modUCSFiles[modID];
+                    foreach (var ucs in ucsfiles)
+                    {
+                        string res = ucs.SeekValueByKey(ID);
+                        if (!string.IsNullOrEmpty(res))
+                        {
+                            return res;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                var ucsfiles = modUCSFiles["common"];
+                foreach (var ucs in ucsfiles)
+                {
+                    string res = ucs.SeekValueByKey(ID);
+                    if (!string.IsNullOrEmpty(res))
+                    {
+                        return res;
+                    }
                 }
             }
             return originalString;
