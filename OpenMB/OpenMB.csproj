@@ -310,6 +310,7 @@
     <Compile Include="Script\Command\FunctionScriptCommand.cs" />
     <Compile Include="Script\Command\GetScenePropNumScriptCommand.cs" />
     <Compile Include="Script\Command\GetScenePropScriptCommand.cs" />
+    <Compile Include="Script\Command\HookTriggerEventScriptCommand.cs" />
     <Compile Include="Script\Command\InitVectorScriptCommand.cs" />
     <Compile Include="Script\Command\IScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeWorldMapScriptCommand.cs" />
