@@ -69,6 +69,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)Mods\common\" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)Bin\Mods\common\" />
   </Target>
 </Project>
