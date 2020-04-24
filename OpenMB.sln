@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Utilities.UCSEditor"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Utilties.MapExporter", "OpenMB.Utilties.MapExporter\OpenMB.Utilties.MapExporter.csproj", "{18E386CE-ECC7-4D7A-BA8A-D940523630E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Mods.Default", "OpenMB.Mods.Default\OpenMB.Mods.Default.csproj", "{5013E1F0-1AD9-4EE9-8161-25B93C3FEF7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Mods.KK", "OpenMB.Mods.KK\OpenMB.Mods.KK.csproj", "{5013E1F0-1AD9-4EE9-8161-25B93C3FEF7F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Mods.Common", "OpenMB.Mods.Common\OpenMB.Mods.Common.csproj", "{F58B2DAE-4DA4-40FA-95E1-F518AA140901}"
 EndProject

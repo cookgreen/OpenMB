@@ -60,7 +60,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>openmb.ico</ApplicationIcon>
+    <ApplicationIcon>app.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>OpenMB.Program</StartupObject>
@@ -466,7 +466,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="openmb.ico" />
+    <Content Include="app.ico" />
     <None Include="Resources\logo.png" />
   </ItemGroup>
   <ItemGroup>

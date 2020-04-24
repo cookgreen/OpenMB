@@ -2,11 +2,11 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("OpenMB.Mods.OIM")]
+[assembly: AssemblyTitle("OpenMB.Mods.KK")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("OpenMB.Mods.OIM")]
+[assembly: AssemblyProduct("OpenMB.Mods.KK")]
 [assembly: AssemblyCopyright("GNU GPLv3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

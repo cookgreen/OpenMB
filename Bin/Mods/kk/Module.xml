@@ -6,7 +6,7 @@
 	<Thumb>Preview.png</Thumb>
 	<Assemblies>
 		<Assembly>common|OpenMB.Mods.Common</Assembly>
-		<Assembly>this|OpenMB.Mods.Default</Assembly>
+		<Assembly>this|OpenMB.Mods.KK</Assembly>
 	</Assemblies>
 	<DisplayInChooser>true</DisplayInChooser>
 	<EntryFunctions>
