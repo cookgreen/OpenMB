@@ -32,6 +32,10 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
  <img src="https://media.moddb.com/images/games/1/72/71205/game-notes-faction.PNG" />  
 </details>
 
+## Support Language:  
+* English  
+* 简体中文  
+
 ## Credit:
 * Mogre  
 * NAudio  
