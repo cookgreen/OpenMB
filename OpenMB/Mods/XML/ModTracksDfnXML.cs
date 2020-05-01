@@ -17,14 +17,16 @@ namespace OpenMB.Mods.XML
     [XmlRoot("Track")]
     public class ModTrackDfnXML
     {
-        [XmlElement("Id")]
+        [XmlAttribute]
         public string ID { get; set; }
+        [XmlAttribute("Type")]
+        public TrackType Type { get; set; }
+        [XmlAttribute("PlayType")]
+        public PlayType PlayType { get; set; }
         [XmlElement("File")]
         public string File { get; set; }
-        [XmlElement("Type")]
-        public TrackType Type { get; set; }
-        [XmlElement("PlayType")]
-        public SoundType PlayType { get; set; }
+        [XmlElement("Flags")]
+        public ModFlagsDfnXml Flags { get; set; }
     }
 
     [XmlRoot("Tracks")]

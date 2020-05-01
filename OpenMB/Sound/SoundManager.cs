@@ -125,17 +125,17 @@ namespace OpenMB.Sound
             }
         }
 
-        public void PlayMusicByType(SoundType soundType)
+        public void PlayMusicByType(PlayType soundType)
         {
             if (hasMusic)
             {
                 var ret = musicLst.Where(o => o.PlayType == soundType);
                 switch (soundType)
                 {
-                    case SoundType.MainMenu:
+                    case PlayType.MainMenu:
                         ret.ElementAt(0).Play();
                         break;
-                    case SoundType.Scene:
+                    case PlayType.Scene:
                         Thread sceneMusicTh = new Thread(() =>
                         {
                             Random rk = new Random();

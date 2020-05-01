@@ -12,7 +12,7 @@ namespace OpenMB.Sound
         Loop,//Will play the sound list one by one
         Random//When play one finished, choose a sound randomly in the sound list, and play
     }
-    public enum SoundType
+    public enum PlayType
     {
         Empty,
         MainMenu,//Will Play in the main menu
@@ -27,7 +27,7 @@ namespace OpenMB.Sound
     public class GameSound : IDisposable
     {
         private string soundID;
-        private SoundType type;
+        private PlayType type;
         private SoundStatus status;
         private List<SoundObject> soundList;
         private int currentIndex;
@@ -46,7 +46,7 @@ namespace OpenMB.Sound
             get { return soundList; }
             set { soundList = value; }
         }
-        public SoundType PlayType
+        public PlayType PlayType
         {
             get { return type; }
             set { type = value; }
@@ -54,7 +54,7 @@ namespace OpenMB.Sound
 
         public GameSound()
         {
-            type = OpenMB.Sound.SoundType.Empty;
+            type = OpenMB.Sound.PlayType.Empty;
             soundList = new List<SoundObject>();
             playThread = new BackgroundWorker();
             playThread.RunWorkerCompleted += new RunWorkerCompletedEventHandler(playThread_RunWorkerCompleted);

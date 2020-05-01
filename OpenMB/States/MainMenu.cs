@@ -46,7 +46,7 @@ namespace OpenMB.States
             camera.AspectRatio=GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
             
             SoundManager.Instance.InitSound(camera);
-            SoundManager.Instance.PlayMusicByType(SoundType.MainMenu);
+            SoundManager.Instance.PlayMusicByType(PlayType.MainMenu);
 
 			ScreenManager.Instance.OnExternalEvent += OnExternalEvent;
 			ScreenManager.Instance.ChangeScreen("MainMenu", true , modData, sceneMgr);

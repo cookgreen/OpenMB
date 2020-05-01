@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Flags\Music\MusicFlagPlayVolume.cs" />
     <Compile Include="ItemTypes\ItemTypeRifle.cs" />
     <Compile Include="MapLoaders\MapLoaderBSP.cs" />
     <Compile Include="MapLoaders\MapLoaderWorldMapXml.cs" />
@@ -67,6 +68,7 @@
       <Name>OpenMB</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)Bin\Mods\common\" />
