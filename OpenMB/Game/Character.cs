@@ -442,7 +442,7 @@ namespace OpenMB.Game
             controller.Dispose();
         }
 
-		public override MaterialPtr RenderInventoryPreview()
+		public override MaterialPtr RenderPreview()
 		{
 			return controller.RenderPreview();
 		}

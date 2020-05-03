@@ -26,7 +26,7 @@ namespace OpenMB.Mods.Common.ItemTypes
             }
         }
 
-        public override MaterialPtr RenderInventoryPreview(Entity ent)
+        public override MaterialPtr RenderPreview(Entity ent)
 		{
 			return null;
 		}

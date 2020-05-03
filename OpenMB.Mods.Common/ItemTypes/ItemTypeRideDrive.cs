@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mogre;
+using OpenMB.Game.ItemTypes;
 
-namespace OpenMB.Game.ItemTypes
+namespace OpenMB.Mods.Common.ItemTypes
 {
     public class ItemTypeRideDrive : ItemType
     {
@@ -29,7 +30,7 @@ namespace OpenMB.Game.ItemTypes
         {
 		}
 
-        public override MaterialPtr RenderInventoryPreview(Entity ent)
+        public override MaterialPtr RenderPreview(Entity ent)
 		{
 			return null;
 		}

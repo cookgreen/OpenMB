@@ -15,7 +15,7 @@ namespace OpenMB.Game.ItemTypes
 
         void Use(params object[] param);
 
-		MaterialPtr RenderInventoryPreview(Entity ent);
+		MaterialPtr RenderPreview(Entity itemEnt);
 
         Item Item { get; set; }
 

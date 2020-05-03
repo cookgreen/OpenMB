@@ -156,14 +156,12 @@
     <Compile Include="Game\GameMesh.cs" />
     <Compile Include="Game\GameTeam.cs" />
     <Compile Include="Game\ItemTypes\ItemType.cs" />
-    <Compile Include="Game\ItemTypes\ItemTypeVehicle.cs" />
     <Compile Include="Game\Vehicle.cs" />
     <Compile Include="Game\VehicleController.cs" />
     <Compile Include="Localization\LocateLanguage.cs" />
     <Compile Include="Map\GameMapEntryPoint.cs" />
     <Compile Include="Map\GameWorldMap.cs" />
     <Compile Include="Game\DescriptionAttribute.cs" />
-    <Compile Include="Game\ItemTypes\ItemTypeRideDrive.cs" />
     <Compile Include="Game\TimerManager.cs" />
     <Compile Include="FileFormats\Box3F.cs" />
     <Compile Include="FileFormats\IFileFormat.cs" />
@@ -218,7 +216,6 @@
     <Compile Include="Game\Inventory.cs" />
     <Compile Include="Game\Item.cs" />
     <Compile Include="Game\ItemTypes\IItemType.cs" />
-    <Compile Include="Game\ItemTypes\ItemTypeArmour.cs" />
     <Compile Include="Core\OutputManager.cs" />
     <Compile Include="Game\IUpdate.cs" />
     <Compile Include="Game\AIAction\Move.cs" />

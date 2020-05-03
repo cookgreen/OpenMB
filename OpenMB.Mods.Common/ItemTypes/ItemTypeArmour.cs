@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mogre;
+using OpenMB.Game;
+using OpenMB.Game.ItemTypes;
 
-namespace OpenMB.Game.ItemTypes
+namespace OpenMB.Mods.Common.ItemTypes
 {
     //This kind of item can reduce the damage receive
     public class ItemTypeArmour : ItemType
@@ -46,7 +48,7 @@ namespace OpenMB.Game.ItemTypes
 
 		}
 
-        public override MaterialPtr RenderInventoryPreview(Entity ent)
+        public override MaterialPtr RenderPreview(Entity itemEnt)
 		{
 			return null;
 		}

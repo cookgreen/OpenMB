@@ -242,9 +242,9 @@ namespace OpenMB.Game
 
         }
 
-		public override MaterialPtr RenderInventoryPreview()
+		public override MaterialPtr RenderPreview()
 		{
-			return itemType.RenderInventoryPreview(mesh.Entity);
+			return itemType.RenderPreview(mesh.Entity);
 		}
 	}
 }

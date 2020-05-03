@@ -224,23 +224,6 @@ namespace OpenMB.Map
             return ent;
         }
 
-
-        public Item CreateItem(
-            string desc, 
-            string meshName, 
-            ItemValidType type, 
-            ItemUseAttachOption attachOptionWhenUse, 
-            ItemHaveAttachOption attachOptionWhenHave, 
-            double damage, 
-            int range, 
-            GameWorld world, 
-            int ammoCapcity, 
-            double amourNum)
-        {
-            return ItemFactory.Instance.Produce(gameObjects.Count, desc, meshName, type, attachOptionWhenUse,
-                   attachOptionWhenHave, damage, range, world, ammoCapcity, amourNum);
-        }
-
         /// <summary>
         /// Create a character that controlled by AI
         /// </summary>

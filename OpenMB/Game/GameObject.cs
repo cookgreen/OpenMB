@@ -119,7 +119,7 @@ namespace OpenMB.Game
 		/// Use RTT to render a preview image
 		/// </summary>
 		/// <returns>preview image material name</returns>
-		public virtual MaterialPtr RenderInventoryPreview()
+		public virtual MaterialPtr RenderPreview()
 		{
 			return null;
 		}

@@ -18,7 +18,7 @@ namespace OpenMB.Game.ItemTypes
 
 		public Item Item { get; set; }
 
-		public virtual MaterialPtr RenderInventoryPreview(Entity ent)
+		public virtual MaterialPtr RenderPreview(Entity itemEnt)
 		{
 			return null;
 		}

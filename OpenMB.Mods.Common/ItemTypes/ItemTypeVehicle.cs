@@ -1,4 +1,6 @@
 ﻿using Mogre;
+using OpenMB.Game;
+using OpenMB.Game.ItemTypes;
 using OpenMB.Mods.XML;
 using System;
 using System.Collections.Generic;
@@ -6,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenMB.Game.ItemTypes
+namespace OpenMB.Mods.Common.ItemTypes
 {
 	public class ItemTypeVehicle : ItemType
 	{
@@ -20,7 +22,7 @@ namespace OpenMB.Game.ItemTypes
 
 		public override string SpawnAttachBoneName { get; }
 
-		public override MaterialPtr RenderInventoryPreview(Entity ent)
+		public override MaterialPtr RenderPreview(Entity ent)
 		{
 			return null;
 		}
