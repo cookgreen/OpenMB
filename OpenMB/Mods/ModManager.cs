@@ -96,6 +96,8 @@ namespace OpenMB.Mods
                 currentMod.BasicInfo = manifest.MetaData;
                 loadModWorker.ReportProgress(25);
 
+                ChangeModIcon(manifest);
+
                 LoadXmlData(manifest);
 
                 LoadInternalTypes(manifest);
@@ -127,6 +129,26 @@ namespace OpenMB.Mods
             catch
             {
                 return;
+            }
+        }
+
+        private void ChangeModIcon(ModManifest manifest)
+        {
+            if (string.IsNullOrEmpty(manifest.MetaData.Icon))
+            {
+                return;
+            }
+
+            if (ResourceGroupManager.Singleton.ResourceExists(
+                ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
+                manifest.MetaData.Icon))
+            {
+                var dataStreamPtr = ResourceGroupManager.Singleton.OpenResource(manifest.MetaData.Icon);
+                var stream = Utilities.Helper.DataPtrToStream(dataStreamPtr);
+
+                IntPtr hwnd;
+                GameManager.Instance.renderWindow.GetCustomAttribute("WINDOW", out hwnd);
+                Utilities.Helper.SetRenderWindowIcon(new System.Drawing.Icon(stream), hwnd);
             }
         }
 

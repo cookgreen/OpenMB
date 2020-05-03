@@ -14,6 +14,8 @@ namespace OpenMB.Mods.XML
         public string Description { get; set; }
         [XmlElement("Version")]
         public string Version { get; set; }
+        [XmlElement("Icon")]
+        public string Icon { get; set; }
         [XmlElement("Thumb")]
         public string Thumb { get; set; }
         [XmlElement("StartupBackground")]

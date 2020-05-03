@@ -3,6 +3,7 @@
     <Name>Common</Name>
     <Description>Common mod</Description>
     <Version>1.0</Version>
+    <Icon />
     <Thumb />
 	<Assemblies>
 		<Assembly>this|OpenMB.Mods.Common</Assembly>

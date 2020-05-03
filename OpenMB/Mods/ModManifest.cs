@@ -29,6 +29,7 @@ namespace OpenMB.Mods
                                            xmldata.ModInfo.Name,
                                            xmldata.ModInfo.Description,
                                            xmldata.ModInfo.Version,
+                                           xmldata.ModInfo.Icon,
                                            xmldata.ModInfo.Thumb,
                                            xmldata.ModInfo.StartupBackground,
                                            xmldata.ModInfo.Assemblies,

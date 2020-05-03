@@ -16,6 +16,7 @@ namespace OpenMB
         public readonly string Name;
         public readonly string Description;
         public readonly string Author;
+        public readonly string Icon;
         public readonly string Thumb;
         public readonly StartupBackground StartupBackground;
         public readonly List<string> Assemblies;
@@ -26,6 +27,7 @@ namespace OpenMB
             string name,
             string description,
             string author,
+            string icon,
             string thumb,
             StartupBackground startupBackground,
             List<string> assemblies,
@@ -35,6 +37,7 @@ namespace OpenMB
             Name = name;
             Description = description;
             Author = author;
+            Icon = icon;
             Thumb = thumb;
 			StartupBackground = startupBackground;
             Assemblies = assemblies;

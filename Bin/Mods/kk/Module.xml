@@ -4,6 +4,7 @@
    	<Description>Epic war between Skware Empire and Meson's Order</Description>
 	<Version>1.0</Version>
 	<Thumb>Preview.png</Thumb>
+	<Icon></Icon>
 	<Assemblies>
 		<Assembly>common|OpenMB.Mods.Common</Assembly>
 		<Assembly>this|OpenMB.Mods.KK</Assembly>
