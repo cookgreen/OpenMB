@@ -6,7 +6,8 @@
 Open Source role-playing game engine for Taleworlds' Mount&Blade Series written in C# using Ogre3d Engine
 
 ## Feature:
-* Customize world map  
+* Mutipler world map
+* Customize Item Type
 * Realistic Physics System  
 * Individual Script System
 * Mod System  
@@ -32,6 +33,9 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
  <img src="https://media.moddb.com/images/games/1/72/71205/inventory.1.png" />  
  <img src="https://media.moddb.com/images/games/1/72/71205/game-notes-faction.PNG" />  
 </details>
+
+## See Also:
+https://github.com/cookgreen/OpenMB/wiki
 
 ## Support Languages:  
 * English  
