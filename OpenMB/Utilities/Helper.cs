@@ -11,6 +11,14 @@ namespace OpenMB.Utilities
 {
     public static class Helper
     {
+        [DllImport("user32.dll")]
+        private static extern int SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32.dll")]
+        private static extern int DrawMenuBar(int currentWindow);
+
+        private const int WM_SETICON = 0x80;
+        private const int ICON_SMALL = 0;
+
         public static float Clamp(float val, float minval, float maxval)
         {
             return System.Math.Max(System.Math.Min(val, maxval), minval);
@@ -227,5 +235,13 @@ namespace OpenMB.Utilities
 		{
 			return Localization.LocateSystem.Instance.GetLocalizedString(strID, originalString);
 		}
+
+        public static void SetRenderWindowIcon(Icon icon, IntPtr hwnd)
+        {
+            if (icon == null || hwnd == null || hwnd == IntPtr.Zero) // check parameters
+                return;
+            SendMessage(hwnd, WM_SETICON, (IntPtr)ICON_SMALL, (IntPtr)icon.Handle); // Set the icon with SendMessage
+            DrawMenuBar((int)hwnd);
+        }
 	}
 }

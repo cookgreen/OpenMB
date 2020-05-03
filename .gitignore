@@ -38,3 +38,4 @@ game.xml
 *.flac
 *.fxo
 *.pp
+/Bin/app.ico

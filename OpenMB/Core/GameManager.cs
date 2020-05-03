@@ -11,9 +11,11 @@ using OpenMB.Network;
 using OpenMB.Screen;
 using OpenMB.Sound;
 using OpenMB.States;
+using OpenMB.Utilities;
 using OpenMB.Widgets;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -171,7 +173,11 @@ namespace OpenMB
                 root.RenderSystem = rs;
             }
             renderWindow = root.Initialise(true, wndTitle);
- 
+
+            IntPtr hwnd;
+            renderWindow.GetCustomAttribute("WINDOW", out hwnd);
+            Helper.SetRenderWindowIcon(new System.Drawing.Icon(Path.Combine(Environment.CurrentDirectory, "app.ico")), hwnd);
+
             viewport = renderWindow.AddViewport(null);
             ColourValue cv = new ColourValue(0.5f, 0.5f, 0.5f);
             viewport.BackgroundColour = cv;
