@@ -30,7 +30,6 @@ game.xml
 .vs/*
 
 *.brf
-*.dds
 *.tga
 *.ogg
 *.wav
