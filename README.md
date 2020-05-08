@@ -34,12 +34,12 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
  <img src="https://media.moddb.com/images/games/1/72/71205/game-notes-faction.PNG" />  
 </details>
 
-## Wiki:
-https://github.com/cookgreen/OpenMB/wiki
-
 ## Support Languages:  
 * English  
 * 简体中文  
+
+## Wiki:
+https://github.com/cookgreen/OpenMB/wiki
 
 ## Credit:
 * Mogre  
