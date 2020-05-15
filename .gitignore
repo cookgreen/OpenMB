@@ -13,7 +13,6 @@ Debug/*
 *.Cache
 *.FileListAbsolute.txt
 *.resources
-*.cfg
 *.cs.dll
 *.bi
 *.metagen

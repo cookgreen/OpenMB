@@ -139,7 +139,7 @@ namespace OpenMB
 
 			if (gameOptions == null)
 			{
-				gameOptions = GameConfigXml.Load("game.xml");
+				gameOptions = GameConfigXml.Load("game.xml", root);
 			}
 
             defaultRenderSystemName = gameOptions.GraphicConfig.CurrentRenderSystem;
@@ -172,6 +172,7 @@ namespace OpenMB
                 }
                 root.RenderSystem = rs;
             }
+
             renderWindow = root.Initialise(true, wndTitle);
 
             IntPtr hwnd;

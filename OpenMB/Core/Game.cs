@@ -1,4 +1,5 @@
-﻿using OpenMB.Forms;
+﻿using Mogre;
+using OpenMB.Forms;
 using OpenMB.Forms.Controller;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,8 @@ namespace OpenMB.Core
             }
             else
             {
-                GameApp app = new GameApp(GameConfigXml.Load("game.xml"), modArg);
+                Root root = new Root();
+                GameApp app = new GameApp(GameConfigXml.Load("game.xml", root), modArg);
                 app.Run();
             }
         }

@@ -1,4 +1,5 @@
-﻿using MOIS;
+﻿using Mogre;
+using MOIS;
 using OpenMB.Configure;
 using System;
 using System.Collections.Generic;
@@ -40,28 +41,51 @@ namespace OpenMB.Core
             NetworkConfig = new GameNetworkConfigXml();
             CoreConfig = new GameCoreConfigXml();
 			InputConfig = new GameInputConfigXml();
+            ResourcesConfig = new GameResourcesConfigXml();
+            PluginConfig = new GamePluginsConfigXml();
 		}
 
-        public static GameConfigXml Load(string configXml)
+        public void GenerateDefaultConfig(params object[] param)
         {
-            GameConfigXml config = new GameConfigXml();
-            Stream stream = null;
-            try
-            {
-                stream = new FileStream(configXml, FileMode.Open, FileAccess.Read);
-                XmlSerializer serializer = new XmlSerializer(typeof(GameConfigXml));
-                config = serializer.Deserialize(stream) as GameConfigXml;
-            }
-            catch
-            {
+            GraphicConfig.GenerateDefaultConfig(param);
+            AudioConfig.GenerateDefaultConfig();
+            LocateConfig.GenerateDefaultConfig();
+            ModConfig.GenerateDefaultConfig();
+            NetworkConfig.GenerateDefaultConfig();
+            CoreConfig.GenerateDefaultConfig();
+            InputConfig.GenerateDefaultConfig();
+            ResourcesConfig.GenerateDefaultConfig();
+            PluginConfig.GenerateDefaultConfig();
+        }
 
-            }
-            finally
+        public static GameConfigXml Load(string configXml, params object[] param)
+        {
+            GameConfigXml config = null;
+            if (File.Exists(configXml))
             {
-                if (stream != null)
+                Stream stream = null;
+                try
                 {
-                    stream.Close();
+                    stream = new FileStream(configXml, FileMode.Open, FileAccess.Read);
+                    XmlSerializer serializer = new XmlSerializer(typeof(GameConfigXml));
+                    config = serializer.Deserialize(stream) as GameConfigXml;
                 }
+                catch
+                {
+
+                }
+                finally
+                {
+                    if (stream != null)
+                    {
+                        stream.Close();
+                    }
+                }
+            }
+            else
+            {
+                config = new GameConfigXml();
+                config.GenerateDefaultConfig(param);
             }
             return config;
         }
@@ -94,7 +118,13 @@ namespace OpenMB.Core
         public bool IsEnableEditMode { get; set; }
         [XmlElement]
         public bool IsEnableCheatMode { get; set; }
-	}
+
+        public void GenerateDefaultConfig()
+        {
+            IsEnableEditMode = false;
+            IsEnableCheatMode = false;
+        }
+    }
 
 	[XmlRoot("Input")]
 	public class GameInputConfigXml
@@ -106,7 +136,12 @@ namespace OpenMB.Core
 		{
 			Mappers = new List<GameInputMapperConfigXml>();
 		}
-	}
+
+        public void GenerateDefaultConfig()
+        {
+            
+        }
+    }
 
 	[XmlRoot("Mapper")]
 	public class GameInputMapperConfigXml
@@ -156,6 +191,27 @@ namespace OpenMB.Core
         {
             Renderers = new List<GameGraphicSectionConfigXml>();
         }
+
+        public void GenerateDefaultConfig(params object[] param)
+        {
+            Root root = param[0] as Root;
+            var renderers = root.GetAvailableRenderers();
+            foreach (var render in renderers)
+            {
+                GameGraphicSectionConfigXml renderConfig = new GameGraphicSectionConfigXml();
+                renderConfig.Name = render.Name;
+                var renderParams = render.GetConfigOptions();
+                foreach (var renderParam in renderParams)
+                {
+                    GameGraphicParameterConfigXml renderParamConfig = new GameGraphicParameterConfigXml();
+                    renderParamConfig.Name = renderParam.Key;
+                    renderParamConfig.Value = renderParam.Value.possibleValues[0];
+                    renderConfig.Parameters.Add(renderParamConfig);
+                }
+                Renderers.Add(renderConfig);
+            }
+            CurrentRenderSystem = Renderers[0].Name;
+        }
     }
 
     [XmlRoot("Renderer")]
@@ -189,6 +245,12 @@ namespace OpenMB.Core
         public bool EnableSound { get; set; }
         [XmlElement]
         public bool EnableMusic { get; set; }
+
+        public void GenerateDefaultConfig(params object[] param)
+        {
+            EnableSound = true;
+            EnableMusic = true;
+        }
     }
 
     [XmlRoot("Localized")]
@@ -196,6 +258,11 @@ namespace OpenMB.Core
     {
         [XmlElement]
         public string CurrentLocate { get; set; }
+
+        internal void GenerateDefaultConfig(params object[] param)
+        {
+            CurrentLocate = "English";
+        }
     }
 
     [XmlRoot("Mod")]
@@ -203,6 +270,11 @@ namespace OpenMB.Core
     {
         [XmlElement]
         public string ModDir { get; set; }
+
+        public void GenerateDefaultConfig(params object[] param)
+        {
+            ModDir = "Mods";
+        }
     }
 
     [XmlRoot("Network")]
@@ -210,6 +282,11 @@ namespace OpenMB.Core
     {
         [XmlElement]
         public string Port { get; set; }
+
+        public void GenerateDefaultConfig(params object[] param)
+        {
+            Port = "6539";
+        }
     }
 
     [XmlRoot("Resources")]
@@ -222,6 +299,14 @@ namespace OpenMB.Core
         public GameResourcesConfigXml()
         {
             Resources = new List<GameResourceConfigXml>();
+        }
+
+        public void GenerateDefaultConfig(params object[] param)
+        {
+            ResourceRootDir = "./Media";
+            string ogreResourceDir = "Ogre";
+            string ogreResourceRelativeDir = Path.Combine(ResourceRootDir, ogreResourceDir);
+            DirectoryInfo di = new DirectoryInfo(ogreResourceRelativeDir);
         }
     }
 
@@ -241,5 +326,24 @@ namespace OpenMB.Core
         public string PluginRootDir { get; set; }
         [XmlElement("Plugin")]
         public List<string> Plugins { get; set; }
+
+        public GamePluginsConfigXml()
+        {
+            Plugins = new List<string>();
+        }
+
+        public void GenerateDefaultConfig(params object[] param)
+        {
+            PluginRootDir = "./Plugins/";
+            string pluginRootFullPath = Path.Combine(Environment.CurrentDirectory, PluginRootDir);
+            DirectoryInfo di = new DirectoryInfo(pluginRootFullPath);
+            foreach (var file in di.EnumerateFiles())
+            {
+                if (file.Extension == ".dll")
+                {
+                    Plugins.Add(file.Name);
+                }
+            }
+        }
     }
 }

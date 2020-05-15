@@ -33,13 +33,13 @@ namespace OpenMB.Forms.Controller
         {
             this.form = form;
 
+            root = new Root();
+
             AudioConfig = new AudioConfigure();
             GameConfig = new GameConfigure();
             GraphicConfig = new GraphicConfigure();
             ResourceConfig = new ResourceConfigure();
-            gameXmlConfig = GameConfigXml.Load("game.xml");
-
-            root = new Root();
+            gameXmlConfig = GameConfigXml.Load("game.xml", root);
 
             form.Controller = this;
         }

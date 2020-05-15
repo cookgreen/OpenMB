@@ -21,7 +21,7 @@ ui_zip	ZIP Archive
 ui_add	Add
 ui_modify	Modify
 ui_delete	Delete
-ui_file_browser_current_loc	Current Directory
+ui_file_browser_current_loc	Current:
 ui_file_browser_up	Up
 ui_file_browser_title	Browse
 ui_file_browser_selected_file_name	Selected file name:
