@@ -1,22 +1,22 @@
-function mt_init
+function missionInit
 end
 
-function mt_run
+function missionRun
 
-hook_trigger_event BeforeMTSatrt beforeMTStart
-hook_trigger_event AfterMTStart afterMTStart
+hook_trigger_event BeforeMTSatrt breforeMissionStart
+hook_trigger_event AfterMTStart afterMissionStart
 hook_trigger_event AgentKilled agentKilled
 
 end
 
-function mt_update
+function missionUpdate
 end
 
 
-function beforeMTStart
+function breforeMissionStart
 end
 
-function afterMTStart
+function afterMissionStart
 end
 
 function agentKilled
