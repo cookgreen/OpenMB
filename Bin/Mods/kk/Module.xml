@@ -3,7 +3,7 @@
    	<Name>Kingdom Knight</Name>
    	<Description>Epic war between Skware Empire and Meson's Order</Description>
 	<Version>1.0</Version>
-	<Thumb>Preview.png</Thumb>
+	<Thumb>logo.png</Thumb>
 	<Icon></Icon>
 	<Assemblies>
 		<Assembly>common|OpenMB.Mods.Common</Assembly>
