@@ -1,0 +1,94 @@
+<ItemTypes>
+	<ItemType>
+		<ID>IT_ARMOUR</ID>
+		<Name>Armour</Name>
+		<SubTypes>
+			<ItemType>
+				<ID>IT_HEAD_ARMOUR</ID>
+				<Name>Head Armour</Name>
+			</ItemType>
+			<ItemType>
+				<ID>IT_BODY_ARMOUR</ID>
+				<Name>Body Armour</Name>
+			</ItemType>
+			<ItemType>
+				<ID>IT_FOOT_ARMOUR</ID>
+				<Name>Foot Armour</Name>
+			</ItemType>
+			<ItemType>
+				<ID>IT_HAND_ARMOUR</ID>
+				<Name>Hand Armour</Name>
+			</ItemType>
+		</SubTypes>
+	</ItemType>
+	<ItemType>
+		<ID>IT_RIDEDRIVE</ID>
+		<Name>Ridable or drivable items</Name>
+		<SubTypes>
+			<ItemType>
+				<ID>IST_VEHICLE</ID>
+				<Name>Vehicle</Name>
+			</ItemType>
+		</SubTypes>
+	</ItemType>
+	<ItemType>
+		<ID>IT_WEAPON</ID>
+		<Name>Weapon</Name>
+		<SubTypes>
+			<ItemType>
+				<ID>IT_One_Hand_Weapon</ID>
+				<Name>One Hand Meele Weapon</Name>
+			</ItemType>
+			<ItemType>
+				<ID>IT_Two_Hand_Weapon</ID>
+				<Name>Two Hand Meele Weapon</Name>
+			</ItemType>
+			<ItemType>
+				<ID>IT_Polearm</ID>
+				<Name>Polearm Meele Weapon</Name>
+			</ItemType>
+			<ItemType>
+				<ID>IT_Bow</ID>
+				<Name>Bow</Name>
+			</ItemType>
+			<ItemType>
+				<ID>IT_Crossbow</ID>
+				<Name>Crossbow</Name>
+			</ItemType>
+			<ItemType>
+				<ID>IT_Throw</ID>
+				<Name>Throw</Name>
+			</ItemType>
+			<ItemType>
+				<ID>IT_Rifle</ID>
+				<Name>Rifle</Name>
+			</ItemType>
+			<ItemType>
+				<ID>IT_Sub_Machine_Gun</ID>
+				<Name>Sub Machine Gun</Name>
+			</ItemType>
+			<ItemType>
+				<ID>IT_Machine_Gun</ID>
+				<Name>Machine Gun</Name>
+			</ItemType>
+			<ItemType>
+				<ID>IT_Launcher</ID>
+				<Name>Launcher</Name>
+			</ItemType>
+		</SubTypes>
+	</ItemType>
+	<ItemType>
+		<ID>IT_Prop</ID>
+		<Name>Prop</Name>
+		<SubTypes>
+			<ItemType>
+				<ID>IT_GOOD</ID>
+				<Name>Goods</Name>
+			</ItemType>
+			<ItemType>
+				<ID>IT_BOOK</ID>
+				<Name>Books</Name>
+			</ItemType>
+		</SubTypes>
+	</ItemType>
+</ItemTypes>

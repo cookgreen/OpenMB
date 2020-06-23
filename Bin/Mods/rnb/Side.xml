@@ -1,0 +1,22 @@
+<Sides>
+  <Side ID="side_no_side">
+    <Name>!{No Side}</Name>
+	<COA></COA>
+  </Side>
+  <Side ID="side_player">
+    <Name>!{Player Side}</Name>
+	<COA></COA>
+  </Side>
+  <Side ID="side_japan">
+    <Name>Empire of Japan</Name>
+	<COA>coat_of_arms_the_empire.png</COA>
+  </Side>
+  <Side ID="side_china">
+    <Name>Chinese Northeastern Army</Name>
+	<COA>coat_of_arms_the_order.png</COA>
+  </Side>
+  <Side ID="side_outlaws">
+    <Name>The Outlaws</Name>
+	<COA></COA>
+  </Side>
+</Sides>

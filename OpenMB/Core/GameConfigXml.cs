@@ -304,9 +304,32 @@ namespace OpenMB.Core
         public void GenerateDefaultConfig(params object[] param)
         {
             ResourceRootDir = "./Media";
-            string ogreResourceDir = "Ogre";
-            string ogreResourceRelativeDir = Path.Combine(ResourceRootDir, ogreResourceDir);
-            DirectoryInfo di = new DirectoryInfo(ogreResourceRelativeDir);
+            Resources.Add(new GameResourceConfigXml()
+            {
+                Type = "FileSystem",
+                ResourceLocs = new List<string>()
+                {
+                    "./Media/Ogre/materials/programs",
+                    "./Media/Ogre/materials/scripts",
+                    "./Media/Ogre/materials/textures",
+                    "./Media/Ogre/materials/textures/nvidia",
+                    "./Media/Ogre/materials/textures/SSAO",
+                    "./Media/Ogre/models",
+                }
+            });
+            Resources.Add(new GameResourceConfigXml()
+            {
+                Type = "Zip",
+                ResourceLocs = new List<string>()
+                {
+                    "./Media/Ogre/packs/cubemapsJS.zip",
+                    "./Media/Ogre/packs/OgreCore.zip",
+                    "./Media/Ogre/packs/ogretestmap.zip",
+                    "./Media/Ogre/packs/SdkTrays.zip",
+                    "./Media/Ogre/packs/Sinbad.zip",
+                    "./Media/Ogre/packs/skybox.zip",
+                }
+            });
         }
     }
 

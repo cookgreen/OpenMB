@@ -1,0 +1,74 @@
+<Tracks>
+  <Track ID="rnb_intro" Type="ModuleTrack" PlayType="MainMenu">
+    <File>rnb_intro.ogg</File>
+	<Flags>
+		<Flag Name="MusicPlayVolume">8</Flag>
+	</Flags>
+  </Track>
+  <Track ID="AnthemOfWhampoaAcademy" Type="ModuleTrack" PlayType="Scene">
+    <File>AnthemOfWhampoaAcademy.ogg</File>
+	<Flags>
+		<Flag Name="MusicPlayVolume">8</Flag>
+	</Flags>
+  </Track>
+  <Track ID="DaDaoMarch" Type="ModuleTrack" PlayType="Scene">
+    <File>DaDaoMarch.ogg</File>
+	<Flags>
+		<Flag Name="MusicPlayVolume">8</Flag>
+	</Flags>
+  </Track>
+  <Track ID="IAmChinese" Type="ModuleTrack" PlayType="Scene">
+    <File>IAmChinese.ogg</File>
+	<Flags>
+		<Flag Name="MusicPlayVolume">8</Flag>
+	</Flags>
+  </Track>
+  <Track ID="OnSonghuaRiver" Type="ModuleTrack" PlayType="Scene">
+    <File>OnSonghuaRiver.ogg</File>
+	<Flags>
+		<Flag Name="MusicPlayVolume">8</Flag>
+	</Flags>
+  </Track>
+  <Track ID="ProtectYelloRiver" Type="ModuleTrack" PlayType="Scene">
+    <File>ProtectYelloRiver.ogg</File>
+	<Flags>
+		<Flag Name="MusicPlayVolume">8</Flag>
+	</Flags>
+  </Track>
+  <Track ID="SongOfEightHundredHeroes" Type="ModuleTrack" PlayType="Scene">
+    <File>SongOfEightHundredHeroes.ogg</File>
+	<Flags>
+		<Flag Name="MusicPlayVolume">8</Flag>
+	</Flags>
+  </Track>
+  <Track ID="SongOfFightingAgainstEnemy" Type="ModuleTrack" PlayType="Scene">
+    <File>SongOfFightingAgainstEnemy.ogg</File>
+	<Flags>
+		<Flag Name="MusicPlayVolume">8</Flag>
+	</Flags>
+  </Track>
+  <Track ID="SongOfGuangXiArmy" Type="ModuleTrack" PlayType="Scene">
+    <File>SongOfGuangXiArmy.ogg</File>
+	<Flags>
+		<Flag Name="MusicPlayVolume">8</Flag>
+	</Flags>
+  </Track>
+  <Track ID="SongOfJiuGuoArmy" Type="ModuleTrack" PlayType="Scene">
+    <File>SongOfJiuGuoArmy.ogg</File>
+	<Flags>
+		<Flag Name="MusicPlayVolume">8</Flag>
+	</Flags>
+  </Track>
+  <Track ID="SongOfNortheastAntiJapaneseUnitedArmyFirstArmy" Type="ModuleTrack" PlayType="Scene">
+    <File>SongOfNortheastAntiJapaneseUnitedArmyFirstArmy.ogg</File>
+	<Flags>
+		<Flag Name="MusicPlayVolume">8</Flag>
+	</Flags>
+  </Track>
+  <Track ID="SongOfNRA74thArmy" Type="ModuleTrack" PlayType="Scene">
+    <File>SongOfNRA74thArmy.ogg</File>
+	<Flags>
+		<Flag Name="MusicPlayVolume">8</Flag>
+	</Flags>
+  </Track>
+</Tracks>

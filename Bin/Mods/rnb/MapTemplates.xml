@@ -1,0 +1,20 @@
+<MapTemplates>
+	<MapTemplate ID="mt_custom_game_ctf">
+		<Logic>mt_custom_game_ctf.script</Logic>
+		<EntryPoints>
+			<EntryPoint ID="1" Team="1" />
+			<EntryPoint ID="2" Team="1" />
+			<EntryPoint ID="3" Team="2" />
+			<EntryPoint ID="4" Team="2" />
+		</EntryPoints>
+	</MapTemplate>
+	<MapTemplate ID="mt_custom_game_survive">
+		<Logic>mt_custom_game_survive.script</Logic>
+		<EntryPoints>
+			<EntryPoint ID="1" Team="1" />
+			<EntryPoint ID="2" Team="2" />
+			<EntryPoint ID="3" Team="2" />
+			<EntryPoint ID="4" Team="2" />
+		</EntryPoints>
+	</MapTemplate>
+</MapTemplates>

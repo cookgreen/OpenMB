@@ -1,0 +1,29 @@
+<Menus>
+	<Menu id="mnu_start_game">
+		<Title>Welcome to OpenMB, please choose the game difficult before starting game.</Title>
+		<Logic>mnu_start_game.script</Logic>
+		<Children>
+			<MenuItem id="mni_start_game_easy">Easy</MenuItem>
+			<MenuItem id="mni_start_game_medium">Medium</MenuItem>
+			<MenuItem id="mni_start_game_hard">Hard</MenuItem>
+			<MenuItem id="mni_return">Return</MenuItem>
+		</Children>
+	</Menu>
+	<Menu id="mnu_reports">
+		<Title>{s0}</Title>
+		<Logic>mnu_reports.script</Logic>
+		<Children>
+			<MenuItem id="mni_view_character_reports">View Character Reports</MenuItem>
+			<MenuItem id="mni_return">Return</MenuItem>
+		</Children>
+	</Menu>
+	<Menu id="mnu_camp">
+		<Title>Camp is ready, what do you want to do?</Title>
+		<Logic>mnu_camp.script</Logic>
+		<Children>
+			<MenuItem id="mni_do_something">Do Something</MenuItem>
+			<MenuItem id="mni_wait_here">Wait here</MenuItem>
+			<MenuItem id="mni_return">Return</MenuItem>
+		</Children>
+	</Menu>
+</Menus>

@@ -1,0 +1,58 @@
+<Module>
+  <Info>
+   	<Name>Resistance at Nenjiang Bridge</Name>
+   	<Description>Sino-Japanese War Mod for OpenMB</Description>
+	<Version>1.0</Version>
+	<Thumb>rnb_logo.png</Thumb>
+	<Icon></Icon>
+	<Assemblies>
+		<Assembly>common|OpenMB.Mods.Common</Assembly>
+	</Assemblies>
+	<DisplayInChooser>true</DisplayInChooser>
+	<EntryFunctions>
+		<SinglePlayerEntryFunction>StartSinglePlayerMode</SinglePlayerEntryFunction>
+		<CustomGameEntryFunction>StartCustomGameMode</CustomGameEntryFunction>
+		<MultiplayerEntryFunction>StartMultiplayerMode</MultiplayerEntryFunction>
+	</EntryFunctions>
+	<StartupBackground Type="2DTexture">background.jpg</StartupBackground>
+  </Info>
+  <Data>
+	<Animations>Animations.xml</Animations>
+   	<Characters>Characters.xml</Characters>
+   	<Cursors>Cursors.xml</Cursors>
+   	<Locations>Locations.xml</Locations>
+   	<Items>Items.xml</Items>
+   	<ItemTypes>ItemTypes.xml</ItemTypes>
+   	<Maps>Maps.xml</Maps>
+   	<MapTemplates>MapTemplates.xml</MapTemplates>
+   	<Menus>Menus.xml</Menus>
+   	<Models>Models.xml</Models>
+   	<Music>Music.xml</Music>
+   	<SceneProps>SceneProps.xml</SceneProps>
+   	<Sides>Side.xml</Sides>
+    <Skeletons>Skeletons.xml</Skeletons>
+   	<Skin>Skin.xml</Skin>
+    <Sound>Sound.xml</Sound>
+   	<Strings>Strings.xml</Strings>
+   	<UILayouts>UILayouts.xml</UILayouts>
+    <Vehicles>Vehicles.xml</Vehicles>
+   	<WorldMaps>WorldMaps.xml</WorldMaps>
+	<DataDir>
+		<MapDir>Scenes</MapDir>
+		<MusicDir>Music</MusicDir>
+		<ScriptDir>Scripts</ScriptDir>
+	</DataDir>
+  </Data>
+  <Media>
+ 	<MediaSection ResourceLoadType="FileSystem" ResourceType="Mesh">Media/Resources</MediaSection>
+	<MediaSection ResourceLoadType="FileSystem" ResourceType="Material">Media/Material</MediaSection>
+	<MediaSection ResourceLoadType="FileSystem" ResourceType="Texture">Media/Textures</MediaSection>
+	<MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Media/Overlay</MediaSection>
+	<MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Scripts</MediaSection>
+	<MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Music</MediaSection>
+	<MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Sound</MediaSection>
+	<MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Scenes</MediaSection>
+  </Media>
+  <Settings>
+  </Settings>
+</Module>

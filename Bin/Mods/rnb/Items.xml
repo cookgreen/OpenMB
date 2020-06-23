@@ -1,0 +1,84 @@
+<Items>
+  <Item damage="45" range="100">
+    <ID>item_type_38_rifle</ID>
+    <Desc>Type 38 Rifle</Desc>
+    <MeshName>type_38_rifle.mesh</MeshName>
+    <Type>IT_Rifle</Type>
+	<UseAnim></UseAnim>
+	<UseAnim2></UseAnim2>
+  </Item>
+  <Item damage="45" range="100">
+    <ID>item_hanyang_88_rifle</ID>
+    <Desc>Hanyang 88 Rifle</Desc>
+    <MeshName>hanyang_88_rifle.mesh</MeshName>
+    <Type>IT_Rifle</Type>
+	<UseAnim></UseAnim>
+	<UseAnim2></UseAnim2>
+  </Item>
+  <Item damage="45" range="100">
+    <ID>item_liaoning_13_rifle</ID>
+    <Desc>Type 38 Rifle</Desc>
+    <MeshName>liaoning_13_rifle.mesh</MeshName>
+    <Type>IT_Rifle</Type>
+	<UseAnim></UseAnim>
+	<UseAnim2></UseAnim2>
+  </Item>
+  <Item damage="45" range="100">
+    <ID>item_zh29</ID>
+    <Desc>ZH 29 Semi-Auto Rifle</Desc>
+    <MeshName>zh29.mesh</MeshName>
+    <Type>IT_Semi_Auto_Rifle</Type>
+	<UseAnim></UseAnim>
+	<UseAnim2></UseAnim2>
+  </Item>
+  <Item damage="45" range="100">
+    <ID>item_zb26</ID>
+    <Desc>ZB 26 LMG</Desc>
+    <MeshName>zb26.mesh</MeshName>
+    <Type>IT_LMG</Type>
+	<UseAnim></UseAnim>
+	<UseAnim2></UseAnim2>
+  </Item>
+  <Item damage="45" range="100">
+    <ID>item_type_11_lmg</ID>
+    <Desc>Type 11 LMG</Desc>
+    <MeshName>type_11_lmg.mesh</MeshName>
+    <Type>IT_LMG</Type>
+	<UseAnim></UseAnim>
+	<UseAnim2></UseAnim2>
+  </Item>
+  <Item damage="45" range="100">
+    <ID>item_type_3_hmg</ID>
+    <Desc>Type 3 HMG</Desc>
+    <MeshName>type_3_hmg.mesh</MeshName>
+    <Type>IT_HMG</Type>
+	<UseAnim></UseAnim>
+	<UseAnim2></UseAnim2>
+  </Item>
+  <Item damage="45" range="100">
+    <ID>item_maxim_hmg</ID>
+    <Desc>Maxim HMG</Desc>
+    <MeshName>maxim_hmg.mesh</MeshName>
+    <Type>IT_HMG</Type>
+	<UseAnim></UseAnim>
+	<UseAnim2></UseAnim2>
+  </Item>
+  <Item damage="0" range="0">
+    <ID>item_type_41_75mm_art</ID>
+    <Desc>Type 41 75mm Artillery</Desc>
+    <Type>IT_Artillery</Type>
+  </Item>
+  <Item damage="0" range="0">
+	<ID>item_vicker_armoured_car</ID>
+	<Desc>Vicker Armoured Car</Desc>
+    <MeshName>vehicle_simple_tank</MeshName>
+    <Type>IT_RIDEDRIVE</Type>
+	<SubType>IST_VEHICLE</SubType>
+	<LinkedData>vehicle_simple_tank</LinkedData>
+  </Item>
+  <Item damage="0" range="0">
+    <ID>item_ft17_tank</ID>
+    <Desc>FT17 Tank</Desc>
+    <Type>IT_RIDEDRIVE</Type>
+  </Item>
+</Items>

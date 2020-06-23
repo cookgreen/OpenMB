@@ -1,0 +1,4 @@
+<Cursors>
+	<Cursor Name="Normal" Resource="SdkTrays/Cursor" />
+	<Cursor Name="Edit" Resource="Engine/Cursor/Edit" />
+</Cursors>

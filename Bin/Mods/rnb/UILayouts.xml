@@ -1,0 +1,84 @@
+<UILayouts>
+	<UILayout ID="ui_custom_game">
+		<Background Type="NoChange"></Background>
+		<Script>ui_custom_game.script</Script>
+		<Widgets>
+			<Widget Type="Label" TrayLocation="TL_TOP">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">lbTitle</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_custom_game_title</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">200</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="InputBox" TrayLocation="TL_CENTER">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">txtPlayerName</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_player_name</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+					<WidgetParameter Name="text" Type="String"></WidgetParameter>
+					<WidgetParameter Name="boxWidth" Type="Float">180</WidgetParameter>
+					<WidgetParameter Name="onlyAcceptNum" Type="Boolean">False</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="SelectMenu" TrayLocation="TL_CENTER">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">cmbChooseMaps</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_choose_map</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+					<WidgetParameter Name="boxWidth" Type="Float">180</WidgetParameter>
+					<WidgetParameter Name="maxItemsShown" Type="UnsigedInteger">5</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="SelectMenu" TrayLocation="TL_CENTER">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">cmbChooseModes</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_choose_mode</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+					<WidgetParameter Name="boxWidth" Type="Float">180</WidgetParameter>
+					<WidgetParameter Name="maxItemsShown" Type="UnsigedInteger">5</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="SelectMenu" TrayLocation="TL_CENTER">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">cmbChooseCharacters</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_choose_profession</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+					<WidgetParameter Name="boxWidth" Type="Float">180</WidgetParameter>
+					<WidgetParameter Name="maxItemsShown" Type="UnsigedInteger">5</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="SelectMenu" TrayLocation="TL_CENTER">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">cmbChooseTeam1</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_team_1</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+					<WidgetParameter Name="boxWidth" Type="Float">180</WidgetParameter>
+					<WidgetParameter Name="maxItemsShown" Type="UnsigedInteger">5</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="SelectMenu" TrayLocation="TL_CENTER">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">cmbChooseTeam2</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_team_2</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+					<WidgetParameter Name="boxWidth" Type="Float">180</WidgetParameter>
+					<WidgetParameter Name="maxItemsShown" Type="UnsigedInteger">5</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="Button" TrayLocation="TL_RIGHT">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">btnOK</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_ok</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">100</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="Button" TrayLocation="TL_RIGHT">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">btnCancel</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_cancel</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">100</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+		</Widgets>
+	</UILayout>
+</UILayouts>

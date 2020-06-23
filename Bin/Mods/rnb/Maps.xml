@@ -1,0 +1,8 @@
+<Maps>
+  <Map ID="map_magic_forest" Loader="Xml">
+    <Flags>
+    </Flags>
+    <Name>Magic Forest</Name>
+    <File>map_magic_forest.xml</File>
+  </Map>
+</Maps>

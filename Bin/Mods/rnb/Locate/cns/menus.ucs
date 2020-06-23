@@ -1,0 +1,11 @@
+﻿mnu_start_game	欢迎，冒险者！在开始游戏之前你需要选择游戏难度
+mni_start_game_easy	简单
+mni_start_game_medium	中等
+mni_start_game_hard	困难
+mni_return	返回
+mnu_reports	{s0}
+mni_view_character_reports	查看人物报告
+mni_return	返回
+mnu_camp	营地已经准备好了，你想干点什么?
+mni_do_something	干点事情
+mni_wait_here	等在这里
