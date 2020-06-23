@@ -6,214 +6,291 @@
     <Equips>
     </Equips>
   </Character>
-  <Character ID="cha_tank_driver">
-    <Name>Tank Driver</Name>
+  <Character ID="cha_nea_police">
+    <Name>Northeastern Milltary Police</Name>
+    <Side>side_china</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_player</Side>
     <Equips>
-      <EquipItem>item_simple_tank</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_side_empire_leader">
-    <Name>Empress Helna</Name>
+  <Character ID="cha_nea_dadao_team">
+    <Name>Northeastern Army Dadao Team</Name>
+    <Side>side_china</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_empire</Side>
-	<Flags>
-		<Flag>CF_NPC</Flag>
-	</Flags>
     <Equips>
-      <EquipItem>itm_sword_1</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_side_order_leader">
-    <Name>Grand Master Meson</Name>
+  <Character ID="cha_nea_recurit">
+    <Name>Northeastern Army Recurit</Name>
+    <Side>side_china</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_order</Side>
-	<Flags>
-		<Flag>CF_NPC</Flag>
-	</Flags>
     <Equips>
-      <EquipItem>itm_sword_1</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_empire_swordsman">
-    <Name>Empire Swordsman</Name>
+  <Character ID="cha_nea_rifleman">
+    <Name>Northeastern Army Rifleman</Name>
+    <Side>side_china</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_empire</Side>
     <Equips>
-      <EquipItem>itm_sword_1</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_empire_poleaxeman">
-    <Name>Empire Poleaxeman</Name>
+  <Character ID="cha_nea_support_soldier">
+    <Name>Northeastern Army Support Soldier</Name>
+    <Side>side_china</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_empire</Side>
     <Equips>
-      <EquipItem>itm_poleaxe</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_empire_axeman">
-    <Name>Empire Axeman</Name>
-	  <Skin>skn_sinbad</Skin>
-	  <Side>side_empire</Side>
+  <Character ID="cha_nea_machinegunner">
+    <Name>Northeastern Army Machinegunner</Name>
+    <Side>side_china</Side>
+	<Skin>skn_sinbad</Skin>
     <Equips>
-      <EquipItem>itm_axe</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_empire_royal_guard">
-    <Name>Empire Royal Guard</Name>
+  <Character ID="cha_nea_cavalryman">
+    <Name>Northeastern Army Cavalryman</Name>
+    <Side>side_china</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_empire</Side>
     <Equips>
-      <EquipItem>itm_swords_1</EquipItem>
-      <EquipItem>itm_rectangle_shield</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_empire_cavalry">
-    <Name>Empire Cavalry</Name>
+  <Character ID="cha_nea_artilery">
+    <Name>Northeastern Army Artillery</Name>
+    <Side>side_china</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_empire</Side>
-	<Flags>
-		<Flag>CF_Mounted</Flag>
-	</Flags>
     <Equips>
-      <EquipItem>itm_horse</EquipItem>
-      <EquipItem>itm_swords_1</EquipItem>
-      <EquipItem>itm_shield</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_empire_dragon_knight">
-    <Name>Empire Dragon Knight</Name>
+  <Character ID="cha_jsda_rifleman">
+    <Name>Jilin Self Defence Army Rifleman</Name>
+    <Side>side_china</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_empire</Side>
-	<Flags>
-		<Flag>CF_Mounted</Flag>
-	</Flags>
     <Equips>
-      <EquipItem>itm_dragon</EquipItem>
-      <EquipItem>itm_swords_1</EquipItem>
-      <EquipItem>itm_shield</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_empire_musketeer">
-    <Name>Empire Musketeer</Name>
+  <Character ID="cha_jsda_spikeman">
+    <Name>Jilin Self Defence Army Spikeman</Name>
+    <Side>side_china</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_empire</Side>
     <Equips>
-      <EquipItem>itm_musket</EquipItem>
-      <EquipItem>itm_swords_1</EquipItem>
-      <EquipItem>itm_shield</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_order_knight">
-    <Name>Order Knight</Name>
+  <Character ID="cha_jsda_machinegunner">
+    <Name>Jilin Self Defence Army Machinegunner</Name>
+    <Side>side_china</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_order</Side>
-	<Flags>
-		<Flag>CF_Mounted</Flag>
-	</Flags>
     <Equips>
-      <EquipItem>itm_horse</EquipItem>
-      <EquipItem>itm_swords_1</EquipItem>
-      <EquipItem>itm_shield</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_order_heavy_knight">
-    <Name>Order Heavy Knight</Name>
+  <Character ID="cha_jsda_bearer">
+    <Name>Jilin Self Defence Army Bearer</Name>
+    <Side>side_japan</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_order</Side>
-	<Flags>
-		<Flag>CF_Mounted</Flag>
-	</Flags>
     <Equips>
-      <EquipItem>itm_horse</EquipItem>
-      <EquipItem>itm_swords_1</EquipItem>
-      <EquipItem>itm_shield</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_order_lancer_knight">
-    <Name>Order Lancer Knight</Name>
+  <Character ID="cha_ija_mp">
+    <Name>Imperial Japanese Milltary Police</Name>
+    <Side>side_japan</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_order</Side>
-	<Flags>
-		<Flag>CF_Mounted</Flag>
-	</Flags>
     <Equips>
-      <EquipItem>itm_horse</EquipItem>
-      <EquipItem>itm_lance</EquipItem>
-      <EquipItem>itm_shield</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_order_pikeman">
-    <Name>Order Pikeman</Name>
+  <Character ID="cha_ija_private">
+    <Name>Imperial Japanese Army Private</Name>
+    <Side>side_japan</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_order</Side>
     <Equips>
-      <EquipItem>itm_pike</EquipItem>
-      <EquipItem>itm_swords_1</EquipItem>
-      <EquipItem>itm_shield</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_order_crossbowman">
-    <Name>Order Heavy Crossbowman</Name>
+  <Character ID="cha_ija_rifleman">
+    <Name>Imperial Japanese Army Rifleman</Name>
+    <Side>side_japan</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_order</Side>
     <Equips>
-      <EquipItem>itm_crossbow</EquipItem>
-      <EquipItem>itm_swords_1</EquipItem>
-      <EquipItem>itm_rectangle_shield</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_alien_marauder">
-    <Name>Alien Marauder</Name>
-	<Skin>skn_robot</Skin>
-	<Side>side_outlaws</Side>
-    <Equips>
-      <EquipItem>itm_gattling</EquipItem>
-	</Equips>
-  </Character>
-  <Character ID="cha_paladin_1">
-    <Name>Tiger Paladin Sparst</Name>
+  <Character ID="cha_ija_stormtrooper">
+    <Name>Player</Name>
+    <Side>side_japan</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_order</Side>
-	<Flags>
-		<Flag>CF_NPC</Flag>
-	</Flags>
     <Equips>
-      <EquipItem>itm_sword</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_paladin_2">
-    <Name>Suzaku Paladin Vermonter</Name>
+  <Character ID="cha_ija_machinegunner">
+    <Name>Imperial Japanese Army Machinegunner</Name>
+    <Side>side_japan</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_order</Side>
-	<Flags>
-		<Flag>CF_NPC</Flag>
-	</Flags>
     <Equips>
-      <EquipItem>itm_poleaxe</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_paladin_3">
-    <Name>Krilin Paladin Wilster</Name>
+  <Character ID="cha_ija_cavalryman">
+    <Name>Imperial Japanese Army Cavalryman</Name>
+    <Side>side_japan</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_order</Side>
-	<Flags>
-		<Flag>CF_NPC</Flag>
-	</Flags>
     <Equips>
-      <EquipItem>itm_steel_stick</EquipItem>
     </Equips>
   </Character>
-  <Character ID="cha_paladin_4">
-    <Name>Dragon Paladin Baldos</Name>
+  <Character ID="cha_ija_artillery">
+    <Name>Imperial Japanese Army Artillery</Name>
+    <Side>side_japan</Side>
 	<Skin>skn_sinbad</Skin>
-	<Side>side_order</Side>
-	<Flags>
-		<Flag>CF_NPC</Flag>
-	</Flags>
     <Equips>
-      <EquipItem>itm_long_sabre</EquipItem>
+    </Equips>
+  </Character>
+  <Character ID="cha_ija_armoured_car_driver">
+    <Name>Imperial Japanese Army Armoured Car Driver</Name>
+    <Side>side_japan</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_ija_tank_driver">
+    <Name>Imperial Japanese Army Tank Driver</Name>
+    <Side>side_japan</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_side_1_leader">
+    <Name>General Ma Zhanshan</Name>
+    <Side>side_china</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_side_2_leader">
+    <Name>Commander Shigeru Honjo</Name>
+    <Side>side_japan</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_lord_1_1">
+    <Name>Chief of staff Xie Ke</Name>
+    <Side>side_china</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_lord_1_2">
+    <Name>Captain Xu Baozhen</Name>
+    <Side>side_china</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_lord_1_3">
+    <Name>Captain Wu Delin</Name>
+    <Side>side_china</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_lord_1_4">
+    <Name>Captain Li Qingshan</Name>
+    <Side>side_china</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_lord_1_5">
+    <Name>Captain Yuan Chonggu</Name>
+    <Side>side_china</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_lord_1_6">
+    <Name>Captain Salib</Name>
+    <Side>side_china</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_lord_1_7">
+    <Name>Han Jialin</Name>
+    <Side>side_china</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_lord_2_1">
+    <Name>Jiro Tamon</Name>
+    <Side>side_japan</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_lord_2_2">
+    <Name>Kisaburo Hamamoto</Name>
+    <Side>side_japan</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_lord_2_3">
+    <Name>Shogo Hasebe</Name>
+    <Side>side_japan</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_lord_2_4">
+    <Name>Zhang Haipeng</Name>
+    <Side>side_japan</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_lord_2_5">
+    <Name>Yuji Takanami</Name>
+    <Side>side_japan</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_npc_1">
+    <Name>Committee member Zhao Zhongren</Name>
+    <Side>side_china</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_npc_2">
+    <Name>Director Dou Lianfang</Name>
+    <Side>side_china</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_bandit_rifleman">
+    <Name>Bandit Rifleman</Name>
+    <Side>side_outlaws</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_bandit_rider">
+    <Name>Bandit Rider</Name>
+    <Side>side_outlaws</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_anti_jap_partizan">
+    <Name>Anti-Japanese Partizan</Name>
+    <Side>side_china</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+    </Equips>
+  </Character>
+  <Character ID="cha_jap_wanderer">
+    <Name>Japanese Wanderer</Name>
+    <Side>side_japan</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
     </Equips>
   </Character>
 </Characters>

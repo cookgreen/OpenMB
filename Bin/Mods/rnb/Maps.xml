@@ -1,8 +1,8 @@
 <Maps>
-  <Map ID="map_magic_forest" Loader="Xml">
+  <Map ID="map_nenjiang_bridge" Loader="Xml">
     <Flags>
     </Flags>
-    <Name>Magic Forest</Name>
-    <File>map_magic_forest.xml</File>
+    <Name>Nenjiang Bridge</Name>
+    <File>map_nenjiang_bridge.xml</File>
   </Map>
 </Maps>
