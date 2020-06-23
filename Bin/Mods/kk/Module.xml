@@ -7,7 +7,6 @@
 	<Icon></Icon>
 	<Assemblies>
 		<Assembly>common|OpenMB.Mods.Common</Assembly>
-		<Assembly>this|OpenMB.Mods.KK</Assembly>
 	</Assemblies>
 	<DisplayInChooser>true</DisplayInChooser>
 	<EntryFunctions>
