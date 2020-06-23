@@ -69,7 +69,7 @@ namespace OpenMB.States
             {
                 if (pair.Value.MetaData.DisplayInChooser)
                 {
-                    ModDisplayData modDisplayData = new ModDisplayData(pair.Value.ID);
+                    ModDisplayData modDisplayData = new ModDisplayData(pair.Key);
                     modDisplayData.Name = pair.Value.MetaData.Name;
                     modDisplayData.Desc = pair.Value.MetaData.Description;
                     modDisplayData.Thumb = pair.Value.MetaData.Thumb;
@@ -234,7 +234,8 @@ namespace OpenMB.States
         {
             if (button.Name == "Play")
             {
-                GameManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", selectedModName, "MainMenu");
+                string modID = modDisplayDataList.Where(o => o.Name == selectedModName).First().ID;
+                GameManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", modID, "MainMenu");
                 changeAppState(findByName("Loading"));
             }
             else if (button.Name == "Configure")
