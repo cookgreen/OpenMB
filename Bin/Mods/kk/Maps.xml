@@ -1,8 +1,34 @@
 <Maps>
   <Map ID="map_magic_forest" Loader="Xml">
-    <Flags>
-    </Flags>
     <Name>Magic Forest</Name>
     <File>map_magic_forest.xml</File>
+  </Map>
+  <Map ID="map_wolkes_island" Loader="Xml">
+    <Name>Wolkes Island</Name>
+    <File>map_wolkes_island.xml</File>
+  </Map>
+  <Map ID="map_lydols_sea" Loader="Xml">
+    <Name>Lydols Sea</Name>
+    <File>map_lydols_sea.xml</File>
+  </Map>
+  <Map ID="map_ice_and_fire" Loader="Xml">
+    <Name>The Ice and Fire</Name>
+    <File>map_ice_and_fire.xml</File>
+  </Map>
+  <Map ID="map_cliff " Loader="Xml">
+    <Name>The Cliff</Name>
+    <File>map_cliff.xml</File>
+  </Map>
+  <Map ID="map_castle_in_the_mountain" Loader="Xml">
+    <Name>Castle in the mountain</Name>
+    <File>map_castle_in_the_mountain.xml</File>
+  </Map>
+  <Map ID="map_sky_city" Loader="Xml">
+    <Name>The Sky city</Name>
+    <File>map_castle_in_the_mountain.xml</File>
+  </Map>
+  <Map ID="map_vasiland" Loader="Xml">
+    <Name>Vasiland</Name>
+    <File>map_vasiland.xml</File>
   </Map>
 </Maps>
