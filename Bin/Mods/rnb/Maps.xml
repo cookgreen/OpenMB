@@ -1,8 +1,86 @@
 <Maps>
   <Map ID="map_nenjiang_bridge" Loader="Xml">
-    <Flags>
-    </Flags>
     <Name>Nenjiang Bridge</Name>
     <File>map_nenjiang_bridge.xml</File>
+  </Map>
+  <Map ID="map_sanjianfang_railwaystation" Loader="Xml">
+    <Name>Sanjianfang Railway Station</Name>
+    <File>map_sanjianfang_railwaystation.xml</File>
+  </Map>
+  <Map ID="map_daxing_railwaystation" Loader="Xml">
+    <Name>Daxing Railway Station</Name>
+    <File>map_daxing_railwaystation.xml</File>
+  </Map>
+  <Map ID="map_angangxi_railwaystation" Loader="Xml">
+    <Name>AngAngXi Railway Station</Name>
+    <File>map_angangxi_railwaystation.xml</File>
+  </Map>
+  <Map ID="map_northern_camp" Loader="Xml">
+    <Name>Northern Camp</Name>
+    <File>map_northern_camp.xml</File>
+  </Map>
+  <Map ID="map_dontai_airport " Loader="Xml">
+    <Name>Dongta Airport</Name>
+    <File>map_dontai_airport.xml</File>
+  </Map>
+  <Map ID="map_nanling_artillery_camp" Loader="Xml">
+    <Name>Nanling Artillery Garrison</Name>
+    <File>map_nanling_artillery_camp.xml</File>
+  </Map>
+  <Map ID="map_partizan_secret_camp" Loader="Xml">
+    <Name>Partizan Secret Camp</Name>
+    <File>map_partizan_secret_camp.xml</File>
+  </Map>
+  <Map ID="map_labor_camp" Loader="Xml">
+    <Name>Labor Camp</Name>
+    <File>map_labor_camp.xml</File>
+  </Map>
+  <Map ID="map_forest_police_camp" Loader="Xml">
+    <Name>Forest Police Garrison</Name>
+    <File>map_forest_police_camp.xml</File>
+  </Map>
+  <Map ID="map_japanese_camp " Loader="Xml">
+    <Name>Japanese Camp</Name>
+    <File>map_japanese_camp.xml</File>
+  </Map>
+  <Map ID="map_japanese_dock " Loader="Xml">
+    <Name>Japanese Dock</Name>
+    <File>map_japanese_dock.xml</File>
+  </Map>
+  <Map ID="map_taonan" Loader="Xml">
+    <Name>Taonan</Name>
+    <File>map_taonan.xml</File>
+  </Map>
+  <Map ID="map_qiqihar " Loader="Xml">
+    <Name>Qiqihar</Name>
+    <File>map_qiqihar.xml</File>
+  </Map>
+  <Map ID="map_hailun" Loader="Xml">
+    <Name>Hailun</Name>
+    <File>map_hailun.xml</File>
+  </Map>
+  <Map ID="map_heihe" Loader="Xml">
+    <Name>Heihe</Name>
+    <File>map_heihe.xml</File>
+  </Map>
+  <Map ID="map_harbin" Loader="Xml">
+    <Name>Harbin</Name>
+    <File>map_harbin.xml</File>
+  </Map>
+  <Map ID="map_changchun" Loader="Xml">
+    <Name>Changchun</Name>
+    <File>map_changchun.xml</File>
+  </Map>
+  <Map ID="map_shenyang" Loader="Xml">
+    <Name>Shenyang</Name>
+    <File>map_shenyang.xml</File>
+  </Map>
+  <Map ID="map_dongning" Loader="Xml">
+    <Name>Dongning</Name>
+    <File>map_dongning.xml</File>
+  </Map>
+  <Map ID="map_hutou" Loader="Xml">
+    <Name>Hutou</Name>
+    <File>map_hutou.xml</File>
   </Map>
 </Maps>
