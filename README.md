@@ -25,6 +25,9 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
   * S - Backward  
   * D - Right  
   * Mouse Control Camera look at  
+
+## Wiki:
+https://github.com/cookgreen/OpenMB/wiki
   
 ## Screenshots:
 <details>
@@ -33,13 +36,6 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
  <img src="https://media.moddb.com/images/games/1/72/71205/inventory.1.png" />  
  <img src="https://media.moddb.com/images/games/1/72/71205/game-notes-faction.PNG" />  
 </details>
-
-## Support Languages:  
-* English  
-* 简体中文  
-
-## Wiki:
-https://github.com/cookgreen/OpenMB/wiki
 
 ## Credit:
 * Mogre  
