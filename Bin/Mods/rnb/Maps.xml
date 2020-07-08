@@ -83,4 +83,20 @@
     <Name>Hutou</Name>
     <File>map_hutou.xml</File>
   </Map>
+  <Map ID="map_hailar " Loader="Xml">
+    <Name>Hailar</Name>
+    <File>map_hailar .xml</File>
+  </Map>
+  <Map ID="map_beiliin_suem" Loader="Xml">
+    <Name>Beiliin Suem</Name>
+    <File>map_beiliin_suem.xml</File>
+  </Map>
+  <Map ID="map_honggeertu" Loader="Xml">
+    <Name>Honggeertu</Name>
+    <File>map_honggeertu.xml</File>
+  </Map>
+  <Map ID="map_wubulangkou" Loader="Xml">
+    <Name>Wubulangkou</Name>
+    <File>map_wubulangkou .xml</File>
+  </Map>
 </Maps>
