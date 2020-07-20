@@ -48,3 +48,5 @@ https://github.com/cookgreen/OpenMB/wiki
 
 ## License:
 GPLv3
+
+<a href="https://www.moddb.com/games/openmb" title="View OpenMB on Mod DB" target="_blank"><img src="https://button.moddb.com/popularity/medium/games/71205.png" alt="OpenMB" /></a>
