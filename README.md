@@ -15,6 +15,7 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
 * Inner Game Editor  
 * Script-driven GUI System  
 * Some New Widgets for OGRE3D  
+* Support Mod.io
 
 ## Usage:
 * Shift+Space - Full Screen  
