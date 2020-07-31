@@ -205,7 +205,14 @@ namespace OpenMB.Core
                 {
                     GameGraphicParameterConfigXml renderParamConfig = new GameGraphicParameterConfigXml();
                     renderParamConfig.Name = renderParam.Key;
-                    renderParamConfig.Value = renderParam.Value.possibleValues[0];
+                    if (renderParamConfig.Name == "Video Mode")
+                    {
+                        renderParamConfig.Value = renderParam.Value.possibleValues.Last();//Default use max video mode
+                    }
+					else
+                    {
+                        renderParamConfig.Value = renderParam.Value.possibleValues[0];
+                    }
                     renderConfig.Parameters.Add(renderParamConfig);
                 }
                 Renderers.Add(renderConfig);
