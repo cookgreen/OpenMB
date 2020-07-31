@@ -94,8 +94,9 @@ namespace OpenMB.States
 
             UIManager.Instance.ShowLogo(UIWidgetLocation.TL_RIGHT);
             UIManager.Instance.CreateSeparator(UIWidgetLocation.TL_RIGHT, "LogoSep");
-            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Play", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 140);
-            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Quit", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 140);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Play", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 160);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Mods", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "srr_mods"), 160);
+            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Quit", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 160);
             
             setupModMenu();
 

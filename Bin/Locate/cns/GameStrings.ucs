@@ -1,5 +1,6 @@
 str_play	开始
 str_config	设置
+str_mods	模组浏览器
 str_quit	退出
 str_single_player	单人游戏
 str_multiplayer	多人游戏
