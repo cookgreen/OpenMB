@@ -1,5 +1,6 @@
 str_play	Play
 str_config	Config
+str_mods	Mods
 str_quit	Quit
 str_single_player	SinglePlayer
 str_multiplayer	Multiplayer

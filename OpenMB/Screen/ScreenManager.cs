@@ -42,6 +42,8 @@ namespace OpenMB.Screen
 		public ScreenManager()
         {
             innerScreens = new Dictionary<string, IScreen>();
+
+            IScreen screenModBrowser = new ModBrowserScreen();
             IScreen screenCredit = new CreditScreen();
             IScreen screenConsole = new GameConsoleScreen();
             IScreen screenInventory = new InventoryScreen();
@@ -51,6 +53,7 @@ namespace OpenMB.Screen
 			IScreen screenMenu = new GameMenuScreen();
 			IScreen screenCha = new CharacterScreen();
 			IScreen screenNotes = new GameNotesScreen();
+            innerScreens.Add(screenModBrowser.Name, screenModBrowser);
 			innerScreens.Add(screenMainMenu.Name, screenMainMenu);
 			innerScreens.Add(screenCredit.Name, screenCredit);
             innerScreens.Add(screenConsole.Name, screenConsole);

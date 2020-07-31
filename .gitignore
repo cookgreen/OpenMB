@@ -33,3 +33,6 @@ game.xml
 *.fxo
 *.pp
 /Bin/app.ico
+
+
+*.metagen

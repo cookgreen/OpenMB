@@ -102,6 +102,10 @@
     <Reference Include="Mogre">
       <HintPath>..\Dependencies\Mogre.dll</HintPath>
     </Reference>
+    <Reference Include="MogreAddon, Version=1.0.7517.25642, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\MogreAddon.dll</HintPath>
+    </Reference>
     <Reference Include="MogreFreeSL">
       <HintPath>..\Dependencies\MogreFreeSL.dll</HintPath>
     </Reference>
@@ -144,6 +148,7 @@
     <Compile Include="Connector\MBOgreExpandsion.cs" />
     <Compile Include="Connector\MBOgreManifest.cs" />
     <Compile Include="Connector\MBOgreUtil.cs" />
+    <Compile Include="Core\Common.cs" />
     <Compile Include="Core\GameConfigXml.cs" />
     <Compile Include="Core\GameCursor.cs" />
     <Compile Include="Core\GameRegisterManager.cs" />
@@ -266,6 +271,7 @@
     <Compile Include="Screen\GameNotesScreen.cs" />
     <Compile Include="Screen\GamePartyScreen.cs" />
     <Compile Include="Screen\GameTerrainEditorScreen.cs" />
+    <Compile Include="Screen\ModBrowserScreen.cs" />
     <Compile Include="Screen\Screen.cs" />
     <Compile Include="Map\AIMesh.cs" />
     <Compile Include="Map\GameMap.cs" />
