@@ -4,725 +4,6 @@
         <name>SharpGL.SceneGraph</name>
     </assembly>
     <members>
-        <member name="T:SharpGL.SceneGraph.Core.IHasMaterial">
-            <summary>
-            The IHasMaterial interface can be implemented by any scene object
-            to allow a material to be associated with the object.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Core.IHasMaterial.Material">
-            <summary>
-            Gets or sets the material.
-            </summary>
-            <value>
-            The material.
-            </value>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Core.ArcBall">
-            <summary>
-            The ArcBall camera supports arcball projection, making it ideal for use with a mouse.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.ArcBall.#ctor">
-            <summary>
-            Initializes a new instance 
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.ArcBall.TransformMatrix(SharpGL.OpenGL)">
-            <summary>
-            This is the class' main function, to override this function and perform a 
-            perspective transformation.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.ArcBall.SetBounds(System.Single,System.Single,System.Single)">
-            <summary>
-            set screen boundaried bounds 
-            </summary>
-            <param name="width"></param>
-            <param name="height"></param>
-            <param name="sphereRadius">arcball radius [0.0-1.0f]</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Core.BoundingVolume"/> class.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.FromVertices(System.Collections.Generic.IEnumerable{SharpGL.SceneGraph.Vertex})">
-            <summary>
-            Creates the volume from vertices.
-            </summary>
-            <param name="vertices">The vertices.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.FromSphericalVolume(SharpGL.SceneGraph.Vertex,System.Single)">
-            <summary>
-            Creates the volume from a spherical volume.
-            </summary>
-            <param name="centre">The centre.</param>
-            <param name="radius">The radius.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.FromCylindricalVolume(SharpGL.SceneGraph.Vertex,System.Single,System.Single,System.Single)">
-            <summary>
-            Creates the volume from a cylindrical volume.
-            </summary>
-            <param name="baseline">The baseline.</param>
-            <param name="height">The height.</param>
-            <param name="baseRadius">The base radius.</param>
-            <param name="topRadius">The top radius.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.Pad(System.Single)">
-            <summary>
-            Pads the bounding volume.
-            </summary>
-            <param name="padding">The padding.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.GetBoundDimensions(System.Single@,System.Single@,System.Single@)">
-            <summary>
-            Gets the bound dimensions.
-            </summary>
-            <param name="x">The x size.</param>
-            <param name="y">The y size.</param>
-            <param name="z">The z size.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.Render(SharpGL.OpenGL,SharpGL.SceneGraph.Core.RenderMode)">
-            <summary>
-            Render to the provided instance of OpenGL.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-            <param name="renderMode">The render mode.</param>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Core.IBindable">
-            <summary>
-            An object that is Bindable is able to set itself into
-            the current OpenGL instance. This can be lights, materials,
-            attributes and so on.
-            Bindable objects must be able to be used without interfering
-            with later rendering, so as well as simply being bound directly, 
-            they must be able to be pushed and popped.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.IBindable.Push(SharpGL.OpenGL)">
-            <summary>
-            Pushes this object into the provided OpenGL instance.
-            This will generally push elements of the attribute stack
-            and then set current values.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.IBindable.Pop(SharpGL.OpenGL)">
-            <summary>
-            Pops this object from the provided OpenGL instance.
-            This will generally pop elements of the attribute stack,
-            restoring previous attribute values.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.IBindable.Bind(SharpGL.OpenGL)">
-            <summary>
-            Bind to the specified OpenGL instance.
-            Remember, this will not push or pop the attribute
-            stack so will affect ALL subsequent rendering.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Core.IFreezable">
-            <summary>
-            Scene Elements can be marked as Freezeable. If scene objects
-            are freezable, they can be frozen, meaning that they are locked.
-            Generally this means compiling the object's geometry into
-            a display list.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.IFreezable.Freeze(SharpGL.OpenGL)">
-            <summary>
-            Freezes this instance using the provided OpenGL instance.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.IFreezable.Unfreeze(SharpGL.OpenGL)">
-            <summary>
-            Unfreezes this instance using the provided OpenGL instance.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Core.IFreezable.IsFrozen">
-            <summary>
-            Gets a value indicating whether this instance is frozen.
-            </summary>
-            <value>
-              <c>true</c> if this instance is frozen; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Core.IHasObjectSpace">
-            <summary>
-            A SceneElement can implement IHasObjectSpace to allow it to transform
-            world space into object space.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.IHasObjectSpace.PushObjectSpace(SharpGL.OpenGL)">
-            <summary>
-            Pushes us into Object Space using the transformation into the specified OpenGL instance.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.IHasObjectSpace.PopObjectSpace(SharpGL.OpenGL)">
-            <summary>
-            Pops us from Object Space using the transformation into the specified OpenGL instance.
-            </summary>
-            <param name="gl">The gl.</param>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Core.IHasObjectSpace.Transformation">
-            <summary>
-            Gets the transformation that pushes us into object space.
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Core.IHasOpenGLContext">
-            <summary>
-            Any element or asset which has an OpenGL context has some 
-            associated OpenGL resource. This means that when it is loaded
-            from file, it may need to be re-created, or if it is moved
-            between OpenGL contexts it may need to be re-created.
-            Any object that has an OpenGL context has a Create method, a 
-            Destroy Method and a CurrentContext property.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.IHasOpenGLContext.CreateInContext(SharpGL.OpenGL)">
-            <summary>
-            Create in the context of the supplied OpenGL instance.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.IHasOpenGLContext.DestroyInContext(SharpGL.OpenGL)">
-            <summary>
-            Destroy in the context of the supplied OpenGL instance.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Core.IHasOpenGLContext.CurrentOpenGLContext">
-            <summary>
-            Gets the current OpenGL that the object exists in context.
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Core.IRenderable">
-            <summary>
-            A Scene Element can implement this interface to enable rendering
-            functionality. Note that many scene elements (materials etc) are
-            not actually drawn.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.IRenderable.Render(SharpGL.OpenGL,SharpGL.SceneGraph.Core.RenderMode)">
-            <summary>
-            Render to the provided instance of OpenGL.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-            <param name="renderMode">The render mode.</param>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Core.IVolumeBound">
-            <summary>
-            A Scene Element can be volumne bound meaning that it can
-            participate in hit testing and various optimisations.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Core.IVolumeBound.BoundingVolume">
-            <summary>
-            Gets the bounding volume.
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Core.RenderMode">
-            <summary>
-            The RenderMode enumeration is used to identify what kind
-            of rendering is occuring.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Core.RenderMode.Design">
-            <summary>
-            We are designing.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Core.RenderMode.HitTest">
-            <summary>
-            We are rendering for a hit test.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Core.RenderMode.Render">
-            <summary>
-            We are rendering.
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Core.SceneContainer">
-            <summary>
-            The Scene Container is the top-level object in a scene graph.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.SceneContainer.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Core.SceneContainer"/> class.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Core.SceneContainer.ParentScene">
-            <summary>
-            Gets or sets the parent scene.
-            </summary>
-            <value>
-            The parent scene.
-            </value>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Core.SceneElement">
-            <summary>
-            The base class for all elements in a scene. Anything in
-            the scene tree is a Scene Element. Scene elements can
-            have children but are very lacking in functionality -
-            implement 
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.SceneElement.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Core.SceneElement"/> class.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.SceneElement.AddChild(SharpGL.SceneGraph.Core.SceneElement)">
-            <summary>
-            Adds a child.
-            </summary>
-            <param name="child">The child scene element.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.SceneElement.RemoveChild(SharpGL.SceneGraph.Core.SceneElement)">
-            <summary>
-            Removes the child scene element.
-            </summary>
-            <param name="child">The child scene element.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.SceneElement.AddEffect(SharpGL.SceneGraph.Effects.Effect)">
-            <summary>
-            Adds an effect.
-            </summary>
-            <param name="effect">The effect.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.SceneElement.RemoveEffect(SharpGL.SceneGraph.Effects.Effect)">
-            <summary>
-            Removes the effect.
-            </summary>
-            <param name="effect">The effect.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.SceneElement.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/> that represents this instance.
-            </summary>
-            <returns>
-            A <see cref="T:System.String"/> that represents this instance.
-            </returns>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Core.SceneElement.children">
-            <summary>
-            The children of the element.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Core.SceneElement.effects">
-            <summary>
-            The effects.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Core.SceneElement.Children">
-            <summary>
-            Gets the children.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Core.SceneElement.Effects">
-            <summary>
-            Gets the effects.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Core.SceneElement.Parent">
-            <summary>
-            Gets the parent.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Core.SceneElement.Name">
-            <summary>
-            Gets or sets the name.
-            </summary>
-            <value>
-            The name.
-            </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Core.SceneElement.IsEnabled">
-            <summary>
-            Gets or sets a value indicating whether this instance is enabled.
-            </summary>
-            <value>
-            	<c>true</c> if this instance is enabled; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.SceneElement.Traverse">
-            <summary>
-            Traverses this instance. Traversing simply returns 
-            the children and all descendents in the correct order.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.SceneElement.Traverse(System.Predicate{SharpGL.SceneGraph.Core.SceneElement})">
-            <summary>
-            Traverses this instance. Traversing simply returns
-            the children and all descendents in the correct order.
-            This traversal allows for a predicate to be used.
-            </summary>
-            <param name="predicate">The predicate for traversal.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.SceneElement.Traverse``1">
-            <summary>
-            Traverses this instance. Traversing simply returns 
-            the children and all descendents of type T in the correct order.
-            </summary>
-            <typeparam name="T">The type of object to traverse for.</typeparam>
-            <returns>The full set of T objects in the scene.</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.SceneElement.Traverse``1(System.Predicate{``0})">
-            <summary>
-            Traverses this instance. Traversing simply returns
-            the children and all descendents of type T in the correct order.
-            </summary>
-            <typeparam name="T">The type of object to traverse for.</typeparam>
-            <param name="predicate">The predicate for traversal.</param>
-            <returns>
-            The full set of T objects in the scene.
-            </returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.SceneElement.TraverseToRootElement">
-            <summary>
-            Traverses to root element.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Core.VertexGrid">
-            <summary>
-            This class represent's a grid of points, just like you'd get on a NURBS
-            surface, or a patch.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.VertexGrid.Draw(SharpGL.OpenGL,System.Boolean,System.Boolean)">
-            <summary>
-            Use this to draw the vertex grid.
-            </summary>
-            <param name="gl">OpenGL object.</param>
-            <param name="points">Draw each individual vertex (with selection names).</param>
-            <param name="lines">Draw the lines connecting the points.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Core.VertexGrid.ToFloatArray">
-            <summary>
-            This function returns all of the control points as a float array, which 
-            is in the format [0] = vertex 1 X, [1] = vertex 1 Y, [2] = vertex 1 Z, 
-            [3] = vertex 2 X etc etc... This array is suitable for OpenGL functions
-            for evaluators and NURBS.
-            </summary>
-            <returns>An array of floats.</returns>
-        </member>
-        <member name="T:SharpGL.SceneGraph.IDeepCloneable`1">
-            <summary>
-            IDeepCloneable objects can create a deep clone of themselves.
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="M:SharpGL.SceneGraph.IDeepCloneable`1.DeepClone">
-            <summary>
-            Creates a deep clones of this instance.
-            </summary>
-            <returns>A deep clone of this instance.</returns>
-        </member>
-        <member name="T:SharpGL.SceneGraph.NETDesignSurface.Designers.OpenGLCtrlDesigner">
-            <summary>
-            This aids the design of the OpenGLCtrl
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.NETDesignSurface.Designers.OpenGLCtrlDesigner.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.NETDesignSurface.Designers.OpenGLCtrlDesigner"/> class.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.NETDesignSurface.Designers.OpenGLCtrlDesigner.PostFilterProperties(System.Collections.IDictionary)">
-            <summary>
-            Remove Control properties that are not supported by the control.
-            </summary>
-            <param name="Properties"></param>
-        </member>
-        <member name="T:SharpGL.SceneGraph.NETDesignSurface.Converters.VertexConverter">
-            <summary>
-            The VertexConverter class allows you to edit vertices in the propties window.
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.NETDesignSurface.Converters.MaterialCollectionConverter">
-            <summary>
-            This converts the Material Collection into something more functional.
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.NETDesignSurface.Editors.UITextureEditor">
-            <summary>
-            The texture editor makes Textures in the properties window much better,
-            giving them a little thumbnail.
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.NETDesignSurface.Editors.QuadricCollectionEditor">
-            <summary>
-            This converts the Quadric Collection into something more functional, and
-            allows you to add many types of quadrics.
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.NETDesignSurface.Editors.CameraCollectionEditor">
-            <summary>
-            This converts the Camera collection into something more usable (design time wise)
-            by allowing all the types of camera to be added.
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.NETDesignSurface.Editors.EvaluatorCollectionEditor">
-            <summary>
-            This converts the evaluator collection into something more usable (design time wise)
-            by allowing all the types of evaluator to be added.
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.OpenGLEventArgs">
-            <summary>
-            The OpenGLEventArgs class.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.OpenGLEventArgs.#ctor(SharpGL.OpenGL)">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.OpenGLEventArgs"/> class.
-            </summary>
-            <param name="gl">The gl.</param>
-        </member>
-        <member name="F:SharpGL.SceneGraph.OpenGLEventArgs.gl">
-            <summary>
-            The OpenGL instance.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.OpenGLEventArgs.OpenGL">
-            <summary>
-            Gets or sets the open GL.
-            </summary>
-            <value>The open GL.</value>
-        </member>
-        <member name="T:SharpGL.SceneGraph.OpenGLEventHandler">
-            <summary>
-            The OpenGL Event Handler delegate.
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.OpenGLSceneGraphExtensions">
-            <summary>
-            Extensions to the OpenGL class for use with the Scene Graph types (allowing
-            vertices, GLColors etc to be used).
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.OpenGLSceneGraphExtensions.Color(SharpGL.OpenGL,SharpGL.SceneGraph.GLColor)">
-            <summary>
-            Set the current color.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-            <param name="color">The color.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.OpenGLSceneGraphExtensions.Project(SharpGL.OpenGL,SharpGL.SceneGraph.Vertex)">
-            <summary>
-            This is a SharpGL helper version, that projects the vertex passed, using the
-            current matrixes.
-            </summary>
-            <param name="gl">The gl.</param>
-            <param name="vertex">The object coordinates.</param>
-            <returns>
-            The screen coords.
-            </returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.OpenGLSceneGraphExtensions.GetModelViewMatrix(SharpGL.OpenGL)">
-            <summary>
-            Gets the model view matrix.
-            </summary>
-            <param name="gl">The gl.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.OpenGLSceneGraphExtensions.GetProjectionMatrix(SharpGL.OpenGL)">
-            <summary>
-            Gets the projection matrix.
-            </summary>
-            <param name="gl">The gl.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.OpenGLSceneGraphExtensions.GetTextureMatrix(SharpGL.OpenGL)">
-            <summary>
-            Gets the texture matrix.
-            </summary>
-            <param name="gl">The gl.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.OpenGLSceneGraphExtensions.VertexPointer(SharpGL.OpenGL,System.Int32,System.UInt32,System.Int32,SharpGL.SceneGraph.Vertex[])">
-            <summary>
-            Vertexes the pointer.
-            </summary>
-            <param name="gl">The gl.</param>
-            <param name="size">The size.</param>
-            <param name="type">The type.</param>
-            <param name="stride">The stride.</param>
-            <param name="pointer">The pointer.</param>
-        </member>
-        <member name="T:SharpGL.SceneGraph.ParticleSystems.Particle">
-            <summary>
-            This is the main particle class, if you want specialised particles derive from it.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.Particle.Intialise(System.Random)">
-            <summary>
-            This function should initialise the particle so that it's ready to tick.
-            </summary>
-            <param name="rand">The random number generator.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.Particle.Tick(System.Random)">
-            <summary>
-            This function moves the particle on a stage.
-            </summary>
-            <param name="rand">The random nunber generator.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.Particle.Draw(SharpGL.OpenGL)">
-            <summary>
-            This function draws the particle.
-            </summary>
-            <param name="gl"></param>
-        </member>
-        <member name="T:SharpGL.SceneGraph.ParticleSystems.BasicParticle">
-            <summary>
-            A basic particle.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.BasicParticle.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.ParticleSystems.BasicParticle"/> class.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.BasicParticle.Intialise(System.Random)">
-            <summary>
-            This function initialises the basic particle.
-            </summary>
-            <param name="rand"></param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.BasicParticle.Tick(System.Random)">
-            <summary>
-            This function 'ticks' the particle, i.e moves it on a stage.
-            </summary>
-            <param name="rand">A random object.</param>
-        </member>
-        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.position">
-            <summary>
-            This is the vertex's current position in space.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.velocity">
-            <summary>
-            This is the velocity, do not modify!
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.direction">
-            <summary>
-            This is the direction of the particle.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.directionRandomise">
-            <summary>
-            This shows the potential magnitude of the random effects of the direction.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.gravity">
-            <summary>
-            This is the gravity affecting the particle.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.color">
-            <summary>
-            Particles colour.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.colorRandomise">
-            <summary>
-            How much the particles colour can change by each tick.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.life">
-            <summary>
-            The life left of the particle.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.lifespan">
-            <summary>
-            The lifespan of the particle.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.dieForever">
-            <summary>
-            Does the particle only exist once?
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.ParticleSystems.SphereParticle">
-            <summary>
-            A Sphere particle.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.SphereParticle.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.ParticleSystems.SphereParticle"/> class.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.SphereParticle.Draw(SharpGL.OpenGL)">
-            <summary>
-            Draws the specified gl.
-            </summary>
-            <param name="gl">The gl.</param>
-        </member>
-        <member name="T:SharpGL.SceneGraph.ParticleSystems.ParticleSystem">
-            <summary>
-            A particle system is, you guessed it, just a collection of particles.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.ParticleSystems.ParticleSystem"/> class.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.Initialise(System.Int32)">
-            <summary>
-            This function should create and initialise 'count' particles of the correct
-            type. This is done automatically by default, only override if you want
-            to change the standard behaviour.
-            </summary>
-            <param name="count"></param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.Render(SharpGL.OpenGL,SharpGL.SceneGraph.Core.RenderMode)">
-            <summary>
-            Render to the provided instance of OpenGL.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-            <param name="renderMode">The render mode.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.Tick">
-            <summary>
-            This function ticks the particle system.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.PushObjectSpace(SharpGL.OpenGL)">
-            <summary>
-            Pushes us into Object Space using the transformation into the specified OpenGL instance.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.PopObjectSpace(SharpGL.OpenGL)">
-            <summary>
-            Pops us from Object Space using the transformation into the specified OpenGL instance.
-            </summary>
-            <param name="gl">The gl.</param>
-        </member>
-        <member name="F:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.hasObjectSpaceHelper">
-            <summary>
-            The IHasObjectSpace helper.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.Transformation">
-            <summary>
-            Gets the transformation that pushes us into object space.
-            </summary>
-        </member>
         <member name="T:SharpGL.SceneGraph.Assets.Asset">
             <summary>
             An Asset is something which is used in the scene, but is not in the scene 
@@ -1344,83 +625,162 @@
             The far.
             </value>
         </member>
-        <member name="T:SharpGL.SceneGraph.Face">
+        <member name="T:SharpGL.SceneGraph.Collections.VertexSearch">
             <summary>
-            A Face is a set of indices to vertices.
+            Utility class to perform a search on vertices.
             </summary>
         </member>
-        <member name="M:SharpGL.SceneGraph.Face.#ctor">
+        <member name="M:SharpGL.SceneGraph.Collections.VertexSearch.Search(System.Collections.Generic.List{SharpGL.SceneGraph.Vertex},System.Int32,SharpGL.SceneGraph.Vertex,System.Single)">
             <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Face"/> class.
+            Search a set of vertices.
             </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Face.GetPlaneEquation(SharpGL.SceneGraph.Primitives.Polygon)">
-            <summary>
-            Returns the plane equation (ax + by + cz + d = 0) of the face.
-            </summary>
-            <param name="parent">The parent polygon.</param>
-            <returns>An array of four coefficients a,b,c,d.</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Face.GetSurfaceNormal(SharpGL.SceneGraph.Primitives.Polygon)">
-            <summary>
-            Gets the surface normal.
-            </summary>
-            <param name="parent">The parent.</param>
+            <param name="vertices">The set of vertices to search through.</param>
+            <param name="start">The starting vertex.</param>
+            <param name="vertex">The target of the search.</param>
+            <param name="accuracy">The threshhold of the distance from each dimension of the vertex for the search.</param>
             <returns></returns>
         </member>
-        <member name="M:SharpGL.SceneGraph.Face.Reorder(SharpGL.SceneGraph.Primitives.Polygon)">
+        <member name="T:SharpGL.SceneGraph.Core.ArcBall">
             <summary>
-            This function reverses the order of the indices, i.e changes which direction
-            this face faces in.
-            </summary>
-            <param name="parent">The parent polygon.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Face.GenerateNormals(SharpGL.SceneGraph.Primitives.Polygon)">
-            <summary>
-            This function generates normals for every vertex.
-            </summary>
-            <param name="parent">The parent polygon.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Face.ToString">
-            <summary>
-            Returns a <see cref="T:System.String"/> that represents this instance.
-            </summary>
-            <returns>
-            A <see cref="T:System.String"/> that represents this instance.
-            </returns>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Face.indices">
-            <summary>
-            The indices.
+            The ArcBall camera supports arcball projection, making it ideal for use with a mouse.
             </summary>
         </member>
-        <member name="F:SharpGL.SceneGraph.Face.neighbourIndices">
+        <member name="M:SharpGL.SceneGraph.Core.ArcBall.#ctor">
             <summary>
-            The neighbor indices.
+            Initializes a new instance 
             </summary>
         </member>
-        <member name="P:SharpGL.SceneGraph.Face.Count">
+        <member name="M:SharpGL.SceneGraph.Core.ArcBall.TransformMatrix(SharpGL.OpenGL)">
             <summary>
-            Gets the count.
+            This is the class' main function, to override this function and perform a 
+            perspective transformation.
             </summary>
         </member>
-        <member name="P:SharpGL.SceneGraph.Face.Indices">
+        <member name="M:SharpGL.SceneGraph.Core.ArcBall.SetBounds(System.Single,System.Single,System.Single)">
             <summary>
-            Gets or sets the indices.
+            set screen boundaried bounds 
+            </summary>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="sphereRadius">arcball radius [0.0-1.0f]</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Core.BoundingVolume"/> class.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.FromVertices(System.Collections.Generic.IEnumerable{SharpGL.SceneGraph.Vertex})">
+            <summary>
+            Creates the volume from vertices.
+            </summary>
+            <param name="vertices">The vertices.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.FromSphericalVolume(SharpGL.SceneGraph.Vertex,System.Single)">
+            <summary>
+            Creates the volume from a spherical volume.
+            </summary>
+            <param name="centre">The centre.</param>
+            <param name="radius">The radius.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.FromCylindricalVolume(SharpGL.SceneGraph.Vertex,System.Single,System.Single,System.Single)">
+            <summary>
+            Creates the volume from a cylindrical volume.
+            </summary>
+            <param name="baseline">The baseline.</param>
+            <param name="height">The height.</param>
+            <param name="baseRadius">The base radius.</param>
+            <param name="topRadius">The top radius.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.Pad(System.Single)">
+            <summary>
+            Pads the bounding volume.
+            </summary>
+            <param name="padding">The padding.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.GetBoundDimensions(System.Single@,System.Single@,System.Single@)">
+            <summary>
+            Gets the bound dimensions.
+            </summary>
+            <param name="x">The x size.</param>
+            <param name="y">The y size.</param>
+            <param name="z">The z size.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.BoundingVolume.Render(SharpGL.OpenGL,SharpGL.SceneGraph.Core.RenderMode)">
+            <summary>
+            Render to the provided instance of OpenGL.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+            <param name="renderMode">The render mode.</param>
+        </member>
+        <member name="T:SharpGL.SceneGraph.Core.IBindable">
+            <summary>
+            An object that is Bindable is able to set itself into
+            the current OpenGL instance. This can be lights, materials,
+            attributes and so on.
+            Bindable objects must be able to be used without interfering
+            with later rendering, so as well as simply being bound directly, 
+            they must be able to be pushed and popped.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.IBindable.Push(SharpGL.OpenGL)">
+            <summary>
+            Pushes this object into the provided OpenGL instance.
+            This will generally push elements of the attribute stack
+            and then set current values.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.IBindable.Pop(SharpGL.OpenGL)">
+            <summary>
+            Pops this object from the provided OpenGL instance.
+            This will generally pop elements of the attribute stack,
+            restoring previous attribute values.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.IBindable.Bind(SharpGL.OpenGL)">
+            <summary>
+            Bind to the specified OpenGL instance.
+            Remember, this will not push or pop the attribute
+            stack so will affect ALL subsequent rendering.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+        </member>
+        <member name="T:SharpGL.SceneGraph.Core.IFreezable">
+            <summary>
+            Scene Elements can be marked as Freezeable. If scene objects
+            are freezable, they can be frozen, meaning that they are locked.
+            Generally this means compiling the object's geometry into
+            a display list.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.IFreezable.Freeze(SharpGL.OpenGL)">
+            <summary>
+            Freezes this instance using the provided OpenGL instance.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.IFreezable.Unfreeze(SharpGL.OpenGL)">
+            <summary>
+            Unfreezes this instance using the provided OpenGL instance.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Core.IFreezable.IsFrozen">
+            <summary>
+            Gets a value indicating whether this instance is frozen.
             </summary>
             <value>
-            The indices.
+              <c>true</c> if this instance is frozen; otherwise, <c>false</c>.
             </value>
         </member>
-        <member name="P:SharpGL.SceneGraph.Face.NeighbourIndices">
+        <member name="T:SharpGL.SceneGraph.Core.IHasMaterial">
             <summary>
-            Gets or sets the neighbour indicies.
+            The IHasMaterial interface can be implemented by any scene object
+            to allow a material to be associated with the object.
             </summary>
-            <value>
-            The neighbour indicies.
-            </value>
         </member>
-        <member name="P:SharpGL.SceneGraph.Face.Material">
+        <member name="P:SharpGL.SceneGraph.Core.IHasMaterial.Material">
             <summary>
             Gets or sets the material.
             </summary>
@@ -1428,1158 +788,269 @@
             The material.
             </value>
         </member>
-        <member name="T:SharpGL.SceneGraph.Index">
+        <member name="T:SharpGL.SceneGraph.Core.IHasObjectSpace">
             <summary>
-            An index into a set of arrays.
+            A SceneElement can implement IHasObjectSpace to allow it to transform
+            world space into object space.
             </summary>
         </member>
-        <member name="M:SharpGL.SceneGraph.Index.#ctor">
+        <member name="M:SharpGL.SceneGraph.Core.IHasObjectSpace.PushObjectSpace(SharpGL.OpenGL)">
             <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Index"/> class.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Index.vertex">
-            <summary>
-            This is the vertex in the polygon vertex array that the index refers to.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Index.uv">
-            <summary>
-            This is the material coord in the polygon UV array that the index refers to.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Index.normal">
-            <summary>
-            This is the index into the normal array for this vertex. A value of -1 will
-            generate a normal on the fly.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Index.Vertex">
-            <summary>
-            Gets or sets the vertex.
-            </summary>
-            <value>
-            The vertex.
-            </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Index.UV">
-            <summary>
-            Gets or sets the UV.
-            </summary>
-            <value>
-            The UV.
-            </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Index.Normal">
-            <summary>
-            Gets or sets the normal.
-            </summary>
-            <value>
-            The normal.
-            </value>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Transformations.LinearTransformationOrder">
-            <summary>
-            This enumeration describes the linear transformation order.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformationOrder.TranslateRotateScale">
-            <summary>
-            Translate > Rotate > Scale
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformationOrder.RotateTranslateScale">
-            <summary>
-            Rotate > Translate > Scale
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Transformations.LinearTransformation">
-            <summary>
-            The LinearTransformation class represents a linear transformation, such
-            as a transformation that moves us from world space into object space.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Transformations.LinearTransformation.Transform(SharpGL.OpenGL)">
-            <summary>
-            Performs the transformation on the current matrix.
+            Pushes us into Object Space using the transformation into the specified OpenGL instance.
             </summary>
             <param name="gl">The OpenGL instance.</param>
         </member>
-        <member name="M:SharpGL.SceneGraph.Transformations.LinearTransformation.DeepClone">
+        <member name="M:SharpGL.SceneGraph.Core.IHasObjectSpace.PopObjectSpace(SharpGL.OpenGL)">
             <summary>
-            Creates a new object that is a copy of the current instance.
+            Pops us from Object Space using the transformation into the specified OpenGL instance.
             </summary>
-            <returns>
-            A new object that is a copy of this instance.
-            </returns>
+            <param name="gl">The gl.</param>
         </member>
-        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.translateX">
+        <member name="P:SharpGL.SceneGraph.Core.IHasObjectSpace.Transformation">
             <summary>
-            X Component of the Translation.
+            Gets the transformation that pushes us into object space.
             </summary>
         </member>
-        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.translateY">
+        <member name="T:SharpGL.SceneGraph.Core.IHasOpenGLContext">
             <summary>
-            Y Component of the Translation.
+            Any element or asset which has an OpenGL context has some 
+            associated OpenGL resource. This means that when it is loaded
+            from file, it may need to be re-created, or if it is moved
+            between OpenGL contexts it may need to be re-created.
+            Any object that has an OpenGL context has a Create method, a 
+            Destroy Method and a CurrentContext property.
             </summary>
         </member>
-        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.translateZ">
+        <member name="M:SharpGL.SceneGraph.Core.IHasOpenGLContext.CreateInContext(SharpGL.OpenGL)">
             <summary>
-            Z Component of the Translation.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.rotateX">
-            <summary>
-            X Component of the Rotation.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.rotateY">
-            <summary>
-            Y Component of the Rotation.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.rotateZ">
-            <summary>
-            Z Component of the Rotation.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.scaleX">
-            <summary>
-            X Component of the Scale.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.scaleY">
-            <summary>
-            Y Component of the Scale.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.scaleZ">
-            <summary>
-            Z Component of the Scale.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.transformationOrder">
-            <summary>
-            The order of the linear transformation.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.TranslationVertex">
-            <summary>
-            Gets the translation vertex.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.TranslateX">
-            <summary>
-            Gets or sets the x component of the translation.
-            </summary>
-            <value>
-            The x component of the translation.
-            </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.TranslateY">
-            <summary>
-            Gets or sets the y component of the translation.
-            </summary>
-            <value>
-            The y component of the translation.
-            </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.TranslateZ">
-            <summary>
-            Gets or sets the z component of the translation.
-            </summary>
-            <value>
-            The z component of the translation.
-            </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.RotateX">
-            <summary>
-            Gets or sets the x component of the rotation.
-            </summary>
-            <value>
-            The x component of the rotation.
-            </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.RotateY">
-            <summary>
-            Gets or sets the y component of the rotation.
-            </summary>
-            <value>
-            The y component of the rotation.
-            </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.RotateZ">
-            <summary>
-            Gets or sets the z component of the rotation.
-            </summary>
-            <value>
-            The z component of the rotation.
-            </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.ScaleX">
-            <summary>
-            Gets or sets the x component of the scale.
-            </summary>
-            <value>
-            The x component of the scale.
-            </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.ScaleY">
-            <summary>
-            Gets or sets the y component of the scale.
-            </summary>
-            <value>
-            The y component of the scale.
-            </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.ScaleZ">
-            <summary>
-            Gets or sets the z component of the scale.
-            </summary>
-            <value>
-            The z component of the scale.
-            </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.TransformationOrder">
-            <summary>
-            Gets or sets the transformation order.
-            </summary>
-            <value>
-            The transformation order.
-            </value>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Transformations.Transformation">
-            <summary>
-            Base class for transformations.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Transformations.Transformation.Transform(SharpGL.OpenGL)">
-            <summary>
-            Performs the transformation on the current matrix.
+            Create in the context of the supplied OpenGL instance.
             </summary>
             <param name="gl">The OpenGL instance.</param>
         </member>
-        <member name="T:SharpGL.SceneGraph.MatrixLibraryExceptions">
+        <member name="M:SharpGL.SceneGraph.Core.IHasOpenGLContext.DestroyInContext(SharpGL.OpenGL)">
             <summary>
-            A 4x4 matrix.
+            Destroy in the context of the supplied OpenGL instance.
             </summary>
+            <param name="gl">The OpenGL instance.</param>
         </member>
-        <member name="T:SharpGL.SceneGraph.Matrix">
+        <member name="P:SharpGL.SceneGraph.Core.IHasOpenGLContext.CurrentOpenGLContext">
             <summary>
-            Matrix Library .Net v2.0 By Anas Abidi, 2004.
-            
-            The Matrix Library contains Class Matrix which provides many 
-            static methods for making various matrix operations on objects
-            derived from the class or on arrays defined as double. The 
-            '+','-','*' operators are overloaded to work with the objects
-            derived from the matrix class.
+            Gets the current OpenGL that the object exists in context.
             </summary>
         </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.GetHashCode">
+        <member name="T:SharpGL.SceneGraph.Core.IRenderable">
             <summary>
-            Returns a hash code for this instance.
+            A Scene Element can implement this interface to enable rendering
+            functionality. Note that many scene elements (materials etc) are
+            not actually drawn.
             </summary>
-            <returns>
-            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
-            </returns>
         </member>
-        <member name="F:SharpGL.SceneGraph.Matrix.in_Mat">
+        <member name="M:SharpGL.SceneGraph.Core.IRenderable.Render(SharpGL.OpenGL,SharpGL.SceneGraph.Core.RenderMode)">
             <summary>
-            The matrix.
+            Render to the provided instance of OpenGL.
             </summary>
+            <param name="gl">The OpenGL instance.</param>
+            <param name="renderMode">The render mode.</param>
         </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.#ctor(System.Int32,System.Int32)">
+        <member name="T:SharpGL.SceneGraph.Core.IVolumeBound">
             <summary>
-            Matrix object constructor, constructs an empty
-            matrix with dimensions: rows = noRows and cols = noCols.
+            A Scene Element can be volumne bound meaning that it can
+            participate in hit testing and various optimisations.
             </summary>
-            <param name="noRows"> no. of rows in this matrix </param>
-            <param name="noCols"> no. of columns in this matrix</param>
         </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.#ctor(System.Double[0:,0:])">
+        <member name="P:SharpGL.SceneGraph.Core.IVolumeBound.BoundingVolume">
             <summary>
-            Matrix object constructor, constructs a matrix from an
-            already defined array object.
+            Gets the bounding volume.
             </summary>
-            <param name="Mat">the array the matrix will contain</param>
         </member>
-        <member name="P:SharpGL.SceneGraph.Matrix.Item(System.Int32,System.Int32)">
+        <member name="T:SharpGL.SceneGraph.Core.RenderMode">
             <summary>
-            Set or get an element from the matrix
+            The RenderMode enumeration is used to identify what kind
+            of rendering is occuring.
             </summary>
         </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.FromColumnMajorArray(System.Double[],System.Int32,System.Int32)">
+        <member name="F:SharpGL.SceneGraph.Core.RenderMode.Design">
             <summary>
-            Creates a matrix from a column major array.
+            We are designing.
             </summary>
-            <param name="columnMajorArray">The column major array.</param>
-            <param name="rows">The rows.</param>
-            <param name="columns">The columns.</param>
-            <returns>The matrix.</returns>
         </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.FromRowMajorArray(System.Double[],System.Int32,System.Int32)">
+        <member name="F:SharpGL.SceneGraph.Core.RenderMode.HitTest">
             <summary>
-            Creates a matrix from a row major array.
+            We are rendering for a hit test.
             </summary>
-            <param name="columnMajorArray">The column major array.</param>
-            <param name="rows">The rows.</param>
-            <param name="columns">The columns.</param>
-            <returns>The matrix.</returns>
         </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.FromOtherMatrix(SharpGL.SceneGraph.Matrix,System.Int32,System.Int32)">
+        <member name="F:SharpGL.SceneGraph.Core.RenderMode.Render">
             <summary>
-            Creates a matrix from a segment of another matrix.
+            We are rendering.
             </summary>
-            <param name="rhs">The RHS.</param>
-            <param name="rows">The rows.</param>
-            <param name="cols">The cols.</param>
         </member>
-        <member name="P:SharpGL.SceneGraph.Matrix.Rows">
+        <member name="T:SharpGL.SceneGraph.Core.SceneContainer">
             <summary>
-            Set or get the no. of rows in the matrix.
-            Warning: Setting this property will delete all of
-            the elements of the matrix and set them to zero.
+            The Scene Container is the top-level object in a scene graph.
             </summary>
         </member>
-        <member name="P:SharpGL.SceneGraph.Matrix.Columns">
+        <member name="M:SharpGL.SceneGraph.Core.SceneContainer.#ctor">
             <summary>
-            Set or get the no. of columns in the matrix.
-            Warning: Setting this property will delete all of
-            the elements of the matrix and set them to zero.
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Core.SceneContainer"/> class.
             </summary>
         </member>
-        <member name="P:SharpGL.SceneGraph.Matrix.AsArray">
+        <member name="P:SharpGL.SceneGraph.Core.SceneContainer.ParentScene">
             <summary>
-            This property returns the matrix as an array.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Matrix.AsRowMajorArray">
-            <summary>
-            Gets the matrix as a row major array.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Matrix.AsRowMajorArrayFloat">
-            <summary>
-            Gets the matrix as a row major array.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Matrix.AsColumnMajorArray">
-            <summary>
-            Gets the matrix as a column major array.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Matrix.AsColumnMajorArrayFloat">
-            <summary>
-            Gets the matrix as a column major array.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.OneD_2_TwoD(System.Double[])">
-            <summary>
-            Returns the 2D form of a 1D array. i.e. array with
-            dimension[n] is returned as an array with dimension [n,1]. 
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat"> 
-            the array to convert, with dimesion [n] 
-            </param>
-            <returns> the same array but with [n,1] dimension </returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.TwoD_2_OneD(System.Double[0:,0:])">
-            <summary>
-            Returns the 1D form of a 2D array. i.e. array with
-            dimension[n,1] is returned as an array with dimension [n]. 
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat">
-            the array to convert, with dimesions [n,1] 
-            </param>
-            <returns>the same array but with [n] dimension</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.SetIdentity">
-            <summary>
-            Sets the identity matrix as the identity matrix. It must be N x N (i.e.
-            square).
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Identity(System.Int32)">
-            <summary>
-            Returns an Identity matrix with dimensions [n,n] in the from of an array.
-            </summary>
-            <param name="n">the no. of rows or no. cols in the matrix</param>
-            <returns>An identity Matrix with dimensions [n,n] in the form of an array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Add(System.Double[0:,0:],System.Double[0:,0:])">
-            <summary>
-            Returns the summation of two matrices with compatible 
-            dimensions.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat1">First array in the summation</param>
-            <param name="Mat2">Second array in the summation</param>
-            <returns>Sum of Mat1 and Mat2 as an array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Add(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the summation of two matrices with compatible 
-            dimensions.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat1">First matrix in the summation</param>
-            <param name="Mat2">Second matrix in the summation</param>
-            <returns>Sum of Mat1 and Mat2 as a Matrix object</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.op_Addition(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the summation of two matrices with compatible 
-            dimensions.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat1">First Matrix object in the summation</param>
-            <param name="Mat2">Second Matrix object in the summation</param>
-            <returns>Sum of Mat1 and Mat2 as a Matrix object</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Subtract(System.Double[0:,0:],System.Double[0:,0:])">
-            <summary>
-            Returns the difference of two matrices with compatible 
-            dimensions.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat1">First array in the subtraction</param>
-            <param name="Mat2">Second array in the subtraction</param>
-            <returns>Difference of Mat1 and Mat2 as an array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Subtract(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the difference of two matrices with compatible 
-            dimensions.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat1">First matrix in the subtraction</param>
-            <param name="Mat2">Second matrix in the subtraction</param>
-            <returns>Difference of Mat1 and Mat2 as a Matrix object</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.op_Subtraction(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the difference of two matrices with compatible 
-            dimensions.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat1">First Matrix object in the subtraction</param>
-            <param name="Mat2">Second Matrix object in the subtraction</param>
-            <returns>Difference of Mat1 and Mat2 as a Matrix object</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Multiply(System.Double[0:,0:],System.Double[0:,0:])">
-            <summary>
-            Returns the multiplication of two matrices with compatible 
-            dimensions.
-            In case of an error the error is raised as an exception. 
-            </summary>
-            <param name="Mat1">First array in multiplication</param>
-            <param name="Mat2">Second array in multiplication</param>
-            <returns>Mat1 multiplied by Mat2 as an array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Multiply(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the multiplication of two matrices with compatible 
-            dimensions OR the cross-product of two vectors.
-            In case of an error the error is raised as an exception. 
-            </summary>
-            <param name="Mat1">
-            First matrix or vector (i.e: dimension [3,1]) object in 
-            multiplication
-            </param>
-            <param name="Mat2">
-            Second matrix or vector (i.e: dimension [3,1]) object in 
-            multiplication
-            </param>
-            <returns>Mat1 multiplied by Mat2 as a Matrix object</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.op_Multiply(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the multiplication of two matrices with compatible 
-            dimensions OR the cross-product of two vectors.
-            In case of an error the error is raised as an exception. 
-            </summary>
-            <param name="Mat1">
-            First matrix or vector (i.e: dimension [3,1]) object in 
-            multiplication
-            </param>
-            <param name="Mat2">
-            Second matrix or vector (i.e: dimension [3,1]) object in 
-            multiplication
-            </param>
-            <returns>Mat1 multiplied by Mat2 as a Matrix object</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Det(System.Double[0:,0:])">
-            <summary>
-            Returns the determinant of a matrix with [n,n] dimension.
-            In case of an error the error is raised as an exception. 
-            </summary>
-            <param name="Mat">
-            Array with [n,n] dimension whose determinant is to be found
-            </param>
-            <returns>Determinant of the array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Det(SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the determinant of a matrix with [n,n] dimension.
-            In case of an error the error is raised as an exception. 
-            </summary>
-            <param name="Mat">
-            Matrix object with [n,n] dimension whose determinant is to be found
-            </param>
-            <returns>Determinant of the Matrix object</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Inverse(System.Double[0:,0:])">
-            <summary>
-            Returns the inverse of a matrix with [n,n] dimension 
-            and whose determinant is not zero.
-            In case of an error the error is raised as an exception. 
-            </summary>
-            <param name="Mat">
-            Array with [n,n] dimension whose inverse is to be found
-            </param>
-            <returns>Inverse of the array as an array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Inverse(SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the inverse of a matrix with [n,n] dimension 
-            and whose determinant is not zero.
-            In case of an error the error is raised as an exception. 
-            </summary>
-            <param name="Mat">
-            Matrix object with [n,n] dimension whose inverse is to be found
-            </param>
-            <returns>Inverse of the matrix as a Matrix object</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Transpose(System.Double[0:,0:])">
-            <summary>
-            Returns the transpose of a matrix.
-            In case of an error the error is raised as an exception. 
-            </summary>
-            <param name="Mat">Array whose transpose is to be found</param>
-            <returns>Transpose of the array as an array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Transpose(SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the transpose of a matrix.
-            In case of an error the error is raised as an exception. 
-            </summary>
-            <param name="Mat">Matrix object whose transpose is to be found</param>
-            <returns>Transpose of the Matrix object as a Matrix object</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.SVD(System.Double[0:,0:],System.Double[0:,0:]@,System.Double[0:,0:]@,System.Double[0:,0:]@)">
-            <summary>
-            Evaluates the Singular Value Decomposition of a matrix, 
-            returns the  matrices S, U and V. Such that a given
-            Matrix = U x S x V'.
-            In case of an error the error is raised as an exception. 
-            Note: This method is based on the 'Singular Value Decomposition'
-            section of Numerical Recipes in C by William H. Press,
-            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
-            University of Cambridge Press 1992.  
-            </summary>
-            <param name="Mat_">Array whose SVD is to be computed</param>
-            <param name="S_">An array where the S matrix is returned</param>
-            <param name="U_">An array where the U matrix is returned</param>
-            <param name="V_">An array where the V matrix is returned</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.SVD(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix@,SharpGL.SceneGraph.Matrix@,SharpGL.SceneGraph.Matrix@)">
-            <summary>
-            Evaluates the Singular Value Decomposition of a matrix, 
-            returns the  matrices S, U and V. Such that a given
-            Matrix = U x S x V'.
-            In case of an error the error is raised as an exception. 
-            Note: This method is based on the 'Singular Value Decomposition'
-            section of Numerical Recipes in C by William H. Press,
-            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
-            University of Cambridge Press 1992.
-            </summary>
-            <param name="Mat">Matrix object whose SVD is to be computed</param>
-            <param name="S">A Matrix object where the S matrix is returned</param>
-            <param name="U">A Matrix object where the U matrix is returned</param>
-            <param name="V">A Matrix object where the V matrix is returned</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.LU(System.Double[0:,0:],System.Double[0:,0:]@,System.Double[0:,0:]@,System.Double[0:,0:]@)">
-            <summary>
-            Returns the LU Decomposition of a matrix. 
-            the output is: lower triangular matrix L, upper
-            triangular matrix U, and permutation matrix P so that
-            P*X = L*U.
-            In case of an error the error is raised as an exception.
-            Note: This method is based on the 'LU Decomposition and Its Applications'
-            section of Numerical Recipes in C by William H. Press,
-            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
-            University of Cambridge Press 1992.  
-            </summary>
-            <param name="Mat">Array which will be LU Decomposed</param>
-            <param name="L">An array where the lower traingular matrix is returned</param>
-            <param name="U">An array where the upper traingular matrix is returned</param>
-            <param name="P">An array where the permutation matrix is returned</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.LU(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix@,SharpGL.SceneGraph.Matrix@,SharpGL.SceneGraph.Matrix@)">
-            <summary>
-            Returns the LU Decomposition of a matrix. 
-            the output is: lower triangular matrix L, upper
-            triangular matrix U, and permutation matrix P so that
-            P*X = L*U.
-            In case of an error the error is raised as an exception. 
-            Note: This method is based on the 'LU Decomposition and Its Applications'
-            section of Numerical Recipes in C by William H. Press,
-            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
-            University of Cambridge Press 1992.  
-            </summary>
-            <param name="Mat">Matrix object which will be LU Decomposed</param>
-            <param name="L">A Matrix object where the lower traingular matrix is returned</param>
-            <param name="U">A Matrix object where the upper traingular matrix is returned</param>
-            <param name="P">A Matrix object where the permutation matrix is returned</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.SolveLinear(System.Double[0:,0:],System.Double[0:,0:])">
-            <summary>
-            Solves a set of n linear equations A.X = B, and returns
-            X, where A is [n,n] and B is [n,1]. 
-            In the same manner if you need to compute: inverse(A).B, it is
-            better to use this method instead, as it is much faster.  
-            In case of an error the error is raised as an exception. 
-            Note: This method is based on the 'LU Decomposition and Its Applications'
-            section of Numerical Recipes in C by William H. Press,
-            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
-            University of Cambridge Press 1992.
-            </summary>
-            <param name="MatA">The array 'A' on the left side of the equations A.X = B</param>
-            <param name="MatB">The array 'B' on the right side of the equations A.X = B</param>
-            <returns>Array 'X' in the system of equations A.X = B</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.SolveLinear(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Solves a set of n linear equations A.X = B, and returns
-            X, where A is [n,n] and B is [n,1]. 
-            In the same manner if you need to compute: inverse(A).B, it is
-            better to use this method instead, as it is much faster.  
-            In case of an error the error is raised as an exception. 
-            Note: This method is based on the 'LU Decomposition and Its Applications'
-            section of Numerical Recipes in C by William H. Press,
-            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
-            University of Cambridge Press 1992.
-            </summary>
-            <param name="MatA">Matrix object 'A' on the left side of the equations A.X = B</param>
-            <param name="MatB">Matrix object 'B' on the right side of the equations A.X = B</param>
-            <returns>Matrix object 'X' in the system of equations A.X = B</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Rank(System.Double[0:,0:])">
-            <summary>
-            Returns the rank of a matrix.
-            In case of an error the error is raised as an exception. 
-            </summary>
-            <param name="Mat">An array whose rank is to be found</param>
-            <returns>The rank of the array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Rank(SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the rank of a matrix.
-            In case of an error the error is raised as an exception. 
-            </summary>
-            <param name="Mat">a Matrix object whose rank is to be found</param>
-            <returns>The rank of the Matrix object</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.PINV(System.Double[0:,0:])">
-            <summary>
-            Returns the pseudoinverse of a matrix, such that
-            X = PINV(A) produces a matrix 'X' of the same dimensions
-            as A' so that A*X*A = A, X*A*X = X.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat">An array whose pseudoinverse is to be found</param>
-            <returns>The pseudoinverse of the array as an array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.PINV(SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the pseudoinverse of a matrix, such that
-            X = PINV(A) produces a matrix 'X' of the same dimensions
-            as A' so that A*X*A = A, X*A*X = X.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat">a Matrix object whose pseudoinverse is to be found</param>
-            <returns>The pseudoinverse of the Matrix object as a Matrix Object</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Eigen(System.Double[0:,0:],System.Double[0:,0:]@,System.Double[0:,0:]@)">
-            <summary>
-            Returns the Eigenvalues and Eigenvectors of a real symmetric
-            matrix, which is of dimensions [n,n]. 
-            In case of an error the error is raised as an exception.
-            Note: This method is based on the 'Eigenvalues and Eigenvectors of a TridiagonalMatrix'
-            section of Numerical Recipes in C by William H. Press,
-            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
-            University of Cambridge Press 1992.
-            </summary>
-            <param name="Mat">
-            The array whose Eigenvalues and Eigenvectors are to be found
-            </param>
-            <param name="d">An array where the eigenvalues are returned</param>
-            <param name="v">An array where the eigenvectors are returned</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Eigen(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix@,SharpGL.SceneGraph.Matrix@)">
-            <summary>
-            Returns the Eigenvalues and Eigenvectors of a real symmetric
-            matrix, which is of dimensions [n,n]. In case of an error the
-            error is raised as an exception.
-            Note: This method is based on the 'Eigenvalues and Eigenvectors of a TridiagonalMatrix'
-            section of Numerical Recipes in C by William H. Press,
-            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
-            University of Cambridge Press 1992.
-            </summary>
-            <param name="Mat">
-            The Matrix object whose Eigenvalues and Eigenvectors are to be found
-            </param>
-            <param name="d">A Matrix object where the eigenvalues are returned</param>
-            <param name="v">A Matrix object where the eigenvectors are returned</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.ScalarMultiply(System.Double,System.Double[0:,0:])">
-            <summary>
-            Returns the multiplication of a matrix or a vector (i.e 
-            dimension [3,1]) with a scalar quantity.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Value">The scalar value to multiply the array</param>
-            <param name="Mat">Array which is to be multiplied by a scalar</param>
-            <returns>The multiplication of the scalar and the array as an array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.ScalarMultiply(System.Double,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the multiplication of a matrix or a vector (i.e 
-            dimension [3,1]) with a scalar quantity.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Value">The scalar value to multiply the array</param>
-            <param name="Mat">Matrix which is to be multiplied by a scalar</param>
-            <returns>The multiplication of the scalar and the array as an array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.op_Multiply(SharpGL.SceneGraph.Matrix,System.Double)">
-            <summary>
-            Returns the multiplication of a matrix or a vector (i.e 
-            dimension [3,1]) with a scalar quantity.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat">Matrix object which is to be multiplied by a scalar</param>
-            <param name="Value">The scalar value to multiply the Matrix object</param>
-            <returns>
-            The multiplication of the scalar and the Matrix object as a 
-            Matrix object
-            </returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.op_Multiply(System.Double,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the multiplication of a matrix or a vector (i.e 
-            dimension [3,1]) with a scalar quantity.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Value">The scalar value to multiply the Matrix object</param>
-            <param name="Mat">Matrix object which is to be multiplied by a scalar</param>
-            <returns>
-            The multiplication of the scalar and the Matrix object as a 
-            Matrix object
-            </returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.ScalarDivide(System.Double,System.Double[0:,0:])">
-            <summary>
-            Returns the division of a matrix or a vector (i.e 
-            dimension [3,1]) by a scalar quantity.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Value">The scalar value to divide the array with</param>
-            <param name="Mat">Array which is to be divided by a scalar</param>
-            <returns>The division of the array and the scalar as an array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.ScalarDivide(System.Double,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the division of a matrix or a vector (i.e 
-            dimension [3,1]) by a scalar quantity.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Value">The scalar value to divide the array with</param>
-            <param name="Mat">Matrix which is to be divided by a scalar</param>
-            <returns>The division of the array and the scalar as an array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.op_Division(SharpGL.SceneGraph.Matrix,System.Double)">
-            <summary>
-            Returns the division of a matrix or a vector (i.e 
-            dimension [3,1]) by a scalar quantity.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Value">The scalar value to divide the Matrix object with</param>
-            <param name="Mat">Matrix object which is to be divided by a scalar</param>
-            <returns>
-            The division of the Matrix object and the scalar as a Matrix object
-            </returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.CrossProduct(System.Double[],System.Double[])">
-            <summary>
-            Returns the cross product of two vectors whose
-            dimensions should be [3] or [3,1].
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="V1">First vector array (dimension [3]) in the cross product</param>
-            <param name="V2">Second vector array (dimension [3]) in the cross product</param>
-            <returns>Cross product of V1 and V2 as an array (dimension [3])</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.CrossProduct(System.Double[0:,0:],System.Double[0:,0:])">
-            <summary>
-            Returns the cross product of two vectors whose
-            dimensions should be [3] or [3x1].
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="V1">First vector array (dimensions [3,1]) in the cross product</param>
-            <param name="V2">Second vector array (dimensions [3,1]) in the cross product</param>
-            <returns>Cross product of V1 and V2 as an array (dimension [3,1])</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.CrossProduct(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the cross product of two vectors whose
-            dimensions should be [3] or [3x1].
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="V1">First Matrix (dimensions [3,1]) in the cross product</param>
-            <param name="V2">Second Matrix (dimensions [3,1]) in the cross product</param>
-            <returns>Cross product of V1 and V2 as a matrix (dimension [3,1])</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.DotProduct(System.Double[],System.Double[])">
-            <summary>
-            Returns the dot product of two vectors whose
-            dimensions should be [3] or [3,1].
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="V1">First vector array (dimension [3]) in the dot product</param>
-            <param name="V2">Second vector array (dimension [3]) in the dot product</param>
-            <returns>Dot product of V1 and V2</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.DotProduct(System.Double[0:,0:],System.Double[0:,0:])">
-            <summary>
-            Returns the dot product of two vectors whose
-            dimensions should be [3] or [3,1].
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="V1">First vector array (dimension [3,1]) in the dot product</param>
-            <param name="V2">Second vector array (dimension [3,1]) in the dot product</param>
-            <returns>Dot product of V1 and V2</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.DotProduct(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns the dot product of two vectors whose
-            dimensions should be [3] or [3,1].
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="V1">First Matrix object (dimension [3,1]) in the dot product</param>
-            <param name="V2">Second Matrix object (dimension [3,1]) in the dot product</param>
-            <returns>Dot product of V1 and V2</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.VectorMagnitude(System.Double[])">
-            <summary>
-             Returns the magnitude of a vector whose dimension is [3] or [3,1].
-             In case of an error the error is raised as an exception.
-            </summary>
-            <param name="V">The vector array (dimension [3]) whose magnitude is to be found</param>
-            <returns>The magnitude of the vector array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.VectorMagnitude(System.Double[0:,0:])">
-            <summary>
-             Returns the magnitude of a vector whose dimension is [3] or [3,1].
-             In case of an error the error is raised as an exception.
-            </summary>
-            <param name="V">The vector array (dimension [3,1]) whose magnitude is to be found</param>
-            <returns>The magnitude of the vector array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.VectorMagnitude(SharpGL.SceneGraph.Matrix)">
-            <summary>
-             Returns the magnitude of a vector whose dimension is [3] or [3,1].
-             In case of an error the error is raised as an exception.
-            </summary>
-            <param name="V">Matrix object (dimension [3,1]) whose magnitude is to be found</param>
-            <returns>The magnitude of the Matrix object</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.IsEqual(System.Double[0:,0:],System.Double[0:,0:])">
-            <summary>
-            Checks if two Arrays of equal dimensions are equal or not.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat1">First array in equality check</param>
-            <param name="Mat2">Second array in equality check</param>
-            <returns>If two matrices are equal or not</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.IsEqual(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Checks if two matrices of equal dimensions are equal or not.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat1">First Matrix in equality check</param>
-            <param name="Mat2">Second Matrix in equality check</param>
-            <returns>If two matrices are equal or not</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.op_Equality(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Checks if two matrices of equal dimensions are equal or not.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat1">First Matrix object in equality check</param>
-            <param name="Mat2">Second Matrix object in equality check</param>
-            <returns>If two matrices are equal or not</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.op_Inequality(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Checks if two matrices of equal dimensions are not equal.
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat1">First Matrix object in equality check</param>
-            <param name="Mat2">Second Matrix object in equality check</param>
-            <returns>If two matrices are not equal</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.Equals(System.Object)">
-            <summary>
-            Tests whether the specified object is a MatrixLibrary.Matrix
-            object and is identical to this MatrixLibrary.Matrix object.
-            </summary>
-            <param name="obj">The object to compare with the current object</param>
-            <returns>This method returns true if obj is the specified Matrix object identical to this Matrix object; otherwise, false.</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.PrintMat(System.Double[0:,0:])">
-            <summary>
-            Returns a matrix as a string, so it can be viewed
-            in a multi-text textbox or in a richtextBox (preferred).
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat">The array to be viewed</param>
-            <returns>The string view of the array</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.PrintMat(SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Returns a matrix as a string, so it can be viewed
-            in a multi-text textbox or in a richtextBox (preferred).
-            In case of an error the error is raised as an exception.
-            </summary>
-            <param name="Mat">The Matrix object to be viewed</param>
-            <returns>The string view of the Matrix object</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Matrix.ToString">
-            <summary>
-            Returns the matrix as a string, so it can be viewed
-            in a multi-text textbox or in a richtextBox (preferred).
-            In case of an error the error is raised as an exception.
-            </summary>
-            <returns>The string view of the Matrix object</returns>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Plane">
-            <summary>
-            A plane.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Plane.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Plane"/> class.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Plane.ClassifyPoint(SharpGL.SceneGraph.Vertex)">
-            <summary>
-            This finds out if a point is in front of, behind, or on this plane.
-            </summary>
-            <param name="point">The point to classify.</param>
-            <returns>
-            Less than 0 if behind, 0 if on, Greater than 0 if in front.
-            </returns>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Plane.position">
-            <summary>
-            The position.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Plane.normal">
-            <summary>
-            The normal.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Plane.equation">
-            <summary>
-            The equation.
-            </summary>
-        </member>
-        <member name="T:SharpGL.SceneGraph.UV">
-            <summary>
-            A texture coordinate.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.UV.#ctor(System.Single,System.Single)">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.UV"/> struct.
-            </summary>
-            <param name="u">The u.</param>
-            <param name="v">The v.</param>
-        </member>
-        <member name="F:SharpGL.SceneGraph.UV.u">
-            <summary>
-            The u value.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.UV.v">
-            <summary>
-            The v value.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.UV.U">
-            <summary>
-            Gets or sets the U.
+            Gets or sets the parent scene.
             </summary>
             <value>
-            The U.
+            The parent scene.
             </value>
         </member>
-        <member name="P:SharpGL.SceneGraph.UV.V">
+        <member name="T:SharpGL.SceneGraph.Core.SceneElement">
             <summary>
-            Gets or sets the V.
+            The base class for all elements in a scene. Anything in
+            the scene tree is a Scene Element. Scene elements can
+            have children but are very lacking in functionality -
+            implement 
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.SceneElement.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Core.SceneElement"/> class.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.SceneElement.AddChild(SharpGL.SceneGraph.Core.SceneElement)">
+            <summary>
+            Adds a child.
+            </summary>
+            <param name="child">The child scene element.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.SceneElement.RemoveChild(SharpGL.SceneGraph.Core.SceneElement)">
+            <summary>
+            Removes the child scene element.
+            </summary>
+            <param name="child">The child scene element.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.SceneElement.AddEffect(SharpGL.SceneGraph.Effects.Effect)">
+            <summary>
+            Adds an effect.
+            </summary>
+            <param name="effect">The effect.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.SceneElement.RemoveEffect(SharpGL.SceneGraph.Effects.Effect)">
+            <summary>
+            Removes the effect.
+            </summary>
+            <param name="effect">The effect.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.SceneElement.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Core.SceneElement.children">
+            <summary>
+            The children of the element.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Core.SceneElement.effects">
+            <summary>
+            The effects.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Core.SceneElement.Children">
+            <summary>
+            Gets the children.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Core.SceneElement.Effects">
+            <summary>
+            Gets the effects.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Core.SceneElement.Parent">
+            <summary>
+            Gets the parent.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Core.SceneElement.Name">
+            <summary>
+            Gets or sets the name.
             </summary>
             <value>
-            The V.
+            The name.
             </value>
         </member>
-        <member name="T:SharpGL.SceneGraph.Vertex">
+        <member name="P:SharpGL.SceneGraph.Core.SceneElement.IsEnabled">
             <summary>
-            The Vertex class represents a 3D point in space.
+            Gets or sets a value indicating whether this instance is enabled.
             </summary>
+            <value>
+            	<c>true</c> if this instance is enabled; otherwise, <c>false</c>.
+            </value>
         </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.#ctor(System.Single,System.Single,System.Single)">
+        <member name="M:SharpGL.SceneGraph.Core.SceneElement.Traverse">
             <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Vertex"/> struct.
+            Traverses this instance. Traversing simply returns 
+            the children and all descendents in the correct order.
             </summary>
-            <param name="x">The x.</param>
-            <param name="y">The y.</param>
-            <param name="z">The z.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.#ctor(SharpGL.SceneGraph.Vertex)">
-            <summary>
-            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Vertex"/> struct.
-            </summary>
-            <param name="vertex">The vertex.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.Set(System.Single,System.Single,System.Single)">
-            <summary>
-            Sets the specified X.
-            </summary>
-            <param name="X">The X.</param>
-            <param name="Y">The Y.</param>
-            <param name="Z">The Z.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.op_Addition(SharpGL.SceneGraph.Vertex,SharpGL.SceneGraph.Vertex)">
-            <summary>
-            Implements the operator +.
-            </summary>
-            <param name="lhs">The LHS.</param>
-            <param name="rhs">The RHS.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.op_Subtraction(SharpGL.SceneGraph.Vertex,SharpGL.SceneGraph.Vertex)">
-            <summary>
-            Implements the operator -.
-            </summary>
-            <param name="lhs">The LHS.</param>
-            <param name="rhs">The RHS.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.op_Multiply(SharpGL.SceneGraph.Vertex,SharpGL.SceneGraph.Vertex)">
-            <summary>
-            Implements the operator *.
-            </summary>
-            <param name="lhs">The LHS.</param>
-            <param name="rhs">The RHS.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.op_Multiply(SharpGL.SceneGraph.Vertex,System.Single)">
-            <summary>
-            Implements the operator *.
-            </summary>
-            <param name="lhs">The LHS.</param>
-            <param name="rhs">The RHS.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.op_Multiply(SharpGL.SceneGraph.Vertex,SharpGL.SceneGraph.Matrix)">
-            <summary>
-            Implements the operator *.
-            </summary>
-            <param name="lhs">The LHS.</param>
-            <param name="rhs">The RHS.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.op_Multiply(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Vertex)">
-            <summary>
-            Implements the operator *.
-            </summary>
-            <param name="lhs">The LHS.</param>
-            <param name="rhs">The RHS.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.op_Division(SharpGL.SceneGraph.Vertex,System.Single)">
-            <summary>
-            Implements the operator /.
-            </summary>
-            <param name="lhs">The LHS.</param>
-            <param name="rhs">The RHS.</param>
-            <returns>
-            The result of the operator.
-            </returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.ScalarProduct(SharpGL.SceneGraph.Vertex)">
-            <summarY>
-            This finds the Scalar Product (Dot Product) of two vectors.
-            </summarY>
-            <param name="rhs">The right hand side of the equation.</param>
-            <returns>A Scalar Representing the Dot-Product.</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.VectorProduct(SharpGL.SceneGraph.Vertex)">
-            <summarY>
-            Find the Vector product (cross product) of two vectors.
-            </summarY>
-            <param name="rhs">The right hand side of the equation.</param>
-            <returns>The Cross Product.</returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.Magnitude">
-            <summarY>
-            If You use this as a Vector, then call this function to get the vector
-            magnitude.
-            </summarY>
             <returns></returns>
         </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.UnitLength">
-            <summarY>
-            Make this vector unit length.
-            </summarY>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Vertex.Normalize">
+        <member name="M:SharpGL.SceneGraph.Core.SceneElement.Traverse(System.Predicate{SharpGL.SceneGraph.Core.SceneElement})">
             <summary>
-            Normalizes this instance.
+            Traverses this instance. Traversing simply returns
+            the children and all descendents in the correct order.
+            This traversal allows for a predicate to be used.
+            </summary>
+            <param name="predicate">The predicate for traversal.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.SceneElement.Traverse``1">
+            <summary>
+            Traverses this instance. Traversing simply returns 
+            the children and all descendents of type T in the correct order.
+            </summary>
+            <typeparam name="T">The type of object to traverse for.</typeparam>
+            <returns>The full set of T objects in the scene.</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.SceneElement.Traverse``1(System.Predicate{``0})">
+            <summary>
+            Traverses this instance. Traversing simply returns
+            the children and all descendents of type T in the correct order.
+            </summary>
+            <typeparam name="T">The type of object to traverse for.</typeparam>
+            <param name="predicate">The predicate for traversal.</param>
+            <returns>
+            The full set of T objects in the scene.
+            </returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Core.SceneElement.TraverseToRootElement">
+            <summary>
+            Traverses to root element.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SharpGL.SceneGraph.Core.VertexGrid">
+            <summary>
+            This class represent's a grid of points, just like you'd get on a NURBS
+            surface, or a patch.
             </summary>
         </member>
-        <member name="P:SharpGL.SceneGraph.Vertex.X">
+        <member name="M:SharpGL.SceneGraph.Core.VertexGrid.Draw(SharpGL.OpenGL,System.Boolean,System.Boolean)">
             <summary>
-            The X coordinate.
+            Use this to draw the vertex grid.
             </summary>
+            <param name="gl">OpenGL object.</param>
+            <param name="points">Draw each individual vertex (with selection names).</param>
+            <param name="lines">Draw the lines connecting the points.</param>
         </member>
-        <member name="P:SharpGL.SceneGraph.Vertex.Y">
+        <member name="M:SharpGL.SceneGraph.Core.VertexGrid.ToFloatArray">
             <summary>
-            The Y coordinate.
+            This function returns all of the control points as a float array, which 
+            is in the format [0] = vertex 1 X, [1] = vertex 1 Y, [2] = vertex 1 Z, 
+            [3] = vertex 2 X etc etc... This array is suitable for OpenGL functions
+            for evaluators and NURBS.
             </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Vertex.Z">
-            <summary>
-            The Z coordinate.
-            </summary>
+            <returns>An array of floats.</returns>
         </member>
         <member name="T:SharpGL.SceneGraph.DisplayList">
             <summary>
@@ -3154,6 +1625,90 @@
             Gets the knots.
             </summary>
         </member>
+        <member name="T:SharpGL.SceneGraph.Face">
+            <summary>
+            A Face is a set of indices to vertices.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Face.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Face"/> class.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Face.GetPlaneEquation(SharpGL.SceneGraph.Primitives.Polygon)">
+            <summary>
+            Returns the plane equation (ax + by + cz + d = 0) of the face.
+            </summary>
+            <param name="parent">The parent polygon.</param>
+            <returns>An array of four coefficients a,b,c,d.</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Face.GetSurfaceNormal(SharpGL.SceneGraph.Primitives.Polygon)">
+            <summary>
+            Gets the surface normal.
+            </summary>
+            <param name="parent">The parent.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Face.Reorder(SharpGL.SceneGraph.Primitives.Polygon)">
+            <summary>
+            This function reverses the order of the indices, i.e changes which direction
+            this face faces in.
+            </summary>
+            <param name="parent">The parent polygon.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Face.GenerateNormals(SharpGL.SceneGraph.Primitives.Polygon)">
+            <summary>
+            This function generates normals for every vertex.
+            </summary>
+            <param name="parent">The parent polygon.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Face.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Face.indices">
+            <summary>
+            The indices.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Face.neighbourIndices">
+            <summary>
+            The neighbor indices.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Face.Count">
+            <summary>
+            Gets the count.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Face.Indices">
+            <summary>
+            Gets or sets the indices.
+            </summary>
+            <value>
+            The indices.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Face.NeighbourIndices">
+            <summary>
+            Gets or sets the neighbour indicies.
+            </summary>
+            <value>
+            The neighbour indicies.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Face.Material">
+            <summary>
+            Gets or sets the material.
+            </summary>
+            <value>
+            The material.
+            </value>
+        </member>
         <member name="T:SharpGL.SceneGraph.Feedback.Feedback">
             <summary>
             The feedback class handles feedback easily and well. It is 100% dependant on
@@ -3371,6 +1926,68 @@
             </summary>
             <param name="scene">The scene.</param>
         </member>
+        <member name="T:SharpGL.SceneGraph.IDeepCloneable`1">
+            <summary>
+            IDeepCloneable objects can create a deep clone of themselves.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:SharpGL.SceneGraph.IDeepCloneable`1.DeepClone">
+            <summary>
+            Creates a deep clones of this instance.
+            </summary>
+            <returns>A deep clone of this instance.</returns>
+        </member>
+        <member name="T:SharpGL.SceneGraph.Index">
+            <summary>
+            An index into a set of arrays.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Index.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Index"/> class.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Index.vertex">
+            <summary>
+            This is the vertex in the polygon vertex array that the index refers to.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Index.uv">
+            <summary>
+            This is the material coord in the polygon UV array that the index refers to.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Index.normal">
+            <summary>
+            This is the index into the normal array for this vertex. A value of -1 will
+            generate a normal on the fly.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Index.Vertex">
+            <summary>
+            Gets or sets the vertex.
+            </summary>
+            <value>
+            The vertex.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Index.UV">
+            <summary>
+            Gets or sets the UV.
+            </summary>
+            <value>
+            The UV.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Index.Normal">
+            <summary>
+            Gets or sets the normal.
+            </summary>
+            <value>
+            The normal.
+            </value>
+        </member>
         <member name="T:SharpGL.SceneGraph.Lighting.Light">
             <summary>
             A Light is defined purely mathematically, but works well with OpenGL.
@@ -3562,6 +2179,1018 @@
             The spot cutoff.
             </value>
         </member>
+        <member name="T:SharpGL.SceneGraph.MatrixLibraryExceptions">
+            <summary>
+            A 4x4 matrix.
+            </summary>
+        </member>
+        <member name="T:SharpGL.SceneGraph.Matrix">
+            <summary>
+            Matrix Library .Net v2.0 By Anas Abidi, 2004.
+            
+            The Matrix Library contains Class Matrix which provides many 
+            static methods for making various matrix operations on objects
+            derived from the class or on arrays defined as double. The 
+            '+','-','*' operators are overloaded to work with the objects
+            derived from the matrix class.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Matrix.in_Mat">
+            <summary>
+            The matrix.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Matrix object constructor, constructs an empty
+            matrix with dimensions: rows = noRows and cols = noCols.
+            </summary>
+            <param name="noRows"> no. of rows in this matrix </param>
+            <param name="noCols"> no. of columns in this matrix</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.#ctor(System.Double[0:,0:])">
+            <summary>
+            Matrix object constructor, constructs a matrix from an
+            already defined array object.
+            </summary>
+            <param name="Mat">the array the matrix will contain</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.#ctor(SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Matrix object constructor, constructs a matrix from an
+            existing matrix.
+            </summary>
+            <param name="matrix">The matrix to clone.</param>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Matrix.Item(System.Int32,System.Int32)">
+            <summary>
+            Set or get an element from the matrix
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.FromColumnMajorArray(System.Double[],System.Int32,System.Int32)">
+            <summary>
+            Creates a matrix from a column major array.
+            </summary>
+            <param name="columnMajorArray">The column major array.</param>
+            <param name="rows">The rows.</param>
+            <param name="columns">The columns.</param>
+            <returns>The matrix.</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.FromRowMajorArray(System.Double[],System.Int32,System.Int32)">
+            <summary>
+            Creates a matrix from a row major array.
+            </summary>
+            <param name="rowMajorArray">The row major array.</param>
+            <param name="rows">The rows.</param>
+            <param name="columns">The columns.</param>
+            <returns>The matrix.</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.FromOtherMatrix(SharpGL.SceneGraph.Matrix,System.Int32,System.Int32)">
+            <summary>
+            Creates a matrix from a segment of another matrix.
+            </summary>
+            <param name="rhs">The RHS.</param>
+            <param name="rows">The rows.</param>
+            <param name="cols">The cols.</param>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Matrix.Rows">
+            <summary>
+            Set or get the no. of rows in the matrix.
+            Warning: Setting this property will delete all of
+            the elements of the matrix and set them to zero.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Matrix.Columns">
+            <summary>
+            Set or get the no. of columns in the matrix.
+            Warning: Setting this property will delete all of
+            the elements of the matrix and set them to zero.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Matrix.AsArray">
+            <summary>
+            This property returns the matrix as an array.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Matrix.AsRowMajorArray">
+            <summary>
+            Gets the matrix as a row major array.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Matrix.AsRowMajorArrayFloat">
+            <summary>
+            Gets the matrix as a row major array.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Matrix.AsColumnMajorArray">
+            <summary>
+            Gets the matrix as a column major array.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Matrix.AsColumnMajorArrayFloat">
+            <summary>
+            Gets the matrix as a column major array.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.TempSVD">
+            <summary>
+            Provides a fast and reasonably accurate single value decomposition.
+            </summary>
+            <returns>A single value decomposition of the matrix.</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Multiply(System.Single,System.Int32,System.Int32)">
+            <summary>
+            Scale a matrix, or a subset of the matrix.
+            </summary>
+            <param name="scale">The amount to scale by.</param>
+            <param name="rows">The number of rows to scale.</param>
+            <param name="cols">The number of columns to scale.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.OneD_2_TwoD(System.Double[])">
+            <summary>
+            Returns the 2D form of a 1D array. i.e. array with
+            dimension[n] is returned as an array with dimension [n,1]. 
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat"> 
+            the array to convert, with dimesion [n] 
+            </param>
+            <returns> the same array but with [n,1] dimension </returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.TwoD_2_OneD(System.Double[0:,0:])">
+            <summary>
+            Returns the 1D form of a 2D array. i.e. array with
+            dimension[n,1] is returned as an array with dimension [n]. 
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat">
+            the array to convert, with dimesions [n,1] 
+            </param>
+            <returns>the same array but with [n] dimension</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.SetIdentity">
+            <summary>
+            Sets the identity matrix as the identity matrix. It must be N x N (i.e.
+            square).
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Identity(System.Int32)">
+            <summary>
+            Returns an Identity matrix with dimensions [n,n] in the from of an array.
+            </summary>
+            <param name="n">the no. of rows or no. cols in the matrix</param>
+            <returns>An identity Matrix with dimensions [n,n] in the form of an array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Add(System.Double[0:,0:],System.Double[0:,0:])">
+            <summary>
+            Returns the summation of two matrices with compatible 
+            dimensions.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat1">First array in the summation</param>
+            <param name="Mat2">Second array in the summation</param>
+            <returns>Sum of Mat1 and Mat2 as an array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Add(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the summation of two matrices with compatible 
+            dimensions.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat1">First matrix in the summation</param>
+            <param name="Mat2">Second matrix in the summation</param>
+            <returns>Sum of Mat1 and Mat2 as a Matrix object</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.op_Addition(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the summation of two matrices with compatible 
+            dimensions.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat1">First Matrix object in the summation</param>
+            <param name="Mat2">Second Matrix object in the summation</param>
+            <returns>Sum of Mat1 and Mat2 as a Matrix object</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Subtract(System.Double[0:,0:],System.Double[0:,0:])">
+            <summary>
+            Returns the difference of two matrices with compatible 
+            dimensions.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat1">First array in the subtraction</param>
+            <param name="Mat2">Second array in the subtraction</param>
+            <returns>Difference of Mat1 and Mat2 as an array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Subtract(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the difference of two matrices with compatible 
+            dimensions.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat1">First matrix in the subtraction</param>
+            <param name="Mat2">Second matrix in the subtraction</param>
+            <returns>Difference of Mat1 and Mat2 as a Matrix object</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.op_Subtraction(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the difference of two matrices with compatible 
+            dimensions.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat1">First Matrix object in the subtraction</param>
+            <param name="Mat2">Second Matrix object in the subtraction</param>
+            <returns>Difference of Mat1 and Mat2 as a Matrix object</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Multiply(System.Double[0:,0:],System.Double[0:,0:])">
+            <summary>
+            Returns the multiplication of two matrices with compatible 
+            dimensions.
+            In case of an error the error is raised as an exception. 
+            </summary>
+            <param name="Mat1">First array in multiplication</param>
+            <param name="Mat2">Second array in multiplication</param>
+            <returns>Mat1 multiplied by Mat2 as an array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Multiply(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the multiplication of two matrices with compatible 
+            dimensions OR the cross-product of two vectors.
+            In case of an error the error is raised as an exception. 
+            </summary>
+            <param name="Mat1">
+            First matrix or vector (i.e: dimension [3,1]) object in 
+            multiplication
+            </param>
+            <param name="Mat2">
+            Second matrix or vector (i.e: dimension [3,1]) object in 
+            multiplication
+            </param>
+            <returns>Mat1 multiplied by Mat2 as a Matrix object</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.op_Multiply(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the multiplication of two matrices with compatible 
+            dimensions OR the cross-product of two vectors.
+            In case of an error the error is raised as an exception. 
+            </summary>
+            <param name="Mat1">
+            First matrix or vector (i.e: dimension [3,1]) object in 
+            multiplication
+            </param>
+            <param name="Mat2">
+            Second matrix or vector (i.e: dimension [3,1]) object in 
+            multiplication
+            </param>
+            <returns>Mat1 multiplied by Mat2 as a Matrix object</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Det(System.Double[0:,0:])">
+            <summary>
+            Returns the determinant of a matrix with [n,n] dimension.
+            In case of an error the error is raised as an exception. 
+            </summary>
+            <param name="Mat">
+            Array with [n,n] dimension whose determinant is to be found
+            </param>
+            <returns>Determinant of the array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Det(SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the determinant of a matrix with [n,n] dimension.
+            In case of an error the error is raised as an exception. 
+            </summary>
+            <param name="Mat">
+            Matrix object with [n,n] dimension whose determinant is to be found
+            </param>
+            <returns>Determinant of the Matrix object</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Inverse(System.Double[0:,0:])">
+            <summary>
+            Returns the inverse of a matrix with [n,n] dimension 
+            and whose determinant is not zero.
+            In case of an error the error is raised as an exception. 
+            </summary>
+            <param name="Mat">
+            Array with [n,n] dimension whose inverse is to be found
+            </param>
+            <returns>Inverse of the array as an array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Inverse(SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the inverse of a matrix with [n,n] dimension 
+            and whose determinant is not zero.
+            In case of an error the error is raised as an exception. 
+            </summary>
+            <param name="Mat">
+            Matrix object with [n,n] dimension whose inverse is to be found
+            </param>
+            <returns>Inverse of the matrix as a Matrix object</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Transpose">
+            <summary>
+            Transposes the matrix.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Transpose(System.Double[0:,0:])">
+            <summary>
+            Returns the transpose of a matrix.
+            In case of an error the error is raised as an exception. 
+            </summary>
+            <param name="Mat">Array whose transpose is to be found</param>
+            <returns>Transpose of the array as an array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Transpose(SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the transpose of a matrix.
+            In case of an error the error is raised as an exception. 
+            </summary>
+            <param name="Mat">Matrix object whose transpose is to be found</param>
+            <returns>Transpose of the Matrix object as a Matrix object</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.SVD(System.Double[0:,0:],System.Double[0:,0:]@,System.Double[0:,0:]@,System.Double[0:,0:]@)">
+            <summary>
+            Evaluates the Singular Value Decomposition of a matrix, 
+            returns the  matrices S, U and V. Such that a given
+            Matrix = U x S x V'.
+            In case of an error the error is raised as an exception. 
+            Note: This method is based on the 'Singular Value Decomposition'
+            section of Numerical Recipes in C by William H. Press,
+            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
+            University of Cambridge Press 1992.  
+            </summary>
+            <param name="Mat_">Array whose SVD is to be computed</param>
+            <param name="S_">An array where the S matrix is returned</param>
+            <param name="U_">An array where the U matrix is returned</param>
+            <param name="V_">An array where the V matrix is returned</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.SVD(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix@,SharpGL.SceneGraph.Matrix@,SharpGL.SceneGraph.Matrix@)">
+            <summary>
+            Evaluates the Singular Value Decomposition of a matrix, 
+            returns the  matrices S, U and V. Such that a given
+            Matrix = U x S x V'.
+            In case of an error the error is raised as an exception. 
+            Note: This method is based on the 'Singular Value Decomposition'
+            section of Numerical Recipes in C by William H. Press,
+            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
+            University of Cambridge Press 1992.
+            </summary>
+            <param name="Mat">Matrix object whose SVD is to be computed</param>
+            <param name="S">A Matrix object where the S matrix is returned</param>
+            <param name="U">A Matrix object where the U matrix is returned</param>
+            <param name="V">A Matrix object where the V matrix is returned</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.LU(System.Double[0:,0:],System.Double[0:,0:]@,System.Double[0:,0:]@,System.Double[0:,0:]@)">
+            <summary>
+            Returns the LU Decomposition of a matrix. 
+            the output is: lower triangular matrix L, upper
+            triangular matrix U, and permutation matrix P so that
+            P*X = L*U.
+            In case of an error the error is raised as an exception.
+            Note: This method is based on the 'LU Decomposition and Its Applications'
+            section of Numerical Recipes in C by William H. Press,
+            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
+            University of Cambridge Press 1992.  
+            </summary>
+            <param name="Mat">Array which will be LU Decomposed</param>
+            <param name="L">An array where the lower traingular matrix is returned</param>
+            <param name="U">An array where the upper traingular matrix is returned</param>
+            <param name="P">An array where the permutation matrix is returned</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.LU(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix@,SharpGL.SceneGraph.Matrix@,SharpGL.SceneGraph.Matrix@)">
+            <summary>
+            Returns the LU Decomposition of a matrix. 
+            the output is: lower triangular matrix L, upper
+            triangular matrix U, and permutation matrix P so that
+            P*X = L*U.
+            In case of an error the error is raised as an exception. 
+            Note: This method is based on the 'LU Decomposition and Its Applications'
+            section of Numerical Recipes in C by William H. Press,
+            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
+            University of Cambridge Press 1992.  
+            </summary>
+            <param name="Mat">Matrix object which will be LU Decomposed</param>
+            <param name="L">A Matrix object where the lower traingular matrix is returned</param>
+            <param name="U">A Matrix object where the upper traingular matrix is returned</param>
+            <param name="P">A Matrix object where the permutation matrix is returned</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.SolveLinear(System.Double[0:,0:],System.Double[0:,0:])">
+            <summary>
+            Solves a set of n linear equations A.X = B, and returns
+            X, where A is [n,n] and B is [n,1]. 
+            In the same manner if you need to compute: inverse(A).B, it is
+            better to use this method instead, as it is much faster.  
+            In case of an error the error is raised as an exception. 
+            Note: This method is based on the 'LU Decomposition and Its Applications'
+            section of Numerical Recipes in C by William H. Press,
+            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
+            University of Cambridge Press 1992.
+            </summary>
+            <param name="MatA">The array 'A' on the left side of the equations A.X = B</param>
+            <param name="MatB">The array 'B' on the right side of the equations A.X = B</param>
+            <returns>Array 'X' in the system of equations A.X = B</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.SolveLinear(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Solves a set of n linear equations A.X = B, and returns
+            X, where A is [n,n] and B is [n,1]. 
+            In the same manner if you need to compute: inverse(A).B, it is
+            better to use this method instead, as it is much faster.  
+            In case of an error the error is raised as an exception. 
+            Note: This method is based on the 'LU Decomposition and Its Applications'
+            section of Numerical Recipes in C by William H. Press,
+            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
+            University of Cambridge Press 1992.
+            </summary>
+            <param name="MatA">Matrix object 'A' on the left side of the equations A.X = B</param>
+            <param name="MatB">Matrix object 'B' on the right side of the equations A.X = B</param>
+            <returns>Matrix object 'X' in the system of equations A.X = B</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Rank(System.Double[0:,0:])">
+            <summary>
+            Returns the rank of a matrix.
+            In case of an error the error is raised as an exception. 
+            </summary>
+            <param name="Mat">An array whose rank is to be found</param>
+            <returns>The rank of the array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Rank(SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the rank of a matrix.
+            In case of an error the error is raised as an exception. 
+            </summary>
+            <param name="Mat">a Matrix object whose rank is to be found</param>
+            <returns>The rank of the Matrix object</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.PINV(System.Double[0:,0:])">
+            <summary>
+            Returns the pseudoinverse of a matrix, such that
+            X = PINV(A) produces a matrix 'X' of the same dimensions
+            as A' so that A*X*A = A, X*A*X = X.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat">An array whose pseudoinverse is to be found</param>
+            <returns>The pseudoinverse of the array as an array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.PINV(SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the pseudoinverse of a matrix, such that
+            X = PINV(A) produces a matrix 'X' of the same dimensions
+            as A' so that A*X*A = A, X*A*X = X.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat">a Matrix object whose pseudoinverse is to be found</param>
+            <returns>The pseudoinverse of the Matrix object as a Matrix Object</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Eigen(System.Double[0:,0:],System.Double[0:,0:]@,System.Double[0:,0:]@)">
+            <summary>
+            Returns the Eigenvalues and Eigenvectors of a real symmetric
+            matrix, which is of dimensions [n,n]. 
+            In case of an error the error is raised as an exception.
+            Note: This method is based on the 'Eigenvalues and Eigenvectors of a TridiagonalMatrix'
+            section of Numerical Recipes in C by William H. Press,
+            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
+            University of Cambridge Press 1992.
+            </summary>
+            <param name="Mat">
+            The array whose Eigenvalues and Eigenvectors are to be found
+            </param>
+            <param name="d">An array where the eigenvalues are returned</param>
+            <param name="v">An array where the eigenvectors are returned</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Eigen(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix@,SharpGL.SceneGraph.Matrix@)">
+            <summary>
+            Returns the Eigenvalues and Eigenvectors of a real symmetric
+            matrix, which is of dimensions [n,n]. In case of an error the
+            error is raised as an exception.
+            Note: This method is based on the 'Eigenvalues and Eigenvectors of a TridiagonalMatrix'
+            section of Numerical Recipes in C by William H. Press,
+            Saul A. Teukolsky, William T. Vetterling and Brian P. Flannery,
+            University of Cambridge Press 1992.
+            </summary>
+            <param name="Mat">
+            The Matrix object whose Eigenvalues and Eigenvectors are to be found
+            </param>
+            <param name="d">A Matrix object where the eigenvalues are returned</param>
+            <param name="v">A Matrix object where the eigenvectors are returned</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.ScalarMultiply(System.Double,System.Double[0:,0:])">
+            <summary>
+            Returns the multiplication of a matrix or a vector (i.e 
+            dimension [3,1]) with a scalar quantity.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Value">The scalar value to multiply the array</param>
+            <param name="Mat">Array which is to be multiplied by a scalar</param>
+            <returns>The multiplication of the scalar and the array as an array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.ScalarMultiply(System.Double,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the multiplication of a matrix or a vector (i.e 
+            dimension [3,1]) with a scalar quantity.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Value">The scalar value to multiply the array</param>
+            <param name="Mat">Matrix which is to be multiplied by a scalar</param>
+            <returns>The multiplication of the scalar and the array as an array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.op_Multiply(SharpGL.SceneGraph.Matrix,System.Double)">
+            <summary>
+            Returns the multiplication of a matrix or a vector (i.e 
+            dimension [3,1]) with a scalar quantity.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat">Matrix object which is to be multiplied by a scalar</param>
+            <param name="Value">The scalar value to multiply the Matrix object</param>
+            <returns>
+            The multiplication of the scalar and the Matrix object as a 
+            Matrix object
+            </returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.op_Multiply(System.Double,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the multiplication of a matrix or a vector (i.e 
+            dimension [3,1]) with a scalar quantity.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Value">The scalar value to multiply the Matrix object</param>
+            <param name="Mat">Matrix object which is to be multiplied by a scalar</param>
+            <returns>
+            The multiplication of the scalar and the Matrix object as a 
+            Matrix object
+            </returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.ScalarDivide(System.Double,System.Double[0:,0:])">
+            <summary>
+            Returns the division of a matrix or a vector (i.e 
+            dimension [3,1]) by a scalar quantity.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Value">The scalar value to divide the array with</param>
+            <param name="Mat">Array which is to be divided by a scalar</param>
+            <returns>The division of the array and the scalar as an array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.ScalarDivide(System.Double,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the division of a matrix or a vector (i.e 
+            dimension [3,1]) by a scalar quantity.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Value">The scalar value to divide the array with</param>
+            <param name="Mat">Matrix which is to be divided by a scalar</param>
+            <returns>The division of the array and the scalar as an array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.op_Division(SharpGL.SceneGraph.Matrix,System.Double)">
+            <summary>
+            Returns the division of a matrix or a vector (i.e 
+            dimension [3,1]) by a scalar quantity.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Value">The scalar value to divide the Matrix object with</param>
+            <param name="Mat">Matrix object which is to be divided by a scalar</param>
+            <returns>
+            The division of the Matrix object and the scalar as a Matrix object
+            </returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.CrossProduct(System.Double[],System.Double[])">
+            <summary>
+            Returns the cross product of two vectors whose
+            dimensions should be [3] or [3,1].
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="V1">First vector array (dimension [3]) in the cross product</param>
+            <param name="V2">Second vector array (dimension [3]) in the cross product</param>
+            <returns>Cross product of V1 and V2 as an array (dimension [3])</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.CrossProduct(System.Double[0:,0:],System.Double[0:,0:])">
+            <summary>
+            Returns the cross product of two vectors whose
+            dimensions should be [3] or [3x1].
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="V1">First vector array (dimensions [3,1]) in the cross product</param>
+            <param name="V2">Second vector array (dimensions [3,1]) in the cross product</param>
+            <returns>Cross product of V1 and V2 as an array (dimension [3,1])</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.CrossProduct(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the cross product of two vectors whose
+            dimensions should be [3] or [3x1].
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="V1">First Matrix (dimensions [3,1]) in the cross product</param>
+            <param name="V2">Second Matrix (dimensions [3,1]) in the cross product</param>
+            <returns>Cross product of V1 and V2 as a matrix (dimension [3,1])</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.DotProduct(System.Double[],System.Double[])">
+            <summary>
+            Returns the dot product of two vectors whose
+            dimensions should be [3] or [3,1].
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="V1">First vector array (dimension [3]) in the dot product</param>
+            <param name="V2">Second vector array (dimension [3]) in the dot product</param>
+            <returns>Dot product of V1 and V2</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.DotProduct(System.Double[0:,0:],System.Double[0:,0:])">
+            <summary>
+            Returns the dot product of two vectors whose
+            dimensions should be [3] or [3,1].
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="V1">First vector array (dimension [3,1]) in the dot product</param>
+            <param name="V2">Second vector array (dimension [3,1]) in the dot product</param>
+            <returns>Dot product of V1 and V2</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.DotProduct(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns the dot product of two vectors whose
+            dimensions should be [3] or [3,1].
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="V1">First Matrix object (dimension [3,1]) in the dot product</param>
+            <param name="V2">Second Matrix object (dimension [3,1]) in the dot product</param>
+            <returns>Dot product of V1 and V2</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.VectorMagnitude(System.Double[])">
+            <summary>
+             Returns the magnitude of a vector whose dimension is [3] or [3,1].
+             In case of an error the error is raised as an exception.
+            </summary>
+            <param name="V">The vector array (dimension [3]) whose magnitude is to be found</param>
+            <returns>The magnitude of the vector array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.VectorMagnitude(System.Double[0:,0:])">
+            <summary>
+             Returns the magnitude of a vector whose dimension is [3] or [3,1].
+             In case of an error the error is raised as an exception.
+            </summary>
+            <param name="V">The vector array (dimension [3,1]) whose magnitude is to be found</param>
+            <returns>The magnitude of the vector array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.VectorMagnitude(SharpGL.SceneGraph.Matrix)">
+            <summary>
+             Returns the magnitude of a vector whose dimension is [3] or [3,1].
+             In case of an error the error is raised as an exception.
+            </summary>
+            <param name="V">Matrix object (dimension [3,1]) whose magnitude is to be found</param>
+            <returns>The magnitude of the Matrix object</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.IsEqual(System.Double[0:,0:],System.Double[0:,0:])">
+            <summary>
+            Checks if two Arrays of equal dimensions are equal or not.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat1">First array in equality check</param>
+            <param name="Mat2">Second array in equality check</param>
+            <returns>If two matrices are equal or not</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.IsEqual(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Checks if two matrices of equal dimensions are equal or not.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat1">First Matrix in equality check</param>
+            <param name="Mat2">Second Matrix in equality check</param>
+            <returns>If two matrices are equal or not</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.op_Equality(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Checks if two matrices of equal dimensions are equal or not.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat1">First Matrix object in equality check</param>
+            <param name="Mat2">Second Matrix object in equality check</param>
+            <returns>If two matrices are equal or not</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.op_Inequality(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Checks if two matrices of equal dimensions are not equal.
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat1">First Matrix object in equality check</param>
+            <param name="Mat2">Second Matrix object in equality check</param>
+            <returns>If two matrices are not equal</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.Equals(System.Object)">
+            <summary>
+            Tests whether the specified object is a MatrixLibrary.Matrix
+            object and is identical to this MatrixLibrary.Matrix object.
+            </summary>
+            <param name="obj">The object to compare with the current object</param>
+            <returns>This method returns true if obj is the specified Matrix object identical to this Matrix object; otherwise, false.</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.PrintMat(System.Double[0:,0:])">
+            <summary>
+            Returns a matrix as a string, so it can be viewed
+            in a multi-text textbox or in a richtextBox (preferred).
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat">The array to be viewed</param>
+            <returns>The string view of the array</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.PrintMat(SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Returns a matrix as a string, so it can be viewed
+            in a multi-text textbox or in a richtextBox (preferred).
+            In case of an error the error is raised as an exception.
+            </summary>
+            <param name="Mat">The Matrix object to be viewed</param>
+            <returns>The string view of the Matrix object</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Matrix.ToString">
+            <summary>
+            Returns the matrix as a string, so it can be viewed
+            in a multi-text textbox or in a richtextBox (preferred).
+            In case of an error the error is raised as an exception.
+            </summary>
+            <returns>The string view of the Matrix object</returns>
+        </member>
+        <member name="T:SharpGL.SceneGraph.OpenGLEventArgs">
+            <summary>
+            The OpenGLEventArgs class.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.OpenGLEventArgs.#ctor(SharpGL.OpenGL)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.OpenGLEventArgs"/> class.
+            </summary>
+            <param name="gl">The gl.</param>
+        </member>
+        <member name="F:SharpGL.SceneGraph.OpenGLEventArgs.gl">
+            <summary>
+            The OpenGL instance.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.OpenGLEventArgs.OpenGL">
+            <summary>
+            Gets or sets the open GL.
+            </summary>
+            <value>The open GL.</value>
+        </member>
+        <member name="T:SharpGL.SceneGraph.OpenGLEventHandler">
+            <summary>
+            The OpenGL Event Handler delegate.
+            </summary>
+        </member>
+        <member name="T:SharpGL.SceneGraph.OpenGLSceneGraphExtensions">
+            <summary>
+            Extensions to the OpenGL class for use with the Scene Graph types (allowing
+            vertices, GLColors etc to be used).
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.OpenGLSceneGraphExtensions.Color(SharpGL.OpenGL,SharpGL.SceneGraph.GLColor)">
+            <summary>
+            Set the current color.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+            <param name="color">The color.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.OpenGLSceneGraphExtensions.Project(SharpGL.OpenGL,SharpGL.SceneGraph.Vertex)">
+            <summary>
+            This is a SharpGL helper version, that projects the vertex passed, using the
+            current matrixes.
+            </summary>
+            <param name="gl">The gl.</param>
+            <param name="vertex">The object coordinates.</param>
+            <returns>
+            The screen coords.
+            </returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.OpenGLSceneGraphExtensions.GetModelViewMatrix(SharpGL.OpenGL)">
+            <summary>
+            Gets the model view matrix.
+            </summary>
+            <param name="gl">The gl.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.OpenGLSceneGraphExtensions.GetProjectionMatrix(SharpGL.OpenGL)">
+            <summary>
+            Gets the projection matrix.
+            </summary>
+            <param name="gl">The gl.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.OpenGLSceneGraphExtensions.GetTextureMatrix(SharpGL.OpenGL)">
+            <summary>
+            Gets the texture matrix.
+            </summary>
+            <param name="gl">The gl.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.OpenGLSceneGraphExtensions.VertexPointer(SharpGL.OpenGL,System.Int32,System.UInt32,System.Int32,SharpGL.SceneGraph.Vertex[])">
+            <summary>
+            Vertexes the pointer.
+            </summary>
+            <param name="gl">The gl.</param>
+            <param name="size">The size.</param>
+            <param name="type">The type.</param>
+            <param name="stride">The stride.</param>
+            <param name="pointer">The pointer.</param>
+        </member>
+        <member name="T:SharpGL.SceneGraph.ParticleSystems.Particle">
+            <summary>
+            This is the main particle class, if you want specialised particles derive from it.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.Particle.Intialise(System.Random)">
+            <summary>
+            This function should initialise the particle so that it's ready to tick.
+            </summary>
+            <param name="rand">The random number generator.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.Particle.Tick(System.Random)">
+            <summary>
+            This function moves the particle on a stage.
+            </summary>
+            <param name="rand">The random nunber generator.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.Particle.Draw(SharpGL.OpenGL)">
+            <summary>
+            This function draws the particle.
+            </summary>
+            <param name="gl"></param>
+        </member>
+        <member name="T:SharpGL.SceneGraph.ParticleSystems.BasicParticle">
+            <summary>
+            A basic particle.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.BasicParticle.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.ParticleSystems.BasicParticle"/> class.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.BasicParticle.Intialise(System.Random)">
+            <summary>
+            This function initialises the basic particle.
+            </summary>
+            <param name="rand"></param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.BasicParticle.Tick(System.Random)">
+            <summary>
+            This function 'ticks' the particle, i.e moves it on a stage.
+            </summary>
+            <param name="rand">A random object.</param>
+        </member>
+        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.position">
+            <summary>
+            This is the vertex's current position in space.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.velocity">
+            <summary>
+            This is the velocity, do not modify!
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.direction">
+            <summary>
+            This is the direction of the particle.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.directionRandomise">
+            <summary>
+            This shows the potential magnitude of the random effects of the direction.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.gravity">
+            <summary>
+            This is the gravity affecting the particle.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.color">
+            <summary>
+            Particles colour.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.colorRandomise">
+            <summary>
+            How much the particles colour can change by each tick.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.life">
+            <summary>
+            The life left of the particle.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.lifespan">
+            <summary>
+            The lifespan of the particle.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.ParticleSystems.BasicParticle.dieForever">
+            <summary>
+            Does the particle only exist once?
+            </summary>
+        </member>
+        <member name="T:SharpGL.SceneGraph.ParticleSystems.SphereParticle">
+            <summary>
+            A Sphere particle.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.SphereParticle.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.ParticleSystems.SphereParticle"/> class.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.SphereParticle.Draw(SharpGL.OpenGL)">
+            <summary>
+            Draws the specified gl.
+            </summary>
+            <param name="gl">The gl.</param>
+        </member>
+        <member name="T:SharpGL.SceneGraph.ParticleSystems.ParticleSystem">
+            <summary>
+            A particle system is, you guessed it, just a collection of particles.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.ParticleSystems.ParticleSystem"/> class.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.Initialise(System.Int32)">
+            <summary>
+            This function should create and initialise 'count' particles of the correct
+            type. This is done automatically by default, only override if you want
+            to change the standard behaviour.
+            </summary>
+            <param name="count"></param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.Render(SharpGL.OpenGL,SharpGL.SceneGraph.Core.RenderMode)">
+            <summary>
+            Render to the provided instance of OpenGL.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+            <param name="renderMode">The render mode.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.Tick">
+            <summary>
+            This function ticks the particle system.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.PushObjectSpace(SharpGL.OpenGL)">
+            <summary>
+            Pushes us into Object Space using the transformation into the specified OpenGL instance.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.PopObjectSpace(SharpGL.OpenGL)">
+            <summary>
+            Pops us from Object Space using the transformation into the specified OpenGL instance.
+            </summary>
+            <param name="gl">The gl.</param>
+        </member>
+        <member name="F:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.hasObjectSpaceHelper">
+            <summary>
+            The IHasObjectSpace helper.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.ParticleSystems.ParticleSystem.Transformation">
+            <summary>
+            Gets the transformation that pushes us into object space.
+            </summary>
+        </member>
+        <member name="T:SharpGL.SceneGraph.Plane">
+            <summary>
+            A plane.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Plane.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Plane"/> class.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Plane.ClassifyPoint(SharpGL.SceneGraph.Vertex)">
+            <summary>
+            This finds out if a point is in front of, behind, or on this plane.
+            </summary>
+            <param name="point">The point to classify.</param>
+            <returns>
+            Less than 0 if behind, 0 if on, Greater than 0 if in front.
+            </returns>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Plane.position">
+            <summary>
+            The position.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Plane.normal">
+            <summary>
+            The normal.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Plane.equation">
+            <summary>
+            The equation.
+            </summary>
+        </member>
         <member name="T:SharpGL.SceneGraph.Primitives.Axies">
             <summary>
             The axies objects are design time rendered primitives
@@ -3598,7 +3227,7 @@
         </member>
         <member name="M:SharpGL.SceneGraph.Primitives.Cube.#ctor">
             <summary>
-            Initializes a new instance of the <see cref="!:PolyCubegon"/> class.
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Primitives.Polygon"/> class.
             </summary>
         </member>
         <member name="M:SharpGL.SceneGraph.Primitives.Cube.CreateCubeGeometry">
@@ -3724,7 +3353,6 @@
             <summary>
             This function subdivides the faces of this polygon.
             </summary>
-            <param name="smooth">If set to true the faces will be smoothed.</param>
             <returns>The number of faces in the new subdivided polygon.</returns>
         </member>
         <member name="M:SharpGL.SceneGraph.Primitives.Polygon.Freeze(SharpGL.OpenGL)">
@@ -3893,7 +3521,6 @@
             Casts a real time 3D shadow.
             </summary>
             <param name="gl">The OpenGL object.</param>
-            <param name="lights">The lights.</param>
         </member>
         <member name="M:SharpGL.SceneGraph.Primitives.Shadow.DoShadowPass(SharpGL.OpenGL,SharpGL.SceneGraph.Vertex,System.Boolean[])">
             <summary>
@@ -3901,8 +3528,8 @@
             polygon using the specified light.
             </summary>
             <param name="gl">The OpenGL object.</param>
-            <param name="light">The light casting the shadow.</param>
-            <param name="visibleArray">An array of bools.</param>
+            <param name="lightPos">The position of the light casting the shadow.</param>
+            <param name="visibleArray">An array of bools indicating the visible faces.</param>
         </member>
         <member name="F:SharpGL.SceneGraph.Primitives.Shadow.connectivitySet">
             <summary>
@@ -4492,7 +4119,7 @@
             <summary>
             Renders the element.
             </summary>
-            <param name="gl">The gl.</param>
+            <param name="sceneElement">The secene element to render.</param>
             <param name="renderMode">The render mode.</param>
         </member>
         <member name="M:SharpGL.SceneGraph.Scene.RenderElementForHitTest(SharpGL.SceneGraph.Core.SceneElement,System.Collections.Generic.Dictionary{System.UInt32,SharpGL.SceneGraph.Core.SceneElement},System.UInt32@)">
@@ -4511,50 +4138,16 @@
             <param name="width">Width of the screen.</param>
             <param name="height">Height of the screen.</param>
         </member>
-        <member name="M:SharpGL.SceneGraph.Scene.CreateInContext(SharpGL.OpenGL)">
-            <summary>
-            Create in the context of the supplied OpenGL instance.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Scene.DestroyInContext(SharpGL.OpenGL)">
-            <summary>
-            Destroy in the context of the supplied OpenGL instance.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-        </member>
         <member name="F:SharpGL.SceneGraph.Scene.gl">
             <summary>
             This is the OpenGL class, use it to call OpenGL functions.
+            Only set when the context is set.
             </summary>
         </member>
-        <member name="F:SharpGL.SceneGraph.Scene.sceneContainer">
-            <summary>
-            The main scene container - this is the top level element of the Scene Tree.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Scene.assets">
-            <summary>
-            The set of scene assets.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Scene.currentCamera">
-            <summary>
-            This is the camera that is currently being used to view the scene.
-            </summary>
-        </member>
-        <member name="F:SharpGL.SceneGraph.Scene.clearColour">
+        <member name="F:SharpGL.SceneGraph.Scene._clearColour">
             <summary>
             This is the colour of the background of the scene.
             </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Scene.OpenGL">
-            <summary>
-            Gets or sets the open GL.
-            </summary>
-            <value>
-            The open GL.
-            </value>
         </member>
         <member name="P:SharpGL.SceneGraph.Scene.SceneContainer">
             <summary>
@@ -4577,14 +4170,6 @@
             The current camera.
             </value>
         </member>
-        <member name="P:SharpGL.SceneGraph.Scene.ClearColor">
-            <summary>
-            Gets or sets the color of the clear.
-            </summary>
-            <value>
-            The color of the clear.
-            </value>
-        </member>
         <member name="P:SharpGL.SceneGraph.Scene.RenderBoundingVolumes">
             <summary>
             Gets or sets a value indicating whether [render bounding volumes].
@@ -4592,11 +4177,6 @@
             <value>
             	<c>true</c> if [render bounding volumes]; otherwise, <c>false</c>.
             </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Scene.CurrentOpenGLContext">
-            <summary>
-            Gets the current OpenGL that the object exists in context.
-            </summary>
         </member>
         <member name="T:SharpGL.SceneGraph.Shaders.FragmentShader">
             <summary>
@@ -4613,96 +4193,6 @@
             Create in the context of the supplied OpenGL instance.
             </summary>
             <param name="gl">The OpenGL instance.</param>
-        </member>
-        <member name="T:SharpGL.SceneGraph.Shaders.ShaderProgram">
-            <summary>
-            The Shader base class.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.Pop(SharpGL.OpenGL,SharpGL.SceneGraph.Core.SceneElement)">
-            <summary>
-            Pops the effect off the specified parent element.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-            <param name="parentElement">The parent element.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.Push(SharpGL.OpenGL,SharpGL.SceneGraph.Core.SceneElement)">
-            <summary>
-            Pushes the effect onto the specified parent element.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-            <param name="parentElement">The parent element.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.CreateInContext(SharpGL.OpenGL)">
-            <summary>
-            Create in the context of the supplied OpenGL instance.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.DestroyInContext(SharpGL.OpenGL)">
-            <summary>
-            Destroy in the context of the supplied OpenGL instance.
-            </summary>
-            <param name="gl">The OpenGL instance.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.AttachShader(SharpGL.SceneGraph.Shaders.Shader)">
-            <summary>
-            Attaches a shader.
-            </summary>
-            <param name="shader">The shader.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.DetachShader(SharpGL.SceneGraph.Shaders.Shader)">
-            <summary>
-            Detaches the shader.
-            </summary>
-            <param name="shader">The shader.</param>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.Link">
-            <summary>
-            Links this instance.
-            </summary>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.GetUniformLocation(System.String)">
-            <summary>
-            Gets the uniform location.
-            </summary>
-            <param name="name">The name.</param>
-            <returns></returns>
-        </member>
-        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.SetFullShaderSource(System.String)">
-            <summary>
-            Sets the full shader source.
-            </summary>
-            <param name="source">The source.</param>
-        </member>
-        <!-- Badly formed XML comment ignored for member "F:SharpGL.SceneGraph.Shaders.ShaderProgram.attachedShaders" -->
-        <member name="P:SharpGL.SceneGraph.Shaders.ShaderProgram.ProgramObject">
-            <summary>
-            Gets or sets the shader object.
-            </summary>
-            <value>
-            The shader object.
-            </value>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Shaders.ShaderProgram.CurrentOpenGLContext">
-            <summary>
-            Gets the current OpenGL that the object exists in context.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Shaders.ShaderProgram.AttachedShaders">
-            <summary>
-            Gets the attached shaders.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Shaders.ShaderProgram.LinkStatus">
-            <summary>
-            Gets the compile status.
-            </summary>
-        </member>
-        <member name="P:SharpGL.SceneGraph.Shaders.ShaderProgram.InfoLog">
-            <summary>
-            Gets the info log.
-            </summary>
         </member>
         <member name="T:SharpGL.SceneGraph.Shaders.Shader">
             <summary>
@@ -4785,6 +4275,100 @@
             Gets the source code.
             </summary>
         </member>
+        <member name="T:SharpGL.SceneGraph.Shaders.ShaderProgram">
+            <summary>
+            The Shader base class.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.Pop(SharpGL.OpenGL,SharpGL.SceneGraph.Core.SceneElement)">
+            <summary>
+            Pops the effect off the specified parent element.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+            <param name="parentElement">The parent element.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.Push(SharpGL.OpenGL,SharpGL.SceneGraph.Core.SceneElement)">
+            <summary>
+            Pushes the effect onto the specified parent element.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+            <param name="parentElement">The parent element.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.CreateInContext(SharpGL.OpenGL)">
+            <summary>
+            Create in the context of the supplied OpenGL instance.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.DestroyInContext(SharpGL.OpenGL)">
+            <summary>
+            Destroy in the context of the supplied OpenGL instance.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.AttachShader(SharpGL.SceneGraph.Shaders.Shader)">
+            <summary>
+            Attaches a shader.
+            </summary>
+            <param name="shader">The shader.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.DetachShader(SharpGL.SceneGraph.Shaders.Shader)">
+            <summary>
+            Detaches the shader.
+            </summary>
+            <param name="shader">The shader.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.Link">
+            <summary>
+            Links this instance.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.GetUniformLocation(System.String)">
+            <summary>
+            Gets the uniform location.
+            </summary>
+            <param name="name">The name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Shaders.ShaderProgram.SetFullShaderSource(System.String)">
+            <summary>
+            Sets the full shader source.
+            </summary>
+            <param name="source">The source.</param>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Shaders.ShaderProgram.attachedShaders">
+            <summary>
+            The set of attached shaders.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Shaders.ShaderProgram.ProgramObject">
+            <summary>
+            Gets or sets the shader object.
+            </summary>
+            <value>
+            The shader object.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Shaders.ShaderProgram.CurrentOpenGLContext">
+            <summary>
+            Gets the current OpenGL that the object exists in context.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Shaders.ShaderProgram.AttachedShaders">
+            <summary>
+            Gets the attached shaders.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Shaders.ShaderProgram.LinkStatus">
+            <summary>
+            Gets the compile status.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Shaders.ShaderProgram.InfoLog">
+            <summary>
+            Gets the info log.
+            </summary>
+        </member>
         <member name="T:SharpGL.SceneGraph.Shaders.VertexShader">
             <summary>
             The Vertex Shader object.
@@ -4800,6 +4384,368 @@
             Create in the context of the supplied OpenGL instance.
             </summary>
             <param name="gl">The OpenGL instance.</param>
+        </member>
+        <member name="T:SharpGL.SceneGraph.Transformations.LinearTransformationOrder">
+            <summary>
+            This enumeration describes the linear transformation order.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformationOrder.TranslateRotateScale">
+            <summary>
+            Translate > Rotate > Scale
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformationOrder.RotateTranslateScale">
+            <summary>
+            Rotate > Translate > Scale
+            </summary>
+        </member>
+        <member name="T:SharpGL.SceneGraph.Transformations.LinearTransformation">
+            <summary>
+            The LinearTransformation class represents a linear transformation, such
+            as a transformation that moves us from world space into object space.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Transformations.LinearTransformation.Transform(SharpGL.OpenGL)">
+            <summary>
+            Performs the transformation on the current matrix.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Transformations.LinearTransformation.DeepClone">
+            <summary>
+            Creates a new object that is a copy of the current instance.
+            </summary>
+            <returns>
+            A new object that is a copy of this instance.
+            </returns>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.translateX">
+            <summary>
+            X Component of the Translation.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.translateY">
+            <summary>
+            Y Component of the Translation.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.translateZ">
+            <summary>
+            Z Component of the Translation.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.rotateX">
+            <summary>
+            X Component of the Rotation.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.rotateY">
+            <summary>
+            Y Component of the Rotation.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.rotateZ">
+            <summary>
+            Z Component of the Rotation.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.scaleX">
+            <summary>
+            X Component of the Scale.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.scaleY">
+            <summary>
+            Y Component of the Scale.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.scaleZ">
+            <summary>
+            Z Component of the Scale.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.Transformations.LinearTransformation.transformationOrder">
+            <summary>
+            The order of the linear transformation.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.TranslationVertex">
+            <summary>
+            Gets the translation vertex.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.TranslateX">
+            <summary>
+            Gets or sets the x component of the translation.
+            </summary>
+            <value>
+            The x component of the translation.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.TranslateY">
+            <summary>
+            Gets or sets the y component of the translation.
+            </summary>
+            <value>
+            The y component of the translation.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.TranslateZ">
+            <summary>
+            Gets or sets the z component of the translation.
+            </summary>
+            <value>
+            The z component of the translation.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.RotateX">
+            <summary>
+            Gets or sets the x component of the rotation.
+            </summary>
+            <value>
+            The x component of the rotation.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.RotateY">
+            <summary>
+            Gets or sets the y component of the rotation.
+            </summary>
+            <value>
+            The y component of the rotation.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.RotateZ">
+            <summary>
+            Gets or sets the z component of the rotation.
+            </summary>
+            <value>
+            The z component of the rotation.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.ScaleX">
+            <summary>
+            Gets or sets the x component of the scale.
+            </summary>
+            <value>
+            The x component of the scale.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.ScaleY">
+            <summary>
+            Gets or sets the y component of the scale.
+            </summary>
+            <value>
+            The y component of the scale.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.ScaleZ">
+            <summary>
+            Gets or sets the z component of the scale.
+            </summary>
+            <value>
+            The z component of the scale.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Transformations.LinearTransformation.TransformationOrder">
+            <summary>
+            Gets or sets the transformation order.
+            </summary>
+            <value>
+            The transformation order.
+            </value>
+        </member>
+        <member name="T:SharpGL.SceneGraph.Transformations.Transformation">
+            <summary>
+            Base class for transformations.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Transformations.Transformation.Transform(SharpGL.OpenGL)">
+            <summary>
+            Performs the transformation on the current matrix.
+            </summary>
+            <param name="gl">The OpenGL instance.</param>
+        </member>
+        <member name="T:SharpGL.SceneGraph.UV">
+            <summary>
+            A texture coordinate.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.UV.#ctor(System.Single,System.Single)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.UV"/> struct.
+            </summary>
+            <param name="u">The u.</param>
+            <param name="v">The v.</param>
+        </member>
+        <member name="F:SharpGL.SceneGraph.UV.u">
+            <summary>
+            The u value.
+            </summary>
+        </member>
+        <member name="F:SharpGL.SceneGraph.UV.v">
+            <summary>
+            The v value.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.UV.U">
+            <summary>
+            Gets or sets the U.
+            </summary>
+            <value>
+            The U.
+            </value>
+        </member>
+        <member name="P:SharpGL.SceneGraph.UV.V">
+            <summary>
+            Gets or sets the V.
+            </summary>
+            <value>
+            The V.
+            </value>
+        </member>
+        <member name="T:SharpGL.SceneGraph.Vertex">
+            <summary>
+            The Vertex class represents a 3D point in space.
+            </summary>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Vertex"/> struct.
+            </summary>
+            <param name="x">The x.</param>
+            <param name="y">The y.</param>
+            <param name="z">The z.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.#ctor(SharpGL.SceneGraph.Vertex)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpGL.SceneGraph.Vertex"/> struct.
+            </summary>
+            <param name="vertex">The vertex.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.Set(System.Single,System.Single,System.Single)">
+            <summary>
+            Sets the specified X.
+            </summary>
+            <param name="X">The X.</param>
+            <param name="Y">The Y.</param>
+            <param name="Z">The Z.</param>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.op_Addition(SharpGL.SceneGraph.Vertex,SharpGL.SceneGraph.Vertex)">
+            <summary>
+            Implements the operator +.
+            </summary>
+            <param name="lhs">The LHS.</param>
+            <param name="rhs">The RHS.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.op_Subtraction(SharpGL.SceneGraph.Vertex,SharpGL.SceneGraph.Vertex)">
+            <summary>
+            Implements the operator -.
+            </summary>
+            <param name="lhs">The LHS.</param>
+            <param name="rhs">The RHS.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.op_Multiply(SharpGL.SceneGraph.Vertex,SharpGL.SceneGraph.Vertex)">
+            <summary>
+            Implements the operator *.
+            </summary>
+            <param name="lhs">The LHS.</param>
+            <param name="rhs">The RHS.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.op_Multiply(SharpGL.SceneGraph.Vertex,System.Single)">
+            <summary>
+            Implements the operator *.
+            </summary>
+            <param name="lhs">The LHS.</param>
+            <param name="rhs">The RHS.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.op_Multiply(SharpGL.SceneGraph.Vertex,SharpGL.SceneGraph.Matrix)">
+            <summary>
+            Implements the operator *.
+            </summary>
+            <param name="lhs">The LHS.</param>
+            <param name="rhs">The RHS.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.op_Multiply(SharpGL.SceneGraph.Matrix,SharpGL.SceneGraph.Vertex)">
+            <summary>
+            Implements the operator *.
+            </summary>
+            <param name="lhs">The LHS.</param>
+            <param name="rhs">The RHS.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.op_Division(SharpGL.SceneGraph.Vertex,System.Single)">
+            <summary>
+            Implements the operator /.
+            </summary>
+            <param name="lhs">The LHS.</param>
+            <param name="rhs">The RHS.</param>
+            <returns>
+            The result of the operator.
+            </returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.ScalarProduct(SharpGL.SceneGraph.Vertex)">
+            <summarY>
+            This finds the Scalar Product (Dot Product) of two vectors.
+            </summarY>
+            <param name="rhs">The right hand side of the equation.</param>
+            <returns>A Scalar Representing the Dot-Product.</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.VectorProduct(SharpGL.SceneGraph.Vertex)">
+            <summarY>
+            Find the Vector product (cross product) of two vectors.
+            </summarY>
+            <param name="rhs">The right hand side of the equation.</param>
+            <returns>The Cross Product.</returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.Magnitude">
+            <summarY>
+            If You use this as a Vector, then call this function to get the vector
+            magnitude.
+            </summarY>
+            <returns></returns>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.UnitLength">
+            <summarY>
+            Make this vector unit length.
+            </summarY>
+        </member>
+        <member name="M:SharpGL.SceneGraph.Vertex.Normalize">
+            <summary>
+            Normalizes this instance.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Vertex.X">
+            <summary>
+            The X coordinate.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Vertex.Y">
+            <summary>
+            The Y coordinate.
+            </summary>
+        </member>
+        <member name="P:SharpGL.SceneGraph.Vertex.Z">
+            <summary>
+            The Z coordinate.
+            </summary>
         </member>
         <member name="T:SharpGL.OpenGLAttributes.AccumBufferAttributes">
             <summary>

@@ -7,6 +7,7 @@ using Mogre_Procedural.MogreBites;
 using MOIS;
 using OpenMB.Localization;
 using OpenMB.Mods;
+using OpenMB.Screen;
 using OpenMB.Widgets;
 
 namespace OpenMB.States
@@ -242,6 +243,10 @@ namespace OpenMB.States
             else if (button.Name == "Configure")
             {
                 ConfigureScreen();
+            }
+            else if (button.Name == "Mods")
+            {
+                ScreenManager.Instance.ChangeScreen("ModBrowser");
             }
             else if (button.Name == "Quit")
             {

@@ -13,6 +13,7 @@
             <summary>
             Creates the specified width.
             </summary>
+            <param name="hDC">The handle to the device context.</param>
             <param name="width">The width.</param>
             <param name="height">The height.</param>
             <param name="bitCount">The bit count.</param>
@@ -35,6 +36,7 @@
             <summary>
             This function sets the pixel format of the underlying bitmap.
             </summary>
+            <param name="hDC">The handle to the device context.</param>
             <param name="bitCount">The bitcount.</param>
         </member>
         <member name="M:SharpGL.DIBSection.Destroy">
@@ -90,6 +92,206 @@
             </summary>
             <value>The height.</value>
         </member>
+        <member name="T:SharpGL.Enumerations.AccumOperation">
+            <summary>
+             AccumOp
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.AlphaTestFunction">
+            <summary>
+            The alpha function
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.AttributeMask">
+            <summary>
+            The OpenGL Attribute flags.
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.BeginMode">
+            <summary>
+            The begin mode.
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.BlendingDestinationFactor">
+            <summary>
+            BlendingDestinationFactor
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.BlendingSourceFactor">
+            <summary>
+            The blending source factor.
+            </summary>
+        </member>
+        <member name="F:SharpGL.Enumerations.BlendingSourceFactor.SourceAlpha">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.ClipPlaneName">
+            <summary>
+            The Clip Plane Name
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.FaceMode">
+            <summary>
+            The Cull Face mode.
+            </summary>
+        </member>
+        <member name="F:SharpGL.Enumerations.FaceMode.Front">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.DataType">
+            <summary>
+            The Data Type.
+            </summary>
+        </member>
+        <member name="F:SharpGL.Enumerations.DataType.Double">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.DepthFunction">
+            <summary>
+            The depth function
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.DrawBufferMode">
+            <summary>
+            The Draw Buffer Mode
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.ErrorCode">
+            <summary>
+            Error Code
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.FeedbackMode">
+            <summary>
+            FeedBackMode
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.FeedbackToken">
+            <summary>
+            The Feedback Token
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.FogMode">
+            <summary>
+            The Fog Mode.
+            </summary>
+        </member>
+        <member name="F:SharpGL.Enumerations.FogMode.Exp2">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.GetMapTarget">
+            <summary>
+            GetMapTarget 
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.FrontFaceMode">
+            <summary>
+            The Front Face Mode.
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.HintMode">
+            <summary>
+            The hint mode.
+            </summary>
+        </member>
+        <member name="F:SharpGL.Enumerations.HintMode.Nicest">
+            <summary>
+            The 
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.HintTarget">
+            <summary>
+            The hint target.
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.LightName">
+            <summary>
+            LightName
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.LightParameter">
+            <summary>
+            LightParameter
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.LightModelParameter">
+            <summary>
+            The Light Model Parameter.
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.LogicOp">
+            <summary>
+            The Logic Op
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.MatrixMode">
+            <summary>
+            The matrix mode.
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.PixelTransferParameterName">
+            <summary>
+            The pixel transfer parameter name
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.PolygonMode">
+            <summary>
+            The Polygon mode.
+            </summary>
+        </member>
+        <member name="F:SharpGL.Enumerations.PolygonMode.Points">
+            <summary>
+            Render as points.
+            </summary>
+        </member>
+        <member name="F:SharpGL.Enumerations.PolygonMode.Lines">
+            <summary>
+            Render as lines.
+            </summary>
+        </member>
+        <member name="F:SharpGL.Enumerations.PolygonMode.Filled">
+            <summary>
+            Render as filled.
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.RenderingMode">
+            <summary>
+            Rendering Mode 
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.ShadeModel">
+            <summary>
+            ShadingModel
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.StencilFunction">
+            <summary>
+            The stencil function
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.StencilOperation">
+            <summary>
+            The stencil operation.
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.TextureParameter">
+            <summary>
+            GetTextureParameter
+            </summary>
+        </member>
+        <member name="T:SharpGL.Enumerations.TextureTarget">
+            <summary>
+            Texture target.
+            </summary>
+        </member>
         <member name="T:SharpGL.FontOutlineEntry">
             <summary>
             A FontOutline entry contains the details of a font face.
@@ -117,14 +319,6 @@
             </summary>
             <value>
             The name of the face.
-            </value>
-        </member>
-        <member name="P:SharpGL.FontOutlineEntry.Height">
-            <summary>
-            Gets or sets the height.
-            </summary>
-            <value>
-            The height.
             </value>
         </member>
         <member name="P:SharpGL.FontOutlineEntry.ListBase">
@@ -241,28 +435,28 @@
             allow straightforward rendering of text.
             </summary>
         </member>
-        <member name="M:SharpGL.FontOutlines.DrawText(SharpGL.OpenGL,System.String,System.Single,System.Single,System.Single,System.String)">
+        <member name="M:SharpGL.FontOutlines.DrawText(SharpGL.OpenGL,System.String,System.Single,System.Single,System.String)">
             <summary>
             Draws the text.
             </summary>
             <param name="gl">The gl.</param>
             <param name="faceName">Name of the face.</param>
-            <param name="fontSize">Size of the font.</param>
             <param name="deviation">The deviation.</param>
             <param name="extrusion">The extrusion.</param>
             <param name="text">The text.</param>
+            <returns>True if the text was rendered, false if the underlying font could not be created.</returns>
         </member>
-        <member name="M:SharpGL.FontOutlines.DrawText(SharpGL.OpenGL,System.String,System.Single,System.Single,System.Single,System.String,SharpGL.GLYPHMETRICSFLOAT[]@)">
+        <member name="M:SharpGL.FontOutlines.DrawText(SharpGL.OpenGL,System.String,System.Single,System.Single,System.String,SharpGL.GLYPHMETRICSFLOAT[]@)">
             <summary>
             Draws the text.
             </summary>
             <param name="gl">The gl.</param>
             <param name="faceName">Name of the face.</param>
-            <param name="fontSize">Size of the font.</param>
             <param name="deviation">The deviation.</param>
             <param name="extrusion">The extrusion.</param>
             <param name="text">The text.</param>
             <param name="glyphMetrics"> </param>
+            <returns>True if the text was rendered, false if the underlying font could not be created.</returns>
         </member>
         <member name="F:SharpGL.FontOutlines.fontOutlineEntries">
             <summary>
@@ -280,7 +474,7 @@
             allow straightforward rendering of text.
             </summary>
         </member>
-        <member name="M:SharpGL.FontBitmaps.DrawText(SharpGL.OpenGL,System.Int32,System.Int32,System.Single,System.Single,System.Single,System.String,System.Single,System.String)">
+        <member name="M:SharpGL.FontBitmaps.DrawText(SharpGL.OpenGL,System.Int32,System.Int32,System.Single,System.Single,System.Single,System.String,System.Single,System.String,System.Double,System.Double)">
             <summary>
             Draws the text.
             </summary>
@@ -293,6 +487,8 @@
             <param name="faceName">Name of the face.</param>
             <param name="fontSize">Size of the font.</param>
             <param name="text">The text.</param>
+            <param name="resWidth">Horizontal resolution.</param>
+            <param name="resHeight">Vertical resolution.</param>
         </member>
         <member name="F:SharpGL.FontBitmaps.fontBitmapEntries">
             <summary>
@@ -728,10 +924,28 @@
             <summary>
             Define an array of colors.
             </summary>
-            <param name="size">Specifies the number	of components per color. Must be 3	or 4.</param>
+            <param name="size">Specifies the number	of components per color. Must be 3 or 4.</param>
             <param name="type">Specifies the data type of each color component in the array. Symbolic constants OpenGL.BYTE, OpenGL.UNSIGNED_BYTE, OpenGL.SHORT, OpenGL.UNSIGNED_SHORT, OpenGL.INT, OpenGL.UNSIGNED_INT, OpenGL.FLOAT and OpenGL.DOUBLE are accepted.</param>
             <param name="stride">Specifies the byte offset between consecutive colors. If stride is 0, (the initial value), the colors are understood to be tightly packed in the array.</param>
             <param name="pointer">Specifies a pointer to the first component of the first color element in the array.</param>
+        </member>
+        <member name="M:SharpGL.OpenGL.ColorPointer(System.Int32,System.UInt32,System.Int32,System.Byte[])">
+            <summary>
+            Define an array of colors.
+            </summary>
+            <param name="size">Specifies the number	of components per color. Must be 3 or 4.</param>
+            <param name="type">Specifies the data type of each color component in the array. Symbolic constants OpenGL.BYTE, OpenGL.UNSIGNED_BYTE, OpenGL.SHORT, OpenGL.UNSIGNED_SHORT, OpenGL.INT, OpenGL.UNSIGNED_INT, OpenGL.FLOAT and OpenGL.DOUBLE are accepted.</param>
+            <param name="stride">Specifies the byte offset between consecutive colors. If stride is 0, (the initial value), the colors are understood to be tightly packed in the array.</param>
+            <param name="pointer">The array.</param>
+        </member>
+        <member name="M:SharpGL.OpenGL.ColorPointer(System.Int32,System.UInt32,System.Int32,System.Single[])">
+            <summary>
+            Define an array of colors.
+            </summary>
+            <param name="size">Specifies the number	of components per color. Must be 3 or 4.</param>
+            <param name="type">Specifies the data type of each color component in the array. Symbolic constants OpenGL.BYTE, OpenGL.UNSIGNED_BYTE, OpenGL.SHORT, OpenGL.UNSIGNED_SHORT, OpenGL.INT, OpenGL.UNSIGNED_INT, OpenGL.FLOAT and OpenGL.DOUBLE are accepted.</param>
+            <param name="stride">Specifies the byte offset between consecutive colors. If stride is 0, (the initial value), the colors are understood to be tightly packed in the array.</param>
+            <param name="pointer">The array.</param>
         </member>
         <member name="M:SharpGL.OpenGL.CopyPixels(System.Int32,System.Int32,System.Int32,System.Int32,System.UInt32)">
             <summary>
@@ -894,7 +1108,7 @@
         </member>
         <member name="M:SharpGL.OpenGL.DrawElements(System.UInt32,System.Int32,System.UInt32[])">
             <summary>
-            Render primitives from array data.
+            Render primitives from array data. Uses OpenGL.GL_UNSIGNED_INT as the data type.
             </summary>
             <param name="mode">Specifies what kind of primitives to	render. Symbolic constants OpenGL.POINTS, OpenGL.LINE_STRIP, OpenGL.LINE_LOOP, OpenGL.LINES, OpenGL.TRIANGLE_STRIP, OpenGL.TRIANGLE_FAN, OpenGL.TRIANGLES, OpenGL.QUAD_STRIP, OpenGL.QUADS, and OpenGL.POLYGON are accepted.</param>
             <param name="count">Specifies the number of elements to be rendered.</param>
@@ -904,9 +1118,9 @@
             <summary>
             Render primitives from array data.
             </summary>
-            <param name="mode">Specifies what kind of primitives to	render. Symbolic constants OpenGL.POINTS, OpenGL.LINE_STRIP, OpenGL.LINE_LOOP, OpenGL.LINES, OpenGL.TRIANGLE_STRIP, OpenGL.TRIANGLE_FAN, OpenGL.TRIANGLES, OpenGL.QUAD_STRIP, OpenGL.QUADS, and OpenGL.POLYGON are accepted.</param>
+            <param name="mode">Specifies what kind of primitives to	render. Symbolic constants OpenGL.GL_POINTS, OpenGL.GL_LINE_STRIP, OpenGL.GL_LINE_LOOP, OpenGL.GL_LINES, OpenGL.GL_TRIANGLE_STRIP, OpenGL.TRIANGLE_FAN, OpenGL.GL_TRIANGLES, OpenGL.GL_QUAD_STRIP, OpenGL.GL_QUADS, and OpenGL.GL_POLYGON are accepted.</param>
             <param name="count">Specifies the number of elements to be rendered.</param>
-            <param name="type">Specifies the type of the values in indices.	Must be one of OpenGL.UNSIGNED_BYTE, OpenGL.UNSIGNED_SHORT, or OpenGL.UNSIGNED_INT.</param>
+            <param name="type">Specifies the type of the values in indices.	Must be one of OpenGL.GL_UNSIGNED_BYTE, OpenGL.GL_UNSIGNED_SHORT, or OpenGL.GL_UNSIGNED_INT.</param>
             <param name="indices">Specifies a pointer to the location where the indices are stored.</param>
         </member>
         <member name="M:SharpGL.OpenGL.DrawPixels(System.Int32,System.Int32,System.UInt32,System.Single[])">
@@ -3721,12 +3935,26 @@
             <param name="fontSize">Size of the font.</param>
             <param name="text">The text.</param>
         </member>
-        <member name="M:SharpGL.OpenGL.DrawText3D(System.String,System.Single,System.Single,System.Single,System.String)">
+        <member name="M:SharpGL.OpenGL.DrawText(System.Int32,System.Int32,System.Single,System.Single,System.Single,System.String,System.Single,System.String,System.Int32,System.Int32)">
+            <summary>
+            Draws the text.
+            </summary>
+            <param name="x">The x.</param>
+            <param name="y">The y.</param>
+            <param name="r">The r.</param>
+            <param name="g">The g.</param>
+            <param name="b">The b.</param>
+            <param name="faceName">Name of the face.</param>
+            <param name="fontSize">Size of the font.</param>
+            <param name="text">The text.</param>
+            <param name="resWidth">Horizontal resolution.</param>
+            <param name="resHeight">Vertical resolution.</param>
+        </member>
+        <member name="M:SharpGL.OpenGL.DrawText3D(System.String,System.Single,System.Single,System.String)">
             <summary>
             Draws 3D text.
             </summary>
             <param name="faceName">Name of the face.</param>
-            <param name="fontSize">Size of the font.</param>
             <param name="deviation">The deviation.</param>
             <param name="extrusion">The extrusion.</param>
             <param name="text">The text.</param>
@@ -3739,11 +3967,6 @@
         <member name="F:SharpGL.OpenGL.renderContextProvider">
             <summary>
             The render context provider.
-            </summary>
-        </member>
-        <member name="F:SharpGL.OpenGL.insideGLBegin">
-            <summary>
-            Set to true if we're inside glBegin.
             </summary>
         </member>
         <member name="F:SharpGL.OpenGL.fontBitmaps">
@@ -3861,6 +4084,25 @@
             <param name="shader">Specifies the handle of the shader object whose source code is to be replaced.</param>
             <param name="source">The source.</param>
         </member>
+        <member name="M:SharpGL.OpenGL.DrawElementsBaseVertex(System.UInt32,System.Int32,System.UInt32,System.IntPtr,System.Int32)">
+            <summary>
+            Render primitives from array data with a per-element offset.
+            </summary>
+            <param name="mode">Specifies what kind of primitives to render. Symbolic constants OpenGL.GL_POINTS, OpenGL.GL_LINE_STRIP, OpenGL.GL_LINE_LOOP, OpenGL.GL_LINES, OpenGL.GL_TRIANGLE_STRIP, OpenGL.GL_TRIANGLE_FAN, OpenGL.GL_TRIANGLES, OpenGL.GL_LINES_ADJACENCY, OpenGL.GL_LINE_STRIP_ADJACENCY, OpenGL.GL_TRIANGLES_ADJACENCY, OpenGL.GL_TRIANGLE_STRIP_ADJACENCY and OpenGL.GL_PATCHES are accepted.</param>
+            <param name="count">Specifies the number of elements to be rendered.</param>
+            <param name="type">Specifies the type of the values in indices. Must be one of GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, or GL_UNSIGNED_INT.</param>
+            <param name="indices">Specifies a pointer to the location where the indices are stored.</param>
+            <param name="basevertex">Specifies a constant that should be added to each element of indices when chosing elements from the enabled vertex arrays.</param>
+        </member>
+        <member name="M:SharpGL.OpenGL.DrawElementsBaseVertex(System.UInt32,System.Int32,System.UInt32[],System.Int32)">
+            <summary>
+            Render primitives from array data with a per-element offset. Uses OpenGL.GL_UNSIGNED_INT as the data type.
+            </summary>
+            <param name="mode">Specifies what kind of primitives to render. Symbolic constants OpenGL.GL_POINTS, OpenGL.GL_LINE_STRIP, OpenGL.GL_LINE_LOOP, OpenGL.GL_LINES, OpenGL.GL_TRIANGLE_STRIP, OpenGL.GL_TRIANGLE_FAN, OpenGL.GL_TRIANGLES, OpenGL.GL_LINES_ADJACENCY, OpenGL.GL_LINE_STRIP_ADJACENCY, OpenGL.GL_TRIANGLES_ADJACENCY, OpenGL.GL_TRIANGLE_STRIP_ADJACENCY and OpenGL.GL_PATCHES are accepted.</param>
+            <param name="count">Specifies the number of elements to be rendered.</param>
+            <param name="indices">Specifies a pointer to the location where the indices are stored.</param>
+            <param name="basevertex">Specifies a constant that should be added to each element of indices when chosing elements from the enabled vertex arrays.</param>
+        </member>
         <member name="M:SharpGL.OpenGL.TexImage3DEXT(System.UInt32,System.Int32,System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.UInt32,System.UInt32,System.IntPtr)">
             <summary>
             Specify a three-dimensional texture subimage.
@@ -3908,7 +4150,24 @@
             Gets the ARB extensions string.
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SharpGL.OpenGL.CreateContextAttribsARB(System.IntPtr,System.Int32[])" -->
+        <member name="M:SharpGL.OpenGL.CreateContextAttribsARB(System.IntPtr,System.Int32[])">
+            <summary>
+            Creates a render context with the specified attributes.
+            </summary>
+            <param name="hShareContext">
+            If is not null, then all shareable data (excluding
+            OpenGL texture objects named 0) will be shared by hShareContext,
+            all other contexts hShareContext already shares with, and the
+            newly created context. An arbitrary number of contexts can share
+            data in this fashion.</param>
+            <param name="attribList">
+            specifies a list of attributes for the context. The
+            list consists of a sequence of (name,value) pairs terminated by the
+            value 0. If an attribute is not specified in attribList, then the
+            default value specified below is used instead. If an attribute is
+            specified more than once, then the last value specified is used.
+            </param>
+        </member>
         <member name="F:SharpGL.OpenGL.GL_MAX_UNIFORM_LOCATIONS">
             <summary>
             The number of available pre-assigned uniform locations to that can default be 
@@ -4340,206 +4599,6 @@
             <param name="vaobj">The vertex array object.</param>
             <param name="bindingindex">The index of the binding whose divisor to modify.</param>
             <param name="divisor">The new value for the instance step rate to apply.</param>
-        </member>
-        <member name="T:SharpGL.Enumerations.AccumOperation">
-            <summary>
-             AccumOp
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.AlphaTestFunction">
-            <summary>
-            The alpha function
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.AttributeMask">
-            <summary>
-            The OpenGL Attribute flags.
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.BeginMode">
-            <summary>
-            The begin mode.
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.BlendingDestinationFactor">
-            <summary>
-            BlendingDestinationFactor
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.BlendingSourceFactor">
-            <summary>
-            The blending source factor.
-            </summary>
-        </member>
-        <member name="F:SharpGL.Enumerations.BlendingSourceFactor.SourceAlpha">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.ClipPlaneName">
-            <summary>
-            The Clip Plane Name
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.FaceMode">
-            <summary>
-            The Cull Face mode.
-            </summary>
-        </member>
-        <member name="F:SharpGL.Enumerations.FaceMode.Front">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.DataType">
-            <summary>
-            The Data Type.
-            </summary>
-        </member>
-        <member name="F:SharpGL.Enumerations.DataType.Double">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.DepthFunction">
-            <summary>
-            The depth function
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.DrawBufferMode">
-            <summary>
-            The Draw Buffer Mode
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.ErrorCode">
-            <summary>
-            Error Code
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.FeedbackMode">
-            <summary>
-            FeedBackMode
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.FeedbackToken">
-            <summary>
-            The Feedback Token
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.FogMode">
-            <summary>
-            The Fog Mode.
-            </summary>
-        </member>
-        <member name="F:SharpGL.Enumerations.FogMode.Exp2">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.GetMapTarget">
-            <summary>
-            GetMapTarget 
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.FrontFaceMode">
-            <summary>
-            The Front Face Mode.
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.HintMode">
-            <summary>
-            The hint mode.
-            </summary>
-        </member>
-        <member name="F:SharpGL.Enumerations.HintMode.Nicest">
-            <summary>
-            The 
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.HintTarget">
-            <summary>
-            The hint target.
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.LightName">
-            <summary>
-            LightName
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.LightParameter">
-            <summary>
-            LightParameter
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.LightModelParameter">
-            <summary>
-            The Light Model Parameter.
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.LogicOp">
-            <summary>
-            The Logic Op
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.MatrixMode">
-            <summary>
-            The matrix mode.
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.PixelTransferParameterName">
-            <summary>
-            The pixel transfer parameter name
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.PolygonMode">
-            <summary>
-            The Polygon mode.
-            </summary>
-        </member>
-        <member name="F:SharpGL.Enumerations.PolygonMode.Points">
-            <summary>
-            Render as points.
-            </summary>
-        </member>
-        <member name="F:SharpGL.Enumerations.PolygonMode.Lines">
-            <summary>
-            Render as lines.
-            </summary>
-        </member>
-        <member name="F:SharpGL.Enumerations.PolygonMode.Filled">
-            <summary>
-            Render as filled.
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.RenderingMode">
-            <summary>
-            Rendering Mode 
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.ShadeModel">
-            <summary>
-            ShadingModel
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.StencilFunction">
-            <summary>
-            The stencil function
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.StencilOperation">
-            <summary>
-            The stencil operation.
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.TextureParameter">
-            <summary>
-            GetTextureParameter
-            </summary>
-        </member>
-        <member name="T:SharpGL.Enumerations.TextureTarget">
-            <summary>
-            Texture target.
-            </summary>
         </member>
         <member name="M:SharpGL.RenderContextProviders.DIBSectionRenderContextProvider.#ctor">
             <summary>
@@ -5138,18 +5197,6 @@
             Gets the index buffer object.
             </summary>
         </member>
-        <member name="T:SharpGL.VertexBuffers.VertexBufferArray">
-            <summary>
-            A VertexBufferArray is a logical grouping of VertexBuffers. Vertex Buffer Arrays
-            allow us to use a set of vertex buffers for vertices, indicies, normals and so on,
-            without having to use more complicated interleaved arrays.
-            </summary>
-        </member>
-        <member name="P:SharpGL.VertexBuffers.VertexBufferArray.VertexBufferArrayObject">
-            <summary>
-            Gets the vertex buffer array object.
-            </summary>
-        </member>
         <member name="T:SharpGL.VertexBuffers.VertexBuffer">
             <summary>
             
@@ -5162,6 +5209,18 @@
         <member name="P:SharpGL.VertexBuffers.VertexBuffer.VertexBufferObject">
             <summary>
             Gets the vertex buffer object.
+            </summary>
+        </member>
+        <member name="T:SharpGL.VertexBuffers.VertexBufferArray">
+            <summary>
+            A VertexBufferArray is a logical grouping of VertexBuffers. Vertex Buffer Arrays
+            allow us to use a set of vertex buffers for vertices, indicies, normals and so on,
+            without having to use more complicated interleaved arrays.
+            </summary>
+        </member>
+        <member name="P:SharpGL.VertexBuffers.VertexBufferArray.VertexBufferArrayObject">
+            <summary>
+            Gets the vertex buffer array object.
             </summary>
         </member>
         <member name="T:SharpGL.Win32">
