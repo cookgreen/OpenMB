@@ -145,7 +145,7 @@ namespace OpenMB.Screen
 			PanelMaterialWidget coatOfArmsPanel = new PanelMaterialWidget("coatOfArmsPanel", sideInfo.COA);
 			coatOfArmsPanel.Width = 0.3f;
 			coatOfArmsPanel.Height = 0.3f;
-			panelFactionDetails.AddWidgetRelative(3, 1, coatOfArmsPanel, AlignMode.Center, DockMode.Center);
+			panelFactionDetails.AddWidgetRelative(3, 1, coatOfArmsPanel, AlignMode.Center, AlignMode.Center, DockMode.Center);
 
 			string chaID = GameSlotManager.Instance.GetSlot(sideInfo.ID, "slot_faction_leader");
 			var chaData = world.ModData.CharacterInfos.Where(o => o.ID == chaID).FirstOrDefault();

@@ -99,6 +99,10 @@ namespace OpenMB.Widgets
 		{
 			get
 			{
+				if (padding == null)
+				{
+					padding = new Padding();
+				}
 				return padding;
 			}
 		}
@@ -134,7 +138,6 @@ namespace OpenMB.Widgets
 			trayLoc = UIWidgetLocation.TL_NONE;
 			element = null;
 			listener = null;
-			padding = new Padding();
 		}
 		/// <summary>
 		/// dispose this widget

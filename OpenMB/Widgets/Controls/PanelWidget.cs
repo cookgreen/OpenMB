@@ -179,6 +179,14 @@ namespace OpenMB.Widgets
 			element.Left = left;
 			cols = new List<PanelColumn>();
 			rows = new List<PanelRow>();
+			initizationRowCol(row, col);
+
+		}
+
+		private void initizationRowCol(int row, int col)
+		{
+			cols = new List<PanelColumn>();
+			rows = new List<PanelRow>();
 			for (int i = 0; i < row; i++)
 			{
 				rows.Add(new PanelRow(this) { Type = ValueType.Percent, Height = 100 });
@@ -187,7 +195,7 @@ namespace OpenMB.Widgets
 			{
 				cols.Add(new PanelColumn(this) { Type = ValueType.Percent, Width = 100 });
 			}
-        }
+		}
 
 		public void AddRow(ValueType type, float height = 0)
 		{
@@ -311,7 +319,8 @@ namespace OpenMB.Widgets
 			int rowNum,
 			int colNum,
 			Widget widget,
-			AlignMode align = AlignMode.Left,
+			AlignMode hAlign = AlignMode.Left,
+			AlignMode vAlign = AlignMode.Left,
 			DockMode dock = DockMode.None,
 			int rowSpan = 1,
 			int colSpan = 1)
@@ -339,6 +348,10 @@ namespace OpenMB.Widgets
 				case DockMode.Center:
 					widget.Width = widget.Width * c.AbosulteWidth;
 					//widget.Height = widget.Height * r.AbosulteHeight;
+					break;
+				default:
+					widget.Width = c.AbosulteWidth;
+					widget.Height = r.AbosulteHeight;
 					break;
 			}
 
@@ -380,7 +393,7 @@ namespace OpenMB.Widgets
 			widget.Left += relativeLeft;
 			widget.Top += relativeTop;
 
-			switch (align)
+			switch (hAlign)
 			{
 				case AlignMode.Center:
 					widget.Left += (c.AbosulteWidth - widget.Width) / 2;
@@ -389,8 +402,15 @@ namespace OpenMB.Widgets
 					break;
 			}
 
+			switch (vAlign)
+			{
+				case AlignMode.Center:
+					widget.Top += (r.AbosulteHeight - widget.Height) / 2;
+					break;
+			}
+
 			((OverlayContainer)element).AddChild(widget.OverlayElement);
-			widget.AddedToAnotherWidgetFinished(align, relativeLeft, c.AbosulteWidth, relativeTop, r.AbosulteHeight);
+			widget.AddedToAnotherWidgetFinished(hAlign, relativeLeft, c.AbosulteWidth, relativeTop, r.AbosulteHeight);
 		}
 
 		public void AddWidget(Widget widget)
@@ -409,7 +429,7 @@ namespace OpenMB.Widgets
 			return widgets.Count;
 		}
 
-		public void RemoveWidget(int rowNum, int colNum)
+		public virtual void RemoveWidget(int rowNum, int colNum)
 		{
 			var widget = GetWidget(rowNum, colNum);
 			if (widget != null)
@@ -468,5 +488,15 @@ namespace OpenMB.Widgets
 				w.FocusLost();
 			}
 		}
-	}
+
+        public void ChangeTotalCol(int totalColNumber, ValueType valueType = ValueType.Percent)
+        {
+			initizationRowCol(rows.Count, totalColNumber);
+		}
+
+		public void ChangeTotalRow(int totalRowNumber, ValueType valueType = ValueType.Percent)
+		{
+			initizationRowCol(totalRowNumber, cols.Count);
+		}
+    }
 }

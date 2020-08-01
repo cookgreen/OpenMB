@@ -462,6 +462,7 @@
     <Compile Include="Widgets\Controls\PanelWidget.cs" />
     <Compile Include="Widgets\Controls\ParamsPanelWidget.cs" />
     <Compile Include="Widgets\Controls\ProgressBarWidget.cs" />
+    <Compile Include="Widgets\Padding.cs" />
     <Compile Include="Widgets\UIManager.cs" />
     <Compile Include="Widgets\Controls\SelectMenuWidget.cs" />
     <Compile Include="Widgets\Controls\SeparatorWidget.cs" />
@@ -489,7 +490,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
-    <None Include="LICENSE" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -506,7 +506,6 @@
     <Content Include="app.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="README.md" />
     <None Include="Resources\logo.png" />
   </ItemGroup>
   <ItemGroup>

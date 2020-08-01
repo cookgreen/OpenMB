@@ -2244,14 +2244,6 @@ namespace OpenMB.Widgets
         }
     }
 
-	public class Padding
-	{
-		public float PaddingTop = 0;
-		public float PaddingLeft = 0;
-		public float PaddingDown = 0;
-		public float PaddingRight = 0;
-	}
-
 	/// <summary>
 	/// Custom, decorative widget created from a template
 	/// </summary>

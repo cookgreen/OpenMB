@@ -124,14 +124,17 @@ namespace OpenMB.States
                     modThumbs[i].Hide();
                     continue;
                 }
-                else modThumbs[i].Show();
+                else
+                {
+                    modThumbs[i].Show();
+                }
 
                 float left = Mogre.Math.Cos(phase) * 200.0f;
                 float top = Mogre.Math.Sin(phase) * 200.0f;
                 float scale = 1.0f / Convert.ToSingle(System.Math.Pow((Mogre.Math.Abs(thumbOffset) + 1.0f), 0.75f));
 
-                OverlayContainer.ChildContainerIterator xx = modThumbs[i].GetChildContainerIterator();
-                BorderPanelOverlayElement frame = (BorderPanelOverlayElement)xx.ElementAt(0);
+                OverlayContainer.ChildContainerIterator iter = modThumbs[i].GetChildContainerIterator();
+                BorderPanelOverlayElement frame = (BorderPanelOverlayElement)iter.ElementAt(0);
 
                 modThumbs[i].SetDimensions(128.0f * scale, 96.0f * scale);
                 frame.SetDimensions(modThumbs[i].Width + 16.0f, modThumbs[i].Height + 16.0f);
@@ -139,9 +142,13 @@ namespace OpenMB.States
                     (top - 5.0f - (modThumbs[i].Height / 2.0f)));
 
                 if (i == modChooserMenu.getSelectionIndex())
+                {
                     frame.BorderMaterialName = "SdkTrays/Frame/Over";
+                }
                 else
+                {
                     frame.BorderMaterialName = "SdkTrays/Frame";
+                }
             }
 
             UIManager.Instance.FrameRenderingQueued(evt);
@@ -208,7 +215,9 @@ namespace OpenMB.States
         {
             sceneMgr.DestroyCamera(camera);
             if (sceneMgr != null)
+            {
                 GameManager.Instance.root.DestroySceneManager(sceneMgr);
+            }
 
             GameManager.Instance.mouse.MouseMoved -= new MouseListener.MouseMovedHandler(Mouse_MouseMoved);
             GameManager.Instance.root.FrameRenderingQueued -= new FrameListener.FrameRenderingQueuedHandler(FrameRenderingQueued);
@@ -268,17 +277,21 @@ namespace OpenMB.States
 
                 TextureUnitState tus = newMat.GetTechnique(0).GetPass(0).GetTextureUnitState(0);
                 if (ResourceGroupManager.Singleton.ResourceExists("General", modDisplayData.Thumb))
+                {
                     tus.SetTextureName(modDisplayData.Thumb);
+                }
                 else
+                {
                     tus.SetTextureName("thumb_error.png");
+                }
 
                 BorderPanelOverlayElement bp = (BorderPanelOverlayElement)
                         OverlayManager.Singleton.CreateOverlayElementFromTemplate("SdkTrays/Picture", "BorderPanel", (name));
 
 
-                bp.HorizontalAlignment=(GuiHorizontalAlignment. GHA_RIGHT);
-                bp.VerticalAlignment=(GuiVerticalAlignment. GVA_CENTER);
-                bp.MaterialName=(name);
+                bp.HorizontalAlignment = GuiHorizontalAlignment.GHA_RIGHT;
+                bp.VerticalAlignment = GuiVerticalAlignment.GVA_CENTER;
+                bp.MaterialName = name;
                 UIManager.Instance.GetTraysLayer().Add2D(bp);
 
                 modThumbs.Add(bp);

@@ -97,7 +97,7 @@ namespace OpenMB.Screen
 			for (int i = 0; i < 9; i++)
 			{
 				var invSlot = new PanelTemplateWidget("DiscordInvSlot_" + (i + 1).ToString(), "InventorySlot");
-				discordInventoryPanel.AddWidgetRelative(currRow, currCol, invSlot, AlignMode.Center, DockMode.Fill);
+				discordInventoryPanel.AddWidgetRelative(currRow, currCol, invSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 				if ((i + 1) % 3 == 0)
 				{
 					currRow++;
@@ -151,31 +151,31 @@ namespace OpenMB.Screen
 				switch (i)
 				{
 					case 0:
-						playerEquipPanel.AddWidgetRelative(2, 2, equipSlot, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidgetRelative(2, 2, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 1:
-						playerEquipPanel.AddWidgetRelative(3, 2, equipSlot, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidgetRelative(3, 2, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 2:
-						playerEquipPanel.AddWidgetRelative(4, 2, equipSlot, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidgetRelative(4, 2, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 3:
-						playerEquipPanel.AddWidgetRelative(5, 1, equipSlot, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidgetRelative(5, 1, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 4:
-						playerEquipPanel.AddWidgetRelative(2, 3, equipSlot, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidgetRelative(2, 3, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 5:
-						playerEquipPanel.AddWidgetRelative(3, 3, equipSlot, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidgetRelative(3, 3, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 6:
-						playerEquipPanel.AddWidgetRelative(4, 3, equipSlot, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidgetRelative(4, 3, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 7:
-						playerEquipPanel.AddWidgetRelative(3, 1, equipSlot, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidgetRelative(3, 1, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 8:
-						playerEquipPanel.AddWidgetRelative(5, 3, equipSlot, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidgetRelative(5, 3, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 				}
 			}

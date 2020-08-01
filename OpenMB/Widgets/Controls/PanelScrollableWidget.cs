@@ -43,7 +43,7 @@ namespace OpenMB.Widgets
 
 			for (int i = 0; i < Rows.Count; i++)
 			{
-				Rows[i].Type = ValueType.Abosulte;
+				Rows[i].Type = ValueType.Auto;
 			}
 
 			scroll.Left = -0.01f;
@@ -129,6 +129,13 @@ namespace OpenMB.Widgets
 			var c = cols[colNum - 1];
 			var r = rows[rowNum - 1];
 
+			switch (r.Type)
+			{
+				case ValueType.Auto:
+					r.Height = widget.Height;
+					break;
+			}
+
 			switch (dock)
 			{
 				case DockMode.Fill:
@@ -191,11 +198,12 @@ namespace OpenMB.Widgets
 			int colNum,
 			Widget widget,
 			AlignMode align = AlignMode.Left,
+			AlignMode align2 = AlignMode.Left,
 			DockMode dock = DockMode.None,
 			int rowSpan = 1,
 			int colSpan = 1)
 		{
-			base.AddWidgetRelative(rowNum, colNum, widget, align, dock, rowSpan, colSpan);
+			base.AddWidgetRelative(rowNum, colNum, widget, align, align2, dock, rowSpan, colSpan);
 
 			if (widget.Top + widget.Height > Height)
 			{
@@ -248,5 +256,15 @@ namespace OpenMB.Widgets
 		{
 			scroll.Height = Height - 0.016f;
 		}
-	}
+
+        public override void RemoveWidget(int rowNum, int colNum)
+        {
+            base.RemoveWidget(rowNum, colNum);
+			var widget = GetWidget(rowNum, colNum);
+			if (widget != null)
+			{
+				visualWidgets.Remove(widget);
+			}
+        }
+    }
 }

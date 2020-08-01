@@ -72,9 +72,6 @@
       <Name>OpenMB</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SolutionDir)Bin\Mods\common\" />
