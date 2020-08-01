@@ -70,14 +70,19 @@ namespace OpenMB.Screen
 					JToken token = jarr[i];
 					Mod mod = token.ToObject(typeof(Mod)) as Mod;
 
-					PanelTemplateWidget modPreviewWidge = new PanelTemplateWidget("mod_" + mod.name_id, "InventorySlot");
-					modPreviewWidge.Height = 0.3f;
-					modPreviewWidge.Padding.PaddingLeft = 0.01f;
-					modPreviewWidge.Padding.PaddingTop = 0.01f;
-					modPreviewWidge.Padding.PaddingRight = 0.01f;
-					modPreviewWidge.Padding.PaddingDown = 0.01f;
-					//browserMainPanel.ChangeRow(Widgets.ValueType.Abosulte, modPreviewWidge.Height, currentRow);
-					browserMainPanel.AddWidget(currentRow, currentCol, modPreviewWidge, AlignMode.Center, DockMode.Fill);
+					PanelWidget modPreviewWidget = new PanelWidget("pane_" + mod.name_id, 0, 0.3f, 0, 0, 2, 1, true);
+					modPreviewWidget.ChangeRow(Widgets.ValueType.Percent, 100);
+					modPreviewWidget.ChangeRow(Widgets.ValueType.Abosulte, 0.2f);
+					modPreviewWidget.Padding.PaddingLeft = 0.01f;
+					modPreviewWidget.Padding.PaddingTop = 0.01f;
+					modPreviewWidget.Padding.PaddingRight = 0.01f;
+					modPreviewWidget.Padding.PaddingDown = 0.01f;
+
+					browserMainPanel.ChangeRow(Widgets.ValueType.Abosulte, modPreviewWidget.Height, currentRow);
+					browserMainPanel.AddWidget(currentRow, currentCol, modPreviewWidget, AlignMode.Center, DockMode.Fill);
+
+					StaticTextRelative modNameWidget = new StaticTextRelative("mod_" + mod.name_id + "_text", mod.name, 0.2f, false, new Mogre.ColourValue());
+					modPreviewWidget.AddWidgetRelative(2, 1, modNameWidget, AlignMode.Center, AlignMode.Center);
 
 					modList.Add(mod.name, mod);
 

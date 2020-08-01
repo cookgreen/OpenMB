@@ -48,7 +48,14 @@ namespace OpenMB.Widgets
 			{
 				if (Type == ValueType.Abosulte)
 				{
-					return Height;
+					var wpt = panel.Parent;
+					var het = Height * panel.Height;
+					while (wpt != null)
+					{
+						het *= wpt.Height;
+						wpt = wpt.Parent;
+					}
+					return het;
 				}
 				else if (Type == ValueType.Percent)
 				{
@@ -95,7 +102,14 @@ namespace OpenMB.Widgets
 			{
 				if (Type == ValueType.Abosulte)
 				{
-					return Width * panel.Width - (panel.Padding.PaddingLeft + panel.Padding.PaddingRight);
+					var wpt = panel.Parent;
+					var wid = Width * panel.Width - (panel.Padding.PaddingLeft + panel.Padding.PaddingRight); ;
+					while (wpt != null)
+					{
+						wid *= wpt.Width;
+						wpt = wpt.Parent;
+					}
+					return wid;
 				}
 				else if (Type == ValueType.Percent)
 				{
@@ -165,16 +179,23 @@ namespace OpenMB.Widgets
 			}
 			element.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
 
-			if (width == 0 || height == 0)
-            {
+			if (width <= 0)
+			{
 				element.Width = 1.0f;
+			}
+            else
+			{
+				element.Width = width;
+			}
+			if (height <= 0)
+			{
 				element.Height = 1.0f;
-            }
-            else if (width > 0 && height > 0)
+			}
+            else
             {
-                element.Width = width;
                 element.Height = height;
             }
+
 			element.Top = top;
 			element.Left = left;
 			cols = new List<PanelColumn>();
@@ -254,7 +275,7 @@ namespace OpenMB.Widgets
 			col.Width = value;
 		}
 
-		public void AddWidget(
+		public virtual void AddWidget(
 			int rowNum, 
 			int colNum, 
 			Widget widget,
@@ -330,6 +351,9 @@ namespace OpenMB.Widgets
 			widget.Left += Padding.PaddingLeft;
 			widgets.Add(widget);
 
+			widget.Parent = this;
+			((OverlayContainer)element).AddChild(widget.OverlayElement);
+
 			var c = cols[colNum - 1];
 			var r = rows[rowNum - 1];
 
@@ -390,13 +414,10 @@ namespace OpenMB.Widgets
 				}
 			}
 
-			widget.Left += relativeLeft;
-			widget.Top += relativeTop;
-
 			switch (hAlign)
 			{
 				case AlignMode.Center:
-					widget.Left += (c.AbosulteWidth - widget.Width) / 2;
+					widget.Left = (c.AbosulteWidth - widget.Width) / 2;
 					break;
 				case AlignMode.Right:
 					break;
@@ -405,11 +426,9 @@ namespace OpenMB.Widgets
 			switch (vAlign)
 			{
 				case AlignMode.Center:
-					widget.Top += (r.AbosulteHeight - widget.Height) / 2;
+					widget.Top = (r.AbosulteHeight - widget.Height) / 2;
 					break;
 			}
-
-			((OverlayContainer)element).AddChild(widget.OverlayElement);
 			widget.AddedToAnotherWidgetFinished(hAlign, relativeLeft, c.AbosulteWidth, relativeTop, r.AbosulteHeight);
 		}
 

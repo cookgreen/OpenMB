@@ -19,6 +19,7 @@ namespace OpenMB.Widgets
 		protected UIWidgetLocation trayLoc;
 		protected UIListener listener;
 		protected Padding padding;
+		protected Widget parent;
 		public string Name
 		{
 			get
@@ -132,6 +133,12 @@ namespace OpenMB.Widgets
 				return element.ZOrder;
 			}
 		}
+
+		public Widget Parent
+        {
+            get { return parent; }
+            set { parent = value; }
+        }
 
 		public Widget()
 		{

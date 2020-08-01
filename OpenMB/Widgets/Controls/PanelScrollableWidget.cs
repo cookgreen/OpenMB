@@ -126,6 +126,8 @@ namespace OpenMB.Widgets
 			widget.Left += Padding.PaddingLeft;
 			widgets.Add(widget);
 
+			widget.Parent = this;
+
 			var c = cols[colNum - 1];
 			var r = rows[rowNum - 1];
 
