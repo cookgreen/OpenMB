@@ -15,7 +15,6 @@ namespace OpenMB.Modio
 		private string apiKey;
 		private string accessToken;
 		private BackgroundWorker worker;
-        private string apiAccessToken;
 
         public event Action<object> GetResultDataFinished;
 		public Client(string apiKey, string accessToken)
@@ -70,7 +69,7 @@ namespace OpenMB.Modio
 			string token = null;
 			if (string.IsNullOrEmpty(apiKey))
 			{
-				token = apiAccessToken;
+				token = accessToken;
 			}
             else
             {

@@ -40,6 +40,7 @@ using System.Reflection;
 using OpenMB.Localization;
 using OpenMB.Core;
 using MOIS;
+using System.Numerics;
 
 namespace OpenMB.Widgets
 {
@@ -68,40 +69,46 @@ namespace OpenMB.Widgets
 	/// <summary>
 	/// Main class to manage a cursor, backdrop, trays and widgets
 	/// </summary>
-	public class UIManager : UIListener, IDisposable, IInitializeMod
+	public class UILayer : UIListener, IDisposable, IInitializeMod
 	{
-		private static UIManager instance;
-		public static UIManager Instance
+		private static UILayer instance;
+		public static UILayer Instance
 		{
 			get
 			{
 				if (instance == null)
 				{
-					instance = new UIManager();
+					instance = new UILayer();
 				}
 				return instance;
 			}
 		}
 		protected string Name = ""; // name of this tray system
-		protected Mogre.RenderWindow window; // render window
+		protected RenderWindow window; // render window
 		protected InputContext inputContext = null;
-		protected Mogre.Overlay backdropLayer; // backdrop layer
-		protected Mogre.Overlay traysLayer; // widget layer
-		protected Mogre.Overlay priorityLayer; // top priority layer
-		protected Mogre.Overlay cursorLayer; // cursor layer
-		protected Mogre.OverlayContainer mBackdrop; // backdrop
-		protected Mogre.OverlayContainer[] mTrays = new Mogre.OverlayContainer[10]; // widget trays
+		protected Overlay backdropLayer; // backdrop layer
+		protected Overlay traysLayer; // widget layer
+		protected Overlay priorityLayer; // top priority layer
+		protected Overlay cursorLayer; // cursor layer
+		protected OverlayContainer mBackdrop; // backdrop
+		protected OverlayContainer[] mTrays = new Mogre.OverlayContainer[10]; // widget trays
 		protected List<Widget>[] widgets = new List<Widget>[10]; // widgets
 		protected List<Widget> widgetDeathRow = new List<Widget>(); // widget queue for deletion
-		protected Mogre.OverlayContainer cursor; // cursor
+		protected OverlayContainer cursor; // cursor
 		protected UIListener listener; // tray listener
 		protected float widgetPadding = 0f; // widget padding
 		protected float widgetSpacing = 0f; // widget spacing
 		protected float trayPadding = 0f; // tray padding
 		protected bool trayDrag; // a mouse press was initiated on a tray
 		protected SelectMenuWidget expandedMenu; // top priority expanded menu widget
-		protected StaticMultiLineTextBoxWidget dialog; // top priority dialog widget
-		protected Mogre.OverlayContainer dialogShade; // top priority dialog shade
+
+        internal void HideCursor()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected StaticMultiLineTextBoxWidget dialog; // top priority dialog widget
+		protected OverlayContainer dialogShade; // top priority dialog shade
 		protected ButtonWidget ok; // top priority OK button
 		protected ButtonWidget yes; // top priority Yes button
 		protected ButtonWidget no; // top priority No button
@@ -113,10 +120,9 @@ namespace OpenMB.Widgets
 		protected float groupInitProportion = 0f; // proportion of load job assigned to initialising one resource group
 		protected float groupLoadProportion = 0f; // proportion of load job assigned to loading one resource group
 		protected float loadInc = 0f; // loading increment
-		protected Mogre.GuiHorizontalAlignment[] trayWidgetAlign = new Mogre.GuiHorizontalAlignment[10]; // tray widget alignments
-		protected Mogre.Timer timer; // Root::getSingleton().getTimer()
+		protected GuiHorizontalAlignment[] trayWidgetAlign = new Mogre.GuiHorizontalAlignment[10]; // tray widget alignments
+		protected Timer timer; // Root::getSingleton().getTimer()
 		protected uint mLastStatUpdateTime; // The last time the stat text were updated
-		private GameCursor gameCursor;
 		private ModData modData;
 
 		public UIListener Listener
@@ -127,121 +133,19 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public UIManager()
-		{
-		}
-
-		public void Init(string name, Mogre.RenderWindow window, InputContext inputContext, UIListener listener)
-		{
-			for (int i = 0; i < widgets.Length; i++)
-			{
-				widgets[i] = new List<Widget>();
-			}
-			Name = name;
-			this.window = window;
-			this.inputContext = inputContext;
-			this.listener = listener;
-			widgetPadding = 8f;
-			widgetSpacing = 2f;
-			trayPadding = 0f;
-			trayDrag = false;
-			expandedMenu = null;
-			dialog = null;
-			ok = null;
-			yes = null;
-			no = null;
-			cursorWasVisible = false;
-			fpsLabel = null;
-			statsPanel = null;
-			logo = null;
-			loadBar = null;
-			groupInitProportion = 0.0f;
-			groupLoadProportion = 0.0f;
-			loadInc = 0.0f;
-			timer = Mogre.Root.Singleton.Timer;
-			mLastStatUpdateTime = 0;
-
-			Mogre.OverlayManager om = Mogre.OverlayManager.Singleton;
-
-			string nameBase = Name + "/";
-			nameBase = nameBase.Replace(' ', '_');
-			backdropLayer = om.Create(nameBase + "BackdropLayer");
-			traysLayer = om.Create(nameBase + "WidgetsLayer");
-			priorityLayer = om.Create(nameBase + "PriorityLayer");
-			cursorLayer = om.Create(nameBase + "CursorLayer");
-			backdropLayer.ZOrder = (100);
-			traysLayer.ZOrder = (200);
-			priorityLayer.ZOrder = (300);
-			cursorLayer.ZOrder = (400);
-
-			// make backdrop and cursor overlay containers
-			cursor = (Mogre.OverlayContainer)om.CreateOverlayElementFromTemplate("SdkTrays/Cursor", "Panel", nameBase + "Cursor");
-			cursorLayer.Add2D(cursor);
-			mBackdrop = (Mogre.OverlayContainer)om.CreateOverlayElement("Panel", nameBase + "Backdrop");
-			backdropLayer.Add2D(mBackdrop);
-			dialogShade = (Mogre.OverlayContainer)om.CreateOverlayElement("Panel", nameBase + "DialogShade");
-			dialogShade.MaterialName = ("SdkTrays/Shade");
-			dialogShade.Hide();
-			priorityLayer.Add2D(dialogShade);
-
-			string[] trayNames = { "TopLeft", "Top", "TopRight", "Left", "Center", "Right", "BottomLeft", "Bottom", "BottomRight", "None" };
-
-			for (uint i = 0; i < 9; i++) // make the real trays
-			{
-				mTrays[i] = (Mogre.OverlayContainer)om.CreateOverlayElementFromTemplate("SdkTrays/Tray", "BorderPanel", nameBase + trayNames[i] + "Tray");
-				traysLayer.Add2D(mTrays[i]);
-
-				trayWidgetAlign[i] = GuiHorizontalAlignment.GHA_CENTER;
-
-				// align trays based on location
-				if (i == (int)UIWidgetLocation.TL_TOP || i == (int)UIWidgetLocation.TL_CENTER || i == (int)UIWidgetLocation.TL_BOTTOM)
-					mTrays[i].HorizontalAlignment = (GuiHorizontalAlignment.GHA_CENTER);
-				if (i == (int)UIWidgetLocation.TL_LEFT || i == (int)UIWidgetLocation.TL_CENTER || i == (int)UIWidgetLocation.TL_RIGHT)
-					mTrays[i].VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-				if (i == (int)UIWidgetLocation.TL_TOPRIGHT || i == (int)UIWidgetLocation.TL_RIGHT || i == (int)UIWidgetLocation.TL_BOTTOMRIGHT)
-					mTrays[i].HorizontalAlignment = (GuiHorizontalAlignment.GHA_RIGHT);
-				if (i == (int)UIWidgetLocation.TL_BOTTOMLEFT || i == (int)UIWidgetLocation.TL_BOTTOM || i == (int)UIWidgetLocation.TL_BOTTOMRIGHT)
-					mTrays[i].VerticalAlignment = (GuiVerticalAlignment.GVA_BOTTOM);
-			}
-
-			// create the null tray for free-floating widgets
-			mTrays[9] = (Mogre.OverlayContainer)om.CreateOverlayElement("Panel", nameBase + "NullTray");
-			trayWidgetAlign[9] = GuiHorizontalAlignment.GHA_LEFT;
-			traysLayer.Add2D(mTrays[9]);
-			AdjustTrays();
-
-			ShowTrays();
-			ShowCursor();
-			gameCursor = new GameCursor();
-		}
-
 		public void InitMod(ModData modData)
 		{
 			this.modData = modData;
 		}
 
-		/// <summary>
-		/// Creates backdrop, cursor, and trays.
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="window"></param>
-		/// <param name="inputContext"></param>
-		public UIManager(string name, Mogre.RenderWindow window, InputContext inputContext)
-			: this(name, window, inputContext, null)
+		public UILayer() : base()
 		{
-		}
+			Name = "UILayer_" + Guid.NewGuid().ToString();
 
-		public UIManager(string name, Mogre.RenderWindow window, InputContext inputContext, UIListener listener)
-			: base()
-		{
 			for (int i = 0; i < widgets.Length; i++)
 			{
 				widgets[i] = new List<Widget>();
 			}
-			Name = name;
-			this.window = window;
-			this.inputContext = inputContext;
-			this.listener = listener;
 			widgetPadding = 8f;
 			widgetSpacing = 2f;
 			trayPadding = 0f;
@@ -269,15 +173,10 @@ namespace OpenMB.Widgets
 			backdropLayer = om.Create(nameBase + "BackdropLayer");
 			traysLayer = om.Create(nameBase + "WidgetsLayer");
 			priorityLayer = om.Create(nameBase + "PriorityLayer");
-			cursorLayer = om.Create(nameBase + "CursorLayer");
 			backdropLayer.ZOrder = (100);
 			traysLayer.ZOrder = (200);
 			priorityLayer.ZOrder = (300);
-			cursorLayer.ZOrder = (400);
 
-			// make backdrop and cursor overlay containers
-			cursor = (Mogre.OverlayContainer)om.CreateOverlayElementFromTemplate("SdkTrays/Cursor", "Panel", nameBase + "Cursor");
-			cursorLayer.Add2D(cursor);
 			mBackdrop = (Mogre.OverlayContainer)om.CreateOverlayElement("Panel", nameBase + "Backdrop");
 			backdropLayer.Add2D(mBackdrop);
 			dialogShade = (Mogre.OverlayContainer)om.CreateOverlayElement("Panel", nameBase + "DialogShade");
@@ -312,7 +211,6 @@ namespace OpenMB.Widgets
 			AdjustTrays();
 
 			ShowTrays();
-			ShowCursor();
 		}
 
 		/// <summary>
@@ -335,12 +233,8 @@ namespace OpenMB.Widgets
 			om.Destroy(backdropLayer);
 			om.Destroy(traysLayer);
 			om.Destroy(priorityLayer);
-			om.Destroy(cursorLayer);
-
-			closeDialog();
 
 			Widget.NukeOverlayElement(mBackdrop);
-			Widget.NukeOverlayElement(cursor);
 			Widget.NukeOverlayElement(dialogShade);
 
 			for (int i = 0; i < 10; i++)
@@ -390,10 +284,6 @@ namespace OpenMB.Widgets
 		{
 			return traysLayer;
 		}
-		public Mogre.Overlay GetCursorLayer()
-		{
-			return cursorLayer;
-		}
 		public Mogre.OverlayContainer GetBackdropContainer()
 		{
 			return mBackdrop;
@@ -421,14 +311,12 @@ namespace OpenMB.Widgets
 		{
 			ShowBackdrop();
 			ShowTrays();
-			ShowCursor();
 		}
 
 		public void HideAll()
 		{
 			HideBackdrop();
 			HideTrays();
-			HideCursor();
 		}
 
 		/// <summary>
@@ -450,55 +338,6 @@ namespace OpenMB.Widgets
 		public void HideBackdrop()
 		{
 			backdropLayer.Hide();
-		}
-
-		/// <summary>
-		/// Displays specified material on cursor, or the last material used if
-		///	none specified. Used to change cursor type.
-		/// </summary>
-		public void ShowCursor()
-		{
-			ShowCursor("");
-		}
-
-		public void ShowCursor(string materialName)
-		{
-			if (!string.IsNullOrEmpty(materialName))
-				GetCursorImage().MaterialName = materialName;
-
-			if (!cursorLayer.IsVisible)
-			{
-				cursorLayer.Show();
-				RefreshCursor();
-			}
-		}
-
-		public void HideCursor()
-		{
-			cursorLayer.Hide();
-			for (int i = 0; i < 10; i++)
-			{
-				for (int j = 0; j < widgets[i].Count; j++)
-				{
-					widgets[i][j].FocusLost();
-				}
-			}
-
-			setExpandedMenu(null);
-		}
-
-		/// <summary>
-		/// Updates cursor position based on unbuffered mouse state. This is necessary
-		///	because if the tray manager has been cut off from mouse events for a time,
-		///	he cursor position will be out of date.
-		/// </summary>
-		public void RefreshCursor()
-		{
-			float x = 0f;
-			float y = 0f;
-			x = inputContext.MouseState.X.abs;
-			y = inputContext.MouseState.Y.abs;
-			cursor.SetPosition(x, y);
 		}
 
 		public void ShowTrays()
@@ -1081,180 +920,6 @@ namespace OpenMB.Widgets
 		}
 
 		/// <summary>
-		/// Pops up a message dialog with an OK button.
-		/// </summary>
-		/// <param name="caption"></param>
-		/// <param name="message"></param>
-		public void showOkDialog(string caption, string message)
-		{
-			Mogre.OverlayElement e;
-
-			if (dialog != null)
-			{
-				dialog.setCaption(caption);
-				dialog.setText(message);
-
-				if (ok != null)
-					return;
-				else
-				{
-					yes.Cleanup();
-					no.Cleanup();
-					//delete mYes;
-					//delete mNo;
-					yes.Dispose();
-					no.Dispose();
-					yes = null;
-					no = null;
-				}
-			}
-			else
-			{
-				// give widgets a chance to reset in case they're in the middle of something
-				for (int i = 0; i < 10; i++)
-				{
-					for (int j = 0; j < widgets[i].Count; j++)
-					{
-						widgets[i][j].FocusLost();
-					}
-				}
-
-				dialogShade.Show();
-
-				dialog = new StaticMultiLineTextBoxWidget(Name + "/DialogBox", caption, 300f, 208f);
-				dialog.setText(message);
-				e = dialog.OverlayElement;
-				dialogShade.AddChild(e);
-				e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-				e.Left = (-(e.Width / 2f));
-				e.Top = (-(e.Height / 2f));
-
-				cursorWasVisible = IsCursorVisible();
-				ShowCursor();
-			}
-
-			ok = new ButtonWidget(Name + "/OkButton", "OK", 60f);
-			ok.AssignListener(this);
-			e = ok.OverlayElement;
-			dialogShade.AddChild(e);
-			e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-			e.Left = (-(e.Width / 2f));
-			e.Top = (dialog.OverlayElement.Top + dialog.OverlayElement.Height + 5f);
-		}
-
-		/// <summary>
-		/// Pops up a question dialog with Yes and No buttons.
-		/// </summary>
-		/// <param name="caption"></param>
-		/// <param name="question"></param>
-		public void showYesNoDialog(string caption, string question)
-		{
-			Mogre.OverlayElement e;
-
-			if (dialog != null)
-			{
-				dialog.setCaption(caption);
-				dialog.setText(question);
-
-				if (ok != null)
-				{
-					ok.Cleanup();
-					//delete mOk;
-					ok.Dispose();
-					ok = null;
-				}
-				else
-					return;
-			}
-			else
-			{
-				// give widgets a chance to reset in case they're in the middle of something
-				for (int i = 0; i < 10; i++)
-				{
-					for (int j = 0; j < widgets[i].Count; j++)
-					{
-						widgets[i][j].FocusLost();
-					}
-				}
-
-				dialogShade.Show();
-
-				dialog = new StaticMultiLineTextBoxWidget(Name + "/DialogBox", caption, 300f, 208f);
-				dialog.setText(question);
-				e = dialog.OverlayElement;
-				dialogShade.AddChild(e);
-				e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-				e.Left = (-(e.Width / 2f));
-				e.Top = (-(e.Height / 2f));
-
-				cursorWasVisible = IsCursorVisible();
-				ShowCursor();
-			}
-
-			yes = new ButtonWidget(Name + "/YesButton", "Yes", 58f);
-			yes.AssignListener(this);
-			e = yes.OverlayElement;
-			dialogShade.AddChild(e);
-			e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-			e.Left = (-(e.Width + 2f));
-			e.Top = (dialog.OverlayElement.Top + dialog.OverlayElement.Height + 5f);
-
-			no = new ButtonWidget(Name + "/NoButton", "No", 50f);
-			no.AssignListener(this);
-			e = no.OverlayElement;
-			dialogShade.AddChild(e);
-			e.VerticalAlignment = (GuiVerticalAlignment.GVA_CENTER);
-			e.Left = (3f);
-			e.Top = (dialog.OverlayElement.Top + dialog.OverlayElement.Height + 5f);
-		}
-
-		/// <summary>
-		/// Hides whatever dialog is currently showing.
-		/// </summary>
-		public void closeDialog()
-		{
-			if (dialog != null)
-			{
-				if (ok != null)
-				{
-					ok.Cleanup();
-					//delete mOk;
-					ok.Dispose();
-					ok = null;
-				}
-				else
-				{
-					yes.Cleanup();
-					no.Cleanup();
-					//delete mYes;
-					//delete mNo;
-					yes.Dispose();
-					no.Dispose();
-					yes = null;
-					no = null;
-				}
-
-				dialogShade.Hide();
-				dialog.Cleanup();
-				//delete mDialog;
-				dialog.Dispose();
-				dialog = null;
-
-				if (!cursorWasVisible)
-					HideCursor();
-			}
-		}
-
-		/// <summary>
-		/// Determines if any dialog is currently visible.
-		/// </summary>
-		/// <returns></returns>
-		public bool IsDialogVisible()
-		{
-			return dialog != null;
-		}
-
-		/// <summary>
 		/// Gets a widget from a tray by place.
 		/// </summary>
 		/// <param name="trayLoc"></param>
@@ -1643,31 +1308,12 @@ namespace OpenMB.Widgets
 		}
 
 		//        -----------------------------------------------------------------------------
-		//		| Destroys dialog widgets, notifies listener, and ends high priority session.
-		//		-----------------------------------------------------------------------------
-		public void ButtonHit(ButtonWidget button)
-		{
-			if (listener != null)
-			{
-				if (button == ok)
-					listener.okDialogClosed(dialog.getText());
-				else
-					listener.yesNoDialogClosed(dialog.getText(), button == yes);
-			}
-			closeDialog();
-		}
-
-		//        -----------------------------------------------------------------------------
 		//		| Processes mouse button down events. Returns true if the event was
 		//		| consumed and should not be passed on to other handlers.
 		//		-----------------------------------------------------------------------------
 
-		public UIEvent InjectMouseDown(MOIS.MouseEvent evt, MOIS.MouseButtonID id)
+		public UIEvent InjectMouseDown(MOIS.MouseEvent evt, MOIS.MouseButtonID id, Mogre.Vector2 cursorPos)
 		{
-			if (!cursorLayer.IsVisible || id != MOIS.MouseButtonID.MB_Left)
-				return null;
-
-			Mogre.Vector2 cursorPos = new Mogre.Vector2(cursor.Left, cursor.Top);
 
 			trayDrag = false;
 
@@ -1745,12 +1391,8 @@ namespace OpenMB.Widgets
 		//		| consumed and should not be passed on to other handlers.
 		//		-----------------------------------------------------------------------------
 
-		public UIEvent InjectMouseUp(MOIS.MouseEvent evt, MOIS.MouseButtonID id)
+		public UIEvent InjectMouseUp(MOIS.MouseEvent evt, MOIS.MouseButtonID id, Mogre.Vector2 cursorPos)
 		{
-			if (!cursorLayer.IsVisible || id != MOIS.MouseButtonID.MB_Left)
-				return null;
-
-			Mogre.Vector2 cursorPos = new Mogre.Vector2(cursor.Left, cursor.Top);
 
 			if (expandedMenu != null) // only check top priority widget until it passes on
 			{
@@ -1807,33 +1449,8 @@ namespace OpenMB.Widgets
 		//		| Updates cursor position. Returns true if the event was
 		//		| consumed and should not be passed on to other handlers.
 		//		-----------------------------------------------------------------------------
-		public UIEvent InjectMouseMove(MOIS.MouseEvent evt)
+		public UIEvent InjectMouseMove(MOIS.MouseEvent evt, Mogre.Vector2 cursorPos)
 		{
-			if (!cursorLayer.IsVisible) // don't process if cursor layer is invisible
-				return null;
-
-			Mogre.Vector2 cursorPos = new Mogre.Vector2(evt.state.X.abs, evt.state.Y.abs);
-			cursor.SetPosition(cursorPos.x, cursorPos.y);
-
-			if (expandedMenu != null) // only check top priority widget until it passes on
-			{
-				expandedMenu.CursorMoved(cursorPos);
-				return null;
-			}
-
-			if (dialog != null) // only check top priority widget until it passes on
-			{
-				dialog.CursorMoved(cursorPos);
-				if (ok != null)
-					ok.CursorMoved(cursorPos);
-				else
-				{
-					yes.CursorMoved(cursorPos);
-					no.CursorMoved(cursorPos);
-				}
-				return null;
-			}
-
 			Widget w = null;
 
 			for (int i = 0; i < 10; i++)
@@ -1877,7 +1494,7 @@ namespace OpenMB.Widgets
 					w = widgets[i][j];
 					if (!w.OverlayElement.IsVisible)
 						continue;
-					Vector2 pos = new Vector2(cursor.Left, cursor.Top);
+                    Mogre.Vector2 pos = new Mogre.Vector2(cursor.Left, cursor.Top);
 					if (w.IsCursorOver(pos))
 					{
 						w.KeyReleased(pos, arg);
@@ -1906,7 +1523,7 @@ namespace OpenMB.Widgets
 					w = widgets[i][j];
 					if (!w.OverlayElement.IsVisible)
 						continue;
-					Vector2 pos = new Vector2(cursor.Left, cursor.Top);
+                    Mogre.Vector2 pos = new Mogre.Vector2(cursor.Left, cursor.Top);
 					if (w.IsCursorOver(pos))
 					{
 						w.KeyPressed(pos, arg);
@@ -1948,11 +1565,6 @@ namespace OpenMB.Widgets
 		public void AddOverlayElementToTrayLocation(OverlayElement element, UIWidgetLocation trayLoc)
 		{
 			mTrays[(int)trayLoc].AddChild(element);
-		}
-
-		public void ChangeCursor(string name)
-		{
-			gameCursor.ChangeCursor(modData.CursorInfos, name);
 		}
 
 		public void Update()

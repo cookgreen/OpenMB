@@ -260,13 +260,13 @@ namespace OpenMB.Widgets
 		}
 
         public override void RemoveWidget(int rowNum, int colNum)
-        {
-            base.RemoveWidget(rowNum, colNum);
+		{
 			var widget = GetWidget(rowNum, colNum);
 			if (widget != null)
 			{
 				visualWidgets.Remove(widget);
 			}
+			base.RemoveWidget(rowNum, colNum);
         }
     }
 }

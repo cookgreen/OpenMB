@@ -13,6 +13,7 @@ namespace OpenMB.Screen
 	{
         protected List<Widget> widgets;
 		protected bool isExiting;
+        protected UILayer layer;
 		public virtual event Action OnScreenExit;
 		public virtual event Action<string, string> OnScreenEventChanged;
 
@@ -37,6 +38,8 @@ namespace OpenMB.Screen
         public Screen()
 		{
             widgets = new List<Widget>();
+            UIManager.Instance.AddNewLayer();
+            layer = UIManager.Instance.CurrentLayer;
 		}
 
 		public virtual bool CheckEnterScreen(Vector2 mousePos)

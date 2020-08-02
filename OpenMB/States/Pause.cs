@@ -116,15 +116,6 @@ namespace OpenMB.States
             else if (button.Name == "BackToMenuBtn")
                 popAllAndPushAppState<Pause>(findByName("MenuState"));
         }
-        public override void yesNoDialogClosed(string question, bool yesHit)
-        {
-            if (yesHit == true)
-                shutdown();
-            else
-                UIManager.Instance.closeDialog();
-
-            m_bQuestionActive = false;
-        }
 
         public override void update(double timeSinceLastFrame)
         {

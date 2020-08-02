@@ -93,7 +93,6 @@ namespace OpenMB.States
                 modTitle.setCaption(modChooserMenu.getSelectedItem());
             }
 
-            UIManager.Instance.ShowLogo(UIWidgetLocation.TL_RIGHT);
             UIManager.Instance.CreateSeparator(UIWidgetLocation.TL_RIGHT, "LogoSep");
             UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Play", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 160);
             UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Mods", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_mods"), 160);

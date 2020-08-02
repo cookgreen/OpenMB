@@ -25,7 +25,7 @@ Debug/*
 *.ilk
 OpenMB.Mods.*.dll
 Mods/*/OpenMB.Mods.*.dll
-game.xml
+*.xml
 .vs/*
 
 *.brf

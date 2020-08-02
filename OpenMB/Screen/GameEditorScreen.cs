@@ -129,14 +129,14 @@ namespace OpenMB.Screen
             float top = MARGIN_TOP;
             editorPanel = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanel", "BorderPanel", "editorArea") as OverlayContainer;
 
-            lbGeneral = UIManager.Instance.CreateStaticText(UIWidgetLocation.TL_NONE, "lbGeneral", "General", ColourValue.Black);
+            lbGeneral = UIManager.Instance.CurrentLayer.CreateStaticText(UIWidgetLocation.TL_NONE, "lbGeneral", "General", ColourValue.Black);
             lbGeneral.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             lbGeneral.Left = 0.06f;
             lbGeneral.Top =  top;
             top = lbGeneral.Top + lbGeneral.Height;
             editorPanel.AddChild(lbGeneral.OverlayElement);
 
-            btnSave = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnSave", "Save", 150);
+            btnSave = UIManager.Instance.CurrentLayer.CreateButton(UIWidgetLocation.TL_NONE, "btnSave", "Save", 150);
             btnSave.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnSave.Left = 0.06f;
             btnSave.Top = 0.02f + top;
@@ -144,7 +144,7 @@ namespace OpenMB.Screen
             top = btnSave.Top + btnSave.Height;
             editorPanel.AddChild(btnSave.OverlayElement);
 
-            btnClose = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnClose", "Close", 150);
+            btnClose = UIManager.Instance.CurrentLayer.CreateButton(UIWidgetLocation.TL_NONE, "btnClose", "Close", 150);
             btnClose.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnClose.Left = 0.06f;
             btnClose.Top = 0.02f +top;
@@ -160,14 +160,14 @@ namespace OpenMB.Screen
             top = horline.Top + horline.Height;
             editorPanel.AddChild(horline);
 
-            lbAIMesh = UIManager.Instance.CreateStaticText(UIWidgetLocation.TL_NONE, "lbAIMesh", "AIMesh", ColourValue.Black);
+            lbAIMesh = UIManager.Instance.CurrentLayer.CreateStaticText(UIWidgetLocation.TL_NONE, "lbAIMesh", "AIMesh", ColourValue.Black);
             lbAIMesh.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             lbAIMesh.Left = 0.06f;
             lbAIMesh.Top = 0.02f + top;
             top = lbAIMesh.Top + lbAIMesh.Height;
             editorPanel.AddChild(lbAIMesh.OverlayElement);
 
-            btnAIMeshCreateVertex = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnCreateVertex", "Create Vertex", 150);
+            btnAIMeshCreateVertex = UIManager.Instance.CurrentLayer.CreateButton(UIWidgetLocation.TL_NONE, "btnCreateVertex", "Create Vertex", 150);
             btnAIMeshCreateVertex.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnAIMeshCreateVertex.Left = 0.06f;
             btnAIMeshCreateVertex.Top = 0.02f + top;
@@ -175,7 +175,7 @@ namespace OpenMB.Screen
             top = btnAIMeshCreateVertex.Top + btnAIMeshCreateVertex.Height;
             editorPanel.AddChild(btnAIMeshCreateVertex.OverlayElement);
 
-            btnAIMeshCreateLine = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnCreateLine", "Create Line", 150);
+            btnAIMeshCreateLine = UIManager.Instance.CurrentLayer.CreateButton(UIWidgetLocation.TL_NONE, "btnCreateLine", "Create Line", 150);
             btnAIMeshCreateLine.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnAIMeshCreateLine.Left = 0.06f;
             btnAIMeshCreateLine.Top = 0.02f + top;
@@ -191,14 +191,14 @@ namespace OpenMB.Screen
             top = horline2.Top + horline2.Height;
             editorPanel.AddChild(horline2);
 
-            lbObjects = UIManager.Instance.CreateStaticText(UIWidgetLocation.TL_NONE, "lbObjects", "Objects", ColourValue.Black);
+            lbObjects = UIManager.Instance.CurrentLayer.CreateStaticText(UIWidgetLocation.TL_NONE, "lbObjects", "Objects", ColourValue.Black);
             lbObjects.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             lbObjects.Left = 0.06f;
             lbObjects.Top = 0.02f + top;
             top = lbObjects.Top + lbObjects.Height;
             editorPanel.AddChild(lbObjects.OverlayElement);
 
-            lsvObjects = UIManager.Instance.CreateListView(UIWidgetLocation.TL_NONE, "lsvObjects", 0.3f, 0.22f, new List<string>()
+            lsvObjects = UIManager.Instance.CurrentLayer.CreateListView(UIWidgetLocation.TL_NONE, "lsvObjects", 0.3f, 0.22f, new List<string>()
             {
                 "ObjectName"
             });
@@ -209,7 +209,7 @@ namespace OpenMB.Screen
             top = lsvObjects.Top + lsvObjects.Height;
             editorPanel.AddChild(lsvObjects.OverlayElement);
 
-            btnAddObject = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnAddObject", "Add Object", 100);
+            btnAddObject = UIManager.Instance.CurrentLayer.CreateButton(UIWidgetLocation.TL_NONE, "btnAddObject", "Add Object", 100);
             btnAddObject.MetricMode = GuiMetricsMode.GMM_RELATIVE;
             btnAddObject.Left = 0.14f;
             btnAddObject.Top = 0.02f + top;

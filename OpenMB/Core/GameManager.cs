@@ -51,7 +51,6 @@ namespace OpenMB
         public Keyboard keyboard;
         public Mouse mouse;
         public static string LastStateName;
-        public event Action<float> Update;
         public LoadingData loadingData;
 		public Dictionary<string, object> GlobalValueTable;
         public bool IS_ENABLE_EDIT_MODE
@@ -110,6 +109,14 @@ namespace OpenMB
             loadingData = new LoadingData(LoadingType.NONE, null, null, null);
 			GlobalValueTable = new Dictionary<string, object>();
 		 }
+
+        public void Update(float timeSinceLastFrame)
+        {
+            ModManager.Instance.Update(timeSinceLastFrame);
+            UIManager.Instance.Update();
+            OutputManager.Instance.Update(timeSinceLastFrame);
+            SoundManager.Instance.Update(timeSinceLastFrame);
+        }
 
         public bool Init(string windowTitle, GameConfigXml gameOptions)
         {
@@ -264,11 +271,6 @@ namespace OpenMB
                 gameOptions.AudioConfig.EnableSound
             );
             
-            Update += modMgr.Update;
-            Update += outputMgr.Update;
-            Update += soundMgr.Update;
-            Update += uiMgr.Update;
-            
             return true;
         }
 
@@ -290,10 +292,6 @@ namespace OpenMB
 
         bool frameStarted(FrameEvent evt)
         {
-            if (Update != null)
-            {
-                Update(evt.timeSinceLastFrame);
-            }
             return true;
         }
 
@@ -302,10 +300,6 @@ namespace OpenMB
             LocateSystem.Instance.SaveLocateFile();
             log.LogMessage("Game Quit!");
             log.Dispose();
-        }
-
-        public void UpdateRender(double timeSinceLastFrame)
-        {
         }
 
         public bool keyPressed(KeyEvent key)
@@ -336,19 +330,19 @@ namespace OpenMB
 				renderWindow.WriteContentsToTimestampedFile("ScreenShot_", ".jpg");
 				outputMgr.DisplayMessage(string.Format(locateMgr.GetLocalizedString(LocateFileType.GameString, "str_screenshots_saved_to_{0}"), Environment.CurrentDirectory));
 			}
-			else if (keyCollection == KeyMapperManager.Instance.GetKeyCollection(GameKeyCode.ShowOgreLogo))
-			{
-				if (UIManager.Instance.isLogoVisible())
-				{
-					UIManager.Instance.HideFrameStats();
-					UIManager.Instance.hideLogo();
-				}
-				else
-				{
-					UIManager.Instance.showFrameStats(UIWidgetLocation.TL_BOTTOMLEFT);
-					UIManager.Instance.ShowLogo(UIWidgetLocation.TL_BOTTOMRIGHT);
-				}
-			}
+			//else if (keyCollection == KeyMapperManager.Instance.GetKeyCollection(GameKeyCode.ShowOgreLogo))
+			//{
+			//	if (UIManager.Instance.isLogoVisible())
+			//	{
+			//		UIManager.Instance.HideFrameStats();
+			//		UIManager.Instance.hideLogo();
+			//	}
+			//	else
+			//	{
+			//		UIManager.Instance.showFrameStats(UIWidgetLocation.TL_BOTTOMLEFT);
+			//		UIManager.Instance.ShowLogo(UIWidgetLocation.TL_BOTTOMRIGHT);
+			//	}
+			//}
 		}
 
 		public void ChangeState(EngineState newState)
