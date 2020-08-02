@@ -116,6 +116,26 @@ namespace OpenMB.UI.Widgets
 		}
 	}
 
+	public class PanelCell
+    {
+		private int row;
+		private int col;
+		private PanelWidget panel;
+		public int Row { get { return row; } }
+		public int Col { get { return col; } }
+		public PanelCell(int row, int col, PanelWidget panel)
+        {
+			this.row = row;
+			this.col = col;
+			this.panel = panel;
+        }
+
+		public void AddWidget(Widget widget)
+        {
+
+        }
+    }
+
 	/// <summary>
 	/// Panel Control
 	/// </summary>
@@ -253,8 +273,8 @@ namespace OpenMB.UI.Widgets
 		public virtual void AddWidget(int rowNum,
 			int colNum,
 			Widget widget,
-			AlignMode vAlign = AlignMode.Left,
 			AlignMode hAlign = AlignMode.Left,
+			AlignMode vAlign = AlignMode.Left,
 			DockMode dock = DockMode.None,
 			int rowSpan = 1,
 			int colSpan = 1)
@@ -333,7 +353,7 @@ namespace OpenMB.UI.Widgets
 				relativeLeft += cols[i].RealWidth;
 			}
 
-			widget.Left += RelativeToPixels(relativeLeft, float.Parse(GameManager.Instance.VideoMode["Width"]));
+			widget.Left += relativeLeft;
 			widget.Top += RelativeToPixels(relativeTop, float.Parse(GameManager.Instance.VideoMode["Height"]));
 
 			if (rowSpan > 1)
@@ -382,7 +402,6 @@ namespace OpenMB.UI.Widgets
 		{
 			widget.Col = colNum;
 			widget.Row = rowNum;
-			widget.Left += Padding.PaddingLeft;
 			widgets.Add(widget);
 
 			widget.Parent = this;
@@ -394,14 +413,18 @@ namespace OpenMB.UI.Widgets
 			switch (dock)
 			{
 				case DockMode.Fill:
-					widget.Height = r.RealHeight;
-					widget.Width = c.RealWidth;
+					widget.Height = r.RealHeight - (Padding.PaddingDown + Padding.PaddingTop);
+					widget.Width = c.RealWidth - (Padding.PaddingLeft + Padding.PaddingRight);
+					widget.Left += Padding.PaddingLeft;
+					widget.Top += Padding.PaddingTop;
 					break;
 				case DockMode.FillHeight:
-					widget.Height = r.RealHeight;
+					widget.Height = r.RealHeight - (Padding.PaddingDown + Padding.PaddingTop);
+					widget.Top += Padding.PaddingTop;
 					break;
 				case DockMode.FillWidth:
-					widget.Width = c.RealWidth;
+					widget.Width = c.RealWidth - (Padding.PaddingLeft + Padding.PaddingRight);
+					widget.Left += Padding.PaddingLeft;
 					break;
 				case DockMode.Center:
 					widget.Width = widget.Width * c.RealWidth;
@@ -454,16 +477,28 @@ namespace OpenMB.UI.Widgets
 			switch (hAlign)
 			{
 				case AlignMode.Center:
-					widget.Left = (c.RealWidth - widget.Width) / 2;
-					break;
-				case AlignMode.Right:
+					if (colNum == 1)
+					{
+						widget.Left = (c.RealWidth - widget.Width) / 2;
+					}
+                    else
+					{
+						widget.Left += (c.RealWidth - widget.Width) / 2;
+					}
 					break;
 			}
 
 			switch (vAlign)
 			{
 				case AlignMode.Center:
-					widget.Top += (r.RealHeight - widget.Height) / 2;
+					if (rowNum == 1)
+					{
+						widget.Top = (r.RealHeight - widget.Height) / 2;
+					}
+                    else
+					{
+						widget.Top += (r.RealHeight - widget.Height) / 2;
+					}
 					break;
 			}
 			widget.AddedToAnotherWidgetFinished(hAlign, relativeLeft, c.RealWidth, relativeTop, r.RealHeight);

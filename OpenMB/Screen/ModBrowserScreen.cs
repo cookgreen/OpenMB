@@ -22,7 +22,6 @@ namespace OpenMB.Screen
 		private const int BROWSER_PAGE_SHOW_NUMBER = 20;
 
         public override event Action<string, string> OnScreenEventChanged;
-		public override event Action OnScreenExit;
 
 		public override string Name
 		{
@@ -72,27 +71,7 @@ namespace OpenMB.Screen
 					JToken token = jarr[i];
 					Mod mod = token.ToObject(typeof(Mod)) as Mod;
 
-					PanelWidget modPreviewWidget = new PanelWidget("mod_panel_" + mod.name_id, 0, 0.3f, 0, 0, 2, 1, true);
-					modPreviewWidget.ChangeRow(UI.ValueType.Percent, 100);
-					modPreviewWidget.ChangeRow(UI.ValueType.Abosulte, 0.5f, 2);
-
-					browserMainPanel.ChangeRow(UI.ValueType.Abosulte, modPreviewWidget.Height, currentRow);
-					browserMainPanel.AddWidget(currentRow, currentCol, modPreviewWidget, AlignMode.Center, AlignMode.Center, DockMode.Fill);
-
-					PanelMaterialWidget pictureWidget = new PanelMaterialWidget("mod_pic_" + mod.name_id, "error.png");
-					modPreviewWidget.AddWidget(1, 1, pictureWidget, AlignMode.Center, AlignMode.Center, DockMode.Fill);
-
-					PanelWidget modInfoWidget = new PanelWidget("mod_info_panel_" + mod.name_id, 0, 0, 0, 0, 1, 2, false);
-					modInfoWidget.ChangeCol(UI.ValueType.Percent, 100);
-					modInfoWidget.ChangeCol(UI.ValueType.Abosulte, 0.2f, 2);
-
-					modPreviewWidget.AddWidget(2, 1, modInfoWidget);
-
-					StaticTextRelativeWidget modNameWidget = new StaticTextRelativeWidget("mod_text_" + mod.name_id, mod.name, 0.2f, false, new Mogre.ColourValue());
-					modInfoWidget.AddWidget(1, 1, modNameWidget, AlignMode.Left, AlignMode.Center);
-
-					ButtonWidget btnModSubscribeWidget = new ButtonWidget("btnModSubscribeWidget_" + mod.name_id, "Subscribe", 100f);
-					modInfoWidget.AddWidget(1, 2, btnModSubscribeWidget, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+					CreateModCard(mod, currentRow, currentCol);
 
 					modList.Add(mod.name_id, mod);
 
@@ -108,5 +87,35 @@ namespace OpenMB.Screen
 				txtMessage.Text = "No mods found!";
 			}
         }
+
+		private void CreateModCard(Mod mod, int currentRow, int currentCol)
+		{
+			PanelWidget modPreviewWidget = new PanelWidget("mod_panel_" + mod.name_id, 0, 0.3f, 0, 0, 2, 1, false);
+			modPreviewWidget.ChangeRow(UI.ValueType.Percent, 100);
+			modPreviewWidget.ChangeRow(UI.ValueType.Abosulte, 0.5f, 2);
+			modPreviewWidget.Material = "SdkTrays/MiniTray";
+
+			browserMainPanel.ChangeRow(UI.ValueType.Abosulte, modPreviewWidget.Height, currentRow);
+			browserMainPanel.AddWidget(currentRow, currentCol, modPreviewWidget, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+
+			PanelMaterialWidget pictureWidget = new PanelMaterialWidget("mod_pic_" + mod.name_id, "error.png");
+			modPreviewWidget.AddWidget(1, 1, pictureWidget, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+
+			PanelWidget modInfoWidget = new PanelWidget("mod_info_panel_" + mod.name_id, 0, 0, 0, 0, 1, 2, false);
+			modInfoWidget.ChangeCol(UI.ValueType.Percent, 100);
+			modInfoWidget.ChangeCol(UI.ValueType.Abosulte, 0.2f, 2);
+
+			modPreviewWidget.AddWidget(2, 1, modInfoWidget);
+
+			StaticTextRelativeWidget modNameWidget = new StaticTextRelativeWidget("mod_text_" + mod.name_id, mod.name, 0.2f, false, new Mogre.ColourValue());
+			modInfoWidget.AddWidget(1, 1, modNameWidget, AlignMode.Left, AlignMode.Center);
+
+			ButtonWidget btnModSubscribeWidget = new ButtonWidget("btnModSubscribeWidget_" + mod.name_id, "Subscribe", 100f);
+			btnModSubscribeWidget.OnClick += (o) =>
+			{
+				OnScreenEventChanged?.Invoke(btnModSubscribeWidget.Name, null);
+			};
+			modInfoWidget.AddWidget(1, 2, btnModSubscribeWidget, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
+		}
     }
 }

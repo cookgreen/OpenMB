@@ -102,12 +102,6 @@ namespace OpenMB.UI
 		protected float trayPadding = 0f; // tray padding
 		protected bool trayDrag; // a mouse press was initiated on a tray
 		protected SelectMenuWidget expandedMenu; // top priority expanded menu widget
-
-        internal void HideCursor()
-        {
-            throw new NotImplementedException();
-        }
-
         protected StaticMultiLineTextBoxWidget dialog; // top priority dialog widget
 		protected OverlayContainer dialogShade; // top priority dialog shade
 		protected ButtonWidget ok; // top priority OK button
@@ -212,6 +206,10 @@ namespace OpenMB.UI
 			AdjustTrays();
 
 			ShowTrays();
+		}
+
+		internal void HideCursor()
+		{
 		}
 
 		/// <summary>
