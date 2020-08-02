@@ -17,6 +17,56 @@ material Engine/Base
     }
 }
 
+material Engine/Button/Up : Engine/Base
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture sdk_button_up.png
+            }
+        }
+    }
+}
+
+material Engine/Button/Over : Engine/Base
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture sdk_button_over.png
+            }
+			
+		    texture_unit
+			{
+			    texture sdk_pulse.png
+			    colour_op add
+				scroll_anim 1 0
+				scale 100 1
+			}
+        }
+    }
+}
+
+material Engine/Button/Down : Engine/Base
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture sdk_button_down.png
+            }
+        }
+    }
+}
+
 material Engine/Cursor/Edit : Engine/Base
 {
     technique

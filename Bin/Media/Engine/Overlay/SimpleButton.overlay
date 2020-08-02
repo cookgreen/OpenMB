@@ -1,0 +1,19 @@
+template container BorderPanel(SimpleButton)
+{
+	material Engine/Button/Up
+	uv_coords 0.375 0.375 0.625 0.625
+	width 0.3
+	height 1
+	left 0.7
+	top 0
+	border_material Engine/Button/Up
+	border_size 0.01 0.01 0.01 0.01
+	border_topleft_uv     0.000 0.000 0.375 0.375
+	border_top_uv         0.375 0.000 0.625 0.375
+	border_topright_uv    0.625 0.000 1.000 0.375
+	border_left_uv        0.000 0.375 0.375 0.625
+	border_right_uv       0.625 0.375 1.000 0.625
+	border_bottomleft_uv  0.000 0.625 0.375 1.000
+	border_bottom_uv      0.375 0.625 0.625 1.000
+	border_bottomright_uv 0.625 0.625 1.000 1.000
+}

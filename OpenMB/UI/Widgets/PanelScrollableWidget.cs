@@ -81,13 +81,9 @@ namespace OpenMB.UI.Widgets
 				}
 				Scrolled?.Invoke();
 			}
-		}
-
-		public override void CursorMoved(Vector2 cursorPos)
-		{
-			foreach (var v in visualWidgets)
+			foreach (var widget in visualWidgets)
 			{
-				v.CursorMoved(cursorPos);
+				widget.MouseMoved(mouseEvent);
 			}
 		}
 

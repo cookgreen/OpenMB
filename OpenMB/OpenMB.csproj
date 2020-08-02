@@ -379,6 +379,7 @@
     <Compile Include="Terrain\TerrainData.cs" />
     <Compile Include="Terrain\TerrainGenerator.cs" />
     <Compile Include="UI\Common.cs" />
+    <Compile Include="UI\Widgets\SimpleButtonWidget.cs" />
     <Compile Include="UI\Widgets\TextWidget.cs" />
     <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerExecuteSrciptCommand.cs" />

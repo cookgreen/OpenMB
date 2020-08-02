@@ -102,20 +102,20 @@ namespace OpenMB.Screen
 			modPreviewWidget.AddWidget(1, 1, pictureWidget, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 
 			PanelWidget modInfoWidget = new PanelWidget("mod_info_panel_" + mod.name_id, 0, 0, 0, 0, 1, 2, false);
-			modInfoWidget.ChangeCol(UI.ValueType.Percent, 100);
-			modInfoWidget.ChangeCol(UI.ValueType.Abosulte, 0.2f, 2);
+			modInfoWidget.ChangeCol(UI.ValueType.Percent, 80);
+			modInfoWidget.ChangeCol(UI.ValueType.Percent, 20, 2);
 
 			modPreviewWidget.AddWidget(2, 1, modInfoWidget);
 
 			StaticTextRelativeWidget modNameWidget = new StaticTextRelativeWidget("mod_text_" + mod.name_id, mod.name, 0.2f, false, new Mogre.ColourValue());
 			modInfoWidget.AddWidget(1, 1, modNameWidget, AlignMode.Left, AlignMode.Center);
 
-			ButtonWidget btnModSubscribeWidget = new ButtonWidget("btnModSubscribeWidget_" + mod.name_id, "Subscribe", 100f);
+			SimpleButtonWidget btnModSubscribeWidget = new SimpleButtonWidget("btnModSubscribeWidget_" + mod.name_id, "Subscribe", 0.2f);
 			btnModSubscribeWidget.OnClick += (o) =>
 			{
 				OnScreenEventChanged?.Invoke(btnModSubscribeWidget.Name, null);
 			};
-			modInfoWidget.AddWidget(1, 2, btnModSubscribeWidget, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
+			modInfoWidget.AddWidget(1, 2, btnModSubscribeWidget, AlignMode.Center, AlignMode.Center);
 		}
     }
 }

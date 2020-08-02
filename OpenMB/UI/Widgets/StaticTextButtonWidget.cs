@@ -23,36 +23,21 @@ namespace OpenMB.UI.Widgets
 		public override float Height { get { return TextHeight; } }
 		public float TextWidth
 		{
-			get
-			{
-				return GetCaptionWidth(Text, ref mTextArea);
-			}
+			get { return GetCaptionWidth(Text, ref mTextArea); }
 		}
 		public float TextHeight
 		{
-			get
-			{
-				return GetCaptionHeight(Text, ref mTextArea);
-			}
+			get { return GetCaptionHeight(Text, ref mTextArea); }
 		}
 
 		public string Text
 		{
-			get
-			{
-				return mTextArea.Caption;
-			}
-			set
-			{
-				mTextArea.Caption = value;
-			}
+			get { return mTextArea.Caption; }
+			set { mTextArea.Caption = value; }
 		}
 		public TextAreaOverlayElement TextElement
 		{
-			get
-			{
-				return mTextArea;
-			}
+			get { return mTextArea; }
 		}
 		public StaticTextButton(string name, string caption, ColourValue normalStateColor, ColourValue activeStateColor, bool specificColor = false)
 		{
