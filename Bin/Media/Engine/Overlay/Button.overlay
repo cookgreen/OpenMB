@@ -1,0 +1,26 @@
+template container BorderPanel(Engine/Button)
+{
+	metrics_mode relative
+	material SdkTrays/Button/Up
+	horz_align center
+	height 0.32
+	uv_coords 0.0145 0.000 0.0855 0.1000
+	
+	border_material SdkTrays/Button/Up
+	border_size 0.05 0.05 0 0
+	border_left_uv  0.000 0.000 0.0125 0.1000
+	border_right_uv 0.0875 0.000 0.1000 0.1000
+
+	element TextArea(EngineButtonCaption)
+	{
+        metrics_mode relative
+        horz_align center
+        vert_align center
+        alignment center
+        font_name EngineFont
+		top 0
+        char_height 0.025
+        space_width 0.02
+        colour 0 0 0
+	}
+}

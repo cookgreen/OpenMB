@@ -1,7 +1,7 @@
 ﻿using Mogre;
 using OpenMB.Game;
-using OpenMB.Widgets;
-using ValueType = OpenMB.Widgets.ValueType;
+using OpenMB.UI;
+using OpenMB.UI.Widgets;
 
 namespace OpenMB.Screen
 {
@@ -53,7 +53,7 @@ namespace OpenMB.Screen
 			btnTerrain.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnTerrain.Top = 0.025f;
 			btnTerrain.OnClick += BtnTerrain_OnClick;
-			gameMainPanel.AddWidget(1, 1, btnTerrain, AlignMode.Left, DockMode.FillWidth);
+			gameMainPanel.AddWidget(1, 1, btnTerrain, AlignMode.Left, AlignMode.Center, DockMode.FillWidth);
 			if (!GameManager.Instance.IS_ENABLE_EDIT_MODE)
 			{
 				btnTerrain.Hide();
@@ -69,7 +69,7 @@ namespace OpenMB.Screen
 			btnReports.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnReports.OnClick += BtnReports_OnClick;
 			btnReports.Top = 0.025f;
-			gameMainPanel.AddWidget(1, 3, btnReports, AlignMode.Left, DockMode.FillWidth);
+			gameMainPanel.AddWidget(1, 3, btnReports, AlignMode.Left, AlignMode.Center, DockMode.FillWidth);
 
 			btnNotes = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnNotes", "Notes", 150);
 			btnNotes.MetricMode = GuiMetricsMode.GMM_RELATIVE;
@@ -81,7 +81,7 @@ namespace OpenMB.Screen
 			btnInventory.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnInventory.Top = 0.025f;
 			btnInventory.OnClick += BtnInventory_OnClick;
-			gameMainPanel.AddWidget(1, 5, btnInventory, AlignMode.Left, DockMode.FillWidth);
+			gameMainPanel.AddWidget(1, 5, btnInventory, AlignMode.Left, AlignMode.Center, DockMode.FillWidth);
 
 			btnCharacter = UIManager.Instance.CreateButton(UIWidgetLocation.TL_NONE, "btnCharacter", "Characters", 150);
 			btnCharacter.MetricMode = GuiMetricsMode.GMM_RELATIVE;
@@ -93,7 +93,7 @@ namespace OpenMB.Screen
 			btnParty.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnParty.Top = 0.025f;
 			btnParty.OnClick += BtnParty_OnClick;
-			gameMainPanel.AddWidget(1, 7, btnParty, AlignMode.Left, DockMode.FillWidth);
+			gameMainPanel.AddWidget(1, 7, btnParty, AlignMode.Left, AlignMode.Center, DockMode.FillWidth);
 
 			txtCurrentDate = UIManager.Instance.CreateStaticText("gameDate", TimerManager.Instance.GetDate());
 			txtCurrentTime = UIManager.Instance.CreateStaticText("gameTime", TimerManager.Instance.CurrentTime.ToString());

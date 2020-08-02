@@ -41,8 +41,9 @@ using OpenMB.Localization;
 using OpenMB.Core;
 using MOIS;
 using System.Numerics;
+using OpenMB.UI.Widgets;
 
-namespace OpenMB.Widgets
+namespace OpenMB.UI
 {
 	public class UIEvent
 	{
@@ -1393,7 +1394,6 @@ namespace OpenMB.Widgets
 
 		public UIEvent InjectMouseUp(MOIS.MouseEvent evt, MOIS.MouseButtonID id, Mogre.Vector2 cursorPos)
 		{
-
 			if (expandedMenu != null) // only check top priority widget until it passes on
 			{
 				expandedMenu.CursorReleased(cursorPos);

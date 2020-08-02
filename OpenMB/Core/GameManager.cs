@@ -12,7 +12,7 @@ using OpenMB.Screen;
 using OpenMB.Sound;
 using OpenMB.States;
 using OpenMB.Utilities;
-using OpenMB.Widgets;
+using OpenMB.UI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -87,8 +87,8 @@ namespace OpenMB
             }
         }
 
-        public NameValuePairList videoMode;
-        
+        public NameValuePairList VideoMode { get; set; }
+
 
         public GameManager()
         {
@@ -103,7 +103,7 @@ namespace OpenMB
             mouse = null;
             appStateMgr = null;
             soundMgr = null;
-            videoMode = new NameValuePairList();
+            VideoMode = new NameValuePairList();
             isEditMode = false;
             isCheatMode = false;
             loadingData = new LoadingData(LoadingType.NONE, null, null, null);
@@ -158,8 +158,8 @@ namespace OpenMB
                 string strVideoMode =  Regex.Match(
                     videModeRenderParam.Value, 
                     "[0-9]{3,4} x [0-9]{3,4}").Value;
-                videoMode["Width"] = strVideoMode.Split('x')[0].Trim();
-                videoMode["Height"] = strVideoMode.Split('x')[1].Trim();
+                VideoMode["Width"] = strVideoMode.Split('x')[0].Trim();
+                VideoMode["Height"] = strVideoMode.Split('x')[1].Trim();
             }
 
             var ogreConfigMap = rs.GetConfigOptions();
@@ -251,8 +251,8 @@ namespace OpenMB
         {
             renderWindow.SetFullscreen(
                 !renderWindow.IsFullScreen,
-                Convert.ToUInt32(videoMode["Width"]),
-                Convert.ToUInt32(videoMode["Height"])
+                Convert.ToUInt32(VideoMode["Width"]),
+                Convert.ToUInt32(VideoMode["Height"])
             );
         }
 

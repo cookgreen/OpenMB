@@ -378,6 +378,7 @@
     <Compile Include="Script\Command\SwitchScriptCommand.cs" />
     <Compile Include="Terrain\TerrainData.cs" />
     <Compile Include="Terrain\TerrainGenerator.cs" />
+    <Compile Include="UI\Common.cs" />
     <Compile Include="UI\Widgets\TextWidget.cs" />
     <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />
     <Compile Include="Script\Command\TriggerExecuteSrciptCommand.cs" />
@@ -449,7 +450,6 @@
     <Compile Include="UI\Widgets\CheckBoxWidget.cs" />
     <Compile Include="UI\Widgets\Control.cs" />
     <Compile Include="UI\Widgets\InputBoxWidget.cs" />
-    <Compile Include="UI\Widgets\GameTrayManager.cs" />
     <Compile Include="UI\IHasSubItems.cs" />
     <Compile Include="UI\IHasSubWidgets.cs" />
     <Compile Include="Mods\Interfaces\IInitializeMod.cs" />

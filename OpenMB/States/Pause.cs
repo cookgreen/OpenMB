@@ -8,7 +8,8 @@ using OpenMB.Localization;
 using OpenMB.Sound;
 using OpenMB.Utilities;
 using OpenMB.Mods;
-using OpenMB.Widgets;
+using OpenMB.UI;
+using OpenMB.UI.Widgets;
 
 namespace OpenMB.States
 {

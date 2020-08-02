@@ -8,7 +8,8 @@ using MOIS;
 using OpenMB.Localization;
 using OpenMB.Mods;
 using OpenMB.Screen;
-using OpenMB.Widgets;
+using OpenMB.UI;
+using OpenMB.UI.Widgets;
 
 namespace OpenMB.States
 {

@@ -13,7 +13,7 @@ using OpenMB.Mods.XML;
 using OpenMB.Script;
 using OpenMB.Script.Command;
 using OpenMB.Screen;
-using OpenMB.Widgets;
+using OpenMB.UI;
 using OpenMB.Sound;
 
 namespace OpenMB.Mods

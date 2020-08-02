@@ -1,5 +1,5 @@
 ﻿using Mogre;
-using OpenMB.Widgets;
+using OpenMB.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace OpenMB.Widgets
+﻿namespace OpenMB.UI.Widgets
 {
 	public class TextWidget : Widget
 	{

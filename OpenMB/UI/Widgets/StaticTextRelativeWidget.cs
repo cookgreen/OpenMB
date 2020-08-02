@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenMB.Widgets
+namespace OpenMB.UI.Widgets
 {
-	public class StaticTextRelative : Widget
+	public class StaticTextRelativeWidget : Widget
 	{
 		protected TextAreaOverlayElement mTextArea;
 		protected bool mFitToTray;
@@ -48,7 +48,7 @@ namespace OpenMB.Widgets
 			}
 		}
 
-		public StaticTextRelative(string name, string caption, float width, bool specificColor, ColourValue color, float fontSize = 100)
+		public StaticTextRelativeWidget(string name, string caption, float width, bool specificColor, ColourValue color, float fontSize = 100)
 		{
 			OverlayManager overlayMgr = OverlayManager.Singleton;
 			element = overlayMgr.CreateOverlayElement("BorderPanel", name);
@@ -59,7 +59,7 @@ namespace OpenMB.Widgets
 			mTextArea.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
 			mTextArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
 			mTextArea.SetAlignment(TextAreaOverlayElement.Alignment.Left);
-			mTextArea.Top = 0.01f;
+			mTextArea.Top = 0f;
 			mTextArea.FontName = "EngineFont";
 			mTextArea.CharHeight = 0.025f * (fontSize / (float)100);
 			mTextArea.SpaceWidth = 0.02f;

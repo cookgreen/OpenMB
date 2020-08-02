@@ -6,7 +6,7 @@ using Mogre;
 using Mogre_Procedural.MogreBites;
 using MOIS;
 
-namespace OpenMB.Widgets
+namespace OpenMB.UI.Widgets
 {
     public class InputBoxWidget : TextWidget
 	{

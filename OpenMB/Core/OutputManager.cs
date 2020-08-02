@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using OpenMB.Utilities;
-using OpenMB.Widgets;
+using OpenMB.UI;
 
 namespace OpenMB.Core
 {

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Mogre_Procedural.MogreBites;
-using OpenMB.Widgets;
+using OpenMB.UI;
 using OpenMB.Mods.XML;
 using OpenMB.Script;
 using OpenMB.Game;
+using OpenMB.UI.Widgets;
 
 namespace OpenMB.Screen
 {
@@ -63,8 +64,8 @@ namespace OpenMB.Screen
 				menuData = world.GlobalVariableTable["menuData"] as ModMenuDfnXml;
 
 				menuMainPanel = UIManager.Instance.CreatePanel("menuMainPanel");
-				menuMainPanel.AddRow(Widgets.ValueType.Percent);
-				menuMainPanel.AddCol(Widgets.ValueType.Percent);
+				menuMainPanel.AddRow(UI.ValueType.Percent);
+				menuMainPanel.AddCol(UI.ValueType.Percent);
 
 				menuTitle = UIManager.Instance.CreateStaticText("menuStaticText", menuData.Title);
 				menuTitle.MetricMode = Mogre.GuiMetricsMode.GMM_RELATIVE;
@@ -72,11 +73,11 @@ namespace OpenMB.Screen
 				menuMainPanel.AddWidget(1, 1, menuTitle, AlignMode.Center);
 
 				menuItemsPanel = UIManager.Instance.CreatePanel("menuItemsPanel", 0.5f, 0.5f, 0, 0);
-				menuMainPanel.AddWidget(2, 1, menuItemsPanel, AlignMode.Left, DockMode.Fill);
+				menuMainPanel.AddWidget(2, 1, menuItemsPanel, AlignMode.Left, AlignMode.Center, DockMode.Fill);
 
 				foreach (var menu in menuData.Children)
 				{
-					menuItemsPanel.AddRow(Widgets.ValueType.Abosulte, 0.05f);
+					menuItemsPanel.AddRow(UI.ValueType.Abosulte, 0.05f);
 				}
 
 				int row = 2;

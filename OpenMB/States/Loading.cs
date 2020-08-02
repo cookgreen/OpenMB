@@ -6,7 +6,8 @@ using OpenMB.Mods;
 using Mogre;
 using Mogre_Procedural.MogreBites;
 using OpenMB.Localization;
-using OpenMB.Widgets;
+using OpenMB.UI;
+using OpenMB.UI.Widgets;
 
 namespace OpenMB.States
 {

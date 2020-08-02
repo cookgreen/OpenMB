@@ -4,7 +4,7 @@ using Mogre;
 using Mogre_Procedural.MogreBites;
 using OpenMB.Mods;
 using OpenMB.Network;
-using OpenMB.Widgets;
+using OpenMB.UI;
 
 namespace OpenMB.States
 {
@@ -14,7 +14,6 @@ namespace OpenMB.States
         private GameServer thisServer;
         private Dictionary<string, string> option;
         private StringVector serverState;
-        private ParamsPanelWidget serverpanel;
         private bool isEscapeMenuOpened;
 
         public Multiplayer()
@@ -89,8 +88,6 @@ namespace OpenMB.States
                 else
                 {
                     UIManager.Instance.DestroyAllWidgets();
-                    this.serverpanel = UIManager.Instance.CreateParamsPanel(UIWidgetLocation.TL_CENTER, "serverpanel", 400f, this.serverState);
-                    this.isEscapeMenuOpened = false;
                 }
             }
             return true;
@@ -113,8 +110,6 @@ namespace OpenMB.States
             {
                 thisServer.Update();
                 thisServer.GetServerState(ref serverState);
-                if(!isEscapeMenuOpened)
-                    serverpanel.SetAllParamValues(serverState);
             }
         }
 

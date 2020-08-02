@@ -15,9 +15,10 @@ using OpenMB.Mods;
 using OpenMB.Utilities;
 using OpenMB.Trigger;
 using OpenMB.Map;
-using OpenMB.Widgets;
+using OpenMB.UI;
 using OpenMB.States;
 using OpenMB.Render;
+using OpenMB.UI.Widgets;
 
 namespace OpenMB.Game
 {
@@ -40,8 +41,6 @@ namespace OpenMB.Game
         private Dictionary<string, string> globalVarMap;
         private ScriptLinkTable globalValueTable;
 		private Dictionary<string, object> globalVariableTable;
-
-		private ProgressBarWidget pbProgressBar;
         
         private Physics physics;
         private Scene physicsScene;
@@ -405,13 +404,6 @@ namespace OpenMB.Game
 		internal List<Tuple<string, string, int>> GetTeamRelationshipByCondition(Func<Tuple<string, string, int>, bool> func)
 		{
 			return teamRelationship.Where(func).ToList();
-		}
-
-		private void CreateLoadingScreen(string text)
-		{
-			UIManager.Instance.DestroyAllWidgets();
-			pbProgressBar = UIManager.Instance.CreateProgressBar(UIWidgetLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
-			pbProgressBar.setComment(text);
 		}
 
 		public void RemoveGameObject(string objectID, GameObject owner)

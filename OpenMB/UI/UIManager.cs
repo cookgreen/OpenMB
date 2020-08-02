@@ -9,9 +9,10 @@ using OpenMB.Core;
 using OpenMB.Mods;
 using OpenMB.Mods.XML;
 using OpenMB.States;
+using OpenMB.UI.Widgets;
 using InputContext = MOIS.Mouse;
 
-namespace OpenMB.Widgets
+namespace OpenMB.UI
 {
     public class UIManager : IDisposable
 	{

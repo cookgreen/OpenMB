@@ -3,9 +3,10 @@ using Mogre_Procedural.MogreBites;
 using MOIS;
 using OpenMB.Map;
 using OpenMB.Utilities;
-using OpenMB.Widgets;
+using OpenMB.UI;
 using System;
 using System.Collections.Generic;
+using OpenMB.UI.Widgets;
 
 namespace OpenMB.Screen
 {

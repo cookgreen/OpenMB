@@ -7,7 +7,7 @@ using MOIS;
 using Mogre_Procedural.MogreBites;
 using OpenMB.Mods;
 using OpenMB.Localization;
-using OpenMB.Widgets;
+using OpenMB.UI;
 
 namespace OpenMB.States
 {

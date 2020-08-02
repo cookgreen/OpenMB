@@ -5,7 +5,8 @@ using OpenMB.Game;
 using OpenMB.Mods;
 using OpenMB.Mods.XML;
 using OpenMB.Script;
-using OpenMB.Widgets;
+using OpenMB.UI;
+using OpenMB.UI.Widgets;
 
 namespace OpenMB.Screen
 {

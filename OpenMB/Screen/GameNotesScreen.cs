@@ -4,13 +4,14 @@ using OpenMB.Core;
 using OpenMB.Game;
 using OpenMB.Mods.XML;
 using OpenMB.Utilities;
-using OpenMB.Widgets;
+using OpenMB.UI;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenMB.UI.Widgets;
 
 namespace OpenMB.Screen
 {
@@ -52,14 +53,14 @@ namespace OpenMB.Screen
 			btnLocations.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnFactions.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			btnReturn.MetricMode = GuiMetricsMode.GMM_RELATIVE;
-			panel.AddWidget(1, 1, btnGameLog, AlignMode.Center, DockMode.FillWidth);
-			panel.AddWidget(1, 2, btnRecentMessage, AlignMode.Center, DockMode.FillWidth);
-			panel.AddWidget(1, 3, btnNotes, AlignMode.Center, DockMode.FillWidth);
-			panel.AddWidget(1, 4, btnGameConcepts, AlignMode.Center, DockMode.FillWidth);
-			panel.AddWidget(1, 5, btnCharacters, AlignMode.Center, DockMode.FillWidth);
-			panel.AddWidget(1, 6, btnLocations, AlignMode.Center, DockMode.FillWidth);
-			panel.AddWidget(1, 7, btnFactions, AlignMode.Center, DockMode.FillWidth);
-			panel.AddWidget(1, 8, btnReturn, AlignMode.Center, DockMode.FillWidth);
+			panel.AddWidget(1, 1, btnGameLog, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
+			panel.AddWidget(1, 2, btnRecentMessage, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
+			panel.AddWidget(1, 3, btnNotes, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
+			panel.AddWidget(1, 4, btnGameConcepts, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
+			panel.AddWidget(1, 5, btnCharacters, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
+			panel.AddWidget(1, 6, btnLocations, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
+			panel.AddWidget(1, 7, btnFactions, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
+			panel.AddWidget(1, 8, btnReturn, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
 			btnGameLog.OnClick += BtnGameLog_OnClick;
 			btnRecentMessage.OnClick += BtnRecentMessage_OnClick;
 			btnNotes.OnClick += BtnNotes_OnClick;
@@ -82,8 +83,8 @@ namespace OpenMB.Screen
 			ClearAllWidgets();
 
 			PanelWidget panelFactionList = UIManager.Instance.CreatePanel("panelFactionList", 0.3f, 0.92f, 0.7f, 0);
-			panelFactionList.ChangeRow(Widgets.ValueType.Abosulte, 0.05f);
-			panelFactionList.AddRow(Widgets.ValueType.Percent);
+			panelFactionList.ChangeRow(UI.ValueType.Abosulte, 0.05f);
+			panelFactionList.AddRow(UI.ValueType.Percent);
 			panelFactionList.Padding.PaddingLeft = 0.01f;
 			panelFactionList.Padding.PaddingRight = 0.01f;
 
@@ -91,10 +92,10 @@ namespace OpenMB.Screen
 			txtFactionsTitle.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			panelFactionList.AddWidget(1, 1, txtFactionsTitle, AlignMode.Center);
 			PanelScrollableWidget panelFactions = UIManager.Instance.CreateScrollablePanel("panelFactions", 1, 1, 0, 0, 1, 1, false);
-			panelFactionList.AddWidget(2, 1, panelFactions, AlignMode.Center, DockMode.Fill);
+			panelFactionList.AddWidget(2, 1, panelFactions, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 
-			panelFactions.ChangeRow(Widgets.ValueType.Abosulte, 0.03f);
-			panelFactions.AddRows(world.ModData.SideInfos.Count - 1, Widgets.ValueType.Abosulte, 0.03f);
+			panelFactions.ChangeRow(UI.ValueType.Abosulte, 0.03f);
+			panelFactions.AddRows(world.ModData.SideInfos.Count - 1, UI.ValueType.Abosulte, 0.03f);
 			int curRow = 1;
 
 			widgets.Add(txtFactionsTitle);
@@ -113,7 +114,7 @@ namespace OpenMB.Screen
 					var btnFaction = new StaticTextButton("txtFaction_" + sideInfo.Name, GameString.FromString(sideInfo.ID, sideInfo.Name).ToString(), 
 						(Color.FromArgb(36, 35, 191).ToColourValue()), 
 						ColourValue.Black, true);
-					panelFactions.AddWidgetRelative(curRow, 1, btnFaction);
+					panelFactions.AddWidget(curRow, 1, btnFaction);
 					btnFaction.UserData = sideInfo;
 					btnFaction.OnClick += (evtObj) =>
 					{
@@ -129,42 +130,42 @@ namespace OpenMB.Screen
 			ClearSubWidgets();
 
 			PanelScrollableWidget panelFactionDetails = UIManager.Instance.CreateScrollablePanel("panelFactionDetails", 0.7f, 0.92f);
-			panelFactionDetails.ChangeRow(Widgets.ValueType.Abosulte, 0.03f);//next/prev
-			panelFactionDetails.AddRow(Widgets.ValueType.Abosulte, 0.05f);//faction name
-			panelFactionDetails.AddRow(Widgets.ValueType.Auto);//faction mesh
-			panelFactionDetails.AddRow(Widgets.ValueType.Abosulte, 0.03f);//ruler
-			panelFactionDetails.AddRow(Widgets.ValueType.Auto);//faction occupy lands
-			panelFactionDetails.AddRow(Widgets.ValueType.Auto);//faction vassals
-			panelFactionDetails.AddRow(Widgets.ValueType.Abosulte, 0.03f);//empty row
-			panelFactionDetails.AddRow(Widgets.ValueType.Abosulte, 0.03f);//foreign relations
+			panelFactionDetails.ChangeRow(UI.ValueType.Abosulte, 0.03f);//next/prev
+			panelFactionDetails.AddRow(UI.ValueType.Abosulte, 0.05f);//faction name
+			panelFactionDetails.AddRow(UI.ValueType.Auto);//faction mesh
+			panelFactionDetails.AddRow(UI.ValueType.Abosulte, 0.03f);//ruler
+			panelFactionDetails.AddRow(UI.ValueType.Auto);//faction occupy lands
+			panelFactionDetails.AddRow(UI.ValueType.Auto);//faction vassals
+			panelFactionDetails.AddRow(UI.ValueType.Abosulte, 0.03f);//empty row
+			panelFactionDetails.AddRow(UI.ValueType.Abosulte, 0.03f);//foreign relations
 			panelFactionDetails.Padding.PaddingLeft = 0.01f;
 
-			StaticTextRelative txtFactionName = new StaticTextRelative("txtFactionName", GameString.FromString(sideInfo.ID, sideInfo.Name).ToString(), 0, false, ColourValue.Black, 150);
-			panelFactionDetails.AddWidgetRelative(2, 1, txtFactionName, AlignMode.Center);
+			StaticTextRelativeWidget txtFactionName = new StaticTextRelativeWidget("txtFactionName", GameString.FromString(sideInfo.ID, sideInfo.Name).ToString(), 0, false, ColourValue.Black, 150);
+			panelFactionDetails.AddWidget(2, 1, txtFactionName, AlignMode.Center);
 
 			PanelMaterialWidget coatOfArmsPanel = new PanelMaterialWidget("coatOfArmsPanel", sideInfo.COA);
 			coatOfArmsPanel.Width = 0.3f;
 			coatOfArmsPanel.Height = 0.3f;
-			panelFactionDetails.AddWidgetRelative(3, 1, coatOfArmsPanel, AlignMode.Center, AlignMode.Center, DockMode.Center);
+			panelFactionDetails.AddWidget(3, 1, coatOfArmsPanel, AlignMode.Center, AlignMode.Center, DockMode.Center);
 
 			string chaID = GameSlotManager.Instance.GetSlot(sideInfo.ID, "slot_faction_leader");
 			var chaData = world.ModData.CharacterInfos.Where(o => o.ID == chaID).FirstOrDefault();
 
 			GameRegisterManager.Instance.SetRegisterValue("reg0", GameString.FromString(sideInfo.ID, sideInfo.Name).ToString());
 			GameRegisterManager.Instance.SetRegisterValue("reg1", GameString.FromString(chaData.ID, chaData.Name).ToString());
-			StaticTextRelative txtFactionRulerInfo = new StaticTextRelative("txtFactionRulerInfo", GameString.FromString("@{reg0} is ruled by {reg1}").ToString(),0, false, ColourValue.Black);
+			StaticTextRelativeWidget txtFactionRulerInfo = new StaticTextRelativeWidget("txtFactionRulerInfo", GameString.FromString("@{reg0} is ruled by {reg1}").ToString(),0, false, ColourValue.Black);
 			txtFactionRulerInfo.Width = txtFactionName.TextWidth;
 			txtFactionRulerInfo.Height = txtFactionName.TextHeight;
-			panelFactionDetails.AddWidgetRelative(4, 1, txtFactionRulerInfo);
+			panelFactionDetails.AddWidget(4, 1, txtFactionRulerInfo);
 
-			StaticTextRelative txtOccupiedLands = new StaticTextRelative("txtOccupiedLands", GameString.FromString("@It occupies none").ToString(), 0, false, ColourValue.Black);
-			panelFactionDetails.AddWidgetRelative(5, 1, txtOccupiedLands);
+			StaticTextRelativeWidget txtOccupiedLands = new StaticTextRelativeWidget("txtOccupiedLands", GameString.FromString("@It occupies none").ToString(), 0, false, ColourValue.Black);
+			panelFactionDetails.AddWidget(5, 1, txtOccupiedLands);
 
-			StaticTextRelative txtVassalInfos = new StaticTextRelative("txtVassalInfos", GameString.FromString("@Its vassals are none").ToString(), 0, false, ColourValue.Black);
-			panelFactionDetails.AddWidgetRelative(6, 1, txtVassalInfos);
+			StaticTextRelativeWidget txtVassalInfos = new StaticTextRelativeWidget("txtVassalInfos", GameString.FromString("@Its vassals are none").ToString(), 0, false, ColourValue.Black);
+			panelFactionDetails.AddWidget(6, 1, txtVassalInfos);
 
-			StaticTextRelative txtForeignRelationship = new StaticTextRelative("txtForeignRelationship", GameString.FromString("@Foreign relations:").ToString(), 0, false, ColourValue.Black);
-			panelFactionDetails.AddWidgetRelative(8, 1, txtForeignRelationship);
+			StaticTextRelativeWidget txtForeignRelationship = new StaticTextRelativeWidget("txtForeignRelationship", GameString.FromString("@Foreign relations:").ToString(), 0, false, ColourValue.Black);
+			panelFactionDetails.AddWidget(8, 1, txtForeignRelationship);
 
 			subWidgets.Add(panelFactionDetails);
 		}

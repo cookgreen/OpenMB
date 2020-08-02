@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OpenMB.Modio;
 using Newtonsoft.Json.Linq;
-using OpenMB.Widgets;
+using OpenMB.UI;
+using System.Windows.Forms;
+using OpenMB.UI.Widgets;
 
 namespace OpenMB.Screen
 {
@@ -15,7 +17,7 @@ namespace OpenMB.Screen
 	{
 		private Dictionary<string, Mod> modList;
         private PanelScrollableWidget browserMainPanel;
-        private StaticTextRelative txtMessage;
+        private StaticTextRelativeWidget txtMessage;
         private const int BROWSER_EACHROW_SHOW_NUMBER = 3;
 		private const int BROWSER_PAGE_SHOW_NUMBER = 20;
 
@@ -39,9 +41,9 @@ namespace OpenMB.Screen
 
 			//Create a ui
 			browserMainPanel = UIManager.Instance.CreateScrollablePanel("modBrowserMainPanel", 0.8f, 0.7f, 0.1f, 0.15f);
-
-			txtMessage = new StaticTextRelative("message", "Fetching mods...", 0.2f, false, new Mogre.ColourValue());
-			browserMainPanel.AddWidgetRelative(1, 1, txtMessage, AlignMode.Center, AlignMode.Center, DockMode.Center);
+			browserMainPanel.Material = "SdkTrays/MiniTray";
+			txtMessage = new StaticTextRelativeWidget("message", "Fetching mods...", 0.2f, false, new Mogre.ColourValue());
+			browserMainPanel.AddWidget(1, 1, txtMessage, AlignMode.Center, AlignMode.Center, DockMode.Center);
 		}
 
         private void Client_GetResultDataFinished(object obj)
@@ -70,21 +72,29 @@ namespace OpenMB.Screen
 					JToken token = jarr[i];
 					Mod mod = token.ToObject(typeof(Mod)) as Mod;
 
-					PanelWidget modPreviewWidget = new PanelWidget("pane_" + mod.name_id, 0, 0.3f, 0, 0, 2, 1, true);
-					modPreviewWidget.ChangeRow(Widgets.ValueType.Percent, 100);
-					modPreviewWidget.ChangeRow(Widgets.ValueType.Abosulte, 0.2f);
-					modPreviewWidget.Padding.PaddingLeft = 0.01f;
-					modPreviewWidget.Padding.PaddingTop = 0.01f;
-					modPreviewWidget.Padding.PaddingRight = 0.01f;
-					modPreviewWidget.Padding.PaddingDown = 0.01f;
+					PanelWidget modPreviewWidget = new PanelWidget("mod_panel_" + mod.name_id, 0, 0.3f, 0, 0, 2, 1, true);
+					modPreviewWidget.ChangeRow(UI.ValueType.Percent, 100);
+					modPreviewWidget.ChangeRow(UI.ValueType.Abosulte, 0.5f, 2);
 
-					browserMainPanel.ChangeRow(Widgets.ValueType.Abosulte, modPreviewWidget.Height, currentRow);
-					browserMainPanel.AddWidget(currentRow, currentCol, modPreviewWidget, AlignMode.Center, DockMode.Fill);
+					browserMainPanel.ChangeRow(UI.ValueType.Abosulte, modPreviewWidget.Height, currentRow);
+					browserMainPanel.AddWidget(currentRow, currentCol, modPreviewWidget, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 
-					StaticTextRelative modNameWidget = new StaticTextRelative("mod_" + mod.name_id + "_text", mod.name, 0.2f, false, new Mogre.ColourValue());
-					modPreviewWidget.AddWidgetRelative(2, 1, modNameWidget, AlignMode.Center, AlignMode.Center);
+					PanelMaterialWidget pictureWidget = new PanelMaterialWidget("mod_pic_" + mod.name_id, "error.png");
+					modPreviewWidget.AddWidget(1, 1, pictureWidget, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 
-					modList.Add(mod.name, mod);
+					PanelWidget modInfoWidget = new PanelWidget("mod_info_panel_" + mod.name_id, 0, 0, 0, 0, 1, 2, false);
+					modInfoWidget.ChangeCol(UI.ValueType.Percent, 100);
+					modInfoWidget.ChangeCol(UI.ValueType.Abosulte, 0.2f, 2);
+
+					modPreviewWidget.AddWidget(2, 1, modInfoWidget);
+
+					StaticTextRelativeWidget modNameWidget = new StaticTextRelativeWidget("mod_text_" + mod.name_id, mod.name, 0.2f, false, new Mogre.ColourValue());
+					modInfoWidget.AddWidget(1, 1, modNameWidget, AlignMode.Left, AlignMode.Center);
+
+					ButtonWidget btnModSubscribeWidget = new ButtonWidget("btnModSubscribeWidget_" + mod.name_id, "Subscribe", 100f);
+					modInfoWidget.AddWidget(1, 2, btnModSubscribeWidget, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+
+					modList.Add(mod.name_id, mod);
 
 					if ((i + 1) % BROWSER_EACHROW_SHOW_NUMBER == 0)
 					{

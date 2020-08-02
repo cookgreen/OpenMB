@@ -6,7 +6,8 @@ using Mogre_Procedural.MogreBites;
 using Mogre;
 using OpenMB.Game;
 using OpenMB.Mods.XML;
-using OpenMB.Widgets;
+using OpenMB.UI;
+using OpenMB.UI.Widgets;
 using OpenMB.Utilities;
 using MOIS;
 
@@ -84,20 +85,20 @@ namespace OpenMB.Screen
 			discordPanel = UIManager.Instance.CreatePanel("discordPanel", 0.3f, 1);
 			discordPanel.Padding.PaddingLeft = 0.01f;
 			discordPanel.Padding.PaddingRight = 0.01f;
-			discordPanel.ChangeRow(Widgets.ValueType.Abosulte, 0.05f);
-			discordPanel.AddRow(Widgets.ValueType.Percent);
+			discordPanel.ChangeRow(UI.ValueType.Abosulte, 0.05f);
+			discordPanel.AddRow(UI.ValueType.Percent);
 			var txtDiscord = UIManager.Instance.CreateStaticText("txtDiscord", "Discord");
 			txtDiscord.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			discordInventoryPanel = UIManager.Instance.CreatePanel("discordInventoryPanel", 0.3f, 1, 0, 0, 9, 3);
 			discordPanel.AddWidget(1, 1, txtDiscord, AlignMode.Center);
-			discordPanel.AddWidget(2, 1, discordInventoryPanel, AlignMode.Center, DockMode.Fill);
+			discordPanel.AddWidget(2, 1, discordInventoryPanel, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 
 			int currRow = 1;
 			int currCol = 1;
 			for (int i = 0; i < 9; i++)
 			{
 				var invSlot = new PanelTemplateWidget("DiscordInvSlot_" + (i + 1).ToString(), "InventorySlot");
-				discordInventoryPanel.AddWidgetRelative(currRow, currCol, invSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+				discordInventoryPanel.AddWidget(currRow, currCol, invSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 				if ((i + 1) % 3 == 0)
 				{
 					currRow++;
@@ -111,8 +112,8 @@ namespace OpenMB.Screen
 
 
 			playerPanel = UIManager.Instance.CreatePanel("playerPanel", 0.4f, 1, 0.3f);
-			playerPanel.ChangeRow(Widgets.ValueType.Abosulte, 0.6f);
-			playerPanel.AddRow(Widgets.ValueType.Abosulte, 0.4f);
+			playerPanel.ChangeRow(UI.ValueType.Abosulte, 0.6f);
+			playerPanel.AddRow(UI.ValueType.Abosulte, 0.4f);
 
 			playerEquipPanel = UIManager.Instance.CreatePanel("playerEquipPanel", 1, 1);
 			playerEquipPanel.Padding.PaddingLeft = 0.01f;
@@ -120,24 +121,24 @@ namespace OpenMB.Screen
 			playerPreviewPanel = UIManager.Instance.CreatePanel("playerPreviewPanel", 1, 1);
 			playerPreviewPanel.Padding.PaddingLeft = 0.01f;
 			playerPreviewPanel.Padding.PaddingRight = 0.01f;
-			playerPreviewPanel.ChangeCol(Widgets.ValueType.Abosulte, 0.6f);
-			playerPreviewPanel.AddCol(Widgets.ValueType.Abosulte, 0.4f);
-			playerPreviewPanel.AddRow(Widgets.ValueType.Abosulte, 0.05f);
-			playerPreviewPanel.AddRow(Widgets.ValueType.Abosulte, 0.05f);
-			playerPreviewPanel.AddRow(Widgets.ValueType.Abosulte, 0.05f);
-			playerPreviewPanel.AddRow(Widgets.ValueType.Abosulte, 0.05f);
-			playerPreviewPanel.AddRow(Widgets.ValueType.Abosulte, 0.1f);
+			playerPreviewPanel.ChangeCol(UI.ValueType.Abosulte, 0.6f);
+			playerPreviewPanel.AddCol(UI.ValueType.Abosulte, 0.4f);
+			playerPreviewPanel.AddRow(UI.ValueType.Abosulte, 0.05f);
+			playerPreviewPanel.AddRow(UI.ValueType.Abosulte, 0.05f);
+			playerPreviewPanel.AddRow(UI.ValueType.Abosulte, 0.05f);
+			playerPreviewPanel.AddRow(UI.ValueType.Abosulte, 0.05f);
+			playerPreviewPanel.AddRow(UI.ValueType.Abosulte, 0.1f);
 
-			playerEquipPanel.ChangeRow(Widgets.ValueType.Abosulte, 0.05f);
-			playerEquipPanel.AddRow(Widgets.ValueType.Percent);
-			playerEquipPanel.AddRow(Widgets.ValueType.Percent);
-			playerEquipPanel.AddRow(Widgets.ValueType.Percent);
-			playerEquipPanel.AddRow(Widgets.ValueType.Percent);
-			playerEquipPanel.AddCol(Widgets.ValueType.Percent);
-			playerEquipPanel.AddCol(Widgets.ValueType.Percent);
+			playerEquipPanel.ChangeRow(UI.ValueType.Abosulte, 0.05f);
+			playerEquipPanel.AddRow(UI.ValueType.Percent);
+			playerEquipPanel.AddRow(UI.ValueType.Percent);
+			playerEquipPanel.AddRow(UI.ValueType.Percent);
+			playerEquipPanel.AddRow(UI.ValueType.Percent);
+			playerEquipPanel.AddCol(UI.ValueType.Percent);
+			playerEquipPanel.AddCol(UI.ValueType.Percent);
 
-			playerPanel.AddWidget(1, 1, playerEquipPanel, AlignMode.Left, DockMode.Fill);
-			playerPanel.AddWidget(2, 1, playerPreviewPanel, AlignMode.Left, DockMode.Fill);
+			playerPanel.AddWidget(1, 1, playerEquipPanel, AlignMode.Left, AlignMode.Center, DockMode.Fill);
+			playerPanel.AddWidget(2, 1, playerPreviewPanel, AlignMode.Left, AlignMode.Center, DockMode.Fill);
 
 			var txtOutfit = UIManager.Instance.CreateStaticText("txtOutfit", "Outfit");
 			var txtArms = UIManager.Instance.CreateStaticText("txtArms", "Arms");
@@ -151,31 +152,31 @@ namespace OpenMB.Screen
 				switch (i)
 				{
 					case 0:
-						playerEquipPanel.AddWidgetRelative(2, 2, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidget(2, 2, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 1:
-						playerEquipPanel.AddWidgetRelative(3, 2, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidget(3, 2, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 2:
-						playerEquipPanel.AddWidgetRelative(4, 2, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidget(4, 2, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 3:
-						playerEquipPanel.AddWidgetRelative(5, 1, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidget(5, 1, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 4:
-						playerEquipPanel.AddWidgetRelative(2, 3, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidget(2, 3, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 5:
-						playerEquipPanel.AddWidgetRelative(3, 3, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidget(3, 3, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 6:
-						playerEquipPanel.AddWidgetRelative(4, 3, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidget(4, 3, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 7:
-						playerEquipPanel.AddWidgetRelative(3, 1, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidget(3, 1, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 					case 8:
-						playerEquipPanel.AddWidgetRelative(5, 3, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+						playerEquipPanel.AddWidget(5, 3, equipSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 						break;
 				}
 			}
@@ -204,24 +205,24 @@ namespace OpenMB.Screen
 			{
 				ScreenManager.Instance.ChangeScreenReturn();
 			};
-			playerPreviewPanel.AddWidget(2, 2, txtPreviewHeadArmourTotal, AlignMode.Center, DockMode.FillWidth);
-			playerPreviewPanel.AddWidget(3, 2, txtPreviewBodyArmourTotal, AlignMode.Center, DockMode.FillWidth);
-			playerPreviewPanel.AddWidget(4, 2, txtPreviewLegArmourTotal, AlignMode.Center, DockMode.FillWidth);
-			playerPreviewPanel.AddWidget(5, 2, txtPreviewEncumbrance, AlignMode.Center, DockMode.FillWidth);
-			playerPreviewPanel.AddWidget(6, 2, btnReturn, AlignMode.Center, DockMode.FillWidth);
+			playerPreviewPanel.AddWidget(2, 2, txtPreviewHeadArmourTotal, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
+			playerPreviewPanel.AddWidget(3, 2, txtPreviewBodyArmourTotal, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
+			playerPreviewPanel.AddWidget(4, 2, txtPreviewLegArmourTotal, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
+			playerPreviewPanel.AddWidget(5, 2, txtPreviewEncumbrance, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
+			playerPreviewPanel.AddWidget(6, 2, btnReturn, AlignMode.Center, AlignMode.Center, DockMode.FillWidth);
 
 			backpackPanel = UIManager.Instance.CreatePanel("backpackPanel", 0.3f, 1, 0.7f, 0);
 			backpackPanel.Padding.PaddingRight = 0.01f;
 			backpackPanel.Padding.PaddingLeft = 0.01f;
-			backpackPanel.ChangeRow(Widgets.ValueType.Abosulte, 0.05f);
-			backpackPanel.AddRow(Widgets.ValueType.Percent);
-			backpackPanel.AddRow(Widgets.ValueType.Abosulte, 0.03f);
+			backpackPanel.ChangeRow(UI.ValueType.Abosulte, 0.05f);
+			backpackPanel.AddRow(UI.ValueType.Percent);
+			backpackPanel.AddRow(UI.ValueType.Abosulte, 0.03f);
 
 			var txtInvTitle = UIManager.Instance.CreateStaticText("txtInvTitle", "Inventory");
 			txtInvTitle.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			backpackInventoryPanel = UIManager.Instance.CreateScrollablePanel("backpackInventoryPanel", 1, 1, 0, 0, 20, 3);
-			backpackPanel.AddWidget(1, 1, txtInvTitle, AlignMode.Center, DockMode.Fill);
-			backpackPanel.AddWidget(2, 1, backpackInventoryPanel, AlignMode.Center, DockMode.Fill);
+			backpackPanel.AddWidget(1, 1, txtInvTitle, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+			backpackPanel.AddWidget(2, 1, backpackInventoryPanel, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 				
 			int curRow = 1;
 			int curCol = 1;
@@ -229,8 +230,8 @@ namespace OpenMB.Screen
 			{
 				var invSlot = new PanelTemplateWidget("InvSlot_" + (i + 1).ToString(), "InventorySlot");
 				invSlot.Height = 0.1f;
-				backpackInventoryPanel.ChangeRow(Widgets.ValueType.Abosulte, invSlot.Height, curRow);
-				backpackInventoryPanel.AddWidget(curRow, curCol, invSlot, AlignMode.Center, DockMode.Fill);
+				backpackInventoryPanel.ChangeRow(UI.ValueType.Abosulte, invSlot.Height, curRow);
+				backpackInventoryPanel.AddWidget(curRow, curCol, invSlot, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 				if ((i + 1) % 3 == 0)
 				{
 					curRow++;

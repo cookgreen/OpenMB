@@ -31,7 +31,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
-namespace OpenMB.Widgets
+namespace OpenMB.UI.Widgets
 {
     public class StaticText : Widget
     {

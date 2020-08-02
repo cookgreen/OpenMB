@@ -5,7 +5,7 @@ using System.Text;
 using Mogre;
 using MOIS;
 
-namespace OpenMB.Widgets
+namespace OpenMB.UI.Widgets
 {
     public abstract class Control : IDisposable
     {

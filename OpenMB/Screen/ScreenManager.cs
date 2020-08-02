@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Mogre;
 using OpenMB.Mods;
-using OpenMB.Widgets;
+using OpenMB.UI;
 
 namespace OpenMB.Screen
 {

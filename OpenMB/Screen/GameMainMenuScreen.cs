@@ -3,7 +3,7 @@ using Mogre_Procedural.MogreBites;
 using OpenMB.Core;
 using OpenMB.Mods;
 using OpenMB.Utilities;
-using OpenMB.Widgets;
+using OpenMB.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;

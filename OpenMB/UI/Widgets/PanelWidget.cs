@@ -6,33 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpenMB.Widgets
+namespace OpenMB.UI.Widgets
 {
-	public enum DockMode
-	{
-		Fill,
-		FillWidth,
-		FillHeight,
-		None,
-		Center,
-	}
-
-	public enum AlignMode
-	{
-		Center,
-		Left,
-		Right
-	}
-
-	/// <summary>
-	/// Value type
-	/// </summary>
-	public enum ValueType
-	{
-		Abosulte,
-		Percent,
-		Auto,
-	}
 
 	/// <summary>
 	/// Define a panel row
@@ -42,7 +17,7 @@ namespace OpenMB.Widgets
 		public ValueType Type;
 		public float Height;
 		private PanelWidget panel;
-		public float AbosulteHeight
+		public float RealHeight
 		{
 			get
 			{
@@ -76,7 +51,7 @@ namespace OpenMB.Widgets
 			{
 				if (row.Type == ValueType.Abosulte)
 				{
-					heights += row.AbosulteHeight;
+					heights += row.RealHeight;
 				}
 			}
 			return heights;
@@ -96,7 +71,7 @@ namespace OpenMB.Widgets
 		public ValueType Type;
 		public float Width;
 		private PanelWidget panel;
-		public float AbosulteWidth
+		public float RealWidth
 		{
 			get
 			{
@@ -134,7 +109,7 @@ namespace OpenMB.Widgets
 			{
 				if (col.Type == ValueType.Abosulte)
 				{
-					widths += col.AbosulteWidth;
+					widths += col.RealWidth;
 				}
 			}
 			return widths;
@@ -275,68 +250,127 @@ namespace OpenMB.Widgets
 			col.Width = value;
 		}
 
-		public virtual void AddWidget(
-			int rowNum, 
-			int colNum, 
+		public virtual void AddWidget(int rowNum,
+			int colNum,
 			Widget widget,
-			AlignMode align = AlignMode.Left,
+			AlignMode vAlign = AlignMode.Left,
+			AlignMode hAlign = AlignMode.Left,
 			DockMode dock = DockMode.None,
 			int rowSpan = 1,
 			int colSpan = 1)
 		{
+			switch(widget.MetricMode)
+            {
+				case GuiMetricsMode.GMM_PIXELS:
+					AddWidgetPixels(rowNum, colNum, widget, hAlign, vAlign, dock, rowSpan, colSpan);
+					break;
+				case GuiMetricsMode.GMM_RELATIVE:
+					AddWidgetRelative(rowNum, colNum, widget, hAlign, vAlign, dock, rowSpan, colSpan);
+					break;
+            }
+		}
+
+        private void AddWidgetPixels(
+			int rowNum, 
+			int colNum, 
+			Widget widget, 
+			AlignMode hAlign, 
+			AlignMode vAlign, 
+			DockMode dock, 
+			int rowSpan, 
+			int colSpan)
+		{
 			widget.Col = colNum;
 			widget.Row = rowNum;
-			widget.Top += Top;
-			widget.Left += Left + Padding.PaddingLeft;
+			widget.Left += Padding.PaddingLeft;
 			widgets.Add(widget);
+
+			widget.Parent = this;
+			((OverlayContainer)element).AddChild(widget.OverlayElement);
 
 			var c = cols[colNum - 1];
 			var r = rows[rowNum - 1];
 
-			switch(dock)
+			switch (dock)
 			{
 				case DockMode.Fill:
-					widget.Height = r.AbosulteHeight;
-					widget.Width = c.AbosulteWidth;
+					widget.Height = RelativeToPixels(r.RealHeight, float.Parse(GameManager.Instance.VideoMode["Height"]));
+					widget.Width = RelativeToPixels(c.RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"]));
 					break;
 				case DockMode.FillHeight:
-					widget.Height = r.AbosulteHeight;
+					widget.Height = RelativeToPixels(r.RealHeight, float.Parse(GameManager.Instance.VideoMode["Height"]));
 					break;
 				case DockMode.FillWidth:
-					widget.Width = c.AbosulteWidth;
+					widget.Width = RelativeToPixels(c.RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"]));
 					break;
+				case DockMode.Center:
+					widget.Width = widget.Width * RelativeToPixels(c.RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"]));
+					//widget.Height = widget.Height * r.AbosulteHeight;
+					break;
+				default:
+					widget.Width = RelativeToPixels(c.RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"]));
+					widget.Height = RelativeToPixels(r.RealHeight, float.Parse(GameManager.Instance.VideoMode["Height"]));
+					break;
+			}
+
+			if (c.Type == ValueType.Auto)
+			{
+				c.Width = PixelsToRelative(widget.Width , RelativeToPixels(c.RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"])));
+			}
+			if (r.Type == ValueType.Auto)
+			{
+				r.Height = PixelsToRelative(widget.Height, RelativeToPixels(r.RealHeight, float.Parse(GameManager.Instance.VideoMode["Height"])));
 			}
 
 			float relativeLeft = 0;
 			float relativeTop = 0;
-			if (rowNum != 1 || colNum != 1)
+			for (int i = 0; i < rowNum - 1; i++)
 			{
-				for (int i = 0; i < colNum - 1; i++)
-				{
-					relativeLeft += cols[i].AbosulteWidth;
-				}
-				for (int i = 0; i < rowNum - 1; i++)
-				{
-					relativeTop += rows[i].AbosulteHeight;
-				}
-
-				widget.Left += relativeLeft;
-				widget.Top += relativeTop;
+				relativeTop += rows[i].RealHeight;
+			}
+			for (int i = 0; i < colNum - 1; i++)
+			{
+				relativeLeft += cols[i].RealWidth;
 			}
 
-			switch (align)
+			widget.Left += RelativeToPixels(relativeLeft, float.Parse(GameManager.Instance.VideoMode["Width"]));
+			widget.Top += RelativeToPixels(relativeTop, float.Parse(GameManager.Instance.VideoMode["Height"]));
+
+			if (rowSpan > 1)
+			{
+				for (int i = 0; i < rowSpan - 1; i++)
+				{
+					widget.Height += RelativeToPixels(rows[i].RealHeight, float.Parse(GameManager.Instance.VideoMode["Height"]));
+				}
+			}
+			if (colSpan > 1)
+			{
+				for (int i = 0; i < colSpan - 1; i++)
+				{
+					widget.Width += RelativeToPixels(cols[i].RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"]));
+				}
+			}
+
+			switch (hAlign)
 			{
 				case AlignMode.Center:
-					widget.Left += (c.AbosulteWidth - widget.Width) / 2;
-					widget.Top += (r.AbosulteHeight - widget.Height) / 2;
+					widget.Left = RelativeToPixels((c.RealWidth - widget.Width) / 2, float.Parse(GameManager.Instance.VideoMode["Width"]));
 					break;
 				case AlignMode.Right:
 					break;
 			}
-			widget.AddedToAnotherWidgetFinished(align, relativeLeft, c.AbosulteWidth, relativeTop, r.AbosulteHeight);
+
+			switch (vAlign)
+			{
+				case AlignMode.Center:
+					widget.Top += RelativeToPixels((r.RealHeight - widget.Height) / 2, float.Parse(GameManager.Instance.VideoMode["Height"]));
+					break;
+			}
+			widget.AddedToAnotherWidgetFinished(hAlign, relativeLeft, c.RealWidth, relativeTop, r.RealHeight);
 		}
 
-		public void AddWidgetRelative(
+
+		private void AddWidgetRelative(
 			int rowNum,
 			int colNum,
 			Widget widget,
@@ -360,22 +394,22 @@ namespace OpenMB.Widgets
 			switch (dock)
 			{
 				case DockMode.Fill:
-					widget.Height = r.AbosulteHeight;
-					widget.Width = c.AbosulteWidth;
+					widget.Height = r.RealHeight;
+					widget.Width = c.RealWidth;
 					break;
 				case DockMode.FillHeight:
-					widget.Height = r.AbosulteHeight;
+					widget.Height = r.RealHeight;
 					break;
 				case DockMode.FillWidth:
-					widget.Width = c.AbosulteWidth;
+					widget.Width = c.RealWidth;
 					break;
 				case DockMode.Center:
-					widget.Width = widget.Width * c.AbosulteWidth;
+					widget.Width = widget.Width * c.RealWidth;
 					//widget.Height = widget.Height * r.AbosulteHeight;
 					break;
 				default:
-					widget.Width = c.AbosulteWidth;
-					widget.Height = r.AbosulteHeight;
+					widget.Width = c.RealWidth;
+					widget.Height = r.RealHeight;
 					break;
 			}
 
@@ -392,32 +426,35 @@ namespace OpenMB.Widgets
 			float relativeTop = 0;
 			for (int i = 0; i < rowNum - 1; i++)
 			{
-				relativeTop += rows[i].AbosulteHeight;
+				relativeTop += rows[i].RealHeight;
 			}
 			for (int i = 0; i < colNum - 1; i++)
 			{
-				relativeLeft += cols[i].AbosulteWidth;
+				relativeLeft += cols[i].RealWidth;
 			}
+
+			widget.Left += relativeLeft;
+			widget.Top += relativeTop;
 
 			if (rowSpan > 1)
 			{
 				for (int i = 0; i < rowSpan - 1; i++)
 				{
-					widget.Height += rows[i].AbosulteHeight;
+					widget.Height += rows[i].RealHeight;
 				}
 			}
 			if (colSpan > 1)
 			{
 				for (int i = 0; i < colSpan - 1; i++)
 				{
-					widget.Width += cols[i].AbosulteWidth;
+					widget.Width += cols[i].RealWidth;
 				}
 			}
 
 			switch (hAlign)
 			{
 				case AlignMode.Center:
-					widget.Left = (c.AbosulteWidth - widget.Width) / 2;
+					widget.Left = (c.RealWidth - widget.Width) / 2;
 					break;
 				case AlignMode.Right:
 					break;
@@ -426,16 +463,21 @@ namespace OpenMB.Widgets
 			switch (vAlign)
 			{
 				case AlignMode.Center:
-					widget.Top = (r.AbosulteHeight - widget.Height) / 2;
+					widget.Top += (r.RealHeight - widget.Height) / 2;
 					break;
 			}
-			widget.AddedToAnotherWidgetFinished(hAlign, relativeLeft, c.AbosulteWidth, relativeTop, r.AbosulteHeight);
+			widget.AddedToAnotherWidgetFinished(hAlign, relativeLeft, c.RealWidth, relativeTop, r.RealHeight);
 		}
 
-		public void AddWidget(Widget widget)
-		{
-			AddWidget(1, 1, widget);
-		}
+		private float PixelsToRelative(float pixelValue, float referenceValue)
+        {
+			return pixelValue / referenceValue;
+        }
+
+        private float RelativeToPixels(float relativeValue, float referenceValue)
+        {
+			return relativeValue * referenceValue;
+        }
 
 		public Widget GetWidget(int rowNum, int colNum)
 		{

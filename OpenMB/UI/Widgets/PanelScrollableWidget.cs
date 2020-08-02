@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenMB.Widgets
+namespace OpenMB.UI.Widgets
 {
 	public enum ScrollOritentation
 	{
@@ -30,7 +30,7 @@ namespace OpenMB.Widgets
 		{
 			get
 			{
-				return rows[0].AbosulteHeight;
+				return rows[0].RealHeight;
 			}
 		}
 
@@ -112,100 +112,17 @@ namespace OpenMB.Widgets
 			base.AddRow(type, height);
 		}
 
-		public new void AddWidget(
+		public override void AddWidget(
 			int rowNum,
 			int colNum,
 			Widget widget,
-			AlignMode align = AlignMode.Left,
+			AlignMode hAlign = AlignMode.Left,
+			AlignMode vAlign = AlignMode.Left,
 			DockMode dock = DockMode.None,
 			int rowSpan = 1,
 			int colSpan = 1)
 		{
-			widget.Col = colNum;
-			widget.Row = rowNum;
-			widget.Left += Padding.PaddingLeft;
-			widgets.Add(widget);
-
-			widget.Parent = this;
-
-			var c = cols[colNum - 1];
-			var r = rows[rowNum - 1];
-
-			switch (r.Type)
-			{
-				case ValueType.Auto:
-					r.Height = widget.Height;
-					break;
-			}
-
-			switch (dock)
-			{
-				case DockMode.Fill:
-					widget.Height = r.AbosulteHeight;
-					widget.Width = c.AbosulteWidth;
-					break;
-				case DockMode.FillHeight:
-					widget.Height = r.AbosulteHeight;
-					break;
-				case DockMode.FillWidth:
-					widget.Width = c.AbosulteWidth;
-					break;
-			}
-
-			if (rowNum != 1 || colNum != 1)
-			{
-				float relativeLeft = 0;
-				float relativeTop = 0;
-
-				for (int i = 0; i < colNum - 1; i++)
-				{
-					relativeLeft += cols[i].AbosulteWidth;
-				}
-				for (int i = 0; i < rowNum - 1; i++)
-				{
-					relativeTop += rows[i].AbosulteHeight;
-				}
-
-				widget.Left += relativeLeft;
-				widget.Top += relativeTop;
-			}
-
-			switch (align)
-			{
-				case AlignMode.Center:
-					widget.Left += (c.AbosulteWidth - widget.Width) / 2;
-					break;
-				case AlignMode.Right:
-					break;
-			}
-
-			AddChildOverlayElement(widget.OverlayElement);
-
-			if (widget.Top + widget.Height > Height)
-			{
-				scroll.Show();
-				drag.Show();
-				widget.Hide();
-			}
-			else
-			{
-				visualWidgets.Add(widget);
-			}
-
-			calculateScrollBar();
-		}
-
-		public new void AddWidgetRelative(
-			int rowNum,
-			int colNum,
-			Widget widget,
-			AlignMode align = AlignMode.Left,
-			AlignMode align2 = AlignMode.Left,
-			DockMode dock = DockMode.None,
-			int rowSpan = 1,
-			int colSpan = 1)
-		{
-			base.AddWidgetRelative(rowNum, colNum, widget, align, align2, dock, rowSpan, colSpan);
+			base.AddWidget(rowNum, colNum, widget, hAlign, vAlign, dock, rowSpan, colSpan);
 
 			if (widget.Top + widget.Height > Height)
 			{

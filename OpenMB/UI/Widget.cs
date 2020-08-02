@@ -7,9 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenMB.Widgets
+namespace OpenMB.UI
 {
-
 	/// <summary>
 	/// Abstract base class for all widgets
 	/// </summary>
@@ -126,6 +125,13 @@ namespace OpenMB.Widgets
 				element.MetricsMode = value;
 			}
 		}
+
+		public string Material
+        {
+            get { return element.MaterialName; }
+            set { element.MaterialName = value; }
+        }
+
 		public ushort ZOrder
 		{
 			get

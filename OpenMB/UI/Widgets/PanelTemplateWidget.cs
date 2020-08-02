@@ -1,7 +1,7 @@
 ﻿using Mogre;
 using Mogre_Procedural.MogreBites;
 
-namespace OpenMB.Widgets
+namespace OpenMB.UI.Widgets
 {
 	public class PanelTemplateWidget : Widget
 	{

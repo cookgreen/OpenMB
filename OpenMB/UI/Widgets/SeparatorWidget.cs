@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenMB.Widgets
+namespace OpenMB.UI.Widgets
 {
-
 	/// <summary>
 	/// Basic separator widget
 	/// </summary>
