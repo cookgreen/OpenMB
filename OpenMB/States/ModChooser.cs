@@ -95,10 +95,25 @@ namespace OpenMB.States
             }
 
             UIManager.Instance.CreateSeparator(UIWidgetLocation.TL_RIGHT, "LogoSep");
-            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Play", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 160);
-            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Mods", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_mods"), 160);
-            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Quit", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 160);
-            
+            var btnPlay = UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Play", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_play"), 160);
+            var btnMods = UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Mods", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_mods"), 160);
+            var btnQuit = UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "Quit", LocateSystem.Instance.GetLocalizedString(Localization.LocateFileType.GameString, "str_quit"), 160);
+
+            btnPlay.OnClick += (o) =>
+            {
+                string modID = modDisplayDataList.Where(a => a.Name == selectedModName).First().ID;
+                GameManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", modID, "MainMenu");
+                changeAppState(findByName("Loading"));
+            };
+            btnMods.OnClick += (o) =>
+            {
+                ScreenManager.Instance.ChangeScreen("ModBrowser");
+            };
+            btnQuit.OnClick += (o) =>
+            {
+                isQuit = true;
+            };
+
             setupModMenu();
 
             GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
@@ -238,28 +253,6 @@ namespace OpenMB.States
             {
                 shutdown();
                 return;
-            }
-        }
-
-        public override void buttonHit(ButtonWidget button)
-        {
-            if (button.Name == "Play")
-            {
-                string modID = modDisplayDataList.Where(o => o.Name == selectedModName).First().ID;
-                GameManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", modID, "MainMenu");
-                changeAppState(findByName("Loading"));
-            }
-            else if (button.Name == "Configure")
-            {
-                ConfigureScreen();
-            }
-            else if (button.Name == "Mods")
-            {
-                ScreenManager.Instance.ChangeScreen("ModBrowser");
-            }
-            else if (button.Name == "Quit")
-            {
-                isQuit = true;
             }
         }
 

@@ -22,8 +22,9 @@ namespace OpenMB.Screen
 		private const int BROWSER_PAGE_SHOW_NUMBER = 20;
 
         public override event Action<string, string> OnScreenEventChanged;
+        public override event Action OnScreenExit;
 
-		public override string Name
+        public override string Name
 		{
 			get { return "ModBrowser"; }
 		}
@@ -116,6 +117,14 @@ namespace OpenMB.Screen
 				OnScreenEventChanged?.Invoke(btnModSubscribeWidget.Name, null);
 			};
 			modInfoWidget.AddWidget(1, 2, btnModSubscribeWidget, AlignMode.Center, AlignMode.Center);
+		}
+
+        public override void Exit()
+		{
+			base.Exit();
+
+			UIManager.Instance.DestroyAllWidgets();
+			OnScreenExit?.Invoke();
 		}
     }
 }

@@ -181,7 +181,12 @@ namespace OpenMB.UI
 
         public void DestroyAllWidgets()
         {
+			if (uiLayers.Count == 1)
+			{
+				return;
+			}
 			CurrentLayer.DestroyAllWidgets();
+			uiLayers.Pop();
         }
 
         /// <summary>
