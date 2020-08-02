@@ -430,9 +430,9 @@ namespace OpenMB.UI.Widgets
 					widget.Width = widget.Width * c.RealWidth;
 					//widget.Height = widget.Height * r.AbosulteHeight;
 					break;
-				default:
-					widget.Width = c.RealWidth;
-					widget.Height = r.RealHeight;
+				case DockMode.None:
+					widget.Width *= c.RealWidth;
+					widget.Height *= r.RealHeight;
 					break;
 			}
 

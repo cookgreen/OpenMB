@@ -91,9 +91,9 @@ namespace OpenMB.Screen
 
 		private void CreateModCard(Mod mod, int currentRow, int currentCol)
 		{
-			PanelWidget modPreviewWidget = new PanelWidget("mod_panel_" + mod.name_id, 0, 0.3f, 0, 0, 2, 1, false);
+			PanelWidget modPreviewWidget = new PanelWidget("mod_panel_" + mod.name_id, 0, 0.5f, 0, 0, 2, 1, false);
 			modPreviewWidget.ChangeRow(UI.ValueType.Percent, 100);
-			modPreviewWidget.ChangeRow(UI.ValueType.Abosulte, 0.5f, 2);
+			modPreviewWidget.ChangeRow(UI.ValueType.Abosulte, 0.3f, 2);
 			modPreviewWidget.Material = "SdkTrays/MiniTray";
 
 			browserMainPanel.ChangeRow(UI.ValueType.Abosulte, modPreviewWidget.Height, currentRow);
@@ -106,12 +106,12 @@ namespace OpenMB.Screen
 			modInfoWidget.ChangeCol(UI.ValueType.Percent, 80);
 			modInfoWidget.ChangeCol(UI.ValueType.Percent, 20, 2);
 
-			modPreviewWidget.AddWidget(2, 1, modInfoWidget);
+			modPreviewWidget.AddWidget(2, 1, modInfoWidget, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 
 			StaticTextRelativeWidget modNameWidget = new StaticTextRelativeWidget("mod_text_" + mod.name_id, mod.name, 0.2f, false, new Mogre.ColourValue());
 			modInfoWidget.AddWidget(1, 1, modNameWidget, AlignMode.Left, AlignMode.Center);
 
-			SimpleButtonWidget btnModSubscribeWidget = new SimpleButtonWidget("btnModSubscribeWidget_" + mod.name_id, "Subscribe", 0.2f);
+			SimpleButtonWidget btnModSubscribeWidget = new SimpleButtonWidget("btnModSubscribeWidget_" + mod.name_id, "Subscribe", 0.8f, 0.7f);
 			btnModSubscribeWidget.OnClick += (o) =>
 			{
 				OnScreenEventChanged?.Invoke(btnModSubscribeWidget.Name, null);

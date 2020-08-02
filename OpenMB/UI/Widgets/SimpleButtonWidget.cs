@@ -15,14 +15,14 @@ namespace OpenMB.UI.Widgets
         private TextAreaOverlayElement textAreaElement;
 		public event Action<object> OnClick;
 
-		public SimpleButtonWidget(string name, string caption, float width, float left = 0, float top = 0)
+		public SimpleButtonWidget(string name, string caption, float width, float height, float left = 0, float top = 0)
         {
 			OverlayManager overlayMgr = OverlayManager.Singleton;
 			element = OverlayManager.Singleton.CreateOverlayElementFromTemplate("SimpleButton", "BorderPanel", name);
 			element.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
 			element.Top = top;
 			element.Left = left;
-			element.Height = 0.2f;
+			element.Height = height;
 			element.Width = width;
 			borderPanelElement = (BorderPanelOverlayElement)element;
 			textAreaElement = overlayMgr.CreateOverlayElement("TextArea", name + "/StaticTextCaption") as TextAreaOverlayElement;
@@ -33,7 +33,7 @@ namespace OpenMB.UI.Widgets
 			textAreaElement.CharHeight = 0.025f;
 			textAreaElement.SpaceWidth = 0.02f;
 			textAreaElement.Colour = ColourValue.Black;
-			textAreaElement.Top = textAreaElement.CharHeight;
+			textAreaElement.Top = height / 45f;
 			((OverlayContainer)element).AddChild(textAreaElement);
 			textAreaElement.Caption = caption;
 		}
