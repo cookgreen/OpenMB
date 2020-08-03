@@ -12,8 +12,25 @@ namespace OpenMB.UI.Widgets
 		private MaterialPtr materialPtr;
 		public PanelMaterialWidget(string name, string texture, float width = 0, float height = 0, float left = 0, float top = 0) : base(name, "MeshPanel", width, height, left, top)
 		{
-			string matName = null;
-			if (!string.IsNullOrEmpty(texture))
+			var matName = CreateTexture(texture);
+			element.MaterialName = matName;
+		}
+		public PanelMaterialWidget(string name, MaterialPtr material, float width = 0, float height = 0, float left = 0, float top = 0) : base(name, "MeshPanel", width, height, left, top)
+		{
+			materialPtr = material;
+			element.MaterialName = material.Name;
+		}
+
+		public override void Dispose()
+		{
+			MaterialManager.Singleton.Remove(materialPtr.Name);
+			materialPtr.Dispose();
+		}
+
+		private string CreateTexture(string texture)
+        {
+            string matName;
+            if (!string.IsNullOrEmpty(texture))
 			{
 				matName = texture.Substring(0, texture.Length - texture.IndexOf('.'));
 			}
@@ -24,20 +41,15 @@ namespace OpenMB.UI.Widgets
 			materialPtr = MaterialManager.Singleton.Create(matName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
 			materialPtr.GetTechnique(0).GetPass(0).SetSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
 			materialPtr.GetTechnique(0).GetPass(0).CreateTextureUnitState().SetTextureName(texture);
-
-			element.MaterialName = matName;
-		}
-		public PanelMaterialWidget(string name, MaterialPtr material, float width = 0, float height = 0, float left = 0, float top = 0) : base(name, "MeshPanel", width, height, left, top)
-		{
-			materialPtr = material;
-
-			element.MaterialName = material.Name;
+			return matName;
 		}
 
-		public override void Dispose()
+        internal void ChangeTexture(string newTexture)
 		{
 			MaterialManager.Singleton.Remove(materialPtr.Name);
 			materialPtr.Dispose();
+			var matName = CreateTexture(newTexture);
+			element.MaterialName = matName;
 		}
-	}
+    }
 }

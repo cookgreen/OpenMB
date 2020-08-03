@@ -167,6 +167,7 @@
     <Compile Include="Connector\MBOgreExpandsion.cs" />
     <Compile Include="Connector\MBOgreManifest.cs" />
     <Compile Include="Connector\MBOgreUtil.cs" />
+    <Compile Include="Core\BackendTaskManager.cs" />
     <Compile Include="Core\Common.cs" />
     <Compile Include="Core\GameConfigXml.cs" />
     <Compile Include="Core\GameCursor.cs" />

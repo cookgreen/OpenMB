@@ -322,6 +322,11 @@ namespace OpenMB.Core
                     "./Media/Ogre/materials/textures/nvidia",
                     "./Media/Ogre/materials/textures/SSAO",
                     "./Media/Ogre/models",
+                    "./Media/Engine/Material",
+                    "./Media/Engine/Meshes",
+                    "./Media/Engine/Overlay",
+                    "./Media/Engine/Texture",
+                    "./Media/Engine/Download",
                 }
             });
             Resources.Add(new GameResourceConfigXml()

@@ -116,6 +116,14 @@ namespace OpenMB.Screen
 			{
 				OnScreenEventChanged?.Invoke(btnModSubscribeWidget.Name, null);
 			};
+
+			IBackendTask downloadModThumbTask = new DownloadBackendTask(mod.logo.original, "./Media/Engine/Download/"+mod.name_id+"_thumb.png");
+			BackendTaskManager.Instance.EnqueueTask(downloadModThumbTask);
+			BackendTaskManager.Instance.TaskEnded += (o) =>
+			{
+				pictureWidget.ChangeTexture(o.ToString());
+			};
+
 			modInfoWidget.AddWidget(1, 2, btnModSubscribeWidget, AlignMode.Center, AlignMode.Center);
 		}
 

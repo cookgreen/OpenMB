@@ -116,6 +116,7 @@ namespace OpenMB
             UIManager.Instance.Update();
             OutputManager.Instance.Update(timeSinceLastFrame);
             SoundManager.Instance.Update(timeSinceLastFrame);
+            BackendTaskManager.Instance.Update();
         }
 
         public bool Init(string windowTitle, GameConfigXml gameOptions)

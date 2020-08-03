@@ -33,6 +33,7 @@ Mods/*/OpenMB.Mods.*.dll
 *.fxo
 *.pp
 /Bin/app.ico
+/Bin/Media/Engine/Download/*.png
 
 
 *.metagen
