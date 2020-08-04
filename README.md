@@ -20,12 +20,6 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
 ## Usage:
 * Shift+Space - Full Screen  
 * V - Screenshot  
-* LControl+E - Edit Mode  
-  * W - Forward  
-  * A - Left  
-  * S - Backward  
-  * D - Right  
-  * Mouse Control Camera look at  
 
 ## Wiki:
 https://github.com/cookgreen/OpenMB/wiki
