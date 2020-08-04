@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Native">
+      <UniqueIdentifier>{c7451413-67ee-408b-9828-c0ecb2aa68f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Native\include">
+      <UniqueIdentifier>{48fe8c11-00e0-4771-9937-d27528fff60f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Native\src">
+      <UniqueIdentifier>{c656df57-7138-4a76-9f7b-f660f1acb276}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MogreAddon.h">
