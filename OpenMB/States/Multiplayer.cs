@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using Mogre;
 using Mogre_Procedural.MogreBites;
+using MOIS;
 using OpenMB.Mods;
 using OpenMB.Network;
+using OpenMB.Screen;
 using OpenMB.UI;
 
 namespace OpenMB.States
@@ -34,33 +36,44 @@ namespace OpenMB.States
             camera.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
             GameManager.Instance.viewport.OverlaysEnabled = true;
 
-            GameManager.Instance.keyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
-            GameManager.Instance.keyboard.KeyReleased += new MOIS.KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
+            ScreenManager.Instance.OnExternalEvent += OnExternalEvent;
+            ScreenManager.Instance.ChangeScreen("MultiplayerServerBrowser", true, modData);
 
-            BuildGameListUI();
+            GameManager.Instance.mouse.MouseMoved += mouseMoved;
+            GameManager.Instance.mouse.MousePressed += mousePressed;
+            GameManager.Instance.mouse.MouseReleased += mouseReleased;
+            GameManager.Instance.keyboard.KeyPressed += keyPressed;
+            GameManager.Instance.keyboard.KeyReleased += keyReleased;
         }
 
-        #region UI
-
-        private void BuildGameListUI()
+        public bool keyPressed(KeyEvent keyEventRef)
         {
-            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnJoin", "Join",50);
-            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnHost", "Host", 50);
-            UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnExit", "Exit", 50);
+            return true;
         }
-        void HostGameUI()
+        public bool keyReleased(KeyEvent keyEventRef)
         {
+            return true;
         }
 
-        private void BuildEscapeMenu()
+        public bool mouseMoved(MouseEvent evt)
         {
-            UIManager.Instance.DestroyAllWidgets();
-            UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "choose_side", "Choose Side", 200f);
-            UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "choose_chara", "Choose Character", 200f);
-            UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "exit_multiplayer", "Exit", 200f);
-            this.isEscapeMenuOpened = true;
+            UIManager.Instance.InjectMouseMove(evt);
+            return true;
         }
-        #endregion
+        public bool mousePressed(MouseEvent evt, MouseButtonID id)
+        {
+            UIManager.Instance.InjectMouseDown(evt, id);
+            return true;
+        }
+        public bool mouseReleased(MouseEvent evt, MouseButtonID id)
+        {
+            UIManager.Instance.InjectMouseUp(evt, id);
+            return true;
+        }
+
+        private void OnExternalEvent(string arg1, string arg2)
+        {
+        }
 
 
         void Server_OnEscapePressed()
@@ -74,22 +87,6 @@ namespace OpenMB.States
 
         bool mKeyboard_KeyReleased(MOIS.KeyEvent arg)
         {
-            return true;
-        }
-
-        bool mKeyboard_KeyPressed(MOIS.KeyEvent arg)
-        {
-            if (arg.key == MOIS.KeyCode.KC_ESCAPE)
-            {
-                if (!this.isEscapeMenuOpened)
-                {
-                    this.BuildEscapeMenu();
-                }
-                else
-                {
-                    UIManager.Instance.DestroyAllWidgets();
-                }
-            }
             return true;
         }
 

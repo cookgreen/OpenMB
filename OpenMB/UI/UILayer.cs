@@ -1583,7 +1583,12 @@ namespace OpenMB.UI
 				}
 			}
 		}
-	}
+
+        public void Append(Widget widget)
+        {
+			moveWidgetToTray(widget, UIWidgetLocation.TL_NONE);
+        }
+    }
 
 	/// <summary>
 	/// Listener class for responding to tray events

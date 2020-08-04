@@ -53,6 +53,7 @@ namespace OpenMB.Screen
 			IScreen screenMenu = new GameMenuScreen();
 			IScreen screenCha = new CharacterScreen();
 			IScreen screenNotes = new GameNotesScreen();
+            IScreen screenMPServerBrowser = new MultiplayerServerBrowserScreen();
             innerScreens.Add(screenModBrowser.Name, screenModBrowser);
 			innerScreens.Add(screenMainMenu.Name, screenMainMenu);
 			innerScreens.Add(screenCredit.Name, screenCredit);
@@ -63,6 +64,7 @@ namespace OpenMB.Screen
 			innerScreens.Add(screenMenu.Name, screenMenu);
 			innerScreens.Add(screenCha.Name, screenCha);
 			innerScreens.Add(screenNotes.Name, screenNotes);
+			innerScreens.Add(screenMPServerBrowser.Name, screenMPServerBrowser);
 			innerScreens.Add("ScriptedScreen", null);
 			//TODO: Load all screen script files
 			instance = this;

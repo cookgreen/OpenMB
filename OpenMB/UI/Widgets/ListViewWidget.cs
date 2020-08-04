@@ -133,14 +133,17 @@ namespace OpenMB.UI.Widgets
                 var listViewCol = OverlayManager.Singleton.CreateOverlayElementFromTemplate("ListView/Column", "BorderPanel", "col" + i) as BorderPanelOverlayElement;
                 var textArea = listViewCol.GetChild(listViewCol.Name + "/ListViewColumnCaption") as TextAreaOverlayElement;
                 textArea.Caption = columnNames[i];
+                
                 ListViewColumn lsc = new ListViewColumn();
                 lsc.ColumnName = columnNames[i];
                 lsc.ColumnEnity = listViewCol;
                 columns.Add(lsc);
+                
                 listViewCol.Top = top;
                 listViewCol.Left = left;
                 listViewCol.Width = width / columnNames.Count - 0.005f;
                 listViewCol.Show();
+                
                 listview.AddChild(listViewCol);
                 left = left + listViewCol.Width;
 

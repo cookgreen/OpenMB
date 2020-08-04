@@ -102,10 +102,6 @@
     <Reference Include="Mogre">
       <HintPath>..\Dependencies\Mogre.dll</HintPath>
     </Reference>
-    <Reference Include="MogreAddon, Version=1.0.7517.25642, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dependencies\MogreAddon.dll</HintPath>
-    </Reference>
     <Reference Include="MogreFreeSL">
       <HintPath>..\Dependencies\MogreFreeSL.dll</HintPath>
     </Reference>
@@ -302,6 +298,7 @@
     <Compile Include="Screen\GamePartyScreen.cs" />
     <Compile Include="Screen\GameTerrainEditorScreen.cs" />
     <Compile Include="Screen\ModBrowserScreen.cs" />
+    <Compile Include="Screen\MultiplayerServerBrowser.cs" />
     <Compile Include="Screen\Screen.cs" />
     <Compile Include="Map\AIMesh.cs" />
     <Compile Include="Map\GameMap.cs" />
@@ -383,6 +380,7 @@
     <Compile Include="UI\Skin\ISkinable.cs" />
     <Compile Include="UI\Skin\SkinDefine.cs" />
     <Compile Include="UI\Skin\SkinManager.cs" />
+    <Compile Include="UI\Widgets\SimpleListViewWidget.cs" />
     <Compile Include="UI\Widgets\SimpleButtonWidget.cs" />
     <Compile Include="UI\Widgets\SkinWidget.cs" />
     <Compile Include="UI\Widgets\TextWidget.cs" />

@@ -71,7 +71,7 @@ namespace OpenMB.States
 					//changeAppState(findByName("SinglePlayer"), modData);
 					break;
 				case "btnMultiplayer":
-					//changeAppState(findByName("Multiplayer"), m_Data);
+					changeAppState(findByName("Multiplayer"), modData);
 					break;
 				case "btnSingleplayer":
 					changeAppState(findByName("SinglePlayer"), modData);

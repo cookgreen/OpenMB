@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB", "OpenMB\OpenMB.csproj", "{70878EFC-AF3F-4792-AB2F-CE47EBCA487D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{72E62E9F-A78E-49F7-90B0-0A310F17C981} = {72E62E9F-A78E-49F7-90B0-0A310F17C981}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Utilities.UCSEditor", "OpenMB.Utilities.UCSEditor\OpenMB.Utilities.UCSEditor.csproj", "{CBFED84B-9253-40F3-AF15-28A8331C2375}"
 EndProject
@@ -15,8 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Mods.Common", "OpenMB.Mods.Common\OpenMB.Mods.Common.csproj", "{F58B2DAE-4DA4-40FA-95E1-F518AA140901}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.DedicatedServer", "OpenMB.DedicatedServer\OpenMB.DedicatedServer.csproj", "{BC79F45A-ADBE-4A12-BA27-CABC57397FDD}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MogreAddon", "MogreAddon\MogreAddon.vcxproj", "{72E62E9F-A78E-49F7-90B0-0A310F17C981}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,18 +75,6 @@ Global
 		{BC79F45A-ADBE-4A12-BA27-CABC57397FDD}.Release|x64.Build.0 = Release|Any CPU
 		{BC79F45A-ADBE-4A12-BA27-CABC57397FDD}.Release|x86.ActiveCfg = Release|Any CPU
 		{BC79F45A-ADBE-4A12-BA27-CABC57397FDD}.Release|x86.Build.0 = Release|Any CPU
-		{72E62E9F-A78E-49F7-90B0-0A310F17C981}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{72E62E9F-A78E-49F7-90B0-0A310F17C981}.Debug|Any CPU.Build.0 = Debug|Win32
-		{72E62E9F-A78E-49F7-90B0-0A310F17C981}.Debug|x64.ActiveCfg = Debug|x64
-		{72E62E9F-A78E-49F7-90B0-0A310F17C981}.Debug|x64.Build.0 = Debug|x64
-		{72E62E9F-A78E-49F7-90B0-0A310F17C981}.Debug|x86.ActiveCfg = Debug|Win32
-		{72E62E9F-A78E-49F7-90B0-0A310F17C981}.Debug|x86.Build.0 = Debug|Win32
-		{72E62E9F-A78E-49F7-90B0-0A310F17C981}.Release|Any CPU.ActiveCfg = Release|Win32
-		{72E62E9F-A78E-49F7-90B0-0A310F17C981}.Release|Any CPU.Build.0 = Release|Win32
-		{72E62E9F-A78E-49F7-90B0-0A310F17C981}.Release|x64.ActiveCfg = Release|x64
-		{72E62E9F-A78E-49F7-90B0-0A310F17C981}.Release|x64.Build.0 = Release|x64
-		{72E62E9F-A78E-49F7-90B0-0A310F17C981}.Release|x86.ActiveCfg = Release|Win32
-		{72E62E9F-A78E-49F7-90B0-0A310F17C981}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

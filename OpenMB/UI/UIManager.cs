@@ -26,7 +26,13 @@ namespace OpenMB.UI
 		protected UIListener listener; // tray listener
 		protected bool cursorWasVisible; // cursor state before showing dialog
 		private GameCursor gameCursor;
-		private ModData modData;
+
+        public void Append(Widget widget)
+        {
+			CurrentLayer.Append(widget);
+        }
+
+        private ModData modData;
 
 		public static UIManager Instance
 		{
