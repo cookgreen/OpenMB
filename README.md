@@ -32,15 +32,6 @@ https://github.com/cookgreen/OpenMB/wiki
  <img src="https://media.moddb.com/images/games/1/72/71205/game-notes-faction.PNG" />  
 </details>
 
-## Credit:
-* Mogre  
-* NAudio  
-* NVorbis  
-* MogreBites  
-* Physx Candy Wrapper
-* Critter ai Navmesh path finder
-* OpenBRF
-
 ## License:
 GPLv3
 
