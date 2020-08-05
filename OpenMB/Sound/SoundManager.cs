@@ -10,6 +10,7 @@ using MogreFreeSL;
 using System.IO;
 using System.Threading;
 using OpenMB.Mods;
+using System.ComponentModel;
 
 namespace OpenMB.Sound
 {
@@ -19,9 +20,9 @@ namespace OpenMB.Sound
         Playing,
         Paused
     }
-    public class SoundManager : IDisposable, IInitializeMod
+    public class MusicSoundManager : IDisposable, IInitializeMod
     {
-        private MogreFreeSL.SoundManager soundEngine;
+        private SoundManager soundEngine;
         private List<GameSound> musicLst;
         private List<SoundEntity> entities;
         private GameSound currentSound;
@@ -29,6 +30,7 @@ namespace OpenMB.Sound
         private Mods.ModData modData;
         private bool hasSound;
         private bool hasMusic;
+        private Queue<GameSound> musicPlayQueue;
 
         public GameSound CurrentSound
         {
@@ -36,13 +38,13 @@ namespace OpenMB.Sound
             set { currentSound = value; }
         }
 
-        public static SoundManager Instance
+        public static MusicSoundManager Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new SoundManager();
+                    instance = new MusicSoundManager();
                 }
                 return instance;
             }
@@ -64,16 +66,17 @@ namespace OpenMB.Sound
             }
         }
 
-        static SoundManager instance;
+        static MusicSoundManager instance;
 
-        public SoundManager()
+        public MusicSoundManager()
         {
             musicLst = new List<GameSound>();
             currentSound = null;
             entities = new List<SoundEntity>();
+            musicPlayQueue = new Queue<GameSound>();
         }
 
-        public void InitSystem(bool hasMusic, bool hasSound)
+		public void InitSystem(bool hasMusic, bool hasSound)
         {
             this.hasMusic = hasMusic;
             this.hasSound = hasSound;
@@ -125,35 +128,32 @@ namespace OpenMB.Sound
             }
         }
 
-        public void PlayMusicByType(PlayType soundType)
+        public void PlayMusicByType(PlayType playType)
         {
             if (hasMusic)
             {
-                var ret = musicLst.Where(o => o.PlayType == soundType);
-                switch (soundType)
+                var foundedMusicSound = musicLst.Where(o => o.PlayType == playType);
+                if (foundedMusicSound.Count() == 0)
+                {
+                    return;
+                }
+
+                Random rk = new Random();
+                int idx = -1;
+
+                GameSound sound = null;
+
+                switch (playType)
                 {
                     case PlayType.MainMenu:
-                        ret.ElementAt(0).Play();
+                        idx = rk.Next(0, foundedMusicSound.Count());
                         break;
                     case PlayType.Scene:
-                        Thread sceneMusicTh = new Thread(() =>
-                        {
-                            Random rk = new Random();
-                            int idx = rk.Next(0, musicLst.Count);
-                            while (true)
-                            {
-                                if (!ret.ElementAt(idx).Sound.ElementAt(0).IsPlaying())
-                                {
-                                    ret.ElementAt(idx).Play();
-                                }
-                                else
-                                {
-                                    idx = rk.Next(0, musicLst.Count);
-                                }
-                            }
-                        });
+                        idx = rk.Next(0, musicLst.Count);
                         break;
                 }
+                sound = foundedMusicSound.ElementAt(idx);
+                musicPlayQueue.Enqueue(sound);
             }
         }
 
@@ -197,18 +197,6 @@ namespace OpenMB.Sound
                 }
             }
             disposed = true;
-        }
-
-        public void Update(float timeSinceLastFrame)
-        {
-            int idx = 0;
-            while (idx < entities.Count)
-            {
-                if (!entities[idx].IsPlaying() && !entities[idx].IsPaused())
-                    entities.Remove(entities[idx]);
-                else
-                    idx++;
-            }
         }
 
         private string findMusicFileByID(string musicID)
@@ -279,6 +267,30 @@ namespace OpenMB.Sound
 		public void InitMod(ModData modData)
 		{
 			this.modData = modData;
-		}
-	}
+        }
+
+        public void Update(float timeSinceLastFrame)
+        {
+            if (musicPlayQueue.Count == 0)
+            {
+                return;
+            }
+
+            GameSound sound = musicPlayQueue.Peek();
+
+            if (currentSound != null && currentSound.PlayStatus == SoundStatus.Playing)
+            {
+                return;
+            }
+            
+            if (currentSound == null || currentSound.ID != sound.ID) //Not the same sound or music
+            {
+                currentSound = sound;
+                currentSound.Play(PlayMode.Random);
+                musicPlayQueue.Dequeue();
+            }
+
+            currentSound.Update();
+        }
+    }
 }

@@ -12,18 +12,21 @@ namespace OpenMB.Sound
         Loop,//Will play the sound list one by one
         Random//When play one finished, choose a sound randomly in the sound list, and play
     }
+
     public enum PlayType
     {
         Empty,
         MainMenu,//Will Play in the main menu
         Scene//Will play in the scene
     }
+
     public enum SoundStatus
     {
         Ready,
         Playing,
         Stopped
     }
+
     public class GameSound : IDisposable
     {
         private string soundID;
@@ -35,6 +38,7 @@ namespace OpenMB.Sound
         private bool? disposing;
         private BackgroundWorker playThread;
         private Random rand;
+        private PlayMode mode;
 
         public string ID
         {
@@ -51,6 +55,11 @@ namespace OpenMB.Sound
             get { return type; }
             set { type = value; }
         }
+
+        public SoundStatus PlayStatus
+		{
+			get { return status; }
+		}
 
         public GameSound()
         {
@@ -75,6 +84,7 @@ namespace OpenMB.Sound
         {
             soundList.Add(s);
         }
+
         public void Play(PlayMode mode = PlayMode.Loop)
         {
             if (status == SoundStatus.Playing)
@@ -82,56 +92,10 @@ namespace OpenMB.Sound
                 status = SoundStatus.Stopped;
             }
 
+            this.mode = mode;
+
             currentIndex = 0;
             status = SoundStatus.Playing;
-            if (soundList.Count == 0)
-            {
-                return;
-            }
-            playThread.DoWork += ((o, e) => {
-                while (true)
-                {
-                    if (status == SoundStatus.Stopped)
-                    {
-                        status = SoundStatus.Ready;
-                        break;
-                    }
-                    else
-                    {
-                        if (!soundList[currentIndex].IsPlaying())
-                        {
-                            soundList[currentIndex].Play();
-                        }
-                        else
-                        {
-                            while (true)//Wait until current sound finished
-                            {
-                                if (!soundList[currentIndex].IsPlaying())
-                                {
-                                    switch (mode)
-                                    {
-                                        case PlayMode.Loop:
-                                            if (currentIndex == soundList.Count - 1)
-                                            {
-                                                currentIndex = 0;
-                                            }
-                                            else
-                                            {
-                                                currentIndex++;
-                                            }
-                                            break;
-                                        case PlayMode.Random:
-                                            int rk = rand.Next(soundList.Count);
-                                            currentIndex = rk;
-                                            break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-            playThread.RunWorkerAsync();
         }
         public void Stop()
         {
@@ -167,5 +131,44 @@ namespace OpenMB.Sound
             }
             disposed = true;
         }
-    }
+
+		public void Update()
+        {
+            if(soundList.Count == 0)
+			{
+                return;
+			}
+
+            if (!soundList[currentIndex].IsPlaying())
+            {
+                soundList[currentIndex].Play();
+            }
+            else
+            {
+                while (true)//Wait until current sound finished
+                {
+                    if (!soundList[currentIndex].IsPlaying())
+                    {
+                        switch (mode)
+                        {
+                            case PlayMode.Loop:
+                                if (currentIndex == soundList.Count - 1)
+                                {
+                                    currentIndex = 0;
+                                }
+                                else
+                                {
+                                    currentIndex++;
+                                }
+                                break;
+                            case PlayMode.Random:
+                                int rk = rand.Next(soundList.Count);
+                                currentIndex = rk;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+	}
 }

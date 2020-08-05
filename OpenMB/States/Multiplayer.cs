@@ -16,7 +16,6 @@ namespace OpenMB.States
         private GameServer thisServer;
         private Dictionary<string, string> option;
         private StringVector serverState;
-        private bool isEscapeMenuOpened;
 
         public Multiplayer()
         {

@@ -112,7 +112,7 @@ namespace OpenMB.Mods
 
 				GameMapManager.Instance.InitMod(currentMod);
 				ScreenManager.Instance.InitMod(currentMod);
-				SoundManager.Instance.InitMod(currentMod);
+				MusicSoundManager.Instance.InitMod(currentMod);
 				UIManager.Instance.InitMod(currentMod);
 
 				StringVector resources = ResourceGroupManager.Singleton.FindResourceNames(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, "*.script");

@@ -36,7 +36,7 @@ namespace OpenMB
         private ModManager modMgr;
         private NetworkManager networkMgr;
         private OutputManager outputMgr;
-        private SoundManager soundMgr;
+        private MusicSoundManager soundMgr;
         private ScreenManager uiMgr;
         private EngineState currentState;
 		private InputKeyMouseManager keyMouseManager;
@@ -115,7 +115,7 @@ namespace OpenMB
             ModManager.Instance.Update(timeSinceLastFrame);
             UIManager.Instance.Update();
             OutputManager.Instance.Update(timeSinceLastFrame);
-            SoundManager.Instance.Update(timeSinceLastFrame);
+            MusicSoundManager.Instance.Update(timeSinceLastFrame);
             BackendTaskManager.Instance.Update();
         }
 
@@ -264,10 +264,10 @@ namespace OpenMB
             modMgr = new ModManager();
             networkMgr = new NetworkManager();
             outputMgr = new OutputManager();
-            soundMgr = new SoundManager();
+            soundMgr = new MusicSoundManager();
             uiMgr = new ScreenManager();
 
-            SoundManager.Instance.InitSystem(
+            MusicSoundManager.Instance.InitSystem(
                 gameOptions.AudioConfig.EnableMusic, 
                 gameOptions.AudioConfig.EnableSound
             );
