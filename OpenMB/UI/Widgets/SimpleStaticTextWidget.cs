@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OpenMB.UI.Widgets
 {
-	public class StaticTextRelativeWidget : Widget
+	public class SimpleStaticTextWidget : Widget
 	{
 		protected TextAreaOverlayElement mTextArea;
 		protected bool mFitToTray;
@@ -48,7 +48,7 @@ namespace OpenMB.UI.Widgets
 			}
 		}
 
-		public StaticTextRelativeWidget(string name, string caption, float width, bool specificColor, ColourValue color, float fontSize = 100)
+		public SimpleStaticTextWidget(string name, string caption, float width, bool specificColor, ColourValue color, float fontSize = 100)
 		{
 			OverlayManager overlayMgr = OverlayManager.Singleton;
 			element = overlayMgr.CreateOverlayElement("BorderPanel", name);

@@ -111,7 +111,7 @@ namespace OpenMB.Screen
 					{
 						BuildFactionDetails(sideInfo);
 					}
-					var btnFaction = new StaticTextButton("txtFaction_" + sideInfo.Name, GameString.FromString(sideInfo.ID, sideInfo.Name).ToString(), 
+					var btnFaction = new SimpleStaticTextButton("txtFaction_" + sideInfo.Name, GameString.FromString(sideInfo.ID, sideInfo.Name).ToString(), 
 						(Color.FromArgb(36, 35, 191).ToColourValue()), 
 						ColourValue.Black, true);
 					panelFactions.AddWidget(curRow, 1, btnFaction);
@@ -140,7 +140,7 @@ namespace OpenMB.Screen
 			panelFactionDetails.AddRow(UI.ValueType.Abosulte, 0.03f);//foreign relations
 			panelFactionDetails.Padding.PaddingLeft = 0.01f;
 
-			StaticTextRelativeWidget txtFactionName = new StaticTextRelativeWidget("txtFactionName", GameString.FromString(sideInfo.ID, sideInfo.Name).ToString(), 0, false, ColourValue.Black, 150);
+			SimpleStaticTextWidget txtFactionName = new SimpleStaticTextWidget("txtFactionName", GameString.FromString(sideInfo.ID, sideInfo.Name).ToString(), 0, false, ColourValue.Black, 150);
 			panelFactionDetails.AddWidget(2, 1, txtFactionName, AlignMode.Center);
 
 			PanelMaterialWidget coatOfArmsPanel = new PanelMaterialWidget("coatOfArmsPanel", sideInfo.COA);
@@ -153,18 +153,18 @@ namespace OpenMB.Screen
 
 			GameRegisterManager.Instance.SetRegisterValue("reg0", GameString.FromString(sideInfo.ID, sideInfo.Name).ToString());
 			GameRegisterManager.Instance.SetRegisterValue("reg1", GameString.FromString(chaData.ID, chaData.Name).ToString());
-			StaticTextRelativeWidget txtFactionRulerInfo = new StaticTextRelativeWidget("txtFactionRulerInfo", GameString.FromString("@{reg0} is ruled by {reg1}").ToString(),0, false, ColourValue.Black);
+			SimpleStaticTextWidget txtFactionRulerInfo = new SimpleStaticTextWidget("txtFactionRulerInfo", GameString.FromString("@{reg0} is ruled by {reg1}").ToString(),0, false, ColourValue.Black);
 			txtFactionRulerInfo.Width = txtFactionName.TextWidth;
 			txtFactionRulerInfo.Height = txtFactionName.TextHeight;
 			panelFactionDetails.AddWidget(4, 1, txtFactionRulerInfo);
 
-			StaticTextRelativeWidget txtOccupiedLands = new StaticTextRelativeWidget("txtOccupiedLands", GameString.FromString("@It occupies none").ToString(), 0, false, ColourValue.Black);
+			SimpleStaticTextWidget txtOccupiedLands = new SimpleStaticTextWidget("txtOccupiedLands", GameString.FromString("@It occupies none").ToString(), 0, false, ColourValue.Black);
 			panelFactionDetails.AddWidget(5, 1, txtOccupiedLands);
 
-			StaticTextRelativeWidget txtVassalInfos = new StaticTextRelativeWidget("txtVassalInfos", GameString.FromString("@Its vassals are none").ToString(), 0, false, ColourValue.Black);
+			SimpleStaticTextWidget txtVassalInfos = new SimpleStaticTextWidget("txtVassalInfos", GameString.FromString("@Its vassals are none").ToString(), 0, false, ColourValue.Black);
 			panelFactionDetails.AddWidget(6, 1, txtVassalInfos);
 
-			StaticTextRelativeWidget txtForeignRelationship = new StaticTextRelativeWidget("txtForeignRelationship", GameString.FromString("@Foreign relations:").ToString(), 0, false, ColourValue.Black);
+			SimpleStaticTextWidget txtForeignRelationship = new SimpleStaticTextWidget("txtForeignRelationship", GameString.FromString("@Foreign relations:").ToString(), 0, false, ColourValue.Black);
 			panelFactionDetails.AddWidget(8, 1, txtForeignRelationship);
 
 			subWidgets.Add(panelFactionDetails);

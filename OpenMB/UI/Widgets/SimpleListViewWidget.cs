@@ -324,7 +324,7 @@ namespace OpenMB.UI.Widgets
         {
             for (int i = 0; i < columns.Count; i++)
             {
-                StaticTextRelativeWidget columnText = new StaticTextRelativeWidget(Guid.NewGuid().ToString(), columns[i], 1, false, ColourValue.Black);
+                SimpleStaticTextWidget columnText = new SimpleStaticTextWidget(Guid.NewGuid().ToString(), columns[i], 1, false, ColourValue.Black);
                 header.AddWidget(1, i + 1, columnText, AlignMode.Center, AlignMode.Center, DockMode.Fill);
             }
         }

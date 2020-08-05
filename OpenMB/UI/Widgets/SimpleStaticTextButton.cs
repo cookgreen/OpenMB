@@ -11,7 +11,7 @@ namespace OpenMB.UI.Widgets
 	/// <summary>
 	/// No border button
 	/// </summary>
-	public class StaticTextButton : Widget
+	public class SimpleStaticTextButton : Widget
 	{
 		private ColourValue normalStateColor;
 		private ColourValue activeStateColor;
@@ -39,7 +39,7 @@ namespace OpenMB.UI.Widgets
 		{
 			get { return mTextArea; }
 		}
-		public StaticTextButton(string name, string caption, ColourValue normalStateColor, ColourValue activeStateColor, bool specificColor = false)
+		public SimpleStaticTextButton(string name, string caption, ColourValue normalStateColor, ColourValue activeStateColor, bool specificColor = false)
 		{
 			OverlayManager overlayMgr = OverlayManager.Singleton;
 			element = overlayMgr.CreateOverlayElement("BorderPanel", name);

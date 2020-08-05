@@ -17,7 +17,7 @@ namespace OpenMB.Screen
 	{
 		private Dictionary<string, Mod> modList;
         private PanelScrollableWidget browserMainPanel;
-        private StaticTextRelativeWidget txtMessage;
+        private SimpleStaticTextWidget txtMessage;
         private const int BROWSER_EACHROW_SHOW_NUMBER = 3;
 		private const int BROWSER_PAGE_SHOW_NUMBER = 20;
 
@@ -42,7 +42,7 @@ namespace OpenMB.Screen
 			//Create a ui
 			browserMainPanel = UIManager.Instance.CreateScrollablePanel("modBrowserMainPanel", 0.8f, 0.7f, 0.1f, 0.15f);
 			browserMainPanel.Material = "SdkTrays/MiniTray";
-			txtMessage = new StaticTextRelativeWidget("message", "Fetching mods...", 0.2f, false, new Mogre.ColourValue());
+			txtMessage = new SimpleStaticTextWidget("message", "Fetching mods...", 0.2f, false, new Mogre.ColourValue());
 			browserMainPanel.AddWidget(1, 1, txtMessage, AlignMode.Center, AlignMode.Center, DockMode.Center);
 		}
 
@@ -108,7 +108,7 @@ namespace OpenMB.Screen
 
 			modPreviewWidget.AddWidget(2, 1, modInfoWidget, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 
-			StaticTextRelativeWidget modNameWidget = new StaticTextRelativeWidget("mod_text_" + mod.name_id, mod.name, 0.2f, false, new Mogre.ColourValue());
+			SimpleStaticTextWidget modNameWidget = new SimpleStaticTextWidget("mod_text_" + mod.name_id, mod.name, 0.2f, false, new Mogre.ColourValue());
 			modInfoWidget.AddWidget(1, 1, modNameWidget, AlignMode.Left, AlignMode.Center);
 
 			SimpleButtonWidget btnModSubscribeWidget = new SimpleButtonWidget("btnModSubscribeWidget_" + mod.name_id, "Subscribe", 0.8f, 0.7f);
