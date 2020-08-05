@@ -18,7 +18,7 @@ namespace OpenMB.UI.Widgets
 		protected ButtonState mState;
 		protected TextAreaOverlayElement mTextArea;
 		protected bool mFitToTray;
-		public event Action<object> OnClick;
+		public override event Action<object> OnClick;
 		public override float Width { get { return TextWidth; } }
 		public override float Height { get { return TextHeight; } }
 		public float TextWidth

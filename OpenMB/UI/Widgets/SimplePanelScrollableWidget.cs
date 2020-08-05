@@ -10,16 +10,11 @@ using System.Threading.Tasks;
 
 namespace OpenMB.UI.Widgets
 {
-	public enum ScrollOritentation
-	{
-		Up,
-		Down,
-	}
 
 	/// <summary>
 	/// Scrollable Panel
 	/// </summary>
-	public class PanelScrollableWidget : PanelWidget, IScrollable
+	public class SimplePanelScrollableWidget : PanelWidget, IScrollable
 	{
 		private List<Widget> visualWidgets;
 		private BorderPanelOverlayElement scroll;
@@ -34,7 +29,7 @@ namespace OpenMB.UI.Widgets
 			}
 		}
 
-		public PanelScrollableWidget(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1, bool hasBorder = true) : base(name, width, height, left, top, row, col, hasBorder)
+		public SimplePanelScrollableWidget(string name, float width = 0, float height = 0, float left = 0, float top = 0, float eachRowHeight = 0.03f, int col = 1, bool hasBorder = true) : base(name, width, height, left, top, (int)(height / eachRowHeight), col, hasBorder)
 		{
 			visualWidgets = new List<Widget>();
 			string scrollName = name + "_Scroll";
@@ -124,7 +119,8 @@ namespace OpenMB.UI.Widgets
 				for (int i = 0; i < sub; i++)
 				{
 					PanelRow row = new PanelRow(this);
-					row.Type = ValueType.Auto;
+					row.Type = ValueType.Abosulte;
+					row.Height = widget.Height;
 					rows.Add(row);
 				}
 			}
@@ -134,7 +130,7 @@ namespace OpenMB.UI.Widgets
 				for (int i = 0; i < sub; i++)
 				{
 					PanelColumn col = new PanelColumn(this);
-					col.Type = ValueType.Auto;
+					col.Type = ValueType.Percent;
 					cols.Add(col);
 				}
 			}
@@ -202,5 +198,40 @@ namespace OpenMB.UI.Widgets
 			}
 			base.RemoveWidget(rowNum, colNum);
         }
-    }
+
+		public void ChangeEachRowHeight(float eachRowHeight)
+		{
+			int rowNum = (int)(Height / eachRowHeight);
+			rows = new List<PanelRow>();
+			for (int i = 0; i < rowNum; i++)
+			{
+				PanelRow row = new PanelRow(this);
+				row.Type = ValueType.Abosulte;
+				row.Height = eachRowHeight;
+				rows.Add(row);
+			}
+		}
+
+		public void ReAdjust(List<Widget> widgets)
+		{
+			float colTotalWidth = 0;
+			float widgetTotalwidth = 0;
+			for (int i = 0; i < cols.Count; i++)
+			{
+				colTotalWidth += cols[i].RealWidth;
+			}
+			//for (int i = 0; i < widgets.Count; i++)
+			//{
+			//	widgetTotalwidth += widgets[i].Width;
+			//}
+			widgetTotalwidth = widgets.Last().Left + widgets.Last().Width;
+			var offset = colTotalWidth - widgetTotalwidth;
+			
+			for (int i = 0; i < widgets.Count; i++)
+			{
+				//widgets[i].Left += offset / (cols.Count);
+				widgets[i].Width += offset / (cols.Count);
+			}
+		}
+	}
 }

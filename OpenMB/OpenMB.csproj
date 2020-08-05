@@ -380,8 +380,10 @@
     <Compile Include="UI\Skin\ISkinable.cs" />
     <Compile Include="UI\Skin\SkinDefine.cs" />
     <Compile Include="UI\Skin\SkinManager.cs" />
+    <Compile Include="UI\Widgets\SimplePanelScrollableWidget.cs" />
     <Compile Include="UI\Widgets\SimpleListViewWidget.cs" />
     <Compile Include="UI\Widgets\SimpleButtonWidget.cs" />
+    <Compile Include="UI\Widgets\SimpleStaticTextBackgroundWidget.cs" />
     <Compile Include="UI\Widgets\SkinWidget.cs" />
     <Compile Include="UI\Widgets\TextWidget.cs" />
     <Compile Include="Script\Command\TriggerConditionScriptCommand.cs" />

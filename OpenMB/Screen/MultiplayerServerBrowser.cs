@@ -29,6 +29,17 @@ namespace OpenMB.Screen
             UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnJoin", "Join", 150);
             UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnHost", "Host", 150);
             UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnExit", "Exit", 150);
+
+            for (int i = 0; i < 5; i++)
+            {
+                SimpleListViewWidget.ListViewItem listViewItem = new SimpleListViewWidget.ListViewItem();
+                listViewItem.SubItems.Add("Server" + (i + 1).ToString());
+                listViewItem.SubItems.Add("Kingdom & Knights");
+                listViewItem.SubItems.Add("Magic Forest");
+                listViewItem.SubItems.Add("Battle");
+                listViewItem.SubItems.Add("0/20");
+                listViewWidget.AddItem(listViewItem);
+            }
         }
 
         public override void Exit()

@@ -40,7 +40,7 @@ namespace OpenMB.Screen
             client.GetResultDataFinished += Client_GetResultDataFinished;
 
 			//Create a ui
-			browserMainPanel = UIManager.Instance.CreateScrollablePanel("modBrowserMainPanel", 0.8f, 0.7f, 0.1f, 0.15f);
+			browserMainPanel = UIManager.Instance.CreateScrollablePanel("modBrowserMainPanel", 0.9f, 0.9f, 0.05f, 0.05f);
 			browserMainPanel.Material = "SdkTrays/MiniTray";
 			txtMessage = new SimpleStaticTextWidget("message", "Fetching mods...", 0.2f, false, new Mogre.ColourValue());
 			browserMainPanel.AddWidget(1, 1, txtMessage, AlignMode.Center, AlignMode.Center, DockMode.Center);
@@ -91,7 +91,7 @@ namespace OpenMB.Screen
 
 		private void CreateModCard(Mod mod, int currentRow, int currentCol)
 		{
-			PanelWidget modPreviewWidget = new PanelWidget("mod_panel_" + mod.name_id, 0, 0.5f, 0, 0, 2, 1, false);
+			PanelWidget modPreviewWidget = new PanelWidget("mod_panel_" + mod.name_id, 0, 0.3f, 0, 0, 2, 1, false);
 			modPreviewWidget.ChangeRow(UI.ValueType.Percent, 100);
 			modPreviewWidget.ChangeRow(UI.ValueType.Abosulte, 0.3f, 2);
 			modPreviewWidget.Material = "SdkTrays/MiniTray";

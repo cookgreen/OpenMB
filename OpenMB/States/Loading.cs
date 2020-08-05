@@ -8,6 +8,7 @@ using Mogre_Procedural.MogreBites;
 using OpenMB.Localization;
 using OpenMB.UI;
 using OpenMB.UI.Widgets;
+using MOIS;
 
 namespace OpenMB.States
 {
@@ -81,7 +82,7 @@ namespace OpenMB.States
 
             camera = sceneMgr.CreateCamera("LoadingScreenCam");
             camera.SetPosition(0, 25, -50);
-            Vector3 vectorCameraLookat = new Mogre.Vector3(0, 0, 0);
+			Mogre.Vector3 vectorCameraLookat = new Mogre.Vector3(0, 0, 0);
             camera.LookAt(vectorCameraLookat);
             camera.NearClipDistance = 1;
 
@@ -101,6 +102,37 @@ namespace OpenMB.States
                     ModManager.Instance.LoadMod(GameManager.Instance.loadingData.LoadingObjName);
                     break;
             }
+
+            GameManager.Instance.mouse.MouseMoved += mouseMoved;
+            GameManager.Instance.mouse.MousePressed += mousePressed;
+            GameManager.Instance.mouse.MouseReleased += mouseReleased;
+            GameManager.Instance.keyboard.KeyPressed += keyPressed;
+            GameManager.Instance.keyboard.KeyReleased += keyReleased;
+        }
+
+        public bool keyPressed(KeyEvent keyEventRef)
+        {
+            return true;
+        }
+        public bool keyReleased(KeyEvent keyEventRef)
+        {
+            return true;
+        }
+
+        public bool mouseMoved(MouseEvent evt)
+        {
+            UIManager.Instance.InjectMouseMove(evt);
+            return true;
+        }
+        public bool mousePressed(MouseEvent evt, MouseButtonID id)
+        {
+            UIManager.Instance.InjectMouseDown(evt, id);
+            return true;
+        }
+        public bool mouseReleased(MouseEvent evt, MouseButtonID id)
+        {
+            UIManager.Instance.InjectMouseUp(evt, id);
+            return true;
         }
 
         private void LoadingModFinished()

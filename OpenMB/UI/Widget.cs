@@ -14,6 +14,8 @@ namespace OpenMB.UI
 	/// </summary>
 	public class Widget : IDisposable
 	{
+		public virtual event Action<object> OnClick;
+		protected string id;
 		protected OverlayElement element;
 		protected UIWidgetLocation trayLoc;
 		protected UIListener listener;

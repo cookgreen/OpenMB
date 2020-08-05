@@ -119,12 +119,30 @@ namespace OpenMB.UI.Widgets
     {
         public class ListViewItem
         {
-            public List<string> Items { get; set; }
+            public List<string> SubItems { get; set; }
+            public List<Widget> Widgets { get; set; }
             public ListViewItem()
             {
-                Items = new List<string>();
+                SubItems = new List<string>();
+                Widgets = new List<Widget>();
             }
-        }
+
+            public void Highlight()
+            {
+                for (int i = 0; i < Widgets.Count; i++)
+                {
+                    Widgets[i].Material = "Engine/Background/Active";
+                }
+            }
+
+            public void UnHighlight()
+            {
+                for (int i = 0; i < Widgets.Count; i++)
+                {
+                    Widgets[i].Material = "Engine/Background/Normal";
+                }
+            }
+		}
 
         protected List<ListViewPanelRow> rows;
         protected List<ListViewPanelColumn> cols;
@@ -132,8 +150,9 @@ namespace OpenMB.UI.Widgets
         private List<ListViewItem> items;
         private List<string> columns;
         private PanelWidget header;
-        private PanelScrollableWidget content;
+        private SimplePanelScrollableWidget content;
         private const float LISTVIEW_ROW_HEIGHT = 0.05f;
+        private ListViewItem lastListViewItem;
 
         public List<ListViewPanelRow> Rows
         {
@@ -205,11 +224,13 @@ namespace OpenMB.UI.Widgets
             rows.Add(row);
 
             header = new PanelWidget("listview_" + name + "_header_" + Guid.NewGuid().ToString(), 0, 0, 0, 0, 1, columns.Count, false);
-            content = new PanelScrollableWidget("listview_" + name + "_header_" + Guid.NewGuid().ToString(), 0, 0, 0, 0, 1, columns.Count, false);
+            content = new SimplePanelScrollableWidget("listview_" + name + "_header_" + Guid.NewGuid().ToString(), 0, 0, 0, 0, LISTVIEW_ROW_HEIGHT, columns.Count, false);
             content.Material = "SdkTrays/MiniTray";
 
             AddWidget(1, 1, header, AlignMode.Center, AlignMode.Center, DockMode.Fill);
             AddWidget(2, 1, content, AlignMode.Center, AlignMode.Center, DockMode.Fill);
+
+            content.ChangeEachRowHeight(LISTVIEW_ROW_HEIGHT);
 
             AddColumn();
         }
@@ -329,16 +350,48 @@ namespace OpenMB.UI.Widgets
             }
         }
 
-        public void AddItem(ListViewItem item)
+        public void AddItem(ListViewItem listViewItem)
         {
-            if (item.Items.Count != columns.Count)
+            if (listViewItem.SubItems.Count != columns.Count)
             {
                 throw new Exception("Item is not matched with the column!!!");
             }
 
+            int colNum = items.Count + 1;
+            for (int i = 0; i < listViewItem.SubItems.Count; i++)
+            {
+                SimpleStaticTextBackgroundWidget contentText = new SimpleStaticTextBackgroundWidget(Guid.NewGuid().ToString(), listViewItem.SubItems[i], 1, false, ColourValue.Black);
+                contentText.Height = LISTVIEW_ROW_HEIGHT;
+                contentText.OnClick += (o) =>
+                {
+                    var lvi = items.Where(b => b.Widgets.Where(a => a.Name == contentText.Name).Count() == 1).FirstOrDefault();
+                    if (lvi != null)
+                    {
+                        if (lastListViewItem != null)
+                        {
+                            lastListViewItem.UnHighlight();
+                        }
+                        lvi.Highlight();
+                        lastListViewItem = lvi;
+                    }
+                };
+                content.AddWidget(colNum, i + 1, contentText, AlignMode.Center, AlignMode.Center, DockMode.Fill, 1, 1);
+                listViewItem.Widgets.Add(contentText);
+            }
 
-
-            items.Add(item);
+            items.Add(listViewItem);
         }
-    }
+
+		public override void CursorPressed(Vector2 cursorPos)
+		{
+            header.CursorPressed(cursorPos);
+            content.CursorPressed(cursorPos);
+		}
+
+		public override void CursorReleased(Vector2 cursorPos)
+        {
+            header.CursorReleased(cursorPos);
+            content.CursorReleased(cursorPos);
+        }
+	}
 }

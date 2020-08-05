@@ -10,6 +10,9 @@ namespace OpenMB.UI.Widgets
 {
 	public class SimpleStaticTextWidget : Widget
 	{
+		protected ButtonState state;
+		public override event Action<object> OnClick;
+
 		protected TextAreaOverlayElement mTextArea;
 		protected bool mFitToTray;
 		public override float Width { get { return TextWidth; } }
@@ -55,10 +58,15 @@ namespace OpenMB.UI.Widgets
 			element.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
 			//element.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
 			element.Height = 0.32f;
+			element.Left = -0.01f;
+			if (width == 0)
+			{
+				element.Width = 1;
+			}
 			mTextArea = overlayMgr.CreateOverlayElement("TextArea", name + "/StaticTextCaption") as TextAreaOverlayElement;
 			mTextArea.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-			mTextArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
-			mTextArea.SetAlignment(TextAreaOverlayElement.Alignment.Left);
+			mTextArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_CENTER;
+			mTextArea.SetAlignment(TextAreaOverlayElement.Alignment.Center);
 			mTextArea.Top = 0f;
 			mTextArea.FontName = "EngineFont";
 			mTextArea.CharHeight = 0.025f * (fontSize / (float)100);
@@ -77,11 +85,29 @@ namespace OpenMB.UI.Widgets
 
 		public override void CursorPressed(Mogre.Vector2 cursorPos)
 		{
+			if (IsCursorOver(cursorPos))
+			{
+				SetState(ButtonState.BS_DOWN);
+			}
 		}
 
-		public bool _isFitToTray()
+		public override void CursorReleased(Vector2 cursorPos)
 		{
-			return mFitToTray;
+			if (state == ButtonState.BS_DOWN)
+			{
+				SetState(ButtonState.BS_UP);
+				OnClick?.Invoke(null);
+			}
+		}
+
+		private void SetState(ButtonState bs)
+		{
+			state = bs;
+		}
+
+		public override void AddedToAnotherWidgetFinished(AlignMode alignMode, float parentWidgetLeft, float parentWidgetWidth, float parentWidgetTop, float parentWidgetHeight)
+		{
+			element.Left += -(parentWidgetWidth - Width) / 2;
 		}
 	}
 }

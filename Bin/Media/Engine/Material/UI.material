@@ -143,3 +143,53 @@ material NoMaterial
 	{
 	}
 }
+
+material Engine/Background/Normal : Engine/Base
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture background_normal.png
+            }
+        }
+    }
+}
+
+material Engine/Background/Active : Engine/Base
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture background_active.png
+            }
+			
+		    texture_unit
+			{
+			    texture sdk_pulse.png
+			    colour_op add
+				scroll_anim 1 0
+				scale 100 1
+			}
+        }
+    }
+}
+
+material Engine/Background/Darker : Engine/Base
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                texture background_dark_green.png
+            }
+        }
+    }
+}
