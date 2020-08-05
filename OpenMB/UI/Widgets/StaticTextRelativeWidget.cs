@@ -53,7 +53,7 @@ namespace OpenMB.UI.Widgets
 			OverlayManager overlayMgr = OverlayManager.Singleton;
 			element = overlayMgr.CreateOverlayElement("BorderPanel", name);
 			element.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-			element.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
+			//element.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
 			element.Height = 0.32f;
 			mTextArea = overlayMgr.CreateOverlayElement("TextArea", name + "/StaticTextCaption") as TextAreaOverlayElement;
 			mTextArea.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
@@ -82,25 +82,6 @@ namespace OpenMB.UI.Widgets
 		public bool _isFitToTray()
 		{
 			return mFitToTray;
-		}
-
-		public override void AddedToAnotherWidgetFinished(
-			AlignMode alignMode,
-			float parentWidgetLeft,
-			float parentWidgetWidth,
-			float parentWidgetTop,
-			float parentWidgetHeight
-		)
-		{
-			switch(alignMode)
-			{
-				case AlignMode.Center:
-					//mElement.Left = (parentWidgetWidth - TextWidth) / 2;
-					mTextArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_LEFT;
-					mTextArea.SetAlignment(TextAreaOverlayElement.Alignment.Center);
-					element.Left += element.Left + TextWidth - parentWidgetWidth / 1.9f;
-					break;
-			}
 		}
 	}
 }

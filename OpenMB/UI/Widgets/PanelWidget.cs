@@ -400,6 +400,7 @@ namespace OpenMB.UI.Widgets
 			int rowSpan = 1,
 			int colSpan = 1)
 		{
+
 			widget.Col = colNum;
 			widget.Row = rowNum;
 			widgets.Add(widget);
@@ -425,10 +426,6 @@ namespace OpenMB.UI.Widgets
 				case DockMode.FillWidth:
 					widget.Width = c.RealWidth - (Padding.PaddingLeft + Padding.PaddingRight);
 					widget.Left += Padding.PaddingLeft;
-					break;
-				case DockMode.Center:
-					widget.Width = widget.Width * c.RealWidth;
-					//widget.Height = widget.Height * r.AbosulteHeight;
 					break;
 				case DockMode.None:
 					widget.Width *= c.RealWidth;

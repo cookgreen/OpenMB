@@ -133,7 +133,7 @@ namespace OpenMB.UI.Widgets
         private List<string> columns;
         private PanelWidget header;
         private PanelScrollableWidget content;
-        private const float LISTVIEW_ROW_HEIGHT = 0.1f;
+        private const float LISTVIEW_ROW_HEIGHT = 0.05f;
 
         public List<ListViewPanelRow> Rows
         {
@@ -324,7 +324,7 @@ namespace OpenMB.UI.Widgets
         {
             for (int i = 0; i < columns.Count; i++)
             {
-                StaticText columnText = new StaticText(Guid.NewGuid().ToString(), columns[i], 1, false, ColourValue.Black);
+                StaticTextRelativeWidget columnText = new StaticTextRelativeWidget(Guid.NewGuid().ToString(), columns[i], 1, false, ColourValue.Black);
                 header.AddWidget(1, i + 1, columnText, AlignMode.Center, AlignMode.Center, DockMode.Fill);
             }
         }
