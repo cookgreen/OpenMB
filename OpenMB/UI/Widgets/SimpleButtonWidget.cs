@@ -13,7 +13,7 @@ namespace OpenMB.UI.Widgets
 		private ButtonState state;
 		private BorderPanelOverlayElement borderPanelElement;
         private TextAreaOverlayElement textAreaElement;
-		public event Action<object> OnClick;
+		public override event Action<object> OnClick;
 
 		public SimpleButtonWidget(string name, string caption, float width, float height, float left = 0, float top = 0)
         {

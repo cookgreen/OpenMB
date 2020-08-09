@@ -454,6 +454,10 @@ namespace OpenMB.UI
 
 		public virtual void CursorPressed(Vector2 cursorPos)
 		{
+			if (IsCursorOver(cursorPos))
+			{
+				OnClick?.Invoke(this);
+			}
 		}
 		public virtual void CursorReleased(Vector2 cursorPos)
 		{
