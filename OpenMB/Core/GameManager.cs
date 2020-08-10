@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using OpenMB.UI.Skin;
 
 namespace OpenMB
 {
@@ -224,6 +225,8 @@ namespace OpenMB
             {
                 LocateSystem.Instance.InitLocateSystem(LocateSystem.Instance.ConvertReadableStringToLocate(gameOptions.LocateConfig.CurrentLocate));
             }
+
+            SkinManager.Instance.LoadSkin("Default.skn");
 
             ResourceGroupManager.Singleton.AddResourceLocation(
                 string.Format("./Media/Engine/Fonts/{0}/", LocateSystem.Instance.Locate.ToString()), "FileSystem",

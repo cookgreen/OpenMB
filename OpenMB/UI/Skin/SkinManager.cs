@@ -8,6 +8,7 @@ namespace OpenMB.UI.Skin
 {
     public class SkinManager
     {
+        private SkinFile currentSkinFile;
         private static SkinManager instance;
         public static SkinManager Instance
         {
@@ -23,7 +24,7 @@ namespace OpenMB.UI.Skin
 
         public void LoadSkin(string skinFileName)
         {
-
+            currentSkinFile = SkinFile.Load(skinFileName);
         }
     }
 }

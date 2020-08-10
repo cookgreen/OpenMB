@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,42 +12,29 @@ namespace OpenMB.UI.Skin
     /// Skin Describe Xml file
     /// </summary>
     [XmlRoot("Skin")]
-    public class SkinDefine
+    public class SkinFile
     {
-        [XmlElement]
+        [XmlAttribute]
         public string Name { get; set; }
-        [XmlElement("SkinRect")]
-        public List<SkinDefineRect> Rects { get; set; }
+        [XmlElement("SkinElement")]
+        public List<SkinElement> Rects { get; set; }
+
+        public static SkinFile Load(string skinFile)
+		{
+            XmlSerializer serializer = new XmlSerializer(typeof(SkinFile));
+            SkinFile skin = serializer.Deserialize(new FileStream(skinFile, FileMode.Open, FileAccess.Read)) as SkinFile;
+            return skin;
+		}
     }
 
-    [XmlRoot("SkinRect")]
-    public class SkinDefineRect
+    [XmlRoot("SkinElement")]
+    public class SkinElement
     {
-        [XmlElement("BoderElement")]
-        public SkinDefineRectBorderElement BorderSkin { get; set; }
-        [XmlElement("BackgroundElement")]
-        public SkinDefineRectElement BackgroundSkin { get; set; }
-    }
-
-    [XmlRoot("BorderElement")]
-    public class SkinDefineRectBorderElement
-    {
-        public string Picture { get; set; }
-        public string BorderSize { get; set; }
-        public string BorderTopleftUV { get; set; }
-        public string BorderTopUV { get; set; }
-        public string BorderToprightUV { get; set; }
-        public string BorderLeftUV { get; set; }
-        public string BorderRightUV { get; set; }
-        public string BorderBottomleftUV { get; set; }
-        public string BorderBottomUV { get; set; }
-        public string BorderBottomrightUV { get; set; }
-    }
-
-    [XmlRoot("Element")]
-    public class SkinDefineRectElement
-    {
-        public string Picture { get; set; }
-        public string UVCoords { get; set; }
+        [XmlAttribute]
+        public string Name { get; set; }
+        [XmlText]
+        public string Value { get; set; }
+        [XmlElement("SkinElement")]
+        public List<SkinElement> Elements { get; set; }
     }
 }
