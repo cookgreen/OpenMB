@@ -277,7 +277,8 @@ namespace OpenMB.UI.Widgets
 			AlignMode vAlign = AlignMode.Left,
 			DockMode dock = DockMode.None,
 			int rowSpan = 1,
-			int colSpan = 1)
+			int colSpan = 1,
+			bool isAddWidgetToAnother = true)
 		{
 			switch (widget.MetricMode)
 			{
@@ -285,7 +286,7 @@ namespace OpenMB.UI.Widgets
 					AddWidgetPixels(rowNum, colNum, widget, hAlign, vAlign, dock, rowSpan, colSpan);
 					break;
 				case GuiMetricsMode.GMM_RELATIVE:
-					AddWidgetRelative(rowNum, colNum, widget, hAlign, vAlign, dock, rowSpan, colSpan);
+					AddWidgetRelative(rowNum, colNum, widget, hAlign, vAlign, dock, rowSpan, colSpan, isAddWidgetToAnother);
 					break;
 			}
 		}
@@ -398,7 +399,8 @@ namespace OpenMB.UI.Widgets
 			AlignMode vAlign = AlignMode.Left,
 			DockMode dock = DockMode.None,
 			int rowSpan = 1,
-			int colSpan = 1)
+			int colSpan = 1,
+			bool isAddedWidgetToAnotherWidget = true)
 		{
 
 			widget.Col = colNum;
@@ -498,7 +500,10 @@ namespace OpenMB.UI.Widgets
 					}
 					break;
 			}
-			widget.AddedToAnotherWidgetFinished(hAlign, relativeLeft, c.RealWidth, relativeTop, r.RealHeight);
+			if (isAddedWidgetToAnotherWidget)
+			{
+				widget.AddedToAnotherWidgetFinished(hAlign, relativeLeft, c.RealWidth, relativeTop, r.RealHeight);
+			}
 		}
 
 		private float PixelsToRelative(float pixelValue, float referenceValue)

@@ -111,7 +111,8 @@ namespace OpenMB.UI.Widgets
 			AlignMode vAlign = AlignMode.Left,
 			DockMode dock = DockMode.None,
 			int rowSpan = 1,
-			int colSpan = 1)
+			int colSpan = 1,
+			bool isAddWidgetToAnother = true)
 		{
 			if (rowNum > rows.Count)
 			{

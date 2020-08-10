@@ -109,7 +109,7 @@ namespace OpenMB.Screen
 			modPreviewWidget.AddWidget(2, 1, modInfoWidget, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 
 			SimpleStaticTextWidget modNameWidget = new SimpleStaticTextWidget("mod_text_" + mod.name_id, mod.name, 0.2f, false, new Mogre.ColourValue());
-			modInfoWidget.AddWidget(1, 1, modNameWidget, AlignMode.Left, AlignMode.Center);
+			modInfoWidget.AddWidget(1, 1, modNameWidget, AlignMode.Left, AlignMode.Center, DockMode.Fill, 1, 1, false);
 
 			SimpleButtonWidget btnModSubscribeWidget = new SimpleButtonWidget("btnModSubscribeWidget_" + mod.name_id, "Subscribe", 0.8f, 0.7f);
 			btnModSubscribeWidget.OnClick += (o) =>
