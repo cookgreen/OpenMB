@@ -43,7 +43,7 @@ namespace OpenMB.Core
 		{
 			if (keyCodes.Count > 0)
 			{
-				if(keyCodes.Count==1)
+				if (keyCodes.Count == 1)
 				{
 					return keyCodes[0];
 				}
@@ -70,7 +70,7 @@ namespace OpenMB.Core
 			}
 		}
 
-		public static bool operator == (KeyCollection left, KeyCollection right)
+		public static bool operator ==(KeyCollection left, KeyCollection right)
 		{
 			if ((object)left == null || (object)right == null)
 			{
@@ -80,7 +80,7 @@ namespace OpenMB.Core
 			{
 				if (left.keyCodes.Count == right.keyCodes.Count)
 				{
-					for (int i = 0; i < left.keyCodes.Count;i++)
+					for (int i = 0; i < left.keyCodes.Count; i++)
 					{
 						var k1 = left.keyCodes[i];
 						var k2 = right.keyCodes[i];

@@ -5,8 +5,8 @@ using System.Text;
 
 namespace OpenMB.FileFormats
 {
-    public interface IFileFormat
-    {
-        void Load();
-    }
+	public interface IFileFormat
+	{
+		void Load();
+	}
 }

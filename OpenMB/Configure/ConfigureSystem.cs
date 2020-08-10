@@ -6,8 +6,8 @@ using System.Text;
 namespace OpenMB.Configure
 {
     public enum ConfigureType
-    {
-        INI,
+	{
+		INI,
         XML
     }
     /// <summary>

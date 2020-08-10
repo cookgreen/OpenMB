@@ -16,15 +16,15 @@ namespace OpenMB.Screen
 	public class ModBrowserScreen : Screen
 	{
 		private Dictionary<string, Mod> modList;
-        private PanelScrollableWidget browserMainPanel;
-        private SimpleStaticTextWidget txtMessage;
-        private const int BROWSER_EACHROW_SHOW_NUMBER = 3;
+		private PanelScrollableWidget browserMainPanel;
+		private SimpleStaticTextWidget txtMessage;
+		private const int BROWSER_EACHROW_SHOW_NUMBER = 3;
 		private const int BROWSER_PAGE_SHOW_NUMBER = 20;
 
-        public override event Action<string, string> OnScreenEventChanged;
-        public override event Action OnScreenExit;
+		public override event Action<string, string> OnScreenEventChanged;
+		public override event Action OnScreenExit;
 
-        public override string Name
+		public override string Name
 		{
 			get { return "ModBrowser"; }
 		}
@@ -35,9 +35,9 @@ namespace OpenMB.Screen
 		public override void Run()
 		{
 			modList = new Dictionary<string, Mod>();
-            Client client = new Client(Common.OPENMB_API_KEY, null);
+			Client client = new Client(Common.OPENMB_API_KEY, null);
 			client.GetModsAsync(Common.OPENMB_MODIO_ID);
-            client.GetResultDataFinished += Client_GetResultDataFinished;
+			client.GetResultDataFinished += Client_GetResultDataFinished;
 
 			//Create a ui
 			browserMainPanel = UIManager.Instance.CreateScrollablePanel("modBrowserMainPanel", 0.9f, 0.9f, 0.05f, 0.05f);
@@ -46,7 +46,7 @@ namespace OpenMB.Screen
 			browserMainPanel.AddWidget(1, 1, txtMessage, AlignMode.Center, AlignMode.Center, DockMode.Center);
 		}
 
-        private void Client_GetResultDataFinished(object obj)
+		private void Client_GetResultDataFinished(object obj)
 		{
 			object[] arr = obj as object[];
 			if (arr[0].ToString() == "finished" &&
@@ -87,7 +87,7 @@ namespace OpenMB.Screen
 			{
 				txtMessage.Text = "No mods found!";
 			}
-        }
+		}
 
 		private void CreateModCard(Mod mod, int currentRow, int currentCol)
 		{
@@ -117,7 +117,7 @@ namespace OpenMB.Screen
 				OnScreenEventChanged?.Invoke(btnModSubscribeWidget.Name, null);
 			};
 
-			IBackendTask downloadModThumbTask = new DownloadBackendTask(mod.logo.original, "./Media/Engine/Download/"+mod.name_id+"_thumb.png");
+			IBackendTask downloadModThumbTask = new DownloadBackendTask(mod.logo.original, "./Media/Engine/Download/" + mod.name_id + "_thumb.png");
 			BackendTaskManager.Instance.EnqueueTask(downloadModThumbTask);
 			BackendTaskManager.Instance.TaskEnded += (o) =>
 			{
@@ -127,12 +127,12 @@ namespace OpenMB.Screen
 			modInfoWidget.AddWidget(1, 2, btnModSubscribeWidget, AlignMode.Center, AlignMode.Center);
 		}
 
-        public override void Exit()
+		public override void Exit()
 		{
 			base.Exit();
 
 			UIManager.Instance.DestroyAllWidgets();
 			OnScreenExit?.Invoke();
 		}
-    }
+	}
 }

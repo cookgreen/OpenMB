@@ -47,7 +47,7 @@ namespace OpenMB.UI.Widgets
 		private float calculateAllAbsoluteHeights()
 		{
 			float heights = 0;
-			foreach(var row in panel.Rows)
+			foreach (var row in panel.Rows)
 			{
 				if (row.Type == ValueType.Abosulte)
 				{
@@ -117,30 +117,30 @@ namespace OpenMB.UI.Widgets
 	}
 
 	public class PanelCell
-    {
+	{
 		private int row;
 		private int col;
 		private PanelWidget panel;
 		public int Row { get { return row; } }
 		public int Col { get { return col; } }
 		public PanelCell(int row, int col, PanelWidget panel)
-        {
+		{
 			this.row = row;
 			this.col = col;
 			this.panel = panel;
-        }
+		}
 
 		public void AddWidget(Widget widget)
-        {
+		{
 
-        }
-    }
+		}
+	}
 
 	/// <summary>
 	/// Panel Control
 	/// </summary>
-    public class PanelWidget : Widget, IHasSubWidgets
-    {
+	public class PanelWidget : Widget, IHasSubWidgets
+	{
 		protected List<PanelRow> rows;
 		protected List<PanelColumn> cols;
 		protected List<Widget> widgets;
@@ -161,10 +161,10 @@ namespace OpenMB.UI.Widgets
 		}
 
 		public PanelWidget(string name, float width = 0, float height = 0, float left = 0, float top = 0, int row = 1, int col = 1, bool hasBorder = true)
-        {
-            widgets = new List<Widget>();
-            OverlayManager overlayMgr = OverlayManager.Singleton;
-			if(hasBorder)
+		{
+			widgets = new List<Widget>();
+			OverlayManager overlayMgr = OverlayManager.Singleton;
+			if (hasBorder)
 			{
 				element = OverlayManager.Singleton.CreateOverlayElementFromTemplate("EditorPanel", "BorderPanel", name);
 			}
@@ -178,7 +178,7 @@ namespace OpenMB.UI.Widgets
 			{
 				element.Width = 1.0f;
 			}
-            else
+			else
 			{
 				element.Width = width;
 			}
@@ -186,10 +186,10 @@ namespace OpenMB.UI.Widgets
 			{
 				element.Height = 1.0f;
 			}
-            else
-            {
-                element.Height = height;
-            }
+			else
+			{
+				element.Height = height;
+			}
 
 			element.Top = top;
 			element.Left = left;
@@ -279,25 +279,25 @@ namespace OpenMB.UI.Widgets
 			int rowSpan = 1,
 			int colSpan = 1)
 		{
-			switch(widget.MetricMode)
-            {
+			switch (widget.MetricMode)
+			{
 				case GuiMetricsMode.GMM_PIXELS:
 					AddWidgetPixels(rowNum, colNum, widget, hAlign, vAlign, dock, rowSpan, colSpan);
 					break;
 				case GuiMetricsMode.GMM_RELATIVE:
 					AddWidgetRelative(rowNum, colNum, widget, hAlign, vAlign, dock, rowSpan, colSpan);
 					break;
-            }
+			}
 		}
 
-        private void AddWidgetPixels(
-			int rowNum, 
-			int colNum, 
-			Widget widget, 
-			AlignMode hAlign, 
-			AlignMode vAlign, 
-			DockMode dock, 
-			int rowSpan, 
+		private void AddWidgetPixels(
+			int rowNum,
+			int colNum,
+			Widget widget,
+			AlignMode hAlign,
+			AlignMode vAlign,
+			DockMode dock,
+			int rowSpan,
 			int colSpan)
 		{
 			widget.Col = colNum;
@@ -335,7 +335,7 @@ namespace OpenMB.UI.Widgets
 
 			if (c.Type == ValueType.Auto)
 			{
-				c.Width = PixelsToRelative(widget.Width , RelativeToPixels(c.RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"])));
+				c.Width = PixelsToRelative(widget.Width, RelativeToPixels(c.RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"])));
 			}
 			if (r.Type == ValueType.Auto)
 			{
@@ -478,7 +478,7 @@ namespace OpenMB.UI.Widgets
 					{
 						widget.Left = (c.RealWidth - widget.Width) / 2;
 					}
-                    else
+					else
 					{
 						widget.Left += (c.RealWidth - widget.Width) / 2;
 					}
@@ -492,7 +492,7 @@ namespace OpenMB.UI.Widgets
 					{
 						widget.Top = (r.RealHeight - widget.Height) / 2;
 					}
-                    else
+					else
 					{
 						widget.Top += (r.RealHeight - widget.Height) / 2;
 					}
@@ -502,14 +502,14 @@ namespace OpenMB.UI.Widgets
 		}
 
 		private float PixelsToRelative(float pixelValue, float referenceValue)
-        {
+		{
 			return pixelValue / referenceValue;
-        }
+		}
 
-        private float RelativeToPixels(float relativeValue, float referenceValue)
-        {
+		private float RelativeToPixels(float relativeValue, float referenceValue)
+		{
 			return relativeValue * referenceValue;
-        }
+		}
 
 		public Widget GetWidget(int rowNum, int colNum)
 		{
@@ -533,9 +533,9 @@ namespace OpenMB.UI.Widgets
 			}
 		}
 
-        public override void Dispose()
-        {
-			foreach(var w in widgets)
+		public override void Dispose()
+		{
+			foreach (var w in widgets)
 			{
 				w.Dispose();
 			}
@@ -561,7 +561,7 @@ namespace OpenMB.UI.Widgets
 				}
 			}
 		}
-		
+
 		public override void CursorReleased(Vector2 cursorPos)
 		{
 			foreach (var w in widgets)
@@ -582,8 +582,8 @@ namespace OpenMB.UI.Widgets
 			}
 		}
 
-        public void ChangeTotalCol(int totalColNumber, ValueType valueType = ValueType.Percent)
-        {
+		public void ChangeTotalCol(int totalColNumber, ValueType valueType = ValueType.Percent)
+		{
 			initizationRowCol(rows.Count, totalColNumber);
 		}
 
@@ -591,5 +591,5 @@ namespace OpenMB.UI.Widgets
 		{
 			initizationRowCol(totalRowNumber, cols.Count);
 		}
-    }
+	}
 }

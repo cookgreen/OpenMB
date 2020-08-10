@@ -40,11 +40,11 @@ namespace OpenMB.Game
 	}
 
 	public enum ChaAnimType
-    {
+	{
 		/// <summary>
 		/// No animation
 		/// </summary>
-        CAT_NONE,
+		CAT_NONE,
 		/// <summary>
 		/// Character is idle
 		/// </summary>
@@ -69,57 +69,57 @@ namespace OpenMB.Game
 		CAT_CUSTOME_BLOCK,//This animation can block the character's action
 
 		CAT_IDLE_TOP,
-        CAT_IDLE_BASE,
+		CAT_IDLE_BASE,
 		CAT_RUN_TOP,
-        CAT_RUN_BASE,
-        CAT_JUMP_START,
-        CAT_JUMP_LOOP,
-        CAT_JUMP_END,
-    }
-    public class CharacterAnimation
-    {
-        private string name;
-        private ChaAnimType type;
-        private AnimationState animationState;
+		CAT_RUN_BASE,
+		CAT_JUMP_START,
+		CAT_JUMP_LOOP,
+		CAT_JUMP_END,
+	}
+	public class CharacterAnimation
+	{
+		private string name;
+		private ChaAnimType type;
+		private AnimationState animationState;
 
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-        }
+		public string Name
+		{
+			get
+			{
+				return name;
+			}
+		}
 
-        public AnimationState AnimationState
-        {
-            get
-            {
-                return animationState;
-            }
-        }
+		public AnimationState AnimationState
+		{
+			get
+			{
+				return animationState;
+			}
+		}
 
-        public ChaAnimType Type
-        {
-            get
-            {
-                return type;
-            }
-        }
+		public ChaAnimType Type
+		{
+			get
+			{
+				return type;
+			}
+		}
 
-        public bool IsValid
-        {
-            get
-            {
-                return animationState != null;
-            }
-        }
+		public bool IsValid
+		{
+			get
+			{
+				return animationState != null;
+			}
+		}
 
-        public CharacterAnimation(string name, AnimationState animationState, ChaAnimType type)
-        {
-            this.name = name;
-            this.animationState = animationState;
-            this.type = type;
-        }
+		public CharacterAnimation(string name, AnimationState animationState, ChaAnimType type)
+		{
+			this.name = name;
+			this.animationState = animationState;
+			this.type = type;
+		}
 
 		public void Play()
 		{
@@ -129,5 +129,5 @@ namespace OpenMB.Game
 		{
 			animationState.AddTime(timeSinceLastFrame);
 		}
-    }
+	}
 }

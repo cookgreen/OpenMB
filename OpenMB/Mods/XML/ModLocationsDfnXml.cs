@@ -7,26 +7,26 @@ using System.Xml.Serialization;
 
 namespace OpenMB.Mods.XML
 {
-    [XmlRoot("Locations")]
-    public class ModLocationsDfnXml
-    {
-        [XmlElement("Location")]
-        public List<ModLocationDfnXml> Locations { get; set; }
-    }
-    [XmlRoot("Locations")]
-    public class ModLocationDfnXml
-    {
-        [XmlAttribute]
-        public string ID { get; set; }
-        [XmlElement]
-        public string Name { get; set; }
-        [XmlElement]
-        public ModLocationPositionDfnXml Position { get; set; }
-        [XmlElement]
-        public ModLocationModelDfnXml Model { get; set; }
-        [XmlArray("Flags")]
-        [XmlArrayItem("Flag")]
-        public List<ModLocationFlagDfnXml> Flags { get; set; }
+	[XmlRoot("Locations")]
+	public class ModLocationsDfnXml
+	{
+		[XmlElement("Location")]
+		public List<ModLocationDfnXml> Locations { get; set; }
+	}
+	[XmlRoot("Locations")]
+	public class ModLocationDfnXml
+	{
+		[XmlAttribute]
+		public string ID { get; set; }
+		[XmlElement]
+		public string Name { get; set; }
+		[XmlElement]
+		public ModLocationPositionDfnXml Position { get; set; }
+		[XmlElement]
+		public ModLocationModelDfnXml Model { get; set; }
+		[XmlArray("Flags")]
+		[XmlArrayItem("Flag")]
+		public List<ModLocationFlagDfnXml> Flags { get; set; }
 	}
 	[XmlRoot("Model")]
 	public class ModLocationModelDfnXml
@@ -38,11 +38,11 @@ namespace OpenMB.Mods.XML
 	}
 
 	public class ModLocationPositionDfnXml
-    {
-        [XmlAttribute]
-        public float X { get; set; }
-        [XmlAttribute]
-        public float Y { get; set; }
+	{
+		[XmlAttribute]
+		public float X { get; set; }
+		[XmlAttribute]
+		public float Y { get; set; }
 		[XmlAttribute]
 		public float Z { get; set; }
 
@@ -52,9 +52,9 @@ namespace OpenMB.Mods.XML
 		}
 	}
 
-    public class ModLocationFlagDfnXml
-    {
-        [XmlText]
-        public string Flag { get; set; }
-    }
+	public class ModLocationFlagDfnXml
+	{
+		[XmlText]
+		public string Flag { get; set; }
+	}
 }

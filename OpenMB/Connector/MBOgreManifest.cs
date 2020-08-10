@@ -5,49 +5,49 @@ using System.Text;
 
 namespace OpenMB.Connector
 {
-    public class MBOgreManifest
-    {
-        private List<string> meshNames;
-        private List<string> materialNames;
-        private List<string> textureNames;
+	public class MBOgreManifest
+	{
+		private List<string> meshNames;
+		private List<string> materialNames;
+		private List<string> textureNames;
 
-        public List<string> MeshNames
-        {
-            get
-            {
-                return meshNames;
-            }
+		public List<string> MeshNames
+		{
+			get
+			{
+				return meshNames;
+			}
 
-            set
-            {
-                meshNames = value;
-            }
-        }
+			set
+			{
+				meshNames = value;
+			}
+		}
 
-        public List<string> MaterialNames
-        {
-            get
-            {
-                return materialNames;
-            }
+		public List<string> MaterialNames
+		{
+			get
+			{
+				return materialNames;
+			}
 
-            set
-            {
-                materialNames = value;
-            }
-        }
+			set
+			{
+				materialNames = value;
+			}
+		}
 
-        public List<string> TextureNames
-        {
-            get
-            {
-                return textureNames;
-            }
+		public List<string> TextureNames
+		{
+			get
+			{
+				return textureNames;
+			}
 
-            set
-            {
-                textureNames = value;
-            }
-        }
-    }
+			set
+			{
+				textureNames = value;
+			}
+		}
+	}
 }

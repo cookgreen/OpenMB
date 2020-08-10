@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace OpenMB.UI.Widgets
 {
-    public class SkinWidget : Widget, ISkinable
-    {
-        public string GetSkin(string skinName, string subSkinName)
+	public class SkinWidget : Widget, ISkinable
+	{
+		public string GetSkin(string skinName, string subSkinName)
 		{
 			return SkinManager.Instance.GetSkin(GetType().Name.Replace("Widget", ""), skinName, subSkinName);
 		}
-    }
+	}
 }

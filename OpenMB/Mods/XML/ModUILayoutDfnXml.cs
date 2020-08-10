@@ -55,9 +55,9 @@ namespace OpenMB.Mods.XML
 	{
 		[XmlAttribute]
 		public string Name { get; set; }
-        [XmlAttribute]
-        public string Type { get; set; }
-        [XmlText]
+		[XmlAttribute]
+		public string Type { get; set; }
+		[XmlText]
 		public string Value { get; set; }
-    }
+	}
 }

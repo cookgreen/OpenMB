@@ -16,7 +16,7 @@ namespace OpenMB.Modio
 		private string accessToken;
 		private BackgroundWorker worker;
 
-        public event Action<object> GetResultDataFinished;
+		public event Action<object> GetResultDataFinished;
 		public Client(string apiKey, string accessToken)
 		{
 			this.apiKey = apiKey;
@@ -71,12 +71,12 @@ namespace OpenMB.Modio
 			{
 				token = accessToken;
 			}
-            else
-            {
+			else
+			{
 				token = apiKey;
-            }
+			}
 			string url = "https://api.mod.io/v1/games/" + game_id.ToString() + "/mods?api_key=" + token;
-			worker.RunWorkerAsync(new object[] { 
+			worker.RunWorkerAsync(new object[] {
 				"ready",
 				"get_mods",
 				url

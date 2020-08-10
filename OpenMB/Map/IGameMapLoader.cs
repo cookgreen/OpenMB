@@ -7,12 +7,12 @@ using System.Text;
 
 namespace OpenMB.Map
 {
-    public interface IGameMapLoader
-    {
-        event Action LoadMapStarted;
-        event Action LoadMapFinished;
-        string Name { get; }
-        string LoadedMapName { get; }
-        void LoadAsync(IGameMap gameMap, string mapFile);
-    }
+	public interface IGameMapLoader
+	{
+		event Action LoadMapStarted;
+		event Action LoadMapFinished;
+		string Name { get; }
+		string LoadedMapName { get; }
+		void LoadAsync(IGameMap gameMap, string mapFile);
+	}
 }

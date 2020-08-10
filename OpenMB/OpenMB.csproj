@@ -157,6 +157,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configure\IConfigFile.cs" />
     <Compile Include="Connector\IConnector.cs" />
     <Compile Include="Connector\MBOgre.cs" />
     <Compile Include="Connector\MBOgreBrf.cs" />
@@ -208,7 +209,6 @@
     <Compile Include="Game\CameraHandler.cs" />
     <Compile Include="Game\AIAction\Activity.cs" />
     <Compile Include="Configure\ConfigureSystem.cs" />
-    <Compile Include="Configure\IConfigFile.cs" />
     <Compile Include="Configure\IConfigParser.cs" />
     <Compile Include="Core\Argument.cs" />
     <Compile Include="Core\Game.cs" />

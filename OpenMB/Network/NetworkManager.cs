@@ -7,19 +7,19 @@ using System.Net.Sockets;
 
 namespace OpenMB.Network
 {
-    public class NetworkManager
-    {
-        private static NetworkManager instance;
-        public static NetworkManager Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new NetworkManager();
-                }
-                return instance;
-            }
-        }
-    }
+	public class NetworkManager
+	{
+		private static NetworkManager instance;
+		public static NetworkManager Instance
+		{
+			get
+			{
+				if (instance == null)
+				{
+					instance = new NetworkManager();
+				}
+				return instance;
+			}
+		}
+	}
 }

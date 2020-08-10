@@ -10,8 +10,8 @@ namespace OpenMB.Configure
         private string key;
         private string val;
         public string Key
-        {
-            get
+		{
+			get
             {
                 return key;
             }

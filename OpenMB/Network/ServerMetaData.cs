@@ -5,10 +5,10 @@ using System.Text;
 
 namespace OpenMB.Network
 {
-    public class ServerMetaData
-    {
-        public string Name { get; set; }
-        public string Port { get; set; }
-        public Dictionary<string, string> Options { get; set; }
-    }
+	public class ServerMetaData
+	{
+		public string Name { get; set; }
+		public string Port { get; set; }
+		public Dictionary<string, string> Options { get; set; }
+	}
 }

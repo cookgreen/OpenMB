@@ -5,15 +5,15 @@ using System.Text;
 
 namespace OpenMB.Script
 {
-    public class ScriptLinkTableNode
-    {
-        public string Name { get; set; }
-        public string Value { get; set; }
-        public List<ScriptLinkTableNode> NextNodes { get; set; }
-        public ScriptLinkTableNode()
-        {
-            NextNodes = new List<ScriptLinkTableNode>();
-            Value = "0";
-        }
-    }
+	public class ScriptLinkTableNode
+	{
+		public string Name { get; set; }
+		public string Value { get; set; }
+		public List<ScriptLinkTableNode> NextNodes { get; set; }
+		public ScriptLinkTableNode()
+		{
+			NextNodes = new List<ScriptLinkTableNode>();
+			Value = "0";
+		}
+	}
 }

@@ -46,7 +46,7 @@ namespace OpenMB.Screen
 			if (modData.HasSinglePlayer)
 			{
 				var btnSingleplayer = UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "btnSingleplayer", GameString.FromString("str_single_player").ToString(), 200);
-				btnSingleplayer.OnClick += (sender) => 
+				btnSingleplayer.OnClick += (sender) =>
 				{
 					OnScreenEventChanged?.Invoke("btnSingleplayer", null);
 				};

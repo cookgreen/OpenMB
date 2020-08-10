@@ -36,7 +36,7 @@ namespace OpenMB.Map
 			}
 		}
 
-		public GameWorldMap(GameWorld world,  string file, IGameMapLoader loader)
+		public GameWorldMap(GameWorld world, string file, IGameMapLoader loader)
 		{
 			locations = new List<GameObject>();
 			this.world = world;

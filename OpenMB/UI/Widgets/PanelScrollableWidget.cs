@@ -193,7 +193,7 @@ namespace OpenMB.UI.Widgets
 			scroll.Height = Height - 0.016f;
 		}
 
-        public override void RemoveWidget(int rowNum, int colNum)
+		public override void RemoveWidget(int rowNum, int colNum)
 		{
 			var widget = GetWidget(rowNum, colNum);
 			if (widget != null)
@@ -201,6 +201,6 @@ namespace OpenMB.UI.Widgets
 				visualWidgets.Remove(widget);
 			}
 			base.RemoveWidget(rowNum, colNum);
-        }
-    }
+		}
+	}
 }

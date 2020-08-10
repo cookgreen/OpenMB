@@ -5,59 +5,59 @@ using System.Text;
 
 namespace OpenMB.Game
 {
-    /// <summary>
-    /// Inventory
-    /// </summary>
-    public class Inventory
-    {
-        private int capicity;
-        private List<Item> items;
-        private Character owner;
+	/// <summary>
+	/// Inventory
+	/// </summary>
+	public class Inventory
+	{
+		private int capicity;
+		private List<Item> items;
+		private Character owner;
 
-        public int Capicity
-        {
-            get { return capicity; }
-        }
+		public int Capicity
+		{
+			get { return capicity; }
+		}
 
-        public bool IsFull
-        {
-            get
-            {
-                return items.Count == capicity;
-            }
-        }
+		public bool IsFull
+		{
+			get
+			{
+				return items.Count == capicity;
+			}
+		}
 
-        public Inventory(int initCapicity, Character owner)
-        {
-            capicity = initCapicity;
-            items = new List<Item>(capicity);
-            this.owner = owner;
-        }
+		public Inventory(int initCapicity, Character owner)
+		{
+			capicity = initCapicity;
+			items = new List<Item>(capicity);
+			this.owner = owner;
+		}
 
-        public void AddItemToInventory(Item item)
-        {
-            if (items.Count < capicity)
-            {
-                items.Add(item);
-            }
-        }
+		public void AddItemToInventory(Item item)
+		{
+			if (items.Count < capicity)
+			{
+				items.Add(item);
+			}
+		}
 
-        public void RemoveItem(Item item)
-        {
-            items.Remove(item);
-        }
+		public void RemoveItem(Item item)
+		{
+			items.Remove(item);
+		}
 
-        public void ChangeCapicity(int newCapcity)
-        {
-            if (newCapcity > capicity)
-            {
-                capicity = newCapcity;
-            }
-        }
+		public void ChangeCapicity(int newCapcity)
+		{
+			if (newCapcity > capicity)
+			{
+				capicity = newCapcity;
+			}
+		}
 
-        public List<Item> GetAllItems()
-        {
-            return items;
-        }
-    }
+		public List<Item> GetAllItems()
+		{
+			return items;
+		}
+	}
 }

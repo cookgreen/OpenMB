@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace OpenMB.UI.Skin
 {
-    public interface ISkinable
-    {
-        string GetSkin(string skinName, string subSkinName);
-    }
+	public interface ISkinable
+	{
+		string GetSkin(string skinName, string subSkinName);
+	}
 }

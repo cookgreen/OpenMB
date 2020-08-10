@@ -25,7 +25,7 @@ namespace OpenMB.DedicatedServer
 		{
 			Console.WriteLine("OpenMB Server run on port: " + port.ToString());
 
-			while(true)
+			while (true)
 			{
 				var tcpClient = listener.AcceptTcpClient();
 				GameClient gameClient = new GameClient(tcpClient);

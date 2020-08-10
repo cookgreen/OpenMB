@@ -8,42 +8,42 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Script.Command
 {
-    public class DataStoreValueByIndexScriptCommand : ScriptCommand
-    {
-        private string[] commandArgs;
+	public class DataStoreValueByIndexScriptCommand : ScriptCommand
+	{
+		private string[] commandArgs;
 
-        public override string CommandName
-        {
-            get { return "data_store_value_by_index"; }
-        }
+		public override string CommandName
+		{
+			get { return "data_store_value_by_index"; }
+		}
 
-        public override ScriptCommandType CommandType
-        {
-            get { return ScriptCommandType.Line; }
-        }
+		public override ScriptCommandType CommandType
+		{
+			get { return ScriptCommandType.Line; }
+		}
 
-        public override string[] CommandArgs
-        {
-            get { return commandArgs; }
-        }
+		public override string[] CommandArgs
+		{
+			get { return commandArgs; }
+		}
 
-        public DataStoreValueByIndexScriptCommand()
-        {
-            commandArgs = new string[]
-            {
-                "dest value",
-                "data index",
+		public DataStoreValueByIndexScriptCommand()
+		{
+			commandArgs = new string[]
+			{
+				"dest value",
+				"data index",
 				"data type"
-            };
-        }
+			};
+		}
 
-        public override void Execute(params object[] executeArgs)
-        {
-            GameWorld world = executeArgs[0] as GameWorld;
-            int dataIndex = int.Parse(getParamterValue(commandArgs[1], world));
+		public override void Execute(params object[] executeArgs)
+		{
+			GameWorld world = executeArgs[0] as GameWorld;
+			int dataIndex = int.Parse(getParamterValue(commandArgs[1], world));
 			int dataType = int.Parse(getParamterValue(commandArgs[2], world));
 			string value = null;
-			switch(dataType)
+			switch (dataType)
 			{
 				case 0://Animations
 					break;
@@ -103,13 +103,13 @@ namespace OpenMB.Script.Command
 					break;
 			}
 			if (commandArgs[0].StartsWith("%"))
-            {
-                Context.ChangeLocalValue(commandArgs[0].Substring(1), value);
-            }
-            else if (commandArgs[0].StartsWith("$"))
-            {
-                world.ChangeGobalValue(commandArgs[0].Substring(1), value);
-            }
-        }
-    }
+			{
+				Context.ChangeLocalValue(commandArgs[0].Substring(1), value);
+			}
+			else if (commandArgs[0].StartsWith("$"))
+			{
+				world.ChangeGobalValue(commandArgs[0].Substring(1), value);
+			}
+		}
+	}
 }

@@ -30,7 +30,7 @@ namespace OpenMB.Game.ItemTypes
 
 		public virtual void SpawnIntoCharacter(GameWorld world, Character character)
 		{
-			
+
 		}
 
 		public virtual void Use(params object[] param)

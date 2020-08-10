@@ -7,26 +7,26 @@ using System.Text;
 
 namespace OpenMB.Game
 {
-    public class SceneProp : GameObject
-    {
+	public class SceneProp : GameObject
+	{
 		private ModScenePropDfnXml scenePropData;
 		private List<ModModelDfnXml> childModelData;
 		private List<Entity> entities;
 
 		public SceneProp(
-            int id, GameWorld world, 
-            string name,
-            string meshName, 
-            string materialName, 
-            Vector3 initPosition,
-            Item attachedItem
-        ) : base(id, world)
-        {
-            position = initPosition;
+			int id, GameWorld world,
+			string name,
+			string meshName,
+			string materialName,
+			Vector3 initPosition,
+			Item attachedItem
+		) : base(id, world)
+		{
+			position = initPosition;
 
-            health = new HealthInfo(this, int.MaxValue, false);
+			health = new HealthInfo(this, int.MaxValue, false);
 
-            create();
+			create();
 		}
 		public SceneProp(
 			GameWorld world,
@@ -64,20 +64,20 @@ namespace OpenMB.Game
 			}
 		}
 
-        public bool CheckCollide(SceneProp missileSceneProp)
-        {
+		public bool CheckCollide(SceneProp missileSceneProp)
+		{
 			return true;
-        }
+		}
 
-        public override void Dispose()
-        {
-            mesh.EntityNode.Dispose();
-            mesh.Entity.Dispose();
-        }
+		public override void Dispose()
+		{
+			mesh.EntityNode.Dispose();
+			mesh.Entity.Dispose();
+		}
 
-        public void Move(Vector3 mov)
-        {
-            mesh.EntityNode.Position += mov;
-        }
+		public void Move(Vector3 mov)
+		{
+			mesh.EntityNode.Position += mov;
+		}
 	}
 }

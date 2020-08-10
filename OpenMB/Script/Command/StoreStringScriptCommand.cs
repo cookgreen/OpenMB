@@ -51,21 +51,21 @@ namespace OpenMB.Script.Command
 				string srcString = (string)CommandArgs[1];
 				if (destVar.StartsWith("%"))//local var
 				{
-                    if (srcString.StartsWith("@["))
-                    {
-                        string str = getQuickString(srcString);
-                        str = str.Replace("_", " ");
-                        str = str.Replace("^", Environment.NewLine);
-                        Context.ChangeLocalValue(destVar.Substring(1), str);
-                    }
-                    else if (srcString.StartsWith("str_"))
-                    {
-                        var stringInfo = world.ModData.StringInfos.Where(o => o.ID == srcString).FirstOrDefault();
-                        if (stringInfo != null)
-                        {
-                            Context.ChangeLocalValue(destVar.Substring(1), LocateSystem.Instance.GetLocalizedString(srcString, stringInfo.Content));
-                        }
-                    }
+					if (srcString.StartsWith("@["))
+					{
+						string str = getQuickString(srcString);
+						str = str.Replace("_", " ");
+						str = str.Replace("^", Environment.NewLine);
+						Context.ChangeLocalValue(destVar.Substring(1), str);
+					}
+					else if (srcString.StartsWith("str_"))
+					{
+						var stringInfo = world.ModData.StringInfos.Where(o => o.ID == srcString).FirstOrDefault();
+						if (stringInfo != null)
+						{
+							Context.ChangeLocalValue(destVar.Substring(1), LocateSystem.Instance.GetLocalizedString(srcString, stringInfo.Content));
+						}
+					}
 				}
 				else if (destVar.StartsWith("$"))//global var
 				{
@@ -75,16 +75,16 @@ namespace OpenMB.Script.Command
 						str = str.Replace("_", " ");
 						str = str.Replace("^", Environment.NewLine);
 						world.ChangeGobalValue(destVar.Substring(1), str);
-                    }
-                    else if (srcString.StartsWith("str_"))
-                    {
-                        var stringInfo = world.ModData.StringInfos.Where(o => o.ID == srcString).FirstOrDefault();
-                        if (stringInfo != null)
-                        {
-                            world.ChangeGobalValue(destVar.Substring(1), LocateSystem.Instance.GetLocalizedString(srcString, stringInfo.Content));
-                        }
-                    }
-                }
+					}
+					else if (srcString.StartsWith("str_"))
+					{
+						var stringInfo = world.ModData.StringInfos.Where(o => o.ID == srcString).FirstOrDefault();
+						if (stringInfo != null)
+						{
+							world.ChangeGobalValue(destVar.Substring(1), LocateSystem.Instance.GetLocalizedString(srcString, stringInfo.Content));
+						}
+					}
+				}
 			}
 		}
 

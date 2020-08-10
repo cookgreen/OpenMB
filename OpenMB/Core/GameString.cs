@@ -40,7 +40,7 @@ namespace OpenMB.Core
 					entered = true;
 					registerBlock.Append(c);
 				}
-				else if(entered && c != '}')
+				else if (entered && c != '}')
 				{
 					registerBlock.Append(c);
 					registerDeclareBlock.Append(c);

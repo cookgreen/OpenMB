@@ -5,13 +5,13 @@ using System.Text;
 
 namespace OpenMB.Map
 {
-    public class AIMeshIndexData
-    {
-        public List<int> VertexNumber { get; set; }
+	public class AIMeshIndexData
+	{
+		public List<int> VertexNumber { get; set; }
 
-        public AIMeshIndexData()
-        {
-            VertexNumber = new List<int>();
-        }
-    }
+		public AIMeshIndexData()
+		{
+			VertexNumber = new List<int>();
+		}
+	}
 }

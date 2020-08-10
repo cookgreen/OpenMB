@@ -6,25 +6,25 @@ using System.Xml.Serialization;
 
 namespace OpenMB.Mods.XML
 {
-    [XmlRoot("SceneProps")]
-    public class ModScenePropsDfnXml
-    {
-        [XmlElement("SceneProp")]
-        public List<ModScenePropDfnXml> SceneProps { get; set; }
-    }
-    [XmlRoot("SceneProp")]
-    public class ModScenePropDfnXml
-    {
-        [XmlAttribute]
-        public string ID { get; set; }
+	[XmlRoot("SceneProps")]
+	public class ModScenePropsDfnXml
+	{
+		[XmlElement("SceneProp")]
+		public List<ModScenePropDfnXml> SceneProps { get; set; }
+	}
+	[XmlRoot("SceneProp")]
+	public class ModScenePropDfnXml
+	{
+		[XmlAttribute]
+		public string ID { get; set; }
 		[XmlAttribute]
 		public bool Combined { get; set; }
-        [XmlElement]
-        public string Name { get; set; }
-        [XmlArray("Models")]
+		[XmlElement]
+		public string Name { get; set; }
+		[XmlArray("Models")]
 		[XmlArrayItem("Model")]
 		public List<ModScenePropModsDfnXml> Models { get; set; }
-    }
+	}
 
 	[XmlRoot("Model")]
 	public class ModScenePropModsDfnXml

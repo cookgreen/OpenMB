@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace OpenMB.UI.Widgets
 {
-    public class SimpleButtonWidget : SkinWidget
+	public class SimpleButtonWidget : SkinWidget
 	{
 		private ButtonState state;
 		private BorderPanelOverlayElement borderPanelElement;
-        private TextAreaOverlayElement textAreaElement;
+		private TextAreaOverlayElement textAreaElement;
 		public override event Action<object> OnClick;
 
 		public SimpleButtonWidget(string name, string caption, float width, float height, float left = 0, float top = 0)
-        {
+		{
 			OverlayManager overlayMgr = OverlayManager.Singleton;
 			element = OverlayManager.Singleton.CreateOverlayElementFromTemplate("SimpleButton", "BorderPanel", name);
 			element.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
@@ -38,12 +38,12 @@ namespace OpenMB.UI.Widgets
 			textAreaElement.Caption = caption;
 		}
 
-        public override void FocusLost()
+		public override void FocusLost()
 		{
 			SetState(ButtonState.BS_UP);
 		}
 
-        public override void MouseMoved(MouseEvent evt)
+		public override void MouseMoved(MouseEvent evt)
 		{
 			Vector2 cursorPos = new Vector2(evt.state.X.abs, evt.state.Y.abs);
 			if (IsCursorOver(element, cursorPos, 4f))
@@ -58,7 +58,7 @@ namespace OpenMB.UI.Widgets
 			}
 		}
 
-        public override void CursorPressed(Vector2 cursorPos)
+		public override void CursorPressed(Vector2 cursorPos)
 		{
 			if (IsCursorOver(element, cursorPos, 4))
 			{
@@ -66,7 +66,7 @@ namespace OpenMB.UI.Widgets
 			}
 		}
 
-        public override void CursorReleased(Vector2 cursorPos)
+		public override void CursorReleased(Vector2 cursorPos)
 		{
 			if (state == ButtonState.BS_DOWN)
 			{
@@ -75,7 +75,7 @@ namespace OpenMB.UI.Widgets
 			}
 		}
 
-        private void SetState(ButtonState bs)
+		private void SetState(ButtonState bs)
 		{
 			if (bs == ButtonState.BS_OVER)
 			{
@@ -95,5 +95,5 @@ namespace OpenMB.UI.Widgets
 
 			state = bs;
 		}
-    }
+	}
 }
