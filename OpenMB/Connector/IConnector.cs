@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OpenMB.Connector
 {
-    public interface IConnector
-    {
-    }
+	public interface IConnector
+	{
+	}
 }

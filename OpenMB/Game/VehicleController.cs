@@ -31,7 +31,7 @@ namespace OpenMB.Game
 		}
 
 		public void Move(Vector3 movement, float speed)
-		{ 
+		{
 			var bodyPart = controlledVehicle.GetVehiclePart(VehiclePartType.VPT_Body);
 			bodyPart.Node.Position = bodyPart.Node.Position + movement;
 
@@ -51,7 +51,7 @@ namespace OpenMB.Game
 
 		private bool Keyboard_KeyPressed(MOIS.KeyEvent arg)
 		{
-			switch(arg.key)
+			switch (arg.key)
 			{
 				case MOIS.KeyCode.KC_W:
 					break;

@@ -13,8 +13,8 @@ using MOIS;
 
 namespace OpenMB.Screen
 {
-    public class InventoryScreen : Screen
-    {
+	public class InventoryScreen : Screen
+	{
 		private GameWorld world;
 		private GameObject gameObject;
 		private string chaID;
@@ -28,34 +28,34 @@ namespace OpenMB.Screen
 		private PanelScrollableWidget backpackInventoryPanel;
 		private Overlay meshLayer;
 
-        public override string Name
-        {
-            get
-            {
-                return "Inventory";
-            }
-        }
+		public override string Name
+		{
+			get
+			{
+				return "Inventory";
+			}
+		}
 
-        public InventoryScreen()
-        {
-        }
+		public InventoryScreen()
+		{
+		}
 
-        /// <summary>
-        /// Init parameters:
-        /// character ID
-        /// </summary>
-        /// <param name="param"></param>
-        public override void Init(params object[] param)
-        {
-            if (param.Length > 0)
-            {
+		/// <summary>
+		/// Init parameters:
+		/// character ID
+		/// </summary>
+		/// <param name="param"></param>
+		public override void Init(params object[] param)
+		{
+			if (param.Length > 0)
+			{
 				world = param[0] as GameWorld;
 				chaID = param[1].ToString();
-            }
-            UIManager.Instance.DestroyAllWidgets();
-        }
+			}
+			UIManager.Instance.DestroyAllWidgets();
+		}
 
-        public override void Run()
+		public override void Run()
 		{
 			var moddata = ScreenManager.Instance.ModData;
 			chaData = moddata.CharacterInfos.Where(o => o.ID == chaID).FirstOrDefault();
@@ -223,7 +223,7 @@ namespace OpenMB.Screen
 			backpackInventoryPanel = UIManager.Instance.CreateScrollablePanel("backpackInventoryPanel", 1, 1, 0, 0, 20, 3);
 			backpackPanel.AddWidget(1, 1, txtInvTitle, AlignMode.Center, AlignMode.Center, DockMode.Fill);
 			backpackPanel.AddWidget(2, 1, backpackInventoryPanel, AlignMode.Center, AlignMode.Center, DockMode.Fill);
-				
+
 			int curRow = 1;
 			int curCol = 1;
 			for (int i = 0; i < 60; i++)
@@ -244,33 +244,33 @@ namespace OpenMB.Screen
 			}
 		}
 
-        public override void Update(float timeSinceLastFrame)
-        {
-        }
+		public override void Update(float timeSinceLastFrame)
+		{
+		}
 
-        public override void InjectKeyPressed(KeyEvent arg)
-        {
-            base.InjectKeyPressed(arg);
-            if (arg.key == KeyCode.KC_ESCAPE)
-            {
-                Exit();
-            }
-        }
+		public override void InjectKeyPressed(KeyEvent arg)
+		{
+			base.InjectKeyPressed(arg);
+			if (arg.key == KeyCode.KC_ESCAPE)
+			{
+				Exit();
+			}
+		}
 
-        public override void InjectKeyReleased(KeyEvent arg)
-        {
-            base.InjectKeyReleased(arg);
-            if (arg.key == KeyCode.KC_ESCAPE)
-            {
-                Exit();
-            }
-        }
+		public override void InjectKeyReleased(KeyEvent arg)
+		{
+			base.InjectKeyReleased(arg);
+			if (arg.key == KeyCode.KC_ESCAPE)
+			{
+				Exit();
+			}
+		}
 
-        public override void Exit()
+		public override void Exit()
 		{
 			gameObject.Destroy();
 			OverlayManager.Singleton.Destroy(meshLayer);
 			UIManager.Instance.DestroyAllWidgets();
-        }
-    }
+		}
+	}
 }

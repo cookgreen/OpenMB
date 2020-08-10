@@ -116,7 +116,8 @@ namespace OpenMB.UI.Widgets
 			AlignMode vAlign = AlignMode.Left,
 			DockMode dock = DockMode.None,
 			int rowSpan = 1,
-			int colSpan = 1)
+			int colSpan = 1,
+			bool isAddWidgetToAnother = true)
 		{
 			if (rowNum > rows.Count)
 			{
@@ -193,7 +194,7 @@ namespace OpenMB.UI.Widgets
 			scroll.Height = Height - 0.016f;
 		}
 
-        public override void RemoveWidget(int rowNum, int colNum)
+		public override void RemoveWidget(int rowNum, int colNum)
 		{
 			var widget = GetWidget(rowNum, colNum);
 			if (widget != null)
@@ -201,6 +202,6 @@ namespace OpenMB.UI.Widgets
 				visualWidgets.Remove(widget);
 			}
 			base.RemoveWidget(rowNum, colNum);
-        }
-    }
+		}
+	}
 }

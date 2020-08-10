@@ -5,20 +5,21 @@ using System.Text;
 
 namespace OpenMB.Mods.Common.Settings
 {
-    public class HasMultiplayerModSetting : IModSetting
-    {
-        public string Name {
-            get
-            {
-                return "HasMultiplayer";
-            }
-        }
+	public class HasMultiplayerModSetting : IModSetting
+	{
+		public string Name
+		{
+			get
+			{
+				return "HasMultiplayer";
+			}
+		}
 
-        public string Value { get; set; }
+		public string Value { get; set; }
 
-        public void Load(ModData mod)
-        {
-            mod.HasMultiplater = bool.Parse(Value);
-        }
-    }
+		public void Load(ModData mod)
+		{
+			mod.HasMultiplater = bool.Parse(Value);
+		}
+	}
 }

@@ -1,0 +1,14 @@
+<Skin Name="Default">
+	<SkinElement Name="SimpleButton">
+		<SkinElement Name="Border" Type="Material">
+			<SkinElement Name="Over">Engine/Button/Over</SkinElement>
+			<SkinElement Name="Up">Engine/Button/Up</SkinElement>
+			<SkinElement Name="Down">Engine/Button/Down</SkinElement>
+		</SkinElement>
+		<SkinElement Name="Background" Type="Material">
+			<SkinElement Name="Over">Engine/Button/Over</SkinElement>
+			<SkinElement Name="Up">Engine/Button/Up</SkinElement>
+			<SkinElement Name="Down">Engine/Button/Down</SkinElement>
+		</SkinElement>
+	</SkinElement>
+</Skin>

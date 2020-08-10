@@ -22,51 +22,51 @@ using OpenMB.UI.Widgets;
 
 namespace OpenMB.Game
 {
-    /// <summary>
-    /// Core Component
-    /// </summary>
-    public class GameWorld
-    {
-        #region Fields
-        //MOD Data
-        private ModData modData;
-        
-        private List<Tuple<string, string, int>> teamRelationship;
+	/// <summary>
+	/// Core Component
+	/// </summary>
+	public class GameWorld
+	{
+		#region Fields
+		//MOD Data
+		private ModData modData;
 
-        //For Render
-        private SceneManager scm;
-        private Camera cam;
+		private List<Tuple<string, string, int>> teamRelationship;
 
-        //Data
-        private Dictionary<string, string> globalVarMap;
-        private ScriptLinkTable globalValueTable;
+		//For Render
+		private SceneManager scm;
+		private Camera cam;
+
+		//Data
+		private Dictionary<string, string> globalVarMap;
+		private ScriptLinkTable globalValueTable;
 		private Dictionary<string, object> globalVariableTable;
-        
-        private Physics physics;
-        private Scene physicsScene;
-        #endregion
 
-        #region Properties
-        public GameMap CurrentMap
-        {
-            get
-            {
-                return GameMapManager.Instance.CurrentMap;
-            }
-        }
-        public string CurrentMapName
-        {
-            get
-            {
-                return GameMapManager.Instance.CurrentMapName;
-            }
-        }
-        public ScriptLinkTable GlobalValueTable
-        {
-            get
-            {
-                return globalValueTable;
-            }
+		private Physics physics;
+		private Scene physicsScene;
+		#endregion
+
+		#region Properties
+		public GameMap CurrentMap
+		{
+			get
+			{
+				return GameMapManager.Instance.CurrentMap;
+			}
+		}
+		public string CurrentMapName
+		{
+			get
+			{
+				return GameMapManager.Instance.CurrentMapName;
+			}
+		}
+		public ScriptLinkTable GlobalValueTable
+		{
+			get
+			{
+				return globalValueTable;
+			}
 		}
 		public Dictionary<string, object> GlobalVariableTable
 		{
@@ -76,104 +76,104 @@ namespace OpenMB.Game
 			}
 		}
 		public ModData ModData
-        {
-            get
-            {
-                return modData;
-            }
-        }
-        public Camera Camera
-        {
-            get
-            {
-                return cam;
-            }
-        }
-        public SceneManager SceneManager
-        {
-            get
-            {
-                return scm;
-            }
-        }
-        public Scene PhysicsScene
-        {
-            get
-            {
-                return physicsScene;
-            }
-        }
-        #endregion
+		{
+			get
+			{
+				return modData;
+			}
+		}
+		public Camera Camera
+		{
+			get
+			{
+				return cam;
+			}
+		}
+		public SceneManager SceneManager
+		{
+			get
+			{
+				return scm;
+			}
+		}
+		public Scene PhysicsScene
+		{
+			get
+			{
+				return physicsScene;
+			}
+		}
+		#endregion
 
-        #region Constructor
-        public GameWorld(ModData modData)
-        {
-            this.modData = modData;
+		#region Constructor
+		public GameWorld(ModData modData)
+		{
+			this.modData = modData;
 
-            physics = Physics.Create();
-            SceneDesc physicsSceneDesc = new SceneDesc();
-            physicsSceneDesc.Gravity = new Mogre.Vector3(0, -9.8f, 0);
-            physicsSceneDesc.UpAxis = 1;
-            physicsScene = physics.CreateScene(physicsSceneDesc);
-            physicsScene.Materials[0].Restitution = 0.5f;
-            physicsScene.Materials[0].StaticFriction = 0.5f;
-            physicsScene.Materials[0].DynamicFriction = 0.5f;
-            physicsScene.Simulate(0);
+			physics = Physics.Create();
+			SceneDesc physicsSceneDesc = new SceneDesc();
+			physicsSceneDesc.Gravity = new Mogre.Vector3(0, -9.8f, 0);
+			physicsSceneDesc.UpAxis = 1;
+			physicsScene = physics.CreateScene(physicsSceneDesc);
+			physicsScene.Materials[0].Restitution = 0.5f;
+			physicsScene.Materials[0].StaticFriction = 0.5f;
+			physicsScene.Materials[0].DynamicFriction = 0.5f;
+			physicsScene.Simulate(0);
 
-            teamRelationship = new List<Tuple<string, string, int>>();
-            globalVarMap = new Dictionary<string, string>();
-            globalVarMap.Add("reg0", "0");
-            globalVarMap.Add("reg1", "0");
-            globalVarMap.Add("reg2", "0");
-            globalVarMap.Add("reg3", "0");
-            globalVarMap.Add("reg4", "0");
-            globalValueTable = ScriptValueRegister.Instance.GlobalValueTable;
+			teamRelationship = new List<Tuple<string, string, int>>();
+			globalVarMap = new Dictionary<string, string>();
+			globalVarMap.Add("reg0", "0");
+			globalVarMap.Add("reg1", "0");
+			globalVarMap.Add("reg2", "0");
+			globalVarMap.Add("reg3", "0");
+			globalVarMap.Add("reg4", "0");
+			globalValueTable = ScriptValueRegister.Instance.GlobalValueTable;
 
-            /*Physx Debugger*/
-            //if (physics.RemoteDebugger.IsConnected)
-            //{
-            //    physics.RemoteDebugger.Connect("127.0.0.1", 5425);
-            //}
-            //else
-            //{
-            //    physics.RemoteDebugger.Disconnect();
-            //    physics.RemoteDebugger.Connect("127.0.0.1", 5425);
-            //}
-        }
-        #endregion
+			/*Physx Debugger*/
+			//if (physics.RemoteDebugger.IsConnected)
+			//{
+			//    physics.RemoteDebugger.Connect("127.0.0.1", 5425);
+			//}
+			//else
+			//{
+			//    physics.RemoteDebugger.Disconnect();
+			//    physics.RemoteDebugger.Connect("127.0.0.1", 5425);
+			//}
+		}
+		#endregion
 
-        #region Core Methods
-        /// <summary>
-        /// Init the game world
-        /// </summary>
-        public void Init()
-        {
-            GameMapManager.Instance.Initization(this);
+		#region Core Methods
+		/// <summary>
+		/// Init the game world
+		/// </summary>
+		public void Init()
+		{
+			GameMapManager.Instance.Initization(this);
 
-            /* Will implement them in the script or the map xml file */
-            scm = GameManager.Instance.root.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE, "GameSceneManager");
-            scm.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
+			/* Will implement them in the script or the map xml file */
+			scm = GameManager.Instance.root.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE, "GameSceneManager");
+			scm.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
 
 			OpenGLRenderManager.Initization(scm);
 
-            cam = scm.CreateCamera("gameCam");
-            cam.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
-            cam.NearClipDistance = 5;
+			cam = scm.CreateCamera("gameCam");
+			cam.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
+			cam.NearClipDistance = 5;
 
-            GameManager.Instance.viewport.Camera = cam;
+			GameManager.Instance.viewport.Camera = cam;
 
-            UIManager.Instance.DestroyAllWidgets();
-            cam.FarClipDistance = 50000;
+			UIManager.Instance.DestroyAllWidgets();
+			cam.FarClipDistance = 50000;
 
 			//var time = TimerManager.Instance.CurrentTime;
 			//scm.SetSkyBox(true, GetSkyboxMaterialByTime(time));
 
 			Light light = scm.CreateLight();
-            light.Type = Light.LightTypes.LT_POINT;
-            light.Position = new Mogre.Vector3(-10, 40, 20);
-            light.SpecularColour = ColourValue.White;
+			light.Type = Light.LightTypes.LT_POINT;
+			light.Position = new Mogre.Vector3(-10, 40, 20);
+			light.SpecularColour = ColourValue.White;
 
-            ScreenManager.Instance.Camera = cam;
+			ScreenManager.Instance.Camera = cam;
 
 			TimerManager.Instance.TimeChanged += TimeChanged;
 
@@ -223,28 +223,28 @@ namespace OpenMB.Game
 		/// Start world
 		/// </summary>
 		public void Start()
-        {
-            ScriptPreprocessor.Instance.LoadSpecificFunction("GameStart", this);
-        }
+		{
+			ScriptPreprocessor.Instance.LoadSpecificFunction("GameStart", this);
+		}
 
-        /// <summary>
-        /// Change inner scene
-        /// </summary>
-        /// <param name="mapID"></param>
-        public void ChangeScene(string mapID, string mapTemplateID, List<string> sideIDs)
-        {
+		/// <summary>
+		/// Change inner scene
+		/// </summary>
+		/// <param name="mapID"></param>
+		public void ChangeScene(string mapID, string mapTemplateID, List<string> sideIDs)
+		{
 			TimerManager.Instance.Pause();
-            UIManager.Instance.HideCursor();
+			UIManager.Instance.HideCursor();
 			ScreenManager.Instance.ExitCurrentScreen();
 
-            var findMaps = modData.MapInfos.Where(o => o.ID == mapID);
-            if (findMaps.Count() > 0)
-            {
-                var findMap = findMaps.ElementAt(0);
-                var findLoaders = modData.MapLoaders.Where(o => o.Name == findMap.Loader);
-                if (findLoaders.Count() > 0)
-                {
-                    var loader = findLoaders.ElementAt(0);
+			var findMaps = modData.MapInfos.Where(o => o.ID == mapID);
+			if (findMaps.Count() > 0)
+			{
+				var findMap = findMaps.ElementAt(0);
+				var findLoaders = modData.MapLoaders.Where(o => o.Name == findMap.Loader);
+				if (findLoaders.Count() > 0)
+				{
+					var loader = findLoaders.ElementAt(0);
 
 					string logicScriptFile = null;
 					List<GameMapEntryPoint> mapEntryPoints = null;
@@ -253,7 +253,7 @@ namespace OpenMB.Game
 						var mapTemplateData = modData.MapTemplateInfos.Where(o => o.ID == mapTemplateID).FirstOrDefault();
 						logicScriptFile = mapTemplateData.Logic;
 						mapEntryPoints = new List<GameMapEntryPoint>();
-						foreach(var entryPointData in mapTemplateData.EntryPoints)
+						foreach (var entryPointData in mapTemplateData.EntryPoints)
 						{
 							mapEntryPoints.Add(new GameMapEntryPoint()
 							{
@@ -273,65 +273,65 @@ namespace OpenMB.Game
 						}
 					}
 
-                    GameMapManager.Instance.Load(
-						findMap.File, 
+					GameMapManager.Instance.Load(
+						findMap.File,
 						mapEntryPoints,
 						teams,
 						logicScriptFile,
 						loader
 					);
-                }
-            }
-        }
+				}
+			}
+		}
 
-        /// <summary>
-        /// Change world map
-        /// </summary>
-        /// <param name="worldMapID"></param>
-        public void ChangeWorldMap(string worldMapID)
-        {
-            UIManager.Instance.ShowCursor();
+		/// <summary>
+		/// Change world map
+		/// </summary>
+		/// <param name="worldMapID"></param>
+		public void ChangeWorldMap(string worldMapID)
+		{
+			UIManager.Instance.ShowCursor();
 
-            var findWorldMaps = modData.WorldMapInfos.Where(o => o.ID == worldMapID);
-            if (findWorldMaps.Count() > 0)
-            {
-                var findWorldMap = findWorldMaps.ElementAt(0);
-                var findMaps = modData.MapInfos.Where(o => o.ID == findWorldMap.Map);
-                if (findMaps.Count() > 0)
-                {
-                    var findMap = findMaps.ElementAt(0);
+			var findWorldMaps = modData.WorldMapInfos.Where(o => o.ID == worldMapID);
+			if (findWorldMaps.Count() > 0)
+			{
+				var findWorldMap = findWorldMaps.ElementAt(0);
+				var findMaps = modData.MapInfos.Where(o => o.ID == findWorldMap.Map);
+				if (findMaps.Count() > 0)
+				{
+					var findMap = findMaps.ElementAt(0);
 
-                    var findLoaders = modData.MapLoaders.Where(o => o.Name == findMap.Loader);
-                    if (findLoaders.Count() > 0)
-                    {
-                        var loader = findLoaders.ElementAt(0);
-                        GameMapManager.Instance.LoadWorldMap(findMap.File, loader);
-                    }
-                }
-                else
-                {
-                    GameManager.Instance.log.LogMessage(string.Format("Couldn't find map with ID `{0}`", findWorldMap.Map), LogMessage.LogType.Error);
-                }
-            }
-            else
-            {
-                GameManager.Instance.log.LogMessage(string.Format("Couldn't find world map with ID `{0}`", worldMapID), LogMessage.LogType.Error);
-            }
-        }
+					var findLoaders = modData.MapLoaders.Where(o => o.Name == findMap.Loader);
+					if (findLoaders.Count() > 0)
+					{
+						var loader = findLoaders.ElementAt(0);
+						GameMapManager.Instance.LoadWorldMap(findMap.File, loader);
+					}
+				}
+				else
+				{
+					GameManager.Instance.log.LogMessage(string.Format("Couldn't find map with ID `{0}`", findWorldMap.Map), LogMessage.LogType.Error);
+				}
+			}
+			else
+			{
+				GameManager.Instance.log.LogMessage(string.Format("Couldn't find world map with ID `{0}`", worldMapID), LogMessage.LogType.Error);
+			}
+		}
 
-        /// <summary>
-        /// Dispose method
-        /// </summary>
-        public void Destroy()
-        {
-            GameMapManager.Instance.Dispose();
+		/// <summary>
+		/// Dispose method
+		/// </summary>
+		public void Destroy()
+		{
+			GameMapManager.Instance.Dispose();
 
-            GameManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
-            GameManager.Instance.mouse.MousePressed -= Mouse_MousePressed;
-            GameManager.Instance.mouse.MouseReleased -= Mouse_MouseReleased;
-            GameManager.Instance.keyboard.KeyPressed -= Keyboard_KeyPressed;
-            GameManager.Instance.keyboard.KeyReleased -= Keyboard_KeyReleased;
-            GameManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
+			GameManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
+			GameManager.Instance.mouse.MousePressed -= Mouse_MousePressed;
+			GameManager.Instance.mouse.MouseReleased -= Mouse_MouseReleased;
+			GameManager.Instance.keyboard.KeyPressed -= Keyboard_KeyPressed;
+			GameManager.Instance.keyboard.KeyReleased -= Keyboard_KeyReleased;
+			GameManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
 
 			TimerManager.Instance.Stop();
 
@@ -341,43 +341,43 @@ namespace OpenMB.Game
 			GameManager.Instance.root.DestroySceneManager(scm);
 		}
 
-        #endregion
+		#endregion
 
-        #region Update Methods
-        private bool FrameRenderingQueued(FrameEvent evt)
-        {
-            GameMapManager.Instance.Update(evt.timeSinceLastFrame);
+		#region Update Methods
+		private bool FrameRenderingQueued(FrameEvent evt)
+		{
+			GameMapManager.Instance.Update(evt.timeSinceLastFrame);
 			TimerManager.Instance.Update();
-            return true;
-        }
-        #endregion
+			return true;
+		}
+		#endregion
 
-        #region Handle Input
-        bool Keyboard_KeyReleased(MOIS.KeyEvent arg)
-        {
+		#region Handle Input
+		bool Keyboard_KeyReleased(MOIS.KeyEvent arg)
+		{
 			ScreenManager.Instance.InjectKeyReleased(arg);
-            return true;
-        }
-        bool Keyboard_KeyPressed(MOIS.KeyEvent arg)
-        {
+			return true;
+		}
+		bool Keyboard_KeyPressed(MOIS.KeyEvent arg)
+		{
 			ScreenManager.Instance.InjectKeyPressed(arg);
-            return true;
-        }
-        bool Mouse_MouseReleased(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
+			return true;
+		}
+		bool Mouse_MouseReleased(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
 		{
 			ScreenManager.Instance.InjectMouseReleased(arg, id);
 			return true;
-        }
-        bool Mouse_MousePressed(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
+		}
+		bool Mouse_MousePressed(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
 		{
 			ScreenManager.Instance.InjectMousePressed(arg, id);
 			return true;
-        }
-        bool Mouse_MouseMoved(MOIS.MouseEvent arg)
+		}
+		bool Mouse_MouseMoved(MOIS.MouseEvent arg)
 		{
 			ScreenManager.Instance.InjectMouseMove(arg);
 			return true;
-        }
+		}
 
 		#endregion
 

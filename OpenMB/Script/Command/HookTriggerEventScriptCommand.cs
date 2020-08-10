@@ -8,49 +8,49 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Script.Command
 {
-    public class HookTriggerEventScriptCommand : ScriptCommand
-    {
-        private string[] commandArgs;
-        public override string CommandName
-        {
-            get
-            {
-                return "hook_trigger_event";
-            }
-        }
+	public class HookTriggerEventScriptCommand : ScriptCommand
+	{
+		private string[] commandArgs;
+		public override string CommandName
+		{
+			get
+			{
+				return "hook_trigger_event";
+			}
+		}
 
-        public override string[] CommandArgs
-        {
-            get
-            {
-                return commandArgs;
-            }
-        }
+		public override string[] CommandArgs
+		{
+			get
+			{
+				return commandArgs;
+			}
+		}
 
-        public override ScriptCommandType CommandType
-        {
-            get
-            {
-                return ScriptCommandType.Line;
-            }
-        }
+		public override ScriptCommandType CommandType
+		{
+			get
+			{
+				return ScriptCommandType.Line;
+			}
+		}
 
-        public HookTriggerEventScriptCommand()
-        {
-            commandArgs = new string[] {
-                "trggerEventName",
-                "hookedFunctionName"
-            };
-        }
+		public HookTriggerEventScriptCommand()
+		{
+			commandArgs = new string[] {
+				"trggerEventName",
+				"hookedFunctionName"
+			};
+		}
 
-        public override void Execute(params object[] executeArgs)
-        {
-            GameWorld world = executeArgs[0] as GameWorld;
+		public override void Execute(params object[] executeArgs)
+		{
+			GameWorld world = executeArgs[0] as GameWorld;
 
-            string triggerEvent = getParamterValue(commandArgs[0], world);
-            string hookedFunction = getParamterValue(commandArgs[1], world);
+			string triggerEvent = getParamterValue(commandArgs[0], world);
+			string hookedFunction = getParamterValue(commandArgs[1], world);
 
-            TriggerManager.Instance.HookTriggerFunction(triggerEvent, hookedFunction);
-        }
-    }
+			TriggerManager.Instance.HookTriggerFunction(triggerEvent, hookedFunction);
+		}
+	}
 }

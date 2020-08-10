@@ -28,9 +28,9 @@ namespace OpenMB.UI.Widgets
 		}
 
 		private string CreateTexture(string texture)
-        {
-            string matName;
-            if (!string.IsNullOrEmpty(texture))
+		{
+			string matName;
+			if (!string.IsNullOrEmpty(texture))
 			{
 				matName = texture.Substring(0, texture.Length - texture.IndexOf('.'));
 			}
@@ -44,12 +44,12 @@ namespace OpenMB.UI.Widgets
 			return matName;
 		}
 
-        internal void ChangeTexture(string newTexture)
+		internal void ChangeTexture(string newTexture)
 		{
 			MaterialManager.Singleton.Remove(materialPtr.Name);
 			materialPtr.Dispose();
 			var matName = CreateTexture(newTexture);
 			element.MaterialName = matName;
 		}
-    }
+	}
 }

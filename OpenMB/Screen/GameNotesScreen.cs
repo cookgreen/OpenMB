@@ -104,15 +104,15 @@ namespace OpenMB.Screen
 
 			foreach (var sideInfo in world.ModData.SideInfos)
 			{
-				if(!GameSlotManager.Instance.SlotEqual(sideInfo.ID, "slot_faction_state", "inactive") &&
+				if (!GameSlotManager.Instance.SlotEqual(sideInfo.ID, "slot_faction_state", "inactive") &&
 				   !GameSlotManager.Instance.SlotEqual(sideInfo.ID, "slot_faction_visibility", "hidden"))
 				{
 					if (curRow == 1)
 					{
 						BuildFactionDetails(sideInfo);
 					}
-					var btnFaction = new SimpleStaticTextButton("txtFaction_" + sideInfo.Name, GameString.FromString(sideInfo.ID, sideInfo.Name).ToString(), 
-						(Color.FromArgb(36, 35, 191).ToColourValue()), 
+					var btnFaction = new SimpleStaticTextButton("txtFaction_" + sideInfo.Name, GameString.FromString(sideInfo.ID, sideInfo.Name).ToString(),
+						(Color.FromArgb(36, 35, 191).ToColourValue()),
 						ColourValue.Black, true);
 					panelFactions.AddWidget(curRow, 1, btnFaction);
 					btnFaction.UserData = sideInfo;
@@ -153,7 +153,7 @@ namespace OpenMB.Screen
 
 			GameRegisterManager.Instance.SetRegisterValue("reg0", GameString.FromString(sideInfo.ID, sideInfo.Name).ToString());
 			GameRegisterManager.Instance.SetRegisterValue("reg1", GameString.FromString(chaData.ID, chaData.Name).ToString());
-			SimpleStaticTextWidget txtFactionRulerInfo = new SimpleStaticTextWidget("txtFactionRulerInfo", GameString.FromString("@{reg0} is ruled by {reg1}").ToString(),0, false, ColourValue.Black);
+			SimpleStaticTextWidget txtFactionRulerInfo = new SimpleStaticTextWidget("txtFactionRulerInfo", GameString.FromString("@{reg0} is ruled by {reg1}").ToString(), 0, false, ColourValue.Black);
 			txtFactionRulerInfo.Width = txtFactionName.TextWidth;
 			txtFactionRulerInfo.Height = txtFactionName.TextHeight;
 			panelFactionDetails.AddWidget(4, 1, txtFactionRulerInfo);

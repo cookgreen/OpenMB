@@ -6,10 +6,10 @@ using System.Xml.Serialization;
 
 namespace OpenMB.Mods.XML
 {
-    [XmlRoot("Slot")]
-    public class ModCharacterSkinSlot
-    {
-        [XmlElement]
-        public string AcceptType { get; set; }
-    }
+	[XmlRoot("Slot")]
+	public class ModCharacterSkinSlot
+	{
+		[XmlElement]
+		public string AcceptType { get; set; }
+	}
 }

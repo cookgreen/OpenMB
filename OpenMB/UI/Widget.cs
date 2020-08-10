@@ -129,10 +129,10 @@ namespace OpenMB.UI
 		}
 
 		public string Material
-        {
-            get { return element.MaterialName; }
-            set { element.MaterialName = value; }
-        }
+		{
+			get { return element.MaterialName; }
+			set { element.MaterialName = value; }
+		}
 
 		public ushort ZOrder
 		{
@@ -143,10 +143,10 @@ namespace OpenMB.UI
 		}
 
 		public Widget Parent
-        {
-            get { return parent; }
-            set { parent = value; }
-        }
+		{
+			get { return parent; }
+			set { parent = value; }
+		}
 
 		public Widget()
 		{

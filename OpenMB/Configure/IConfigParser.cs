@@ -10,5 +10,5 @@ namespace OpenMB.Configure
         IConfigFile Load(string configFilePath);
 
         bool Save(IConfigFile configFile);
-    }
+	}
 }

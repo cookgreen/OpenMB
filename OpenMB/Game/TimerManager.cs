@@ -150,7 +150,7 @@ namespace OpenMB.Game
 
 		public void Resume()
 		{
-			if(state== TimerState.Paused)
+			if (state == TimerState.Paused)
 			{
 				state = TimerState.Running;
 			}
@@ -168,7 +168,7 @@ namespace OpenMB.Game
 
 		private string getMonthStr(int month)
 		{
-			switch(month)
+			switch (month)
 			{
 				case 1:
 					return "January";
@@ -206,11 +206,11 @@ namespace OpenMB.Game
 			{
 				suffix = "st";
 			}
-			else if(day.ToString().EndsWith("2"))
+			else if (day.ToString().EndsWith("2"))
 			{
 				suffix = "nd";
 			}
-			else if(day.ToString().EndsWith("3"))
+			else if (day.ToString().EndsWith("3"))
 			{
 				suffix = "rd";
 			}

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace OpenMB.Mods
 {
-    public interface IModTriggerCondition
-    {
-        string Name { get; }
-        bool CheckCondition(params object[] param);
-    }
+	public interface IModTriggerCondition
+	{
+		string Name { get; }
+		bool CheckCondition(params object[] param);
+	}
 }

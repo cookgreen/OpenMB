@@ -9,53 +9,53 @@ using System.ComponentModel;
 
 namespace OpenMB.Mods.Common.Loaders
 {
-    public class MapLoaderBSP : IGameMapLoader
-    {
-        private string mapFile;
-        private SceneManager sceneManager;
-        private BackgroundWorker worker;
+	public class MapLoaderBSP : IGameMapLoader
+	{
+		private string mapFile;
+		private SceneManager sceneManager;
+		private BackgroundWorker worker;
 
-        public MapLoaderBSP()
-        {
-            worker = new BackgroundWorker();
-            worker.DoWork += Worker_DoWork;
-            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-        }
+		public MapLoaderBSP()
+		{
+			worker = new BackgroundWorker();
+			worker.DoWork += Worker_DoWork;
+			worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+		}
 
-        private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            LoadMapFinished?.Invoke();
-        }
+		private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			LoadMapFinished?.Invoke();
+		}
 
-        private void Worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            sceneManager.SetWorldGeometry(mapFile);
-        }
+		private void Worker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			sceneManager.SetWorldGeometry(mapFile);
+		}
 
-        public string LoadedMapName
-        {
-            get
-            {
-                return mapFile;
-            }
-        }
+		public string LoadedMapName
+		{
+			get
+			{
+				return mapFile;
+			}
+		}
 
-        public string Name
-        {
-            get
-            {
-                return "BSP";
-            }
-        }
+		public string Name
+		{
+			get
+			{
+				return "BSP";
+			}
+		}
 
-        public event Action LoadMapFinished;
-        public event Action LoadMapStarted;
+		public event Action LoadMapFinished;
+		public event Action LoadMapStarted;
 
-        public void LoadAsync(IGameMap map, string mapFile)
-        {
-            this.mapFile = mapFile;
+		public void LoadAsync(IGameMap map, string mapFile)
+		{
+			this.mapFile = mapFile;
 			sceneManager = (map as GameMap).SceneManager;
-            LoadMapStarted?.Invoke();
-        }
-    }
+			LoadMapStarted?.Invoke();
+		}
+	}
 }

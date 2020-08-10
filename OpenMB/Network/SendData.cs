@@ -7,10 +7,10 @@ using MOIS;
 
 namespace OpenMB.Network
 {
-    public class SendData
-    {
-        public string optType { get; set; }//Operation Type
-        public KeyCode key { get; set; }//Pressed Key
-        public MouseButtonID mouseBtn { get; set; }//Pressed Mouse Button
-    }
+	public class SendData
+	{
+		public string optType { get; set; }//Operation Type
+		public KeyCode key { get; set; }//Pressed Key
+		public MouseButtonID mouseBtn { get; set; }//Pressed Mouse Button
+	}
 }

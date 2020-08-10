@@ -50,7 +50,7 @@ namespace OpenMB.Screen
 			if (findedMenus.Count() > 0)
 			{
 				menuData = findedMenus.First();
-				if(world.GlobalVariableTable.ContainsKey("menuData"))
+				if (world.GlobalVariableTable.ContainsKey("menuData"))
 				{
 					world.GlobalVariableTable["menuData"] = menuData;
 				}
@@ -96,8 +96,8 @@ namespace OpenMB.Screen
 		private void Button_OnClick(object sender)
 		{
 			loader.ExecuteFunction(
-				script, 
-				"menuButtonClicked", 
+				script,
+				"menuButtonClicked",
 				world,
 				this,
 				(sender as ButtonWidget).Name

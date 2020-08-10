@@ -5,10 +5,10 @@ using System.Text;
 
 namespace OpenMB.Game.AIAction
 {
-    public class Idle : Activity
-    {
-        public override void Update(float deltaTime)
-        {
-        }
-    }
+	public class Idle : Activity
+	{
+		public override void Update(float deltaTime)
+		{
+		}
+	}
 }

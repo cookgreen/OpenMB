@@ -39,7 +39,7 @@ namespace OpenMB.Game
 		public VehiclePartType Type { get; set; }
 		public string PartMesh { get; set; }
 		public Vector3 Offset { get; set; }
-		public SceneNode Node { get { return entNode; }}
+		public SceneNode Node { get { return entNode; } }
 		public VehiclePart ParentPart { get { return parentPart; } }
 		public List<VehiclePart> SubParts { get; set; }
 

@@ -9,14 +9,14 @@ using System.Windows.Forms;
 
 namespace OpenMB.Utilties.MapExporter
 {
-    class Program
+	class Program
 	{
 		[STAThread]
 		static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
-        }
-    }
+		{
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+			Application.Run(new frmMain());
+		}
+	}
 }

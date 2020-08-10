@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Mods.Common.Flags.Music
 {
-    public class MusicFlagPlayVolume : IModFlag
-    {
-        public string Name
-        {
-            get { return "PlayVolume"; }
-        }
+	public class MusicFlagPlayVolume : IModFlag
+	{
+		public string Name
+		{
+			get { return "PlayVolume"; }
+		}
 
-        public void Enable(string value, params object[] param)
-        {
-        }
-    }
+		public void Enable(string value, params object[] param)
+		{
+		}
+	}
 }

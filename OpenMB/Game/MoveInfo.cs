@@ -5,21 +5,21 @@ using System.Text;
 
 namespace OpenMB.Game
 {
-    public class MoveInfo
-    {
-        private readonly float speed;
+	public class MoveInfo
+	{
+		private readonly float speed;
 
-        public float Speed
-        {
-            get
-            {
-                return speed;
-            }
-        }
+		public float Speed
+		{
+			get
+			{
+				return speed;
+			}
+		}
 
-        public MoveInfo(float speed)
-        {
-            this.speed = speed;
-        }
-    }
+		public MoveInfo(float speed)
+		{
+			this.speed = speed;
+		}
+	}
 }

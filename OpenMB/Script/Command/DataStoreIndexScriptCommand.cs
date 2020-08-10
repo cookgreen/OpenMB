@@ -8,37 +8,37 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Script.Command
 {
-    public class DataStoreIndexScriptCommand : ScriptCommand
-    {
-        private string[] commandArgs;
-        public override string CommandName
-        {
-            get { return "data_store_index"; }
-        }
+	public class DataStoreIndexScriptCommand : ScriptCommand
+	{
+		private string[] commandArgs;
+		public override string CommandName
+		{
+			get { return "data_store_index"; }
+		}
 
-        public override ScriptCommandType CommandType
-        {
-            get { return ScriptCommandType.Line; }
-        }
+		public override ScriptCommandType CommandType
+		{
+			get { return ScriptCommandType.Line; }
+		}
 
-        public override string[] CommandArgs
-        {
-            get { return commandArgs; }
-        }
+		public override string[] CommandArgs
+		{
+			get { return commandArgs; }
+		}
 
-        public DataStoreIndexScriptCommand()
-        {
-            commandArgs = new string[]
-            {
-                "dest Value",
-                "data ID",
+		public DataStoreIndexScriptCommand()
+		{
+			commandArgs = new string[]
+			{
+				"dest Value",
+				"data ID",
 				"data Type"
-            };
-        }
+			};
+		}
 
-        public override void Execute(params object[] executeArgs)
-        {
-            GameWorld world = executeArgs[0] as GameWorld;
+		public override void Execute(params object[] executeArgs)
+		{
+			GameWorld world = executeArgs[0] as GameWorld;
 			int dataType = int.Parse(getParamterValue(commandArgs[2], world));
 			int dataIndex = -1;
 			object item = null;
@@ -121,14 +121,14 @@ namespace OpenMB.Script.Command
 					dataIndex = world.ModData.MapTemplateInfos.IndexOf(item as ModMapTemplateDfnXml);
 					break;
 			}
-            if (commandArgs[0].StartsWith("%"))
-            {
-                Context.ChangeLocalValue(commandArgs[0].Substring(1), dataIndex.ToString());
-            }
-            else if (commandArgs[0].StartsWith("$"))
-            {
-                world.ChangeGobalValue(commandArgs[0].Substring(1), dataIndex.ToString());
-            }
-        }
-    }
+			if (commandArgs[0].StartsWith("%"))
+			{
+				Context.ChangeLocalValue(commandArgs[0].Substring(1), dataIndex.ToString());
+			}
+			else if (commandArgs[0].StartsWith("$"))
+			{
+				world.ChangeGobalValue(commandArgs[0].Substring(1), dataIndex.ToString());
+			}
+		}
+	}
 }

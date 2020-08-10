@@ -8,7 +8,7 @@ using MOIS;
 
 namespace OpenMB.UI.Widgets
 {
-    public class InputBoxWidget : TextWidget
+	public class InputBoxWidget : TextWidget
 	{
 		private BorderPanelOverlayElement inputBoxElement;
 		private TextAreaOverlayElement captionTextAreaElement;
@@ -16,15 +16,15 @@ namespace OpenMB.UI.Widgets
 		private BorderPanelOverlayElement inputCursorElement;
 		private bool isFitToContents;
 		private bool isTextMode;
-        private string originalText;
+		private string originalText;
 		private int init_tick = 120;
 		private int tick = 0;
 
 		public override string Text
-        {
-            get { return originalText; }
-            set { originalText = value; }
-        }
+		{
+			get { return originalText; }
+			set { originalText = value; }
+		}
 
 		public InputBoxWidget(string name, string caption, float width, float boxWidth, string text = null)
 		{
@@ -48,7 +48,7 @@ namespace OpenMB.UI.Widgets
 			element.Width = width;
 			originalText = string.Empty;
 
-            if (boxWidth > 0)
+			if (boxWidth > 0)
 			{
 				if (width <= 0) { isFitToContents = true; }
 				inputBoxElement.Width = boxWidth;
@@ -70,13 +70,15 @@ namespace OpenMB.UI.Widgets
 			setCaption(caption);
 		}
 
-        public void setCaption(string caption) {
-            captionTextAreaElement.Caption = caption;
-            if (isFitToContents) {
-                element.Width = GetCaptionWidth(caption, ref captionTextAreaElement) + inputBoxElement.Width + 23;
-                inputBoxElement.Left = element.Width - inputBoxElement.Width - 5;
-            }
-        }
+		public void setCaption(string caption)
+		{
+			captionTextAreaElement.Caption = caption;
+			if (isFitToContents)
+			{
+				element.Width = GetCaptionWidth(caption, ref captionTextAreaElement) + inputBoxElement.Width + 23;
+				inputBoxElement.Left = element.Width - inputBoxElement.Width - 5;
+			}
+		}
 
 		public override void CursorMoved(Vector2 cursorPos)
 		{
@@ -91,44 +93,44 @@ namespace OpenMB.UI.Widgets
 		}
 
 		public override void CursorPressed(Vector2 cursorPos)
-        {
-            //Click the text area so that we can input
-            if (IsCursorOver(inputBoxElement, cursorPos))
-            {
-                isTextMode = true;
-                inputBoxElement.MaterialName = "SdkTrays/MiniTextBox/Press";
-                inputBoxElement.BorderMaterialName = "SdkTrays/MiniTextBox/Press";
+		{
+			//Click the text area so that we can input
+			if (IsCursorOver(inputBoxElement, cursorPos))
+			{
+				isTextMode = true;
+				inputBoxElement.MaterialName = "SdkTrays/MiniTextBox/Press";
+				inputBoxElement.BorderMaterialName = "SdkTrays/MiniTextBox/Press";
 				inputCursorElement.Show();
 				tick = init_tick;
 			}
-            else
-            {
-                isTextMode = false;
-                inputBoxElement.MaterialName = "SdkTrays/MiniTextBox";
-                inputBoxElement.BorderMaterialName = "SdkTrays/MiniTextBox";
+			else
+			{
+				isTextMode = false;
+				inputBoxElement.MaterialName = "SdkTrays/MiniTextBox";
+				inputBoxElement.BorderMaterialName = "SdkTrays/MiniTextBox";
 				inputCursorElement.Hide();
 				tick = 0;
 			}
-        }
+		}
 
-        public override void KeyPressed(Vector2 mousePos, KeyEvent arg)
-        {
+		public override void KeyPressed(Vector2 mousePos, KeyEvent arg)
+		{
 			uint text = arg.text;
-            if (isTextMode && IsCursorOver(inputBoxElement, mousePos))
-            {
-                string str = Utilities.Helper.ConvertUintToString(text);
+			if (isTextMode && IsCursorOver(inputBoxElement, mousePos))
+			{
+				string str = Utilities.Helper.ConvertUintToString(text);
 
-                originalText += str;//original text
-                contentTextAreaElement.Caption += str;//cut text
-                float textLength = GetCaptionWidth(contentTextAreaElement.Caption, ref contentTextAreaElement);
-                if (textLength > inputBoxElement.Width)
-                {
-                    float offset = textLength - inputBoxElement.Width;
-                    contentTextAreaElement.Caption = contentTextAreaElement.Caption.Remove(0, (int)offset);
-                }
+				originalText += str;//original text
+				contentTextAreaElement.Caption += str;//cut text
+				float textLength = GetCaptionWidth(contentTextAreaElement.Caption, ref contentTextAreaElement);
+				if (textLength > inputBoxElement.Width)
+				{
+					float offset = textLength - inputBoxElement.Width;
+					contentTextAreaElement.Caption = contentTextAreaElement.Caption.Remove(0, (int)offset);
+				}
 				calculateInputCursorPosition(str);
 			}
-        }
+		}
 
 		private void calculateInputCursorPosition(string str)
 		{

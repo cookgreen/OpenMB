@@ -8,26 +8,26 @@ using Mogre;
 
 namespace OpenMB.Network
 {
-    public class MpPlayer
-    {
-        private string playName;
-        private TcpClient playerClient;
-        private Vector3 playerPos;
+	public class MpPlayer
+	{
+		private string playName;
+		private TcpClient playerClient;
+		private Vector3 playerPos;
 
-        public Vector3 Position
-        {
-            get { return playerPos; }
-            set { playerPos = value; }
-        }
-        public TcpClient Client
-        {
-            get { return playerClient; }
-            set { playerClient = value; }
-        }
-        public string Name
-        {
-            get { return playName; }
-            set { playName = value; }
-        }
-    }
+		public Vector3 Position
+		{
+			get { return playerPos; }
+			set { playerPos = value; }
+		}
+		public TcpClient Client
+		{
+			get { return playerClient; }
+			set { playerClient = value; }
+		}
+		public string Name
+		{
+			get { return playName; }
+			set { playName = value; }
+		}
+	}
 }

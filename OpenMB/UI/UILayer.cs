@@ -54,18 +54,18 @@ namespace OpenMB.UI
 	/// Enumerator values for widget tray anchoring locations
 	/// </summary>
 	public enum UIWidgetLocation : int
-    {
-        TL_TOPLEFT,
-        TL_TOP,
-        TL_TOPRIGHT,
-        TL_LEFT,
-        TL_CENTER,
-        TL_RIGHT,
-        TL_BOTTOMLEFT,
-        TL_BOTTOM,
-        TL_BOTTOMRIGHT,
-        TL_NONE
-    }
+	{
+		TL_TOPLEFT,
+		TL_TOP,
+		TL_TOPRIGHT,
+		TL_LEFT,
+		TL_CENTER,
+		TL_RIGHT,
+		TL_BOTTOMLEFT,
+		TL_BOTTOM,
+		TL_BOTTOMRIGHT,
+		TL_NONE
+	}
 
 	/// <summary>
 	/// Main class to manage a cursor, backdrop, trays and widgets
@@ -102,7 +102,7 @@ namespace OpenMB.UI
 		protected float trayPadding = 0f; // tray padding
 		protected bool trayDrag; // a mouse press was initiated on a tray
 		protected SelectMenuWidget expandedMenu; // top priority expanded menu widget
-        protected StaticMultiLineTextBoxWidget dialog; // top priority dialog widget
+		protected StaticMultiLineTextBoxWidget dialog; // top priority dialog widget
 		protected OverlayContainer dialogShade; // top priority dialog shade
 		protected ButtonWidget ok; // top priority OK button
 		protected ButtonWidget yes; // top priority Yes button
@@ -570,45 +570,45 @@ namespace OpenMB.UI
 					if (xmlData.WidgetParameters.Where(o => o.Name == key).Count() == 0)
 						throw new Exception("Invalid Widget Parameter!");
 					var widgetParameter = xmlData.WidgetParameters.Where(o => o.Name == key).FirstOrDefault();
-                    var paramType = widgetParameter.Type;
-                    if (!string.IsNullOrEmpty(widgetParameter.Value) && 
-                        (widgetParameter.Value.StartsWith("str_") ||
-                        widgetParameter.Value.StartsWith("@")))
-                    {
-                        string originaContent = "No such Key";
-                        var stringInfo = modData.StringInfos.Where(o => o.ID == widgetParameter.Value).FirstOrDefault();
-                        if (stringInfo != null)
-                        {
-                            originaContent = stringInfo.Content;
-                        }
-                        widgetParameter.Value = LocateSystem.Instance.GetLocalizedString(widgetParameter.Value, originaContent);
-                    }
-                    switch(paramType)
-                    {
-                        case "String":
-                            a[i] = widgetParameter.Value;
-                            break;
-                        case "Float":
-                            a[i] = float.Parse(widgetParameter.Value);
-                            break;
-                        case "Double":
-                            a[i] = double.Parse(widgetParameter.Value);
-                            break;
-                        case "Integer":
-                            a[i] = int.Parse(widgetParameter.Value);
-                            break;
-                        case "UnsigedInteger":
-                            a[i] = uint.Parse(widgetParameter.Value);
-                            break;
-                        case "Boolean":
-                            a[i] = bool.Parse(widgetParameter.Value);
-                            break;
-                    }
+					var paramType = widgetParameter.Type;
+					if (!string.IsNullOrEmpty(widgetParameter.Value) &&
+						(widgetParameter.Value.StartsWith("str_") ||
+						widgetParameter.Value.StartsWith("@")))
+					{
+						string originaContent = "No such Key";
+						var stringInfo = modData.StringInfos.Where(o => o.ID == widgetParameter.Value).FirstOrDefault();
+						if (stringInfo != null)
+						{
+							originaContent = stringInfo.Content;
+						}
+						widgetParameter.Value = LocateSystem.Instance.GetLocalizedString(widgetParameter.Value, originaContent);
+					}
+					switch (paramType)
+					{
+						case "String":
+							a[i] = widgetParameter.Value;
+							break;
+						case "Float":
+							a[i] = float.Parse(widgetParameter.Value);
+							break;
+						case "Double":
+							a[i] = double.Parse(widgetParameter.Value);
+							break;
+						case "Integer":
+							a[i] = int.Parse(widgetParameter.Value);
+							break;
+						case "UnsigedInteger":
+							a[i] = uint.Parse(widgetParameter.Value);
+							break;
+						case "Boolean":
+							a[i] = bool.Parse(widgetParameter.Value);
+							break;
+					}
 				}
 
 				//Invoke the constructor and get the widget object
 				Widget w = constructorInfo.Invoke(a) as Widget;
-                moveWidgetToTray(w, xmlData.TrayLocation);
+				moveWidgetToTray(w, xmlData.TrayLocation);
 				return w;
 			}
 
@@ -1374,7 +1374,8 @@ namespace OpenMB.UI
 						if (m != null && m.Expanded()) // a menu has begun a top priority session
 						{
 							setExpandedMenu(m);
-							return new UIEvent() {
+							return new UIEvent()
+							{
 								WidgetName = w.Name
 							};
 						}
@@ -1426,7 +1427,7 @@ namespace OpenMB.UI
 				for (int j = 0; j < widgets[i].Count; j++)
 				{
 					w = widgets[i][j];
-					if(w.IsCursorOver(cursorPos))
+					if (w.IsCursorOver(cursorPos))
 					{
 						if (!w.OverlayElement.IsVisible)
 							continue;
@@ -1461,11 +1462,12 @@ namespace OpenMB.UI
 					w = widgets[i][j];
 					if (!w.OverlayElement.IsVisible)
 						continue;
-					if(w.IsCursorOver(cursorPos))
+					if (w.IsCursorOver(cursorPos))
 					{
 						w.CursorMoved(cursorPos); // send event to widget
 						w.MouseMoved(evt); // send event to widget
-						return new UIEvent() {
+						return new UIEvent()
+						{
 							WidgetName = w.Name,
 							EventValue = null
 						};
@@ -1492,7 +1494,7 @@ namespace OpenMB.UI
 					w = widgets[i][j];
 					if (!w.OverlayElement.IsVisible)
 						continue;
-                    Mogre.Vector2 pos = new Mogre.Vector2(cursor.Left, cursor.Top);
+					Mogre.Vector2 pos = new Mogre.Vector2(cursor.Left, cursor.Top);
 					if (w.IsCursorOver(pos))
 					{
 						w.KeyReleased(pos, arg);
@@ -1521,11 +1523,12 @@ namespace OpenMB.UI
 					w = widgets[i][j];
 					if (!w.OverlayElement.IsVisible)
 						continue;
-                    Mogre.Vector2 pos = new Mogre.Vector2(cursor.Left, cursor.Top);
+					Mogre.Vector2 pos = new Mogre.Vector2(cursor.Left, cursor.Top);
 					if (w.IsCursorOver(pos))
 					{
 						w.KeyPressed(pos, arg);
-						return new UIEvent() {
+						return new UIEvent()
+						{
 							WidgetName = w.Name,
 							EventValue = arg.text.ToString()
 						};
@@ -1584,58 +1587,66 @@ namespace OpenMB.UI
 			}
 		}
 
-        public void Append(Widget widget)
-        {
+		public void Append(Widget widget)
+		{
 			moveWidgetToTray(widget, UIWidgetLocation.TL_NONE);
-        }
-    }
+		}
+	}
 
 	/// <summary>
 	/// Listener class for responding to tray events
 	/// </summary>
 	public class UIListener
-    {
+	{
 
-        public virtual void Dispose() {
-        }
-        public virtual void buttonHit(ButtonWidget button) {
-        }
-        public virtual void itemSelected(SelectMenuWidget menu) {
-        }
-        public virtual void labelHit(LabelWidget label) {
-        }
-        public virtual void sliderMoved(Slider slider) {
-        }
-        public virtual void checkBoxToggled(CheckBoxWidget box) {
-        }
-        public virtual void okDialogClosed(string message) {
-        }
-        public virtual void yesNoDialogClosed(string question, bool yesHit) {
-        }
-    }
-    public class UIMathHelper
-    {
-        public const double PI = Math.PI;
+		public virtual void Dispose()
+		{
+		}
+		public virtual void buttonHit(ButtonWidget button)
+		{
+		}
+		public virtual void itemSelected(SelectMenuWidget menu)
+		{
+		}
+		public virtual void labelHit(LabelWidget label)
+		{
+		}
+		public virtual void sliderMoved(Slider slider)
+		{
+		}
+		public virtual void checkBoxToggled(CheckBoxWidget box)
+		{
+		}
+		public virtual void okDialogClosed(string message)
+		{
+		}
+		public virtual void yesNoDialogClosed(string question, bool yesHit)
+		{
+		}
+	}
+	public class UIMathHelper
+	{
+		public const double PI = Math.PI;
 
-        public const double SQUARED_PI = PI * PI;
+		public const double SQUARED_PI = PI * PI;
 
-        public const double HALF_PI = 0.5 * PI;
+		public const double HALF_PI = 0.5 * PI;
 
-        public const double QUARTER_PI = 0.5 * HALF_PI;
+		public const double QUARTER_PI = 0.5 * HALF_PI;
 
-        public const double TWO_PI = 2.0 * PI;
+		public const double TWO_PI = 2.0 * PI;
 
-        public const double THREE_PI_HALVES = TWO_PI - HALF_PI;
+		public const double THREE_PI_HALVES = TWO_PI - HALF_PI;
 
-        public const double DEGTORAD = PI / 180.0;
+		public const double DEGTORAD = PI / 180.0;
 
-        public const double RADTODEG = 180.0 / PI;
+		public const double RADTODEG = 180.0 / PI;
 
-        public static readonly double SQRTOFTWO = Math.Sqrt(2.0);
+		public static readonly double SQRTOFTWO = Math.Sqrt(2.0);
 
-        public static readonly double HALF_SQRTOFTWO = 0.5 * SQRTOFTWO;
+		public static readonly double HALF_SQRTOFTWO = 0.5 * SQRTOFTWO;
 
-        /**
+		/**
         * Gets the difference between two angles
         * This value is always positive (0 - 180)
         *
@@ -1643,11 +1654,12 @@ namespace OpenMB.UI
         * @param angle2
         * @return the positive angle difference
         */
-        public static float getAngleDifference(float angle1, float angle2) {
-            return Math.Abs(wrapAngle(angle1 - angle2));
-        }
+		public static float getAngleDifference(float angle1, float angle2)
+		{
+			return Math.Abs(wrapAngle(angle1 - angle2));
+		}
 
-        /**
+		/**
         * Gets the difference between two radians
         * This value is always positive (0 - PI)
         *
@@ -1655,77 +1667,89 @@ namespace OpenMB.UI
         * @param radian2
         * @return the positive radian difference
         */
-        public static double getRadianDifference(double radian1, double radian2) {
-            return Math.Abs(wrapRadian(radian1 - radian2));
-        }
+		public static double getRadianDifference(double radian1, double radian2)
+		{
+			return Math.Abs(wrapRadian(radian1 - radian2));
+		}
 
-        /**
+		/**
         * Wraps the angle between -180 and 180 degrees
         *
         * @param angle to wrap
         * @return -180 > angle <= 180
         */
-        public static float wrapAngle(float angle) {
-            angle %= 360f;
-            if (angle <= -180) {
-                return angle + 360;
-            }
-            else if (angle > 180) {
-                return angle - 360;
-            }
-            else {
-                return angle;
-            }
-        }
+		public static float wrapAngle(float angle)
+		{
+			angle %= 360f;
+			if (angle <= -180)
+			{
+				return angle + 360;
+			}
+			else if (angle > 180)
+			{
+				return angle - 360;
+			}
+			else
+			{
+				return angle;
+			}
+		}
 
-        /**
+		/**
         * Wraps a byte between 0 and 256
         *
         * @param value to wrap
         * @return 0 >= byte < 256
         */
-        public static byte wrapByte(int value) {
-            value %= 256;
-            if (value < 0) {
-                value += 256;
-            }
-            return (byte)value;
-        }
+		public static byte wrapByte(int value)
+		{
+			value %= 256;
+			if (value < 0)
+			{
+				value += 256;
+			}
+			return (byte)value;
+		}
 
-        /**
+		/**
         * Wraps the radian between -PI and PI
         *
         * @param radian to wrap
         * @return -PI > radian <= PI
         */
-        public static double wrapRadian(double radian) {
-            radian %= TWO_PI;
-            if (radian <= -PI) {
-                return radian + TWO_PI;
-            }
-            else if (radian > PI) {
-                return radian - TWO_PI;
-            }
-            else {
-                return radian;
-            }
-        }
+		public static double wrapRadian(double radian)
+		{
+			radian %= TWO_PI;
+			if (radian <= -PI)
+			{
+				return radian + TWO_PI;
+			}
+			else if (radian > PI)
+			{
+				return radian - TWO_PI;
+			}
+			else
+			{
+				return radian;
+			}
+		}
 
-        /**
+		/**
         * Rounds a number to the amount of decimals specified
         *
         * @param input to round
         * @param decimals to round to
         * @return the rounded number
         */
-        public static double round(double input, int decimals) {
-            double p = Math.Pow(10, decimals);
-            return Math.Round(input * p) / p;
-        }
+		public static double round(double input, int decimals)
+		{
+			double p = Math.Pow(10, decimals);
+			return Math.Round(input * p) / p;
+		}
 
 
 
-        /**
+		/**
         * Calculates the value at x using linear interpolation
         *
         * @param x the X coord of the value to interpolate
@@ -1735,10 +1759,10 @@ namespace OpenMB.UI
         * @param q1 the second known value (x2)
         * @return the interpolated value
         */
-        public static double lerp(double x, double x1, double x2, double q0, double q1) { return ((x2 - x) / (x2 - x1)) * q0 + ((x - x1) / (x2 - x1)) * q1; }
+		public static double lerp(double x, double x1, double x2, double q0, double q1) { return ((x2 - x) / (x2 - x1)) * q0 + ((x - x1) / (x2 - x1)) * q1; }
 
 
-        /**
+		/**
 * Calculates the value at x,y,z using trilinear interpolation
 *
 * @param x the X coord of the value to interpolate
@@ -1760,114 +1784,128 @@ namespace OpenMB.UI
 * @param z2 the Z coord of q010, q011, q110 and q111
 * @return the interpolated value
 */
-        public static double triLerp(double x, double y, double z, double q000, double q001,
-        double q010, double q011, double q100, double q101, double q110, double q111,
-        double x1, double x2, double y1, double y2, double z1, double z2) {
-            double q00 = lerp(x, x1, x2, q000, q100);
-            double q01 = lerp(x, x1, x2, q010, q110);
-            double q10 = lerp(x, x1, x2, q001, q101);
-            double q11 = lerp(x, x1, x2, q011, q111);
-            double q0 = lerp(y, y1, y2, q00, q10);
-            double q1 = lerp(y, y1, y2, q01, q11);
-            return lerp(z, z1, z2, q0, q1);
-        }
+		public static double triLerp(double x, double y, double z, double q000, double q001,
+		double q010, double q011, double q100, double q101, double q110, double q111,
+		double x1, double x2, double y1, double y2, double z1, double z2)
+		{
+			double q00 = lerp(x, x1, x2, q000, q100);
+			double q01 = lerp(x, x1, x2, q010, q110);
+			double q10 = lerp(x, x1, x2, q001, q101);
+			double q11 = lerp(x, x1, x2, q011, q111);
+			double q0 = lerp(y, y1, y2, q00, q10);
+			double q1 = lerp(y, y1, y2, q01, q11);
+			return lerp(z, z1, z2, q0, q1);
+		}
 
 
-        static public T clamp<T>(T val, T min, T max) where T : IComparable<T> {
+		static public T clamp<T>(T val, T min, T max) where T : IComparable<T>
+		{
 
-            if (val.CompareTo(min) < 0) { return min; }
-            else if (val.CompareTo(max) > 0) { return max; }
-            else { return val; }
-        }
+			if (val.CompareTo(min) < 0) { return min; }
+			else if (val.CompareTo(max) > 0) { return max; }
+			else { return val; }
+		}
 
-        public static int floor(double x) {
-            int y = (int)x;
-            if (x < y) {
-                return y - 1;
-            }
-            return y;
-        }
+		public static int floor(double x)
+		{
+			int y = (int)x;
+			if (x < y)
+			{
+				return y - 1;
+			}
+			return y;
+		}
 
-        public static int floor(float x) {
-            int y = (int)x;
-            if (x < y) {
-                return y - 1;
-            }
-            return y;
-        }
+		public static int floor(float x)
+		{
+			int y = (int)x;
+			if (x < y)
+			{
+				return y - 1;
+			}
+			return y;
+		}
 
-        /**
+		/**
         * Gets the maximum byte value from two values
         *
         * @param value1
         * @param value2
         * @return the maximum value
         */
-        public static byte max(byte value1, byte value2) {
-            return value1 > value2 ? value1 : value2;
-        }
+		public static byte max(byte value1, byte value2)
+		{
+			return value1 > value2 ? value1 : value2;
+		}
 
-        /**
+		/**
         * Rounds an integer up to the next power of 2.
         *
         * @param x
         * @return the lowest power of 2 greater or equal to x
         */
-        public static int roundUpPow2(int x) {
-            if (x <= 0) {
-                return 1;
-            }
-            else if (x > 0x40000000) {
-                throw new ArgumentException("Rounding " + x + " to the next highest power of two would exceed the int range");
-            }
-            else {
-                x--;
-                x |= x >> 1;
-                x |= x >> 2;
-                x |= x >> 4;
-                x |= x >> 8;
-                x |= x >> 16;
-                x++;
-                return x;
-            }
-        }
+		public static int roundUpPow2(int x)
+		{
+			if (x <= 0)
+			{
+				return 1;
+			}
+			else if (x > 0x40000000)
+			{
+				throw new ArgumentException("Rounding " + x + " to the next highest power of two would exceed the int range");
+			}
+			else
+			{
+				x--;
+				x |= x >> 1;
+				x |= x >> 2;
+				x |= x >> 4;
+				x |= x >> 8;
+				x |= x >> 16;
+				x++;
+				return x;
+			}
+		}
 
-        public static bool isInBlock(Mogre.Vector3 origin, Mogre.Vector3 p, int side) {
-            return (p.x >= origin.x && p.x < origin.x + side) && (p.y >= origin.y && p.y < origin.y + side) && (p.z >= origin.z - side && p.z < origin.z);
-        }
-    }
-    public class FontDefault
-    {
-        public const string Default = "FONT.DEFAULT";
-        public const string DefaultBold = "FONT.DEFAULT.BOLD";
-        public const string Torchlight = "FONT.TORCHLIGHT";
-        public const string Consolas = "FONT.CONSOLAS";
-        public static void Load(string fontFileName, string fontRef, int size) {
-            // Create the font resources
-            //ResourceGroupManager.Singleton.AddResourceLocation("Media/fonts", "FileSystem");
-            //Load("Default.ttf", Font.Default, 26);
-            //Load("DefaultBold.ttf", Font.DefaultBold, 28);
-            //Load("Torchlight.ttf", Font.Torchlight, 36);
-            //Load("Consolas.ttf", Font.Consolas, 26);
+		public static bool isInBlock(Mogre.Vector3 origin, Mogre.Vector3 p, int side)
+		{
+			return (p.x >= origin.x && p.x < origin.x + side) && (p.y >= origin.y && p.y < origin.y + side) && (p.z >= origin.z - side && p.z < origin.z);
+		}
+	}
+	public class FontDefault
+	{
+		public const string Default = "FONT.DEFAULT";
+		public const string DefaultBold = "FONT.DEFAULT.BOLD";
+		public const string Torchlight = "FONT.TORCHLIGHT";
+		public const string Consolas = "FONT.CONSOLAS";
+		public static void Load(string fontFileName, string fontRef, int size)
+		{
+			// Create the font resources
+			//ResourceGroupManager.Singleton.AddResourceLocation("Media/fonts", "FileSystem");
+			//Load("Default.ttf", Font.Default, 26);
+			//Load("DefaultBold.ttf", Font.DefaultBold, 28);
+			//Load("Torchlight.ttf", Font.Torchlight, 36);
+			//Load("Consolas.ttf", Font.Consolas, 26);
 
-            ResourcePtr font = FontManager.Singleton.Create(fontRef, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-            font.SetParameter("type", "truetype");
-            font.SetParameter("source", fontFileName);
-            font.SetParameter("size", size.ToString());
-            font.SetParameter("resolution", "96");
-            font.Load();
-        }
-    }
+			ResourcePtr font = FontManager.Singleton.Create(fontRef, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+			font.SetParameter("type", "truetype");
+			font.SetParameter("source", fontFileName);
+			font.SetParameter("size", size.ToString());
+			font.SetParameter("resolution", "96");
+			font.Load();
+		}
+	}
 
 	/// <summary>
 	/// Custom, decorative widget created from a template
 	/// </summary>
 	public class DecorWidget : Widget
-    {
+	{
 
-        // Do not instantiate any widgets directly. Use SdkTrayManager.
-        public DecorWidget(string name, string templateName) {
-            element = Mogre.OverlayManager.Singleton.CreateOverlayElementFromTemplate(templateName, "", name);
-        }
-    }
+		// Do not instantiate any widgets directly. Use SdkTrayManager.
+		public DecorWidget(string name, string templateName)
+		{
+			element = Mogre.OverlayManager.Singleton.CreateOverlayElementFromTemplate(templateName, "", name);
+		}
+	}
 }

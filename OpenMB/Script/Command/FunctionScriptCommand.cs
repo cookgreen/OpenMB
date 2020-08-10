@@ -5,44 +5,44 @@ using System.Text;
 
 namespace OpenMB.Script.Command
 {
-    class FunctionScriptCommand : ScriptCommand
-    {
-        private string[] commandArgs;
-        public override string CommandName
-        {
-            get
-            {
-                return "function";
-            }
-        }
+	class FunctionScriptCommand : ScriptCommand
+	{
+		private string[] commandArgs;
+		public override string CommandName
+		{
+			get
+			{
+				return "function";
+			}
+		}
 
-        public override string[] CommandArgs
-        {
-            get
-            {
-                return commandArgs;
-            }
-        }
+		public override string[] CommandArgs
+		{
+			get
+			{
+				return commandArgs;
+			}
+		}
 
-        public override ScriptCommandType CommandType
-        {
-            get
-            {
-                return ScriptCommandType.Block;
-            }
-        }
+		public override ScriptCommandType CommandType
+		{
+			get
+			{
+				return ScriptCommandType.Block;
+			}
+		}
 
-        public FunctionScriptCommand()
-        {
-            commandArgs = new string[] {
-                "FunctionName"
-            };
-            SubCommands = new List<IScriptCommand>();
-        }
+		public FunctionScriptCommand()
+		{
+			commandArgs = new string[] {
+				"FunctionName"
+			};
+			SubCommands = new List<IScriptCommand>();
+		}
 
-        public override void Execute(params object[] executeArgs)
-        {
-            Context.RegisterFunction(commandArgs[0], SubCommands);
-        }
-    }
+		public override void Execute(params object[] executeArgs)
+		{
+			Context.RegisterFunction(commandArgs[0], SubCommands);
+		}
+	}
 }

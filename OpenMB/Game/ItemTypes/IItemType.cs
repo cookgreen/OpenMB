@@ -7,22 +7,22 @@ using System.Text;
 
 namespace OpenMB.Game.ItemTypes
 {
-    public interface IItemType
-    {
-        string Name { get; }
+	public interface IItemType
+	{
+		string Name { get; }
 
-        string SpawnAttachBoneName { get; }
+		string SpawnAttachBoneName { get; }
 
-        void Use(params object[] param);
+		void Use(params object[] param);
 
 		MaterialPtr RenderPreview(Entity itemEnt);
 
-        Item Item { get; set; }
+		Item Item { get; set; }
 
-        ModData ModData { get; set; }
+		ModData ModData { get; set; }
 
-        void SpawnIntoWorld();
+		void SpawnIntoWorld();
 
-        void SpawnIntoCharacter(GameWorld world, Character character);
+		void SpawnIntoCharacter(GameWorld world, Character character);
 	}
 }

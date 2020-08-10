@@ -12,164 +12,164 @@ using MOIS;
 
 namespace OpenMB.States
 {
-    public class LoadingData
-    {
-        private LoadingType type;
-        private string comment;
-        private string loadingObjName;
-        private object data;
+	public class LoadingData
+	{
+		private LoadingType type;
+		private string comment;
+		private string loadingObjName;
+		private object data;
 
-        public LoadingType Type
-        {
-            get
-            {
-                return type;
-            }
-        }
+		public LoadingType Type
+		{
+			get
+			{
+				return type;
+			}
+		}
 
-        public string Comment
-        {
-            get
-            {
-                return comment;
-            }
-        }
+		public string Comment
+		{
+			get
+			{
+				return comment;
+			}
+		}
 
-        public object Data
-        {
-            get
-            {
-                return data;
-            }
-        }
+		public object Data
+		{
+			get
+			{
+				return data;
+			}
+		}
 
-        public string LoadingObjName
-        {
-            get
-            {
-                return loadingObjName;
-            }
-        }
+		public string LoadingObjName
+		{
+			get
+			{
+				return loadingObjName;
+			}
+		}
 
-        public LoadingData(
-            LoadingType type, 
-            string comment, 
-            string loadingObjName,
-            object data)
-        {
-            this.type = type;
-            this.comment = comment;
-            this.loadingObjName = loadingObjName;
-            this.data = data;
-        }
-    }
-    public enum LoadingType
-    {
-        NONE,
-        LOADING_MOD,
-        LOADING_SCREEN
-    }
-    public class Loading : AppState
-    {
-        private ProgressBarWidget progressBar;
-        public override void enter(ModData e = null)
-        {
-            modData = e;
-            sceneMgr = GameManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "LoadingSceneMgr");
+		public LoadingData(
+			LoadingType type,
+			string comment,
+			string loadingObjName,
+			object data)
+		{
+			this.type = type;
+			this.comment = comment;
+			this.loadingObjName = loadingObjName;
+			this.data = data;
+		}
+	}
+	public enum LoadingType
+	{
+		NONE,
+		LOADING_MOD,
+		LOADING_SCREEN
+	}
+	public class Loading : AppState
+	{
+		private ProgressBarWidget progressBar;
+		public override void enter(ModData e = null)
+		{
+			modData = e;
+			sceneMgr = GameManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "LoadingSceneMgr");
 
-            ColourValue cvAmbineLight = new ColourValue(0.7f, 0.7f, 0.7f);
-            sceneMgr.AmbientLight = cvAmbineLight;
+			ColourValue cvAmbineLight = new ColourValue(0.7f, 0.7f, 0.7f);
+			sceneMgr.AmbientLight = cvAmbineLight;
 
-            camera = sceneMgr.CreateCamera("LoadingScreenCam");
-            camera.SetPosition(0, 25, -50);
+			camera = sceneMgr.CreateCamera("LoadingScreenCam");
+			camera.SetPosition(0, 25, -50);
 			Mogre.Vector3 vectorCameraLookat = new Mogre.Vector3(0, 0, 0);
-            camera.LookAt(vectorCameraLookat);
-            camera.NearClipDistance = 1;
+			camera.LookAt(vectorCameraLookat);
+			camera.NearClipDistance = 1;
 
-            camera.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
+			camera.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
 
-            GameManager.Instance.viewport.Camera = camera;
+			GameManager.Instance.viewport.Camera = camera;
 
-            UIManager.Instance.DestroyAllWidgets();
-            progressBar = UIManager.Instance.CreateProgressBar(UIWidgetLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
-            progressBar.setComment(GameManager.Instance.loadingData.Comment);
+			UIManager.Instance.DestroyAllWidgets();
+			progressBar = UIManager.Instance.CreateProgressBar(UIWidgetLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
+			progressBar.setComment(GameManager.Instance.loadingData.Comment);
 
-            switch (GameManager.Instance.loadingData.Type)
-            {
-                case LoadingType.LOADING_MOD:
-                    ModManager.Instance.LoadingModProcessing += LoadingModProcessing;
-                    ModManager.Instance.LoadingModFinished += LoadingModFinished;
-                    ModManager.Instance.LoadMod(GameManager.Instance.loadingData.LoadingObjName);
-                    break;
-            }
+			switch (GameManager.Instance.loadingData.Type)
+			{
+				case LoadingType.LOADING_MOD:
+					ModManager.Instance.LoadingModProcessing += LoadingModProcessing;
+					ModManager.Instance.LoadingModFinished += LoadingModFinished;
+					ModManager.Instance.LoadMod(GameManager.Instance.loadingData.LoadingObjName);
+					break;
+			}
 
-            GameManager.Instance.mouse.MouseMoved += mouseMoved;
-            GameManager.Instance.mouse.MousePressed += mousePressed;
-            GameManager.Instance.mouse.MouseReleased += mouseReleased;
-            GameManager.Instance.keyboard.KeyPressed += keyPressed;
-            GameManager.Instance.keyboard.KeyReleased += keyReleased;
-        }
+			GameManager.Instance.mouse.MouseMoved += mouseMoved;
+			GameManager.Instance.mouse.MousePressed += mousePressed;
+			GameManager.Instance.mouse.MouseReleased += mouseReleased;
+			GameManager.Instance.keyboard.KeyPressed += keyPressed;
+			GameManager.Instance.keyboard.KeyReleased += keyReleased;
+		}
 
-        public bool keyPressed(KeyEvent keyEventRef)
-        {
-            return true;
-        }
-        public bool keyReleased(KeyEvent keyEventRef)
-        {
-            return true;
-        }
+		public bool keyPressed(KeyEvent keyEventRef)
+		{
+			return true;
+		}
+		public bool keyReleased(KeyEvent keyEventRef)
+		{
+			return true;
+		}
 
-        public bool mouseMoved(MouseEvent evt)
-        {
-            UIManager.Instance.InjectMouseMove(evt);
-            return true;
-        }
-        public bool mousePressed(MouseEvent evt, MouseButtonID id)
-        {
-            UIManager.Instance.InjectMouseDown(evt, id);
-            return true;
-        }
-        public bool mouseReleased(MouseEvent evt, MouseButtonID id)
-        {
-            UIManager.Instance.InjectMouseUp(evt, id);
-            return true;
-        }
+		public bool mouseMoved(MouseEvent evt)
+		{
+			UIManager.Instance.InjectMouseMove(evt);
+			return true;
+		}
+		public bool mousePressed(MouseEvent evt, MouseButtonID id)
+		{
+			UIManager.Instance.InjectMouseDown(evt, id);
+			return true;
+		}
+		public bool mouseReleased(MouseEvent evt, MouseButtonID id)
+		{
+			UIManager.Instance.InjectMouseUp(evt, id);
+			return true;
+		}
 
-        private void LoadingModFinished()
-        {
-            var modData = ModManager.Instance.ModData;
-            changeAppState(findByName(GameManager.Instance.loadingData.Data.ToString()), modData);
-        }
+		private void LoadingModFinished()
+		{
+			var modData = ModManager.Instance.ModData;
+			changeAppState(findByName(GameManager.Instance.loadingData.Data.ToString()), modData);
+		}
 
-        private void LoadingModProcessing(int progress)
-        {
-            switch (progress)
-            {
-                case 25:
-                    progressBar.setComment(LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_processing_module_file"));
-                    break;
-                case 50:
-                    progressBar.setComment(LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_loading_resource"));
-                    break;
-                case 75:
-                    progressBar.setComment(LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_loading_module_data"));
-                    break;
-                case 100:
-                    progressBar.setComment(LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_finished"));
-                    break;
-            }
-            progressBar.setProgress(progress / 100);
-        }
+		private void LoadingModProcessing(int progress)
+		{
+			switch (progress)
+			{
+				case 25:
+					progressBar.setComment(LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_processing_module_file"));
+					break;
+				case 50:
+					progressBar.setComment(LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_loading_resource"));
+					break;
+				case 75:
+					progressBar.setComment(LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_loading_module_data"));
+					break;
+				case 100:
+					progressBar.setComment(LocateSystem.Instance.GetLocalizedString(LocateFileType.GameString, "str_finished"));
+					break;
+			}
+			progressBar.setProgress(progress / 100);
+		}
 
-        public override void exit()
-        {
-            UIManager.Instance.DestroyAllWidgets();
-            sceneMgr.DestroyCamera(camera);
-            if (sceneMgr != null)
-                GameManager.Instance.root.DestroySceneManager(sceneMgr);
+		public override void exit()
+		{
+			UIManager.Instance.DestroyAllWidgets();
+			sceneMgr.DestroyCamera(camera);
+			if (sceneMgr != null)
+				GameManager.Instance.root.DestroySceneManager(sceneMgr);
 
-            ModManager.Instance.LoadingModFinished -= LoadingModFinished;
-            ModManager.Instance.LoadingModProcessing -= LoadingModProcessing;
-        }
-    }
+			ModManager.Instance.LoadingModFinished -= LoadingModFinished;
+			ModManager.Instance.LoadingModProcessing -= LoadingModProcessing;
+		}
+	}
 }

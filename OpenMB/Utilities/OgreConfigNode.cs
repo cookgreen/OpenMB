@@ -5,26 +5,26 @@ using System.Text;
 
 namespace OpenMB.Utilities
 {
-    public class OgreConfigNode
-    {
-        private string section;
+	public class OgreConfigNode
+	{
+		private string section;
 
-        public string Section
-        {
-            get { return section; }
-            set { section = value; }
-        }
+		public string Section
+		{
+			get { return section; }
+			set { section = value; }
+		}
 
-        private Dictionary<string, string> settings;
+		private Dictionary<string, string> settings;
 
-        public Dictionary<string, string> Settings
-        {
-            get { return settings; }
-            set { settings = value; }
-        }
-        public OgreConfigNode()
-        {
-            settings = new Dictionary<string, string>();
-        }
-    }
+		public Dictionary<string, string> Settings
+		{
+			get { return settings; }
+			set { settings = value; }
+		}
+		public OgreConfigNode()
+		{
+			settings = new Dictionary<string, string>();
+		}
+	}
 }

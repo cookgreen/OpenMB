@@ -5,7 +5,7 @@ using OpenMB.UI.Widgets;
 
 namespace OpenMB.Screen
 {
-    public class GameMainScreen : Screen
+	public class GameMainScreen : Screen
 	{
 		private PanelWidget gameMainPanel;
 		private ButtonWidget btnTerrain;

@@ -33,54 +33,54 @@ using System.Text;
 
 namespace OpenMB.UI.Widgets
 {
-    public class StaticText : Widget
-    {
-        protected TextAreaOverlayElement mTextArea;
-        protected bool mFitToTray;
-        public StaticText(string name, string caption, float width, bool specificColor, ColourValue color)
-        {
-            OverlayManager overlayMgr = OverlayManager.Singleton;
-            element = overlayMgr.CreateOverlayElement("BorderPanel", name);
-            element.MetricsMode = GuiMetricsMode.GMM_PIXELS;
-            element.HorizontalAlignment = GuiHorizontalAlignment.GHA_CENTER;
-            element.Height = 32;
-            mTextArea = overlayMgr.CreateOverlayElement("TextArea", name + "/StaticTextCaption") as TextAreaOverlayElement;
-            mTextArea.MetricsMode = GuiMetricsMode.GMM_PIXELS;
-            mTextArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_CENTER;
-            mTextArea.SetAlignment(TextAreaOverlayElement.Alignment.Center);
-            mTextArea.Top = 10;
-            mTextArea.FontName = "EngineFont";
-            mTextArea.CharHeight = 18;
-            mTextArea.SpaceWidth = 9;
-            if(!specificColor)
-            {
-                mTextArea.Colour = new ColourValue(0.9f, 1f, 0.7f);
-            }
-            else
-            {
-                mTextArea.Colour = color;
-            }
-            ((OverlayContainer)element).AddChild(mTextArea);
-            SetText(caption);
-        }
+	public class StaticText : Widget
+	{
+		protected TextAreaOverlayElement mTextArea;
+		protected bool mFitToTray;
+		public StaticText(string name, string caption, float width, bool specificColor, ColourValue color)
+		{
+			OverlayManager overlayMgr = OverlayManager.Singleton;
+			element = overlayMgr.CreateOverlayElement("BorderPanel", name);
+			element.MetricsMode = GuiMetricsMode.GMM_PIXELS;
+			element.HorizontalAlignment = GuiHorizontalAlignment.GHA_CENTER;
+			element.Height = 32;
+			mTextArea = overlayMgr.CreateOverlayElement("TextArea", name + "/StaticTextCaption") as TextAreaOverlayElement;
+			mTextArea.MetricsMode = GuiMetricsMode.GMM_PIXELS;
+			mTextArea.HorizontalAlignment = GuiHorizontalAlignment.GHA_CENTER;
+			mTextArea.SetAlignment(TextAreaOverlayElement.Alignment.Center);
+			mTextArea.Top = 10;
+			mTextArea.FontName = "EngineFont";
+			mTextArea.CharHeight = 18;
+			mTextArea.SpaceWidth = 9;
+			if (!specificColor)
+			{
+				mTextArea.Colour = new ColourValue(0.9f, 1f, 0.7f);
+			}
+			else
+			{
+				mTextArea.Colour = color;
+			}
+			((OverlayContainer)element).AddChild(mTextArea);
+			SetText(caption);
+		}
 
-        public string GetText()
-        {
-            return mTextArea.Caption;
-        }
+		public string GetText()
+		{
+			return mTextArea.Caption;
+		}
 
-        public void SetText(string text)
-        {
-            mTextArea.Caption = text;
-        }
+		public void SetText(string text)
+		{
+			mTextArea.Caption = text;
+		}
 
-        public override void CursorPressed(Mogre.Vector2 cursorPos)
-        {
-        }
+		public override void CursorPressed(Mogre.Vector2 cursorPos)
+		{
+		}
 
-        public bool _isFitToTray()
-        {
-            return mFitToTray;
-        }
-    }
+		public bool _isFitToTray()
+		{
+			return mFitToTray;
+		}
+	}
 }
