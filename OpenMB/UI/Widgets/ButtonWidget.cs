@@ -26,7 +26,7 @@ namespace OpenMB.UI.Widgets
 		protected Mogre.BorderPanelOverlayElement borderPanelElement;
 		protected Mogre.TextAreaOverlayElement textAreaElement;
 		protected bool isFitToContents;
-		public event Action<object> OnClick;
+		public override event Action<object> OnClick;
 		public string Text
 		{
 			get

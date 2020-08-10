@@ -9,12 +9,13 @@ using OpenMB.Core;
 using OpenMB.Mods;
 using OpenMB.Mods.XML;
 using OpenMB.States;
+using OpenMB.UI.Skin;
 using OpenMB.UI.Widgets;
 using InputContext = MOIS.Mouse;
 
 namespace OpenMB.UI
 {
-    public class UIManager : IDisposable
+	public class UIManager : IDisposable
 	{
 		private Stack<UILayer> uiLayers;
 		private static UIManager instance;
@@ -27,12 +28,12 @@ namespace OpenMB.UI
 		protected bool cursorWasVisible; // cursor state before showing dialog
 		private GameCursor gameCursor;
 
-        public void Append(Widget widget)
-        {
+		public void Append(Widget widget)
+		{
 			CurrentLayer.Append(widget);
-        }
+		}
 
-        private ModData modData;
+		private ModData modData;
 
 		public static UIManager Instance
 		{
@@ -46,9 +47,9 @@ namespace OpenMB.UI
 			}
 		}
 
-        public UILayer CurrentLayer { get { return uiLayers.Peek(); } }
+		public UILayer CurrentLayer { get { return uiLayers.Peek(); } }
 		public UIManager()
-        {
+		{
 			uiLayers = new Stack<UILayer>();
 			uiLayers.Push(new UILayer());
 		}
@@ -81,23 +82,23 @@ namespace OpenMB.UI
 		}
 
 		internal Widget GetWidget(UIWidgetLocation trayLoc, uint i)
-        {
+		{
 			return CurrentLayer.GetWidget(trayLoc, i);
-        }
+		}
 
-        internal void SetListener(UIListener listener)
-        {
+		internal void SetListener(UIListener listener)
+		{
 			CurrentLayer.SetListener(listener);
-        }
+		}
 
-        public void InitMod(ModData modData)
-        {
+		public void InitMod(ModData modData)
+		{
 			this.modData = modData;
 			CurrentLayer.InitMod(modData);
-        }
+		}
 
-        public Overlay GetTraysLayer()
-        {
+		public Overlay GetTraysLayer()
+		{
 			return CurrentLayer.GetTraysLayer();
 		}
 
@@ -113,12 +114,12 @@ namespace OpenMB.UI
 			}
 		}
 
-        internal void FrameRenderingQueued(FrameEvent evt)
-        {
+		internal void FrameRenderingQueued(FrameEvent evt)
+		{
 			CurrentLayer.FrameRenderingQueued(evt);
-        }
+		}
 
-        public void RefreshCursor()
+		public void RefreshCursor()
 		{
 			float x = 0f;
 			float y = 0f;
@@ -127,21 +128,21 @@ namespace OpenMB.UI
 			cursor.SetPosition(x, y);
 		}
 
-        internal int GetNumWidgets(UIWidgetLocation trayLoc)
-        {
+		internal int GetNumWidgets(UIWidgetLocation trayLoc)
+		{
 			return CurrentLayer.GetNumWidgets(trayLoc);
-        }
+		}
 
-        internal void DestroyWidget(UIWidgetLocation trayLoc, uint num)
-        {
+		internal void DestroyWidget(UIWidgetLocation trayLoc, uint num)
+		{
 			CurrentLayer.DestroyWidget(trayLoc, num);
-        }
+		}
 
-        /// <summary>
-        /// Displays specified material on cursor, or the last material used if
-        ///	none specified. Used to change cursor type.
-        /// </summary>
-        public void ShowCursor()
+		/// <summary>
+		/// Displays specified material on cursor, or the last material used if
+		///	none specified. Used to change cursor type.
+		/// </summary>
+		public void ShowCursor()
 		{
 			ShowCursor("");
 		}
@@ -153,10 +154,10 @@ namespace OpenMB.UI
 		}
 
 		internal void Update()
-        {
-        }
+		{
+		}
 
-        public void AddNewLayer()
+		public void AddNewLayer()
 		{
 			uiLayers.Push(new UILayer());
 		}
@@ -185,23 +186,23 @@ namespace OpenMB.UI
 			return ScreenToScene(cam, new Mogre.Vector2(cursor._getLeft(), cursor._getTop()));
 		}
 
-        public void DestroyAllWidgets()
-        {
+		public void DestroyAllWidgets()
+		{
 			if (uiLayers.Count == 1)
 			{
 				return;
 			}
 			CurrentLayer.DestroyAllWidgets();
 			uiLayers.Pop();
-        }
+		}
 
-        /// <summary>
-        /// Converts a 2D screen coordinate (in pixels) to a 3D ray into the scene.
-        /// </summary>
-        /// <param name="cam"></param>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-        public static Mogre.Ray ScreenToScene(Mogre.Camera cam, Mogre.Vector2 pt)
+		/// <summary>
+		/// Converts a 2D screen coordinate (in pixels) to a 3D ray into the scene.
+		/// </summary>
+		/// <param name="cam"></param>
+		/// <param name="pt"></param>
+		/// <returns></returns>
+		public static Mogre.Ray ScreenToScene(Mogre.Camera cam, Mogre.Vector2 pt)
 		{
 			return cam.GetCameraToViewportRay(pt.x, pt.y);
 		}
@@ -267,6 +268,11 @@ namespace OpenMB.UI
 			return CurrentLayer.InjectKeyPressed(arg);
 		}
 
+		public void ChangeSkin(string skin)
+		{
+			SkinManager.Instance.ChangeSkin(skin);
+		}
+
 		#region Factory Methods
 		public Widget CreateWidget(ModData modData, ModUILayoutWidgetDfnXml xmlData)
 		{
@@ -293,7 +299,7 @@ namespace OpenMB.UI
 			return CurrentLayer.CreateThickSelectMenu(trayLoc, name, caption, width, maxItemsShown);
 		}
 
-        internal SelectMenuWidget CreateThickSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float width, uint maxItemsShown, List<string> items)
+		internal SelectMenuWidget CreateThickSelectMenu(UIWidgetLocation trayLoc, string name, string caption, float width, uint maxItemsShown, List<string> items)
 		{
 			return CurrentLayer.CreateThickSelectMenu(trayLoc, name, caption, width, maxItemsShown, items);
 		}

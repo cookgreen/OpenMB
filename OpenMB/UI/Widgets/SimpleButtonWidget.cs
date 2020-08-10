@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace OpenMB.UI.Widgets
 {
-    public class SimpleButtonWidget : Widget
+    public class SimpleButtonWidget : SkinWidget
 	{
 		private ButtonState state;
 		private BorderPanelOverlayElement borderPanelElement;
         private TextAreaOverlayElement textAreaElement;
-		public event Action<object> OnClick;
+		public override event Action<object> OnClick;
 
 		public SimpleButtonWidget(string name, string caption, float width, float height, float left = 0, float top = 0)
         {
@@ -79,18 +79,18 @@ namespace OpenMB.UI.Widgets
 		{
 			if (bs == ButtonState.BS_OVER)
 			{
-				borderPanelElement.BorderMaterialName = "Engine/Button/Over";
-				borderPanelElement.MaterialName = "Engine/Button/Over";
+				borderPanelElement.BorderMaterialName = GetSkin("Border", "Over");
+				borderPanelElement.MaterialName = GetSkin("Background", "Over");
 			}
 			else if (bs == ButtonState.BS_UP)
 			{
-				borderPanelElement.BorderMaterialName = "Engine/Button/Up";
-				borderPanelElement.MaterialName = "Engine/Button/Up";
+				borderPanelElement.BorderMaterialName = GetSkin("Border", "Up");
+				borderPanelElement.MaterialName = GetSkin("Background", "Up");
 			}
 			else
 			{
-				borderPanelElement.BorderMaterialName = "Engine/Button/Down";
-				borderPanelElement.MaterialName = "Engine/Button/Down";
+				borderPanelElement.BorderMaterialName = GetSkin("Border", "Down");
+				borderPanelElement.MaterialName = GetSkin("Background", "Down");
 			}
 
 			state = bs;

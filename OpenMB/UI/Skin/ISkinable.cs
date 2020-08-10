@@ -8,6 +8,6 @@ namespace OpenMB.UI.Skin
 {
     public interface ISkinable
     {
-        void SetSkin(string skinName);
+        string GetSkin(string skinName, string subSkinName);
     }
 }
