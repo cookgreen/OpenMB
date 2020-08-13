@@ -476,7 +476,7 @@
     <Compile Include="UI\Widgets\StaticTextWidget.cs" />
     <Compile Include="UI\Widgets\SimpleStaticTextButton.cs" />
     <Compile Include="UI\Widgets\SimpleStaticTextWidget.cs" />
-    <Compile Include="UI\Widgets\StaticMultiLineTextBoxWidget.cs" />
+    <Compile Include="UI\Widgets\StaticMultilineTextBoxWidget.cs" />
     <Compile Include="UI\UIManager.cs" />
     <Compile Include="UI\Widget.cs" />
     <EmbeddedResource Include="Forms\frmConfigure.resx">
