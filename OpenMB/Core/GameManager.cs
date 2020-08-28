@@ -35,7 +35,6 @@ namespace OpenMB
 		private AppStateManager appStateMgr;
 		private LocateSystem locateMgr;
 		private ModManager modMgr;
-		private NetworkManager networkMgr;
 		private OutputManager outputMgr;
 		private MusicSoundManager soundMgr;
 		private ScreenManager uiMgr;
@@ -266,7 +265,6 @@ namespace OpenMB
 			appStateMgr = new AppStateManager();
 			locateMgr = LocateSystem.Instance;
 			modMgr = new ModManager();
-			networkMgr = new NetworkManager();
 			outputMgr = new OutputManager();
 			soundMgr = new MusicSoundManager();
 			uiMgr = new ScreenManager();

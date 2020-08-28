@@ -158,12 +158,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configure\IConfigFile.cs" />
-    <Compile Include="Connector\IConnector.cs" />
-    <Compile Include="Connector\MBOgre.cs" />
-    <Compile Include="Connector\MBOgreBrf.cs" />
-    <Compile Include="Connector\MBOgreExpandsion.cs" />
-    <Compile Include="Connector\MBOgreManifest.cs" />
-    <Compile Include="Connector\MBOgreUtil.cs" />
     <Compile Include="Core\BackendTaskManager.cs" />
     <Compile Include="Core\Common.cs" />
     <Compile Include="Core\GameConfigXml.cs" />
@@ -173,7 +167,7 @@
     <Compile Include="Core\GameString.cs" />
     <Compile Include="Core\InputKeyMouseManager.cs" />
     <Compile Include="Core\KeyMapperManager.cs" />
-    <Compile Include="FileFormats\DotWorldMapLoader.cs" />
+    <Compile Include="FileLoader\DotWorldMapLoader.cs" />
     <Compile Include="Game\GameLocation.cs" />
     <Compile Include="Game\GameMesh.cs" />
     <Compile Include="Game\GameTeam.cs" />
@@ -185,20 +179,6 @@
     <Compile Include="Map\GameWorldMap.cs" />
     <Compile Include="Game\DescriptionAttribute.cs" />
     <Compile Include="Game\TimerManager.cs" />
-    <Compile Include="FileFormats\Box3F.cs" />
-    <Compile Include="FileFormats\IFileFormat.cs" />
-    <Compile Include="FileFormats\MBBrfAnimation.cs" />
-    <Compile Include="FileFormats\MBBrfBody.cs" />
-    <Compile Include="FileFormats\MBBrf.cs" />
-    <Compile Include="FileFormats\MBBrfMaterial.cs" />
-    <Compile Include="FileFormats\MBBrfMesh.cs" />
-    <Compile Include="FileFormats\MBBrfShader.cs" />
-    <Compile Include="FileFormats\MBBrfSkeleton.cs" />
-    <Compile Include="FileFormats\MBBrfTexture.cs" />
-    <Compile Include="FileFormats\MBUtil.cs" />
-    <Compile Include="FileFormats\MBWorldMap.cs" />
-    <Compile Include="FileFormats\Point3F.cs" />
-    <Compile Include="FileFormats\Point4F.cs" />
     <Compile Include="Forms\frmRelativeFileFolderBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -287,7 +267,6 @@
     <Compile Include="Mods\XML\ModVehicleDfnXml.cs" />
     <Compile Include="Mods\XML\ModWorldMapsDfnXml.cs" />
     <Compile Include="Render\IOpenGLRenderable.cs" />
-    <Compile Include="Render\MBBrfMeshRenderable.cs" />
     <Compile Include="Render\OpenGLRenderManager.cs" />
     <Compile Include="Screen\CharacterScreen.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
@@ -305,7 +284,6 @@
     <Compile Include="Map\GameMapManager.cs" />
     <Compile Include="Map\IGameMap.cs" />
     <Compile Include="Mods\XML\ModSoundsDfn.cs" />
-    <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Mods\ModDataInfo.cs" />
     <Compile Include="Mods\ModManager.cs" />
     <Compile Include="Mods\ModManifest.cs" />
@@ -444,7 +422,7 @@
     <Compile Include="Utilities\Helper.cs" />
     <Compile Include="Utilities\MeshToNavmesh.cs" />
     <Compile Include="Utilities\PhysxExpansion.cs" />
-    <Compile Include="FileFormats\DotSceneLoader.cs" />
+    <Compile Include="FileLoader\DotSceneLoader.cs" />
     <Compile Include="Utilities\OgreConfigFileAdapter.cs" />
     <Compile Include="Localization\LocateUCSFile.cs" />
     <Compile Include="Utilities\OgreConfigNode.cs" />

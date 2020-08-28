@@ -62,7 +62,6 @@
     <Compile Include="ScriptCommands\SpawnPlayerSceneProp.cs" />
     <Compile Include="Settings\HasMultiplayerModSetting.cs" />
     <Compile Include="Settings\HasSavedGameModSetting.cs" />
-    <Compile Include="StartupActions\LoadBrfAction.cs" />
     <Compile Include="StartupBackgroundTypes\AviMovieStartupBackground.cs" />
     <Compile Include="StartupBackgroundTypes\TextureStartupBackground.cs" />
   </ItemGroup>
