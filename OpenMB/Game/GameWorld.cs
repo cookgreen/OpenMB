@@ -17,7 +17,6 @@ using OpenMB.Trigger;
 using OpenMB.Map;
 using OpenMB.UI;
 using OpenMB.States;
-using OpenMB.Render;
 using OpenMB.UI.Widgets;
 
 namespace OpenMB.Game
@@ -153,8 +152,6 @@ namespace OpenMB.Game
 			/* Will implement them in the script or the map xml file */
 			scm = GameManager.Instance.root.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE, "GameSceneManager");
 			scm.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
-
-			OpenGLRenderManager.Initization(scm);
 
 			cam = scm.CreateCamera("gameCam");
 			cam.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
@@ -334,8 +331,6 @@ namespace OpenMB.Game
 			GameManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
 
 			TimerManager.Instance.Stop();
-
-			OpenGLRenderManager.Shutdown();
 
 			scm.DestroyCamera(cam);
 			GameManager.Instance.root.DestroySceneManager(scm);

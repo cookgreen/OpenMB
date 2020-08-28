@@ -266,8 +266,6 @@
     <Compile Include="Mods\XML\ModUILayoutDfnXml.cs" />
     <Compile Include="Mods\XML\ModVehicleDfnXml.cs" />
     <Compile Include="Mods\XML\ModWorldMapsDfnXml.cs" />
-    <Compile Include="Render\IOpenGLRenderable.cs" />
-    <Compile Include="Render\OpenGLRenderManager.cs" />
     <Compile Include="Screen\CharacterScreen.cs" />
     <Compile Include="Screen\GameEditorScreen.cs" />
     <Compile Include="Screen\GameMainMenuScreen.cs" />
