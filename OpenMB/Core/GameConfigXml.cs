@@ -139,7 +139,34 @@ namespace OpenMB.Core
 
 		public void GenerateDefaultConfig()
 		{
-
+			Mappers.Add(new GameInputMapperConfigXml()
+			{
+				GameKeyCode = GameKeyCode.Screenshot,
+				Combined = false,
+				Keys = new List<GameInputMapperKeyConfigXml>()
+				{
+					new GameInputMapperKeyConfigXml()
+					{
+						 KeyCode = KeyCode.KC_V
+					}
+				}
+			});
+			Mappers.Add(new GameInputMapperConfigXml()
+			{
+				GameKeyCode = GameKeyCode.FullScreen,
+				Combined = true,
+				Keys = new List<GameInputMapperKeyConfigXml>()
+				{
+					new GameInputMapperKeyConfigXml()
+					{
+						 KeyCode = KeyCode.KC_LCONTROL
+					},
+					new GameInputMapperKeyConfigXml()
+					{
+						 KeyCode = KeyCode.KC_SPACE
+					},
+				}
+			});
 		}
 	}
 
