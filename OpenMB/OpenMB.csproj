@@ -350,6 +350,7 @@
     <Compile Include="Script\Command\DataStoreValueByIndexScriptCommand.cs" />
     <Compile Include="Script\Command\SwitchMenuScriptCommand.cs" />
     <Compile Include="Script\Command\SwitchScriptCommand.cs" />
+    <Compile Include="Script\ScriptValueStorage.cs" />
     <Compile Include="Terrain\TerrainData.cs" />
     <Compile Include="Terrain\TerrainGenerator.cs" />
     <Compile Include="UI\Common.cs" />
