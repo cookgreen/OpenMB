@@ -352,6 +352,12 @@
     <Compile Include="Script\Command\DataStoreValueByIndexScriptCommand.cs" />
     <Compile Include="Script\Command\SwitchMenuScriptCommand.cs" />
     <Compile Include="Script\Command\SwitchScriptCommand.cs" />
+    <Compile Include="Script\Expression\ConditionalExpression.cs" />
+    <Compile Include="Script\Expression\ConditionalExpressionToken.cs" />
+    <Compile Include="Script\Expression\ConditionalOperator.cs" />
+    <Compile Include="Script\Expression\Expression.cs" />
+    <Compile Include="Script\Expression\ExpressionManager.cs" />
+    <Compile Include="Script\Expression\Operator.cs" />
     <Compile Include="Script\ScriptValueStorage.cs" />
     <Compile Include="Terrain\TerrainData.cs" />
     <Compile Include="Terrain\TerrainGenerator.cs" />

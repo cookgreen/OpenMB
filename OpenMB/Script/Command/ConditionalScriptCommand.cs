@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenMB.Script.Expression;
 
 namespace OpenMB.Script.Command
 {
@@ -21,10 +22,10 @@ namespace OpenMB.Script.Command
 
         public string ConditionStr { get { return CommandArgs[0]; } }
 
-        public bool CheckCondition() 
+        public bool CheckCondition(params object[] exeArgs) 
         {
-            //TODO: Check the conditional expression
-            return true; 
+            ConditionalExpression conditionExpr = new ConditionalExpression(ConditionStr);
+            return conditionExpr.Execute(exeArgs); 
         }
 
         public ConditionalScriptCommand()
