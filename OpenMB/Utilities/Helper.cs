@@ -243,5 +243,30 @@ namespace OpenMB.Utilities
 			SendMessage(hwnd, WM_SETICON, (IntPtr)ICON_SMALL, (IntPtr)icon.Handle); // Set the icon with SendMessage
 			DrawMenuBar((int)hwnd);
 		}
+
+		/// <summary>
+		/// Find all index which the value in this string
+		/// </summary>
+		/// <param name="str"></param>
+		/// <param name="searchValue"></param>
+		/// <returns></returns>
+		public static int[] IndexOfAll(this string str, string searchValue)
+		{
+			List<int> indics = new List<int>();
+
+			for (int i = 0; i < str.Length; i++)
+			{
+				for (int j = str.Length - i; j > 0; j--)
+				{
+					string subStr = str.Substring(i, j);
+					if (subStr == searchValue)
+					{
+						indics.Add(i);
+					}
+				}
+			}
+
+			return indics.ToArray();
+		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenMB.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Script.Expression
 {
+    /// <summary>
+    /// Expressions connected with a conditional operator
+    /// </summary>
     public class ConditionalExpression : Expression
     {
         private List<ConditionalExpressionToken> tokens;
@@ -25,58 +29,67 @@ namespace OpenMB.Script.Expression
 
         private void Parse()
         {
-            foreach(var connStr in conditionConnectionsArr)
+            ExpressionTreeNode lastTreeNode = null;
+            string lastExpressionStr = conditionStr;
+
+            bool hasConditionConnection = false;
+
+            List<Tuple<string, int>> connPosDic = new List<Tuple<string, int>>();
+
+            foreach(var conditionConnectionStr in conditionConnectionsArr)
             {
-                if (conditionStr.Contains(connStr))
+                if (conditionStr.Contains(conditionConnectionStr))
                 {
-                    var splitTokens = conditionStr.Split(connStr.ToCharArray());
-                    var leftStr = splitTokens[0];
-                    var RightStr = splitTokens[1];
+                    int[] indics = conditionStr.IndexOfAll(conditionStr);
+                    foreach (var index in indics)
+                    {
+                        connPosDic.Add(new Tuple<string, int>(conditionConnectionStr, index));
+                    }
+                }
+            }
+
+            if (!hasConditionConnection)
+            {
+                tokens.Add(new ConditionalExpressionToken(conditionStr));
+            }
+            else
+            {
+                connPosDic = (from pair in connPosDic
+                              orderby pair.Item2 descending
+                              select pair).ToList();
+
+                int idx = 0;
+                foreach (var pair in connPosDic)
+                {
+                    var part1 = lastExpressionStr.Substring(0, lastExpressionStr.Length - pair.Item2);
+                    var part2 = lastExpressionStr.Substring(pair.Item2);
+
                     ExpressionTreeNode node = new ExpressionTreeNode();
-                    node.Str = connStr;
-                    exprTree.Root = node;
-                    ParseSub(leftStr, node);
-                    ParseSub(RightStr, node);
-                    break;
-                }
-            }
-        }
-
-        private void ParseSub(string condStr, ExpressionTreeNode node)
-        {
-            bool isContains = false;
-            foreach (var connStr in conditionConnectionsArr)
-            {
-                if (condStr.Contains(connStr))
-                {
-                    var splitTokens = condStr.Split(connStr.ToCharArray());
-                    var leftStr = splitTokens[0];
-                    var RightStr = splitTokens[1];
-                    ExpressionTreeNode subNode = new ExpressionTreeNode();
-                    subNode.Str = connStr;
-                    subNode.NodeType = ExpressionTreeNodeType.Operator;
-                    node.RightNode = subNode;
-                    ParseSub(leftStr, subNode);
-                    ParseSub(RightStr, subNode);
-                    isContains = true;
-                }
-            }
-
-            if (!isContains)
-            {
-                if (node.LeftNode == null)
-                {
+                    node.Str = pair.Item1;
+                    node.NodeType = ExpressionTreeNodeType.Operator;
                     ExpressionTreeNode leftNode = new ExpressionTreeNode();
-                    leftNode.Str = condStr;
                     leftNode.NodeType = ExpressionTreeNodeType.Expr;
+                    leftNode.Str = part2;
                     node.LeftNode = leftNode;
-                }
-                else if (node.RightNode == null)
-                {
-                    ExpressionTreeNode rightNode = new ExpressionTreeNode();
-                    rightNode.Str = condStr;
-                    rightNode.NodeType = ExpressionTreeNodeType.Expr;
-                    node.RightNode = rightNode;
+
+                    if (idx == 0)
+                    {
+                        exprTree.Root = node;
+                    }
+                    else if (idx == connPosDic.Count - 1)
+                    {
+                        ExpressionTreeNode rightNode = new ExpressionTreeNode();
+                        rightNode.NodeType = ExpressionTreeNodeType.Expr;
+                        rightNode.Str = part2;
+                        node.RightNode = rightNode;
+                    }
+                    else
+                    {
+                        lastTreeNode.RightNode = node;
+                    }
+
+                    lastTreeNode = node;
+                    lastExpressionStr = part1;
                 }
             }
         }

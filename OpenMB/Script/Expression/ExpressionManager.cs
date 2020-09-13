@@ -18,6 +18,7 @@ namespace OpenMB.Script.Expression
 
         public ExpressionManager()
         {
+            avaliableOperators = new List<Operator>();
             avaliableOperators.Add(new ConditionalEqualOperator());
             avaliableOperators.Add(new ConditionalGreaterThanOperator());
             avaliableOperators.Add(new ConditionalLessThanOperator());
