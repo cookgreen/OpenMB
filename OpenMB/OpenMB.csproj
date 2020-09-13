@@ -334,6 +334,7 @@
     <Compile Include="Script\Command\NamespaceScriptCommand.cs" />
     <Compile Include="Script\Command\RemoveLightScriptCommand.cs" />
     <Compile Include="Script\Command\RemoveScenePropScriptCommand.cs" />
+    <Compile Include="Script\Command\ReturnScriptCommand.cs" />
     <Compile Include="Script\Command\RootScriptCommand.cs" />
     <Compile Include="Script\Command\ScriptCommand.cs" />
     <Compile Include="Script\Command\SetCameraModeScriptCommand.cs" />

@@ -10,6 +10,7 @@ namespace OpenMB.Script.Command
 		None,
 		Line,
 		Block,
+		Conditional,
 		End
 	}
 	public interface IScriptCommand

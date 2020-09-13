@@ -61,8 +61,10 @@ namespace OpenMB.Script.Expression
                 int idx = 0;
                 foreach (var pair in connPosDic)
                 {
-                    var part1 = lastExpressionStr.Substring(0, lastExpressionStr.Length - pair.Item2);
-                    var part2 = lastExpressionStr.Substring(pair.Item2);
+                    int strIndx = lastExpressionStr.LastIndexOf(pair.Item1);
+
+                    var part1 = lastExpressionStr.Substring(0, lastExpressionStr.Length - strIndx);
+                    var part2 = lastExpressionStr.Substring(strIndx + pair.Item1.Length);
 
                     ExpressionTreeNode node = new ExpressionTreeNode();
                     node.Str = pair.Item1;

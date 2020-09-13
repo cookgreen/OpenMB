@@ -12,7 +12,7 @@ namespace OpenMB.Script
 		private Dictionary<string, string> localValMap;
 		private Dictionary<string, ScriptFunction> functions;
 		private Dictionary<string, ScriptTrigger> triggers;
-		private Dictionary<string, string> returnValueTable;
+		private Dictionary<string, string> returnValueMap;
 		private ScriptFile file;
 		public ScriptFile File
 		{
@@ -37,7 +37,7 @@ namespace OpenMB.Script
 			localValMap = new Dictionary<string, string>();
 			functions = new Dictionary<string, ScriptFunction>();
 			triggers = new Dictionary<string, ScriptTrigger>();
-			returnValueTable = new Dictionary<string, string>();
+			returnValueMap = new Dictionary<string, string>();
 		}
 
 		public string GetLocalValue(string varname)
@@ -52,7 +52,33 @@ namespace OpenMB.Script
 			}
 		}
 
-		public void ChangeLocalValue(string varname, string varvalue)
+        public void SetReturnValue(string funcName, string value)
+        {
+			string key = string.Format("{0}_{1}", file.FileName, funcName);
+			if (!returnValueMap.ContainsKey(key))
+			{
+				returnValueMap.Add(key, value);
+			}
+            else
+            {
+				returnValueMap[key] = value;
+            }
+        }
+
+
+		public string GetLastReturnValue()
+        {
+			if (returnValueMap.Count > 0)
+			{
+				return returnValueMap.Last().Value;
+			}
+            else
+            {
+				return null;
+            }
+        }
+
+        public void ChangeLocalValue(string varname, string varvalue)
 		{
 			if (localValMap.ContainsKey(varname))
 			{

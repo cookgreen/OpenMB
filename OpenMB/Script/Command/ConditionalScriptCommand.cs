@@ -12,7 +12,7 @@ namespace OpenMB.Script.Command
         private string[] commandArgs; 
         public override ScriptCommandType CommandType
         {
-            get { return ScriptCommandType.Block; }
+            get { return ScriptCommandType.Conditional; }
         }
 
         public override string[] CommandArgs

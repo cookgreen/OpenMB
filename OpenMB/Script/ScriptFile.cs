@@ -96,6 +96,7 @@ namespace OpenMB.Script
 					scriptCommand.ParentCommand = currentCommand;
 					scriptCommand.Context = Context;
 					int tokenLength = lineToken.Length;
+					
 					for (int j = 1; j < tokenLength; j++)
 					{
 						scriptCommand.PushArg(lineToken[j], j - 1);
@@ -170,9 +171,21 @@ namespace OpenMB.Script
 						scriptCommand.ParentCommand = currentCommand;
 						scriptCommand.Context = Context;
 						int tokenLength = lineToken.Length;
-						for (int j = 1; j < tokenLength; j++)
+						if (scriptCommand.CommandType == ScriptCommandType.Conditional)
 						{
-							scriptCommand.PushArg(lineToken[j], j - 1);
+							StringBuilder builder = new StringBuilder();
+							for (int j = 1; j < tokenLength; j++)
+							{
+								builder.Append(lineToken[j]);
+							}
+							scriptCommand.PushArg(builder.ToString(), 0);
+						}
+						else
+						{
+							for (int j = 1; j < tokenLength; j++)
+							{
+								scriptCommand.PushArg(lineToken[j], j - 1);
+							}
 						}
 						switch (scriptCommand.CommandType)
 						{
@@ -180,6 +193,10 @@ namespace OpenMB.Script
 								currentCommand.SubCommands.Add(scriptCommand);
 								break;
 							case ScriptCommandType.Block:
+								currentCommand.SubCommands.Add(scriptCommand);
+								currentCommand = scriptCommand;
+								break;
+							case ScriptCommandType.Conditional:
 								currentCommand.SubCommands.Add(scriptCommand);
 								currentCommand = scriptCommand;
 								break;
