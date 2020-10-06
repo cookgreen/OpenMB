@@ -522,27 +522,28 @@ namespace OpenMB.Mods
 			}
 		}
 
-		private string getAssemblyRealPath(string assemblyXml, out bool isCurrentMod)
+		private string getAssemblyRealPath(string assemblyPathExpression, out bool isCurrentMod)
 		{
 			isCurrentMod = false;
-			if (string.IsNullOrEmpty(assemblyXml))
+			if (string.IsNullOrEmpty(assemblyPathExpression))
 			{
 				return string.Empty;
 			}
-			string[] tokens = assemblyXml.Split('|');
-			if (tokens[0] != "this")
+
+			var expression = ModPathExpressionResolver.Resolve(assemblyPathExpression);
+			if (expression.Prefix != "this")
 			{
-				if (installedMods.ContainsKey(tokens[0]))
+				if (installedMods.ContainsKey(expression.Prefix))
 				{
-					ModManifest mod = installedMods[tokens[0]];
-					return mod.InstalledPath + "\\" + tokens[1] + ".dll";
+					ModManifest modManifest = installedMods[expression.Prefix];
+					return modManifest.InstalledPath + "\\" + expression.Value + ".dll";
 				}
 				return null;
 			}
 			else
 			{
 				isCurrentMod = true;
-				return tokens[1] + ".dll";
+				return expression.Value + ".dll";
 			}
 		}
 
