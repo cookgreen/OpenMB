@@ -44,7 +44,7 @@ namespace OpenMB.Script.Command
 		public override void Execute(params object[] executeArgs)
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
-			world.GetScenePropNum(getParamterValue(CommandArgs[0], world));
+			world.GetScenePropNum(getParamterValue(CommandArgs[0]));
 		}
 	}
 }

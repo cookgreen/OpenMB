@@ -39,7 +39,7 @@ namespace OpenMB.Script.Command
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
 
-			var uiLayoutID = getParamterValue(commandArgs[0], world);
+			var uiLayoutID = getParamterValue(commandArgs[0]);
 			ScreenManager.Instance.ChangeScreen("ScriptedScreen", true, executeArgs[0], uiLayoutID);
 		}
 	}

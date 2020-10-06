@@ -44,7 +44,7 @@ namespace OpenMB.Script.Command
 		public override void Execute(params object[] executeArgs)
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
-			string worldMapID = getParamterValue(CommandArgs[0], world);
+			string worldMapID = getParamterValue(CommandArgs[0]);
 
 			world.ChangeWorldMap(worldMapID);
 		}

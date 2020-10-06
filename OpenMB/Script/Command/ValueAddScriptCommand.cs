@@ -38,7 +38,7 @@ namespace OpenMB.Script.Command
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
 			string variable = commandArgs[0];
-			int ret = int.Parse(getParamterValue(variable, world)) + int.Parse(getParamterValue(commandArgs[1], world));
+			int ret = int.Parse(getParamterValue(variable)) + int.Parse(getParamterValue(commandArgs[1]));
 			if (variable.StartsWith("%"))
 			{
 				Context.ChangeLocalValue(variable.Substring(1), ret.ToString());

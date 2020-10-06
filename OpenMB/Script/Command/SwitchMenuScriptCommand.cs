@@ -42,7 +42,7 @@ namespace OpenMB.Script.Command
 				"GameMenu",
 				true,
 				executeArgs[0] as GameWorld,
-				getParamterValue(commandArgs[0], world));
+				getParamterValue(commandArgs[0]));
 		}
 	}
 }

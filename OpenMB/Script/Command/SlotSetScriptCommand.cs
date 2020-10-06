@@ -49,9 +49,9 @@ namespace OpenMB.Script.Command
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
 
-			string objectID = getParamterValue(commandArgs[0], world);
-			string slotID = getParamterValue(commandArgs[1], world);
-			string slotValue = getParamterValue(commandArgs[2], world);
+			string objectID = getParamterValue(commandArgs[0]);
+			string slotID = getParamterValue(commandArgs[1]);
+			string slotValue = getParamterValue(commandArgs[2]);
 			GameSlotManager.Instance.SetSlot(objectID, slotID, slotValue);
 		}
 	}

@@ -43,7 +43,7 @@ namespace OpenMB.Script.Command
 			IScreen screen = executeArgs[1] as IScreen;
 
 			string variable = commandArgs[0];
-			var w = screen.UIWidgets.Where(o => o.Name == getParamterValue(commandArgs[1], world)).FirstOrDefault();
+			var w = screen.UIWidgets.Where(o => o.Name == getParamterValue(commandArgs[1])).FirstOrDefault();
 			if ((w as TextWidget) != null)
 			{
 				string value = (w as TextWidget).Text;

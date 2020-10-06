@@ -39,7 +39,7 @@ namespace OpenMB.Script.Command
 		public override void Execute(params object[] executeArgs)
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
-			int dataType = int.Parse(getParamterValue(commandArgs[2], world));
+			int dataType = int.Parse(getParamterValue(commandArgs[2]));
 			int dataIndex = -1;
 			object item = null;
 			switch (dataType)

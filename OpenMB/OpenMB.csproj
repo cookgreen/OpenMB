@@ -359,6 +359,7 @@
     <Compile Include="Script\Expression\Expression.cs" />
     <Compile Include="Script\Expression\ExpressionManager.cs" />
     <Compile Include="Script\Expression\Operator.cs" />
+    <Compile Include="Script\ScriptGlobalValueMap.cs" />
     <Compile Include="Script\ScriptValueStorage.cs" />
     <Compile Include="Terrain\TerrainData.cs" />
     <Compile Include="Terrain\TerrainGenerator.cs" />

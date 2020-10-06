@@ -47,8 +47,8 @@ namespace OpenMB.Script.Command
 		public override void Execute(params object[] executeArgs)
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
-			string scenePropID = getParamterValue(commandArgs[0], world);
-			string vectorName = getParamterValue(commandArgs[1], world);
+			string scenePropID = getParamterValue(commandArgs[0]);
+			string vectorName = getParamterValue(commandArgs[1]);
 			var vector = world.GlobalValueTable.GetRecord(vectorName);
 
 			var propInstanceID = world.CreateSceneProp(

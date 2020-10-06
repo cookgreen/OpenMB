@@ -19,13 +19,87 @@ namespace OpenMB.Script.Expression
         {
             var lhr = exeArgs[0].ToString();
             var rhr = exeArgs[1].ToString();
-            if (lhr == rhr)
+
+            if (lhr.StartsWith("%") || lhr.StartsWith("$"))
             {
-                retValue = "True";
+                string lhrName = lhr.Substring(1);
+                if (rhr.StartsWith("%") || rhr.StartsWith("$"))
+                {
+                    string rhrName = rhr.Substring(1);
+
+                    int lhrAddr = ScriptValueStorage.Instance.GetVariableAddress(lhrName);
+                    int rhrAddr = ScriptValueStorage.Instance.GetVariableAddress(rhrName);
+
+                    object lhrValue = ScriptValueStorage.Instance.GetVariableValue(lhrName);
+                    object rhrValue = ScriptValueStorage.Instance.GetVariableValue(rhrName);
+
+                    if ((lhrName == rhrName) && (lhrAddr == rhrAddr) && (lhrValue == rhrValue))
+                    {
+                        retValue = "True";
+                    }
+                    else
+                    {
+                        retValue = "False";
+                    }
+                }
+                else
+                {
+                    object lhrValue = ScriptValueStorage.Instance.GetVariableValue(lhrName);
+                    if (lhrValue.ToString() == rhr)
+                    {
+                        retValue = "True";
+                    }
+                    else
+                    {
+                        retValue = "False";
+                    }
+                }
+            }
+            else if (rhr.StartsWith("$") || rhr.StartsWith("%"))
+            {
+                string rhrName = rhr.Substring(1);
+                if (rhr.StartsWith("%") || rhr.StartsWith("$"))
+                {
+                    string lhrName = lhr.Substring(1);
+
+                    int lhrAddr = ScriptValueStorage.Instance.GetVariableAddress(lhrName);
+                    int rhrAddr = ScriptValueStorage.Instance.GetVariableAddress(rhrName);
+
+                    object lhrValue = ScriptValueStorage.Instance.GetVariableValue(lhrName);
+                    object rhrValue = ScriptValueStorage.Instance.GetVariableValue(rhrName);
+
+                    if ((lhrName == rhrName) && (lhrAddr == rhrAddr) && (lhrValue == rhrValue))
+                    {
+                        retValue = "True";
+                    }
+                    else
+                    {
+                        retValue = "False";
+                    }
+                }
+                else
+                {
+                    object rhrValue = ScriptValueStorage.Instance.GetVariableValue(rhrName);
+                    if (rhrValue.ToString() == lhr)
+                    {
+                        retValue = "True";
+                    }
+                    else
+                    {
+                        retValue = "False";
+                    }
+                }
             }
             else
             {
-                retValue = "False";
+                if (lhr == rhr)
+                {
+                    retValue = "True";
+                }
+                else
+                {
+                    retValue = "False";
+                }
             }
         }
     }

@@ -60,13 +60,13 @@ namespace OpenMB.Script.Command
 			CommandArgs[index] = cmdArg;
 		}
 
-		protected string getParamterValue(string commandArg, GameWorld world)
+		protected string getParamterValue(string commandArg)
 		{
 			return
 				commandArg.StartsWith("%")
 				? Context.GetLocalValue(commandArg.Substring(1))
 				: commandArg.StartsWith("$")
-					? world.GetGlobalValue(commandArg.Substring(1))
+					? ScriptGlobalVariableMap.Instance.GetVariable(commandArg.Substring(1)).ToString()
 					: commandArg;
 		}
 

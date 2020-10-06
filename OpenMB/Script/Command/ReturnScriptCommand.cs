@@ -27,7 +27,7 @@ namespace OpenMB.Script.Command
         public override void Execute(params object[] executeArgs)
         {
             var world = executeArgs[0] as GameWorld;
-            var value = getParamterValue(commandArgs[0], world);
+            var value = getParamterValue(commandArgs[0]);
             if (ParentCommand is FunctionScriptCommand)// inside a function
             {
                 Context.SetReturnValue((ParentCommand as FunctionScriptCommand).CommandName, value);

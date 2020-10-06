@@ -47,8 +47,8 @@ namespace OpenMB.Script.Command
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
 
-			string triggerEvent = getParamterValue(commandArgs[0], world);
-			string hookedFunction = getParamterValue(commandArgs[1], world);
+			string triggerEvent = getParamterValue(commandArgs[0]);
+			string hookedFunction = getParamterValue(commandArgs[1]);
 
 			TriggerManager.Instance.HookTriggerFunction(triggerEvent, hookedFunction);
 		}

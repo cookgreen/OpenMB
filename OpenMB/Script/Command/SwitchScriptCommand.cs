@@ -48,7 +48,7 @@ namespace OpenMB.Script.Command
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
 
-			var value = getParamterValue(commandArgs[0], world);
+			var value = getParamterValue(commandArgs[0]);
 			foreach (var command in SubCommands)
 			{
 				if (command.GetType() == typeof(CaseScriptCommand) &&

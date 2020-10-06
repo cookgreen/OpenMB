@@ -52,9 +52,9 @@ namespace OpenMB.Script.Command
 		public override void Execute(params object[] executeArgs)
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
-			int startVal = int.Parse(getParamterValue(commandArgs[0], world));
-			int endVal = int.Parse(getParamterValue(commandArgs[1], world));
-			int step = int.Parse(getParamterValue(commandArgs[2], world));
+			int startVal = int.Parse(getParamterValue(commandArgs[0]));
+			int endVal = int.Parse(getParamterValue(commandArgs[1]));
+			int step = int.Parse(getParamterValue(commandArgs[2]));
 			for (int i = startVal; i < endVal; i += step)
 			{
 				Context.ChangeLocalValue("current", i.ToString());
