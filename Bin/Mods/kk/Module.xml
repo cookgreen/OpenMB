@@ -30,12 +30,12 @@
    	<Music>Music.xml</Music>
    	<SceneProps>SceneProps.xml</SceneProps>
    	<Sides>Side.xml</Sides>
-    <Skeletons>Skeletons.xml</Skeletons>
+   	<Skeletons>Skeletons.xml</Skeletons>
    	<Skin>Skin.xml</Skin>
-    <Sound>Sound.xml</Sound>
+       	<Sound>Sound.xml</Sound>
    	<Strings>Strings.xml</Strings>
    	<UILayouts>UILayouts.xml</UILayouts>
-    <Vehicles>Vehicles.xml</Vehicles>
+   	<Vehicles>Vehicles.xml</Vehicles>
    	<WorldMaps>WorldMaps.xml</WorldMaps>
 	<DataDir>
 		<MapDir>Scenes</MapDir>
