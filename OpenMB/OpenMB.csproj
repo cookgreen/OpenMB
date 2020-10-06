@@ -168,12 +168,14 @@
     <Compile Include="Core\InputKeyMouseManager.cs" />
     <Compile Include="Core\KeyMapperManager.cs" />
     <Compile Include="FileLoader\DotWorldMapLoader.cs" />
+    <Compile Include="Game\EntityMovementController.cs" />
     <Compile Include="Game\GameLocation.cs" />
     <Compile Include="Game\GameMesh.cs" />
     <Compile Include="Game\GameTeam.cs" />
     <Compile Include="Game\ItemTypes\ItemType.cs" />
     <Compile Include="Game\Vehicle.cs" />
     <Compile Include="Game\VehicleController.cs" />
+    <Compile Include="Game\WayPointManager.cs" />
     <Compile Include="Localization\LocateLanguage.cs" />
     <Compile Include="Map\GameMapEntryPoint.cs" />
     <Compile Include="Map\GameWorldMap.cs" />

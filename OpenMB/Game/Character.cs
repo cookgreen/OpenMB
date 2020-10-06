@@ -152,6 +152,11 @@ namespace OpenMB.Game
 			controller = (CharacterController)mesh;
 		}
 
+		public void MoveTo(Mogre.Vector3 destPos)
+		{
+			controller.MoveTo(destPos);
+		}
+
 		private void initEquipments()
 		{
 			foreach (var item in chaData.Equipments)

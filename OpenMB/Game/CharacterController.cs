@@ -49,6 +49,7 @@ namespace OpenMB.Game
 		private CapsuleController physicsController;
 		private Mogre.Vector3 lastPosition;
 		private GameWorld world;
+		private EntityMovementController movementController;
 
 		public SceneNode BodyNode
 		{
@@ -64,7 +65,13 @@ namespace OpenMB.Game
 				return entityNode.Position;
 			}
 		}
-		public Mogre.Vector3 Direction
+
+        public void MoveTo(Mogre.Vector3 destPos)
+        {
+			movementController.MoveTo(destPos);
+        }
+
+        public Mogre.Vector3 Direction
 		{
 			get
 			{
@@ -100,6 +107,10 @@ namespace OpenMB.Game
 			{
 				setupCamera(camera);
 			}
+            else
+            {
+				movementController = new EntityMovementController(entity);
+            }
 			//setupAnimations();
 			setupPhysics();
 		}
@@ -276,11 +287,14 @@ namespace OpenMB.Game
 			{
 				updateCamera(deltaTime);
 			}
-
-			if (!controlled)
+			else 
 			{
 				//bodyNode.Position = physicsActor.GlobalPosition;
 				//bodyNode.Orientation = physicsActor.GlobalOrientationQuaternion;
+				if (movementController != null)
+				{
+					movementController.Update(deltaTime);
+				}
 			}
 		}
 
