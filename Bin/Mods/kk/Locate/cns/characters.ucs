@@ -19,3 +19,11 @@ cha_paladin_1	白虎圣骑士斯帕尔斯特
 cha_paladin_2	朱雀圣骑士佛蒙特尔
 cha_paladin_3	麒麟圣骑士维尔斯特
 cha_paladin_4	青龙圣骑士巴尔多斯
+cha_mp_empire_tier_1_inf  帝国步兵
+cha_mp_empire_tier_2_ranged  弓弩手
+cha_mp_empire_tier_3_cavalry  骑兵
+cha_mp_empire_tier_4_foreign  巴塔维亚外籍军团
+cha_mp_order_tier_1_dismounted_knight 下马骑士
+cha_mp_order_tier_2_inf 骑士团步兵
+cha_mp_order_tier_3_cavalry 骑兵
+cha_mp_order_tier_4_pirates_mercenaries  海盗佣兵
