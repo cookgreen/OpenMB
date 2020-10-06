@@ -109,7 +109,7 @@ namespace OpenMB.Game
 			}
             else
             {
-				movementController = new EntityMovementController(entity);
+				movementController = new EntityMovementController(entity, world.CurrentMap.Navmesh);
             }
 			//setupAnimations();
 			setupPhysics();

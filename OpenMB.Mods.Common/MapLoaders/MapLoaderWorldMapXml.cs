@@ -1,4 +1,5 @@
-﻿using OpenMB.Map;
+﻿using Mogre;
+using OpenMB.Map;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,7 +24,9 @@ namespace OpenMB.Mods.Common.MapLoaders
 
 		public string LoadedMapName { get; }
 
-		public MapLoaderWorldMapXml()
+        public List<string> Entities { get { return new List<string>(); } }
+
+        public MapLoaderWorldMapXml()
 		{
 			worker = new BackgroundWorker();
 			worker.DoWork += Worker_DoWork;

@@ -1,4 +1,5 @@
 ﻿using Mogre;
+using org.critterai.nav;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,18 +42,20 @@ namespace OpenMB.Game
     public class EntityMovementController : IUpdate
     {
         private Entity movableEntity;
+        private Navmesh navmesh;
         private Queue<EntityMovement> entityMovementActs;
 
-        public EntityMovementController(Entity movableEntity)
+        public EntityMovementController(Entity movableEntity, Navmesh navmesh)
         {
             this.movableEntity = movableEntity;
+            this.navmesh = navmesh;
             entityMovementActs = new Queue<EntityMovement>();
         }
 
         public void MoveTo(Vector3 destPos)
         {
             //Generate a way point list 
-            var waypoints = WaypointManager.Instance.GenerateWaypointsBetweenTwoPoints(movableEntity.ParentSceneNode.Position, destPos);
+            var waypoints = WaypointManager.Instance.GenerateWaypointsBetweenTwoPoints(navmesh, movableEntity.ParentSceneNode.Position, destPos);
             EntityMovement entityMovementAct = new EntityMovement(movableEntity, destPos, waypoints.Select(o=>o.Position).ToList());
             entityMovementAct.MoveFinished += EntityMovementAct_MoveFinished;
             entityMovementActs.Enqueue(entityMovementAct);

@@ -36,7 +36,9 @@ namespace OpenMB.Mods.Common.Loaders
 			}
 		}
 
-		public event Action LoadMapFinished;
+        public List<string> Entities { get { return fileLoader.StaticObjects; } }
+
+        public event Action LoadMapFinished;
 		public event Action LoadMapStarted;
 
 		public MapLoaderXml()

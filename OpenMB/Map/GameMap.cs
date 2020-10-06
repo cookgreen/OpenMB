@@ -53,6 +53,7 @@ namespace OpenMB.Map
 		private List<Mogre.Vector3> aimeshIndexData;
 		private Player player;
 		private Character playerAgent;
+		private Navmesh navmesh;
 
 		public string Name
 		{
@@ -73,13 +74,6 @@ namespace OpenMB.Map
 			get
 			{
 				return physicsScene;
-			}
-		}
-		public NavmeshQuery NavmeshQuery
-		{
-			get
-			{
-				return null;
 			}
 		}
 		public SceneManager SceneManager
@@ -142,7 +136,9 @@ namespace OpenMB.Map
 			}
 		}
 
-		public event MapLoadhandler LoadMapStarted;
+        public Navmesh Navmesh { get { return navmesh; } }
+
+        public event MapLoadhandler LoadMapStarted;
 		public event MapLoadhandler LoadMapFinished;
 		public GameMap(
 			GameWorld world,
@@ -197,6 +193,13 @@ namespace OpenMB.Map
 
 			var file = scriptLoader.Parse(logicScriptFile, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
 			scriptLoader.ExecuteFunction(file, "map_loaded", world);
+
+			var terrainEntName = loader.Entities.Where(o=>o=="MAP_TERRAIN").FirstOrDefault();
+			if(!string.IsNullOrEmpty(terrainEntName))
+			{
+				var terrainEnt = sceneManager.GetEntity(terrainEntName);
+				navmesh = MeshToNavmesh.LoadNavmesh(terrainEnt);
+			}
 
 			TriggerManager.Instance.Init(world, scriptLoader.currentContext);
 

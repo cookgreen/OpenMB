@@ -13,6 +13,8 @@ namespace OpenMB.Map
 		event Action LoadMapFinished;
 		string Name { get; }
 		string LoadedMapName { get; }
-		void LoadAsync(IGameMap gameMap, string mapFile);
+        List<string> Entities { get; }
+
+        void LoadAsync(IGameMap gameMap, string mapFile);
 	}
 }
