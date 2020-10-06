@@ -36,10 +36,10 @@ namespace OpenMB.Script
             globalVariableTable = ScriptValueRegister.Instance.GlobalValueTable;
         }
 
-        public void AddVariable(string name, object value)
+        public void ChangeGobalValue(string name, object value)
         {
             globalVariableMap[name] = value;
-            ScriptValueStorage.Instance.Append(name, value);
+            ScriptValueStorage.Instance.ChangeGobalValue(name, value);
         }
 
         public object GetVariable(string name)

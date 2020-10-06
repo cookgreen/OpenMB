@@ -8,10 +8,13 @@ namespace OpenMB.Script
 {
     public class ScriptValueStorageUnit
     {
-        private int address;
-        public string Name { get; set; }
-        public object Value { get; set; }
-        public string Type { get; set; }
+        private readonly int address;
+        private string name;
+        private object value;
+        private string type;
+        public string Name { get { return name; } }
+        public object Value { get { return value; } }
+        public string Type { get { return type; } }
 
         public int Address
         {
@@ -24,9 +27,14 @@ namespace OpenMB.Script
         public ScriptValueStorageUnit(int address, string name, object value, string type)
         {
             this.address = address;
-            Name = name;
-            Value = value;
-            Type = type;
+            this.name = name;
+            this.value = value;
+            this.type = type;
+        }
+
+        public void ChangeValue(object value)
+        {
+            this.value = value;
         }
     }
     public class ScriptValueStorage
@@ -70,9 +78,10 @@ namespace OpenMB.Script
             currentAddress = startAddress;
         }
 
-        public void Append(string name, object value)
+        public void ChangeGobalValue(string name, object value)
         {
-            if (storage.Where(o => o.Name == name).Count() == 0)
+            var foundStorageUnit = storage.Where(o => o.Name == name);
+            if (foundStorageUnit.Count() == 0)
             {
                 ScriptValueStorageUnit storageUnit = new ScriptValueStorageUnit(
                     currentAddress,
@@ -81,6 +90,11 @@ namespace OpenMB.Script
                     value.GetType().FullName);
                 storage.Add(storageUnit);
                 currentAddress++;
+            }
+            else
+            {
+                var storageUnit = foundStorageUnit.FirstOrDefault();
+                storageUnit.ChangeValue(value);
             }
         }
 

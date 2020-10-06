@@ -49,19 +49,7 @@ namespace OpenMB.Script.Command
 				string varname = (string)CommandArgs[0];
 				string varvalue = (string)CommandArgs[1];
 
-				string realData = null;
-				if (varvalue.StartsWith("%"))//local var
-				{
-					realData = Context.GetLocalValue(varvalue.Substring(1));
-				}
-				else if (varvalue.StartsWith("$"))//global var
-				{
-					realData = world.GetGlobalValue(varvalue.Substring(1));
-				}
-				else
-				{
-					realData = varvalue;
-				}
+				string realData = getParamterValue(varvalue);
 
 				if (varname.StartsWith("%"))//local var
 				{
@@ -69,7 +57,7 @@ namespace OpenMB.Script.Command
 				}
 				else if (varname.StartsWith("$"))//global var
 				{
-					world.ChangeGobalValue(varname.Substring(1), realData);
+					ScriptGlobalVariableMap.Instance.ChangeGobalValue(varname.Substring(1), realData);
 				}
 			}
 			else
