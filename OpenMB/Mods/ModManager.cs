@@ -92,24 +92,19 @@ namespace OpenMB.Mods
 					return;
 				}
 				ModManifest manifest = installedMods.Where(o => o.Key == currentModName).SingleOrDefault().Value;
-				currentMod = new OpenMB.Mods.ModData();
+				currentMod = new ModData(manifest);
 				currentMod.BasicInfo = manifest.MetaData;
 				loadModWorker.ReportProgress(25);
 
 				ChangeModIcon(manifest);
-
 				LoadXmlData(manifest);
-
 				LoadInternalTypes(manifest);
-
 				LoadExternalTypes(manifest);
-
 				VerifyItemTypes();
-
 				LoadModMedia(manifest);
-
 				LoadModLocalization(manifest);
 
+				ModLocalizedFieldManager.Instance.InitMod(currentMod);
 				GameMapManager.Instance.InitMod(currentMod);
 				ScreenManager.Instance.InitMod(currentMod);
 				MusicSoundManager.Instance.InitMod(currentMod);

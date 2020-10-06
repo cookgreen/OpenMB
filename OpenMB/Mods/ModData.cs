@@ -15,7 +15,8 @@ namespace OpenMB.Mods
 	public class ModData
 	{
 		private List<Assembly> assemblies;
-		private ModBaseInfo modBasicInfo;
+        private ModManifest manifest;
+        private ModBaseInfo modBasicInfo;
 		private List<ModAnimationDfnXml> animationInfos;
 		private List<ModCharacterDfnXML> characterInfos;
 		private List<ModItemDfnXML> itemInfos;
@@ -23,7 +24,8 @@ namespace OpenMB.Mods
 		private List<ModSoundDfnXML> soundInfos;
 		private List<ModSideDfnXML> sideInfos;
 		private List<ModCharacterSkinDfnXML> skinInfos;
-		private List<ModMapDfnXml> mapInfos;
+
+        private List<ModMapDfnXml> mapInfos;
 		private List<ModWorldMapDfnXml> worldMapInfos;
 		private List<ModLocationDfnXml> locationInfos;
 		private List<ModSkeletonDfnXML> skeletonInfos;
@@ -163,8 +165,12 @@ namespace OpenMB.Mods
 			}
 		}
 
-		public ModData()
+		public ModManifest Manifest { get { return manifest; } }
+
+		public ModData(ModManifest manifest)
 		{
+			this.manifest = manifest;
+
 			characterInfos = new List<ModCharacterDfnXML>();
 			itemInfos = new List<ModItemDfnXML>();
 			musicInfos = new List<ModTrackDfnXML>();

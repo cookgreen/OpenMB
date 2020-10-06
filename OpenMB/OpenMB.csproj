@@ -245,7 +245,7 @@
     <Compile Include="Mods\Interfaces\IModSetting.cs" />
     <Compile Include="Mods\Interfaces\IModStartupBackgroundType.cs" />
     <Compile Include="Mods\Interfaces\IModTriggerCondition.cs" />
-    <Compile Include="Mods\ModLocalizedFieldResolver.cs" />
+    <Compile Include="Mods\ModLocalizedFieldManager.cs" />
     <Compile Include="Mods\ModPathExpressionResolver.cs" />
     <Compile Include="Mods\ModTriggerConditionOnScenePropHit.cs" />
     <Compile Include="Mods\ModXmlDefineModelType.cs" />
