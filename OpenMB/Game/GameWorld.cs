@@ -102,10 +102,10 @@ namespace OpenMB.Game
 				return physicsScene;
 			}
 		}
-        #endregion
+		#endregion
 
-        #region Constructor
-        public GameWorld(ModData modData)
+		#region Constructor
+		public GameWorld(ModData modData)
 		{
 			this.modData = modData;
 
