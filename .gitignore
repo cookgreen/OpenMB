@@ -23,6 +23,7 @@ Debug/*
 *.obj
 *.resources
 *.ilk
+*.dll.config
 OpenMB.Mods.*.dll
 Mods/*/OpenMB.Mods.*.dll
 *.xml

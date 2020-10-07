@@ -55,28 +55,41 @@ namespace OpenMB.Game
 
             NavmeshQuery query;
             var status = NavmeshQuery.Create(navmesh, 1024, out query);
-            if (status == NavStatus.Sucess)
+            if (!NavUtil.Failed(status))
             {
                 org.critterai.Vector3 navStartPointVect;
                 org.critterai.Vector3 navEndPointVect;
-                var navStartPointStatus = query.GetNearestPoint(0, new org.critterai.Vector3(startPos.x, startPos.y, startPos.z), out navStartPointVect);
-                var navEndPointStatus = query.GetNearestPoint(0, new org.critterai.Vector3(startPos.x, startPos.y, startPos.z), out navEndPointVect);
+                var navStartPointStatus = query.GetNearestPoint(1, new org.critterai.Vector3(startPos.x, startPos.y, startPos.z), out navStartPointVect);
+                var navEndPointStatus = query.GetNearestPoint(1, new org.critterai.Vector3(startPos.x, startPos.y, startPos.z), out navEndPointVect);
                 if (navStartPointStatus == NavStatus.Sucess && navEndPointStatus == NavStatus.Sucess)
                 {
-                    NavmeshPoint navStartPoint = new NavmeshPoint();
-                    NavmeshPoint navEndPoint = new NavmeshPoint();
-                    navStartPoint.point = new org.critterai.Vector3(startPos.x, startPos.y, startPos.z);
-                    navEndPoint.point = new org.critterai.Vector3(endPos.x, endPos.y, endPos.z);
+                    NavmeshPoint navStartPoint = new NavmeshPoint(1, new org.critterai.Vector3(startPos.x, startPos.y, startPos.z));
+                    NavmeshPoint navEndPoint = new NavmeshPoint(1, new org.critterai.Vector3(endPos.x, endPos.y, endPos.z));
 
-                    uint[] arr = new uint[1024];
+                    uint[] path = new uint[1024];
                     int pathCount;
-                    status = query.FindPath(navStartPoint, navEndPoint, new NavmeshQueryFilter(), arr, out pathCount);
-                    if (status == NavStatus.Sucess)
+                    status = query.FindPath(navStartPoint, navEndPoint, new NavmeshQueryFilter(), path, out pathCount);
+                    if (!NavUtil.Failed(status))
                     {
+                        const int MaxStraightPath = 4; 
+                        int wpCount;
+                        org.critterai.Vector3[] wpPoints = new org.critterai.Vector3[MaxStraightPath];
+                        uint[] wpPath = new uint[MaxStraightPath];
 
+                        WaypointFlag[] wpFlags = new WaypointFlag[MaxStraightPath];
+                        status = query.GetStraightPath(navStartPoint.point ,navEndPoint.point
+                                                       ,path ,0 ,pathCount ,wpPoints ,wpFlags ,wpPath
+                                                       ,out wpCount);
+                        if (!NavUtil.Failed(status) && wpCount > 0)
+                        {
+                            foreach (var wp in wpPoints)
+                            {
+                                Mogre.Vector3 wayPointPos = new Vector3(wp.x, wp.y, wp.z);
+                                waypoints.Add(new Waypoint(wayPointPos, new Vector3()));
+                            }
+                        }
                     }
                 }
- 
             }
 
             return waypoints;
