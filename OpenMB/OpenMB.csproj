@@ -168,9 +168,12 @@
     <Compile Include="Core\InputKeyMouseManager.cs" />
     <Compile Include="Core\KeyMapperManager.cs" />
     <Compile Include="FileLoader\DotWorldMapLoader.cs" />
+    <Compile Include="Game\DynamicGameObject.cs" />
     <Compile Include="Game\EntityMovementController.cs" />
     <Compile Include="Game\GameLocation.cs" />
     <Compile Include="Game\GameMesh.cs" />
+    <Compile Include="Game\GameObjectState.cs" />
+    <Compile Include="Game\GameObjectStateMachine.cs" />
     <Compile Include="Game\GameTeam.cs" />
     <Compile Include="Game\ItemTypes\ItemType.cs" />
     <Compile Include="Game\Vehicle.cs" />
@@ -449,7 +452,7 @@
     <Compile Include="UI\Widgets\InputBoxWidget.cs" />
     <Compile Include="UI\IHasSubItems.cs" />
     <Compile Include="UI\IHasSubWidgets.cs" />
-    <Compile Include="Mods\Interfaces\IInitializeMod.cs" />
+    <Compile Include="Mods\Interfaces\IModInitialize.cs" />
     <Compile Include="UI\IScrollable.cs" />
     <Compile Include="UI\Widgets\LabelWidget.cs" />
     <Compile Include="UI\Widgets\ListViewWidget.cs" />

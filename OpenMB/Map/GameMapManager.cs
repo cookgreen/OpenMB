@@ -8,7 +8,7 @@ using System.Text;
 
 namespace OpenMB.Map
 {
-	public class GameMapManager : IInitializeMod
+	public class GameMapManager : IModInitialize
 	{
 		private ModData modData;
 		private static GameMapManager instance;

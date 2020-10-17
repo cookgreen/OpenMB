@@ -20,7 +20,7 @@ namespace OpenMB.Sound
 		Playing,
 		Paused
 	}
-	public class MusicSoundManager : IDisposable, IInitializeMod
+	public class MusicSoundManager : IDisposable, IModInitialize
 	{
 		private SoundManager soundEngine;
 		private List<GameSound> musicLst;

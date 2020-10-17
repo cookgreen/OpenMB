@@ -9,7 +9,7 @@ using OpenMB.UI;
 
 namespace OpenMB.Screen
 {
-	public class ScreenManager : IInitializeMod
+	public class ScreenManager : IModInitialize
 	{
 		private Stack<IScreen> runningScreenStack;
 		private Dictionary<string, IScreen> innerScreens;

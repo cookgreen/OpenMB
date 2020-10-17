@@ -70,7 +70,7 @@ namespace OpenMB.UI
 	/// <summary>
 	/// Main class to manage a cursor, backdrop, trays and widgets
 	/// </summary>
-	public class UILayer : UIListener, IDisposable, IInitializeMod
+	public class UILayer : UIListener, IDisposable, IModInitialize
 	{
 		private static UILayer instance;
 		public static UILayer Instance

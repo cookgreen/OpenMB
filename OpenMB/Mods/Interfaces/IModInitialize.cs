@@ -1,6 +1,6 @@
 ﻿namespace OpenMB.Mods
 {
-	public interface IInitializeMod
+	public interface IModInitialize
 	{
 		void InitMod(ModData modData);
 	}
