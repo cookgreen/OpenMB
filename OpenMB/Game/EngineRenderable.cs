@@ -2,7 +2,7 @@
 
 namespace OpenMB.Game
 {
-	public class GameMesh
+	public class EngineRenderable
 	{
 		protected Camera camera;
 		protected SceneManager sceneManager;
@@ -45,7 +45,7 @@ namespace OpenMB.Game
 			}
 		}
 
-		public GameMesh(Camera camera)
+		public EngineRenderable(Camera camera)
 		{
 			this.camera = camera;
 			sceneManager = camera.SceneManager;

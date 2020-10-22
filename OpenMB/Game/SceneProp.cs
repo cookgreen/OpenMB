@@ -50,17 +50,17 @@ namespace OpenMB.Game
 		{
 			foreach (var childModel in childModelData)
 			{
-				mesh.Entity = mesh.SceneManager.CreateEntity(Guid.NewGuid().ToString(), childModel.Mesh);
-				mesh.Entity.SetMaterialName(childModel.Material);
-				mesh.EntityNode = mesh.SceneManager.RootSceneNode.CreateChildSceneNode();
-				mesh.EntityNode.AttachObject(mesh.Entity);
-				mesh.EntityNode.Position = position;
-				for (int i = 0; i < mesh.Entity.NumSubEntities; i++)
+				renderable.Entity = renderable.SceneManager.CreateEntity(Guid.NewGuid().ToString(), childModel.Mesh);
+				renderable.Entity.SetMaterialName(childModel.Material);
+				renderable.EntityNode = renderable.SceneManager.RootSceneNode.CreateChildSceneNode();
+				renderable.EntityNode.AttachObject(renderable.Entity);
+				renderable.EntityNode.Position = position;
+				for (int i = 0; i < renderable.Entity.NumSubEntities; i++)
 				{
-					SubEntity subEnt = mesh.Entity.GetSubEntity((uint)i);
+					SubEntity subEnt = renderable.Entity.GetSubEntity((uint)i);
 					subEnt.SetMaterialName(childModel.Material);
 				}
-				entities.Add(mesh.Entity);
+				entities.Add(renderable.Entity);
 			}
 		}
 
@@ -71,13 +71,13 @@ namespace OpenMB.Game
 
 		public override void Dispose()
 		{
-			mesh.EntityNode.Dispose();
-			mesh.Entity.Dispose();
+			renderable.EntityNode.Dispose();
+			renderable.Entity.Dispose();
 		}
 
 		public void Move(Vector3 mov)
 		{
-			mesh.EntityNode.Position += mov;
+			renderable.EntityNode.Position += mov;
 		}
 	}
 }

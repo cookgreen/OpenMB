@@ -101,7 +101,7 @@ namespace OpenMB.Game
 		}
 		public Entity ItemEnt
 		{
-			get { return mesh.Entity; }
+			get { return renderable.Entity; }
 		}
 		public string ItemTypeID
 		{
@@ -168,36 +168,36 @@ namespace OpenMB.Game
 
 		protected override void create()
 		{
-			mesh.Entity = mesh.SceneManager.CreateEntity(Guid.NewGuid().ToString(), itemData.MeshName);
-			mesh.EntityNode = mesh.SceneManager.RootSceneNode.CreateChildSceneNode();
-			mesh.EntityNode.AttachObject(mesh.Entity);
+			renderable.Entity = renderable.SceneManager.CreateEntity(Guid.NewGuid().ToString(), itemData.MeshName);
+			renderable.EntityNode = renderable.SceneManager.RootSceneNode.CreateChildSceneNode();
+			renderable.EntityNode.AttachObject(renderable.Entity);
 
 			ActorDesc actorDesc = new ActorDesc();
 			actorDesc.Density = 4;
 			actorDesc.Body = null;
 			actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
-				StaticMeshData(mesh.Entity.GetMesh())));
+				StaticMeshData(renderable.Entity.GetMesh())));
 			itemActor = physicsScene.CreateActor(actorDesc);
 		}
 
 		protected override void create(GameWorld world)
 		{
 			base.create(world);
-			mesh.Entity = mesh.SceneManager.CreateEntity(itemName, itemMeshName);
-			mesh.EntityNode = mesh.SceneManager.RootSceneNode.CreateChildSceneNode();
-			mesh.EntityNode.AttachObject(mesh.Entity);
+			renderable.Entity = renderable.SceneManager.CreateEntity(itemName, itemMeshName);
+			renderable.EntityNode = renderable.SceneManager.RootSceneNode.CreateChildSceneNode();
+			renderable.EntityNode.AttachObject(renderable.Entity);
 
 			ActorDesc actorDesc = new ActorDesc();
 			actorDesc.Density = 4;
 			actorDesc.Body = null;
 			actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
-				StaticMeshData(mesh.Entity.GetMesh())));
+				StaticMeshData(renderable.Entity.GetMesh())));
 			itemActor = physicsScene.CreateActor(actorDesc);
 		}
 
 		public void Drop()
 		{
-			mesh.EntityNode.DetachObject(ItemEnt);
+			renderable.EntityNode.DetachObject(ItemEnt);
 		}
 
 		/// <summary>
@@ -244,7 +244,7 @@ namespace OpenMB.Game
 
 		public override MaterialPtr RenderPreview()
 		{
-			return itemType.RenderPreview(mesh.Entity);
+			return itemType.RenderPreview(renderable.Entity);
 		}
 	}
 }

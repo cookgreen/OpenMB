@@ -32,7 +32,7 @@ namespace OpenMB.Game
 	/// <summary>
 	/// Specific Characer in Game
 	/// </summary>
-	public class Character : GameObject
+	public class Character : DynamicGameObject
 	{
 		private DecisionSystem brain;
 		private WeaponSystem weaponSystem;
@@ -148,8 +148,8 @@ namespace OpenMB.Game
 
 			initEquipments();
 
-			mesh = new CharacterController(world, chaData, chaSkin, initPosition, isBot);
-			controller = (CharacterController)mesh;
+			renderable = new CharacterController(world, chaData, chaSkin, initPosition, isBot);
+			controller = (CharacterController)renderable;
 		}
 
 		public void MoveTo(Mogre.Vector3 destPos)

@@ -8,7 +8,7 @@ namespace OpenMB.Game
 {
     public class DynamicGameObject : GameObject
     {
-        protected GameObjectStateMachine stateMachine;
+        protected GameObjectFiniteStateMachine stateMachine;
         public DynamicGameObject(int id, GameWorld world) : base(id, world)
         {
             

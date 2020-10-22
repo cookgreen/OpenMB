@@ -75,18 +75,18 @@ namespace OpenMB.Game
 		{
 			if (Parts.Count == 0)
 			{
-				mesh.Entity = mesh.SceneManager.CreateEntity("", FullPartMesh);
-				mesh.EntityNode = mesh.SceneManager.RootSceneNode.CreateChildSceneNode();
-				mesh.EntityNode.AttachObject(mesh.Entity);
+				renderable.Entity = renderable.SceneManager.CreateEntity("", FullPartMesh);
+				renderable.EntityNode = renderable.SceneManager.RootSceneNode.CreateChildSceneNode();
+				renderable.EntityNode.AttachObject(renderable.Entity);
 			}
 			else
 			{
 				if (Parts.Where(o => o.Type == VehiclePartType.VPT_Body).Count() == 1)
 				{
 					var vehicleBody = Parts.Where(o => o.Type == VehiclePartType.VPT_Body).First();
-					mesh.Entity = mesh.SceneManager.CreateEntity("VEHICLE-" + Name + "-BODY-" + Guid.NewGuid().ToString());
-					mesh.EntityNode = mesh.SceneManager.RootSceneNode.CreateChildSceneNode();
-					mesh.EntityNode.AttachObject(mesh.Entity);
+					renderable.Entity = renderable.SceneManager.CreateEntity("VEHICLE-" + Name + "-BODY-" + Guid.NewGuid().ToString());
+					renderable.EntityNode = renderable.SceneManager.RootSceneNode.CreateChildSceneNode();
+					renderable.EntityNode.AttachObject(renderable.Entity);
 
 					if (Flags.Exists(o => o == VehicleFlags.VF_Has_Turrent))
 					{
@@ -95,7 +95,7 @@ namespace OpenMB.Game
 						{
 							foreach (var turrentPart in turrentParts)
 							{
-								turrentPart.Create(mesh.SceneManager);
+								turrentPart.Create(renderable.SceneManager);
 							}
 						}
 					}
@@ -103,7 +103,7 @@ namespace OpenMB.Game
 					{
 						for (int i = 0; i < Parts.Count; i++)
 						{
-							Parts[i].Create(mesh.SceneManager);
+							Parts[i].Create(renderable.SceneManager);
 						}
 					}
 				}

@@ -15,7 +15,7 @@ namespace OpenMB.Game
 	/// <summary>
 	/// Controller used by Character
 	/// </summary>
-	public class CharacterController : GameMesh
+	public class CharacterController : EngineRenderable
 	{
 		private const int CHAR_HEIGHT = 5;      // height of character's center of mass above ground
 		private const int CAM_HEIGHT = 2;          // height of camera above character's center of mass

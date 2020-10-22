@@ -9,7 +9,8 @@ namespace OpenMB.Game
 {
 	public class GameObject : IUpdate
 	{
-		protected GameMesh mesh;
+		private string uniqueID;
+		protected EngineRenderable renderable;
 		protected string kindID;
 		protected int id;
 		protected MoveInfo moveInfo;
@@ -19,6 +20,14 @@ namespace OpenMB.Game
 		protected HealthInfo health;
 		protected Vector3 position;
 		private Actor entityActor;
+
+        public string UniqueID
+        {
+            get
+            {
+				return uniqueID;
+            }
+        }
 		public int ID
 		{
 			get
@@ -62,14 +71,14 @@ namespace OpenMB.Game
 		{
 			get
 			{
-				return mesh.EntityNode;
+				return renderable.EntityNode;
 			}
 		}
-		public GameMesh Mesh
+		public EngineRenderable Mesh
 		{
 			get
 			{
-				return mesh;
+				return renderable;
 			}
 		}
 		public Actor PhysicsActor
@@ -92,13 +101,16 @@ namespace OpenMB.Game
 			}
 		}
 
+		public object UserData { get; set; }
+
 		public GameObject(int id, GameWorld world)
 		{
 			this.id = id;
 			this.world = world;
 			physicsScene = world.PhysicsScene;
 			physics = world.PhysicsScene.Physics;
-			mesh = new GameMesh(world.Camera);
+			renderable = new EngineRenderable(world.Camera);
+			uniqueID = Guid.NewGuid().ToString();
 		}
 
 		protected virtual void create() { }

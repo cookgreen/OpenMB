@@ -48,17 +48,17 @@ namespace OpenMB.Game
 			string name = Guid.NewGuid().ToString();
 			MeshManager.Singleton.CreatePlane(name, groupName,
 					   new Plane(rkNormal, fConstanst), width, height, xsegments, ysegments, normals, numTexCoordSets, uTile, vTile, upVector);
-			mesh.Entity = Mesh.SceneManager.CreateEntity(Guid.NewGuid().ToString(), name);
-			mesh.Entity.SetMaterialName(materialName);
-			mesh.Entity.CastShadows = false;
-			mesh.EntityNode = Mesh.SceneManager.RootSceneNode.CreateChildSceneNode();
-			mesh.EntityNode.AttachObject(mesh.Entity);
-			mesh.EntityNode.Position = position;
+			renderable.Entity = Mesh.SceneManager.CreateEntity(Guid.NewGuid().ToString(), name);
+			renderable.Entity.SetMaterialName(materialName);
+			renderable.Entity.CastShadows = false;
+			renderable.EntityNode = Mesh.SceneManager.RootSceneNode.CreateChildSceneNode();
+			renderable.EntityNode.AttachObject(renderable.Entity);
+			renderable.EntityNode.Position = position;
 			ActorDesc actorDesc = new ActorDesc();
 			actorDesc.Density = 4;
 			actorDesc.Body = null;
 			actorDesc.Shapes.Add(physics.CreateTriangleMesh(new
-				StaticMeshData(mesh.Entity.GetMesh())));
+				StaticMeshData(renderable.Entity.GetMesh())));
 			Actor entityActor = physicsScene.CreateActor(actorDesc);
 		}
 	}

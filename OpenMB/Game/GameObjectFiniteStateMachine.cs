@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Game
 {
-    public class GameObjectStateMachine : IUpdate
+    public class GameObjectFiniteStateMachine : IUpdate
     {
         private GameObjectState currentState;
         private List<GameObjectState> registeredStates;
 
-        public GameObjectStateMachine()
+        public GameObjectFiniteStateMachine()
         {
             registeredStates = new List<GameObjectState>();
         }
