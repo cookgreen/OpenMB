@@ -175,7 +175,8 @@
     <Compile Include="Game\GameObjectState.cs" />
     <Compile Include="Game\GameObjectFiniteStateMachine.cs" />
     <Compile Include="Game\GameTeam.cs" />
-    <Compile Include="Game\ItemTypes\ItemType.cs" />
+    <Compile Include="Interfaces\IRenderPreview.cs" />
+    <Compile Include="Game\ItemTypes\PlaceholderItemType.cs" />
     <Compile Include="Game\Vehicle.cs" />
     <Compile Include="Game\VehicleController.cs" />
     <Compile Include="Game\WayPointManager.cs" />

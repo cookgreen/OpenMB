@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Game.ItemTypes
 {
-	public class ItemType : IItemType
+	public class PlaceholderItemType : IItemType
 	{
-		public virtual string Name { get { return "PlaceHolder"; } }
+		public virtual string Name { get { return "Placeholder"; } }
 
 		public virtual string SpawnAttachBoneName { get { return "Spin"; } }
 

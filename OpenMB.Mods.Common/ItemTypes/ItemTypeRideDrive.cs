@@ -8,7 +8,7 @@ using OpenMB.Game.ItemTypes;
 
 namespace OpenMB.Mods.Common.ItemTypes
 {
-	public class ItemTypeRideDrive : ItemType
+	public class ItemTypeRideDrive : PlaceholderItemType
 	{
 
 		public override string Name

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Mods.Common.ItemTypes
 {
-	public class ItemTypeVehicle : ItemType
+	public class ItemTypeVehicle : PlaceholderItemType
 	{
 		public override string Name
 		{

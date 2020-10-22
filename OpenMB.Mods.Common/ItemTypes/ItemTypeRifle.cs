@@ -8,7 +8,7 @@ using System.Text;
 
 namespace OpenMB.Mods.Common.ItemTypes
 {
-	public class ItemTypeRifle : ItemType
+	public class ItemTypeRifle : PlaceholderItemType
 	{
 		public override string Name
 		{

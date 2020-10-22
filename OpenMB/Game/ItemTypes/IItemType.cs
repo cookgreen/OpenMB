@@ -1,4 +1,5 @@
 ﻿using Mogre;
+using OpenMB.Interfaces;
 using OpenMB.Mods;
 using System;
 using System.Collections.Generic;
@@ -7,15 +8,13 @@ using System.Text;
 
 namespace OpenMB.Game.ItemTypes
 {
-	public interface IItemType
+	public interface IItemType : IRenderPreview
 	{
 		string Name { get; }
 
 		string SpawnAttachBoneName { get; }
 
 		void Use(params object[] param);
-
-		MaterialPtr RenderPreview(Entity itemEnt);
 
 		Item Item { get; set; }
 

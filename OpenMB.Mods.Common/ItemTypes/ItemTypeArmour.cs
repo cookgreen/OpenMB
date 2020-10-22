@@ -9,7 +9,7 @@ using OpenMB.Game.ItemTypes;
 namespace OpenMB.Mods.Common.ItemTypes
 {
 	//This kind of item can reduce the damage receive
-	public class ItemTypeArmour : ItemType
+	public class ItemTypeArmour : PlaceholderItemType
 	{
 
 		public int Armour { get; set; }
