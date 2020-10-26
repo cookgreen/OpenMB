@@ -1,8 +1,0 @@
-#OpenMB Locate ID|Google Translate Lang ID
-en|en
-cns|zh-CN
-cnt|zh-TW
-de|de
-fr|fr
-ja|ja
-
