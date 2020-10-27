@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenMB.Utilities.UCSEditor;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,16 +15,41 @@ namespace OpenMB.Utilities.LocateFileEditor
 		UCSFile ucs = null;
 		Dictionary<string, string> data = new Dictionary<string, string>();
 		ListViewItem lvi = null;
+		GoogleTranslateAPIRequest googleTransApi;
+		Dictionary<string, string> langDic = new Dictionary<string, string>();
 
 		public frmMain()
 		{
 			InitializeComponent();
+			googleTransApi = new GoogleTranslateAPIRequest("<unknown>");
+            googleTransApi.TranslateFinished += GoogleTransApi_TranslateFinished;
+			langDic = new Dictionary<string, string>()
+			{
+				{"简体中文", "zh-CN" },
+				{"English", "en" },
+				{"French", "fr" },
+				{"German", "de" },
+				{"Japanese", "ja" }
+			};
+			foreach(var kpl in langDic)
+            {
+				cmbGoogleTranslationAPILanguages.Items.Add(kpl.Key);
+            }
+			if (cmbGoogleTranslationAPILanguages.Items.Count > 0)
+			{
+				cmbGoogleTranslationAPILanguages.SelectedIndex = 0;
+			}
 		}
 
-		private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void GoogleTransApi_TranslateFinished(string translatedText)
+        {
+			txtSuggestion.Text = translatedText;
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			ofd.Title = "Open";
-			ofd.Filter = "";
+			ofd.Filter = "UCS Locate File|*.ucs";
 			if (ofd.ShowDialog() == DialogResult.OK)
 			{
 				ucs = new UCSFile(ofd.FileName);
@@ -58,6 +84,7 @@ namespace OpenMB.Utilities.LocateFileEditor
 					lvi = lsvLocateInfo.SelectedItems[0];
 					txtKey.Text = lsvLocateInfo.SelectedItems[0].Text;
 					txtLocalizedText.Text = lsvLocateInfo.SelectedItems[0].SubItems[1].Text;
+					googleTransApi.TranslateAsync(txtLocalizedText.Text);
 				}
 			}
 		}
@@ -105,7 +132,6 @@ namespace OpenMB.Utilities.LocateFileEditor
 
 		private void frmMain_Resize(object sender, EventArgs e)
 		{
-			splitter1.SplitPosition = this.Width / 2;
 			lsvLocateInfo.Columns[0].Width = this.Width / 2;
 			lsvLocateInfo.Columns[1].Width = this.Width / 2;
 		}
@@ -148,15 +174,15 @@ namespace OpenMB.Utilities.LocateFileEditor
 			}
 		}
 
-		private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-
-		}
-
 		private void aboutUCSEditorToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			frmAbout about = new frmAbout();
 			about.ShowDialog();
 		}
-	}
+
+        private void cmbGoogleTranslationAPILanguages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+			googleTransApi.DestLangID = langDic[cmbGoogleTranslationAPILanguages.SelectedItem.ToString()];
+        }
+    }
 }
