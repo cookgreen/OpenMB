@@ -85,6 +85,7 @@ namespace OpenMB.Utilities.LocateFileEditor
 					txtKey.Text = lsvLocateInfo.SelectedItems[0].Text;
 					txtLocalizedText.Text = lsvLocateInfo.SelectedItems[0].SubItems[1].Text;
 					googleTransApi.TranslateAsync(txtLocalizedText.Text);
+					txtSuggestion.Text = "Translating...";
 				}
 			}
 		}

@@ -28,18 +28,12 @@ namespace OpenMB.Utilities.UCSEditor
         {
             this.srcLangID = srcLangID;
             this.destLangID = destLangID;
-            worker = new BackgroundWorker();
-            worker.DoWork += Worker_DoWork;
-            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
         }
 
         public GoogleTranslateAPIRequest(string destLangID)
         {
             isAuto = true;
             this.destLangID = destLangID;
-            worker = new BackgroundWorker();
-            worker.DoWork += Worker_DoWork;
-            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
         }
 
         private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -49,10 +43,18 @@ namespace OpenMB.Utilities.UCSEditor
             {
                 string json = arr[1].ToString();
                 GoogleTranslateAPIResponse response = JsonConvert.DeserializeObject<GoogleTranslateAPIResponse>(json);
-                if (response != null)
+                if (response != null && response.sentences.Count > 0)
                 {
                     TranslateFinished?.Invoke(response.sentences[0].trans);
                 }
+                else
+                {
+                    TranslateFinished?.Invoke("No Suggestion");
+                }
+            }
+            else
+            {
+                TranslateFinished?.Invoke("No Suggestion");
             }
         }
 
@@ -87,6 +89,9 @@ namespace OpenMB.Utilities.UCSEditor
 
         public void TranslateAsync(string text)
         {
+            worker = new BackgroundWorker();
+            worker.DoWork += Worker_DoWork;
+            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
             worker.RunWorkerAsync(text);
         }
     }
