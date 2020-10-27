@@ -13,10 +13,12 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
 * Individual Script System
 * Mod System  
 * Support multipler languages
-* New Panel-Based GUI System - SimpleGUI  
+* New GUI System - LightGUI  
 * Script-driven GUI System  
 * Inner Game Editor  
 * Support Mod.io
+* Google Translate for Localization Tool
+* Two Official Mods: [Kingdom & Knight](https://www.moddb.com/mods/kingdom-knights) , [Resistence at Nenjiang Bridge](https://www.moddb.com/mods/resistance-at-nenjiang-bridge)
 
 ## Usage:
 * Shift+Space - Full Screen  
