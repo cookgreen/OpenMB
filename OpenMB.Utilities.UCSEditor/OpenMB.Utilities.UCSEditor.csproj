@@ -65,6 +65,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangeOperation.cs" />
+    <Compile Include="frmAddNewLine.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddNewLine.Designer.cs">
+      <DependentUpon>frmAddNewLine.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,10 +94,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="UCSFile.cs" />
+    <Compile Include="UCSLine.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="frmAbout.resx">
       <DependentUpon>frmAbout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddNewLine.resx">
+      <DependentUpon>frmAddNewLine.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>

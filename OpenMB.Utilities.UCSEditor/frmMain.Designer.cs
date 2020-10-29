@@ -106,7 +106,7 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -114,7 +114,7 @@
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
@@ -122,19 +122,19 @@
             // 
             this.saveAsToolStripMenuItem.Enabled = false;
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(118, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -151,7 +151,7 @@
             // 
             this.addNewLineToolStripMenuItem.Enabled = false;
             this.addNewLineToolStripMenuItem.Name = "addNewLineToolStripMenuItem";
-            this.addNewLineToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.addNewLineToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.addNewLineToolStripMenuItem.Text = "Add New Line";
             this.addNewLineToolStripMenuItem.Click += new System.EventHandler(this.addNewLineToolStripMenuItem_Click);
             // 
@@ -159,7 +159,7 @@
             // 
             this.deleteThisLineToolStripMenuItem.Enabled = false;
             this.deleteThisLineToolStripMenuItem.Name = "deleteThisLineToolStripMenuItem";
-            this.deleteThisLineToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.deleteThisLineToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.deleteThisLineToolStripMenuItem.Text = "Delete this Line";
             this.deleteThisLineToolStripMenuItem.Click += new System.EventHandler(this.deleteThisLineToolStripMenuItem_Click);
             // 
@@ -192,8 +192,8 @@
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(201, 22);
-            this.toolStripLabel1.Text = "Google Translate API Languages:";
+            this.toolStripLabel1.Size = new System.Drawing.Size(261, 22);
+            this.toolStripLabel1.Text = "Choose the language you want translate to:";
             // 
             // cmbGoogleTranslationAPILanguages
             // 
@@ -369,6 +369,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UCSEditor";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMain_FormClosed);
             this.Resize += new System.EventHandler(this.frmMain_Resize);
             this.menus.ResumeLayout(false);
             this.menus.PerformLayout();

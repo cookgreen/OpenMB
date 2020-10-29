@@ -17,6 +17,7 @@ namespace OpenMB.Utilities.LocateFileEditor
 		ListViewItem lvi = null;
 		GoogleTranslateAPIRequest googleTransApi;
 		Dictionary<string, string> langDic = new Dictionary<string, string>();
+		List<Tuple<UCSLine, ChangeOperation>> pendingChanges;
 
 		public frmMain()
 		{
@@ -52,6 +53,11 @@ namespace OpenMB.Utilities.LocateFileEditor
 			ofd.Filter = "UCS Locate File|*.ucs";
 			if (ofd.ShowDialog() == DialogResult.OK)
 			{
+				if (pendingChanges != null && pendingChanges.Count > 0)
+				{
+					saveToolStripMenuItem_Click(null, null);
+				}
+
 				ucs = new UCSFile(ofd.FileName);
 				if (ucs.Process())
 				{
@@ -68,6 +74,8 @@ namespace OpenMB.Utilities.LocateFileEditor
 						lvi.SubItems.Add(kpl.Value);
 						lsvLocateInfo.Items.Add(lvi);
 					}
+
+					pendingChanges = new List<Tuple<UCSLine, ChangeOperation>>();
 				}
 			}
 		}
@@ -99,7 +107,7 @@ namespace OpenMB.Utilities.LocateFileEditor
 		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			sfd.Title = "Save As";
-			if (sfd.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+			if (sfd.ShowDialog(this) == DialogResult.OK)
 			{
 				SaveData();
 				ucs.Save(data);
@@ -122,13 +130,30 @@ namespace OpenMB.Utilities.LocateFileEditor
 
 		private void addNewLineToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			lsvLocateInfo.Items.Add(new ListViewItem());
+			frmAddNewLine addNewLineForm = new frmAddNewLine();
+			if (addNewLineForm.ShowDialog() == DialogResult.OK)
+			{
+				ListViewItem item = new ListViewItem();
+				item.Text = addNewLineForm.Line.ID;
+				item.SubItems.Add(addNewLineForm.Line.Text);
+				lsvLocateInfo.Items.Add(item);
+
+				pendingChanges.Add(new Tuple<UCSLine, ChangeOperation>(addNewLineForm.Line, ChangeOperation.Add));
+			}
 		}
 
 		private void deleteThisLineToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			lsvLocateInfo.Items.Remove(lsvLocateInfo.SelectedItems[0]);
-			deleteThisLineToolStripMenuItem.Enabled = false;
+			if (MessageBox.Show("Are you sure you want to delete this line?", "Notice", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+			{
+				UCSLine line = new UCSLine();
+				line.ID = lsvLocateInfo.SelectedItems[0].SubItems[0].Text;
+				line.Text = lsvLocateInfo.SelectedItems[0].SubItems[1].Text;
+				pendingChanges.Add(new Tuple<UCSLine, ChangeOperation>(line, ChangeOperation.Delete));
+
+				lsvLocateInfo.Items.Remove(lsvLocateInfo.SelectedItems[0]);
+				deleteThisLineToolStripMenuItem.Enabled = false;
+			}
 		}
 
 		private void frmMain_Resize(object sender, EventArgs e)
@@ -143,6 +168,11 @@ namespace OpenMB.Utilities.LocateFileEditor
 			{
 				if (lvi != null)
 				{
+					UCSLine line = new UCSLine();
+					line.ID = txtKey.Text;
+					line.Text = txtLocalizedText.Text;
+					pendingChanges.Add(new Tuple<UCSLine, ChangeOperation>(line, ChangeOperation.Edit));
+
 					lvi.Text = txtKey.Text;
 					lvi.SubItems[1].Text = txtLocalizedText.Text;
 
@@ -162,6 +192,11 @@ namespace OpenMB.Utilities.LocateFileEditor
 			{
 				if (lvi != null)
 				{
+					UCSLine line = new UCSLine();
+					line.ID = txtKey.Text;
+					line.Text = txtLocalizedText.Text;
+					pendingChanges.Add(new Tuple<UCSLine, ChangeOperation>(line, ChangeOperation.Edit));
+
 					lvi.Text = txtKey.Text;
 					lvi.SubItems[1].Text = txtLocalizedText.Text;
 
@@ -184,6 +219,17 @@ namespace OpenMB.Utilities.LocateFileEditor
         private void cmbGoogleTranslationAPILanguages_SelectedIndexChanged(object sender, EventArgs e)
         {
 			googleTransApi.DestLangID = langDic[cmbGoogleTranslationAPILanguages.SelectedItem.ToString()];
+        }
+
+        private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+			if (pendingChanges.Count > 0)
+			{
+				if (MessageBox.Show("Do you want to save these changes?", "Notice", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+				{
+					saveAsToolStripMenuItem_Click(null, null);
+				}
+			}
         }
     }
 }
