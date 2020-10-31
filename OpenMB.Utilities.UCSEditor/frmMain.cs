@@ -223,7 +223,7 @@ namespace OpenMB.Utilities.LocateFileEditor
 
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-			if (pendingChanges.Count > 0)
+			if (pendingChanges != null && pendingChanges.Count > 0)
 			{
 				if (MessageBox.Show("Do you want to save these changes?", "Notice", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 				{
