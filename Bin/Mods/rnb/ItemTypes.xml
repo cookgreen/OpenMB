@@ -1,92 +1,116 @@
 <ItemTypes>
 	<ItemType>
-		<ID>IT_ARMOUR</ID>
+		<ID>Armour</ID>
 		<Name>Armour</Name>
 		<SubTypes>
 			<ItemType>
-				<ID>IT_HEAD_ARMOUR</ID>
+				<ID>HeadWear</ID>
 				<Name>Head Armour</Name>
 			</ItemType>
 			<ItemType>
-				<ID>IT_BODY_ARMOUR</ID>
+				<ID>BodyWear</ID>
 				<Name>Body Armour</Name>
 			</ItemType>
 			<ItemType>
-				<ID>IT_FOOT_ARMOUR</ID>
+				<ID>FootWear</ID>
 				<Name>Foot Armour</Name>
 			</ItemType>
 			<ItemType>
-				<ID>IT_HAND_ARMOUR</ID>
+				<ID>HandWear</ID>
 				<Name>Hand Armour</Name>
 			</ItemType>
 		</SubTypes>
 	</ItemType>
 	<ItemType>
-		<ID>IT_RIDEDRIVE</ID>
+		<ID>RideDrive</ID>
 		<Name>Ridable or drivable items</Name>
 		<SubTypes>
 			<ItemType>
-				<ID>IST_VEHICLE</ID>
-				<Name>Vehicle</Name>
+				<ID>Horse</ID>
+				<Name>Horses</Name>
 			</ItemType>
+			<ItemType>
+				<ID>Vehicle</ID>
+				<Name>Vehicle</Name>
+				<SubTypes>
+					<ItemType>
+						<ID>Tank</ID>
+						<Name>Tank</Name>
+					</ItemType>
+				</SubTypes>
+			</ItemType>
+			<ItemType>
+				<ID>Aircraft</ID>
+				<Name>Aircraft</Name>
+			</ItemTypes>
 		</SubTypes>
 	</ItemType>
 	<ItemType>
-		<ID>IT_WEAPON</ID>
+		<ID>Weapon</ID>
 		<Name>Weapon</Name>
 		<SubTypes>
 			<ItemType>
-				<ID>IT_One_Hand_Weapon</ID>
+				<ID>OneHandWeapon</ID>
 				<Name>One Hand Meele Weapon</Name>
 			</ItemType>
 			<ItemType>
-				<ID>IT_Two_Hand_Weapon</ID>
+				<ID>TwoHandWeapon</ID>
 				<Name>Two Hand Meele Weapon</Name>
 			</ItemType>
 			<ItemType>
-				<ID>IT_Polearm</ID>
+				<ID>Polearm</ID>
 				<Name>Polearm Meele Weapon</Name>
 			</ItemType>
 			<ItemType>
-				<ID>IT_Bow</ID>
+				<ID>Bow</ID>
 				<Name>Bow</Name>
 			</ItemType>
 			<ItemType>
-				<ID>IT_Crossbow</ID>
+				<ID>Crossbow</ID>
 				<Name>Crossbow</Name>
 			</ItemType>
 			<ItemType>
-				<ID>IT_Throw</ID>
+				<ID>Throw</ID>
 				<Name>Throw</Name>
 			</ItemType>
 			<ItemType>
-				<ID>IT_Rifle</ID>
+				<ID>Rifle</ID>
 				<Name>Rifle</Name>
 			</ItemType>
 			<ItemType>
-				<ID>IT_Sub_Machine_Gun</ID>
+				<ID>SubMachineGun</ID>
 				<Name>Sub Machine Gun</Name>
 			</ItemType>
 			<ItemType>
-				<ID>IT_Machine_Gun</ID>
+				<ID>MachineGun</ID>
 				<Name>Machine Gun</Name>
+				<SubTypes>
+					<ItemType>
+						<ID>HeavyMachineGun</ID>
+						<Name>Heavy Machine Gun</Name>
+					</ItemType>
+				</SubTypes>
 			</ItemType>
 			<ItemType>
-				<ID>IT_Launcher</ID>
+				<ID>Launcher</ID>
 				<Name>Launcher</Name>
+			</ItemType>
+			<ItemType>
+				<ID>Artillery</ID>
+				<Name>Artillery</Name>
 			</ItemType>
 		</SubTypes>
 	</ItemType>
 	<ItemType>
-		<ID>IT_Prop</ID>
+		<ID>Prop</ID>
 		<Name>Prop</Name>
 		<SubTypes>
 			<ItemType>
-				<ID>IT_GOOD</ID>
+				<ID>Good</ID>
 				<Name>Goods</Name>
 			</ItemType>
 			<ItemType>
-				<ID>IT_BOOK</ID>
+				<ID>Book</ID>
 				<Name>Books</Name>
 			</ItemType>
 		</SubTypes>
