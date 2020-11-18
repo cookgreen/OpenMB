@@ -43,6 +43,20 @@
 				<ID>Aircraft</ID>
 				<Name>Aircraft</Name>
 			</ItemTypes>
+			<ItemType>
+				<ID>Ships</ID>
+				<Name>Ships</Name>
+				<SubTypes>
+					<ItemType>
+						<ID>Warships</ID>
+						<Name>Warships</Name>
+					</ItemType>
+					<ItemType>
+						<ID>SubMarines</ID>
+						<Name>SubMarines</Name>
+					</ItemType>
+				</SubTypes>
+			</ItemTypes>
 		</SubTypes>
 	</ItemType>
 	<ItemType>
