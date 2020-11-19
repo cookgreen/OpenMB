@@ -16,18 +16,23 @@ namespace OpenMB.Mods.XML
 
 	public class ModItemDfnXML
 	{
-		[XmlAttribute("damage")]
-		public string Damage { get; set; }
-		[XmlAttribute("range")]
-		public string Range { get; set; }
-		[XmlElement("ID")]
+		[XmlAttribute("ID")]
 		public string ID { get; set; }
-		[XmlElement("Desc")]
+		[XmlAttribute("Name")]
+		public string Name { get; set; }
+		[XmlAttribute("Desc")]
 		public string Desc { get; set; }
-		[XmlElement("Model")]
-		public string MeshName { get; set; }
-		[XmlElement("Type")]
+		[XmlAttribute("Model")]
+		public string Model { get; set; }
+		[XmlAttribute("Type")]
 		public string Type { get; set; }
+
+
+		[XmlArray("ItemParameters")]
+		[XmlArrayItem("ItemParameter")]
+		public List<KeyValuePairXml> Parameters { get; set; }
+
+
 		[XmlArray("Animations")]
 		public string[] Animation { get; set; }
 		[XmlElement("AttachOptionWhenHave")]
@@ -40,7 +45,6 @@ namespace OpenMB.Mods.XML
 		public double AmourNum { get; set; }
 		[XmlIgnore]
 		public string MaterialName { get; set; }
-		public string Name { get; set; }
 
 		public ModItemDfnXML()
 		{
@@ -48,4 +52,8 @@ namespace OpenMB.Mods.XML
 			AttachOptionWhenUse = ItemUseAttachOption.IAO_NO_VALUE;
 		}
 	}
+
+	public class ModItemParamter
+    {
+    }
 }

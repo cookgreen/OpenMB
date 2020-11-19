@@ -18,7 +18,9 @@ namespace OpenMB.Game.ItemTypes
 
 		public Item Item { get; set; }
 
-		public virtual MaterialPtr RenderPreview(Entity itemEnt)
+        public IItemController ItemController { get; }
+
+        public virtual MaterialPtr RenderPreview(Entity itemEnt)
 		{
 			return null;
 		}
@@ -36,5 +38,13 @@ namespace OpenMB.Game.ItemTypes
 		public virtual void Use(params object[] param)
 		{
 		}
-	}
+
+        public void Equip(Character character)
+        {
+        }
+
+        public void Spawn()
+        {
+        }
+    }
 }

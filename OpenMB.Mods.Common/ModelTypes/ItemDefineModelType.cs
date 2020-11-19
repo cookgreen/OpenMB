@@ -23,7 +23,7 @@ namespace OpenMB.Mods.Common.ModelTypes
 			if (findedItems.Count() > 0)
 			{
 				var findedItem = findedItems.ElementAt(0);
-				string itemModel = findedItem.MeshName;
+				string itemModel = findedItem.Model;
 				var findedModels = modData.ModelInfos.Where(o => o.ID == itemModel);
 				if (findedModels.Count() > 0)
 				{

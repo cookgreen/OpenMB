@@ -255,6 +255,7 @@
     <Compile Include="Mods\ModPathExpressionResolver.cs" />
     <Compile Include="Mods\ModTriggerConditionOnScenePropHit.cs" />
     <Compile Include="Mods\ModXmlDefineModelType.cs" />
+    <Compile Include="Mods\XML\KeyValuePairXml.cs" />
     <Compile Include="Mods\XML\ModAnimationDfnXml.cs" />
     <Compile Include="Mods\XML\ModCharacterSkinSlot.cs" />
     <Compile Include="Mods\XML\ModCursorDfnXml.cs" />

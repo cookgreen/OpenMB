@@ -143,14 +143,14 @@ namespace OpenMB.Game
 			}
 		}
 
-		public void SpawnIntoWorld()
+		public void Spawn()
 		{
-			itemType.SpawnIntoWorld();
+			itemType.Spawn();
 		}
 
-		public void SpawnIntoCharacter(Character character)//Spawn and attach into the character
+		public void Equip(Character character)
 		{
-			itemType.SpawnIntoCharacter(world, character);
+			itemType.Equip(character);
 		}
 
 		public void Attack(int victimId)
@@ -161,14 +161,14 @@ namespace OpenMB.Game
 			}
 		}
 
-		public void Spawn()
+		public void Create()
 		{
 			create();
 		}
 
 		protected override void create()
 		{
-			renderable.Entity = renderable.SceneManager.CreateEntity(Guid.NewGuid().ToString(), itemData.MeshName);
+			renderable.Entity = renderable.SceneManager.CreateEntity(Guid.NewGuid().ToString(), itemData.Model);
 			renderable.EntityNode = renderable.SceneManager.RootSceneNode.CreateChildSceneNode();
 			renderable.EntityNode.AttachObject(renderable.Entity);
 
