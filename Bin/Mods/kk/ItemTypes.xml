@@ -68,8 +68,8 @@
 				<Name>Throw</Name>
 			</ItemType>
 			<ItemType>
-				<ID>Rifle</ID>
-				<Name>Rifle</Name>
+				<ID>Firearm</ID>
+				<Name>Firearms</Name>
 			</ItemType>
 			<ItemType>
 				<ID>SiegeWeapons</ID>
