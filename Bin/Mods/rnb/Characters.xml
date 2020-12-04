@@ -90,6 +90,14 @@
     <Equips>
     </Equips>
   </Character>
+  <Character ID="cha_dog">
+    <Name>Imperial Japanese Army Dog</Name>
+    <Side>side_japan</Side>
+	<Skin>skn_sinbad</Skin>
+    <Equips>
+	<EquipItem>item_bite</Equipitem>
+    </Equips>
+  </Character>
   <Character ID="cha_ija_mp">
     <Name>Imperial Japanese Milltary Police</Name>
     <Side>side_japan</Side>
