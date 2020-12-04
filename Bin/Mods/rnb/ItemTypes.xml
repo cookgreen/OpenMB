@@ -64,6 +64,10 @@
 		<Name>Weapon</Name>
 		<SubTypes>
 			<ItemType>
+				<ID>MeleeWeapon</ID>
+				<Name>Melee Weapon Without using Hand</Name>
+			</ItemType>
+			<ItemType>
 				<ID>OneHandWeapon</ID>
 				<Name>One Hand Meele Weapon</Name>
 			</ItemType>
