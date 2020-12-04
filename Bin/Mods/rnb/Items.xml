@@ -1,4 +1,10 @@
-<Items>
+<Items>	
+  <Item id="item_bite" mesh_name="" desc="Bite" type="MeleeWeapon">
+	  <ItemParameter Name="ShowStore">false</ItemParameter>
+	  <ItemParameter Name="Damage">20</ItemParameter>
+	  <ItemParameter Name="Range">1</ItemParameter>
+	  <ItemParameter Name="ROF">120</ItemParameter>
+  </Item>
   <Item id="item_type_38_rifle" mesh_name="type_38_rifle.mesh" desc="Type 38 Rifle" type="Rifle">
 	  <ItemParameter Name="Damage">45</ItemParameter>
 	  <ItemParameter Name="Range">80</ItemParameter>
