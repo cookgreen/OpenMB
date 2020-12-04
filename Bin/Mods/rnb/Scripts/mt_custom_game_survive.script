@@ -38,6 +38,8 @@ function missionUpdate
   end
 end
 
+function spawnEnemyTroopers
+end
 
 function breforeMissionStart
 end
