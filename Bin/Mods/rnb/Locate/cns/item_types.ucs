@@ -12,6 +12,7 @@ Ships 船舰
 Warships  战舰
 Submarine 潜艇
 Weapon  武器
+MeleeWeapon 近战武器
 OneHandWeapon 单手武器
 TwoHandWeapon 双手武器
 Polearm 长杆武器
