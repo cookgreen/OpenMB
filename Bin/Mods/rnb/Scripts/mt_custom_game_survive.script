@@ -1,0 +1,49 @@
+assign %wave_no = 1
+
+function missionInit
+end
+
+function missionRun
+  hook_trigger_event BeforeMTSatrt breforeMissionStart
+  hook_trigger_event AfterMTStart afterMissionStart
+  hook_trigger_event AgentKilled agentKilled
+  hook_mouse_event KeyDown keyDown
+end
+
+function keyDown
+  store_param %key
+  switch %key
+    case KC_ESCAPE
+      promp_message_box {! Will you want to exit?} {! Information} onOKButtonClicked
+      end
+    case KC_TAB
+      start_ui ui_score_survive
+      end
+  end
+end
+
+function onOKButtonClicked
+  map_mission_end_current
+  switch_menu menu_survive_mode_end
+end
+
+function missionUpdate
+  if (team_all_defeat 0) && %wave_no < 10
+    play_sound snd_victory_sound
+    val_add %wave_no 1
+    call spawnEnemyTroopers
+  elif %wave_no == 10
+    play_sound snd_victory_sound
+    change_next_map
+  end
+end
+
+
+function breforeMissionStart
+end
+
+function afterMissionStart
+end
+
+function agentKilled
+end
