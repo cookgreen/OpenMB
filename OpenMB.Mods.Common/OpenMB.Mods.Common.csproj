@@ -50,10 +50,13 @@
   <ItemGroup>
     <Compile Include="Flags\Music\MusicFlagPlayVolume.cs" />
     <Compile Include="ItemTypes\ItemTypeArmour.cs" />
+    <Compile Include="ItemTypes\ItemTypeMeleeWeapon.cs" />
     <Compile Include="ItemTypes\ItemTypeOneHandWeapon.cs" />
     <Compile Include="ItemTypes\ItemTypeRideDrive.cs" />
     <Compile Include="ItemTypes\ItemTypeRifle.cs" />
+    <Compile Include="ItemTypes\ItemTypeTwoHandWeapon.cs" />
     <Compile Include="ItemTypes\ItemTypeVehicle.cs" />
+    <Compile Include="ItemTypes\ItemTypeWeapon.cs" />
     <Compile Include="MapLoaders\MapLoaderBSP.cs" />
     <Compile Include="MapLoaders\MapLoaderWorldMapXml.cs" />
     <Compile Include="MapLoaders\MapLoaderXml.cs" />

@@ -18,7 +18,7 @@ namespace OpenMB.Mods.Common.ItemTypes
 		{
 			get
 			{
-				return "IT_Armour";
+				return "Armour";
 			}
 		}
 

@@ -10,13 +10,11 @@ namespace OpenMB.Mods.Common.ItemTypes
 {
 	public class ItemTypeRideDrive : PlaceholderItemType
 	{
+		protected List<string> parameters;
 
 		public override string Name
 		{
-			get
-			{
-				return "IT_RIDEDRIVE";
-			}
+			get { return "RideDrive"; }
 		}
 
 		public override string SpawnAttachBoneName
@@ -25,6 +23,13 @@ namespace OpenMB.Mods.Common.ItemTypes
 			{
 				return "Spin";
 			}
+		}
+
+		public ItemTypeRideDrive()
+		{
+			parameters = new List<string>();
+			parameters.Add("Speed");
+			parameters.Add("TurnSpeed");
 		}
 
 		public override void Use(params object[] param)

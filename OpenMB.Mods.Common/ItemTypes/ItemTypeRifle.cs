@@ -12,10 +12,7 @@ namespace OpenMB.Mods.Common.ItemTypes
 	{
 		public override string Name
 		{
-			get
-			{
-				return "IT_Rifle";
-			}
+			get { return "Rifle"; }
 		}
 
 		public override string SpawnAttachBoneName

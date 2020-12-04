@@ -10,14 +10,11 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Mods.Common.ItemTypes
 {
-	public class ItemTypeVehicle : PlaceholderItemType
+	public class ItemTypeVehicle : ItemTypeRideDrive
 	{
 		public override string Name
 		{
-			get
-			{
-				return "IST_VEHICLE";
-			}
+			get { return "Vehicle"; }
 		}
 
 		public override string SpawnAttachBoneName { get; }

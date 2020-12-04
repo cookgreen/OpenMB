@@ -8,9 +8,14 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Mods.Common.ItemTypes
 {
-	public class ItemTypeOneHandWeapon : PlaceholderItemType
+	public class ItemTypeOneHandWeapon : ItemTypeWeapon
 	{
-		public override MaterialPtr RenderPreview(Entity itemEnt)
+        public override string Name
+        {
+            get { return "OneHandWeapon"; }
+        }
+
+        public override MaterialPtr RenderPreview(Entity itemEnt)
 		{
 			return base.RenderPreview(itemEnt);
 		}

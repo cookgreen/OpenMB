@@ -18,6 +18,8 @@ namespace OpenMB.Game.ItemTypes
 
 		IItemController ItemController { get; }
 
+		List<string> Parameters { get; }
+
 		/// <summary>
 		/// Call when item equip into the character
 		/// if this kind of item can't be equip into the character

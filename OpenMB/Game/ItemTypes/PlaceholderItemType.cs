@@ -20,6 +20,8 @@ namespace OpenMB.Game.ItemTypes
 
         public IItemController ItemController { get; }
 
+        public virtual List<string> Parameters { get; }
+
         public virtual MaterialPtr RenderPreview(Entity itemEnt)
 		{
 			return null;
