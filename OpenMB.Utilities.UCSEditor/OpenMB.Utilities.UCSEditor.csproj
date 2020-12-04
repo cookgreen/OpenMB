@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangeOperation.cs" />
+    <Compile Include="EditorSetting.cs" />
     <Compile Include="frmAddNewLine.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +114,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
+    <Content Include="UCSEditorSetting.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

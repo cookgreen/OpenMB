@@ -12,29 +12,23 @@ namespace OpenMB.Utilities.LocateFileEditor
 {
 	public partial class frmMain : Form
 	{
-		UCSFile ucs = null;
-		Dictionary<string, string> data = new Dictionary<string, string>();
-		ListViewItem lvi = null;
-		GoogleTranslateAPIRequest googleTransApi;
-		Dictionary<string, string> langDic = new Dictionary<string, string>();
-		List<Tuple<UCSLine, ChangeOperation>> pendingChanges;
+		private UCSFile ucs = null;
+		private Dictionary<string, string> data = new Dictionary<string, string>();
+		private ListViewItem lvi = null;
+		private GoogleTranslateAPIRequest googleTransApi;
+		private List<Tuple<UCSLine, ChangeOperation>> pendingChanges;
+		private EditorSetting setting;
 
-		public frmMain()
+		public frmMain(EditorSetting setting)
 		{
 			InitializeComponent();
+
+			this.setting = setting;
 			googleTransApi = new GoogleTranslateAPIRequest("<unknown>");
             googleTransApi.TranslateFinished += GoogleTransApi_TranslateFinished;
-			langDic = new Dictionary<string, string>()
-			{
-				{"简体中文", "zh-CN" },
-				{"English", "en" },
-				{"French", "fr" },
-				{"German", "de" },
-				{"Japanese", "ja" }
-			};
-			foreach(var kpl in langDic)
+			foreach(var kpl in setting.GoogleTranslateAPISetting.TranslateLanguages)
             {
-				cmbGoogleTranslationAPILanguages.Items.Add(kpl.Key);
+				cmbGoogleTranslationAPILanguages.Items.Add(kpl.DisplayName);
             }
 			if (cmbGoogleTranslationAPILanguages.Items.Count > 0)
 			{
@@ -57,6 +51,8 @@ namespace OpenMB.Utilities.LocateFileEditor
 				{
 					saveToolStripMenuItem_Click(null, null);
 				}
+
+				Text = "UCSEditor - " + ofd.FileName;
 
 				ucs = new UCSFile(ofd.FileName);
 				if (ucs.Process())
@@ -218,7 +214,7 @@ namespace OpenMB.Utilities.LocateFileEditor
 
         private void cmbGoogleTranslationAPILanguages_SelectedIndexChanged(object sender, EventArgs e)
         {
-			googleTransApi.DestLangID = langDic[cmbGoogleTranslationAPILanguages.SelectedItem.ToString()];
+			googleTransApi.DestLangID = setting.GoogleTranslateAPISetting[cmbGoogleTranslationAPILanguages.SelectedItem.ToString()];
         }
 
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)

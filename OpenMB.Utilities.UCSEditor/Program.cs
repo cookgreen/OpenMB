@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenMB.Utilities.UCSEditor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,11 @@ namespace OpenMB.Utilities.LocateFileEditor
         [STAThread]
         static void Main(string[] args)
         {
+            EditorSetting setting = EditorSetting.Read();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
+            Application.Run(new frmMain(setting));
         }
     }
 }

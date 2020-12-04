@@ -1,0 +1,11 @@
+<EditorSetting>
+	<GoogleTranslateAPI>
+		<TranslateLanguages>
+			<TranslateLanguage Locate="cns" DisplayName="简体中文">zh-CN</TranslateLanguage>
+			<TranslateLanguage Locate="en" DisplayName="English">en</TranslateLanguage>
+			<TranslateLanguage Locate="fr" DisplayName="French">fr</TranslateLanguage>
+			<TranslateLanguage Locate="de" DisplayName="German">de</TranslateLanguage>
+			<TranslateLanguage Locate="ja" DisplayName="Japanese">ja</TranslateLanguage>
+		</TranslateLanguages>
+	</GoogleTranslateAPI>
+</EditorSetting>
