@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Mods.Common", "OpenM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.DedicatedServer", "OpenMB.DedicatedServer\OpenMB.DedicatedServer.csproj", "{BC79F45A-ADBE-4A12-BA27-CABC57397FDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KBFEditor", "KBFEditor\KBFEditor.csproj", "{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,18 @@ Global
 		{BC79F45A-ADBE-4A12-BA27-CABC57397FDD}.Release|x64.Build.0 = Release|Any CPU
 		{BC79F45A-ADBE-4A12-BA27-CABC57397FDD}.Release|x86.ActiveCfg = Release|Any CPU
 		{BC79F45A-ADBE-4A12-BA27-CABC57397FDD}.Release|x86.Build.0 = Release|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Debug|x64.Build.0 = Debug|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Debug|x86.Build.0 = Debug|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Release|x64.ActiveCfg = Release|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Release|x64.Build.0 = Release|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Release|x86.ActiveCfg = Release|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
