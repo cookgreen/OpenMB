@@ -15,6 +15,7 @@ namespace KBFEditor
     public partial class frmMain : Form
     {
         private KBF currentFile;
+        private Stream currentStream;
         private string currentFilePath;
 
         public frmMain()
@@ -28,11 +29,64 @@ namespace KBFEditor
             dialog.Filter = "K&K Binary Resource File|*.kbf";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                var stream = new FileStream(dialog.FileName, FileMode.OpenOrCreate, FileAccess.Write);
+                currentStream = new FileStream(dialog.FileName, FileMode.OpenOrCreate, FileAccess.Write);
                 currentFilePath = dialog.FileName;
                 currentFile = new KBF();
-                currentFile.Write(stream);
+                currentFile.Write(currentStream);
+
+                Text = Text + " - " + dialog.FileName;
+
+                mnuImportMesh.Enabled = true;
+                mnuImportMaterialScript.Enabled = true;
+                mnuImportTexture.Enabled = true;
+                mnuSaveFile.Enabled = true;
             }
+        }
+
+        private void mnuImportMesh_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Ogre Mesh|*.mesh";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var bytes = File.ReadAllBytes(dialog.FileName);
+                KBFEntry entry = new KBFEntry(dialog.SafeFileName, "mesh", bytes);
+                currentFile.AddMeshEntry(entry);
+            }
+        }
+
+        private void mnuImportMaterialScript_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Ogre Material|*.material";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var bytes = File.ReadAllBytes(dialog.FileName);
+                KBFEntry entry = new KBFEntry(dialog.SafeFileName, "material", bytes);
+                currentFile.AddMaterialEntry(entry);
+            }
+        }
+
+        private void mnuImportTexture_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Texture File|*.jpg;*.png;*.tga;*.dds";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var bytes = File.ReadAllBytes(dialog.FileName);
+                KBFEntry entry = new KBFEntry(dialog.SafeFileName, "texture", bytes);
+                currentFile.AddTextureEntry(entry);
+            }
+        }
+
+        private void mnuImportSkeleton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuSaveFile_Click(object sender, EventArgs e)
+        {
+            currentFile.Write(currentStream);
         }
     }
 }

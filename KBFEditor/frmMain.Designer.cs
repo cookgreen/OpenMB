@@ -31,6 +31,7 @@ namespace KBFEditor
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuNew = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSaveFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -45,7 +46,6 @@ namespace KBFEditor
             this.entryTypeTabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.entryList = new System.Windows.Forms.ListBox();
-            this.mnuNew = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -80,10 +80,17 @@ namespace KBFEditor
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 21);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // mnuNew
+            // 
+            this.mnuNew.Name = "mnuNew";
+            this.mnuNew.Size = new System.Drawing.Size(108, 22);
+            this.mnuNew.Text = "New";
+            this.mnuNew.Click += new System.EventHandler(this.mnuNew_Click);
+            // 
             // mnuOpen
             // 
             this.mnuOpen.Name = "mnuOpen";
-            this.mnuOpen.Size = new System.Drawing.Size(180, 22);
+            this.mnuOpen.Size = new System.Drawing.Size(108, 22);
             this.mnuOpen.Text = "Open";
             // 
             // mnuSaveFile
@@ -92,16 +99,17 @@ namespace KBFEditor
             this.mnuSaveFile.Name = "mnuSaveFile";
             this.mnuSaveFile.Size = new System.Drawing.Size(180, 22);
             this.mnuSaveFile.Text = "Save";
+            this.mnuSaveFile.Click += new System.EventHandler(this.mnuSaveFile_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(105, 6);
             // 
             // mnuExit
             // 
             this.mnuExit.Name = "mnuExit";
-            this.mnuExit.Size = new System.Drawing.Size(180, 22);
+            this.mnuExit.Size = new System.Drawing.Size(108, 22);
             this.mnuExit.Text = "Exit";
             // 
             // editToolStripMenuItem
@@ -121,6 +129,7 @@ namespace KBFEditor
             this.mnuImportMesh.Name = "mnuImportMesh";
             this.mnuImportMesh.Size = new System.Drawing.Size(205, 22);
             this.mnuImportMesh.Text = "Import Mesh";
+            this.mnuImportMesh.Click += new System.EventHandler(this.mnuImportMesh_Click);
             // 
             // mnuImportMaterialScript
             // 
@@ -128,6 +137,7 @@ namespace KBFEditor
             this.mnuImportMaterialScript.Name = "mnuImportMaterialScript";
             this.mnuImportMaterialScript.Size = new System.Drawing.Size(205, 22);
             this.mnuImportMaterialScript.Text = "Import Material Script";
+            this.mnuImportMaterialScript.Click += new System.EventHandler(this.mnuImportMaterialScript_Click);
             // 
             // mnuImportTexture
             // 
@@ -135,6 +145,7 @@ namespace KBFEditor
             this.mnuImportTexture.Name = "mnuImportTexture";
             this.mnuImportTexture.Size = new System.Drawing.Size(205, 22);
             this.mnuImportTexture.Text = "Import Texture";
+            this.mnuImportTexture.Click += new System.EventHandler(this.mnuImportTexture_Click);
             // 
             // mnuImportSkeleton
             // 
@@ -142,6 +153,7 @@ namespace KBFEditor
             this.mnuImportSkeleton.Name = "mnuImportSkeleton";
             this.mnuImportSkeleton.Size = new System.Drawing.Size(205, 22);
             this.mnuImportSkeleton.Text = "Import Skeleton";
+            this.mnuImportSkeleton.Click += new System.EventHandler(this.mnuImportSkeleton_Click);
             // 
             // splitContainer1
             // 
@@ -198,13 +210,6 @@ namespace KBFEditor
             this.entryList.Name = "entryList";
             this.entryList.Size = new System.Drawing.Size(235, 393);
             this.entryList.TabIndex = 0;
-            // 
-            // mnuNew
-            // 
-            this.mnuNew.Name = "mnuNew";
-            this.mnuNew.Size = new System.Drawing.Size(180, 22);
-            this.mnuNew.Text = "New";
-            this.mnuNew.Click += new System.EventHandler(this.mnuNew_Click);
             // 
             // frmMain
             // 
