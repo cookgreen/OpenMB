@@ -1,4 +1,5 @@
 ﻿using KBFEditor.FileFormat;
+using KBFEditor.Loader;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -87,6 +88,52 @@ namespace KBFEditor
         private void mnuSaveFile_Click(object sender, EventArgs e)
         {
             currentFile.Write(currentStream);
+        }
+
+        private void mnuOpen_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "K&K Binary Resource File|*.kbf";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                currentStream = new FileStream(dialog.FileName, FileMode.OpenOrCreate, FileAccess.Write);
+                currentFilePath = dialog.FileName;
+                KBFLoader loader = new KBFLoader();
+                currentFile = loader.Read(currentStream);
+
+                ReadFileContents();
+            }
+        }
+
+        private void ReadFileContents()
+        {
+            if (currentFile != null)
+            {
+                entryTypeTabControl.TabPages.Clear();
+
+                if (currentFile.MeshEntries.Count > 0)
+                {
+                    TabPage meshEntryTabPage = new TabPage();
+                    meshEntryTabPage.Text = "Mesh";
+
+                    ListBox meshListBox = new ListBox();
+                    meshListBox.Dock = DockStyle.Fill;
+                    meshListBox.SelectedIndexChanged += MeshListBox_SelectedIndexChanged;
+                    meshEntryTabPage.Controls.Add(meshListBox);
+
+                    foreach (var meshEntry in currentFile.MeshEntries)
+                    {
+                        meshListBox.Items.Add(meshEntry.Name);
+                    }
+
+                    entryTypeTabControl.TabPages.Add(meshEntryTabPage);
+                }
+            }
+        }
+
+        private void MeshListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Open Ogre Control and load the mesh file
         }
     }
 }

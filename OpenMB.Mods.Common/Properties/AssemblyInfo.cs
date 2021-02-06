@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("OpenMB.Mods.Common")]
-[assembly: AssemblyCopyright("GNU GPLv3")]
+[assembly: AssemblyCopyright("GNU GENERAL PUBLIC LICENSE Version 3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
