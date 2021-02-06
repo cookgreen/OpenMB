@@ -128,7 +128,30 @@ namespace KBFEditor
 
                     entryTypeTabControl.TabPages.Add(meshEntryTabPage);
                 }
+
+                if (currentFile.MatEntries.Count > 0)
+                {
+                    TabPage matEntryTabPage = new TabPage();
+                    matEntryTabPage.Text = "Material";
+
+                    ListBox matListBox = new ListBox();
+                    matListBox.Dock = DockStyle.Fill;
+                    matListBox.SelectedIndexChanged += MatListBox_SelectedIndexChanged;
+                    matEntryTabPage.Controls.Add(matListBox);
+
+                    foreach (var matEntry in currentFile.MatEntries)
+                    {
+                        matListBox.Items.Add(matEntry.Name);
+                    }
+
+                    entryTypeTabControl.TabPages.Add(matEntryTabPage);
+                }
             }
+        }
+
+        private void MatListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void MeshListBox_SelectedIndexChanged(object sender, EventArgs e)
