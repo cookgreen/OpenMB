@@ -5,6 +5,10 @@
 	<Skin>skn_sinbad</Skin>
     <Equips>
     </Equips>
+	<Skills>
+		<Skill ID="skl_ridedrive">2</Skill>
+		<Skill ID="skl_magic">2</Skill>
+	</Skills>
   </Character>
   <Character ID="cha_tank_driver">
     <Name>Tank Driver</Name>

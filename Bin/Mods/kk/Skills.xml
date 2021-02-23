@@ -1,0 +1,10 @@
+
+<Skills>
+	<BaseSkills>
+		<BaseSkill ID="bkl_AGI"></BaseSkill>
+		<BaseSkill ID="bkl_INT"></BaseSkill>
+		<BaseSkill ID="bkl_STG"></BaseSkill>
+	</BaseSkills>
+	<Skill ID="skl_ridedrive" BaseSkill="bkl_AGI">Effect the character ability when ride or drive a transportion tool</Skill>
+	<Skill ID="skl_magic" BaseSkill="bkl_INT">Effect the character ability when player active a spell</Skill>
+</Skills>
