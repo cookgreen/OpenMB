@@ -49,7 +49,7 @@ namespace OpenMB.Script.Command
 			ScriptLinkTableNode vector = world.GlobalValueTable.GetRecord(vectorVariable);
 			if (vector != null)
 			{
-				vector.NextNodes[2].Value = value.StartsWith("%") ? Context.GetLocalValue(value.Substring(1)) : value;
+				vector.NextNodes[2].Value = value.StartsWith("%") ? Context.GetLocalValue(value.Substring(1)).ToString() : value;
 			}
 		}
 	}

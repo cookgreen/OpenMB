@@ -48,7 +48,7 @@ namespace OpenMB.Script.Command
 				{
 					if (srcVar.StartsWith("%"))
 					{
-						Context.ChangeLocalValue(destVar.Substring(1, destVar.IndexOf(destVar.Last())), Context.GetLocalValue(srcVar.Substring(1, srcVar.IndexOf(srcVar.Last()))));
+						Context.ChangeLocalValue(destVar.Substring(1, destVar.IndexOf(destVar.Last())), Context.GetLocalValue(srcVar.Substring(1, srcVar.IndexOf(srcVar.Last()))).ToString());
 					}
 					else if (srcVar.StartsWith("$"))
 					{
@@ -59,7 +59,7 @@ namespace OpenMB.Script.Command
 				{
 					if (srcVar.StartsWith("%"))
 					{
-						world.ChangeGobalValue(destVar.Substring(1, destVar.IndexOf(destVar.Last())), Context.GetLocalValue(srcVar.Substring(1, srcVar.IndexOf(srcVar.Last()))));
+						world.ChangeGobalValue(destVar.Substring(1, destVar.IndexOf(destVar.Last())), Context.GetLocalValue(srcVar.Substring(1, srcVar.IndexOf(srcVar.Last()))).ToString());
 					}
 					else if (srcVar.StartsWith("$"))
 					{

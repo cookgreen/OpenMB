@@ -9,10 +9,10 @@ namespace OpenMB.Script
 	public class ScriptContext
 	{
 		private ScriptLinkTable localTable;
-		private Dictionary<string, string> localValMap;
+		private Dictionary<string, object> localValMap;
 		private Dictionary<string, ScriptFunction> functions;
 		private Dictionary<string, ScriptTrigger> triggers;
-		private Dictionary<string, string> returnValueMap;
+		private Dictionary<string, object> returnValueMap;
 		private ScriptFile file;
 		public ScriptFile File
 		{
@@ -34,13 +34,13 @@ namespace OpenMB.Script
 		{
 			this.file = file;
 			localTable = new ScriptLinkTable();
-			localValMap = new Dictionary<string, string>();
+			localValMap = new Dictionary<string, object>();
 			functions = new Dictionary<string, ScriptFunction>();
 			triggers = new Dictionary<string, ScriptTrigger>();
-			returnValueMap = new Dictionary<string, string>();
+			returnValueMap = new Dictionary<string, object>();
 		}
 
-		public string GetLocalValue(string varname)
+		public object GetLocalValue(string varname)
 		{
 			if (localValMap.ContainsKey(varname))
 			{
@@ -66,7 +66,7 @@ namespace OpenMB.Script
         }
 
 
-		public string GetLastReturnValue()
+		public object GetLastReturnValue()
         {
 			if (returnValueMap.Count > 0)
 			{
@@ -79,6 +79,18 @@ namespace OpenMB.Script
         }
 
         public void ChangeLocalValue(string varname, string varvalue)
+		{
+			if (localValMap.ContainsKey(varname))
+			{
+				localValMap[varname] = varvalue;
+			}
+			else
+			{
+				localValMap.Add(varname, varvalue);
+			}
+		}
+
+		public void ChangeLocalValue(string varname, object varvalue)
 		{
 			if (localValMap.ContainsKey(varname))
 			{

@@ -12,6 +12,7 @@ namespace OpenMB.Script.Command
     /// </summary>
     public class ReturnScriptCommand : ScriptCommand
     {
+        private const string ReturnCommandArgDesc = "ReturnVariable (Optional)";
         private string[] commandArgs;
         public override string CommandName { get { return "return"; } }
         public override string[] CommandArgs { get { return commandArgs; } }
@@ -20,17 +21,22 @@ namespace OpenMB.Script.Command
         {
             commandArgs = new string[]
             {
-                "ReturnVariable"
+                ReturnCommandArgDesc
             };
         }
 
         public override void Execute(params object[] executeArgs)
         {
-            var world = executeArgs[0] as GameWorld;
-            var value = getParamterValue(commandArgs[0]);
-            if (ParentCommand is FunctionScriptCommand)// inside a function
+            if (commandArgs[0] != ReturnCommandArgDesc)
             {
-                Context.SetReturnValue((ParentCommand as FunctionScriptCommand).CommandName, value);
+                var variableName = commandArgs[0].Substring(1);
+                var variableValue = getParamterValue(commandArgs[0]);
+                if (ParentCommand is FunctionScriptCommand)// inside a function
+                {
+                    var funcName = (ParentCommand as FunctionScriptCommand).CommandArgs[0];
+                    var func = Context.GetFunction(funcName);
+                    func.SetReturnValue(variableName, variableValue);
+                }
             }
         }
     }

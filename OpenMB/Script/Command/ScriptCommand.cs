@@ -60,7 +60,7 @@ namespace OpenMB.Script.Command
 			CommandArgs[index] = cmdArg;
 		}
 
-		protected string getParamterValue(string commandArg)
+		protected object getParamterValue(string commandArg)
 		{
 			return
 				commandArg.StartsWith("%")

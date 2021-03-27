@@ -50,8 +50,8 @@ namespace OpenMB.Script.Command
 			GameWorld world = executeArgs[0] as GameWorld;
 
 			string variable = commandArgs[0];
-			string objectID = getParamterValue(commandArgs[1]);
-			string slotID = getParamterValue(commandArgs[2]);
+			string objectID = getParamterValue(commandArgs[1]).ToString();
+			string slotID = getParamterValue(commandArgs[2]).ToString();
 			string slotValue = GameSlotManager.Instance.GetSlot(objectID, slotID);
 			if (variable.StartsWith("%"))
 			{

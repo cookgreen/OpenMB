@@ -46,8 +46,8 @@ namespace OpenMB.Script.Command
 		public override void Execute(params object[] executeArgs)
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
-			string mapID = getParamterValue(commandArgs[0]);
-			string mapTemplateID = getParamterValue(commandArgs[1]);
+			string mapID = getParamterValue(commandArgs[0]).ToString();
+			string mapTemplateID = getParamterValue(commandArgs[1]).ToString();
 			string listVariable = commandArgs[2];
 			var list = Context.LocalTable.GetRecord(listVariable.Substring(1));
 			List<string> items = new List<string>();

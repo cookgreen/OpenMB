@@ -43,8 +43,8 @@ namespace OpenMB.Script.Command
 
 		public override void Execute(params object[] executeArgs)
 		{
-			string agentId = CommandArgs[0].StartsWith("%") ? Context.GetLocalValue(CommandArgs[0].Substring(1)) : CommandArgs[0];
-			string itemId = CommandArgs[1].StartsWith("%") ? Context.GetLocalValue(CommandArgs[1].Substring(1)) : CommandArgs[1];
+			string agentId = CommandArgs[0].StartsWith("%") ? Context.GetLocalValue(CommandArgs[0].Substring(1)).ToString() : CommandArgs[0];
+			string itemId = CommandArgs[1].StartsWith("%") ? Context.GetLocalValue(CommandArgs[1].Substring(1)).ToString() : CommandArgs[1];
 			var world = executeArgs[0] as GameWorld;
 			var itemXml = world.ModData.ItemInfos.Where(o => o.ID == itemId).First();
 			if (itemXml != null)

@@ -46,14 +46,14 @@ namespace OpenMB.Script.Command
 		public override void Execute(params object[] executeArgs)
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
-			var gameObject = world.GetAgentById(int.Parse(getParamterValue(commandArgs[1])));
+			var gameObject = world.GetAgentById(int.Parse(getParamterValue(commandArgs[1]).ToString()));
 			if (gameObject == null)
 			{
 				return;
 			}
 			gameObject.Health.EffectHealth(
-				int.Parse(getParamterValue(commandArgs[0])),
-				int.Parse(getParamterValue(commandArgs[2])));
+				int.Parse(getParamterValue(commandArgs[0]).ToString()),
+				int.Parse(getParamterValue(commandArgs[2]).ToString()));
 		}
 	}
 }

@@ -49,7 +49,7 @@ namespace OpenMB.Script.Command
 				string varname = (string)CommandArgs[0];
 				string varvalue = (string)CommandArgs[1];
 
-				string realData = getParamterValue(varvalue);
+				string realData = getParamterValue(varvalue).ToString();
 
 				if (varname.StartsWith("%"))//local var
 				{

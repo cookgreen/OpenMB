@@ -47,18 +47,18 @@ namespace OpenMB.Script.Command
 		public override void Execute(params object[] executeArgs)
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
-			var vectorName = getParamterValue(commandArgs[1]);
+			var vectorName = getParamterValue(commandArgs[1]).ToString();
 			var vector = world.GlobalValueTable.GetRecord(vectorName);
 			if (vector == null)
 			{
 				return;
 			}
-			world.CreatePlayer(getParamterValue(commandArgs[0]), new Vector3()
+			world.CreatePlayer(getParamterValue(commandArgs[0]).ToString(), new Vector3()
 			{
 				x = float.Parse(vector.NextNodes[0].Value),
 				y = float.Parse(vector.NextNodes[1].Value),
 				z = float.Parse(vector.NextNodes[2].Value),
-			}, getParamterValue(commandArgs[2]));
+			}, getParamterValue(commandArgs[2]).ToString());
 		}
 	}
 }
