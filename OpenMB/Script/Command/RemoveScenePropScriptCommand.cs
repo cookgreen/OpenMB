@@ -44,8 +44,8 @@ namespace OpenMB.Script.Command
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
 			world.RemoveSceneProp(
-				getParamterValue(commandArgs[0]).ToString(),
-				int.Parse(getParamterValue(commandArgs[1]).ToString())
+				getVariableValue(commandArgs[0]).ToString(),
+				int.Parse(getVariableValue(commandArgs[1]).ToString())
 			);
 		}
 	}

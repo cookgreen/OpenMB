@@ -47,8 +47,8 @@ namespace OpenMB.Script.Command
 			GameWorld world = executeArgs[0] as GameWorld;
 			world.ChangeGobalValue("reg0",
 				world.GetSceneProp(
-					getParamterValue(commandArgs[0]).ToString(),
-					getParamterValue(commandArgs[1]).ToString()
+					getVariableValue(commandArgs[0]).ToString(),
+					getVariableValue(commandArgs[1]).ToString()
 				)
 			);
 		}

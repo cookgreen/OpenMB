@@ -43,13 +43,13 @@ namespace OpenMB.Script.Command
 		public override void Execute(params object[] executeArgs)
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
-			string materialName = getParamterValue(CommandArgs[0]).ToString();
-			string rkNormalVectorName = getParamterValue(CommandArgs[1]).ToString();
-			string consitantis = getParamterValue(CommandArgs[2]).ToString();
-			string width = getParamterValue(CommandArgs[3]).ToString();
-			string height = getParamterValue(CommandArgs[4]).ToString();
-			string upVectorName = getParamterValue(CommandArgs[5]).ToString();
-			string positionVectorName = getParamterValue(CommandArgs[6]).ToString();
+			string materialName = getVariableValue(CommandArgs[0]).ToString();
+			string rkNormalVectorName = getVariableValue(CommandArgs[1]).ToString();
+			string consitantis = getVariableValue(CommandArgs[2]).ToString();
+			string width = getVariableValue(CommandArgs[3]).ToString();
+			string height = getVariableValue(CommandArgs[4]).ToString();
+			string upVectorName = getVariableValue(CommandArgs[5]).ToString();
+			string positionVectorName = getVariableValue(CommandArgs[6]).ToString();
 			var rkNormalVector = world.GlobalValueTable.GetRecord(rkNormalVectorName);
 			var upVector = world.GlobalValueTable.GetRecord(upVectorName);
 			var positionVector = world.GlobalValueTable.GetRecord(positionVectorName);

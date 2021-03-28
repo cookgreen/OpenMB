@@ -37,9 +37,27 @@ namespace OpenMB.Script.Command
 
         public override void Execute(params object[] executeArgs)
         {
-			string threadName = commandArgs[0].Substring(1);
-			var th = Context.GetLocalValue(threadName) as Thread;
-			th.Abort();
+			string threadVariableName = commandArgs[0];
+
+			if (isValidVariableName(threadVariableName))
+			{
+				Thread th = null;
+				if (isLocalVariable(threadVariableName))
+				{
+					string threadName = threadVariableName.Substring(1);
+					th = Context.GetLocalValue(threadName) as Thread;
+				}
+				else if (isGlobalVariable(threadVariableName))
+				{
+					string threadName = threadVariableName.Substring(1);
+					th = ScriptGlobalVariableMap.Instance.GetVariable(threadName) as Thread;
+				}
+
+				if (th != null)
+				{
+					th.Abort();
+				}
+			}
 		}
     }
 }

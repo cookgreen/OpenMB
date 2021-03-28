@@ -60,14 +60,30 @@ namespace OpenMB.Script.Command
 			CommandArgs[index] = cmdArg;
 		}
 
-		protected object getParamterValue(string commandArg)
+
+		protected bool isValidVariableName(string variableName)
+		{
+			return isLocalVariable(variableName) || isGlobalVariable(variableName);
+		}
+
+		protected bool isLocalVariable(string variableName)
+        {
+			return variableName.StartsWith("%");
+		}
+
+		protected bool isGlobalVariable(string variableName)
+		{
+			return variableName.StartsWith("$");
+		}
+
+		protected object getVariableValue(string variableName)
 		{
 			return
-				commandArg.StartsWith("%")
-				? Context.GetLocalValue(commandArg.Substring(1))
-				: commandArg.StartsWith("$")
-					? ScriptGlobalVariableMap.Instance.GetVariable(commandArg.Substring(1)).ToString()
-					: commandArg;
+				variableName.StartsWith("%")
+				? Context.GetLocalValue(variableName.Substring(1))
+				: variableName.StartsWith("$")
+					? ScriptGlobalVariableMap.Instance.GetVariable(variableName.Substring(1)).ToString()
+					: variableName;
 		}
 
 		public void AddSubCommand(ScriptCommand scriptCommand)

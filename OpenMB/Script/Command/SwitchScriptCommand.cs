@@ -48,11 +48,11 @@ namespace OpenMB.Script.Command
 		{
 			GameWorld world = executeArgs[0] as GameWorld;
 
-			var value = getParamterValue(commandArgs[0]);
+			var value = getVariableValue(commandArgs[0]);
 			foreach (var command in SubCommands)
 			{
 				if (command.GetType() == typeof(CaseScriptCommand) &&
-					(command as CaseScriptCommand).CommandArgs[0] == value)
+					(command as CaseScriptCommand).CommandArgs[0].ToString() == value.ToString())
 				{
 					command.Execute(executeArgs);
 					return;

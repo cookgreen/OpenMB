@@ -47,9 +47,9 @@ namespace OpenMB.Script.Command
 			if (CommandArgs.Length == 3)
 			{
 				GameWorld world = executeArgs[0] as GameWorld;
-				string variableName = getParamterValue(CommandArgs[0]).ToString();
-				string variableMember = getParamterValue(CommandArgs[1]).ToString();
-				string destVar = getParamterValue(CommandArgs[2]).ToString();
+				string variableName = getVariableValue(CommandArgs[0]).ToString();
+				string variableMember = getVariableValue(CommandArgs[1]).ToString();
+				string destVar = getVariableValue(CommandArgs[2]).ToString();
 				if (world.GlobalVariableTable.ContainsKey(variableName))
 				{
 					object obj = world.GlobalVariableTable[variableName];

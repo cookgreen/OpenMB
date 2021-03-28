@@ -38,17 +38,30 @@ namespace OpenMB.Script.Command
 
 		public override void Execute(params object[] executeArgs)
 		{
-			string threadName = commandArgs[0].Substring(1);
-			string functionName = getParamterValue(commandArgs[1]).ToString();
+			string threadVariableName = commandArgs[0];
+			string functionName = getVariableValue(commandArgs[1]).ToString();
 
-			Thread newThread = new Thread(new ParameterizedThreadStart(ThreadExecFunc));
-			Context.ChangeLocalValue(threadName, newThread);
-			object[] arr = new object[]
+			if (isValidVariableName(threadVariableName))
 			{
-				functionName,
-				executeArgs
-			};
-			newThread.Start(arr);
+				Thread newThread = new Thread(new ParameterizedThreadStart(ThreadExecFunc));
+
+				if (isLocalVariable(threadVariableName))
+				{
+					string threadName = threadVariableName.Substring(1);
+					Context.ChangeLocalValue(threadName, newThread);
+				}
+				else if (isGlobalVariable(threadVariableName))
+				{
+					string threadName = threadVariableName.Substring(1);
+					ScriptGlobalVariableMap.Instance.ChangeGobalValue(threadName, newThread);
+				}
+				object[] arr = new object[]
+				{
+					functionName,
+					executeArgs
+				};
+				newThread.Start(arr);
+			}
 		}
 
 		private void ThreadExecFunc(object args)

@@ -30,7 +30,7 @@ namespace OpenMB.Script.Command
             if (commandArgs[0] != ReturnCommandArgDesc)
             {
                 var variableName = commandArgs[0].Substring(1);
-                var variableValue = getParamterValue(commandArgs[0]);
+                var variableValue = getVariableValue(commandArgs[0]);
                 if (ParentCommand is FunctionScriptCommand)// inside a function
                 {
                     var funcName = (ParentCommand as FunctionScriptCommand).CommandArgs[0];
