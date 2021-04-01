@@ -1,0 +1,8 @@
+function campaign_init
+end
+
+function campaign_update
+end
+
+function campaign_end
+end

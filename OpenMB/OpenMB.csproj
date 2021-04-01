@@ -157,6 +157,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Campaign\CampaignManager.cs" />
+    <Compile Include="Campaign\ICampaign.cs" />
+    <Compile Include="Campaign\ScriptableCampaign.cs" />
+    <Compile Include="Campaign\CampaignListXml.cs" />
     <Compile Include="Configure\IConfigFile.cs" />
     <Compile Include="Core\BackendTaskManager.cs" />
     <Compile Include="Core\Common.cs" />
@@ -165,6 +169,7 @@
     <Compile Include="Core\GameRegisterManager.cs" />
     <Compile Include="Core\GameSlotManager.cs" />
     <Compile Include="Core\GameString.cs" />
+    <Compile Include="Core\IManager.cs" />
     <Compile Include="Core\InputKeyMouseManager.cs" />
     <Compile Include="Core\KeyMapperManager.cs" />
     <Compile Include="FileLoader\DotWorldMapLoader.cs" />
@@ -316,6 +321,7 @@
     <Compile Include="Script\Command\AgentEquipItemScriptCommand.cs" />
     <Compile Include="Script\Command\CallScriptCommand.cs" />
     <Compile Include="Script\Command\AssignScriptCommand.cs" />
+    <Compile Include="Script\Command\CampaignListInitScriptCommand.cs" />
     <Compile Include="Script\Command\CaseScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeHitpointScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeReturnMainMenu.cs" />

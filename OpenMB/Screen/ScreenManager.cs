@@ -238,7 +238,7 @@ namespace OpenMB.Screen
 		public void Update(float timeSinceLastFrame)
 		{
 			UpdateCurrentScreen(timeSinceLastFrame);
-			UIManager.Instance.Update();
+			UIManager.Instance.Update(timeSinceLastFrame);
 		}
 
 		public void ExitCurrentScreen()

@@ -15,11 +15,12 @@ using OpenMB.Script.Command;
 using OpenMB.Screen;
 using OpenMB.UI;
 using OpenMB.Sound;
+using OpenMB.Core;
 
 namespace OpenMB.Mods
 {
 	using Mods = Dictionary<string, ModManifest>;
-	public class ModManager
+	public class ModManager : ISubSystemManager
 	{
 		private Dictionary<string, ModManifest> installedMods;
 		private string modInstallRootDir;

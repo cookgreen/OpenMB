@@ -11,7 +11,7 @@ namespace OpenMB.Core
 	/// <summary>
 	/// Output message
 	/// </summary>
-	public class OutputManager
+	public class OutputManager : ISubSystemManager
 	{
 		private OverlayContainer container;
 		private Overlay o;

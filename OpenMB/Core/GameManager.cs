@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using OpenMB.UI.Skin;
+using OpenMB.Campaign;
 
 namespace OpenMB
 {
@@ -40,6 +41,7 @@ namespace OpenMB
 		private ScreenManager uiMgr;
 		private EngineState currentState;
 		private InputKeyMouseManager keyMouseManager;
+		private List<ISubSystemManager> subSystems;
 		public GameConfigXml gameOptions;
 		public Root root;
 		public RenderWindow renderWindow;
@@ -109,15 +111,16 @@ namespace OpenMB
 			isCheatMode = false;
 			loadingData = new LoadingData(LoadingType.NONE, null, null, null);
 			GlobalValueTable = new Dictionary<string, object>();
+
+			subSystems = new List<ISubSystemManager>();
 		}
 
 		public void Update(float timeSinceLastFrame)
 		{
-			ModManager.Instance.Update(timeSinceLastFrame);
-			UIManager.Instance.Update();
-			OutputManager.Instance.Update(timeSinceLastFrame);
-			MusicSoundManager.Instance.Update(timeSinceLastFrame);
-			BackendTaskManager.Instance.Update();
+			foreach(var manager in subSystems)
+            {
+				manager.Update(timeSinceLastFrame);
+            }
 		}
 
 		public bool Init(string windowTitle, GameConfigXml gameOptions)
@@ -273,6 +276,13 @@ namespace OpenMB
 				gameOptions.AudioConfig.EnableMusic,
 				gameOptions.AudioConfig.EnableSound
 			);
+
+			subSystems.Add(ModManager.Instance);
+			subSystems.Add(UIManager.Instance);
+			subSystems.Add(OutputManager.Instance);
+			subSystems.Add(MusicSoundManager.Instance);
+			subSystems.Add(BackendTaskManager.Instance);
+			subSystems.Add(CampaignManager.Instance);
 
 			return true;
 		}

@@ -15,7 +15,7 @@ using InputContext = MOIS.Mouse;
 
 namespace OpenMB.UI
 {
-	public class UIManager : IDisposable
+	public class UIManager : IDisposable, ISubSystemManager
 	{
 		private Stack<UILayer> uiLayers;
 		private static UIManager instance;
@@ -153,7 +153,7 @@ namespace OpenMB.UI
 			CurrentLayer.HideCursor();
 		}
 
-		internal void Update()
+		public void Update(float timeSinceLastFrame)
 		{
 		}
 

@@ -11,6 +11,7 @@ using System.IO;
 using System.Threading;
 using OpenMB.Mods;
 using System.ComponentModel;
+using OpenMB.Core;
 
 namespace OpenMB.Sound
 {
@@ -20,7 +21,7 @@ namespace OpenMB.Sound
 		Playing,
 		Paused
 	}
-	public class MusicSoundManager : IDisposable, IModInitialize
+	public class MusicSoundManager : IDisposable, IModInitialize, ISubSystemManager
 	{
 		private SoundManager soundEngine;
 		private List<GameSound> musicLst;

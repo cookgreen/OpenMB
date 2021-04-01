@@ -14,9 +14,32 @@ namespace OpenMB.Mods
 		protected string modPath;
 		protected XmlDocument doc;
 
+		public XmlObjectLoader()
+        {
+
+        }
+
 		public XmlObjectLoader(string path)
 		{
 			modPath = path;
+		}
+
+		public bool Load<T>(string xmlStr, out T xmlData)
+		{
+			try
+			{
+				XmlSerializer xr = new XmlSerializer(typeof(T));
+				TextReader textReader = new StringReader(xmlStr);
+				xmlData = (T)xr.Deserialize(textReader);
+				textReader.Close();
+				return true;
+			}
+			catch (Exception ex)
+			{
+				GameManager.Instance.log.LogMessage(ex.ToString(), LogMessage.LogType.Error);
+				xmlData = default(T);
+				return false;
+			}
 		}
 
 		public virtual bool Load<T>(out T ModXMLData)

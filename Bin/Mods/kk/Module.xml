@@ -52,6 +52,8 @@
 	<MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Music</MediaSection>
 	<MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Sound</MediaSection>
 	<MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Scenes</MediaSection>
+	<MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Campaigns</MediaSection>
+	<MediaSection ResourceLoadType="FileSystem" ResourceType="Other">Campaigns/Scripts</MediaSection>
   </Media>
   <Settings>
   </Settings>

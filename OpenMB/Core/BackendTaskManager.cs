@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace OpenMB.Core
 {
-	public class BackendTaskManager
+	public class BackendTaskManager : ISubSystemManager
 	{
 		private Queue<IBackendTask> tasks;
 		private static BackendTaskManager instance;
@@ -44,7 +44,7 @@ namespace OpenMB.Core
 			TaskEnded?.Invoke(returnData);
 		}
 
-		public void Update()
+		public void Update(float timeSinceLastFrame)
 		{
 			if (tasks.Count == 0)
 			{
