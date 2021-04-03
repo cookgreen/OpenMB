@@ -169,7 +169,7 @@
     <Compile Include="Core\GameRegisterManager.cs" />
     <Compile Include="Core\GameSlotManager.cs" />
     <Compile Include="Core\GameString.cs" />
-    <Compile Include="Core\IManager.cs" />
+    <Compile Include="Core\ISubSystemManager.cs" />
     <Compile Include="Core\InputKeyMouseManager.cs" />
     <Compile Include="Core\KeyMapperManager.cs" />
     <Compile Include="FileLoader\DotWorldMapLoader.cs" />
