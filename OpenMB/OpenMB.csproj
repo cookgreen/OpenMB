@@ -322,12 +322,17 @@
     <Compile Include="Script\Command\CallScriptCommand.cs" />
     <Compile Include="Script\Command\AssignScriptCommand.cs" />
     <Compile Include="Script\Command\CampaignListInitScriptCommand.cs" />
-    <Compile Include="Script\Command\CaseScriptCommand.cs" />
+    <Compile Include="Script\Command\ConditionalCheckEqualScriptCommand.cs" />
+    <Compile Include="Script\Command\ConditionalControlTurningScriptCommand.cs" />
+    <Compile Include="Script\ConditionalTree.cs" />
+    <Compile Include="Script\Command\SwitchCaseScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeHitpointScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeReturnMainMenu.cs" />
     <Compile Include="Script\Command\ChangeScreenReturnScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeSystemVariableValue.cs" />
     <Compile Include="Script\Command\ChangeUIScriptCommand.cs" />
+    <Compile Include="Script\Command\ConditionalControlScriptCommand.cs" />
+    <Compile Include="Script\Command\ConditionalCheckScriptCommand.cs" />
     <Compile Include="Script\Command\ConditionalScriptCommand.cs" />
     <Compile Include="Script\Command\DataStoreIdByIndexScriptCommand.cs" />
     <Compile Include="Script\Command\EndScriptCommand.cs" />
@@ -366,7 +371,7 @@
     <Compile Include="Script\Command\StoreStringScriptCommand.cs" />
     <Compile Include="Script\Command\DataStoreIndexScriptCommand.cs" />
     <Compile Include="Script\Command\DataStoreValueByIndexScriptCommand.cs" />
-    <Compile Include="Script\Command\SwitchMenuScriptCommand.cs" />
+    <Compile Include="Script\Command\ChangeMenuScriptCommand.cs" />
     <Compile Include="Script\Command\SwitchScriptCommand.cs" />
     <Compile Include="Script\Command\ThreadCreateScriptCommand.cs" />
     <Compile Include="Script\Command\ThreadStopScriptCommand.cs" />

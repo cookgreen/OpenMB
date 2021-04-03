@@ -254,7 +254,22 @@ namespace OpenMB
 			return true;
 		}
 
-		public void SwitchFullScreen()
+        public void DisplayLogMessage(string message, LogType logType)
+        {
+			string color = "0xffffff";
+			switch(logType)
+            {
+				case LogType.Error:
+					color = "0xff0000";
+					break;
+				case LogType.Warning:
+					color = "0xff00ff";
+					break;
+            }
+			OutputManager.Instance.DisplayMessage(message, color);
+        }
+
+        public void SwitchFullScreen()
 		{
 			renderWindow.SetFullscreen(
 				!renderWindow.IsFullScreen,

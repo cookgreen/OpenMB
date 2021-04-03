@@ -2,7 +2,7 @@
 
 namespace OpenMB.Script.Command
 {
-	internal class CaseScriptCommand : ScriptCommand
+	internal class SwitchCaseScriptCommand : ScriptCommand
 	{
 		private string[] commandArgs;
 
@@ -30,7 +30,7 @@ namespace OpenMB.Script.Command
 			}
 		}
 
-		public CaseScriptCommand()
+		public SwitchCaseScriptCommand()
 		{
 			commandArgs = new string[]
 			{

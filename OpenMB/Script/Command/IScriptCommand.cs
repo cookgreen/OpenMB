@@ -11,6 +11,8 @@ namespace OpenMB.Script.Command
 		Line,
 		Block,
 		Conditional,
+		ConditionControl,
+		ConditionTurining,
 		End
 	}
 	public interface IScriptCommand

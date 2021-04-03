@@ -51,8 +51,8 @@ namespace OpenMB.Script.Command
 			var value = getVariableValue(commandArgs[0]);
 			foreach (var command in SubCommands)
 			{
-				if (command.GetType() == typeof(CaseScriptCommand) &&
-					(command as CaseScriptCommand).CommandArgs[0].ToString() == value.ToString())
+				if (command.GetType() == typeof(SwitchCaseScriptCommand) &&
+					(command as SwitchCaseScriptCommand).CommandArgs[0].ToString() == value.ToString())
 				{
 					command.Execute(executeArgs);
 					return;

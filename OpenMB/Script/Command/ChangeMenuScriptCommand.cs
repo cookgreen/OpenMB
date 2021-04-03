@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Script.Command
 {
-	class SwitchMenuScriptCommand : ScriptCommand
+	class ChangeMenuScriptCommand : ScriptCommand
 	{
 		private string[] commandArgs;
 
@@ -27,7 +27,7 @@ namespace OpenMB.Script.Command
 			get { return commandArgs; }
 		}
 
-		public SwitchMenuScriptCommand()
+		public ChangeMenuScriptCommand()
 		{
 			commandArgs = new string[]
 			{

@@ -57,9 +57,8 @@ namespace OpenMB.Script
 
 		public void Parse(string groupName, params object[] runArgs)
 		{
-			ScriptCommand currentCommand = null;
-			currentCommand = root;
-			DataStreamPtr dataStream = ResourceGroupManager.Singleton.OpenResource(FileName, groupName);
+            ScriptCommand previousCommand = root;
+            DataStreamPtr dataStream = ResourceGroupManager.Singleton.OpenResource(FileName, groupName);
 			string dataString = dataStream.AsString;
 
 			string[] lines = dataString.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
@@ -88,42 +87,66 @@ namespace OpenMB.Script
 				}
 				try
 				{
-					if (i == 3)
-					{
-					}
-					ScriptCommand scriptCommand;
-					scriptCommand = Activator.CreateInstance(registeredCommand[lineToken[0]]) as ScriptCommand;
-					scriptCommand.ParentCommand = currentCommand;
-					scriptCommand.Context = Context;
+					ScriptCommand currentCommand;
+					currentCommand = Activator.CreateInstance(registeredCommand[lineToken[0]]) as ScriptCommand;
+					currentCommand.ParentCommand = previousCommand;
+					currentCommand.Context = Context;
 					int tokenLength = lineToken.Length;
 					
 					for (int j = 1; j < tokenLength; j++)
 					{
-						scriptCommand.PushArg(lineToken[j], j - 1);
+						currentCommand.PushArg(lineToken[j], j - 1);
 					}
-					switch (scriptCommand.CommandType)
+					switch (currentCommand.CommandType)
 					{
 						case ScriptCommandType.Line:
-							currentCommand.AddSubCommand(scriptCommand);
+							previousCommand.AddSubCommand(currentCommand);
 							break;
+						case ScriptCommandType.ConditionControl:
 						case ScriptCommandType.Block:
-							currentCommand.AddSubCommand(scriptCommand);
-							currentCommand = scriptCommand;
+							previousCommand.AddSubCommand(currentCommand);
+							previousCommand = currentCommand;
 							break;
 						case ScriptCommandType.End:
-							switch (currentCommand.CommandName)
+							switch (previousCommand.CommandName)
 							{
 								case "function":
-									Context.RegisterFunction(currentCommand.CommandArgs[0], currentCommand.SubCommands);
+									Context.RegisterFunction(previousCommand.CommandArgs[0], previousCommand.SubCommands);
 									break;
 							}
-							currentCommand = currentCommand.ParentCommand;
+							previousCommand = previousCommand.ParentCommand;
+							break;
+						case ScriptCommandType.ConditionTurining:
+							if (previousCommand.ParentCommand.CommandType == ScriptCommandType.ConditionTurining)
+							{
+								previousCommand = previousCommand.ParentCommand.ParentCommand;
+							}
+							else if(previousCommand.ParentCommand.CommandType == ScriptCommandType.ConditionControl)
+							{
+								previousCommand = previousCommand.ParentCommand;
+							}
+                            else
+                            {
+								//Error
+								GameManager.Instance.DisplayLogMessage("Condition turning statement must be inside the conditional control block", LogMessage.LogType.Error);
+								continue;
+                            }
+
+							previousCommand = previousCommand.ParentCommand;
+
+							previousCommand.AddSubCommand(currentCommand);
+							previousCommand = currentCommand;
+
+							if (previousCommand.CommandType == ScriptCommandType.ConditionTurining)
+							{
+								previousCommand = previousCommand.ParentCommand;
+							}
 							break;
 					}
 				}
 				catch
 				{
-					currentCommand = null;
+					previousCommand = null;
 					GameManager.Instance.log.LogMessage("Script Command '" + lineToken[0] + "' Error At Line: " + (i + 1).ToString(), LogMessage.LogType.Error);
 					continue;
 				}
@@ -171,22 +194,22 @@ namespace OpenMB.Script
 						scriptCommand.ParentCommand = currentCommand;
 						scriptCommand.Context = Context;
 						int tokenLength = lineToken.Length;
-						if (scriptCommand.CommandType == ScriptCommandType.Conditional)
+						//if (scriptCommand.CommandType == ScriptCommandType.Conditional)
+						//{
+						//	StringBuilder builder = new StringBuilder();
+						//	for (int j = 1; j < tokenLength; j++)
+						//	{
+						//		builder.Append(lineToken[j]);
+						//	}
+						//	scriptCommand.PushArg(builder.ToString(), 0);
+						//}
+						//else
+						//{
+						for (int j = 1; j < tokenLength; j++)
 						{
-							StringBuilder builder = new StringBuilder();
-							for (int j = 1; j < tokenLength; j++)
-							{
-								builder.Append(lineToken[j]);
-							}
-							scriptCommand.PushArg(builder.ToString(), 0);
+							scriptCommand.PushArg(lineToken[j], j - 1);
 						}
-						else
-						{
-							for (int j = 1; j < tokenLength; j++)
-							{
-								scriptCommand.PushArg(lineToken[j], j - 1);
-							}
-						}
+						//}
 						switch (scriptCommand.CommandType)
 						{
 							case ScriptCommandType.Line:
