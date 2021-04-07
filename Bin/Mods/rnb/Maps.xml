@@ -7,10 +7,6 @@
     <Name>Sanjianfang Railway Station</Name>
     <File>map_sanjianfang_railwaystation.xml</File>
   </Map>
-  <Map ID="map_daxing_railwaystation" Loader="Xml">
-    <Name>Daxing Railway Station</Name>
-    <File>map_daxing_railwaystation.xml</File>
-  </Map>
   <Map ID="map_angangxi_railwaystation" Loader="Xml">
     <Name>AngAngXi Railway Station</Name>
     <File>map_angangxi_railwaystation.xml</File>
@@ -30,22 +26,6 @@
   <Map ID="map_partizan_secret_camp" Loader="Xml">
     <Name>Partizan Secret Camp</Name>
     <File>map_partizan_secret_camp.xml</File>
-  </Map>
-  <Map ID="map_labor_camp" Loader="Xml">
-    <Name>Labor Camp</Name>
-    <File>map_labor_camp.xml</File>
-  </Map>
-  <Map ID="map_forest_police_camp" Loader="Xml">
-    <Name>Forest Police Garrison</Name>
-    <File>map_forest_police_camp.xml</File>
-  </Map>
-  <Map ID="map_japanese_camp " Loader="Xml">
-    <Name>Japanese Camp</Name>
-    <File>map_japanese_camp.xml</File>
-  </Map>
-  <Map ID="map_japanese_dock " Loader="Xml">
-    <Name>Japanese Dock</Name>
-    <File>map_japanese_dock.xml</File>
   </Map>
   <Map ID="map_taonan" Loader="Xml">
     <Name>Taonan</Name>
@@ -75,28 +55,8 @@
     <Name>Shenyang</Name>
     <File>map_shenyang.xml</File>
   </Map>
-  <Map ID="map_dongning" Loader="Xml">
-    <Name>Dongning</Name>
-    <File>map_dongning.xml</File>
-  </Map>
-  <Map ID="map_hutou" Loader="Xml">
-    <Name>Hutou</Name>
-    <File>map_hutou.xml</File>
-  </Map>
-  <Map ID="map_hailar " Loader="Xml">
-    <Name>Hailar</Name>
-    <File>map_hailar .xml</File>
-  </Map>
   <Map ID="map_beiliin_suem" Loader="Xml">
     <Name>Beiliin Suem</Name>
     <File>map_beiliin_suem.xml</File>
-  </Map>
-  <Map ID="map_honggeertu" Loader="Xml">
-    <Name>Honggeertu</Name>
-    <File>map_honggeertu.xml</File>
-  </Map>
-  <Map ID="map_wubulangkou" Loader="Xml">
-    <Name>Wubulangkou</Name>
-    <File>map_wubulangkou .xml</File>
   </Map>
 </Maps>
