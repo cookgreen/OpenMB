@@ -1,9 +1,0 @@
-<WorldMaps>
-	<WorldMap>
-    <ID>WMP_OIM</ID>
-    <Name>World Map OIM</Name>
-    <Map>MAP_WORLDMAP_OIM</Map>
-    <Flags>
-    </Flags>
-	</WorldMap>
-</WorldMaps>
