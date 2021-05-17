@@ -6,6 +6,9 @@
 ## Introduction:
 Open Source role-playing game engine for Taleworlds' Mount&Blade Series written in C# using Ogre3d Engine
 
+## Environment:  
+.Net Framework v4.7.2  
+
 ## Feature:
 * Mutipler world map
 * Customize Item Type
