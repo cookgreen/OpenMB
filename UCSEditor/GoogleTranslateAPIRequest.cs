@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenMB.Utilities.UCSEditor
+namespace UCSEditor
 {
     public class GoogleTranslateAPIRequest
     {

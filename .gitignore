@@ -36,5 +36,6 @@ Mods/*/OpenMB.Mods.*.dll
 /Bin/app.ico
 /Bin/Media/Engine/Download/*.png
 
+!UCSEditorSetting.xml
 
 *.metagen

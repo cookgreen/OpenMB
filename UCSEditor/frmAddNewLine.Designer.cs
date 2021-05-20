@@ -1,4 +1,4 @@
-﻿namespace OpenMB.Utilities.UCSEditor
+﻿namespace UCSEditor
 {
     partial class frmAddNewLine
     {

@@ -1,5 +1,4 @@
-﻿using OpenMB.Utilities.UCSEditor;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace OpenMB.Utilities.LocateFileEditor
+namespace UCSEditor
 {
 	public partial class frmMain : Form
 	{

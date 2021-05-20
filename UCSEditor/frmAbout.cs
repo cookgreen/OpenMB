@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace OpenMB.Utilities.LocateFileEditor
+namespace UCSEditor
 {
 	public partial class frmAbout : Form
 	{

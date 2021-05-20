@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace OpenMB.Utilities.UCSEditor
+namespace UCSEditor
 {
     public partial class frmAddNewLine : Form
     {

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB", "OpenMB\OpenMB.csproj", "{70878EFC-AF3F-4792-AB2F-CE47EBCA487D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Utilities.UCSEditor", "OpenMB.Utilities.UCSEditor\OpenMB.Utilities.UCSEditor.csproj", "{CBFED84B-9253-40F3-AF15-28A8331C2375}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCSEditor", "UCSEditor\UCSEditor.csproj", "{CBFED84B-9253-40F3-AF15-28A8331C2375}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Mods.Common", "OpenMB.Mods.Common\OpenMB.Mods.Common.csproj", "{F58B2DAE-4DA4-40FA-95E1-F518AA140901}"
 EndProject

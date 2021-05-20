@@ -1,4 +1,4 @@
-﻿namespace OpenMB.Utilities.LocateFileEditor
+﻿namespace UCSEditor
 {
     partial class frmMain
     {
