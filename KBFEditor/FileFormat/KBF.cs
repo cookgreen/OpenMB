@@ -15,6 +15,7 @@ namespace KBFEditor.FileFormat
         private List<KBFEntry> meshEntries;
         private List<KBFEntry> materialEntries;
         private List<KBFEntry> textureEntries;
+        private List<KBFEntry> skeletonEntries;
 
         public List<KBFEntry> MeshEntries
         {
@@ -28,12 +29,17 @@ namespace KBFEditor.FileFormat
         {
             get { return textureEntries; }
         }
+        public List<KBFEntry> SkeletonEntries
+        {
+            get { return skeletonEntries; }
+        }
 
         public KBF()
         {
             meshEntries = new List<KBFEntry>();
             materialEntries = new List<KBFEntry>();
             textureEntries = new List<KBFEntry>();
+            skeletonEntries = new List<KBFEntry>();
         }
 
         public void AddMeshEntry(KBFEntry entry)
@@ -49,6 +55,11 @@ namespace KBFEditor.FileFormat
         public void AddTextureEntry(KBFEntry entry)
         {
             textureEntries.Add(entry);
+        }
+
+        public void AddSkeletonEntry(KBFEntry entry)
+        {
+            skeletonEntries.Add(entry);
         }
 
         public void Read(Stream stream)

@@ -82,7 +82,14 @@ namespace KBFEditor
 
         private void mnuImportSkeleton_Click(object sender, EventArgs e)
         {
-
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Ogre Skeleton File|*.skeleton";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var bytes = File.ReadAllBytes(dialog.FileName);
+                KBFEntry entry = new KBFEntry(dialog.SafeFileName, "skeleton", bytes);
+                currentFile.AddSkeletonEntry(entry);
+            }
         }
 
         private void mnuSaveFile_Click(object sender, EventArgs e)
