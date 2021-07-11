@@ -10,12 +10,12 @@ using OpenMB.Sound;
 using OpenMB.Utilities;
 using OpenMB.Mods.XML;
 
-namespace OpenMB.Game
+namespace OpenMB.Game.Controller
 {
 	/// <summary>
 	/// Controller used by Character
 	/// </summary>
-	public class CharacterController : EngineRenderable
+	public class CharacterController : GameObjectController
 	{
 		private const int CHAR_HEIGHT = 5;      // height of character's center of mass above ground
 		private const int CAM_HEIGHT = 2;          // height of camera above character's center of mass
@@ -87,9 +87,7 @@ namespace OpenMB.Game
 
 		public CharacterController(
 			GameWorld world,
-			ModCharacterDfnXML chaData,
-			ModCharacterSkinDfnXML chaSkin,
-			Mogre.Vector3 initPosition,
+			Character character,
 			bool isBot = true) : base(world.Camera)
 		{
 			this.world = world;
@@ -99,10 +97,10 @@ namespace OpenMB.Game
 			physicsScene = world.PhysicsScene;
 			physics = physicsScene.Physics;
 			cotrollerManager = physics.ControllerManager;
-			this.chaData = chaData;
-			this.chaSkin = chaSkin;
+			this.chaData = character.XmlData;
+			this.chaSkin = character.SkinXmlData;
 
-			setupBody(initPosition);
+			setupBody(character.Position);
 			if (controlled)
 			{
 				setupCamera(camera);

@@ -172,6 +172,12 @@
     <Compile Include="Core\InputKeyMouseManager.cs" />
     <Compile Include="Core\KeyMapperManager.cs" />
     <Compile Include="FileLoader\DotWorldMapLoader.cs" />
+    <Compile Include="Game\ControllerType\HourseControllerType.cs" />
+    <Compile Include="Game\ControllerType\IControllerType.cs" />
+    <Compile Include="Game\ControllerType\JeepControllerType.cs" />
+    <Compile Include="Game\Controller\GameObjectController.cs" />
+    <Compile Include="Game\Controller\RideController.cs" />
+    <Compile Include="Game\Controller\DriveController.cs" />
     <Compile Include="Game\DynamicGameObject.cs" />
     <Compile Include="Game\EntityMovementController.cs" />
     <Compile Include="Game\GameLocation.cs" />
@@ -179,6 +185,7 @@
     <Compile Include="Game\GameObjectState.cs" />
     <Compile Include="Game\GameObjectFiniteStateMachine.cs" />
     <Compile Include="Game\GameTeam.cs" />
+    <Compile Include="Game\Jeep.cs" />
     <Compile Include="Interfaces\IRenderPreview.cs" />
     <Compile Include="Game\ItemTypes\PlaceholderItemType.cs" />
     <Compile Include="Game\Vehicle.cs" />
@@ -221,7 +228,7 @@
     <Compile Include="Game\ControlObjType\IControlObjectType.cs" />
     <Compile Include="Game\ItemFactory.cs" />
     <Compile Include="Game\Character.cs" />
-    <Compile Include="Game\CharacterController.cs" />
+    <Compile Include="Game\Controller\CharacterController.cs" />
     <Compile Include="Game\GameObject.cs" />
     <Compile Include="Game\GameWorld.cs" />
     <Compile Include="Game\Inventory.cs" />

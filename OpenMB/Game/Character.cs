@@ -9,6 +9,7 @@ using OpenMB.Sound;
 using Mogre.PhysX;
 using org.critterai.nav;
 using OpenMB.Game.AIAction;
+using OpenMB.Game.Controller;
 using OpenMB.Mods.XML;
 
 namespace OpenMB.Game
@@ -40,11 +41,14 @@ namespace OpenMB.Game
 		private List<CharacterMessage> messageQueue;
 
 		private Activity currentActivity;
-		private ModCharacterSkinDfnXML skin;
-		private bool isBot;
-		private ModCharacterDfnXML chaData;
 		private string teamId;
 		private CharacterController controller;
+
+		private ModCharacterDfnXML xmlData;
+		private ModCharacterSkinDfnXML skinXmlData;
+
+		public ModCharacterDfnXML XmlData { get { return xmlData; } }
+		public ModCharacterSkinDfnXML SkinXmlData { get { return skinXmlData; } }
 
 		public int Id
 		{
@@ -54,7 +58,7 @@ namespace OpenMB.Game
 
 		public string Name
 		{
-			get { return chaData.Name; }
+			get { return xmlData.Name; }
 		}
 
 		public string TeamId
@@ -113,7 +117,7 @@ namespace OpenMB.Game
 		{
 			get
 			{
-				return chaData.ID;
+				return xmlData.ID;
 			}
 		}
 
@@ -127,15 +131,15 @@ namespace OpenMB.Game
 
 		public Character(
 			GameWorld world,
-			ModCharacterDfnXML chaData,
-			ModCharacterSkinDfnXML chaSkin,
+			ModCharacterDfnXML xmlData,
+			ModCharacterSkinDfnXML skinXmlData,
 			Mogre.Vector3 initPosition,
 			bool isBot) : base(-1, world)
 		{
 			this.world = world;
-			this.isBot = isBot;
-			this.chaData = chaData;
-			skin = chaSkin;
+			this.xmlData = xmlData;
+			this.skinXmlData = skinXmlData;
+			position = initPosition;
 			Id = id;
 			brain = new DecisionSystem(this);
 			weaponSystem = new WeaponSystem(this, null);
@@ -148,7 +152,7 @@ namespace OpenMB.Game
 
 			initEquipments();
 
-			renderable = new CharacterController(world, chaData, chaSkin, initPosition, isBot);
+			renderable = new CharacterController(world, this, isBot);
 			controller = (CharacterController)renderable;
 		}
 
@@ -159,7 +163,7 @@ namespace OpenMB.Game
 
 		private void initEquipments()
 		{
-			foreach (var item in chaData.Equipments)
+			foreach (var item in xmlData.Equipments)
 			{
 				var itemInfo = world.ModData.ItemInfos.Where(o => o.ID == item).FirstOrDefault();
 				if (itemInfo != null)
