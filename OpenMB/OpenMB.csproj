@@ -436,7 +436,7 @@
     <Compile Include="States\Loading.cs" />
     <Compile Include="States\SinglePlayer.cs" />
     <Compile Include="States\Multiplayer.cs" />
-    <Compile Include="Core\GameManager.cs" />
+    <Compile Include="Core\EngineManager.cs" />
     <Compile Include="Mods\ModData.cs" />
     <Compile Include="Mods\ModBaseInfo.cs" />
     <Compile Include="Network\SendData.cs" />
