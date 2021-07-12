@@ -332,7 +332,7 @@ namespace OpenMB.Screen
 							Mogre.Vector3 pos = Helper.ConvertScreenCoordToWorldCoord(
 								lastMousePos,
 								editor.Map.Camera,
-								GameManager.Instance.renderWindow);
+								EngineManager.Instance.renderWindow);
 							HandleObjectCreate(pos);
 							state = EditState.Edit;
 							operation = EditOperation.ChangingObjCoordFllowMouse;

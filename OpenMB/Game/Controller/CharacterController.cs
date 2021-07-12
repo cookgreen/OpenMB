@@ -145,7 +145,7 @@ namespace OpenMB.Game.Controller
 			}
 			catch (Exception ex)
 			{
-				GameManager.Instance.log.LogMessage("Engine Error: " + ex.Message);
+				EngineManager.Instance.log.LogMessage("Engine Error: " + ex.Message);
 				return false;
 			}
 		}
@@ -351,8 +351,8 @@ namespace OpenMB.Game.Controller
 			   textureName,
 			   ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
 			   TextureType.TEX_TYPE_2D,
-			   GameManager.Instance.renderWindow.Width,
-			   GameManager.Instance.renderWindow.Height,
+			   EngineManager.Instance.renderWindow.Width,
+			   EngineManager.Instance.renderWindow.Height,
 			   0,
 			   PixelFormat.PF_R8G8B8,
 			   (int)TextureUsage.TU_RENDERTARGET);

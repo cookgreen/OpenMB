@@ -54,7 +54,7 @@ namespace OpenMB.Mods.Common.ScriptCommands
 			var vector = world.GlobalValueTable.GetRecord(vectorName);
 			if (vector == null)
 			{
-				GameManager.Instance.log.LogMessage("Invalid Vector Name!", LogMessage.LogType.Error);
+				EngineManager.Instance.log.LogMessage("Invalid Vector Name!", LogMessage.LogType.Error);
 				return;
 			}
 			world.CreatePlayerSceneProp(getVariableValue(CommandArgs[0]).ToString(),

@@ -143,7 +143,7 @@ namespace OpenMB.Mods
 				var stream = Utilities.Helper.DataPtrToStream(dataStreamPtr);
 
 				IntPtr hwnd;
-				GameManager.Instance.renderWindow.GetCustomAttribute("WINDOW", out hwnd);
+				EngineManager.Instance.renderWindow.GetCustomAttribute("WINDOW", out hwnd);
 				Utilities.Helper.SetRenderWindowIcon(new System.Drawing.Icon(stream), hwnd);
 			}
 		}
@@ -436,12 +436,12 @@ namespace OpenMB.Mods
 					}
 					catch (Exception ex)
 					{
-						GameManager.Instance.log.LogMessage("Error Loading Assembly, Details: " + ex.ToString(), LogMessage.LogType.Error);
+						EngineManager.Instance.log.LogMessage("Error Loading Assembly, Details: " + ex.ToString(), LogMessage.LogType.Error);
 					}
 				}
 				else
 				{
-					GameManager.Instance.log.LogMessage("Requested Assembly Path don't exist!", LogMessage.LogType.Error);
+					EngineManager.Instance.log.LogMessage("Requested Assembly Path don't exist!", LogMessage.LogType.Error);
 				}
 			}
 			//--------------------------------------------
@@ -510,7 +510,7 @@ namespace OpenMB.Mods
 					string itemType = currentMod.ItemInfos[j].Type;
 					string itemID = currentMod.ItemInfos[j].ID;
 					currentMod.ItemInfos.Remove(currentMod.ItemInfos[j]);
-					GameManager.Instance.log.LogMessage(
+					EngineManager.Instance.log.LogMessage(
 						string.Format("Unrecognized Item Type `{0}` in Item `{1}`", itemType, itemID),
 						LogMessage.LogType.Error
 					);
@@ -590,7 +590,7 @@ namespace OpenMB.Mods
 
 		private string getModInstallRootDir()
 		{
-			modInstallRootDir = GameManager.Instance.gameOptions.ModConfig.ModDir;
+			modInstallRootDir = EngineManager.Instance.gameOptions.ModConfig.ModDir;
 			return modInstallRootDir;
 		}
 

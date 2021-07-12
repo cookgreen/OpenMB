@@ -27,22 +27,22 @@ namespace OpenMB.States
 		public override void enter(Mods.ModData e = null)
 		{
 			modData = e;
-			sceneMgr = GameManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
+			sceneMgr = EngineManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
 			ColourValue cvAmbineLight = new ColourValue(0.7f, 0.7f, 0.7f);
 			sceneMgr.AmbientLight = cvAmbineLight;
 			camera = sceneMgr.CreateCamera("multiplayerCam");
-			GameManager.Instance.viewport.Camera = camera;
-			camera.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
-			GameManager.Instance.viewport.OverlaysEnabled = true;
+			EngineManager.Instance.viewport.Camera = camera;
+			camera.AspectRatio = EngineManager.Instance.viewport.ActualWidth / EngineManager.Instance.viewport.ActualHeight;
+			EngineManager.Instance.viewport.OverlaysEnabled = true;
 
 			ScreenManager.Instance.OnExternalEvent += OnExternalEvent;
 			ScreenManager.Instance.ChangeScreen("MultiplayerServerBrowser", true, modData);
 
-			GameManager.Instance.mouse.MouseMoved += mouseMoved;
-			GameManager.Instance.mouse.MousePressed += mousePressed;
-			GameManager.Instance.mouse.MouseReleased += mouseReleased;
-			GameManager.Instance.keyboard.KeyPressed += keyPressed;
-			GameManager.Instance.keyboard.KeyReleased += keyReleased;
+			EngineManager.Instance.mouse.MouseMoved += mouseMoved;
+			EngineManager.Instance.mouse.MousePressed += mousePressed;
+			EngineManager.Instance.mouse.MouseReleased += mouseReleased;
+			EngineManager.Instance.keyboard.KeyPressed += keyPressed;
+			EngineManager.Instance.keyboard.KeyReleased += keyReleased;
 		}
 
 		public bool keyPressed(KeyEvent keyEventRef)
@@ -114,7 +114,7 @@ namespace OpenMB.States
 			if (sceneMgr != null)
 			{
 				sceneMgr.DestroyCamera(camera);
-				GameManager.Instance.root.DestroySceneManager(sceneMgr);
+				EngineManager.Instance.root.DestroySceneManager(sceneMgr);
 			}
 			if (thisServer != null)
 			{

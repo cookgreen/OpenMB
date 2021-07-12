@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenMB.Game.ControlObjType;
 using System.IO;
 using OpenMB.Mods.XML;
 
@@ -173,17 +172,17 @@ namespace OpenMB.Map
 
 			InitSkyBoxByTime();
 
-			GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
-			GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
-			GameManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
-			GameManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
-			GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
+			EngineManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
+			EngineManager.Instance.mouse.MousePressed += Mouse_MousePressed;
+			EngineManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
+			EngineManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
+			EngineManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
 
 		}
 
 		private void InitSkyBoxByTime()
 		{
-			sceneManager.SetSkyBox(true, world.GetSkyboxMaterialByTime(TimerManager.Instance.CurrentTime));
+			sceneManager.SetSkyBox(true, world.GetSkyboxMaterialByTime(GameTimeManager.Instance.CurrentTime));
 		}
 
 		private void Loader_LoadMapFinished()
@@ -240,7 +239,7 @@ namespace OpenMB.Map
 			var findTrooperList = ModData.CharacterInfos.Where(o => o.ID == characterTypeID);
 			if (findTrooperList.Count() == 0)
 			{
-				GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid trooper id!", LogMessage.LogType.Warning);
+				EngineManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid trooper id!", LogMessage.LogType.Warning);
 				return;
 			}
 			var chaData = findTrooperList.First();
@@ -248,7 +247,7 @@ namespace OpenMB.Map
 			var findSkinList = ModData.SkinInfos.Where(o => o.ID == chaData.Skin);
 			if (findSkinList.Count() == 0)
 			{
-				GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid skin id!", LogMessage.LogType.Warning);
+				EngineManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid skin id!", LogMessage.LogType.Warning);
 				return;
 			}
 			var chaSkin = findSkinList.First();
@@ -281,7 +280,7 @@ namespace OpenMB.Map
 			var findTrooperList = ModData.CharacterInfos.Where(o => o.ID == characterTypeID);
 			if (findTrooperList.Count() == 0)
 			{
-				GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid trooper id!", LogMessage.LogType.Warning);
+				EngineManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid trooper id!", LogMessage.LogType.Warning);
 				return;
 			}
 			var chaData = findTrooperList.First();
@@ -289,7 +288,7 @@ namespace OpenMB.Map
 			var findSkinList = ModData.SkinInfos.Where(o => o.ID == chaData.Skin);
 			if (findSkinList.Count() == 0)
 			{
-				GameManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid skin id!", LogMessage.LogType.Warning);
+				EngineManager.Instance.log.LogMessage("CREATE TROOP FAILED: Invalid skin id!", LogMessage.LogType.Warning);
 				return;
 			}
 			var chaSkin = findSkinList.First();
@@ -310,10 +309,10 @@ namespace OpenMB.Map
 			character.TeamId = teamId;
 			if (player != null)
 			{
-				GameManager.Instance.log.LogMessage("TRY TO ASSIGN TROOPER AS PLAYER FAILED: There is already a player assigned!", LogMessage.LogType.Warning);
+				EngineManager.Instance.log.LogMessage("TRY TO ASSIGN TROOPER AS PLAYER FAILED: There is already a player assigned!", LogMessage.LogType.Warning);
 				return;
 			}
-			player = new Player(chaData.Name, chaData.ID, new ControlObjectTypeCharacter(character));
+			player = new Player(chaData.Name, chaData.ID);
 			gameObjects[characterTypeID].Add(character);
 		}
 
@@ -525,7 +524,7 @@ namespace OpenMB.Map
 						//Press `E` normally
 						cameraHanlder.InjectKeyPressed(arg);
 					}
-					else if (!GameManager.Instance.IS_ENABLE_EDIT_MODE)
+					else if (!EngineManager.Instance.IS_ENABLE_EDIT_MODE)
 					{
 						break;//Press `Ctrl+E` but EditMode is disabled
 					}
@@ -623,11 +622,11 @@ namespace OpenMB.Map
 
 		public void Destroy()
 		{
-			GameManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
-			GameManager.Instance.mouse.MousePressed -= Mouse_MousePressed;
-			GameManager.Instance.mouse.MouseReleased -= Mouse_MouseReleased;
-			GameManager.Instance.keyboard.KeyPressed -= Keyboard_KeyPressed;
-			GameManager.Instance.keyboard.KeyReleased -= Keyboard_KeyReleased;
+			EngineManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
+			EngineManager.Instance.mouse.MousePressed -= Mouse_MousePressed;
+			EngineManager.Instance.mouse.MouseReleased -= Mouse_MouseReleased;
+			EngineManager.Instance.keyboard.KeyPressed -= Keyboard_KeyPressed;
+			EngineManager.Instance.keyboard.KeyReleased -= Keyboard_KeyReleased;
 		}
 
 		public void LoadAsync()

@@ -48,7 +48,7 @@ namespace OpenMB.Script.Command
 			int index = -1;
 			if (!int.TryParse(strIndex, out index))
 			{
-				GameManager.Instance.log.LogMessage(string.Format("Invalid List index value: `{0}`!", strIndex), LogMessage.LogType.Error);
+				EngineManager.Instance.log.LogMessage(string.Format("Invalid List index value: `{0}`!", strIndex), LogMessage.LogType.Error);
 				return;
 			}
 
@@ -63,17 +63,17 @@ namespace OpenMB.Script.Command
 					}
 					else
 					{
-						GameManager.Instance.log.LogMessage(string.Format("Invalid List index value: `{0}`!", strIndex), LogMessage.LogType.Error);
+						EngineManager.Instance.log.LogMessage(string.Format("Invalid List index value: `{0}`!", strIndex), LogMessage.LogType.Error);
 					}
 				}
 				else
 				{
-					GameManager.Instance.log.LogMessage(string.Format("Invalid List index value: `{0}`!", strIndex), LogMessage.LogType.Error);
+					EngineManager.Instance.log.LogMessage(string.Format("Invalid List index value: `{0}`!", strIndex), LogMessage.LogType.Error);
 				}
 			}
 			else
 			{
-				GameManager.Instance.log.LogMessage(string.Format("Couldn't find list with name `{0}`!", listVariable), LogMessage.LogType.Error);
+				EngineManager.Instance.log.LogMessage(string.Format("Couldn't find list with name `{0}`!", listVariable), LogMessage.LogType.Error);
 			}
 		}
 	}

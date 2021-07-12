@@ -17,7 +17,7 @@ namespace OpenMB.Game
 			this.controller = controller;
 			this.controlledVehicle = controlledVehicle;
 
-			GameManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
+			EngineManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
 		}
 
 		public void RotateTurrent(float angle)

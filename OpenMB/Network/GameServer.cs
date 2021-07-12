@@ -58,8 +58,8 @@ namespace OpenMB.Network
 		{
 			listener = new TcpListener(new IPAddress(new byte[] { 127, 0, 0, 1 }), 7458);
 
-			GameManager.Instance.keyboard.KeyPressed += new KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
-			GameManager.Instance.keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
+			EngineManager.Instance.keyboard.KeyPressed += new KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
+			EngineManager.Instance.keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
 		}
 
 		bool mKeyboard_KeyReleased(KeyEvent arg)

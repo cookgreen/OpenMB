@@ -53,7 +53,7 @@ namespace OpenMB.Script.Command
 					}
 					else
 					{
-						GameManager.Instance.log.LogMessage(string.Format("Function `{0}` didn't exist!", commandArgs[0]), LogMessage.LogType.Error);
+						EngineManager.Instance.log.LogMessage(string.Format("Function `{0}` didn't exist!", commandArgs[0]), LogMessage.LogType.Error);
 					}
 				}
 			}

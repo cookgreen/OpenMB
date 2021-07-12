@@ -106,7 +106,7 @@ namespace OpenMB.Screen
 
 		public override void Exit()
 		{
-			TimerManager.Instance.Resume();
+			GameTimeManager.Instance.Resume();
 
 			UIManager.Instance.DestroyAllWidgets();
 		}

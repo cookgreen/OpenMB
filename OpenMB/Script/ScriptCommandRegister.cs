@@ -42,12 +42,12 @@ namespace OpenMB.Script
 				}
 				else
 				{
-					GameManager.Instance.log.LogMessage(string.Format("The type with name `{0}` has been already registered into the engine!", type.FullName), LogMessage.LogType.Warning);
+					EngineManager.Instance.log.LogMessage(string.Format("The type with name `{0}` has been already registered into the engine!", type.FullName), LogMessage.LogType.Warning);
 				}
 			}
 			else
 			{
-				GameManager.Instance.log.LogMessage(string.Format("The command with name `{0}` has been already registered into the engine!", commandName), LogMessage.LogType.Warning);
+				EngineManager.Instance.log.LogMessage(string.Format("The command with name `{0}` has been already registered into the engine!", commandName), LogMessage.LogType.Warning);
 			}
 		}
 	}

@@ -57,12 +57,12 @@ namespace OpenMB.States
 
 		protected virtual void ReConfigure(string renderName, Dictionary<string, string> displayOptions)
 		{
-			RenderSystem rs = GameManager.Instance.root.GetRenderSystemByName(renderName);
+			RenderSystem rs = EngineManager.Instance.root.GetRenderSystemByName(renderName);
 			foreach (var kpl in displayOptions)
 			{
 				rs.SetConfigOption(kpl.Key, kpl.Value);
 			}
-			GameManager.Instance.root.QueueEndRendering();
+			EngineManager.Instance.root.QueueEndRendering();
 		}
 	}
 }

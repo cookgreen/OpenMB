@@ -11,11 +11,11 @@ namespace OpenMB.UI.Widgets
 	{
 		public Control()
 		{
-			GameManager.Instance.mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mMouse_MouseReleased);
-			GameManager.Instance.mouse.MousePressed += new MouseListener.MousePressedHandler(mMouse_MousePressed);
-			GameManager.Instance.mouse.MouseMoved += new MouseListener.MouseMovedHandler(mMouse_MouseMoved);
-			GameManager.Instance.keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
-			GameManager.Instance.keyboard.KeyPressed += new KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
+			EngineManager.Instance.mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mMouse_MouseReleased);
+			EngineManager.Instance.mouse.MousePressed += new MouseListener.MousePressedHandler(mMouse_MousePressed);
+			EngineManager.Instance.mouse.MouseMoved += new MouseListener.MouseMovedHandler(mMouse_MouseMoved);
+			EngineManager.Instance.keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(mKeyboard_KeyReleased);
+			EngineManager.Instance.keyboard.KeyPressed += new KeyListener.KeyPressedHandler(mKeyboard_KeyPressed);
 		}
 
 		bool mMouse_MouseReleased(MouseEvent arg, MouseButtonID id)

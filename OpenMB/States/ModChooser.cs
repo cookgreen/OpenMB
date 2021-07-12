@@ -50,7 +50,7 @@ namespace OpenMB.States
 
 		public override void enter(ModData e = null)
 		{
-			sceneMgr = GameManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "ModChooserSceneMgr");
+			sceneMgr = EngineManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "ModChooserSceneMgr");
 
 			ColourValue cvAmbineLight = new ColourValue(0.7f, 0.7f, 0.7f);
 			sceneMgr.AmbientLight = cvAmbineLight;
@@ -61,9 +61,9 @@ namespace OpenMB.States
 			camera.LookAt(vectorCameraLookat);
 			camera.NearClipDistance = 1;
 
-			camera.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
+			camera.AspectRatio = EngineManager.Instance.viewport.ActualWidth / EngineManager.Instance.viewport.ActualHeight;
 
-			GameManager.Instance.viewport.Camera = camera;
+			EngineManager.Instance.viewport.Camera = camera;
 			modDisplayDataList.Clear();
 
 			mods = ModManager.Instance.GetInstalledMods();
@@ -102,7 +102,7 @@ namespace OpenMB.States
 			btnPlay.OnClick += (o) =>
 			{
 				string modID = modDisplayDataList.Where(a => a.Name == selectedModName).First().ID;
-				GameManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", modID, "MainMenu");
+				EngineManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", modID, "MainMenu");
 				changeAppState(findByName("Loading"));
 			};
 			btnMods.OnClick += (o) =>
@@ -116,10 +116,10 @@ namespace OpenMB.States
 
 			setupModMenu();
 
-			GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
-			GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
-			GameManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
-			GameManager.Instance.root.FrameRenderingQueued += FrameRenderingQueued;
+			EngineManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
+			EngineManager.Instance.mouse.MousePressed += Mouse_MousePressed;
+			EngineManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
+			EngineManager.Instance.root.FrameRenderingQueued += FrameRenderingQueued;
 		}
 
 		bool FrameRenderingQueued(FrameEvent evt)
@@ -231,20 +231,20 @@ namespace OpenMB.States
 			sceneMgr.DestroyCamera(camera);
 			if (sceneMgr != null)
 			{
-				GameManager.Instance.root.DestroySceneManager(sceneMgr);
+				EngineManager.Instance.root.DestroySceneManager(sceneMgr);
 			}
 
-			GameManager.Instance.mouse.MouseMoved -= new MouseListener.MouseMovedHandler(Mouse_MouseMoved);
-			GameManager.Instance.root.FrameRenderingQueued -= new FrameListener.FrameRenderingQueuedHandler(FrameRenderingQueued);
+			EngineManager.Instance.mouse.MouseMoved -= new MouseListener.MouseMovedHandler(Mouse_MouseMoved);
+			EngineManager.Instance.root.FrameRenderingQueued -= new FrameListener.FrameRenderingQueuedHandler(FrameRenderingQueued);
 			foreach (BorderPanelOverlayElement bp in modThumbs)
 			{
 				UIManager.Instance.GetTraysLayer().Remove2D(bp);
 			}
 
-			GameManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
-			GameManager.Instance.mouse.MousePressed -= Mouse_MousePressed;
-			GameManager.Instance.mouse.MouseReleased -= Mouse_MouseReleased;
-			GameManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
+			EngineManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
+			EngineManager.Instance.mouse.MousePressed -= Mouse_MousePressed;
+			EngineManager.Instance.mouse.MouseReleased -= Mouse_MouseReleased;
+			EngineManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
 		}
 
 		public override void update(double timeSinceLastFrame)

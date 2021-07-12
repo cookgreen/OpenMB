@@ -150,14 +150,14 @@ namespace OpenMB.Game
 			GameMapManager.Instance.Initization(this);
 
 			/* Will implement them in the script or the map xml file */
-			scm = GameManager.Instance.root.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE, "GameSceneManager");
+			scm = EngineManager.Instance.root.CreateSceneManager(SceneType.ST_EXTERIOR_CLOSE, "GameSceneManager");
 			scm.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f);
 
 			cam = scm.CreateCamera("gameCam");
-			cam.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
+			cam.AspectRatio = EngineManager.Instance.viewport.ActualWidth / EngineManager.Instance.viewport.ActualHeight;
 			cam.NearClipDistance = 5;
 
-			GameManager.Instance.viewport.Camera = cam;
+			EngineManager.Instance.viewport.Camera = cam;
 
 			UIManager.Instance.DestroyAllWidgets();
 			cam.FarClipDistance = 50000;
@@ -172,15 +172,15 @@ namespace OpenMB.Game
 
 			ScreenManager.Instance.Camera = cam;
 
-			TimerManager.Instance.TimeChanged += TimeChanged;
+			GameTimeManager.Instance.TimeChanged += TimeChanged;
 
-			GameManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
-			GameManager.Instance.mouse.MousePressed += Mouse_MousePressed;
-			GameManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
-			GameManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
-			GameManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
+			EngineManager.Instance.mouse.MouseMoved += Mouse_MouseMoved;
+			EngineManager.Instance.mouse.MousePressed += Mouse_MousePressed;
+			EngineManager.Instance.mouse.MouseReleased += Mouse_MouseReleased;
+			EngineManager.Instance.keyboard.KeyPressed += Keyboard_KeyPressed;
+			EngineManager.Instance.keyboard.KeyReleased += Keyboard_KeyReleased;
 
-			GameManager.Instance.root.FrameRenderingQueued += FrameRenderingQueued;
+			EngineManager.Instance.root.FrameRenderingQueued += FrameRenderingQueued;
 
 			globalVariableTable = new Dictionary<string, object>();
 
@@ -212,7 +212,7 @@ namespace OpenMB.Game
 
 		private void TimeChanged()
 		{
-			var time = TimerManager.Instance.CurrentTime;
+			var time = GameTimeManager.Instance.CurrentTime;
 			scm.SetSkyBox(true, GetSkyboxMaterialByTime(time));
 		}
 
@@ -230,7 +230,7 @@ namespace OpenMB.Game
 		/// <param name="mapID"></param>
 		public void ChangeScene(string mapID, string mapTemplateID, List<string> sideIDs)
 		{
-			TimerManager.Instance.Pause();
+			GameTimeManager.Instance.Pause();
 			UIManager.Instance.HideCursor();
 			ScreenManager.Instance.ExitCurrentScreen();
 
@@ -307,12 +307,12 @@ namespace OpenMB.Game
 				}
 				else
 				{
-					GameManager.Instance.log.LogMessage(string.Format("Couldn't find map with ID `{0}`", findWorldMap.Map), LogMessage.LogType.Error);
+					EngineManager.Instance.log.LogMessage(string.Format("Couldn't find map with ID `{0}`", findWorldMap.Map), LogMessage.LogType.Error);
 				}
 			}
 			else
 			{
-				GameManager.Instance.log.LogMessage(string.Format("Couldn't find world map with ID `{0}`", worldMapID), LogMessage.LogType.Error);
+				EngineManager.Instance.log.LogMessage(string.Format("Couldn't find world map with ID `{0}`", worldMapID), LogMessage.LogType.Error);
 			}
 		}
 
@@ -323,17 +323,17 @@ namespace OpenMB.Game
 		{
 			GameMapManager.Instance.Dispose();
 
-			GameManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
-			GameManager.Instance.mouse.MousePressed -= Mouse_MousePressed;
-			GameManager.Instance.mouse.MouseReleased -= Mouse_MouseReleased;
-			GameManager.Instance.keyboard.KeyPressed -= Keyboard_KeyPressed;
-			GameManager.Instance.keyboard.KeyReleased -= Keyboard_KeyReleased;
-			GameManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
+			EngineManager.Instance.mouse.MouseMoved -= Mouse_MouseMoved;
+			EngineManager.Instance.mouse.MousePressed -= Mouse_MousePressed;
+			EngineManager.Instance.mouse.MouseReleased -= Mouse_MouseReleased;
+			EngineManager.Instance.keyboard.KeyPressed -= Keyboard_KeyPressed;
+			EngineManager.Instance.keyboard.KeyReleased -= Keyboard_KeyReleased;
+			EngineManager.Instance.root.FrameRenderingQueued -= FrameRenderingQueued;
 
-			TimerManager.Instance.Stop();
+			GameTimeManager.Instance.Stop();
 
 			scm.DestroyCamera(cam);
-			GameManager.Instance.root.DestroySceneManager(scm);
+			EngineManager.Instance.root.DestroySceneManager(scm);
 		}
 
 		#endregion
@@ -342,7 +342,7 @@ namespace OpenMB.Game
 		private bool FrameRenderingQueued(FrameEvent evt)
 		{
 			GameMapManager.Instance.Update(evt.timeSinceLastFrame);
-			TimerManager.Instance.Update();
+			GameTimeManager.Instance.Update();
 			return true;
 		}
 		#endregion

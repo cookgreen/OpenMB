@@ -82,7 +82,7 @@ namespace OpenMB.Script
 					{
 						func.Execute(executeArgs);
 
-						GameManager.Instance.log.LogMessage(
+						EngineManager.Instance.log.LogMessage(
 							string.Format("Execute Function `{0}` in file `{1}`",
 							func.Name, kpl.Value[i].FileName));
 						findedSpecificFunction = true;

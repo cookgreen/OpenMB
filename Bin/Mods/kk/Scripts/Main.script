@@ -2,8 +2,8 @@
 
 ## Single Player mode
 function StartSinglePlayerMode
-	call GameStart
-	#change_ui ui_game_main
+	call GameStartCampaign
+	#call GameStart
 end
 
 ## Load Saved Game
@@ -30,6 +30,11 @@ end
 ## ------------------ ##
 
 function GameStart
+	change_ui ui_game_main
+	game_set_time 720 3 19 6 0 0
+end
+
+function GameStartCampaign
 	campaign_list_init CampaignList.xml
 	change_ui ui_campaign_selector
 end

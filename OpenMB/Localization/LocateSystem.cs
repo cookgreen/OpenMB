@@ -170,7 +170,7 @@ namespace OpenMB.Localization
 			currentLanguage = supprotedLanguages.Where(o => o.ID == CurrentLocate.ToString()).FirstOrDefault();
 			if (currentLanguage == null)
 			{
-				GameManager.Instance.log.LogMessage(
+				EngineManager.Instance.log.LogMessage(
 					string.Format(
 						"The specific locate `{0}` isn't supported!",
 						CurrentLocate.ToString()),

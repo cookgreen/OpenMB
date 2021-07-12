@@ -53,7 +53,7 @@ namespace OpenMB.Script.Command
 			}
 			else
 			{
-				GameManager.Instance.log.LogMessage(string.Format("The list variable with name `{0}` already existed!", listVariable), LogMessage.LogType.Warning);
+				EngineManager.Instance.log.LogMessage(string.Format("The list variable with name `{0}` already existed!", listVariable), LogMessage.LogType.Warning);
 			}
 		}
 	}

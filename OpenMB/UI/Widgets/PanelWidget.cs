@@ -315,32 +315,32 @@ namespace OpenMB.UI.Widgets
 			switch (dock)
 			{
 				case DockMode.Fill:
-					widget.Height = RelativeToPixels(r.RealHeight, float.Parse(GameManager.Instance.VideoMode["Height"]));
-					widget.Width = RelativeToPixels(c.RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"]));
+					widget.Height = RelativeToPixels(r.RealHeight, float.Parse(EngineManager.Instance.VideoMode["Height"]));
+					widget.Width = RelativeToPixels(c.RealWidth, float.Parse(EngineManager.Instance.VideoMode["Width"]));
 					break;
 				case DockMode.FillHeight:
-					widget.Height = RelativeToPixels(r.RealHeight, float.Parse(GameManager.Instance.VideoMode["Height"]));
+					widget.Height = RelativeToPixels(r.RealHeight, float.Parse(EngineManager.Instance.VideoMode["Height"]));
 					break;
 				case DockMode.FillWidth:
-					widget.Width = RelativeToPixels(c.RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"]));
+					widget.Width = RelativeToPixels(c.RealWidth, float.Parse(EngineManager.Instance.VideoMode["Width"]));
 					break;
 				case DockMode.Center:
-					widget.Width = widget.Width * RelativeToPixels(c.RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"]));
+					widget.Width = widget.Width * RelativeToPixels(c.RealWidth, float.Parse(EngineManager.Instance.VideoMode["Width"]));
 					//widget.Height = widget.Height * r.AbosulteHeight;
 					break;
 				default:
-					widget.Width = RelativeToPixels(c.RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"]));
-					widget.Height = RelativeToPixels(r.RealHeight, float.Parse(GameManager.Instance.VideoMode["Height"]));
+					widget.Width = RelativeToPixels(c.RealWidth, float.Parse(EngineManager.Instance.VideoMode["Width"]));
+					widget.Height = RelativeToPixels(r.RealHeight, float.Parse(EngineManager.Instance.VideoMode["Height"]));
 					break;
 			}
 
 			if (c.Type == ValueType.Auto)
 			{
-				c.Width = PixelsToRelative(widget.Width, RelativeToPixels(c.RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"])));
+				c.Width = PixelsToRelative(widget.Width, RelativeToPixels(c.RealWidth, float.Parse(EngineManager.Instance.VideoMode["Width"])));
 			}
 			if (r.Type == ValueType.Auto)
 			{
-				r.Height = PixelsToRelative(widget.Height, RelativeToPixels(r.RealHeight, float.Parse(GameManager.Instance.VideoMode["Height"])));
+				r.Height = PixelsToRelative(widget.Height, RelativeToPixels(r.RealHeight, float.Parse(EngineManager.Instance.VideoMode["Height"])));
 			}
 
 			float relativeLeft = 0;
@@ -355,27 +355,27 @@ namespace OpenMB.UI.Widgets
 			}
 
 			widget.Left += relativeLeft;
-			widget.Top += RelativeToPixels(relativeTop, float.Parse(GameManager.Instance.VideoMode["Height"]));
+			widget.Top += RelativeToPixels(relativeTop, float.Parse(EngineManager.Instance.VideoMode["Height"]));
 
 			if (rowSpan > 1)
 			{
 				for (int i = 0; i < rowSpan - 1; i++)
 				{
-					widget.Height += RelativeToPixels(rows[i].RealHeight, float.Parse(GameManager.Instance.VideoMode["Height"]));
+					widget.Height += RelativeToPixels(rows[i].RealHeight, float.Parse(EngineManager.Instance.VideoMode["Height"]));
 				}
 			}
 			if (colSpan > 1)
 			{
 				for (int i = 0; i < colSpan - 1; i++)
 				{
-					widget.Width += RelativeToPixels(cols[i].RealWidth, float.Parse(GameManager.Instance.VideoMode["Width"]));
+					widget.Width += RelativeToPixels(cols[i].RealWidth, float.Parse(EngineManager.Instance.VideoMode["Width"]));
 				}
 			}
 
 			switch (hAlign)
 			{
 				case AlignMode.Center:
-					widget.Left = RelativeToPixels((c.RealWidth - widget.Width) / 2, float.Parse(GameManager.Instance.VideoMode["Width"]));
+					widget.Left = RelativeToPixels((c.RealWidth - widget.Width) / 2, float.Parse(EngineManager.Instance.VideoMode["Width"]));
 					break;
 				case AlignMode.Right:
 					break;
@@ -384,7 +384,7 @@ namespace OpenMB.UI.Widgets
 			switch (vAlign)
 			{
 				case AlignMode.Center:
-					widget.Top += RelativeToPixels((r.RealHeight - widget.Height) / 2, float.Parse(GameManager.Instance.VideoMode["Height"]));
+					widget.Top += RelativeToPixels((r.RealHeight - widget.Height) / 2, float.Parse(EngineManager.Instance.VideoMode["Height"]));
 					break;
 			}
 			widget.AddedToAnotherWidgetFinished(hAlign, relativeLeft, c.RealWidth, relativeTop, r.RealHeight);

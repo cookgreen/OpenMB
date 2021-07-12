@@ -32,7 +32,7 @@ namespace OpenMB.States
 			modData = e;
 			m_bQuit = false;
 
-			sceneMgr = GameManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
+			sceneMgr = EngineManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "MenuSceneMgr");
 			sceneMgr.AmbientLight = new ColourValue(0.7f, 0.7f, 0.7f); ;
 
 			camera = sceneMgr.CreateCamera("MenuCam");
@@ -40,11 +40,11 @@ namespace OpenMB.States
 			camera.NearClipDistance = 10;
 			camera.SetPosition(320, 240, 500);
 			camera.LookAt(new Mogre.Vector3(320, 240, 0));
-			GameManager.Instance.renderWindow.RemoveAllViewports();
-			GameManager.Instance.viewport = GameManager.Instance.renderWindow.AddViewport(null);
-			GameManager.Instance.viewport.BackgroundColour = new ColourValue(0.5f, 0.5f, 0.5f);
-			GameManager.Instance.viewport.Camera = camera;
-			camera.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
+			EngineManager.Instance.renderWindow.RemoveAllViewports();
+			EngineManager.Instance.viewport = EngineManager.Instance.renderWindow.AddViewport(null);
+			EngineManager.Instance.viewport.BackgroundColour = new ColourValue(0.5f, 0.5f, 0.5f);
+			EngineManager.Instance.viewport.Camera = camera;
+			camera.AspectRatio = EngineManager.Instance.viewport.ActualWidth / EngineManager.Instance.viewport.ActualHeight;
 
 			MusicSoundManager.Instance.InitSound(camera);
 			MusicSoundManager.Instance.PlayMusicByType(PlayType.MainMenu);
@@ -52,11 +52,11 @@ namespace OpenMB.States
 			ScreenManager.Instance.OnExternalEvent += OnExternalEvent;
 			ScreenManager.Instance.ChangeScreen("MainMenu", true, modData, sceneMgr);
 
-			GameManager.Instance.mouse.MouseMoved += mouseMoved;
-			GameManager.Instance.mouse.MousePressed += mousePressed;
-			GameManager.Instance.mouse.MouseReleased += mouseReleased;
-			GameManager.Instance.keyboard.KeyPressed += keyPressed;
-			GameManager.Instance.keyboard.KeyReleased += keyReleased;
+			EngineManager.Instance.mouse.MouseMoved += mouseMoved;
+			EngineManager.Instance.mouse.MousePressed += mousePressed;
+			EngineManager.Instance.mouse.MouseReleased += mouseReleased;
+			EngineManager.Instance.keyboard.KeyPressed += keyPressed;
+			EngineManager.Instance.keyboard.KeyReleased += keyReleased;
 
 		}
 
@@ -95,18 +95,18 @@ namespace OpenMB.States
 			sceneMgr.DestroyCamera(camera);
 			ScreenManager.Instance.ExitCurrentScreen();
 			UIManager.Instance.DestroyAllWidgets();
-			GameManager.Instance.root.DestroySceneManager(sceneMgr);
+			EngineManager.Instance.root.DestroySceneManager(sceneMgr);
 
-			GameManager.Instance.mouse.MouseMoved -= mouseMoved;
-			GameManager.Instance.mouse.MousePressed -= mousePressed;
-			GameManager.Instance.mouse.MouseReleased -= mouseReleased;
-			GameManager.Instance.keyboard.KeyPressed -= keyPressed;
-			GameManager.Instance.keyboard.KeyReleased -= keyReleased;
+			EngineManager.Instance.mouse.MouseMoved -= mouseMoved;
+			EngineManager.Instance.mouse.MousePressed -= mousePressed;
+			EngineManager.Instance.mouse.MouseReleased -= mouseReleased;
+			EngineManager.Instance.keyboard.KeyPressed -= keyPressed;
+			EngineManager.Instance.keyboard.KeyReleased -= keyReleased;
 		}
 
 		public bool keyPressed(KeyEvent keyEventRef)
 		{
-			if (GameManager.Instance.keyboard.IsKeyDown(MOIS.KeyCode.KC_ESCAPE))
+			if (EngineManager.Instance.keyboard.IsKeyDown(MOIS.KeyCode.KC_ESCAPE))
 			{
 				m_bQuit = true;
 				return true;
@@ -139,7 +139,7 @@ namespace OpenMB.States
 		{
 			bool isModified = false;
 			Dictionary<string, string> displayOptions = new Dictionary<string, string>();
-			ConfigOptionMap options = GameManager.Instance.root.GetRenderSystemByName(renderMenu.getSelectedItem()).GetConfigOptions();
+			ConfigOptionMap options = EngineManager.Instance.root.GetRenderSystemByName(renderMenu.getSelectedItem()).GetConfigOptions();
 			for (uint i = 3; i < UIManager.Instance.GetNumWidgets(renderMenu.GetTrayLocation()); i++)
 			{
 				SelectMenuWidget optionMenu = (SelectMenuWidget)UIManager.Instance.GetWidget(renderMenu.GetTrayLocation(), i);
@@ -170,13 +170,13 @@ namespace OpenMB.States
 			UIManager.Instance.CreateLabel(UIWidgetLocation.TL_CENTER, "lbConfig", "Configure");
 			renderMenu = UIManager.Instance.CreateLongSelectMenu(UIWidgetLocation.TL_CENTER, "rendersys", "Render System", 450, 240, 10);
 			List<string> rsNames = new List<string>();
-			Const_RenderSystemList rsList = GameManager.Instance.root.GetAvailableRenderers();
+			Const_RenderSystemList rsList = EngineManager.Instance.root.GetAvailableRenderers();
 			for (int i = 0; i < rsList.Count; i++)
 			{
 				rsNames.Add(rsList[i].Name);
 			}
 			renderMenu.SetItems(rsNames);
-			renderMenu.SelectItem(GameManager.Instance.root.RenderSystem.Name);
+			renderMenu.SelectItem(EngineManager.Instance.root.RenderSystem.Name);
 
 			UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnApply", "Apply");
 			UIManager.Instance.CreateButton(UIWidgetLocation.TL_RIGHT, "btnBack", "Back");
@@ -191,7 +191,7 @@ namespace OpenMB.States
 					UIManager.Instance.DestroyWidget(renderMenu.GetTrayLocation(), 2);
 				}
 				uint i = 0;
-				ConfigOptionMap options = GameManager.Instance.root.GetRenderSystemByName(renderMenu.getSelectedItem()).GetConfigOptions();
+				ConfigOptionMap options = EngineManager.Instance.root.GetRenderSystemByName(renderMenu.getSelectedItem()).GetConfigOptions();
 				foreach (var item in options)
 				{
 					i++;

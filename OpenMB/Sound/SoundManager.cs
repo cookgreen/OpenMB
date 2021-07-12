@@ -105,7 +105,7 @@ namespace OpenMB.Sound
 			}
 			catch (Exception ex)
 			{
-				GameManager.Instance.log.LogMessage(ex.Message, LogMessage.LogType.Error);
+				EngineManager.Instance.log.LogMessage(ex.Message, LogMessage.LogType.Error);
 				return false;
 			}
 		}

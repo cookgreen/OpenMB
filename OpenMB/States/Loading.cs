@@ -75,7 +75,7 @@ namespace OpenMB.States
 		public override void enter(ModData e = null)
 		{
 			modData = e;
-			sceneMgr = GameManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "LoadingSceneMgr");
+			sceneMgr = EngineManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "LoadingSceneMgr");
 
 			ColourValue cvAmbineLight = new ColourValue(0.7f, 0.7f, 0.7f);
 			sceneMgr.AmbientLight = cvAmbineLight;
@@ -86,28 +86,28 @@ namespace OpenMB.States
 			camera.LookAt(vectorCameraLookat);
 			camera.NearClipDistance = 1;
 
-			camera.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
+			camera.AspectRatio = EngineManager.Instance.viewport.ActualWidth / EngineManager.Instance.viewport.ActualHeight;
 
-			GameManager.Instance.viewport.Camera = camera;
+			EngineManager.Instance.viewport.Camera = camera;
 
 			UIManager.Instance.DestroyAllWidgets();
 			progressBar = UIManager.Instance.CreateProgressBar(UIWidgetLocation.TL_CENTER, "pbProcessBar", "Loading", 500, 300);
-			progressBar.setComment(GameManager.Instance.loadingData.Comment);
+			progressBar.setComment(EngineManager.Instance.loadingData.Comment);
 
-			switch (GameManager.Instance.loadingData.Type)
+			switch (EngineManager.Instance.loadingData.Type)
 			{
 				case LoadingType.LOADING_MOD:
 					ModManager.Instance.LoadingModProcessing += LoadingModProcessing;
 					ModManager.Instance.LoadingModFinished += LoadingModFinished;
-					ModManager.Instance.LoadMod(GameManager.Instance.loadingData.LoadingObjName);
+					ModManager.Instance.LoadMod(EngineManager.Instance.loadingData.LoadingObjName);
 					break;
 			}
 
-			GameManager.Instance.mouse.MouseMoved += mouseMoved;
-			GameManager.Instance.mouse.MousePressed += mousePressed;
-			GameManager.Instance.mouse.MouseReleased += mouseReleased;
-			GameManager.Instance.keyboard.KeyPressed += keyPressed;
-			GameManager.Instance.keyboard.KeyReleased += keyReleased;
+			EngineManager.Instance.mouse.MouseMoved += mouseMoved;
+			EngineManager.Instance.mouse.MousePressed += mousePressed;
+			EngineManager.Instance.mouse.MouseReleased += mouseReleased;
+			EngineManager.Instance.keyboard.KeyPressed += keyPressed;
+			EngineManager.Instance.keyboard.KeyReleased += keyReleased;
 		}
 
 		public bool keyPressed(KeyEvent keyEventRef)
@@ -138,7 +138,7 @@ namespace OpenMB.States
 		private void LoadingModFinished()
 		{
 			var modData = ModManager.Instance.ModData;
-			changeAppState(findByName(GameManager.Instance.loadingData.Data.ToString()), modData);
+			changeAppState(findByName(EngineManager.Instance.loadingData.Data.ToString()), modData);
 		}
 
 		private void LoadingModProcessing(int progress)
@@ -166,7 +166,7 @@ namespace OpenMB.States
 			UIManager.Instance.DestroyAllWidgets();
 			sceneMgr.DestroyCamera(camera);
 			if (sceneMgr != null)
-				GameManager.Instance.root.DestroySceneManager(sceneMgr);
+				EngineManager.Instance.root.DestroySceneManager(sceneMgr);
 
 			ModManager.Instance.LoadingModFinished -= LoadingModFinished;
 			ModManager.Instance.LoadingModProcessing -= LoadingModProcessing;

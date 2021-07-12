@@ -176,7 +176,7 @@ namespace OpenMB.Game
 		}
 		public void MoveCamera()
 		{
-			if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_LSHIFT))
+			if (EngineManager.Instance.keyboard.IsKeyDown(KeyCode.KC_LSHIFT))
 				camera.MoveRelative(cameraMovement);
 			camera.MoveRelative(cameraMovement / 10);
 		}

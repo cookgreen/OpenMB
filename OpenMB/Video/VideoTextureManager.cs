@@ -67,7 +67,7 @@ namespace OpenMB.Video
 			}
 			catch (Exception ex)
 			{
-				GameManager.Instance.log.LogMessage("[Engine Warning]: Image Data Exception. Detals:" + ex.ToString());
+				EngineManager.Instance.log.LogMessage("[Engine Warning]: Image Data Exception. Detals:" + ex.ToString());
 			}
 			finally
 			{

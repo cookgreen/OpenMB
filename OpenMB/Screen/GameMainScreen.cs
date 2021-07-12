@@ -34,7 +34,7 @@ namespace OpenMB.Screen
 		public override void Init(params object[] param)
 		{
 			this.param = param;
-			TimerManager.Instance.Resume();
+			GameTimeManager.Instance.Resume();
 		}
 
 		public override void Run()
@@ -54,7 +54,7 @@ namespace OpenMB.Screen
 			btnTerrain.Top = 0.025f;
 			btnTerrain.OnClick += BtnTerrain_OnClick;
 			gameMainPanel.AddWidget(1, 1, btnTerrain, AlignMode.Left, AlignMode.Center, DockMode.FillWidth);
-			if (!GameManager.Instance.IS_ENABLE_EDIT_MODE)
+			if (!EngineManager.Instance.IS_ENABLE_EDIT_MODE)
 			{
 				btnTerrain.Hide();
 			}
@@ -95,8 +95,8 @@ namespace OpenMB.Screen
 			btnParty.OnClick += BtnParty_OnClick;
 			gameMainPanel.AddWidget(1, 7, btnParty, AlignMode.Left, AlignMode.Center, DockMode.FillWidth);
 
-			txtCurrentDate = UIManager.Instance.CreateStaticText("gameDate", TimerManager.Instance.GetDate());
-			txtCurrentTime = UIManager.Instance.CreateStaticText("gameTime", TimerManager.Instance.CurrentTime.ToString());
+			txtCurrentDate = UIManager.Instance.CreateStaticText("gameDate", GameTimeManager.Instance.GetDate());
+			txtCurrentTime = UIManager.Instance.CreateStaticText("gameTime", GameTimeManager.Instance.CurrentTime.ToString());
 			txtCurrentDate.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			txtCurrentTime.MetricMode = GuiMetricsMode.GMM_RELATIVE;
 			txtCurrentDate.Top = 0.015f;
@@ -142,15 +142,15 @@ namespace OpenMB.Screen
 
 		public override void Exit()
 		{
-			TimerManager.Instance.Pause();
+			GameTimeManager.Instance.Pause();
 
 			UIManager.Instance.DestroyAllWidgets();
 		}
 
 		public override void Update(float timeSinceLastFrame)
 		{
-			txtCurrentDate.SetText(TimerManager.Instance.GetDate());
-			txtCurrentTime.SetText(TimerManager.Instance.CurrentTime.ToString());
+			txtCurrentDate.SetText(GameTimeManager.Instance.GetDate());
+			txtCurrentTime.SetText(GameTimeManager.Instance.CurrentTime.ToString());
 		}
 	}
 }

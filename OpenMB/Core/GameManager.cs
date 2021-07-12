@@ -28,7 +28,7 @@ namespace OpenMB
 		NORMAL,
 		EDIT_MODE
 	}
-	public class GameManager : IDisposable
+	public class EngineManager : IDisposable
 	{
 		private string defaultRenderSystemName;
 		private bool isEditMode;
@@ -77,14 +77,14 @@ namespace OpenMB
 			}
 		}
 
-		private static GameManager instance;
-		public static GameManager Instance
+		private static EngineManager instance;
+		public static EngineManager Instance
 		{
 			get
 			{
 				if (instance == null)
 				{
-					instance = new GameManager();
+					instance = new EngineManager();
 				}
 				return instance;
 			}
@@ -93,7 +93,7 @@ namespace OpenMB
 		public NameValuePairList VideoMode { get; set; }
 
 
-		public GameManager()
+		public EngineManager()
 		{
 			root = null;
 			renderWindow = null;
@@ -307,8 +307,6 @@ namespace OpenMB
 			try
 			{
 				isEditMode = gameOptions.CoreConfig.IsEnableEditMode;
-
-				TimerManager.Instance.Init(1257, 3, 29, 9, 0, 0);
 
 				return true;
 			}

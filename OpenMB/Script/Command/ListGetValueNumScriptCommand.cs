@@ -51,7 +51,7 @@ namespace OpenMB.Script.Command
 			}
 			else
 			{
-				GameManager.Instance.log.LogMessage(string.Format("Couldn't find list with name `{0}`!", listVariable), LogMessage.LogType.Error);
+				EngineManager.Instance.log.LogMessage(string.Format("Couldn't find list with name `{0}`!", listVariable), LogMessage.LogType.Error);
 			}
 		}
 	}

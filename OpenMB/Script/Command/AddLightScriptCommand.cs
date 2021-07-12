@@ -7,7 +7,7 @@ using System.Text;
 
 namespace OpenMB.Script.Command
 {
-	class AddLightScriptCommand : ScriptCommand
+	public class AddLightScriptCommand : ScriptCommand
 	{
 		private string[] commandArgs;
 		public override string CommandName

@@ -17,12 +17,12 @@ namespace OpenMB.Core
 
 		public InputKeyMouseManager()
 		{
-			GameManager.Instance.mouse.MouseMoved += new MouseListener.MouseMovedHandler(MouseMoved);
-			GameManager.Instance.mouse.MousePressed += new MouseListener.MousePressedHandler(MousePressed);
-			GameManager.Instance.mouse.MouseReleased += new MouseListener.MouseReleasedHandler(MouseReleased);
+			EngineManager.Instance.mouse.MouseMoved += new MouseListener.MouseMovedHandler(MouseMoved);
+			EngineManager.Instance.mouse.MousePressed += new MouseListener.MousePressedHandler(MousePressed);
+			EngineManager.Instance.mouse.MouseReleased += new MouseListener.MouseReleasedHandler(MouseReleased);
 
-			GameManager.Instance.keyboard.KeyPressed += new KeyListener.KeyPressedHandler(KeyPressed);
-			GameManager.Instance.keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(KeyReleased);
+			EngineManager.Instance.keyboard.KeyPressed += new KeyListener.KeyPressedHandler(KeyPressed);
+			EngineManager.Instance.keyboard.KeyReleased += new KeyListener.KeyReleasedHandler(KeyReleased);
 		}
 
 		private bool KeyReleased(KeyEvent arg)

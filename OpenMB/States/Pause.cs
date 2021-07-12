@@ -26,7 +26,7 @@ namespace OpenMB.States
 		{
 			m_bQuit = false;
 
-			sceneMgr = GameManager.Instance.root.CreateSceneManager(SceneType.ST_GENERIC, "PauseSceneMgr");
+			sceneMgr = EngineManager.Instance.root.CreateSceneManager(SceneType.ST_GENERIC, "PauseSceneMgr");
 			ColourValue cvAmbineLight = new ColourValue(0.7f, 0.7f, 0.7f);
 			sceneMgr.AmbientLight = cvAmbineLight;
 
@@ -34,10 +34,10 @@ namespace OpenMB.States
 			camera.Position = new Mogre.Vector3(0, 0, 0);
 			camera.NearClipDistance = 1;
 
-			camera.AspectRatio = GameManager.Instance.viewport.ActualWidth /
-			GameManager.Instance.viewport.ActualHeight;
+			camera.AspectRatio = EngineManager.Instance.viewport.ActualWidth /
+			EngineManager.Instance.viewport.ActualHeight;
 
-			GameManager.Instance.viewport.Camera = camera;
+			EngineManager.Instance.viewport.Camera = camera;
 
 			UIManager.Instance.DestroyAllWidgets();
 			UIManager.Instance.ShowCursor();
@@ -45,9 +45,9 @@ namespace OpenMB.States
 			UIManager.Instance.CreateButton(UIWidgetLocation.TL_CENTER, "ExitBtn", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Quit"), 250);
 			UIManager.Instance.CreateLabel(UIWidgetLocation.TL_TOP, "PauseLbl", LocateSystem.Instance.LOC(LocateFileType.GameQuickString, "Game Paused"), 250);
 
-			GameManager.Instance.mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
-			GameManager.Instance.mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
-			GameManager.Instance.mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
+			EngineManager.Instance.mouse.MouseMoved += new MouseListener.MouseMovedHandler(mouseMoved);
+			EngineManager.Instance.mouse.MousePressed += new MouseListener.MousePressedHandler(mousePressed);
+			EngineManager.Instance.mouse.MouseReleased += new MouseListener.MouseReleasedHandler(mouseReleased);
 
 			m_bQuestionActive = true;
 
@@ -60,7 +60,7 @@ namespace OpenMB.States
 			if (sceneMgr != null)
 			{
 				sceneMgr.DestroyCamera(camera);
-				GameManager.Instance.root.DestroySceneManager(sceneMgr);
+				EngineManager.Instance.root.DestroySceneManager(sceneMgr);
 			}
 
 			UIManager.Instance.clearAllTrays();
@@ -69,13 +69,13 @@ namespace OpenMB.States
 
 		public bool keyPressed(KeyEvent keyEventRef)
 		{
-			if (GameManager.Instance.keyboard.IsKeyDown(KeyCode.KC_ESCAPE) && !m_bQuestionActive)
+			if (EngineManager.Instance.keyboard.IsKeyDown(KeyCode.KC_ESCAPE) && !m_bQuestionActive)
 			{
 				m_bQuit = true;
 				return true;
 			}
 
-			GameManager.Instance.keyPressed(keyEventRef);
+			EngineManager.Instance.keyPressed(keyEventRef);
 
 			return true;
 		}

@@ -77,12 +77,12 @@ namespace OpenMB.Script
 				string[] lineToken = lines[i].Split(' ');
 				if (lineToken.Length <= 0)
 				{
-					GameManager.Instance.log.LogMessage("Error Prase Script File At Line: '" + lineToken[0] + "' Error At Line: " + (i + 1).ToString(), LogMessage.LogType.Error);
+					EngineManager.Instance.log.LogMessage("Error Prase Script File At Line: '" + lineToken[0] + "' Error At Line: " + (i + 1).ToString(), LogMessage.LogType.Error);
 					continue;
 				}
 				if (!registeredCommand.ContainsKey(lineToken[0]))
 				{
-					GameManager.Instance.log.LogMessage("Script Command '" + lineToken[0] + "' Not Found At Line: " + (i + 1).ToString(), LogMessage.LogType.Warning);
+					EngineManager.Instance.log.LogMessage("Script Command '" + lineToken[0] + "' Not Found At Line: " + (i + 1).ToString(), LogMessage.LogType.Warning);
 					continue;
 				}
 				try
@@ -128,7 +128,7 @@ namespace OpenMB.Script
                             else
                             {
 								//Error
-								GameManager.Instance.DisplayLogMessage("Condition turning statement must be inside the conditional control block", LogMessage.LogType.Error);
+								EngineManager.Instance.DisplayLogMessage("Condition turning statement must be inside the conditional control block", LogMessage.LogType.Error);
 								continue;
                             }
 
@@ -147,7 +147,7 @@ namespace OpenMB.Script
 				catch
 				{
 					previousCommand = null;
-					GameManager.Instance.log.LogMessage("Script Command '" + lineToken[0] + "' Error At Line: " + (i + 1).ToString(), LogMessage.LogType.Error);
+					EngineManager.Instance.log.LogMessage("Script Command '" + lineToken[0] + "' Error At Line: " + (i + 1).ToString(), LogMessage.LogType.Error);
 					continue;
 				}
 			}
@@ -156,7 +156,7 @@ namespace OpenMB.Script
 		{
 			if (lineNo < 1)
 			{
-				GameManager.Instance.log.LogMessage("Invalid Line number!", LogMessage.LogType.Error);
+				EngineManager.Instance.log.LogMessage("Invalid Line number!", LogMessage.LogType.Error);
 				return null;
 			}
 
@@ -179,12 +179,12 @@ namespace OpenMB.Script
 					string[] lineToken = lines[i].Split(' ');
 					if (lineToken.Length <= 0)
 					{
-						GameManager.Instance.log.LogMessage("Error Prase Script File At Line: '" + lineToken[0] + "' Error At Line: " + (i + 1).ToString(), LogMessage.LogType.Error);
+						EngineManager.Instance.log.LogMessage("Error Prase Script File At Line: '" + lineToken[0] + "' Error At Line: " + (i + 1).ToString(), LogMessage.LogType.Error);
 						continue;
 					}
 					if (!registeredCommand.ContainsKey(lineToken[0]))
 					{
-						GameManager.Instance.log.LogMessage("Script Command '" + lineToken[0] + "' Not Found At Line: " + lineNo.ToString(), LogMessage.LogType.Warning);
+						EngineManager.Instance.log.LogMessage("Script Command '" + lineToken[0] + "' Not Found At Line: " + lineNo.ToString(), LogMessage.LogType.Warning);
 						continue;
 					}
 					try
@@ -231,7 +231,7 @@ namespace OpenMB.Script
 					catch
 					{
 						currentCommand = null;
-						GameManager.Instance.log.LogMessage("Script Command '" + lineToken[0] + "' Error At Line: " + (i + 1).ToString(), LogMessage.LogType.Error);
+						EngineManager.Instance.log.LogMessage("Script Command '" + lineToken[0] + "' Error At Line: " + (i + 1).ToString(), LogMessage.LogType.Error);
 						continue;
 					}
 					break;

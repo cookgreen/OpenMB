@@ -26,7 +26,7 @@ namespace OpenMB.Game
 		Stopped
 	}
 
-	public class TimerManager
+	public class GameTimeManager
 	{
 		private int year;
 		private int month;
@@ -39,14 +39,14 @@ namespace OpenMB.Game
 		private TimerState state;
 		public event Action TimeChanged;
 
-		private static TimerManager instance;
-		public static TimerManager Instance
+		private static GameTimeManager instance;
+		public static GameTimeManager Instance
 		{
 			get
 			{
 				if (instance == null)
 				{
-					instance = new TimerManager();
+					instance = new GameTimeManager();
 				}
 				return instance;
 			}

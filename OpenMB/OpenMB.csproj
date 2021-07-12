@@ -195,7 +195,7 @@
     <Compile Include="Map\GameMapEntryPoint.cs" />
     <Compile Include="Map\GameWorldMap.cs" />
     <Compile Include="Game\DescriptionAttribute.cs" />
-    <Compile Include="Game\TimerManager.cs" />
+    <Compile Include="Game\GameTimeManager.cs" />
     <Compile Include="Forms\frmRelativeFileFolderBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -220,12 +220,9 @@
     <Compile Include="Game\AIAction\Idle.cs" />
     <Compile Include="Game\CharacterAnimation.cs" />
     <Compile Include="Game\CharacterMessage.cs" />
-    <Compile Include="Game\ControlObjType\ControlObjectTypeCharacter.cs" />
-    <Compile Include="Game\ControlObjType\ControlObjectTypeSceneProp.cs" />
     <Compile Include="Game\DecisionSystem.cs" />
     <Compile Include="Game\EquipmentSystem.cs" />
     <Compile Include="Game\HealthInfo.cs" />
-    <Compile Include="Game\ControlObjType\IControlObjectType.cs" />
     <Compile Include="Game\ItemFactory.cs" />
     <Compile Include="Game\Character.cs" />
     <Compile Include="Game\Controller\CharacterController.cs" />
@@ -235,7 +232,7 @@
     <Compile Include="Game\Item.cs" />
     <Compile Include="Game\ItemTypes\IItemType.cs" />
     <Compile Include="Core\OutputManager.cs" />
-    <Compile Include="Game\IUpdate.cs" />
+    <Compile Include="Interfaces\IUpdate.cs" />
     <Compile Include="Game\AIAction\Move.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="Game\ScenePlane.cs" />
@@ -330,6 +327,7 @@
     <Compile Include="Script\Command\CampaignListInitScriptCommand.cs" />
     <Compile Include="Script\Command\ConditionalCheckEqualScriptCommand.cs" />
     <Compile Include="Script\Command\ConditionalControlTurningScriptCommand.cs" />
+    <Compile Include="Script\Command\GameSetTimeScriptCommand.cs" />
     <Compile Include="Script\ConditionalTree.cs" />
     <Compile Include="Script\Command\SwitchCaseScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeHitpointScriptCommand.cs" />

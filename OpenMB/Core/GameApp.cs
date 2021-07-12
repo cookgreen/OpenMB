@@ -38,7 +38,7 @@ namespace OpenMB
 
 		public RunState Run()
 		{
-			if (!GameManager.Instance.Init("OpenMB", gameOptions))
+			if (!EngineManager.Instance.Init("OpenMB", gameOptions))
 			{
 				EngineLogManager.Instance.LogMessage("Failed to initialize the game engine!", LogType.Error);
 				return RunState.Error;
@@ -57,7 +57,7 @@ namespace OpenMB
 			var installedMod = ModManager.Instance.GetInstalledMods();
 			if (!string.IsNullOrEmpty(mod) && installedMod.ContainsKey(mod))
 			{
-				GameManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", mod, "MainMenu");
+				EngineManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", mod, "MainMenu");
 				AppStateManager.Instance.start(AppStateManager.Instance.findByName("Loading"));
 			}
 			else

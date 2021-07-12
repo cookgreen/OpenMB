@@ -36,7 +36,7 @@ namespace OpenMB.Mods
 			}
 			catch (Exception ex)
 			{
-				GameManager.Instance.log.LogMessage(ex.ToString(), LogMessage.LogType.Error);
+				EngineManager.Instance.log.LogMessage(ex.ToString(), LogMessage.LogType.Error);
 				xmlData = default(T);
 				return false;
 			}
@@ -54,7 +54,7 @@ namespace OpenMB.Mods
 			}
 			catch (Exception ex)
 			{
-				GameManager.Instance.log.LogMessage(ex.ToString(), LogMessage.LogType.Error);
+				EngineManager.Instance.log.LogMessage(ex.ToString(), LogMessage.LogType.Error);
 				ModXMLData = default(T);
 				return false;
 			}
@@ -76,7 +76,7 @@ namespace OpenMB.Mods
 			}
 			catch (Exception ex)
 			{
-				GameManager.Instance.log.LogMessage(ex.ToString(), LogMessage.LogType.Error);
+				EngineManager.Instance.log.LogMessage(ex.ToString(), LogMessage.LogType.Error);
 				return false;
 			}
 		}

@@ -14,7 +14,7 @@ namespace OpenMB.States
 		public override void enter(ModData data = null)
 		{
 			modData = data;
-			sceneMgr = GameManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "CreditSceneMgr");
+			sceneMgr = EngineManager.Instance.root.CreateSceneManager(Mogre.SceneType.ST_GENERIC, "CreditSceneMgr");
 			ColourValue cvAmbineLight = new ColourValue(0.7f, 0.7f, 0.7f);
 			sceneMgr.AmbientLight = cvAmbineLight;
 			camera = sceneMgr.CreateCamera("GameCamera");
@@ -23,13 +23,13 @@ namespace OpenMB.States
 			Mogre.Vector3 vectorCameraLookAt = new Mogre.Vector3(5, 20, 0);
 			camera.LookAt(vectorCameraLookAt);
 			camera.NearClipDistance = 5;
-			camera.AspectRatio = GameManager.Instance.viewport.ActualWidth / GameManager.Instance.viewport.ActualHeight;
+			camera.AspectRatio = EngineManager.Instance.viewport.ActualWidth / EngineManager.Instance.viewport.ActualHeight;
 
-			GameManager.Instance.viewport.Camera = camera;
+			EngineManager.Instance.viewport.Camera = camera;
 
 			ScreenManager.Instance.ChangeScreen("Credit");
 
-			GameManager.Instance.mouse.MousePressed += MousePressed;
+			EngineManager.Instance.mouse.MousePressed += MousePressed;
 		}
 
 		private bool MousePressed(MOIS.MouseEvent arg, MOIS.MouseButtonID id)
@@ -59,8 +59,8 @@ namespace OpenMB.States
 
 		public override void exit()
 		{
-			GameManager.Instance.root.DestroySceneManager(sceneMgr);
-			GameManager.Instance.mouse.MousePressed -= MousePressed;
+			EngineManager.Instance.root.DestroySceneManager(sceneMgr);
+			EngineManager.Instance.mouse.MousePressed -= MousePressed;
 		}
 	}
 }

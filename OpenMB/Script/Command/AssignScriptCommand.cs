@@ -62,7 +62,7 @@ namespace OpenMB.Script.Command
 			}
 			else
 			{
-				GameManager.Instance.log.LogMessage("[Script Error]: Assign: Invalid argument number");
+				EngineManager.Instance.log.LogMessage("[Script Error]: Assign: Invalid argument number");
 			}
 		}
 	}

@@ -78,7 +78,7 @@ namespace OpenMB.States
 
 			while (!isShutdown)
 			{
-				if (GameManager.Instance.renderWindow.IsClosed)
+				if (EngineManager.Instance.renderWindow.IsClosed)
 				{
 					isShutdown = true;
 					break;
@@ -86,18 +86,18 @@ namespace OpenMB.States
 
 				WindowEventUtilities.MessagePump();
 
-				if (GameManager.Instance.renderWindow.IsActive)
+				if (EngineManager.Instance.renderWindow.IsActive)
 				{
-					startTime = (int)GameManager.Instance.timer.MicrosecondsCPU;
+					startTime = (int)EngineManager.Instance.timer.MicrosecondsCPU;
 
 					activeStateStack.Last().update(timeSinceLastFrame * 1.0 / 1000);
-					GameManager.Instance.keyboard.Capture();
-					GameManager.Instance.mouse.Capture();
-					GameManager.Instance.Update((float)(timeSinceLastFrame * 1.0 / 1000));
+					EngineManager.Instance.keyboard.Capture();
+					EngineManager.Instance.mouse.Capture();
+					EngineManager.Instance.Update((float)(timeSinceLastFrame * 1.0 / 1000));
 
-					GameManager.Instance.root.RenderOneFrame();
+					EngineManager.Instance.root.RenderOneFrame();
 
-					timeSinceLastFrame = (int)GameManager.Instance.timer.MicrosecondsCPU - startTime;
+					timeSinceLastFrame = (int)EngineManager.Instance.timer.MicrosecondsCPU - startTime;
 
 				}
 				else
@@ -106,7 +106,7 @@ namespace OpenMB.States
 				}
 			}
 			//Save locate Info to file before exiting the main game loop
-			GameManager.Instance.Exit();
+			EngineManager.Instance.Exit();
 		}
 		public override void changeAppState(AppState state, ModData e = null)
 		{
@@ -184,7 +184,7 @@ namespace OpenMB.States
 		protected void init(AppState state)
 		{
 			UIManager.Instance.SetListener(state);
-			GameManager.Instance.renderWindow.ResetStatistics();
+			EngineManager.Instance.renderWindow.ResetStatistics();
 		}
 
 		public void Dispose()

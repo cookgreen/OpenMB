@@ -49,7 +49,7 @@ namespace OpenMB.Script.Command
 
 			if (commandArgs.Length == 0)
 			{
-				GameManager.Instance.log.LogMessage("Missing parameter for `start_screen` script command");
+				EngineManager.Instance.log.LogMessage("Missing parameter for `start_screen` script command");
 				return;
 			}
 
