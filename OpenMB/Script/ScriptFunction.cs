@@ -8,14 +8,14 @@ namespace OpenMB.Script
 {
 	public class ScriptFunction
 	{
-		private Dictionary<string, object> returnValueMap { get; set; }
+		private Dictionary<string, object> returnValueTable { get; set; }
 
 		public string Name { get; set; }
 		public List<IScriptCommand> Content { get; set; }
 
 		public ScriptFunction()
         {
-			returnValueMap = new Dictionary<string, object>();
+			returnValueTable = new Dictionary<string, object>();
         }
 
 		public void Execute(params object[] extraArgs)
@@ -28,7 +28,12 @@ namespace OpenMB.Script
 
         public void SetReturnValue(string variableName, object variableValue)
         {
-			returnValueMap[variableName] = variableValue;
+			returnValueTable[variableName] = variableValue;
+        }
+
+		public object GetReturnValue(string variableName)
+        {
+			return returnValueTable.ContainsKey(variableName) ? returnValueTable[variableName] : null;
         }
     }
 }

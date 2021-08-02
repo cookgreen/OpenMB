@@ -8,7 +8,7 @@ namespace OpenMB.Core
 {
 	public class GameRegisterManager
 	{
-		private Dictionary<string, string> registers;
+		private Dictionary<string, object> registers;
 		private static GameRegisterManager instance;
 		public static GameRegisterManager Instance
 		{
@@ -24,7 +24,7 @@ namespace OpenMB.Core
 
 		public GameRegisterManager()
 		{
-			registers = new Dictionary<string, string>();
+			registers = new Dictionary<string, object>();
 			for (int i = 0; i < 15; i++)
 			{
 				registers.Add("reg" + i.ToString(), "UNRECONIZED TOKEN");
@@ -32,7 +32,7 @@ namespace OpenMB.Core
 			}
 		}
 
-		public string GetRegisterValue(string registerName)
+		public object GetRegisterValue(string registerName)
 		{
 			if (registers.ContainsKey(registerName))
 			{
@@ -44,7 +44,7 @@ namespace OpenMB.Core
 			}
 		}
 
-		public void SetRegisterValue(string registerName, string registerValue)
+		public void SetRegisterValue(string registerName, object registerValue)
 		{
 			if (registers.ContainsKey(registerName))
 			{

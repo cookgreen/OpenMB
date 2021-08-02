@@ -328,6 +328,7 @@
     <Compile Include="Script\Command\ConditionalCheckEqualScriptCommand.cs" />
     <Compile Include="Script\Command\ConditionalControlTurningScriptCommand.cs" />
     <Compile Include="Script\Command\GameSetTimeScriptCommand.cs" />
+    <Compile Include="Script\Command\GetReturnValueScriptCommand.cs" />
     <Compile Include="Script\ConditionalTree.cs" />
     <Compile Include="Script\Command\SwitchCaseScriptCommand.cs" />
     <Compile Include="Script\Command\ChangeHitpointScriptCommand.cs" />

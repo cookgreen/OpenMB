@@ -76,6 +76,14 @@ namespace OpenMB.Script.Command
 			return variableName.StartsWith("$");
 		}
 
+		protected string getVariableName(string variableName)
+		{
+			return
+				variableName.StartsWith("%") || variableName.StartsWith("$")
+				? variableName.Substring(1)
+				: variableName;
+		}
+
 		protected object getVariableValue(string variableName)
 		{
 			return
@@ -84,6 +92,18 @@ namespace OpenMB.Script.Command
 				: variableName.StartsWith("$")
 					? ScriptGlobalVariableMap.Instance.GetVariable(variableName.Substring(1)).ToString()
 					: variableName;
+		}
+
+		protected void setVariableValue(string variableName, object variableValue)
+		{
+			if(isLocalVariable(variableName))
+            {
+				Context.ChangeLocalValue(getVariableName(variableName), variableValue);
+            }
+			else if(isGlobalVariable(variableName))
+            {
+				ScriptGlobalVariableMap.Instance.ChangeGobalValue(getVariableName(variableName), variableValue);
+			}
 		}
 
 		public void AddSubCommand(ScriptCommand scriptCommand)

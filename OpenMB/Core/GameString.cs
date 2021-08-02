@@ -51,7 +51,7 @@ namespace OpenMB.Core
 					registerBlock.Append(c);
 
 					string registerName = registerDeclareBlock.ToString();
-					string registerValue = GameRegisterManager.Instance.GetRegisterValue(registerName);
+					string registerValue = GameRegisterManager.Instance.GetRegisterValue(registerName).ToString();
 
 					str = str.Replace(registerBlock.ToString(), registerValue);
 
