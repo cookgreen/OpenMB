@@ -17,15 +17,17 @@ namespace KBFEditor.Loader
 
         public KBF Read(Stream stream)
         {
-            KBF kbf = new KBF();
+            KBF kbf = new KBF((stream as FileStream).Name);
             kbf.Read(stream);
             return kbf;
         }
 
 
-        public void Write(KBF kbf, Stream stream)
+        public void Write(KBF kbf)
         {
+            FileStream stream = new FileStream(kbf.FullFileName, FileMode.Open, FileAccess.Write);
             kbf.Write(stream);
+            stream.Close();
         }
     }
 }

@@ -12,10 +12,22 @@ namespace KBFEditor.FileFormat
     /// </summary>
     public class KBF
     {
+        private string fileName;
+        private string fullFileName;
         private List<KBFEntry> meshEntries;
         private List<KBFEntry> materialEntries;
         private List<KBFEntry> textureEntries;
         private List<KBFEntry> skeletonEntries;
+
+        public string FileName
+        {
+            get { return fileName; }
+        }
+
+        public string FullFileName
+        {
+            get { return fullFileName; }
+        }
 
         public List<KBFEntry> MeshEntries
         {
@@ -34,8 +46,11 @@ namespace KBFEditor.FileFormat
             get { return skeletonEntries; }
         }
 
-        public KBF()
+        public KBF(string fullFileName)
         {
+            fileName = Path.GetFileName(fullFileName);
+            this.fullFileName = fullFileName;
+
             meshEntries = new List<KBFEntry>();
             materialEntries = new List<KBFEntry>();
             textureEntries = new List<KBFEntry>();
@@ -65,11 +80,20 @@ namespace KBFEditor.FileFormat
         public void Read(Stream stream)
         {
             BinaryReader reader = new BinaryReader(stream);
-            reader.ReadBytes(8);
+            byte b = reader.ReadByte();
+            byte[] bytes = reader.ReadBytes(b);
+
+            string str = Encoding.UTF8.GetString(bytes);
+            if (str != "KBF v1.0")
+            {
+                //Invalid File Format
+                throw new KBFInvalidFileFormatException("Invalid KBF File format!");
+            }
+
             while (reader.PeekChar() != -1)
             {
-                byte b = reader.ReadByte();
-                byte[] bytes = reader.ReadBytes(b);
+                b = reader.ReadByte();
+                bytes = reader.ReadBytes(b);
                 if (Encoding.UTF8.GetString(bytes) == "end")
                 {
                     break;
@@ -144,6 +168,7 @@ namespace KBFEditor.FileFormat
         private void WriteString(string str, Stream stream)
         {
             var bytes = Encoding.UTF8.GetBytes(str);
+            stream.WriteByte((byte)bytes.Length);
             stream.Write(bytes, 0, bytes.Length);
         }
 
@@ -151,6 +176,8 @@ namespace KBFEditor.FileFormat
         {
             BinaryWriter writer = new BinaryWriter(stream);
             byte[] bytes = Encoding.UTF8.GetBytes("KBF v1.0");
+            byte b = (byte)bytes.Length;
+            writer.Write(b);
             writer.Write(bytes);
         }
 
@@ -158,6 +185,7 @@ namespace KBFEditor.FileFormat
         {
             BinaryWriter writer = new BinaryWriter(stream);
             byte[] bytes = Encoding.UTF8.GetBytes("end");
+            writer.Write((byte)bytes.Length);
             writer.Write(bytes);
         }
     }

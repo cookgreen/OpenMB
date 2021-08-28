@@ -15,13 +15,15 @@ namespace KBFEditor
 {
     public partial class frmMain : Form
     {
+        private KBFLoader loader;
         private KBF currentFile;
-        private Stream currentStream;
-        private string currentFilePath;
+        private string originalText;
 
         public frmMain()
         {
             InitializeComponent();
+            originalText = Text;
+            loader = new KBFLoader();
         }
 
         private void mnuNew_Click(object sender, EventArgs e)
@@ -30,17 +32,31 @@ namespace KBFEditor
             dialog.Filter = "K&K Binary Resource File|*.kbf";
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                currentStream = new FileStream(dialog.FileName, FileMode.OpenOrCreate, FileAccess.Write);
-                currentFilePath = dialog.FileName;
-                currentFile = new KBF();
-                currentFile.Write(currentStream);
+                var stream = new FileStream(dialog.FileName, FileMode.OpenOrCreate, FileAccess.Write);
+                currentFile = new KBF(stream.Name);
+                currentFile.Write(stream);
+                stream.Close();
 
-                Text = Text + " - " + dialog.FileName;
+                Text = originalText + " - " + dialog.FileName;
 
                 mnuImportMesh.Enabled = true;
                 mnuImportMaterialScript.Enabled = true;
                 mnuImportTexture.Enabled = true;
                 mnuSaveFile.Enabled = true;
+            }
+        }
+
+        private void mnuOpen_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "K&K Binary Resource File|*.kbf";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                var stream = new FileStream(dialog.FileName, FileMode.OpenOrCreate, FileAccess.Read);
+                currentFile = loader.Read(stream);
+                stream.Close();
+
+                ReadFileContents();
             }
         }
 
@@ -51,6 +67,20 @@ namespace KBFEditor
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 var bytes = File.ReadAllBytes(dialog.FileName);
+
+                if (!entryTypeTabControl.TabPages.ContainsKey("TabMesh"))
+                {
+                    entryTypeTabControl.TabPages.Add("TabMesh","Mesh");
+                    var tabPage = entryTypeTabControl.TabPages["TabMesh"];
+                    ListBox listBox = new ListBox();
+                    tabPage.Controls.Clear();
+                    tabPage.Controls.Add(listBox);
+                    listBox.Dock = DockStyle.Fill;
+                }
+                TabPage meshTab = entryTypeTabControl.TabPages["TabMesh"];
+                ((ListBox)meshTab.Controls[0]).Items.Add(dialog.SafeFileName);
+
+
                 KBFEntry entry = new KBFEntry(dialog.SafeFileName, "mesh", bytes);
                 currentFile.AddMeshEntry(entry);
             }
@@ -94,22 +124,7 @@ namespace KBFEditor
 
         private void mnuSaveFile_Click(object sender, EventArgs e)
         {
-            currentFile.Write(currentStream);
-        }
-
-        private void mnuOpen_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "K&K Binary Resource File|*.kbf";
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                currentStream = new FileStream(dialog.FileName, FileMode.OpenOrCreate, FileAccess.Write);
-                currentFilePath = dialog.FileName;
-                KBFLoader loader = new KBFLoader();
-                currentFile = loader.Read(currentStream);
-
-                ReadFileContents();
-            }
+            loader.Write(currentFile);
         }
 
         private void ReadFileContents()
