@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileFormat\KBF.cs" />
+    <Compile Include="FileFormat\KBFInvalidFileFormatException.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>

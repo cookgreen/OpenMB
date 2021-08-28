@@ -12,6 +12,8 @@ namespace KBFEditor.FileFormat
     /// </summary>
     public class KBF
     {
+        private const string KBF_HEADER = "KBF v1.0";
+
         private string fileName;
         private string fullFileName;
         private List<KBFEntry> meshEntries;
@@ -84,7 +86,7 @@ namespace KBFEditor.FileFormat
             byte[] bytes = reader.ReadBytes(b);
 
             string str = Encoding.UTF8.GetString(bytes);
-            if (str != "KBF v1.0")
+            if (str != KBF_HEADER)
             {
                 //Invalid File Format
                 throw new KBFInvalidFileFormatException("Invalid KBF File format!");
@@ -175,7 +177,7 @@ namespace KBFEditor.FileFormat
         private void WriteHeader(Stream stream)
         {
             BinaryWriter writer = new BinaryWriter(stream);
-            byte[] bytes = Encoding.UTF8.GetBytes("KBF v1.0");
+            byte[] bytes = Encoding.UTF8.GetBytes(KBF_HEADER);
             byte b = (byte)bytes.Length;
             writer.Write(b);
             writer.Write(bytes);
