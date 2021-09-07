@@ -176,19 +176,12 @@ namespace KBFEditor.FileFormat
 
         private void WriteHeader(Stream stream)
         {
-            BinaryWriter writer = new BinaryWriter(stream);
-            byte[] bytes = Encoding.UTF8.GetBytes(KBF_HEADER);
-            byte b = (byte)bytes.Length;
-            writer.Write(b);
-            writer.Write(bytes);
+            WriteString(KBF_HEADER, stream);
         }
 
         private void WriteEnd(Stream stream)
         {
-            BinaryWriter writer = new BinaryWriter(stream);
-            byte[] bytes = Encoding.UTF8.GetBytes("end");
-            writer.Write((byte)bytes.Length);
-            writer.Write(bytes);
+            WriteString("end", stream);
         }
     }
 
