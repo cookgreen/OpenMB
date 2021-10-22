@@ -20,7 +20,7 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
 * Script-driven GUI System  
 * Inner Game Editor  
 * Support Mod.io
-* Google Translate-based Localization Tool
+* Google Translate API library  
 * Official Mod: [Kingdom & Knight](https://www.moddb.com/mods/kingdom-knights)  
 
 ## Usage:
