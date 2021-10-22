@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UCSEditor
+namespace com.google.translate.api
 {
     public class GoogleTranslateAPIResponse
     {

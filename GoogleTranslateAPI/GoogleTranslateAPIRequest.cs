@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UCSEditor
+namespace com.google.translate.api
 {
     public class GoogleTranslateAPIRequest
     {
