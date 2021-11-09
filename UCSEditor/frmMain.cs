@@ -15,7 +15,7 @@ namespace UCSEditor
 		private UCSFile ucs = null;
 		private Dictionary<string, string> data = new Dictionary<string, string>();
 		private ListViewItem lvi = null;
-		private GoogleTranslateAPIRequest googleTransApi;
+		private GoogleTranslateAPIRequest googleTransApiReq;
 		private List<Tuple<UCSLine, ChangeOperation>> pendingChanges;
 		private EditorSetting setting;
 
@@ -24,8 +24,8 @@ namespace UCSEditor
 			InitializeComponent();
 
 			this.setting = setting;
-			googleTransApi = new GoogleTranslateAPIRequest("<unknown>");
-            googleTransApi.TranslateFinished += GoogleTransApi_TranslateFinished;
+			googleTransApiReq = new GoogleTranslateAPIRequest("<unknown>");
+            googleTransApiReq.TranslateFinished += GoogleTransApi_TranslateFinished;
 			foreach(var kpl in setting.GoogleTranslateAPISetting.TranslateLanguages)
             {
 				cmbGoogleTranslationAPILanguages.Items.Add(kpl.DisplayName);
@@ -43,18 +43,19 @@ namespace UCSEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			ofd.Title = "Open";
-			ofd.Filter = "UCS Locate File|*.ucs";
-			if (ofd.ShowDialog() == DialogResult.OK)
+			OpenFileDialog dialog = new OpenFileDialog();
+			dialog.Title = "Open";
+			dialog.Filter = "UCS Locate File|*.ucs";
+			if (dialog.ShowDialog() == DialogResult.OK)
 			{
 				if (pendingChanges != null && pendingChanges.Count > 0)
 				{
 					saveToolStripMenuItem_Click(null, null);
 				}
 
-				Text = "UCSEditor - " + ofd.FileName;
+				Text = "UCSEditor - " + dialog.FileName;
 
-				ucs = new UCSFile(ofd.FileName);
+				ucs = new UCSFile(dialog.FileName);
 				if (ucs.Process())
 				{
 					lsvLocateInfo.Items.Clear();
@@ -88,7 +89,7 @@ namespace UCSEditor
 					lvi = lsvLocateInfo.SelectedItems[0];
 					txtKey.Text = lsvLocateInfo.SelectedItems[0].Text;
 					txtLocalizedText.Text = lsvLocateInfo.SelectedItems[0].SubItems[1].Text;
-					googleTransApi.TranslateAsync(txtLocalizedText.Text);
+					googleTransApiReq.TranslateAsync(txtLocalizedText.Text);
 					txtSuggestion.Text = "Translating...";
 				}
 			}
@@ -102,8 +103,9 @@ namespace UCSEditor
 
 		private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			sfd.Title = "Save As";
-			if (sfd.ShowDialog(this) == DialogResult.OK)
+			SaveFileDialog dialog = new SaveFileDialog();
+			dialog.Title = "Save As";
+			if (dialog.ShowDialog(this) == DialogResult.OK)
 			{
 				SaveData();
 				ucs.Save(data);
@@ -214,7 +216,7 @@ namespace UCSEditor
 
         private void cmbGoogleTranslationAPILanguages_SelectedIndexChanged(object sender, EventArgs e)
         {
-			googleTransApi.DestLangID = setting.GoogleTranslateAPISetting[cmbGoogleTranslationAPILanguages.SelectedItem.ToString()];
+			googleTransApiReq.DestLangID = setting.GoogleTranslateAPISetting[cmbGoogleTranslationAPILanguages.SelectedItem.ToString()];
         }
 
         private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
