@@ -5,17 +5,19 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB", "OpenMB\OpenMB.csproj", "{70878EFC-AF3F-4792-AB2F-CE47EBCA487D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCSEditor", "UCSEditor\UCSEditor.csproj", "{CBFED84B-9253-40F3-AF15-28A8331C2375}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UCSEditor", "ThirdParty\UCSEditor\UCSEditor.csproj", "{CBFED84B-9253-40F3-AF15-28A8331C2375}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.Mods.Common", "OpenMB.Mods.Common\OpenMB.Mods.Common.csproj", "{F58B2DAE-4DA4-40FA-95E1-F518AA140901}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMB.DedicatedServer", "OpenMB.DedicatedServer\OpenMB.DedicatedServer.csproj", "{BC79F45A-ADBE-4A12-BA27-CABC57397FDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KBFEditor", "KBFEditor\KBFEditor.csproj", "{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KBFEditor", "ThirdParty\KBFEditor\KBFEditor.csproj", "{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleTranslateAPI", "GoogleTranslateAPI\GoogleTranslateAPI.csproj", "{45C83F9B-4082-4AB6-AA4D-55ED41973D72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleTranslateAPI", "ThirdParty\GoogleTranslateAPI\GoogleTranslateAPI.csproj", "{45C83F9B-4082-4AB6-AA4D-55ED41973D72}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{D5CAB397-A3EC-47E0-B3C2-43D1BF2E5768}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{F0EFD692-13AF-4DEC-B956-0C4EAABA2D6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,8 +71,8 @@ Global
 		{BC79F45A-ADBE-4A12-BA27-CABC57397FDD}.Release|x64.Build.0 = Release|Any CPU
 		{BC79F45A-ADBE-4A12-BA27-CABC57397FDD}.Release|x86.ActiveCfg = Release|Any CPU
 		{BC79F45A-ADBE-4A12-BA27-CABC57397FDD}.Release|x86.Build.0 = Release|Any CPU
-		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Debug|x64.Build.0 = Debug|Any CPU
 		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -98,6 +100,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{CBFED84B-9253-40F3-AF15-28A8331C2375} = {F0EFD692-13AF-4DEC-B956-0C4EAABA2D6E}
+		{9412B43F-71D3-47B2-8FAE-326CE8ACC0EE} = {F0EFD692-13AF-4DEC-B956-0C4EAABA2D6E}
 		{45C83F9B-4082-4AB6-AA4D-55ED41973D72} = {D5CAB397-A3EC-47E0-B3C2-43D1BF2E5768}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
