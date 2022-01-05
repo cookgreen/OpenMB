@@ -99,7 +99,7 @@ namespace OpenMB.Mods
 
 				ChangeModIcon(manifest);
 				LoadXmlData(manifest);
-				LoadInternalTypes(manifest);
+				LoadInternalTypes();
 				LoadExternalTypes(manifest);
 				VerifyItemTypes();
 				LoadModMedia(manifest);
@@ -318,51 +318,12 @@ namespace OpenMB.Mods
 			}
 		}
 
-		private void LoadInternalTypes(ModManifest manifest)
+		private void LoadInternalTypes()
 		{
 			//--------------------------------Load Types-------------------------
 			//Load Internal types
 			Assembly thisAssembly = GetType().Assembly;
-			Type[] internalTypes = thisAssembly.GetTypes();
-			foreach (var internalType in internalTypes)
-			{
-				if (internalType.GetInterface("IModSetting") != null)
-				{
-					var instance = thisAssembly.CreateInstance(internalType.FullName) as IModSetting;
-					var findedSettingInMod = manifest.Settings.Where(o => o.Name == instance.Name);
-					if (findedSettingInMod.Count() > 0)
-					{
-						instance.Value = findedSettingInMod.ElementAt(0).Value;
-						instance.Load(currentMod);
-					}
-					currentMod.ModSettings.Add(instance);
-				}
-				else if (internalType.GetInterface("IModModelType") != null)
-				{
-					var instance = thisAssembly.CreateInstance(internalType.FullName) as IModModelType;
-					currentMod.ModModelTypes.Add(instance);
-				}
-				else if (internalType.GetInterface("IModTriggerCondition") != null)
-				{
-					var instance = thisAssembly.CreateInstance(internalType.FullName) as IModTriggerCondition;
-					currentMod.ModTriggerConditions.Add(instance);
-				}
-				else if (internalType.GetInterface("IGameMapLoader") != null)
-				{
-					var instance = thisAssembly.CreateInstance(internalType.FullName) as IGameMapLoader;
-					currentMod.MapLoaders.Add(instance);
-				}
-				else if (internalType.GetInterface("IModStartupBackgroundType") != null)
-				{
-					var instance = thisAssembly.CreateInstance(internalType.FullName) as IModStartupBackgroundType;
-					currentMod.StartupBackgroundTypes.Add(instance);
-				}
-				else if (internalType.GetInterface("IScriptCommand") != null)//avaiable customized script command
-				{
-					var instance = thisAssembly.CreateInstance(internalType.FullName) as ScriptCommand;
-					ScriptCommandRegister.Instance.RegisterNewCommand(instance.CommandName, internalType); //register this command
-				}
-			}
+			loadAssemblyTypes(thisAssembly);
 			currentMod.Assemblies.Add(thisAssembly);
 		}
 
@@ -386,53 +347,9 @@ namespace OpenMB.Mods
 				{
 					try
 					{
-						Assembly assemblyDll = Assembly.LoadFile(assemblyPath);
-						Type[] types = assemblyDll.GetTypes();
-						foreach (var type in types)
-						{
-							if (type.GetInterface("IScriptCommand") != null)//avaiable customized script command
-							{
-								var instance = assemblyDll.CreateInstance(type.FullName) as ScriptCommand;
-								ScriptCommandRegister.Instance.RegisterNewCommand(instance.CommandName, type); //register this command
-							}
-							else if (type.GetInterface("IModSetting") != null)
-							{
-								var instance = assemblyDll.CreateInstance(type.FullName) as IModSetting;
-								var findedSettingInMod = manifest.Settings.Where(o => o.Name == instance.Name);
-								if (findedSettingInMod.Count() > 0)
-								{
-									instance.Value = findedSettingInMod.ElementAt(0).Value;
-									instance.Load(currentMod);
-								}
-								currentMod.ModSettings.Add(instance);
-							}
-							else if (type.GetInterface("IModModelType") != null)
-							{
-								var instance = assemblyDll.CreateInstance(type.FullName) as IModModelType;
-								currentMod.ModModelTypes.Add(instance);
-							}
-							else if (type.GetInterface("IModTriggerCondition") != null)
-							{
-								var instance = assemblyDll.CreateInstance(type.FullName) as IModTriggerCondition;
-								currentMod.ModTriggerConditions.Add(instance);
-							}
-							else if (type.GetInterface("IItemType") != null)
-							{
-								var instance = assemblyDll.CreateInstance(type.FullName) as IItemType;
-								currentMod.ItemTypes.Add(instance);
-							}
-							else if (type.GetInterface("IGameMapLoader") != null)
-							{
-								var instance = assemblyDll.CreateInstance(type.FullName) as IGameMapLoader;
-								currentMod.MapLoaders.Add(instance);
-							}
-							else if (type.GetInterface("IModStartupBackgroundType") != null)
-							{
-								var instance = assemblyDll.CreateInstance(type.FullName) as IModStartupBackgroundType;
-								currentMod.StartupBackgroundTypes.Add(instance);
-							}
-						}
-						currentMod.Assemblies.Add(assemblyDll);
+						Assembly externalAssembly = Assembly.LoadFile(assemblyPath);
+						loadAssemblyTypes(externalAssembly);
+						currentMod.Assemblies.Add(externalAssembly);
 					}
 					catch (Exception ex)
 					{
@@ -445,6 +362,50 @@ namespace OpenMB.Mods
 				}
 			}
 			//--------------------------------------------
+		}
+
+		private void loadAssemblyTypes(Assembly assembly)
+		{
+			Type[] internalTypes = assembly.GetTypes();
+			foreach (var internalType in internalTypes)
+			{
+				if (internalType.GetInterface("IModSetting") != null)
+				{
+					var instance = assembly.CreateInstance(internalType.FullName) as IModSetting;
+					var findedSettingInMod = currentMod.Manifest.Settings.Where(o => o.Name == instance.Name);
+					if (findedSettingInMod.Count() > 0)
+					{
+						instance.Value = findedSettingInMod.ElementAt(0).Value;
+						instance.Load(currentMod);
+					}
+					currentMod.ModSettings.Add(instance);
+				}
+				else if (internalType.GetInterface("IModModelType") != null)
+				{
+					var instance = assembly.CreateInstance(internalType.FullName) as IModModelType;
+					currentMod.ModModelTypes.Add(instance);
+				}
+				else if (internalType.GetInterface("IModTriggerCondition") != null)
+				{
+					var instance = assembly.CreateInstance(internalType.FullName) as IModTriggerCondition;
+					currentMod.ModTriggerConditions.Add(instance);
+				}
+				else if (internalType.GetInterface("IGameMapLoader") != null)
+				{
+					var instance = assembly.CreateInstance(internalType.FullName) as IGameMapLoader;
+					currentMod.MapLoaders.Add(instance);
+				}
+				else if (internalType.GetInterface("IModStartupBackgroundType") != null)
+				{
+					var instance = assembly.CreateInstance(internalType.FullName) as IModStartupBackgroundType;
+					currentMod.StartupBackgroundTypes.Add(instance);
+				}
+				else if (internalType.GetInterface("IScriptCommand") != null)//avaiable customized script command
+				{
+					var instance = assembly.CreateInstance(internalType.FullName) as ScriptCommand;
+					ScriptCommandRegister.Instance.RegisterNewCommand(instance.CommandName, internalType); //register this command
+				}
+			}
 		}
 
 		private void LoadModLocalization(ModManifest manifest)
