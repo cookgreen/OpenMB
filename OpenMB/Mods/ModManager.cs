@@ -22,10 +22,8 @@ namespace OpenMB.Mods
 	using Mods = Dictionary<string, ModManifest>;
 	public class ModManager : ISubSystemManager
 	{
-		private Dictionary<string, ModManifest> installedMods;
+		private Mods installedMods;
 		private string modInstallRootDir;
-		private IniConfigFileParser parser;
-		private IniConfigFile modConfigData;
 		private ModData currentMod;
 		private string currentModName;
 		private BackgroundWorker loadModWorker;
@@ -61,11 +59,10 @@ namespace OpenMB.Mods
 
 		public ModManager()
 		{
-			installedMods = new Dictionary<string, ModManifest>();
+			installedMods = new Mods();
 			currentMod = null;
-			modConfigData = new IniConfigFile();
 			modInstallRootDir = null;
-			parser = new IniConfigFileParser();
+			
 			loadModWorker = new BackgroundWorker();
 			loadModWorker.WorkerReportsProgress = true;
 			loadModWorker.DoWork += loadModWorker_DoWork;
@@ -155,166 +152,146 @@ namespace OpenMB.Mods
 			if (!string.IsNullOrEmpty(manifest.Data.Animations))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Animations);
-				ModAnimationsDfnXml animationDfn;
-				loader.Load(out animationDfn);
-				currentMod.AnimationInfos = animationDfn.Animations;
+                loader.Load(out ModAnimationsDfnXml animationDfn);
+                currentMod.AnimationInfos = animationDfn.Animations;
 				loadModWorker.ReportProgress(20);
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Characters))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Characters);
-				ModCharactersDfnXML characterDfn;
-				loader.Load(out characterDfn);
-				currentMod.CharacterInfos = characterDfn.CharacterDfns;
+                loader.Load(out ModCharactersDfnXML characterDfn);
+                currentMod.CharacterInfos = characterDfn.CharacterDfns;
 				loadModWorker.ReportProgress(50);
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.ItemTypes))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.ItemTypes);
-				ModItemTypesDfnXml itemTypesDfn;
-				loader.Load(out itemTypesDfn);
-				currentMod.ItemTypeInfos = itemTypesDfn != null ? itemTypesDfn.ItemTypes : null;
+                loader.Load(out ModItemTypesDfnXml itemTypesDfn);
+                currentMod.ItemTypeInfos = itemTypesDfn != null ? itemTypesDfn.ItemTypes : null;
 				loadModWorker.ReportProgress(75);
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Items))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Items);
-				ModItemsDfnXML itemDfn;
-				loader.Load(out itemDfn);
-				currentMod.ItemInfos = itemDfn != null ? itemDfn.Items : null;
+                loader.Load(out ModItemsDfnXML itemDfn);
+                currentMod.ItemInfos = itemDfn != null ? itemDfn.Items : null;
 				loadModWorker.ReportProgress(75);
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Sides))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Sides);
-				ModSidesDfnXML sideDfn;
-				loader.Load(out sideDfn);
-				currentMod.SideInfos = sideDfn.Sides;
+                loader.Load(out ModSidesDfnXML sideDfn);
+                currentMod.SideInfos = sideDfn.Sides;
 				loadModWorker.ReportProgress(80);
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Skin))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Skin);
-				ModSkinDfnXML skinDfn;
-				loader.Load(out skinDfn);
-				currentMod.SkinInfos = skinDfn.CharacterSkinList;
+                loader.Load(out ModSkinDfnXML skinDfn);
+                currentMod.SkinInfos = skinDfn.CharacterSkinList;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Music))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Music);
-				ModTracksDfnXML trackDfn;
-				loader.Load(out trackDfn);
-				currentMod.MusicInfos = trackDfn.Tracks;
+                loader.Load(out ModTracksDfnXML trackDfn);
+                currentMod.MusicInfos = trackDfn.Tracks;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Sound))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Sound);
-				ModSoundsDfnXML soundDfn;
-				loader.Load(out soundDfn);
-				currentMod.SoundInfos = soundDfn.Sounds;
+                loader.Load(out ModSoundsDfnXML soundDfn);
+                currentMod.SoundInfos = soundDfn.Sounds;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Maps))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Maps);
-				ModMapsDfnXml mapsDfn;
-				loader.Load(out mapsDfn);
-				currentMod.MapInfos = mapsDfn.Maps;
+                loader.Load(out ModMapsDfnXml mapsDfn);
+                currentMod.MapInfos = mapsDfn.Maps;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.WorldMaps))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.WorldMaps);
-				ModWorldMapsDfnXml worldMapsDfn;
-				loader.Load(out worldMapsDfn);
-				currentMod.WorldMapInfos = worldMapsDfn.WorldMaps;
+                loader.Load(out ModWorldMapsDfnXml worldMapsDfn);
+                currentMod.WorldMapInfos = worldMapsDfn.WorldMaps;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Locations))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Locations);
-				ModLocationsDfnXml locationsDfn;
-				loader.Load(out locationsDfn);
-				currentMod.LocationInfos = locationsDfn.Locations;
+                loader.Load(out ModLocationsDfnXml locationsDfn);
+                currentMod.LocationInfos = locationsDfn.Locations;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Skeletons))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Skeletons);
-				ModSkeletonsDfnXML skeletonsDfn;
-				loader.Load(out skeletonsDfn);
-				currentMod.SkeletonInfos = skeletonsDfn.Skeletons;
+                loader.Load(out ModSkeletonsDfnXML skeletonsDfn);
+                currentMod.SkeletonInfos = skeletonsDfn.Skeletons;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.SceneProps))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.SceneProps);
-				ModScenePropsDfnXml scenePropsDfnXml;
-				loader.Load(out scenePropsDfnXml);
-				currentMod.ScenePropInfos = scenePropsDfnXml.SceneProps;
+                loader.Load(out ModScenePropsDfnXml scenePropsDfnXml);
+                currentMod.ScenePropInfos = scenePropsDfnXml.SceneProps;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Models))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Models);
-				ModModelsDfnXml modelsDfnXml;
-				loader.Load(out modelsDfnXml);
-				currentMod.ModelInfos = modelsDfnXml.Models;
+                loader.Load(out ModModelsDfnXml modelsDfnXml);
+                currentMod.ModelInfos = modelsDfnXml.Models;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Menus))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Menus);
-				ModMenusDfnXml menusDfnXml;
-				loader.Load(out menusDfnXml);
-				currentMod.MenuInfos = menusDfnXml.Menus;
+                loader.Load(out ModMenusDfnXml menusDfnXml);
+                currentMod.MenuInfos = menusDfnXml.Menus;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.UILayouts))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.UILayouts);
-				ModUILayoutsDfnXml uiLayoutsDfnXml;
-				loader.Load(out uiLayoutsDfnXml);
-				currentMod.UILayoutInfos = uiLayoutsDfnXml.UILayouts;
+                loader.Load(out ModUILayoutsDfnXml uiLayoutsDfnXml);
+                currentMod.UILayoutInfos = uiLayoutsDfnXml.UILayouts;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Strings))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Strings);
-				ModStringsDfnXml stringsDfnXml;
-				loader.Load(out stringsDfnXml);
-				currentMod.StringInfos = stringsDfnXml.Strings;
+                loader.Load(out ModStringsDfnXml stringsDfnXml);
+                currentMod.StringInfos = stringsDfnXml.Strings;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Cursors))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Cursors);
-				ModCursorsDfnXml cursorsDfnXml;
-				loader.Load(out cursorsDfnXml);
-				currentMod.CursorInfos = cursorsDfnXml.Cursors;
+                loader.Load(out ModCursorsDfnXml cursorsDfnXml);
+                currentMod.CursorInfos = cursorsDfnXml.Cursors;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.MapTemplates))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.MapTemplates);
-				ModMapTemplatesDfnXml mapTemplatesDfnXml;
-				loader.Load(out mapTemplatesDfnXml);
-				currentMod.MapTemplateInfos = mapTemplatesDfnXml.MapTemplates;
+                loader.Load(out ModMapTemplatesDfnXml mapTemplatesDfnXml);
+                currentMod.MapTemplateInfos = mapTemplatesDfnXml.MapTemplates;
 			}
 
 			if (!string.IsNullOrEmpty(manifest.Data.Vehicles))
 			{
 				loader = new XmlObjectLoader(manifest.InstalledPath + "/" + manifest.Data.Vehicles);
-				ModVehiclesDfnXml vehiclesDfnXml;
-				loader.Load(out vehiclesDfnXml);
-				currentMod.VehicleInfos = vehiclesDfnXml.VehicleDfns;
+                loader.Load(out ModVehiclesDfnXml vehiclesDfnXml);
+                currentMod.VehicleInfos = vehiclesDfnXml.VehicleDfns;
 			}
 		}
 
