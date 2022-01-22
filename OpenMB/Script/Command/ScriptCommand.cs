@@ -50,6 +50,11 @@ namespace OpenMB.Script.Command
 			set;
 		}
 
+		public ScriptCommand()
+        {
+			SubCommands = new List<IScriptCommand>();
+        }
+
 		public virtual void Execute(params object[] executeArgs)
 		{
 

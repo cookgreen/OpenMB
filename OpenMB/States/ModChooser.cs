@@ -66,7 +66,7 @@ namespace OpenMB.States
 			EngineManager.Instance.viewport.Camera = camera;
 			modDisplayDataList.Clear();
 
-			mods = ModManager.Instance.GetInstalledMods();
+			mods = ModManager.Instance.InstalledMods;
 			foreach (var pair in mods)
 			{
 				if (pair.Value.MetaData.DisplayInChooser)

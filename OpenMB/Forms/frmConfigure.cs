@@ -197,8 +197,8 @@ namespace OpenMB.Forms
 		private void btnModifyFileSystemResourceLoc_Click(object sender, EventArgs e)
 		{
 			frmRelativeFileFolderBrowser resourceLocEditor = new frmRelativeFileFolderBrowser();
-			string rootDir = null;
-			if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
+            string rootDir;
+            if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
 				!controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
 			{
 				rootDir = controller.ResourceConfig.ResourceRootDir.Substring(1);
@@ -229,8 +229,8 @@ namespace OpenMB.Forms
 		private void btnAddZipResourceLoc_Click(object sender, EventArgs e)
 		{
 			frmRelativeFileFolderBrowser resourceLocEditor = new frmRelativeFileFolderBrowser();
-			string rootDir = null;
-			if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
+            string rootDir;
+            if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
 				!controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
 			{
 				rootDir = controller.ResourceConfig.ResourceRootDir.Substring(1);
@@ -254,8 +254,8 @@ namespace OpenMB.Forms
 		private void btnModifyZipResourceLoc_Click(object sender, EventArgs e)
 		{
 			frmRelativeFileFolderBrowser resourceLocEditor = new frmRelativeFileFolderBrowser();
-			string rootDir = null;
-			if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
+            string rootDir;
+            if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
 				!controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
 			{
 				rootDir = controller.ResourceConfig.ResourceRootDir.Substring(1);

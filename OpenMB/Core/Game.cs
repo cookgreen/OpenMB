@@ -1,6 +1,7 @@
 ﻿using Mogre;
 using OpenMB.Forms;
 using OpenMB.Forms.Controller;
+using OpenMB.Mods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,22 +32,28 @@ namespace OpenMB.Core
 
 		public void Run()
 		{
-			string modArg = gameArgument.GetArgValue("Engine.Mod");
+			var root = new Root();
 
-			string showConfigArg = gameArgument.GetArgValue("Engine.ShowConfig");
-			if (string.IsNullOrEmpty(showConfigArg) || showConfigArg == "yes")
+			string modArg = gameArgument.GetArgValue("Engine.Mod");
+			var mods = ModManager.Instance.InstalledMods.Where(o => o.Value.MetaData.DisplayInChooser).ToList();
+			
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+
+			if (string.IsNullOrEmpty(modArg))
 			{
-				Application.EnableVisualStyles();
-				Application.SetCompatibleTextRenderingDefault(false);
-				frmConfigureController controller = new frmConfigureController(new frmConfigure(modArg));
-				controller.form.ShowDialog();
+				if (mods.Count == 0)
+				{
+					MessageBox.Show("No module found, app will exit now!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+				else
+				{
+					modArg = mods.First().Key;
+				}
 			}
-			else
-			{
-				Root root = new Root();
-				GameApp app = new GameApp(GameConfigXml.Load("game.xml", root), modArg);
-				app.Run();
-			}
+			frmConfigureController controller = new frmConfigureController(new frmConfigure(modArg));
+			controller.form.ShowDialog();
 		}
 	}
 }

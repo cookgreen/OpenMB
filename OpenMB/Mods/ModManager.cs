@@ -22,18 +22,16 @@ namespace OpenMB.Mods
 	using Mods = Dictionary<string, ModManifest>;
 	public class ModManager : ISubSystemManager
 	{
+		private const string MODIR = "Mods/";
 		private Mods installedMods;
 		private string modInstallRootDir;
 		private ModData currentMod;
 		private string currentModName;
 		private BackgroundWorker loadModWorker;
+
 		public event Action LoadingModStarted;
 		public event Action LoadingModFinished;
 		public event Action<int> LoadingModProcessing;
-		public ModData ModData
-		{
-			get { return currentMod; }
-		}
 
 		public static ModManager Instance
 		{
@@ -45,6 +43,11 @@ namespace OpenMB.Mods
 				}
 				return instance;
 			}
+		}
+
+		public ModData ModData
+		{
+			get { return currentMod; }
 		}
 
 		public Mods InstalledMods
@@ -68,6 +71,8 @@ namespace OpenMB.Mods
 			loadModWorker.DoWork += loadModWorker_DoWork;
 			loadModWorker.RunWorkerCompleted += loadModWorker_RunWorkerCompleted;
 			loadModWorker.ProgressChanged += loadModWorker_ProgressChanged;
+
+			installedMods = GetInstalledMods();
 		}
 
 		void loadModWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -481,13 +486,11 @@ namespace OpenMB.Mods
 			}
 		}
 
-		public Mods GetInstalledMods()
+		private Mods GetInstalledMods()
 		{
-			getModInstallRootDir();
-
-			if (!string.IsNullOrEmpty(modInstallRootDir))
+			if (!string.IsNullOrEmpty(MODIR))
 			{
-				DirectoryInfo d = new DirectoryInfo(modInstallRootDir);
+				DirectoryInfo d = new DirectoryInfo(MODIR);
 
 				FileSystemInfo[] modDirs = d.GetFileSystemInfos();
 

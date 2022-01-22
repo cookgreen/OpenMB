@@ -46,15 +46,15 @@ namespace OpenMB
 
 			GC.Collect();
 
-			ModChooser.create<ModChooser>("ModChooser");
-			MainMenu.create<MainMenu>("MainMenu");
-			Pause.create<Pause>("Pause");
-			SinglePlayer.create<SinglePlayer>("SinglePlayer");
-			Multiplayer.create<Multiplayer>("Multiplayer");
-			Credit.create<Credit>("Credit");
-			Loading.create<Loading>("Loading");
+			AppState.create<ModChooser>("ModChooser");
+			AppState.create<MainMenu>("MainMenu");
+			AppState.create<Pause>("Pause");
+			AppState.create<SinglePlayer>("SinglePlayer");
+			AppState.create<Multiplayer>("Multiplayer");
+            AppState.create<Credit>("Credit");
+            AppState.create<Loading>("Loading");
 
-			var installedMod = ModManager.Instance.GetInstalledMods();
+			var installedMod = ModManager.Instance.InstalledMods;
 			if (!string.IsNullOrEmpty(mod) && installedMod.ContainsKey(mod))
 			{
 				EngineManager.Instance.loadingData = new LoadingData(LoadingType.LOADING_MOD, "Loading Mod...Please wait", mod, "MainMenu");

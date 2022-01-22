@@ -33,7 +33,7 @@ namespace OpenMB.Forms.Controller
 		{
 			this.form = form;
 
-			root = new Root();
+			root = Root.Singleton ;
 
 			AudioConfig = new AudioConfigure();
 			GameConfig = new GameConfigure();

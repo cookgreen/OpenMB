@@ -29,6 +29,7 @@ Mods/*/OpenMB.Mods.*.dll
 *.xml
 .vs/*
 *.dll
+*.CopyCompelete
 
 *.brf
 *.tga
