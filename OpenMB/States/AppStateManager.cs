@@ -68,8 +68,8 @@ namespace OpenMB.States
 		{
 			changeAppState(state);
 
-			int timeSinceLastFrame = 1;
-			int startTime = 0;
+			uint timeSinceLastFrame = 1;
+			uint startTime = 0;
 
 			if (OnAppStateManagerStarted != null)
 			{
@@ -88,16 +88,18 @@ namespace OpenMB.States
 
 				if (EngineManager.Instance.renderWindow.IsActive)
 				{
-					startTime = (int)EngineManager.Instance.timer.MicrosecondsCPU;
+					startTime = EngineManager.Instance.timer.MillisecondsCPU;
 
 					activeStateStack.Last().update(timeSinceLastFrame * 1.0 / 1000);
+					
 					EngineManager.Instance.keyboard.Capture();
 					EngineManager.Instance.mouse.Capture();
+					
 					EngineManager.Instance.Update((float)(timeSinceLastFrame * 1.0 / 1000));
 
 					EngineManager.Instance.root.RenderOneFrame();
 
-					timeSinceLastFrame = (int)EngineManager.Instance.timer.MicrosecondsCPU - startTime;
+					timeSinceLastFrame = EngineManager.Instance.timer.MillisecondsCPU - startTime;
 
 				}
 				else
