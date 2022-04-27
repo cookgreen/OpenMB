@@ -23,7 +23,7 @@ namespace com.google.translate.api
             set { destLangID = value; }
         }
         private BackgroundWorker worker;
-        public event Action<string> TranslateFinished;
+        public event Action<string, object> TranslateFinished;
         public GoogleTranslateAPIRequest(string srcLangID, string destLangID)
         {
             this.srcLangID = srcLangID;
@@ -45,16 +45,16 @@ namespace com.google.translate.api
                 GoogleTranslateAPIResponse response = JsonConvert.DeserializeObject<GoogleTranslateAPIResponse>(json);
                 if (response != null && response.sentences.Count > 0)
                 {
-                    TranslateFinished?.Invoke(response.sentences[0].trans);
+                    TranslateFinished?.Invoke(response.sentences[0].trans, arr[2]);
                 }
                 else
                 {
-                    TranslateFinished?.Invoke("No Suggestion");
+                    TranslateFinished?.Invoke("No Suggestion", arr[2]);
                 }
             }
             else
             {
-                TranslateFinished?.Invoke("No Suggestion");
+                TranslateFinished?.Invoke("No Suggestion", arr[2]);
             }
         }
 
@@ -62,7 +62,12 @@ namespace com.google.translate.api
         {
             try
             {
-                string url = !isAuto ? string.Format(baseUrl, srcLangID, destLangID) : string.Format(baseUrlAuto, destLangID, e.Argument.ToString());
+                object[] arr = e.Argument as object[];
+                bool hasUserData = bool.Parse(arr[0].ToString());
+                string translateText = arr[1].ToString();
+                object userData = arr[2];
+
+                string url = !isAuto ? string.Format(baseUrl, srcLangID, destLangID) : string.Format(baseUrlAuto, destLangID, translateText);
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.UserAgent = "UserAgent";
@@ -75,14 +80,16 @@ namespace com.google.translate.api
                 }
                 e.Result = new object[] {
                     "done",
-                    responseJson
+                    responseJson,
+                    userData
                 };
             }
             catch (Exception ex)
             {
                 e.Result = new object[] {
                     "error",
-                    ex.Message
+                    ex.Message,
+                    null
                 };
             }
         }
@@ -92,7 +99,19 @@ namespace com.google.translate.api
             worker = new BackgroundWorker();
             worker.DoWork += Worker_DoWork;
             worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            worker.RunWorkerAsync(text);
+            worker.RunWorkerAsync(new object[] { 
+                false, text, null
+            });
+        }
+
+        public void TranslateAsync(string text, object useData)
+        {
+            worker = new BackgroundWorker();
+            worker.DoWork += Worker_DoWork;
+            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            worker.RunWorkerAsync(new object[] { 
+                true, text, useData
+            });
         }
     }
 }
