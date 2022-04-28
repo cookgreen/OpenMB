@@ -17,13 +17,16 @@ namespace com.google.translate.api
         private string baseUrlAuto = "http://translate.google.cn/translate_a/single?client=gtx&dt=t&dj=1&ie=UTF-8&sl=auto&tl={0}&q={1}";
         private string srcLangID;
         private string destLangID;
+
+        private string originalText;
+
         public string DestLangID
         {
             get { return destLangID; }
             set { destLangID = value; }
         }
         private BackgroundWorker worker;
-        public event Action<string, object> TranslateFinished;
+        public event Action<bool, string, object> TranslateFinished;
         public GoogleTranslateAPIRequest(string srcLangID, string destLangID)
         {
             this.srcLangID = srcLangID;
@@ -43,18 +46,20 @@ namespace com.google.translate.api
             {
                 string json = arr[1].ToString();
                 GoogleTranslateAPIResponse response = JsonConvert.DeserializeObject<GoogleTranslateAPIResponse>(json);
-                if (response != null && response.sentences.Count > 0)
+                if (response != null &&
+                    response.sentences != null &&
+                    response.sentences.Count > 0)
                 {
-                    TranslateFinished?.Invoke(response.sentences[0].trans, arr[2]);
+                    TranslateFinished?.Invoke(true, response.sentences[0].trans, arr[2]);
                 }
                 else
                 {
-                    TranslateFinished?.Invoke("No Suggestion", arr[2]);
+                    TranslateFinished?.Invoke(false, originalText, arr[2]);
                 }
             }
             else
             {
-                TranslateFinished?.Invoke("No Suggestion", arr[2]);
+                TranslateFinished?.Invoke(false, originalText, arr[2]);
             }
         }
 
@@ -63,11 +68,12 @@ namespace com.google.translate.api
             try
             {
                 object[] arr = e.Argument as object[];
-                bool hasUserData = bool.Parse(arr[0].ToString());
                 string translateText = arr[1].ToString();
                 object userData = arr[2];
 
-                string url = !isAuto ? string.Format(baseUrl, srcLangID, destLangID) : string.Format(baseUrlAuto, destLangID, translateText);
+                originalText = translateText;
+
+                string url = !isAuto ? string.Format(baseUrl, srcLangID, destLangID) : string.Format(baseUrlAuto, destLangID, originalText);
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.UserAgent = "UserAgent";
