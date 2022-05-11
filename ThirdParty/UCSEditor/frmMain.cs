@@ -36,7 +36,7 @@ namespace UCSEditor
 			}
 		}
 
-        private void GoogleTransApi_TranslateFinished(string translatedText, object unused)
+        private void GoogleTransApi_TranslateFinished(bool unused, string translatedText, object unused2)
         {
 			txtSuggestion.Text = translatedText;
         }
