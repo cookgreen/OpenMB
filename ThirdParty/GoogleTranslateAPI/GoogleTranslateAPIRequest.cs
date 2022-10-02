@@ -13,8 +13,8 @@ namespace com.google.translate.api
     public class GoogleTranslateAPIRequest
     {
         private bool isAuto = false;
-        private string baseUrl = "http://translate.google.cn/translate_a/single?client=gtx&dt=t&dj=1&ie=UTF-8&sl={0}&tl={1}&q={2}";
-        private string baseUrlAuto = "http://translate.google.cn/translate_a/single?client=gtx&dt=t&dj=1&ie=UTF-8&sl=auto&tl={0}&q={1}";
+        private string baseUrl = "https://translate.google.com/translate_a/single?client=gtx&dt=t&dj=1&ie=UTF-8&sl={0}&tl={1}&q={2}";
+        private string baseUrlAuto = "https://translate.google.com/translate_a/single?client=gtx&dt=t&dj=1&ie=UTF-8&sl=auto&tl={0}&q={1}";
         private string srcLangID;
         private string destLangID;
 
