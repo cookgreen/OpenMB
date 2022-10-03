@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenMB.Modio
+namespace Modio
 {
-	public class ResultData
+	public class ModioResultData
 	{
 		public object data { get; set; }
 		public int result_count { get; set; }

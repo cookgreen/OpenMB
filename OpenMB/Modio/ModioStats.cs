@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenMB.Modio
+namespace Modio
 {
-	public class Stats
+	public class ModioStats
 	{
 		public int mod_id { get; set; }
 		public int popularity_rank_position { get; set; }

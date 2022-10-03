@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenMB.Modio
+namespace Modio
 {
-	public class ModFile
+	public class ModioModFile
 	{
 		public int id { get; set; }
 		public int mod_id { get; set; }
@@ -16,11 +16,11 @@ namespace OpenMB.Modio
 		public int virus_positive { get; set; }
 		public string virustotal_hash { get; set; }
 		public int filesize { get; set; }
-		public ModFileHash file_hash { get; set; }
+		public ModioModFileHash file_hash { get; set; }
 		public string filename { get; set; }
 		public string version { get; set; }
 		public string changelog { get; set; }
 		public string metadata_blob { get; set; }
-		public ModFileDownload download { get; set; }
+		public ModioModFileDownload download { get; set; }
 	}
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenMB.Modio
+namespace Modio
 {
-	public class ImageFile
+	public class ModioImageFile
 	{
 		public string filename { get; set; }
 		public string original { get; set; }

@@ -1,6 +1,6 @@
-﻿namespace OpenMB.Modio
+﻿namespace Modio
 {
-	public class ModFileDownload
+	public class ModioModFileDownload
 	{
 		public string binary_url { get; set; }
 		public string date_expires { get; set; }

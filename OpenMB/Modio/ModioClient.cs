@@ -1,23 +1,18 @@
-﻿using OpenMB.Core;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OpenMB.Modio
+namespace Modio
 {
-	public class Client
+    public class ModioClient
 	{
 		private string apiKey;
 		private string accessToken;
 		private BackgroundWorker worker;
 
 		public event Action<object> GetResultDataFinished;
-		public Client(string apiKey, string accessToken)
+		public ModioClient(string apiKey, string accessToken)
 		{
 			this.apiKey = apiKey;
 			this.accessToken = accessToken;

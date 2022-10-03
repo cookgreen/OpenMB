@@ -5,17 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OpenMB.Modio;
 using Newtonsoft.Json.Linq;
 using OpenMB.UI;
 using System.Windows.Forms;
 using OpenMB.UI.Widgets;
 
+using Modio;
+
 namespace OpenMB.Screen
 {
 	public class ModBrowserScreen : Screen
 	{
-		private Dictionary<string, Mod> modList;
+		private Dictionary<string, ModioMod> modList;
 		private PanelScrollableWidget browserMainPanel;
 		private SimpleStaticTextWidget txtMessage;
 		private const int BROWSER_EACHROW_SHOW_NUMBER = 3;
@@ -34,10 +35,10 @@ namespace OpenMB.Screen
 
 		public override void Run()
 		{
-			modList = new Dictionary<string, Mod>();
-			Client client = new Client(Common.OPENMB_API_KEY, null);
-			client.GetModsAsync(Common.OPENMB_MODIO_ID);
-			client.GetResultDataFinished += Client_GetResultDataFinished;
+			modList = new Dictionary<string, ModioMod>();
+			ModioClient modioClient = new ModioClient(Common.OPENMB_API_KEY, null);
+			modioClient.GetModsAsync(Common.OPENMB_MODIO_ID);
+			modioClient.GetResultDataFinished += Client_GetResultDataFinished;
 
 			//Create a ui
 			browserMainPanel = UIManager.Instance.CreateScrollablePanel("modBrowserMainPanel", 0.9f, 0.9f, 0.05f, 0.05f);
@@ -54,7 +55,7 @@ namespace OpenMB.Screen
 			{
 				browserMainPanel.RemoveWidget(1, 1);
 
-				var retData = JsonConvert.DeserializeObject<ResultData>(arr[2].ToString());
+				var retData = JsonConvert.DeserializeObject<ModioResultData>(arr[2].ToString());
 				JArray jarr = retData.data as JArray;
 
 				int rowNumber = BROWSER_PAGE_SHOW_NUMBER / BROWSER_EACHROW_SHOW_NUMBER;
@@ -70,7 +71,7 @@ namespace OpenMB.Screen
 				for (int i = 0; i < jarr.Count; i++)
 				{
 					JToken token = jarr[i];
-					Mod mod = token.ToObject(typeof(Mod)) as Mod;
+					ModioMod mod = token.ToObject(typeof(ModioMod)) as ModioMod;
 
 					CreateModCard(mod, currentRow, currentCol);
 
@@ -89,7 +90,7 @@ namespace OpenMB.Screen
 			}
 		}
 
-		private void CreateModCard(Mod mod, int currentRow, int currentCol)
+		private void CreateModCard(ModioMod mod, int currentRow, int currentCol)
 		{
 			PanelWidget modPreviewWidget = new PanelWidget("mod_panel_" + mod.name_id, 0, 0.3f, 0, 0, 2, 1, false);
 			modPreviewWidget.ChangeRow(UI.ValueType.Percent, 100);

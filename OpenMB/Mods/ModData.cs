@@ -10,6 +10,8 @@ using OpenMB.Map;
 using System.Reflection;
 using OpenMB.Localization;
 
+using Modio;
+
 namespace OpenMB.Mods
 {
 	public class ModData
@@ -200,6 +202,11 @@ namespace OpenMB.Mods
 			StartupBackgroundTypes = new List<IModStartupBackgroundType>();
 
 			assemblies = new List<Assembly>();
+		}
+
+		public ModData(ModioMod modioMod)
+		{
+			//TODO: Convert the Mod.io data into mod data
 		}
 
 		public ModItemTypeDfnXml FindItemType(string itemType)

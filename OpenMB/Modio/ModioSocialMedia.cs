@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenMB.Modio
+namespace Modio
 {
-	public class Media
+	public class ModioSocialMedia
 	{
 		public List<string> youtube { get; set; }
 		public List<string> sketchfab { get; set; }
