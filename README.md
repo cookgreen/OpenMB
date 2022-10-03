@@ -19,7 +19,7 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
 * New GUI System - SimpleGUI  
 * Script-driven GUI System  
 * Inner Game Editor  
-* Support Mod.io
+* Integrate Mod.io
 * Google Translate API library  
 * Official Mod: [Kingdom & Knight](https://www.moddb.com/mods/kingdom-knights)  
 
