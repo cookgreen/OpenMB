@@ -40,6 +40,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmGoogleTranslate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGoogleTranslate.Designer.cs">
+      <DependentUpon>frmGoogleTranslate.cs</DependentUpon>
+    </Compile>
     <Compile Include="GoogleTranslateAPIRequest.cs" />
     <Compile Include="GoogleTranslateAPIResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -56,6 +64,11 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="frmGoogleTranslate.resx">
+      <DependentUpon>frmGoogleTranslate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

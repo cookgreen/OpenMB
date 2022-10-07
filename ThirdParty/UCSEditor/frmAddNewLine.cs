@@ -5,19 +5,23 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using com.google.translate.api;
 
 namespace UCSEditor
 {
     public partial class frmAddNewLine : Form
     {
+        private EditorSetting setting;
         private UCSLine line;
         public UCSLine Line
         {
             get { return line; }
         }
-        public frmAddNewLine()
+
+        public frmAddNewLine(EditorSetting setting)
         {
             InitializeComponent();
+            this.setting = setting;
             line = new UCSLine();
         }
 
@@ -39,6 +43,19 @@ namespace UCSEditor
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btnPickFromGoogleTranslate_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, string> languages = new Dictionary<string, string>();
+            var tempLanguages = setting.GoogleTranslateAPISetting.TranslateLanguages;
+            foreach (var tempLang in tempLanguages)
+            {
+                languages.Add(tempLang.GoogleTransAPILocate, tempLang.DisplayName);
+            }
+            frmGoogleTranslate googleTranslateWin = new frmGoogleTranslate(languages, txtOriginalText.Text);
+            googleTranslateWin.ShowDialog();
+            txtOriginalText.Text = googleTranslateWin.TranslatedText;
         }
     }
 }

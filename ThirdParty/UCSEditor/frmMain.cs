@@ -135,7 +135,7 @@ namespace UCSEditor
 
 		private void addNewLineToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			frmAddNewLine addNewLineForm = new frmAddNewLine();
+			frmAddNewLine addNewLineForm = new frmAddNewLine(setting);
 			if (addNewLineForm.ShowDialog() == DialogResult.OK)
 			{
 				ListViewItem item = new ListViewItem();

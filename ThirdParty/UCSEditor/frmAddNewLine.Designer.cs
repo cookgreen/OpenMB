@@ -98,6 +98,7 @@
             this.btnPickFromGoogleTranslate.TabIndex = 8;
             this.btnPickFromGoogleTranslate.Text = "Pick";
             this.btnPickFromGoogleTranslate.UseVisualStyleBackColor = true;
+            this.btnPickFromGoogleTranslate.Click += new System.EventHandler(this.btnPickFromGoogleTranslate_Click);
             // 
             // frmAddNewLine
             // 
