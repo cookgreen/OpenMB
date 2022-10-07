@@ -2,10 +2,10 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("GoogleTranslateAPI")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Google Translation API Library")]
+[assembly: AssemblyDescription("Un-Official API library for Google Translation")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Yin Xiaoguang")]
 [assembly: AssemblyProduct("GoogleTranslateAPI")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
@@ -15,5 +15,5 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("45c83f9b-4082-4ab6-aa4d-55ed41973d72")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("2.2.1.0")]
+[assembly: AssemblyFileVersion("2.2.1.0")]

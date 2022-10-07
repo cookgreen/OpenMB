@@ -3,9 +3,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("KBFEditor")]
-[assembly: AssemblyDescription("KBF File Editor")]
+[assembly: AssemblyDescription("KBF Resource File Editor")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Yin Xiaoguang")]
 [assembly: AssemblyProduct("KBF File Editor")]
 [assembly: AssemblyCopyright("GNU GENERAL PUBLIC LICENSE Version 3")]
 [assembly: AssemblyTrademark("")]

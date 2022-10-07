@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -41,6 +42,31 @@ namespace UCSEditor
 			txtSuggestion.Text = translatedText;
         }
 
+		private void openUCSFile(string ucsFile)
+		{
+			Text = "UCSEditor - " + ucsFile;
+
+			ucs = new UCSFile(ucsFile);
+			if (ucs.Process())
+			{
+				lsvLocateInfo.Items.Clear();
+
+				mnuFileSave.Enabled = true;
+				mnuFileSaveAs.Enabled = true;
+				mnuEditAddNewLine.Enabled = true;
+
+				foreach (var kpl in ucs.UCSData)
+				{
+					ListViewItem lvi = new ListViewItem();
+					lvi.Text = kpl.Key;
+					lvi.SubItems.Add(kpl.Value);
+					lsvLocateInfo.Items.Add(lvi);
+				}
+
+				pendingChanges = new List<Tuple<UCSLine, ChangeOperation>>();
+			}
+		}
+
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog dialog = new OpenFileDialog();
@@ -53,27 +79,7 @@ namespace UCSEditor
 					saveToolStripMenuItem_Click(null, null);
 				}
 
-				Text = "UCSEditor - " + dialog.FileName;
-
-				ucs = new UCSFile(dialog.FileName);
-				if (ucs.Process())
-				{
-					lsvLocateInfo.Items.Clear();
-
-					saveToolStripMenuItem.Enabled = true;
-					saveAsToolStripMenuItem.Enabled = true;
-					addNewLineToolStripMenuItem.Enabled = true;
-
-					foreach (var kpl in ucs.UCSData)
-					{
-						ListViewItem lvi = new ListViewItem();
-						lvi.Text = kpl.Key;
-						lvi.SubItems.Add(kpl.Value);
-						lsvLocateInfo.Items.Add(lvi);
-					}
-
-					pendingChanges = new List<Tuple<UCSLine, ChangeOperation>>();
-				}
+				openUCSFile(dialog.FileName);
 			}
 		}
 
@@ -83,7 +89,7 @@ namespace UCSEditor
 			txtLocalizedText.Text = "";
 			if (lsvLocateInfo.SelectedItems.Count > 0)
 			{
-				deleteThisLineToolStripMenuItem.Enabled = true;
+				mnuEditDeleteThisLine.Enabled = true;
 				if (lsvLocateInfo.SelectedItems[0].SubItems.Count > 1)
 				{
 					lvi = lsvLocateInfo.SelectedItems[0];
@@ -105,6 +111,7 @@ namespace UCSEditor
 		{
 			SaveFileDialog dialog = new SaveFileDialog();
 			dialog.Title = "Save As";
+			dialog.Filter = "UCS Locate File|*.ucs";
 			if (dialog.ShowDialog(this) == DialogResult.OK)
 			{
 				SaveData();
@@ -150,7 +157,7 @@ namespace UCSEditor
 				pendingChanges.Add(new Tuple<UCSLine, ChangeOperation>(line, ChangeOperation.Delete));
 
 				lsvLocateInfo.Items.Remove(lsvLocateInfo.SelectedItems[0]);
-				deleteThisLineToolStripMenuItem.Enabled = false;
+				mnuEditDeleteThisLine.Enabled = false;
 			}
 		}
 
@@ -158,6 +165,9 @@ namespace UCSEditor
 		{
 			lsvLocateInfo.Columns[0].Width = this.Width / 2;
 			lsvLocateInfo.Columns[1].Width = this.Width / 2;
+
+			splitContainer1.SplitterDistance = Width / 2;
+			splitContainer2.SplitterDistance = splitContainer1.Height / 2;
 		}
 
 		private void txtLocalizedText_KeyDown(object sender, KeyEventArgs e)
@@ -228,6 +238,21 @@ namespace UCSEditor
 					saveAsToolStripMenuItem_Click(null, null);
 				}
 			}
+        }
+
+        private void mnuNew_Click(object sender, EventArgs e)
+        {
+			SaveFileDialog dialog = new SaveFileDialog();
+			dialog.Filter = "UCS Locate File|*.ucs";
+			if(dialog.ShowDialog() == DialogResult.OK)
+            {
+				string fullPath = dialog.FileName;
+
+				var stream = File.CreateText(fullPath);
+				stream.Close();
+
+				openUCSFile(fullPath);
+            }
         }
     }
 }

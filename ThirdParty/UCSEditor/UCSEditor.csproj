@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
+    <None Include="Resources\app-translate.png" />
     <Content Include="UCSEditorSetting.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

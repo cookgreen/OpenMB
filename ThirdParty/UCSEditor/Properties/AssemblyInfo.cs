@@ -2,11 +2,11 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("OpenMB.Utilities.UCSFileEditor")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("UCS Translation Tool")]
+[assembly: AssemblyDescription("UCS Locate File Editor")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("UCS Translation Tool")]
+[assembly: AssemblyCompany("Yin Xiaoguang")]
+[assembly: AssemblyProduct("UCSEditor")]
 [assembly: AssemblyCopyright("GNU GENERAL PUBLIC LICENSE Version 3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -31,16 +31,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.menus = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFileOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFileSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addNewLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteThisLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuEditAddNewLine = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuEditDeleteThisLine = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutUCSEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuAboutUCSEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.cmbGoogleTranslationAPILanguages = new System.Windows.Forms.ToolStripComboBox();
@@ -57,6 +57,7 @@
             this.txtSuggestion = new System.Windows.Forms.RichTextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtLocalizedText = new System.Windows.Forms.RichTextBox();
+            this.mnuFileNew = new System.Windows.Forms.ToolStripMenuItem();
             this.menus.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -86,7 +87,6 @@
             this.aboutToolStripMenuItem});
             this.menus.Location = new System.Drawing.Point(0, 0);
             this.menus.Name = "menus";
-            this.menus.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
             this.menus.Size = new System.Drawing.Size(1045, 28);
             this.menus.TabIndex = 1;
             this.menus.Text = "Menus";
@@ -94,89 +94,90 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.saveAsToolStripMenuItem,
+            this.mnuFileNew,
+            this.mnuFileOpen,
+            this.mnuFileSave,
+            this.mnuFileSaveAs,
             this.toolStripMenuItem1,
-            this.exitToolStripMenuItem});
+            this.mnuFileExit});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(48, 24);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // openToolStripMenuItem
+            // mnuFileOpen
             // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.mnuFileOpen.Name = "mnuFileOpen";
+            this.mnuFileOpen.Size = new System.Drawing.Size(224, 26);
+            this.mnuFileOpen.Text = "Open";
+            this.mnuFileOpen.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
-            // saveToolStripMenuItem
+            // mnuFileSave
             // 
-            this.saveToolStripMenuItem.Enabled = false;
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            this.mnuFileSave.Enabled = false;
+            this.mnuFileSave.Name = "mnuFileSave";
+            this.mnuFileSave.Size = new System.Drawing.Size(224, 26);
+            this.mnuFileSave.Text = "Save";
+            this.mnuFileSave.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
-            // saveAsToolStripMenuItem
+            // mnuFileSaveAs
             // 
-            this.saveAsToolStripMenuItem.Enabled = false;
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
-            this.saveAsToolStripMenuItem.Text = "Save As";
-            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            this.mnuFileSaveAs.Enabled = false;
+            this.mnuFileSaveAs.Name = "mnuFileSaveAs";
+            this.mnuFileSaveAs.Size = new System.Drawing.Size(224, 26);
+            this.mnuFileSaveAs.Text = "Save As";
+            this.mnuFileSaveAs.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(145, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(221, 6);
             // 
-            // exitToolStripMenuItem
+            // mnuFileExit
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.mnuFileExit.Name = "mnuFileExit";
+            this.mnuFileExit.Size = new System.Drawing.Size(224, 26);
+            this.mnuFileExit.Text = "Exit";
+            this.mnuFileExit.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addNewLineToolStripMenuItem,
-            this.deleteThisLineToolStripMenuItem});
+            this.mnuEditAddNewLine,
+            this.mnuEditDeleteThisLine});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
-            // addNewLineToolStripMenuItem
+            // mnuEditAddNewLine
             // 
-            this.addNewLineToolStripMenuItem.Enabled = false;
-            this.addNewLineToolStripMenuItem.Name = "addNewLineToolStripMenuItem";
-            this.addNewLineToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
-            this.addNewLineToolStripMenuItem.Text = "Add New Line";
-            this.addNewLineToolStripMenuItem.Click += new System.EventHandler(this.addNewLineToolStripMenuItem_Click);
+            this.mnuEditAddNewLine.Enabled = false;
+            this.mnuEditAddNewLine.Name = "mnuEditAddNewLine";
+            this.mnuEditAddNewLine.Size = new System.Drawing.Size(224, 26);
+            this.mnuEditAddNewLine.Text = "Add New Line";
+            this.mnuEditAddNewLine.Click += new System.EventHandler(this.addNewLineToolStripMenuItem_Click);
             // 
-            // deleteThisLineToolStripMenuItem
+            // mnuEditDeleteThisLine
             // 
-            this.deleteThisLineToolStripMenuItem.Enabled = false;
-            this.deleteThisLineToolStripMenuItem.Name = "deleteThisLineToolStripMenuItem";
-            this.deleteThisLineToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
-            this.deleteThisLineToolStripMenuItem.Text = "Delete this Line";
-            this.deleteThisLineToolStripMenuItem.Click += new System.EventHandler(this.deleteThisLineToolStripMenuItem_Click);
+            this.mnuEditDeleteThisLine.Enabled = false;
+            this.mnuEditDeleteThisLine.Name = "mnuEditDeleteThisLine";
+            this.mnuEditDeleteThisLine.Size = new System.Drawing.Size(224, 26);
+            this.mnuEditDeleteThisLine.Text = "Delete this Line";
+            this.mnuEditDeleteThisLine.Click += new System.EventHandler(this.deleteThisLineToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutUCSEditorToolStripMenuItem});
+            this.mnuAboutUCSEditor});
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(69, 24);
             this.aboutToolStripMenuItem.Text = "About";
             // 
-            // aboutUCSEditorToolStripMenuItem
+            // mnuAboutUCSEditor
             // 
-            this.aboutUCSEditorToolStripMenuItem.Name = "aboutUCSEditorToolStripMenuItem";
-            this.aboutUCSEditorToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.aboutUCSEditorToolStripMenuItem.Text = "About UCSEditor";
-            this.aboutUCSEditorToolStripMenuItem.Click += new System.EventHandler(this.aboutUCSEditorToolStripMenuItem_Click);
+            this.mnuAboutUCSEditor.Name = "mnuAboutUCSEditor";
+            this.mnuAboutUCSEditor.Size = new System.Drawing.Size(224, 26);
+            this.mnuAboutUCSEditor.Text = "About UCSEditor";
+            this.mnuAboutUCSEditor.Click += new System.EventHandler(this.aboutUCSEditorToolStripMenuItem_Click);
             // 
             // toolStrip1
             // 
@@ -208,7 +209,7 @@
             this.panel1.Controls.Add(this.splitWinMain);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 56);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1045, 713);
             this.panel1.TabIndex = 3;
@@ -217,7 +218,7 @@
             // 
             this.splitWinMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitWinMain.Location = new System.Drawing.Point(0, 0);
-            this.splitWinMain.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitWinMain.Margin = new System.Windows.Forms.Padding(4);
             this.splitWinMain.Name = "splitWinMain";
             this.splitWinMain.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -244,7 +245,7 @@
             this.lsvLocateInfo.GridLines = true;
             this.lsvLocateInfo.HideSelection = false;
             this.lsvLocateInfo.Location = new System.Drawing.Point(0, 0);
-            this.lsvLocateInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lsvLocateInfo.Margin = new System.Windows.Forms.Padding(4);
             this.lsvLocateInfo.Name = "lsvLocateInfo";
             this.lsvLocateInfo.Size = new System.Drawing.Size(1045, 229);
             this.lsvLocateInfo.TabIndex = 0;
@@ -266,7 +267,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -286,9 +287,9 @@
             this.groupBox1.Controls.Add(this.txtKey);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(517, 479);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
@@ -298,7 +299,7 @@
             // 
             this.txtKey.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtKey.Location = new System.Drawing.Point(4, 22);
-            this.txtKey.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtKey.Margin = new System.Windows.Forms.Padding(4);
             this.txtKey.Name = "txtKey";
             this.txtKey.Size = new System.Drawing.Size(509, 453);
             this.txtKey.TabIndex = 0;
@@ -309,7 +310,7 @@
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -330,9 +331,9 @@
             this.groupBox2.Controls.Add(this.txtSuggestion);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(523, 163);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
@@ -342,7 +343,7 @@
             // 
             this.txtSuggestion.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtSuggestion.Location = new System.Drawing.Point(4, 22);
-            this.txtSuggestion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtSuggestion.Margin = new System.Windows.Forms.Padding(4);
             this.txtSuggestion.Name = "txtSuggestion";
             this.txtSuggestion.ReadOnly = true;
             this.txtSuggestion.Size = new System.Drawing.Size(515, 137);
@@ -354,9 +355,9 @@
             this.groupBox3.Controls.Add(this.txtLocalizedText);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(0, 0);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox3.Size = new System.Drawing.Size(523, 311);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
@@ -366,12 +367,19 @@
             // 
             this.txtLocalizedText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtLocalizedText.Location = new System.Drawing.Point(4, 22);
-            this.txtLocalizedText.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtLocalizedText.Margin = new System.Windows.Forms.Padding(4);
             this.txtLocalizedText.Name = "txtLocalizedText";
             this.txtLocalizedText.Size = new System.Drawing.Size(515, 285);
             this.txtLocalizedText.TabIndex = 0;
             this.txtLocalizedText.Text = "";
             this.txtLocalizedText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLocalizedText_KeyDown);
+            // 
+            // mnuFileNew
+            // 
+            this.mnuFileNew.Name = "mnuFileNew";
+            this.mnuFileNew.Size = new System.Drawing.Size(224, 26);
+            this.mnuFileNew.Text = "New";
+            this.mnuFileNew.Click += new System.EventHandler(this.mnuNew_Click);
             // 
             // frmMain
             // 
@@ -383,7 +391,7 @@
             this.Controls.Add(this.menus);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menus;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UCSEditor";
@@ -418,16 +426,16 @@
         #endregion
         private System.Windows.Forms.MenuStrip menus;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuFileOpen;
+        private System.Windows.Forms.ToolStripMenuItem mnuFileSave;
+        private System.Windows.Forms.ToolStripMenuItem mnuFileSaveAs;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuFileExit;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addNewLineToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem deleteThisLineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuEditAddNewLine;
+        private System.Windows.Forms.ToolStripMenuItem mnuEditDeleteThisLine;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutUCSEditorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuAboutUCSEditor;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripComboBox cmbGoogleTranslationAPILanguages;
@@ -444,5 +452,6 @@
         private System.Windows.Forms.RichTextBox txtSuggestion;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RichTextBox txtLocalizedText;
+        private System.Windows.Forms.ToolStripMenuItem mnuFileNew;
     }
 }

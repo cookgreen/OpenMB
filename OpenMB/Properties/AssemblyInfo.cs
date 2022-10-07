@@ -2,11 +2,11 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("OpenMB")]
-[assembly: AssemblyDescription("Main Program")]
+[assembly: AssemblyTitle("OpenMB Main Program")]
+[assembly: AssemblyDescription("Open Source Role-Playing Game Engine")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
+[assembly: AssemblyCompany("Yin Xiaoguang")]
+[assembly: AssemblyProduct("OpenMB")]
 [assembly: AssemblyCopyright("GNU GENERAL PUBLIC LICENSE Version 3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

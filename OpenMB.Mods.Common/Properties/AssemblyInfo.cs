@@ -2,10 +2,10 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("OpenMB.Mods.Common")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Common Operations for OpenMB mods")]
+[assembly: AssemblyDescription("Common Operations for OpenMB mods")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Yin Xiaoguang")]
 [assembly: AssemblyProduct("OpenMB.Mods.Common")]
 [assembly: AssemblyCopyright("GNU GENERAL PUBLIC LICENSE Version 3")]
 [assembly: AssemblyTrademark("")]

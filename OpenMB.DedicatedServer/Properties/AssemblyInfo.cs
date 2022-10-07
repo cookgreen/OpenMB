@@ -2,11 +2,11 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("OpenMB.DedicatedServer")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Server Program for OpenMB")]
+[assembly: AssemblyDescription("Server Program for OpenMB")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("OpenMB.DedicatedServer")]
+[assembly: AssemblyCompany("Yin Xiaoguang")]
+[assembly: AssemblyProduct("OpenMB Dedicated Server")]
 [assembly: AssemblyCopyright("GNU GENERAL PUBLIC LICENSE Version 3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
