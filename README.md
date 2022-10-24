@@ -8,6 +8,11 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
 
 ## Environment:  
 .Net Framework v4.8  
+
+## Based on:  
+* Mogre 1.7.4  
+* MyGUI 3.0.2  
+* Physx 2.8.4  
   
 ## Feature:
 * Mutipler world map
