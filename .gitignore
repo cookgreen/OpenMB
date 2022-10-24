@@ -34,7 +34,6 @@ Release/*
 *.ilk
 *.dll.config
 *.xml
-*.dll
 *.CopyCompelete
 *.brf
 *.tga

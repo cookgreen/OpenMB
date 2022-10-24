@@ -9,7 +9,7 @@ namespace OpenMB.Video
 {
 	public class VideoTextureManager
 	{
-		private VideoTexture videotex;
+		private List<VideoTexture> videotexes;
 		private static VideoTextureManager instance;
 		public static VideoTextureManager Instance
 		{
@@ -24,54 +24,53 @@ namespace OpenMB.Video
 		}
 		public VideoTextureManager()
 		{
-			videotex = null;
+			videotexes = new List<VideoTexture>();
 		}
-		public void CreateVideoTexture(SceneManager scm, float width, float height, string aviFileName)
+		public void CreateVideoTexture(SceneManager scm, float width, float height, string aviFileName, SceneNode parentNode)
 		{
-			if (videotex != null)
-			{
-				videotex.Dispose();
-			}
-			videotex = new VideoTexture(scm, width, height, aviFileName);
+			var videotex = new VideoTexture(
+				scm, "Video-" + Guid.NewGuid().ToString(), 
+				width, height, aviFileName,
+                parentNode);
+			videotexes.Add(videotex);
 		}
 
-		public void DestroyVideoTexture()
+		public void DestroyVideoTexture(VideoTexture vt)
 		{
-			videotex.Dispose();
-			videotex = null;
+			vt.Dispose();
+			videotexes.Remove(vt);
 		}
 
 		public void Update(float timeSinceLastFrame)
 		{
-			if (videotex == null)
+			foreach (var videotex in videotexes)
 			{
-				return;
-			}
-			if (videotex.FrameNum >= videotex.Stream.CountFrames)
-			{
-				videotex.FrameNum = 0;
-			}
-			System.Drawing.Bitmap bitmap = videotex.Stream.GetBitmap(videotex.FrameNum);
-			MemoryStream ms = new MemoryStream();
-			bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-			ms.Position = 0;
-			try
-			{
-				Image image = new Image();
-				image.Load(Utilities.Helper.StreamToDataPtr(ms));
-				image.FlipAroundX();
-				videotex.PixelBuffer.BlitFromMemory(image.GetPixelBox());
-				image.Dispose();
-				ms.Close();
-				videotex.FrameNum++;
-			}
-			catch (Exception ex)
-			{
-				EngineManager.Instance.log.LogMessage("[Engine Warning]: Image Data Exception. Detals:" + ex.ToString());
-			}
-			finally
-			{
-				videotex.FrameNum++;
+				if (videotex.FrameNum >= videotex.Stream.CountFrames)
+				{
+					videotex.FrameNum = 0;
+				}
+				System.Drawing.Bitmap bitmap = videotex.Stream.GetBitmap(videotex.FrameNum);
+				MemoryStream ms = new MemoryStream();
+				bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+				ms.Position = 0;
+				try
+				{
+					Image image = new Image();
+					image.Load(Utilities.Helper.StreamToDataPtr(ms));
+					image.FlipAroundX();
+					videotex.PixelBuffer.BlitFromMemory(image.GetPixelBox());
+					image.Dispose();
+					ms.Close();
+					videotex.FrameNum++;
+				}
+				catch (Exception ex)
+				{
+					EngineManager.Instance.log.LogMessage("[Engine Warning]: Image Data Exception. Detals:" + ex.ToString());
+				}
+				finally
+				{
+					videotex.FrameNum++;
+				}
 			}
 		}
 	}

@@ -15,7 +15,7 @@ namespace OpenMB.Mods.Common.StartupBackgroundTypes
 		public void StartBackground(string value, params object[] param)
 		{
 			SceneManager scm = param[0] as SceneManager;
-			VideoTextureManager.Instance.CreateVideoTexture(scm, 1024, 1024, value);
+			VideoTextureManager.Instance.CreateVideoTexture(scm, 1024, 1024, value, scm.RootSceneNode);
 		}
 	}
 }

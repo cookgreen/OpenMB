@@ -13,6 +13,7 @@ Open Source role-playing game engine for Taleworlds' Mount&Blade Series written 
 * Mogre 1.7.4  
 * MyGUI 3.0.2  
 * Physx 2.8.4  
+* AVIFile 1.0.6
   
 ## Feature:
 * Mutipler world map

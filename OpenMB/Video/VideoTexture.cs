@@ -16,17 +16,22 @@ namespace OpenMB.Video
 		private TexturePtr videoTex;
 		private MaterialPtr videoMat;
 
-		public VideoTexture(SceneManager scm, float width, float height, string aviFileName)
+		public VideoTexture(
+			SceneManager scm, 
+			string internalName, 
+			float width, float height, 
+			string aviFileName, 
+			SceneNode parentNode)
 		{
 			AviManager aviMgr = new AviManager(aviFileName, true);
 			Stream = aviMgr.GetVideoStream();
 
 			videoTex = TextureManager.Singleton.CreateManual(
-				"Video",
+                internalName,
 				ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
 				TextureType.TEX_TYPE_2D, Convert.ToUInt32(Stream.Width), Convert.ToUInt32(Stream.Height), 0, PixelFormat.PF_R8G8B8A8, (int)TextureUsage.TU_DYNAMIC_WRITE_ONLY_DISCARDABLE);
 			videoMat = MaterialManager.Singleton.Create(
-				"VideoMat", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                internalName+"Mat", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
 			videoMat.GetTechnique(0).GetPass(0).LightingEnabled = false;
 			videoMat.GetTechnique(0).GetPass(0).CreateTextureUnitState("Video");
 
@@ -60,7 +65,7 @@ namespace OpenMB.Video
 
 			screen.End();
 
-			SceneNode node = scm.RootSceneNode.CreateChildSceneNode();
+			SceneNode node = parentNode.CreateChildSceneNode();
 			node.Position = new Vector3(0, 0, 0);
 			node.AttachObject(screen);
 
