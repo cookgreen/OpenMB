@@ -550,7 +550,7 @@ public static class MeshToNavmesh
 	/// </summary>
 	/// <param name="group">Terrain</param>
 	/// <returns>Navmesh</returns>
-	public static Navmesh LoadNavmesh(TerrainGroup group)
+	/*public static Navmesh LoadNavmesh(TerrainGroup group)
 	{
 		TerrainGroup.TerrainIterator terrainIterator = group.GetTerrainIterator();
 		while (terrainIterator.MoveNext())
@@ -560,7 +560,7 @@ public static class MeshToNavmesh
 		}
 
 		return GenerateNavmesh();
-	}
+	}*/
 	/**************** New Functions End ***************/
 
 	//used for customization of data

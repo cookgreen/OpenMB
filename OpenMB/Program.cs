@@ -10,12 +10,12 @@ using OpenMB.Forms;
 
 namespace OpenMB
 { 
-    class Program
+    public class Program
     {
         [STAThread]
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Core.Game game = new Core.Game(args);
+            GameContainerApp game = new GameContainerApp(args);
             game.Run();
         }
     }

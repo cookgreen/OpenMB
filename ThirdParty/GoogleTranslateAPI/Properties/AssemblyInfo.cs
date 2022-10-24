@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yin Xiaoguang")]
 [assembly: AssemblyProduct("GoogleTranslateAPI")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("GNU GPLv3")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

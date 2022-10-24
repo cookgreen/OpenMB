@@ -10,7 +10,7 @@ using OpenMB.Map;
 using System.Reflection;
 using OpenMB.Localization;
 
-using Modio;
+using io.mod;
 
 namespace OpenMB.Mods
 {

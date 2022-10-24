@@ -16,7 +16,7 @@ namespace DotSceneLoader
 
 		public List<string> DynamicObjects; //String
 		public List<string> StaticObjects; //String
-		public TerrainGroup TerrainGroup;
+		//public TerrainGroup TerrainGroup;
 		public AIMesh AIMesh;
 		public string ScriptName;
 		public event Action LoadSceneStarted;
@@ -26,7 +26,7 @@ namespace DotSceneLoader
 		protected SceneManager mSceneMgr;
 		protected String m_sGroupName;
 		protected String m_sPrependNode;
-		protected TerrainGlobalOptions mTerrainOptions;
+		//protected TerrainGlobalOptions mTerrainOptions;
 
 		private BackgroundWorker worker;
 		private GameWorldMap worldMap;
@@ -37,7 +37,7 @@ namespace DotSceneLoader
 
 		public DotWorldMapLoader(GameWorldMap worldMap)
 		{
-			mTerrainOptions = new TerrainGlobalOptions();
+			//mTerrainOptions = new TerrainGlobalOptions();
 			worker = new BackgroundWorker();
 			worker.DoWork += LoadSceneAsync;
 			worker.RunWorkerCompleted += LoadSceneCompleted;
@@ -257,7 +257,7 @@ namespace DotSceneLoader
 
 		protected void processTerrain(XmlElement XMLNode)
 		{
-			string worldSize = getAttrib(XMLNode, "wordSize", "");
+			/*string worldSize = getAttrib(XMLNode, "wordSize", "");
 			string mapSize = getAttrib(XMLNode, "mapSize", "");
 			string colourmapEnabled = getAttrib(XMLNode, "colourmapEnabled", "");
 			string colourMapTextureSize = getAttrib(XMLNode, "colourMapTextureSize", "");
@@ -300,18 +300,18 @@ namespace DotSceneLoader
 			}
 
 			TerrainGroup.LoadAllTerrains(true);
-			TerrainGroup.FreeTemporaryResources();
+			TerrainGroup.FreeTemporaryResources();*/
 		}
 
 		protected void processTerrainPage(XmlElement XMLNode)
 		{
-			string terrainFileName = getAttrib(XMLNode, "name", "");
+			/*string terrainFileName = getAttrib(XMLNode, "name", "");
 			int pageX = int.Parse(getAttrib(XMLNode, "pageX", ""));
 			int pageY = int.Parse(getAttrib(XMLNode, "pageY", ""));
 			if (ResourceGroupManager.Singleton.ResourceExists(TerrainGroup.ResourceGroup, terrainFileName))
 			{
 				TerrainGroup.DefineTerrain(pageX, pageY, terrainFileName);
-			}
+			}*/
 		}
 
 		protected void processEntity(XmlElement XMLNode, SceneNode pParent)
@@ -803,7 +803,7 @@ namespace DotSceneLoader
 
 		public void Save(List<Entity> objectsData,
 						 AIMesh aimeshData,
-						 TerrainGroup terrainData,
+						 //TerrainGroup terrainData,
 						 string xmlScene)
 		{
 

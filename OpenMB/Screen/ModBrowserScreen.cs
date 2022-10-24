@@ -10,7 +10,7 @@ using OpenMB.UI;
 using System.Windows.Forms;
 using OpenMB.UI.Widgets;
 
-using Modio;
+using io.mod;
 
 namespace OpenMB.Screen
 {
