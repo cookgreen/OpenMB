@@ -98,6 +98,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\eyecm.PhysX.dll</HintPath>
     </Reference>
+    <Reference Include="MET, Version=1.0.8349.33461, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\MET.dll</HintPath>
+    </Reference>
     <Reference Include="Mogre">
       <HintPath>..\Dependencies\Mogre.dll</HintPath>
     </Reference>

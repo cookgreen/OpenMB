@@ -74,7 +74,7 @@ namespace com.google.translate.api
                 originalText = translateText;
 
                 string url = !isAuto ? string.Format(baseUrl, srcLangID, destLangID) : string.Format(baseUrlAuto, destLangID, originalText);
-                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.UserAgent = "UserAgent";
                 var response = request.GetResponse();
