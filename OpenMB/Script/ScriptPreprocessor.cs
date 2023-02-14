@@ -34,8 +34,7 @@ namespace OpenMB.Script
 			foreach (var res in resourceList)
 			{
 				ScriptLoader loader = new ScriptLoader();
-				ScriptFile file;
-				file = loader.Parse(res, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+				ScriptFile file = loader.Parse(res, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME) as ScriptFile;
 				if (file.Commands.Count > 0)
 				{
 					ScriptCommand namespaceCmd = (ScriptCommand)file.Commands[0];

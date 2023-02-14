@@ -15,7 +15,7 @@ namespace OpenMB
         [STAThread]
         public static void Main(string[] args)
         {
-            GameContainerApp game = new GameContainerApp(args);
+            GameContainer game = new GameContainer(args);
             game.Run();
         }
     }

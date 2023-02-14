@@ -5,10 +5,10 @@ using System.Text;
 
 namespace OpenMB.Core
 {
-	public class Argument
+	public class GameConfigArugment
 	{
 		private Dictionary<string, string> arguments;
-		public Argument(string[] args)
+		public GameConfigArugment(string[] args)
 		{
 			arguments = new Dictionary<string, string>();
 			arguments.Add("Engine.ShowConfig", "");

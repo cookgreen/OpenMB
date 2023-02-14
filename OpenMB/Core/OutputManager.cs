@@ -11,7 +11,7 @@ namespace OpenMB.Core
 	/// <summary>
 	/// Output message
 	/// </summary>
-	public class OutputManager : ISubSystemManager
+	public class OutputMessageManager : ISubSystemManager
 	{
 		private OverlayContainer container;
 		private Overlay o;
@@ -20,20 +20,20 @@ namespace OpenMB.Core
 		private float alphaSinceLastFrame;
 		private int delay = 20;
 
-		private static OutputManager instance;
-		public static OutputManager Instance
+		private static OutputMessageManager instance;
+		public static OutputMessageManager Instance
 		{
 			get
 			{
 				if (instance == null)
 				{
-					instance = new OutputManager();
+					instance = new OutputMessageManager();
 				}
 				return instance;
 			}
 		}
 
-		public OutputManager()
+		public OutputMessageManager()
 		{
 			alphaSinceLastFrame = 1;
 			textElements = new List<OverlayElement>();

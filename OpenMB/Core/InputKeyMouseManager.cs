@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OpenMB.Core
 {
-	public class InputKeyMouseManager
+	public class InputCombinedKeyMouseManager
 	{
 		private const KeyCode COMBINED_KEY_CODE = KeyCode.KC_LCONTROL;
 		private bool combineKey;
@@ -15,7 +15,7 @@ namespace OpenMB.Core
 		public event Action<MouseEvent> MouseHasMoved;
 		public event Action<KeyCollection> SomeKeyPressd;
 
-		public InputKeyMouseManager()
+		public InputCombinedKeyMouseManager()
 		{
 			EngineManager.Instance.mouse.MouseMoved += new MouseListener.MouseMovedHandler(MouseMoved);
 			EngineManager.Instance.mouse.MousePressed += new MouseListener.MousePressedHandler(MousePressed);

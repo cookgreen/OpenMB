@@ -191,7 +191,7 @@ namespace OpenMB.Map
 			gameObjects = new Dictionary<string, List<GameObject>>();
 
 			var file = scriptLoader.Parse(logicScriptFile, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-			scriptLoader.ExecuteFunction(file, "map_loaded", world);
+			scriptLoader.ExecuteFunction((ScriptFile)file, "map_loaded", world);
 
 			//Currently terrain use a mesh which id is MAP_TERRAIN
 			var terrainEntName = loader.Entities.Where(o=>o=="MAP_TERRAIN").FirstOrDefault();

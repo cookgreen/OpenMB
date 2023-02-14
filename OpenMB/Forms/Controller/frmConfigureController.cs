@@ -8,6 +8,7 @@ using OpenMB.Configure;
 using OpenMB.Forms.Model;
 using OpenMB.Localization;
 using OpenMB.Core;
+using OpenMB.Mods;
 
 namespace OpenMB.Forms.Controller
 {
@@ -16,11 +17,32 @@ namespace OpenMB.Forms.Controller
 		private Root root;
 		private LOCATE selectedlocate;
 		private GameConfigXml gameXmlConfig;
-		public frmConfigure form;
-		public AudioConfigure AudioConfig;
-		public GameConfigure GameConfig;
-		public GraphicConfigure GraphicConfig;
-		public ResourceConfigure ResourceConfig;
+        private AudioConfigure audioConfig;
+        private GameConfigure gameConfig;
+        private GraphicConfigure graphicConfig;
+        private ResourceConfigure resourceConfig;
+        private frmConfigure window;
+
+		public frmConfigure Window
+		{
+			get { return window; }
+		}
+		public AudioConfigure AudioConfig
+		{
+			get { return audioConfig; }
+		}
+		public GameConfigure GameConfig
+		{
+			get { return gameConfig; }
+		}
+		public GraphicConfigure GraphicConfig
+		{
+			get { return graphicConfig; }
+		}
+		public ResourceConfigure ResourceConfig
+		{
+			get { return resourceConfig; }
+		}
 		public LOCATE CurrentLoacte
 		{
 			get
@@ -29,19 +51,19 @@ namespace OpenMB.Forms.Controller
 			}
 		}
 
-		public frmConfigureController(frmConfigure form)
+		public frmConfigureController(frmConfigure window)
 		{
-			this.form = form;
+			this.window = window;
 
 			root = Root.Singleton ;
 
-			AudioConfig = new AudioConfigure();
-			GameConfig = new GameConfigure();
-			GraphicConfig = new GraphicConfigure();
-			ResourceConfig = new ResourceConfigure();
+			audioConfig = new AudioConfigure();
+			gameConfig = new GameConfigure();
+			graphicConfig = new GraphicConfigure();
+			resourceConfig = new ResourceConfigure();
 			gameXmlConfig = GameConfigXml.Load("game.xml", root);
 
-			form.Controller = this;
+            window.Controller = this;
 		}
 
 		public void Init()
@@ -197,7 +219,7 @@ namespace OpenMB.Forms.Controller
 		{
 			if (string.IsNullOrEmpty(gameXmlConfig.ModConfig.ModDir))
 			{
-				gameXmlConfig.ModConfig.ModDir = "Mods/";
+				gameXmlConfig.ModConfig.ModDir = ModManager.MOD_DIR;
 			}
 
 			gameXmlConfig.CoreConfig.IsEnableCheatMode = GameConfig.IsEnableCheatMode;

@@ -51,7 +51,7 @@ namespace OpenMB.Game
 				owner.World.RemoveAgent(owner);
 				if (displayMessage)
 				{
-					OutputManager.Instance.DisplayMessage(string.Format("Object with id {0} was killed by Object with id {1}",
+					OutputMessageManager.Instance.DisplayMessage(string.Format("Object with id {0} was killed by Object with id {1}",
 						effecterId, owner.ID));
 				}
 			}

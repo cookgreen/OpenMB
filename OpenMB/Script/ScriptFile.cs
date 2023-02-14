@@ -8,22 +8,27 @@ using OpenMB.Script.Command;
 
 namespace OpenMB.Script
 {
-	public class ScriptFile
+	public class ScriptFile : IGameScript
 	{
 		private Stack<IScriptCommand> tempCommandStack;
 		private Dictionary<string, Type> registeredCommand;
 		private RootScriptCommand root;
 		public ScriptContext Context { get; set; }
 		public string FileName { get; set; }
-		public List<IScriptCommand> Commands
+
+        public string Name { get { return "Inner Script"; } }
+
+        public string Extension { get { return ".script"; } }
+
+        public List<IScriptCommand> Commands
 		{
 			get
 			{
 				return root.SubCommands;
 			}
-		}
+        }
 
-		public ScriptFile()
+        public ScriptFile()
 		{
 			Context = new ScriptContext(this);
 			root = new RootScriptCommand();

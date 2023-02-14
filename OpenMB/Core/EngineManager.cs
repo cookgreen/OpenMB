@@ -36,11 +36,11 @@ namespace OpenMB
 		private AppStateManager appStateMgr;
 		private LocateSystem locateMgr;
 		private ModManager modMgr;
-		private OutputManager outputMgr;
+		private OutputMessageManager outputMgr;
 		private MusicSoundManager soundMgr;
 		private ScreenManager uiMgr;
 		private EngineState currentState;
-		private InputKeyMouseManager keyMouseManager;
+		private InputCombinedKeyMouseManager keyMouseManager;
 		private List<ISubSystemManager> subSystems;
 		public GameConfigXml gameOptions;
 		public Root root;
@@ -204,7 +204,7 @@ namespace OpenMB
 			inputMgr = MOIS.InputManager.CreateInputSystem((uint)hWnd);
 			keyboard = (Keyboard)inputMgr.CreateInputObject(MOIS.Type.OISKeyboard, true);
 			mouse = (Mouse)inputMgr.CreateInputObject(MOIS.Type.OISMouse, true);
-			keyMouseManager = new InputKeyMouseManager();
+			keyMouseManager = new InputCombinedKeyMouseManager();
 			keyMouseManager.SomeKeyPressd += KeyMouseManager_SomeKeyPressd;
 
 			MouseState_NativePtr mouseState = mouse.MouseState;
@@ -266,7 +266,7 @@ namespace OpenMB
 					color = "0xff00ff";
 					break;
             }
-			OutputManager.Instance.DisplayMessage(message, color);
+			OutputMessageManager.Instance.DisplayMessage(message, color);
         }
 
         public void SwitchFullScreen()
@@ -283,7 +283,7 @@ namespace OpenMB
 			appStateMgr = new AppStateManager();
 			locateMgr = LocateSystem.Instance;
 			modMgr = new ModManager();
-			outputMgr = new OutputManager();
+			outputMgr = new OutputMessageManager();
 			soundMgr = new MusicSoundManager();
 			uiMgr = new ScreenManager();
 
@@ -294,7 +294,7 @@ namespace OpenMB
 
 			subSystems.Add(ModManager.Instance);
 			subSystems.Add(UIManager.Instance);
-			subSystems.Add(OutputManager.Instance);
+			subSystems.Add(OutputMessageManager.Instance);
 			subSystems.Add(MusicSoundManager.Instance);
 			subSystems.Add(BackendTaskManager.Instance);
 			subSystems.Add(CampaignManager.Instance);

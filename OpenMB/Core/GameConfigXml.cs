@@ -69,11 +69,7 @@ namespace OpenMB.Core
 					stream = new FileStream(configXml, FileMode.Open, FileAccess.Read);
 					XmlSerializer serializer = new XmlSerializer(typeof(GameConfigXml));
 					config = serializer.Deserialize(stream) as GameConfigXml;
-				}
-				catch
-				{
-
-				}
+				} catch { }
 				finally
 				{
 					if (stream != null)

@@ -9,8 +9,8 @@ using OpenMB.Script.Command;
 
 namespace OpenMB.Script
 {
-	public class ScriptLoader
-	{
+	public class ScriptLoader : IGameScriptLoader
+    {
 		private ScriptFile currentFile = null;
 
 		public ScriptContext currentContext
@@ -27,7 +27,7 @@ namespace OpenMB.Script
 		public ScriptLoader()
 		{
 		}
-		public ScriptFile Parse(string scriptFileName, string groupName = null)
+		public IGameScript Parse(string scriptFileName, string groupName = null)
 		{
 			currentFile = new ScriptFile();
 			currentFile.FileName = scriptFileName;

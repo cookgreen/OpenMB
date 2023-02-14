@@ -184,7 +184,7 @@
     <Compile Include="Game\AIAction\Activity.cs" />
     <Compile Include="Configure\ConfigureSystem.cs" />
     <Compile Include="Configure\IConfigParser.cs" />
-    <Compile Include="Core\Argument.cs" />
+    <Compile Include="Core\GameConfigArugment.cs" />
     <Compile Include="Core\GameContainerApp.cs" />
     <Compile Include="Core\GameVersion.cs" />
     <Compile Include="Forms\Controller\frmConfigureController.cs" />
@@ -353,6 +353,10 @@
     <Compile Include="Script\Expression\Expression.cs" />
     <Compile Include="Script\Expression\ExpressionManager.cs" />
     <Compile Include="Script\Expression\Operator.cs" />
+    <Compile Include="Script\IGameScript.cs" />
+    <Compile Include="Script\IGameScriptLoader.cs" />
+    <Compile Include="Script\Lua\LuaScript.cs" />
+    <Compile Include="Script\Python\PythonScript.cs" />
     <Compile Include="Script\ScriptGlobalValueMap.cs" />
     <Compile Include="Script\ScriptValueStorage.cs" />
     <Compile Include="UI\Common.cs" />

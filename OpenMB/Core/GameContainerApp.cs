@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace OpenMB.Core
 {
-	public class GameContainerApp
+	public class GameContainer
 	{
-		private Argument gameArgument;
-		public GameContainerApp(string[] args)
+		private GameConfigArugment gameArgument;
+		public GameContainer(string[] args)
 		{
-			gameArgument = new Argument(args);
+			gameArgument = new GameConfigArugment(args);
 			if (args != null)
 			{
 				foreach (string arg in args)
@@ -44,7 +44,7 @@ namespace OpenMB.Core
 			{
 				if (mods.Count == 0)
 				{
-					MessageBox.Show("No module found, app will exit now!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show("No avaiable modules found, app will exit now!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				else
@@ -52,8 +52,8 @@ namespace OpenMB.Core
 					modArg = mods.First().Key;
 				}
 			}
-			frmConfigureController controller = new frmConfigureController(new frmConfigure(modArg));
-			controller.form.ShowDialog();
+			frmConfigureController formController = new frmConfigureController(new frmConfigure(modArg));
+			formController.Window.ShowDialog();
 		}
 	}
 }
