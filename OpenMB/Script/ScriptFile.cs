@@ -9,24 +9,17 @@ using OpenMB.Script.Command;
 namespace OpenMB.Script
 {
 	public class ScriptFile : IGameScript
-	{
-		private Stack<IScriptCommand> tempCommandStack;
+    {
+        private Stack<IScriptCommand> tempCommandStack;
 		private Dictionary<string, Type> registeredCommand;
 		private RootScriptCommand root;
 		public ScriptContext Context { get; set; }
 		public string FileName { get; set; }
 
         public string Name { get { return "Inner Script"; } }
-
         public string Extension { get { return ".script"; } }
 
-        public List<IScriptCommand> Commands
-		{
-			get
-			{
-				return root.SubCommands;
-			}
-        }
+        public List<IScriptCommand> Commands { get { return root.SubCommands; } }
 
         public ScriptFile()
 		{
@@ -75,10 +68,12 @@ namespace OpenMB.Script
 				{
 					continue;
 				}
+
 				if (lines[i].StartsWith("#")) //skip comments
 				{
 					continue;
 				}
+
 				string[] lineToken = lines[i].Split(' ');
 				if (lineToken.Length <= 0)
 				{
@@ -199,22 +194,12 @@ namespace OpenMB.Script
 						scriptCommand.ParentCommand = currentCommand;
 						scriptCommand.Context = Context;
 						int tokenLength = lineToken.Length;
-						//if (scriptCommand.CommandType == ScriptCommandType.Conditional)
-						//{
-						//	StringBuilder builder = new StringBuilder();
-						//	for (int j = 1; j < tokenLength; j++)
-						//	{
-						//		builder.Append(lineToken[j]);
-						//	}
-						//	scriptCommand.PushArg(builder.ToString(), 0);
-						//}
-						//else
-						//{
+						
 						for (int j = 1; j < tokenLength; j++)
 						{
 							scriptCommand.PushArg(lineToken[j], j - 1);
 						}
-						//}
+
 						switch (scriptCommand.CommandType)
 						{
 							case ScriptCommandType.Line:

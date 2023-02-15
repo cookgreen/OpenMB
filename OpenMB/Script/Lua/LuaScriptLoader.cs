@@ -8,6 +8,8 @@ namespace OpenMB.Script.Lua
 {
     public class LuaScriptLoader : IGameScriptLoader
     {
+        public string Extension { get { return ".py"; } }
+
         public IGameScript Parse(string scriptFileName, string groupName = null)
         {
             return new LuaScript();

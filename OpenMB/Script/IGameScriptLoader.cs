@@ -8,6 +8,7 @@ namespace OpenMB.Script
 {
     public interface IGameScriptLoader
     {
+        string Extension { get; }
         IGameScript Parse(string scriptFileName, string groupName = null);
     }
 }

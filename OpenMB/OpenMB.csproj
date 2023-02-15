@@ -353,10 +353,13 @@
     <Compile Include="Script\Expression\Expression.cs" />
     <Compile Include="Script\Expression\ExpressionManager.cs" />
     <Compile Include="Script\Expression\Operator.cs" />
+    <Compile Include="Script\GameScriptManager.cs" />
     <Compile Include="Script\IGameScript.cs" />
     <Compile Include="Script\IGameScriptLoader.cs" />
     <Compile Include="Script\Lua\LuaScript.cs" />
+    <Compile Include="Script\Lua\LuaScriptLoader.cs" />
     <Compile Include="Script\Python\PythonScript.cs" />
+    <Compile Include="Script\Python\PythonScriptLoader.cs" />
     <Compile Include="Script\ScriptGlobalValueMap.cs" />
     <Compile Include="Script\ScriptValueStorage.cs" />
     <Compile Include="UI\Common.cs" />
