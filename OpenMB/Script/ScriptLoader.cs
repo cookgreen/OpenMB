@@ -13,6 +13,8 @@ namespace OpenMB.Script
     {
 		private ScriptFile currentFile = null;
 
+		public string Extension { get { return ".script"; } }
+
 		public ScriptContext currentContext
 		{
 			get
