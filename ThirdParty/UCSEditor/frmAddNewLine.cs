@@ -27,11 +27,17 @@ namespace UCSEditor
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(txtID.Text) || string.IsNullOrEmpty(txtOriginalText.Text))
+            if(string.IsNullOrEmpty(txtID.Text))
             {
-                MessageBox.Show("Please input valid data!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please input string ID!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            if(string.IsNullOrEmpty(txtOriginalText.Text))
+			{
+				MessageBox.Show("Please input string content!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
 
             line.ID = txtID.Text;
             line.Text = txtOriginalText.Text;

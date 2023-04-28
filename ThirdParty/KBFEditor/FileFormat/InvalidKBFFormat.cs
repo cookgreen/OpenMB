@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace KBFEditor.FileFormat
 {
-    public class KBFInvalidFileFormatException : Exception
+    public class InvalidKBFFormat : Exception
     {
-        public KBFInvalidFileFormatException() : base() { }
+        public InvalidKBFFormat() : base() { }
 
-        public KBFInvalidFileFormatException(string message) : base(message) { }
+        public InvalidKBFFormat(string message) : base(message) { }
 
-        protected KBFInvalidFileFormatException(SerializationInfo info,
+        protected InvalidKBFFormat(SerializationInfo info,
                                                 StreamingContext context) : base(info, context)
         { }
     }

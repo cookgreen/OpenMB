@@ -42,7 +42,7 @@ namespace KBFEditor
                 mnuImportMesh.Enabled = true;
                 mnuImportMaterialScript.Enabled = true;
                 mnuImportTexture.Enabled = true;
-                mnuSaveFile.Enabled = true;
+                mnuFileSave.Enabled = true;
             }
         }
 
