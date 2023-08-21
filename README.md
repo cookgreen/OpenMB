@@ -1,7 +1,6 @@
 ![](https://media.moddb.com/images/members/4/3399/3398047/logo.3.png)  
 
-[![Build](https://api.travis-ci.org/cookgreen/OpenMB.svg?branch=bleed)](https://travis-ci.org/github/cookgreen/OpenMB?branch=bleed)
- [![Build status](https://ci.appveyor.com/api/projects/status/0yrneeoom5jk8de2/branch/bleed?svg=true)](https://ci.appveyor.com/project/cookgreen/openmb/branch/bleed) 
+[![Build status](https://ci.appveyor.com/api/projects/status/0yrneeoom5jk8de2/branch/bleed?svg=true)](https://ci.appveyor.com/project/cookgreen/openmb/branch/bleed) 
 
 ## Introduction:
 Open Source role-playing game engine for Taleworlds' Mount&Blade Series written in C# using Ogre3d Engine
