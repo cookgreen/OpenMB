@@ -123,7 +123,7 @@ namespace OpenMB.Localization
 			}
 		}
 
-		public string AddNewKeyByStrIfNotExist(string str)
+		public string AddNewKeyString(string str)
 		{
 			if (!SeekLocalizedString(str))
 			{
@@ -153,7 +153,7 @@ namespace OpenMB.Localization
 			}
 		}
 
-		public string GenerateQuickStrKeyIfNotExist(string str)
+		public string AddQuickString(string str)
 		{
 			if (!ucsKeyValue.ContainsValue(str))
 			{

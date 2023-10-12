@@ -227,7 +227,7 @@ namespace OpenMB.Localization
 			file = LocateFileType.GameQuickString;
 			LocateUCSFile ucs = GetUCSInstanceByType(file);
 			string localizedStr = null;
-			localizedStr = GetLocalizedString(LocateFileType.GameQuickString, ucs.GenerateQuickStrKeyIfNotExist(str));
+			localizedStr = GetLocalizedString(LocateFileType.GameQuickString, ucs.AddQuickString(str));
 			return localizedStr;
 		}
 

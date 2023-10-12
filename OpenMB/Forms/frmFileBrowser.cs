@@ -15,7 +15,7 @@ namespace OpenMB.Forms
 		ShowFile,
 		ShowFolder
 	}
-	public partial class frmRelativeFileFolderBrowser : Form
+	public partial class frmFileBrowser : Form
 	{
 		private Stack<string> pathStack;
 		private string currentFullPath;
@@ -25,7 +25,7 @@ namespace OpenMB.Forms
 		public ShowType ShowType { get; set; }
 		public string Filter { get; set; }
 		public string RelativePath { get { return currentRelativePath; } }
-		public frmRelativeFileFolderBrowser()
+		public frmFileBrowser()
 		{
 			InitializeComponent();
 

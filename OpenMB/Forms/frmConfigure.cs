@@ -168,7 +168,7 @@ namespace OpenMB.Forms
 
 		private void btnAddFileSystemResourceLoc_Click(object sender, EventArgs e)
 		{
-			frmRelativeFileFolderBrowser resourceLocEditor = new frmRelativeFileFolderBrowser();
+			frmFileBrowser resourceLocEditor = new frmFileBrowser();
 			string rootDir = null;
 			if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
 				!controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
@@ -196,7 +196,7 @@ namespace OpenMB.Forms
 
 		private void btnModifyFileSystemResourceLoc_Click(object sender, EventArgs e)
 		{
-			frmRelativeFileFolderBrowser resourceLocEditor = new frmRelativeFileFolderBrowser();
+			frmFileBrowser resourceLocEditor = new frmFileBrowser();
             string rootDir;
             if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
 				!controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
@@ -228,7 +228,7 @@ namespace OpenMB.Forms
 
 		private void btnAddZipResourceLoc_Click(object sender, EventArgs e)
 		{
-			frmRelativeFileFolderBrowser resourceLocEditor = new frmRelativeFileFolderBrowser();
+			frmFileBrowser resourceLocEditor = new frmFileBrowser();
             string rootDir;
             if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
 				!controller.ResourceConfig.ResourceRootDir.StartsWith(".."))
@@ -253,7 +253,7 @@ namespace OpenMB.Forms
 
 		private void btnModifyZipResourceLoc_Click(object sender, EventArgs e)
 		{
-			frmRelativeFileFolderBrowser resourceLocEditor = new frmRelativeFileFolderBrowser();
+			frmFileBrowser resourceLocEditor = new frmFileBrowser();
             string rootDir;
             if (controller.ResourceConfig.ResourceRootDir.StartsWith(".") &&
 				!controller.ResourceConfig.ResourceRootDir.StartsWith(".."))

@@ -7,7 +7,7 @@
     <ProjectGuid>{BC79F45A-ADBE-4A12-BA27-CABC57397FDD}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>OpenMB.DedicatedServer</RootNamespace>
-    <AssemblyName>game.server</AssemblyName>
+    <AssemblyName>game_server</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

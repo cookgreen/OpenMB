@@ -173,11 +173,11 @@
     <Compile Include="Map\GameWorldMap.cs" />
     <Compile Include="Game\DescriptionAttribute.cs" />
     <Compile Include="Game\GameTimeManager.cs" />
-    <Compile Include="Forms\frmRelativeFileFolderBrowser.cs">
+    <Compile Include="Forms\frmFileBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\frmRelativeFileFolderBrowser.Designer.cs">
-      <DependentUpon>frmRelativeFileFolderBrowser.cs</DependentUpon>
+    <Compile Include="Forms\frmFileBrowser.Designer.cs">
+      <DependentUpon>frmFileBrowser.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Model\ResourceConfigure.cs" />
     <Compile Include="Game\CameraHandler.cs" />
@@ -469,8 +469,8 @@
       <DependentUpon>frmConfigure.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmRelativeFileFolderBrowser.resx">
-      <DependentUpon>frmRelativeFileFolderBrowser.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\frmFileBrowser.resx">
+      <DependentUpon>frmFileBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

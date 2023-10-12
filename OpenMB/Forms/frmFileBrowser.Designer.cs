@@ -1,6 +1,6 @@
 ﻿namespace OpenMB.Forms
 {
-    partial class frmRelativeFileFolderBrowser
+    partial class frmFileBrowser
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmRelativeFileFolderBrowser));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFileBrowser));
             this.lbCurrent = new System.Windows.Forms.Label();
             this.txtResource = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
