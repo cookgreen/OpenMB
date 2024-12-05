@@ -46,25 +46,28 @@
             // lbCurrent
             // 
             this.lbCurrent.AutoSize = true;
-            this.lbCurrent.Location = new System.Drawing.Point(10, 17);
+            this.lbCurrent.Location = new System.Drawing.Point(13, 21);
+            this.lbCurrent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbCurrent.Name = "lbCurrent";
-            this.lbCurrent.Size = new System.Drawing.Size(53, 12);
+            this.lbCurrent.Size = new System.Drawing.Size(71, 15);
             this.lbCurrent.TabIndex = 0;
             this.lbCurrent.Text = "Current:";
             // 
             // txtResource
             // 
-            this.txtResource.Location = new System.Drawing.Point(69, 14);
+            this.txtResource.Location = new System.Drawing.Point(92, 18);
+            this.txtResource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtResource.Name = "txtResource";
             this.txtResource.ReadOnly = true;
-            this.txtResource.Size = new System.Drawing.Size(338, 21);
+            this.txtResource.Size = new System.Drawing.Size(310, 25);
             this.txtResource.TabIndex = 1;
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(403, 290);
+            this.btnCancel.Location = new System.Drawing.Point(390, 362);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(100, 29);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -72,9 +75,10 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(322, 290);
+            this.btnOK.Location = new System.Drawing.Point(282, 362);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
+            this.btnOK.Size = new System.Drawing.Size(100, 29);
             this.btnOK.TabIndex = 4;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -85,18 +89,21 @@
             this.groupBox1.Controls.Add(this.btnUp);
             this.groupBox1.Controls.Add(this.lbCurrent);
             this.groupBox1.Controls.Add(this.txtResource);
-            this.groupBox1.Location = new System.Drawing.Point(12, 1);
+            this.groupBox1.Location = new System.Drawing.Point(16, 1);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(466, 45);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(474, 56);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             // 
             // btnUp
             // 
             this.btnUp.Enabled = false;
-            this.btnUp.Location = new System.Drawing.Point(412, 12);
+            this.btnUp.Location = new System.Drawing.Point(410, 14);
+            this.btnUp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnUp.Name = "btnUp";
-            this.btnUp.Size = new System.Drawing.Size(48, 23);
+            this.btnUp.Size = new System.Drawing.Size(64, 29);
             this.btnUp.TabIndex = 2;
             this.btnUp.Text = "Up";
             this.btnUp.UseVisualStyleBackColor = true;
@@ -104,10 +111,12 @@
             // 
             // fileFolderList
             // 
+            this.fileFolderList.HideSelection = false;
             this.fileFolderList.LargeImageList = this.imageList1;
-            this.fileFolderList.Location = new System.Drawing.Point(12, 52);
+            this.fileFolderList.Location = new System.Drawing.Point(16, 65);
+            this.fileFolderList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.fileFolderList.Name = "fileFolderList";
-            this.fileFolderList.Size = new System.Drawing.Size(466, 205);
+            this.fileFolderList.Size = new System.Drawing.Size(474, 255);
             this.fileFolderList.SmallImageList = this.imageList1;
             this.fileFolderList.TabIndex = 6;
             this.fileFolderList.UseCompatibleStateImageBehavior = false;
@@ -124,25 +133,27 @@
             // 
             // txtFileFolderName
             // 
-            this.txtFileFolderName.Location = new System.Drawing.Point(147, 263);
+            this.txtFileFolderName.Location = new System.Drawing.Point(196, 329);
+            this.txtFileFolderName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtFileFolderName.Name = "txtFileFolderName";
-            this.txtFileFolderName.Size = new System.Drawing.Size(331, 21);
+            this.txtFileFolderName.Size = new System.Drawing.Size(294, 25);
             this.txtFileFolderName.TabIndex = 7;
             // 
             // lbFileFolderName
             // 
             this.lbFileFolderName.AutoSize = true;
-            this.lbFileFolderName.Location = new System.Drawing.Point(10, 266);
+            this.lbFileFolderName.Location = new System.Drawing.Point(13, 332);
+            this.lbFileFolderName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbFileFolderName.Name = "lbFileFolderName";
-            this.lbFileFolderName.Size = new System.Drawing.Size(119, 12);
+            this.lbFileFolderName.Size = new System.Drawing.Size(159, 15);
             this.lbFileFolderName.TabIndex = 8;
             this.lbFileFolderName.Text = "Selected File Name:";
             // 
-            // frmRelativeFileFolderBrowser
+            // frmFileBrowser
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(490, 321);
+            this.ClientSize = new System.Drawing.Size(504, 401);
             this.Controls.Add(this.lbFileFolderName);
             this.Controls.Add(this.txtFileFolderName);
             this.Controls.Add(this.fileFolderList);
@@ -150,9 +161,10 @@
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnCancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmRelativeFileFolderBrowser";
+            this.Name = "frmFileBrowser";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Browse";
