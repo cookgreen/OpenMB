@@ -1,4 +1,6 @@
 .vs/*
+*/.vs/*
+*/*/.vs/*
 packages/*
 */bin/*
 */*/bin/*
