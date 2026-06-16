@@ -3,8 +3,8 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/0yrneeoom5jk8de2/branch/bleed?svg=true)](https://ci.appveyor.com/project/cookgreen/openmb/branch/bleed) 
 
 ## Introduction:
-Open Source role-playing game engine for Taleworlds' Mount&Blade Series written in C# using Ogre3d Engine
-
+Open Source role-playing game engine for Taleworlds' Mount&Blade Series written in C# using Ogre3d Engine.  
+  
 ## Environment:  
 .Net Framework v4.8  
 
