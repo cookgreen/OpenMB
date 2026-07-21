@@ -18,4 +18,10 @@
 	<String ID="str_profession_ninja">Ninja</String>
 	<String ID="str_profession_end">!{Profession String End}</String>
 	<String ID="str_end">!{String End}</String>
+	<String ID="str_camp">Camp</String>
+	<String ID="str_report">Report</String>
+	<String ID="str_note">Note</String>
+	<String ID="str_inventory">Inventory</String>
+	<String ID="str_character">Character</String>
+	<String ID="str_party">Party</String>
 </Strings>

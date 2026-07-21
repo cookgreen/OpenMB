@@ -31,7 +31,8 @@ namespace OpenMB.Script.Command
 		{
 			commandArgs = new string[]
 			{
-				"UILayout ID"
+				"UILayout ID (String)",
+				"Is Inner Screen (Bool)"
 			};
 		}
 
@@ -40,7 +41,15 @@ namespace OpenMB.Script.Command
 			GameWorld world = executeArgs[0] as GameWorld;
 
 			var uiLayoutID = getVariableValue(commandArgs[0]);
-			ScreenManager.Instance.ChangeScreen("ScriptedScreen", true, executeArgs[0], uiLayoutID);
+			bool isInnerScreen = bool.Parse(getVariableValue(commandArgs[1]).ToString());
+			if (!isInnerScreen)
+			{
+				ScreenManager.Instance.ChangeScreen("ScriptedScreen", true, executeArgs[0], uiLayoutID);
+			}
+			else
+            {
+                ScreenManager.Instance.ChangeScreen(uiLayoutID.ToString(), true);
+            }
 		}
 	}
 }

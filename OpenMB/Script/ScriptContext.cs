@@ -80,6 +80,9 @@ namespace OpenMB.Script
 
         public void ChangeLocalValue(string varname, string varvalue)
 		{
+			if (string.IsNullOrEmpty(varvalue))
+				varvalue = "";
+
 			if (localValMap.ContainsKey(varname))
 			{
 				localValMap[varname] = varvalue;

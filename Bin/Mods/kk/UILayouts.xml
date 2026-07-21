@@ -1,4 +1,51 @@
 <UILayouts>
+	<UILayout ID="ui_game_main">
+		<Background Type="NoChange"></Background>
+		<Widgets>
+			<Widget Type="Button" TrayLocation="TL_BOTTOM">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">btnCamp</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_camp</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="Button" TrayLocation="TL_BOTTOM">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">btnReport</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_report</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="Button" TrayLocation="TL_BOTTOM">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">btnNote</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_note</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="Button" TrayLocation="TL_BOTTOM">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">btnInventory</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_camp</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="Button" TrayLocation="TL_BOTTOM">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">btnCharacter</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_character</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+			<Widget Type="Button" TrayLocation="TL_BOTTOM">
+				<WidgetParameters>
+					<WidgetParameter Name="name" Type="String">btnParty</WidgetParameter>
+					<WidgetParameter Name="caption" Type="String">str_party</WidgetParameter>
+					<WidgetParameter Name="width" Type="Float">300</WidgetParameter>
+				</WidgetParameters>
+			</Widget>
+		</Widgets>
+	</UILayout>
 	<UILayout ID="ui_custom_game">
 		<Background Type="NoChange"></Background>
 		<Script>ui_custom_game.script</Script>
